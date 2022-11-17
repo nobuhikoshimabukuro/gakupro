@@ -34,15 +34,15 @@ class recruitproject_controller extends Controller
 {
     
 
-    //雇用者新規登録前のメールアドレス送信画面遷移
+    //雇用者新規登録前のメールアドレス確認用送信画面遷移
     function mailaddress_temporary_registration(Request $request)
     {
         return view('recruitproject/screen/employer_mailaddress_temporary_registration');        
     }  
 
-     //雇用者新規登録前のメールアドレス仮登録処理＆メール送信処理
-     function mailaddress_temporary_registration_process(Request $request)
-     {
+    //雇用者新規登録前のメールアドレス仮登録処理＆メール送信処理
+    function mailaddress_temporary_registration_process(Request $request)
+    {
                 
 
         try {
@@ -80,7 +80,7 @@ class recruitproject_controller extends Controller
         } catch (Exception $e) {
 
             
-            $ErrorMessage = 'データ登録時にエラーが発生しました。';
+            $ErrorMessage = 'メール送信処理でエラーが発生しました。';
 
             $ResultArray = array(
                 "Result" => "error",
@@ -98,6 +98,7 @@ class recruitproject_controller extends Controller
 
     }  
 
+    //メールアドレス確認用パスワード入力画面
     function mailaddress_approval(Request $request)
     {
 
@@ -107,11 +108,38 @@ class recruitproject_controller extends Controller
 
     }
 
+    //メールアドレス確認用パスワード認証処理
     function mailaddress_approval_check(Request $request)
     {
 
         $mailaddress = $request->mailaddress;
         $password = $request->password;
+
+        $mailaddresscheck_t_model = mailaddresscheck_t_model::
+        where('mailaddress', '=', $mailaddress)          
+        ->where('password', '=', $password)  
+        ->get();
+
+        $GetCount = count($mailaddresscheck_t_model);
+        
+        if($GetCount == 0){
+            //ログインIDとパスワードで取得できず::NG            
+
+            // 認証失敗
+            $request->session()->flash('employer_mailaddress_approval_error', 'メッセージはviewで');
+            return back();
+
+        }elseif($GetCount == 1){
+            //ログインIDとパスワードで1件のみ取得::OK
+
+
+            $request->session()->flash('certification_mailaddress', $mailaddress);          
+            return redirect()->route('recruitproject.employer_information_register');
+        }elseif($GetCount > 1){
+            //ログインIDとパスワードで1件以上取得::CriticalError
+
+        }
+
 
     }
 
@@ -141,9 +169,12 @@ class recruitproject_controller extends Controller
     //雇用者新規登録画面遷移
     function employer_information_register(Request $request)
     {
-        $employer_info = array();
-        $mailaddress = $request->mailaddress;
+        $employer_info = array();        
 
+        $mailaddress = session()->get('certification_mailaddress');
+
+        //mailaddress 取得時は新規登録の雇用者様
+        //mailaddress null時は既存の雇用者様
         if(!is_null($mailaddress)){
             $LoginFlg = 0;
         }else{
@@ -274,6 +305,7 @@ class recruitproject_controller extends Controller
         return response()->json(['ResultArray' => $ResultArray]);
     }
 
+    //雇用者新規登録後の確認画面
     function employer_information_after_registration(Request $request)
     {       
 
@@ -298,6 +330,8 @@ class recruitproject_controller extends Controller
     }
 
 
+
+    //雇用者更新処理画面
     function employer_information_update(employer_m_request $request){
 
         
@@ -358,17 +392,11 @@ class recruitproject_controller extends Controller
             $ResultArray = array(
                 "Result" => "error",
                 "Message" => $ErrorMessage,
-            );
-
-        
+            );        
         }
 
         return response()->json(['ResultArray' => $ResultArray]);
     }
-
-   
-
-    
 
 
     function index(Request $request)
@@ -494,7 +522,7 @@ class recruitproject_controller extends Controller
     }    
 
 
-    //求人情報登録画面遷移
+    //求人情報登録更新画面遷移
     function job_information_register(Request $request)
     {       
 
@@ -523,8 +551,7 @@ class recruitproject_controller extends Controller
           
         }else{
 
-            //既存の求人情報編集時
-            
+            //既存の求人情報編集時            
             $job_information_info = job_information_t_model::
             where('employer_id', '=', $employer_id)
             ->where('job_id', '=', $job_id)            
@@ -535,6 +562,7 @@ class recruitproject_controller extends Controller
     }
 
 
+    //求人情報新規登録処理
     function job_information_save(Request $request)
     {       
        

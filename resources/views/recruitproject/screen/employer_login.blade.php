@@ -78,6 +78,17 @@ $(function(){
 
 
     
+    $("#ApproveForm").keypress(function(e) {
+
+        if(e.which == 13) {
+            // 判定
+            if( document.getElementById("ApproveButton") != document.activeElement ){            
+                return false;
+            }            
+        }
+    });
+
+
 
     $("#ApproveForm").keypress(function(e) {
         if(e.which == 13) {

@@ -36,24 +36,18 @@
                                 
             @if(session('employer_mailaddress_approval_error'))
             
-                <div class="row ajax-msg"> 
-                    <div class="col-4"></div>      
-                    <div class="col-4">
-                        <div class="alert alert-danger text-center">
-                            {{session('employer_mailaddress_approval_error')}}  
-                        </div>
-                    </div>      
-                    <div class="col-4"></div>      
+                <div class="row ajax-msg">
+                    <div class="col-12 text-center">
+                        ※パスワードが異なります。
+                        <br>
+                        受信したメールに記載されているパスワードを再度入力してください。
+                    </div>                          
                 </div>
 
             @endif
             
 
         </div>      
-
-        {{-- @php phpinfo() @endphp --}}
-        
-        
 
 
     </form>
@@ -71,8 +65,12 @@ $(function(){
     
 
     $("#ApproveForm").keypress(function(e) {
+
         if(e.which == 13) {
-            return false;
+            // 判定
+            if( document.getElementById("ApproveButton") != document.activeElement ){            
+                return false;
+            }            
         }
     });
 
