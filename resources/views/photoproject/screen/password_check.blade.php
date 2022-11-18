@@ -45,14 +45,11 @@
 
                 @if(session('photo_get_password_check_error'))
             
-                    <div class="row ajax-msg"> 
-                        <div class="col-4"></div>      
-                        <div class="col-4">
-                            <div class="alert alert-danger text-center">
+                    <div class="row"> 
+                        <div class="col-12 text-center">
                                 {{session('photo_get_password_check_error')}}  
                             </div>
-                        </div>      
-                        <div class="col-4"></div>      
+                        </div>                                  
                     </div> 
 
                 @endif
@@ -80,13 +77,17 @@
 $(function(){
 
 
-    
-
     $("#ApproveForm").keypress(function(e) {
+
         if(e.which == 13) {
-            return false;
+            // 判定
+            if( document.getElementById("ApproveButton") != document.activeElement ){            
+                return false;
+            }            
         }
+
     });
+
 
 
     $('#ApproveButton').click(function () {

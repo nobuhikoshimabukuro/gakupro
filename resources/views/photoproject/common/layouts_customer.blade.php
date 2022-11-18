@@ -16,9 +16,7 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-md shadow-sm small">
-       
-    </nav>
+   
 
 @yield('content')
 <script src="{{ asset('js/bootstrap.js') }}"></script>

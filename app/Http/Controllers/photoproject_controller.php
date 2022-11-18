@@ -401,7 +401,7 @@ class photoproject_controller extends Controller
 
             if(!$transition_judge){
                 //エラーメッセージ設定
-                $request->session()->flash('errormessage','Qrチケットを再度読み込んでください。');
+                session()->flash('errormessage','Qrチケットを再度読み込んでください。');
                 return redirect()->route('photoproject.error');            
             }    
 
@@ -431,7 +431,7 @@ class photoproject_controller extends Controller
         if(!$this->consistency_check($key_code,$Cipher)){
 
             // 暗号文と不一致   不正な処理
-            $request->session()->flash('photo_get_password_check_error', 'Qrコードを再読み後パスワードを入力してください。');
+            session()->flash('photo_get_password_check_error', 'Qrコードを再読み後パスワードを入力してください。');
             return back();
 
 
@@ -490,7 +490,7 @@ class photoproject_controller extends Controller
                     //日付、コードのみで絞り込んでデータが1レコード存在時は、単純にパスワード認証不一致                    
                 
                      // 暗号文と不一致   不正な処理
-                    $request->session()->flash('photo_get_password_check_error', 'パスワードが正しくありません。');
+                    session()->flash('photo_get_password_check_error', 'パスワードが正しくありません。');
                     return back();
                     
 
@@ -501,14 +501,14 @@ class photoproject_controller extends Controller
                     //日付、コードのみで絞り込んでもデータ取れていない場合は異常
                     //※※※※※※※※※※※※※※※※※※※
 
-                    $request->session()->flash('photo_get_password_check_error', 'Qrコードを再読み後パスワードを入力してください。');
+                    session()->flash('photo_get_password_check_error', 'Qrコードを再読み後パスワードを入力してください。');
                     return back();
                 }               
             }
 
         } catch (Exception $e) {
 
-            $request->session()->flash('photo_get_password_check_error', 'Qrコードを再読み後パスワードを入力してください。');
+            session()->flash('photo_get_password_check_error', 'Qrコードを再読み後パスワードを入力してください。');
             return back();       
 
         }       
