@@ -41,6 +41,11 @@ return new class extends Migration
                 ->comment('写真取得用パスワード');
 
             $table
+                ->integer('with_password_flg')
+                ->nullable()
+                ->comment('パスワード必要フラグ:写真取得時パスワード必要か判断する');
+
+            $table
                 ->string('saved_folder', 100)
                 ->nullable()
                 ->comment('写真保存フォルダ名:code + ランダム文字列');

@@ -1,27 +1,26 @@
 @extends('photoproject.common.layouts_customer')
 
 @section('pagehead')
-@section('title', 'エラー画面')  
+@section('title', 'info')  
 @endsection
 @section('content')
 
 <style>
 
-.PhotoArea{       
-       padding: 3px;
-    }
-
-    .Photo{       
-       width: 100%;
-    }
 </style>
 
 <div class="mt-3 text-center container">
     
     <div id='' class="row">
-        <h4>処理エラー</h4>
-        @if(session('errormessage'))            
-        <h5>{{session('errormessage')}}</h5>
+     
+        @if(session('errormessage')) 
+            <h4>処理エラー</h4>           
+            <h5>{{session('errormessage')}}</h5>
+        @endif
+
+        @if(session('before_upload_message')) 
+            <h4>画像がまだアップロードされておりません。</h4>           
+            <h4>時間をあけて再度QRコードを読み直してください。</h4>
         @endif
 
     </div>

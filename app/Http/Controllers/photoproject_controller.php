@@ -28,7 +28,12 @@ class photoproject_controller extends Controller
 {
 
      
-    
+    protected $job_service;
+
+    public function __construct()
+    {
+        $this->job_service = 1;
+    }
 
     //お客様用エラー画面
     function error(Request $request)
@@ -98,6 +103,7 @@ class photoproject_controller extends Controller
                             
             $date = str_replace('-', '', $request->Date);
             $Count = $request->Count;
+            $with_password_flg = $request->WithPasswordFlg;
            
             //指定された開催日で既に作成されたデータ数を取得
             $CreatedCount = photoget_t_model::withTrashed()
@@ -153,6 +159,7 @@ class photoproject_controller extends Controller
                         "date" => $date
                         ,"code" => $code
                         ,"password" => $password
+                        ,"with_password_flg" => $with_password_flg
                         ,"saved_folder" => $saved_folder
                         ,"name1" => $Qr_ImageName
                         ,"name2" => $Qr_TicketName
@@ -168,9 +175,9 @@ class photoproject_controller extends Controller
 
                 //key_codeを暗号化
                 $Cipher = $this->key_code_encryption($key_code);
-                                
+                
                 //Qrコードに設定するUrlを設定
-                $url = route('photoproject.password_entry') . '?key_code=' .$key_code. '&Cipher=' .$Cipher;                                
+                $url = route('photoproject.password_entry') . '?key_code=' . $key_code . '&Cipher=' .$Cipher;
              
 
                 if($APP_DEBUG){
@@ -354,7 +361,6 @@ class photoproject_controller extends Controller
             if(!$this->consistency_check($key_code,$Cipher)){
                 $transition_judge = false;             
             }    
-
           
             try{
 
@@ -367,31 +373,14 @@ class photoproject_controller extends Controller
                 $photoget_t_info = photoget_t_model::withTrashed()                   
                 ->where('date', '=', $date)  
                 ->where('code', '=', $code)  
-                ->first();
-    
-                if(is_null($photoget_t_info)){
+                ->first();   
+                
+                //保存フォルダ情報を取得
+                $Saved_Folder = $photoget_t_info->saved_folder;   
 
-                    $Phot_Upload_Judge = false;
+                //保存フォルダ情報を取得
+                $with_password_flg = $photoget_t_info->with_password_flg;
 
-                }else{
-
-                    //保存フォルダ情報を取得
-                    $Saved_Folder = $photoget_t_info->saved_folder;            
-                            
-                    //get_upload_info関数に必要値を渡して写真のアップロード状況を取得
-                    $Files = $this->get_upload_info($date,$Saved_Folder);                      
-        
-                    //写真がアップロードされているか確認
-                    if(count($Files) > 0){
-        
-                        $Phot_Upload_Judge = true;
-        
-                    }else{
-        
-                        $Phot_Upload_Judge = false;
-        
-                    }
-                }
     
             } catch (Exception $e) {
 
@@ -399,13 +388,27 @@ class photoproject_controller extends Controller
     
             }    
 
+            //処理エラー
             if(!$transition_judge){
                 //エラーメッセージ設定
                 session()->flash('errormessage','Qrチケットを再度読み込んでください。');
                 return redirect()->route('photoproject.error');            
-            }    
+            }
 
-            return view('photoproject/screen/password_check', compact('Phot_Upload_Judge','key_code','Cipher'));
+            //get_upload_info関数に必要値を渡して写真のアップロード状況を取得
+            $Files = $this->get_upload_info($date,$Saved_Folder);                      
+    
+            //写真がアップロードされているか確認
+            //写真がまだアップロード前であれば画面遷移
+            if(!(count($Files) > 0)){    
+
+               //エラーメッセージ設定
+               session()->flash('before_upload_message','Qrチケットを再度読み込んでください。');
+               return redirect()->route('photoproject.error');
+
+            }
+
+            return view('photoproject/screen/password_check', compact('key_code','Cipher'));
 
         }else{
 
@@ -788,7 +791,8 @@ class photoproject_controller extends Controller
         $PublicPath_QrTicket = "public/photoproject/" . $Date. "/QrTicket/";
 
         $StoragePath_QrTicket_Template = "storage/photoproject/QrTicket_Template/QR_Template.png";
-        $PublicPath_QrTicket_Template = "public/photoproject/QrTicket_Template/QR_Template.png";
+        
+        
 
         $ReturnArray = [
             'StoragePath_Photo' => $StoragePath_Photo,

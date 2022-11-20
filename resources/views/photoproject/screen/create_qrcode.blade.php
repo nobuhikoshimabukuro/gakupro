@@ -234,9 +234,16 @@
                         <div class="col-8" align="left">
                             <input type="tel" name="Count" id="Count" value="" class="form-control text-right">
                         </div>
-
-
-                    </div>                 
+                    </div>    
+                    
+                    <div class="form-group row">                    
+                        <div class="col-4" align="right">
+                            <label for="WithPasswordFlg" class="col-md-6 col-form-label OriginalLabel">パス有</label>
+                        </div>
+                        <div class="col-8" align="left">                            
+                            <input type="checkbox" id="WithPasswordFlg" value="1" name="WithPasswordFlg" checked>
+                        </div>
+                    </div>    
                     
                     @if(env('APP_DEBUG'))
                         <div class="form-group row">
@@ -599,6 +606,12 @@ $(function(){
         var Date = $("#Date").val();
         var Count = $("#Count").val();
         var IpAddress = $("#IpAddress").val();
+        var WithPasswordFlg = 0;
+
+        if ($("#WithPasswordFlg").prop("checked")) {
+            WithPasswordFlg = 1;
+        } 
+
 
         if(Date == "" || Date == null){
 
@@ -632,7 +645,7 @@ $(function(){
             url: Url, // 送信先
             type: 'post',
             dataType: 'json',
-            data: {Date : Date , Count : Count , IpAddress : IpAddress},   
+            data: {Date : Date , Count : Count , IpAddress : IpAddress, WithPasswordFlg : WithPasswordFlg},   
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}         
         })
             // 送信成功
