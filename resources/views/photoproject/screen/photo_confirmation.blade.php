@@ -43,7 +43,7 @@ html,body{
 
 
 .Transparent{
-    opacity:0.5;
+    opacity:0.6;
 }
 
 .Transparent:hover{
@@ -96,7 +96,7 @@ table {
   }
 
   #PhotoSelectArea .PhotoNonSelect {
-    border: 1px rgb(98, 136, 238) solid;
+    border: 1px rgb(98, 136, 238) dashed;
     
 }
 #PhotoSelectArea .PhotoSelect {
