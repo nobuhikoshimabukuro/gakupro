@@ -88,9 +88,23 @@ html,body{
     object-fit: contain;
 }
 
-#PhotoSelectArea .PhotoSelect {
-    border: 1mm ridge rgba(211, 220, 50, .6);
+
+
+table {
+    border-collapse: separate; /* 枠線(ボーダー)を離して表示 */
+    
+  }
+
+  #PhotoSelectArea .PhotoNonSelect {
+    border: 1px rgb(98, 136, 238) solid;
+    
 }
+#PhotoSelectArea .PhotoSelect {
+    border: 1px rgb(216, 186, 18) solid;
+    
+}
+
+
 
 #DownloadButtonArea {
     
@@ -121,8 +135,6 @@ html,body{
 
 <div id="Main" class="InoperableClass">
     
-   
-
     <div id="MainPhotoArea">
 
         <img id='MainPhoto'src='{{$UploadFileInfo[0]["PublicPath"]}}' alt=''>           
@@ -196,7 +208,7 @@ html,body{
 
                 @foreach ($UploadFileInfo as $Index => $Info)
 
-                    <td id='SubPhoto-td{{$Index}}' class="SubPhoto-td @if($Index == 0) PhotoSelect @else Transparent @endif">                        
+                    <td id='SubPhoto-td{{$Index}}' class="SubPhoto-td @if($Index == 0) PhotoSelect @else Transparent PhotoNonSelect @endif">                                                
 
                         <button type="button" id="PhotoButton{{$Index}}" class="PhotoButton" 
                         data-targetindex="{{$Index}}" 
@@ -325,7 +337,10 @@ $(function(){
         var filename = $(this).data('filename');
 
         $('.PhotoSelect').removeClass('PhotoSelect');			
+        $('.PhotoNonSelect').removeClass('PhotoNonSelect');		
 
+        $('.SubPhoto-td').addClass('PhotoNonSelect');
+        $('#SubPhoto-td' + targetindex).removeClass('PhotoNonSelect');
         $('#SubPhoto-td' + targetindex).addClass('PhotoSelect');	
 
 		$('.SubPhoto-td').addClass('Transparent');

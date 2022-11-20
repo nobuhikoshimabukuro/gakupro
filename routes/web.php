@@ -46,7 +46,7 @@ Route::post('master/school/restore', [school_m_controller::class, 'restore'])->n
 //写真プロジェクト  Start
 
 Route::get('photoproject/photoproject_index', [photoproject_controller::class, 'photoproject_index'])->name('photoproject.index');
-Route::get('photoproject/error', [photoproject_controller::class, 'error'])->name('photoproject.error');
+Route::get('photoproject/info', [photoproject_controller::class, 'info'])->name('photoproject.info');
 
 Route::get('photoproject/password_entry', [photoproject_controller::class, 'password_entry'])->name('photoproject.password_entry');
 

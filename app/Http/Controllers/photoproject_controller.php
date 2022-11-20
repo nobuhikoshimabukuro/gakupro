@@ -36,9 +36,9 @@ class photoproject_controller extends Controller
     }
 
     //お客様用エラー画面
-    function error(Request $request)
+    function info(Request $request)
     {        
-        return view('photoproject/screen/error');        
+        return view('photoproject/screen/info');        
     }
 
 
@@ -392,7 +392,7 @@ class photoproject_controller extends Controller
             if(!$transition_judge){
                 //エラーメッセージ設定
                 session()->flash('errormessage','Qrチケットを再度読み込んでください。');
-                return redirect()->route('photoproject.error');            
+                return redirect()->route('photoproject.info');            
             }
 
             //get_upload_info関数に必要値を渡して写真のアップロード状況を取得
@@ -404,7 +404,7 @@ class photoproject_controller extends Controller
 
                //エラーメッセージ設定
                session()->flash('before_upload_message','Qrチケットを再度読み込んでください。');
-               return redirect()->route('photoproject.error');
+               return redirect()->route('photoproject.info');
 
             }
 
