@@ -6,10 +6,18 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
+use Exception;
+
 class topmenu_controller extends Controller
 {
     function index()
     {        
+        // Log::channel('normal_log')->info("normal_log");
+        // Log::channel('error_log')->info("error_log");
+        // Log::channel('emergency_log')->info("emergency_log");
+        // Log::channel('database_backup_log')->info("database_backup_log");
+
+        // $this->DataBase_BackUp();
         return view('headquarters/topmenu/index');
     }
 
@@ -18,17 +26,24 @@ class topmenu_controller extends Controller
         return view('master/index');
     }     
 
-    function test()
+    function DataBase_BackUp()
     {        
 
-        $DB_DATABASE = $APP_DEBUG = env('DB_DATABASE');
+        $DB_DATABASE = env('DB_DATABASE');
 
         $ToDay = Carbon::now();
-        $LastYear = Carbon::now()->subYear(1);        
 
-        $CheckDate1 = Carbon::now()->subDay(1);
-        // $CheckDate1 = Carbon::now()->addDay(1);
+        //バックアップ用の新しいDB
+        $NewDataBase = $DB_DATABASE . "_" . $ToDay->format('Ymd');
 
+        $CreateDataBase_SQL = "
+            CREATE DATABASE IF NOT EXISTS 
+            " . $NewDataBase
+        ;
+            
+        DB::connection('mysql')->update($CreateDataBase_SQL);
+
+        //バックアップするDBの全テーブル情報を取得
         $SQL = "
             SELECT
             *
@@ -37,74 +52,51 @@ class topmenu_controller extends Controller
             WHERE
             TABLE_SCHEMA = '" . $DB_DATABASE . "'"
         ;
-        
-        //請求マスタ情報を取得
-        $AllTable = DB::connection('mysql')->select($SQL);  
-
-        $AllTableNameArray = array();
-        $BackUpTableNameArray = array();
-        $DropTableNameArray = array();
-
-        foreach($AllTable as $Info){
-
-            $TABLE_NAME = $Info->TABLE_NAME;
-
-            if ($TABLE_NAME == "migrations" || $TABLE_NAME == "personal_access_tokens"){
-                continue;
-            }
-
-            $AllTableNameArray[] = $TABLE_NAME;
-
-            if(strpos($TABLE_NAME,$ToDay->format('Y')) || strpos($TABLE_NAME,$LastYear->format('Y'))){
-                $DropTableNameArray[] = $TABLE_NAME;
-            }else{
-                $BackUpTableNameArray[] = $TABLE_NAME;
-            }
-            
-        
-        }
-
-        
-
-
-        foreach($DropTableNameArray as $TableName){
-
-            $Length = mb_strrpos($TableName, "_");
-
-            if(is_numeric($Length)){
-
-                $CheckDate2 = substr($TableName, $Length + 1);
-
-                if(is_numeric($CheckDate2)){
-
-                    if(intval($CheckDate1->format('Ymd')) > intval($CheckDate2)){
-
-                        $Backup_SQL = "
-                        DROP TABLE " . $TableName
-                        ;
-                            
-                        DB::connection('mysql')->update($Backup_SQL); 
-                    }
-                }               
-            }
-        }
-                       
-
-        foreach($BackUpTableNameArray as $TableName){
-            
-            $Backup_TABLE_NAME = $TableName . "_" . $ToDay->format('Ymd');
-
-            if(!in_array($Backup_TABLE_NAME, $AllTableNameArray)) {
                 
-                $Backup_SQL = "
-                CREATE TABLE " . $Backup_TABLE_NAME . "            
-                SELECT
-                *
-                FROM " . $DB_DATABASE . "." . $TableName
+        $AllTableInfo = DB::connection('mysql')->select($SQL);        
+
+        //バックアップ対象外のテーブルを格納
+        $NotApplicableTable = [
+                'migrations'
+               ,'personal_access_tokens'              
+        ];
+
+        foreach($AllTableInfo as $Info){
+
+            try{
+
+                $TABLE_NAME = $Info->TABLE_NAME;
+
+                //バックアップ対象外のテーブル時は、次周
+                if(in_array($TABLE_NAME, $NotApplicableTable)) {
+                    continue;
+                }
+
+                //バックアップDBに既にテーブルがある時のテーブル削除
+                $DropTable_SQL = "
+                    DROP TABLE IF EXISTS " . $NewDataBase . "." . $TABLE_NAME
                 ;
-                    
-                DB::connection('mysql')->update($Backup_SQL);
+                
+                DB::connection('mysql')->update($DropTable_SQL);
+
+                //バックアップ元のDBからバックアップ先のDBに同じテーブル名で作成
+                $CreateTable_SQL = "
+                CREATE TABLE " . $NewDataBase . "." . $TABLE_NAME . 
+                "AS SELECT * FROM " . $DB_DATABASE . "." . $TABLE_NAME
+                ;
+                
+                Log::channel('database_backup_log')->info('DataBaseName【' . $NewDataBase . '】TableName【' . $TABLE_NAME . '】バックアップ成功');
+
+                DB::connection('mysql')->update($CreateTable_SQL);
+
+            } catch (Exception $e) {              
+
+                $ErrorMessage = 'バックアップエラー!!TableName【'.$TABLE_NAME .'】'. $e->getMessage();
+                
+                Log::channel('database_backup_log')->info($ErrorMessage);               
             }
+        
         }
+       
     }
 }

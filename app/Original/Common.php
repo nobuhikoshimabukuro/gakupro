@@ -80,7 +80,7 @@ class Common
             $ErrorMessage = $e->getMessage();
                     
             $LogErrorMessage = $ErrorTitle .'::' .$ErrorMessage;
-            Log::channel('error')->error($LogErrorMessage);
+            Log::channel('error_log')->info($LogErrorMessage);
             $Result = false;          
         }
         

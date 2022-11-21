@@ -123,6 +123,43 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        // 追加ログ
+        'normal_log' => [
+            'driver' => 'custom',
+            'via' => App\config\normal_log::class,
+            'path' => storage_path('logs/normal_log/normal.log'),
+            'level' => 'debug',
+            'permission' => 0777,
+        ],
+
+        // 追加ログ
+        'error_log' => [
+            'driver' => 'custom',
+            'via' => App\config\error_log::class,
+            'path' => storage_path('logs/error_log/error.log'),
+            'level' => 'debug',
+            'permission' => 0777,
+        ],
+
+        // 追加ログ
+        'emergency_log' => [
+            'driver' => 'custom',
+            'via' => App\config\emergency_log::class,
+            'path' => storage_path('logs/emergency_log/emergency.log'),
+            'level' => 'debug',
+            'permission' => 0777,
+        ],
+
+        // 追加ログ
+        'database_backup_log' => [
+            'driver' => 'custom',
+            'via' => App\config\database_backup_log::class,
+            'path' => storage_path('logs/database_backup_log/info.log'),
+            'level' => 'debug',
+            'permission' => 0777,
+        ],
+
     ],
 
 ];

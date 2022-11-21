@@ -56,7 +56,7 @@ class maincategory_m_controller extends Controller
             Common::SendErrorMail($ErrorTitle,$ErrorMessage);
 
             $LogErrorMessage = $ErrorTitle .'::' .$ErrorMessage;
-            Log::channel('error')->error($LogErrorMessage);
+            Log::channel('error_log')->info($LogErrorMessage);
 
             $ResultArray = array(
                 "Result" => "error",
@@ -94,7 +94,7 @@ class maincategory_m_controller extends Controller
             Common::SendErrorMail($ErrorTitle,$ErrorMessage);
 
             $LogErrorMessage = $ErrorTitle .'::' .$ErrorMessage;
-            Log::channel('error')->error($LogErrorMessage);
+            Log::channel('error_log')->info($LogErrorMessage);
       
             session()->flash('error', '[大分類CD = ' . $delete_maincategory_cd . ' 大分類名 = ' . $delete_maincategory_name . ']データの利用不可処理時にエラー');            
         }
@@ -122,7 +122,7 @@ class maincategory_m_controller extends Controller
             Common::SendErrorMail($ErrorTitle,$ErrorMessage);
 
             $LogErrorMessage = $ErrorTitle .'::' .$ErrorMessage;
-            Log::channel('error')->error($LogErrorMessage);
+            Log::channel('error_log')->info($LogErrorMessage);
 
             session()->flash('error', '[大分類CD = ' . $delete_maincategory_cd . ' 大分類名 = ' . $delete_maincategory_name . ']データの利用不可解除時にエラー');            
         }
