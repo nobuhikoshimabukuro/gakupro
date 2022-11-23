@@ -55,7 +55,8 @@
     
     <div class="row m-0 p-0">
 
-        <div class="ajax-msg1 m-2">                    
+        <div class="ajax-msg1 m-2">      
+            <input type="checkbox" id="WithPasswordFlg" value="1" name="WithPasswordFlg" checked>              
         </div>
         
         @php

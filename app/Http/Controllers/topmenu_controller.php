@@ -82,7 +82,8 @@ class topmenu_controller extends Controller
                 //バックアップ元のDBからバックアップ先のDBに同じテーブル名で作成
                 $CreateTable_SQL = "
                 CREATE TABLE " . $NewDataBase . "." . $TABLE_NAME . 
-                "AS SELECT * FROM " . $DB_DATABASE . "." . $TABLE_NAME
+                "
+                 SELECT * FROM " . $DB_DATABASE . "." . $TABLE_NAME
                 ;
                 
                 Log::channel('database_backup_log')->info('DataBaseName【' . $NewDataBase . '】TableName【' . $TABLE_NAME . '】バックアップ成功');
