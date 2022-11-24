@@ -32,7 +32,7 @@ class subcategory_m_controller extends Controller
         ->orderBy('subcategory_m.display_order', 'asc')
         ->withTrashed()->get();
 
-        return view('master/subcategory/index', compact('subcategory_m_list','maincategory_m_list'));
+        return view('headquarters/screen/master/subcategory/index', compact('subcategory_m_list','maincategory_m_list'));        
     }
 
 

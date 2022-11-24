@@ -39,7 +39,8 @@ class school_m_controller extends Controller
         ->orderBy('school_m.school_cd', 'asc')        
         ->get();
 
-        return view('master/school/index', compact('school_m_list','school_division_list'));
+        
+        return view('headquarters/screen/master/school/index', compact('school_m_list','school_division_list'));
     }
 
 

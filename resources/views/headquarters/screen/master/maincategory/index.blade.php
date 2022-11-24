@@ -1,4 +1,4 @@
-@extends('common.layouts_app')
+@extends('headquarters.common.layouts_app')
 
 @section('pagehead')
 @section('title', '大分類マスタ')  
@@ -8,7 +8,7 @@
 <div class="mt-3 text-center container">
    <div class="row">
 
-    @include('common.alert')
+    @include('headquarters.common.alert')
 
     <div class="row">
         <div class="col-4 text-left">
@@ -83,7 +83,7 @@
                     </div>
 
                     <div class="ajax-msg m-2">
-                        @include('common.alert')
+                        
                     </div>
                     
                     <form id="Saveform" method="post" action="{{ route('master.maincategory.save') }}">                    

@@ -18,12 +18,12 @@ class topmenu_controller extends Controller
         // Log::channel('database_backup_log')->info("database_backup_log");
 
         // $this->DataBase_BackUp();
-        return view('headquarters/topmenu/index');
+        return view('headquarters/screen/topmenu/index');
     }
 
     function master_index()
     {        
-        return view('master/index');
+        return view('headquarters/screen/master/index');
     }     
 
     function DataBase_BackUp()

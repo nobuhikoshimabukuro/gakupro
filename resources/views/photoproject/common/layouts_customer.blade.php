@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">  
-    <link href="{{ asset('css/common.css') }}" rel="stylesheet">  
-    <link href="{{ asset('css/original.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/footer.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/photoproject/common.css') }}" rel="stylesheet">      
+    <link href="{{ asset('css/photoproject/footer.css') }}" rel="stylesheet">
     
     <meta name="csrf-token" content="{{ csrf_token() }}">  {{-- CSRFトークン --}}
     @yield('pagehead')
@@ -21,8 +20,8 @@
 @yield('content')
 <script src="{{ asset('js/bootstrap.js') }}"></script>
 <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
-<script src="{{ asset('js/common.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/photoproject/common.js') }}"></script>
 
 
 @yield('pagejs')

@@ -28,7 +28,7 @@ class maincategory_m_controller extends Controller
             ->orderBy('maincategory_cd', 'asc')
             ->get();
 
-        return view('master/maincategory/index', compact('maincategory_m_list'));
+        return view('headquarters/screen/master/maincategory/index', compact('maincategory_m_list'));
     }
 
 

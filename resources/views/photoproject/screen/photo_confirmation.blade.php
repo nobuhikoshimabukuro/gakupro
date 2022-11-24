@@ -131,7 +131,7 @@ table {
 
 </style>
 
-@include('common.processing_display')
+@include('photoproject.common.processing_display')
 
 <div id="Main" class="InoperableClass">
     

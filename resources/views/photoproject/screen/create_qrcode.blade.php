@@ -47,7 +47,7 @@
 </style>
 
 
-@include('common.processing_display')
+@include('photoproject.common.processing_display')
 
 
 <div id='Main' class="mt-3 text-center container InoperableClass">
@@ -56,7 +56,7 @@
     <div class="row m-0 p-0">
 
         <div class="ajax-msg1 m-2">      
-            <input type="checkbox" id="WithPasswordFlg" value="1" name="WithPasswordFlg" checked>              
+                     
         </div>
         
         @php
