@@ -35,6 +35,16 @@
             </a>
         </div>
 
+        <div class="col-6 col-md-4 col-xl-3 p-3 menu_btn">
+            <a href="{{ route('recruitproject.test2') }}">
+                <div class="bg-dark rounded-lg text-light p-2 menu-btn">
+                    <i class="fas fa-praying-hands fa-3x mb-1"></i>
+                    <h6>求人情報登録画面TEST
+                    </h6>
+                </div>
+            </a>
+        </div>
+
      
         
         </div>

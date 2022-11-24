@@ -95,3 +95,6 @@ Route::get('recruitproject/employer_information_after_registration', [recruitpro
 Route::get('recruitproject/job_information_confirmation', [recruitproject_controller::class, 'job_information_confirmation'])->name('recruitproject.job_information_confirmation');
 Route::get('recruitproject/job_information_register', [recruitproject_controller::class, 'job_information_register'])->name('recruitproject.job_information_register');
 
+
+Route::get('recruitproject/test2', [recruitproject_controller::class, 'test2'])->name('recruitproject.test2');
+

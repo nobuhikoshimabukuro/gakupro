@@ -33,6 +33,12 @@ use App\Http\Requests\employer_m_request;
 class recruitproject_controller extends Controller
 {
     
+    
+
+    function test2(Request $request)
+    {
+        return view('recruitproject/screen/test2');        
+    }  
 
     //雇用者新規登録前のメールアドレス確認用送信画面遷移
     function mailaddress_temporary_registration(Request $request)
