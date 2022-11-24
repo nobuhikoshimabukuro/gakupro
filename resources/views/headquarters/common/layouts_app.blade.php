@@ -39,15 +39,7 @@
 
 @yield('content')
 
-<!-- Footer SSTART -->
-<footer id="footer">
-    <div class="container">
-        <div class="copyright text-center">
-        &copy; Copyright <strong><span>TEST</span></strong>. All Rights Reserved
-        </div>   
-    </div> 
-</footer>
-<!-- Footer END -->
+@include('common.footer')
 
 <script src="{{ asset('js/bootstrap.js') }}"></script>
 <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
@@ -56,6 +48,6 @@
 
 
 @yield('pagejs')
-{{-- @include('common.footer') --}}
+
 </body>
 </html>
