@@ -1,7 +1,7 @@
 @extends('headquarters.common.layouts_app')
 
 @section('pagehead')
-@section('title', 'メニュー')  
+@section('title', 'マスタ一覧')  
 @endsection
 @section('content')
 
