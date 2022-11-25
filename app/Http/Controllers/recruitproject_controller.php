@@ -139,6 +139,8 @@ class recruitproject_controller extends Controller
             
         }       
 
+    
+
         return view('recruitproject/screen/employer_mailaddress_approval', compact('key_code','Cipher'));   
 
     }
@@ -252,6 +254,8 @@ class recruitproject_controller extends Controller
         
         try {                       
                             
+            DB::connection('mysql')->beginTransaction();
+
             $employer_name = $request->employer_name;
             $employer_name_kana = $request->employer_name_kana;
             $post_code = $request->post_code;
@@ -263,12 +267,6 @@ class recruitproject_controller extends Controller
 
             $hp_url = $request->hp_url;
 
-
-            $login_id = $this->create_login_id(6);
-            $password = $this->create_password(8);
-            
-
-      
             //新規作成処理                
             $employer_id = employer_m_model::max('employer_id');
 
@@ -312,6 +310,44 @@ class recruitproject_controller extends Controller
     
             );           
 
+            
+            $password = $this->create_password(8);
+
+
+            //login_idの重複チェック
+            while(true){ 
+
+                $login_id = $this->create_login_id(6);
+                
+                $login_id_check = employer_password_t_model::withTrashed()
+                ->where('login_id', '=', $login_id)                        
+                ->exists();
+
+                if(!$login_id_check){
+
+                    //繰返しの強制終了
+                    break; 
+                }                
+            }
+
+            //パスワードの重複チェック
+            while(true){ 
+
+                $password = $this->create_password(8);
+                
+                $password_check = employer_password_t_model::withTrashed()
+                ->where('password', '=', $password)                        
+                ->exists();
+
+                if(!$password_check){
+
+                    //繰返しの強制終了
+                    break; 
+                }
+
+            }
+
+
             employer_password_t_model::create(
                 [
                     "employer_id" => $employer_id
@@ -322,12 +358,12 @@ class recruitproject_controller extends Controller
             );      
             
 
-            session()->remove('employer_id');
-            session()->remove('employer_name');
+            DB::connection('mysql')->commit();
+
+            $this->SessionInfoRemove();
 
             session()->put('employer_id', $employer_id);
             session()->put('employer_name', $employer_name);
-
             session()->put('login_flg', 1);
             
             $Url = route('recruitproject.employer_information_after_registration');
@@ -338,6 +374,8 @@ class recruitproject_controller extends Controller
             );
 
         } catch (Exception $e) {
+
+            DB::connection('mysql')->rollBack();
 
             $ErrorMessage = 'データ登録時にエラーが発生しました。';
 
@@ -503,12 +541,10 @@ class recruitproject_controller extends Controller
             where('employer_id', '=', $employer_password_t_model[0]->employer_id)          
             ->first();
 
-            session()->remove('employer_id');
-            session()->remove('employer_name');
+            $this->SessionInfoRemove();
 
             session()->put('employer_id', $employer_info->employer_id);
             session()->put('employer_name', $employer_info->employer_name);
-
             session()->put('login_flg', 1);
 
             return redirect()->route('recruitproject.employer_top');
@@ -696,12 +732,8 @@ class recruitproject_controller extends Controller
             
         }
 
-
-
     }
-
-
-
+    
     //ログイン状況を確認  
     function LoginStatusCheck() {
 
@@ -714,11 +746,12 @@ class recruitproject_controller extends Controller
         return $Judge;
     }
 
-    //ログイン状況を確認  
+    //ログイン情報を破棄
     function SessionInfoRemove() {
 
         session()->remove('login_flg');
         session()->remove('employer_id');
+        session()->remove('employer_name');
 
     }
 

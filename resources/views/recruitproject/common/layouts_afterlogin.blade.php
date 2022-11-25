@@ -30,8 +30,9 @@
                 <!-- ドロップメニューの設定 -->
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <a class="nav-link dropdown-item" href="{{ route('recruitproject.employer_top') }}">Top</a>           
+                    <a class="nav-link dropdown-item" href="{{ route('recruitproject.employer_information_confirmation') }}">雇用者情報</a>
                     <a class="nav-link dropdown-item" href="{{ route('recruitproject.job_information_confirmation') }}">求人情報</a>       
-                    <a class="nav-link dropdown-item" href="{{ route('recruitproject.employer_information_confirmation') }}">雇用者情報</a>                          
+                    
                 </div>
 
             </div>    
@@ -52,6 +53,7 @@
     </nav>
 
 @yield('content')
+@include('common.footer')
 <script src="{{ asset('js/bootstrap.js') }}"></script>
 <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>

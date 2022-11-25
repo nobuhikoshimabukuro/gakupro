@@ -24,7 +24,7 @@
                     <label for="" class="col-form-label OriginalLabel">メールアドレス</label>
                 </div>
                 <div class="col-4">                    
-                    <input type="text" name="mailaddress" id="mailaddress" value="" class="form-control text-right">
+                    <input type="text" name="mailaddress" id="mailaddress" value="" class="form-control text-left">
                 </div>
 
                 <div class="col-4 text-left">
@@ -166,6 +166,12 @@ $(function(){
                 
                 phpProcessingEnd();
                 
+                //{{-- アラートメッセージ表示 --}}
+                var errorsHtml = '';
+                    errorsHtml = '<div class="alert alert-danger text-left">';
+                    errorsHtml += '<li class="text-left">メール送信処理でエラーが発生しました。</li>';
+                    errorsHtml += '</div>';
+
                 //{{-- アラート --}}
                 $('#Message-Area').html(errorsHtml);
                 //{{-- 画面上部へ --}}
