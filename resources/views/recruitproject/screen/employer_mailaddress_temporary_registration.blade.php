@@ -31,6 +31,20 @@
                     <button type="button" id='SendMailButton' class="btn btn-secondary">メール送信</button>
                 </div>      
             </div>       
+
+            <div class="row">                    
+                <div class="col-4 text-right">
+                  
+                </div>
+                <div id="Message-Area" class="col-4">                    
+                                      
+                </div>
+
+                <div class="col-4 text-left">
+                  
+                </div>      
+            </div>     
+
            
 
         </div>      
@@ -62,11 +76,13 @@ $(function(){
         }
     });
 
-    
-    $('#SendMailButton').click(function () {
 
-        //{{-- メッセージクリア --}}
-        $('.ajax-msg').html('');
+
+    $(document).on("click", "#SendMailButton", function (e) {
+
+
+         //{{-- メッセージクリア --}}
+         $('#Message-Area').html('');
         $('.is-invalid').removeClass('is-invalid');
 
         var mailaddress = $("#mailaddress").val();        
@@ -78,8 +94,7 @@ $(function(){
         
         let f = $('#SendMailForm');
 
-        //マウスカーソルを砂時計に
-        document.body.style.cursor = 'wait';
+        phpProcessingStart();
 
         $.ajax({
             url: f.prop('action'), // 送信先
@@ -100,6 +115,8 @@ $(function(){
 
                 var Result = ResultArray["Result"];
 
+                phpProcessingEnd();
+
                 if(Result=='success'){
 
                     // location.reload();
@@ -108,12 +125,12 @@ $(function(){
 
                     //{{-- アラートメッセージ表示 --}}
                     var errorsHtml = '';
-                    errorsHtml = '<div class="alert alert-danger text-left">';
-                    errorsHtml += '<li class="text-left">登録成功</li>';
+                    errorsHtml = '<div class="text-left">';
+                    errorsHtml += 'メールを送信しました。';
                     errorsHtml += '</div>';
 
                         //{{-- アラート --}}
-                    $('.ajax-msg').html(errorsHtml);
+                    $('#Message-Area').html(errorsHtml);
                     //{{-- 画面上部へ --}}
 
                     $("html,body").animate({
@@ -132,7 +149,7 @@ $(function(){
                     errorsHtml += '</div>';
 
                         //{{-- アラート --}}
-                    $('.ajax-msg').html(errorsHtml);
+                    $('#Message-Area').html(errorsHtml);
                     //{{-- 画面上部へ --}}
 
                     $("html,body").animate({
@@ -147,36 +164,10 @@ $(function(){
             // 送信失敗
             .fail(function (data, textStatus, errorThrown) {
                 
-                //{{-- ボタン有効 --}}
-                $('#SendMailButton').prop("disabled", false);
-                //{{-- マウスカーソルを通常に --}}                    
-                document.body.style.cursor = 'auto';
-
-                //{{-- アラートメッセージ表示 --}}
-                let errorsHtml = '<div class="alert alert-danger text-left">';
-
-                if (data.status == '422') {
-                    //{{-- vlidationエラー --}}
-                    $.each(data.responseJSON.errors, function (key, value) {
-                        //{{-- responsからerrorsを取得しメッセージと赤枠を設定 --}}
-                        errorsHtml += '<li  class="text-left">' + value[0] + '</li>';
-                    
-                        $("[name='" + key + "']").addClass('is-invalid');                        
-                        $("[name='" + key + "']").next('.invalid-feedback').text(value);
-                    });
-
-                } else {
-
-                    //{{-- その他のエラー --}}
-                    // errorsHtml += '<li class="text-left">' + data.status + ':' + errorThrown + '</li>';
-                    errorsHtml += '<li  class="text-left">エラーが発生しました</li>';
-
-                }
-
-                errorsHtml += '</div>';
+                phpProcessingEnd();
                 
                 //{{-- アラート --}}
-                $('.ajax-msg').html(errorsHtml);
+                $('#Message-Area').html(errorsHtml);
                 //{{-- 画面上部へ --}}
                 $("html,body").animate({
                     scrollTop: 0
@@ -185,7 +176,9 @@ $(function(){
 
             });
 
+
     });
+    
 
     
 

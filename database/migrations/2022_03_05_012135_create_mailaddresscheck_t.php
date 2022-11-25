@@ -25,6 +25,10 @@ return new class extends Migration
                 ->comment('連番');
 
             $table                
+                ->string('key_code', 100)
+                ->comment('キーコード');
+
+            $table                
                 ->string('password', 100)
                 ->comment('認証用パスワード');
 

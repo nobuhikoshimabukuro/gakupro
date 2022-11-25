@@ -16,7 +16,9 @@
     <form action="{{ route('recruitproject.mailaddress_approval_check') }}" id='ApproveForm' method="post" enctype="multipart/form-data">
         @csrf
 
-        <input type="hidden" name="mailaddress" id="mailaddress" value="{{$mailaddress}}" class="form-control text-right">
+        <input type="hidden" name="key_code" id="key_code" value="{{$key_code}}">
+        <input type="hidden" name="Cipher" id="Cipher" value="{{$Cipher}}">
+        
         <div class="row">                                   
 
             <div class="row">                    

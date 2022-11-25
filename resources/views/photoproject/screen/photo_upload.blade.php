@@ -357,9 +357,7 @@ $(function(){
                 // //{{-- ボタン有効 --}}
                 // $(this).prop("disabled", false);
 
-                phpProcessingEnd();
-
-                UploaderEnd();
+             
 
                 var ResultArray = data.ResultArray;
 
@@ -371,6 +369,10 @@ $(function(){
                     location.reload();                                    
 
                 }else{
+
+                    phpProcessingEnd();
+
+                    UploaderEnd();
 
                     massage = "アップロード処理でエラーが発生しました。";
                     var errorsHtml = '<div class="alert alert-danger text-left">';

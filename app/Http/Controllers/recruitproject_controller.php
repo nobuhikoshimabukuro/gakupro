@@ -69,16 +69,33 @@ class recruitproject_controller extends Controller
                 }            
             }
 
+            while(true){         
+                //6桁のパスワード作成
+                $key_code = $this->create_password(6);
+                
+                $check_key_code = mailaddresscheck_t_model::withTrashed()
+                ->where('key_code', '=', $key_code)                        
+                ->exists();
+
+                if(!$check_key_code){
+                    //繰返しの強制終了
+                    break; 
+                }            
+            }
+
             mailaddresscheck_t_model::create(
                 [
                     "password" => $password
+                    ,"key_code" => $key_code
                     ,"mailaddress" => $mailaddress                    
                 ]
     
             );           
 
+            //key_codeを暗号化
+            $Cipher = $this->key_code_encryption($key_code);            
 
-            $url = route('recruitproject.mailaddress_approval') . '?mailaddress=' . $mailaddress;   
+            $url = route('recruitproject.mailaddress_approval') . '?key_code=' . $key_code . '&Cipher=' .$Cipher; 
             $subject = "学生応援プロジェクト（確認メール）";
 
             Mail::to($mailaddress)->send(new SendMailAddressConfirmation($url , $password , $subject));
@@ -108,9 +125,21 @@ class recruitproject_controller extends Controller
     function mailaddress_approval(Request $request)
     {
 
-        $mailaddress = $request->mailaddress;
+        $key_code = $request->key_code;
+        $Cipher = $request->Cipher;
 
-        return view('recruitproject/screen/employer_mailaddress_approval', compact('mailaddress'));   
+        $mailaddress = "";
+
+        //暗号化したkey_codeと送られてきた暗号文が一致していれば正常
+        if(!$this->consistency_check($key_code,$Cipher)){
+
+            // 暗号文と不一致   不正な処理           
+            session()->flash('infomessage', 'お送りしたメールのURLから再度遷移してください。');
+            return view('recruitproject/screen/info');   
+            
+        }       
+
+        return view('recruitproject/screen/employer_mailaddress_approval', compact('key_code','Cipher'));   
 
     }
 
@@ -118,28 +147,40 @@ class recruitproject_controller extends Controller
     function mailaddress_approval_check(Request $request)
     {
 
-        $mailaddress = $request->mailaddress;
+        $key_code = $request->key_code;
+        $Cipher = $request->Cipher;
         $password = $request->password;
 
-        $mailaddresscheck_t_model = mailaddresscheck_t_model::
-        where('mailaddress', '=', $mailaddress)          
+        //暗号化したkey_codeと送られてきた暗号文が一致していれば正常
+        if(!$this->consistency_check($key_code,$Cipher)){
+
+            // 暗号文と不一致   不正な処理
+            
+            session()->flash('infomessage', 'お送りしたメールのURLから再度遷移してください。');
+            return view('recruitproject/screen/info');   
+            
+        }       
+
+        $mailaddresscheck_t = mailaddresscheck_t_model::
+        where('key_code', '=', $key_code)          
         ->where('password', '=', $password)  
         ->get();
 
-        $GetCount = count($mailaddresscheck_t_model);
+
+        $GetCount = count($mailaddresscheck_t);
         
         if($GetCount == 0){
             //ログインIDとパスワードで取得できず::NG            
 
             // 認証失敗
-            $request->session()->flash('employer_mailaddress_approval_error', 'メッセージはviewで');
+            session()->flash('employer_mailaddress_approval_error', 'メッセージはviewで');
             return back();
 
         }elseif($GetCount == 1){
             //ログインIDとパスワードで1件のみ取得::OK
 
-
-            $request->session()->flash('certification_mailaddress', $mailaddress);          
+            $mailaddress = $mailaddresscheck_t[0]->mailaddress;
+            session()->flash('certification_mailaddress', $mailaddress);          
             return redirect()->route('recruitproject.employer_information_register');
         }elseif($GetCount > 1){
             //ログインIDとパスワードで1件以上取得::CriticalError
@@ -157,7 +198,7 @@ class recruitproject_controller extends Controller
     {       
         if (!$this->LoginStatusCheck()) {
             //セッション切れ
-            $request->session()->flash('employer_loginerror', 'セッション切れ');            
+            session()->flash('employer_loginerror', 'セッション切れ');            
             return redirect()->route('recruitproject.login');
         }
 
@@ -187,7 +228,7 @@ class recruitproject_controller extends Controller
 
             if (!$this->LoginStatusCheck()) {
                 //セッション切れ
-                $request->session()->flash('employer_loginerror', 'セッション切れ');            
+                session()->flash('employer_loginerror', 'セッション切れ');            
                 return redirect()->route('recruitproject.login');
             }
 
@@ -451,7 +492,7 @@ class recruitproject_controller extends Controller
             //ログインIDとパスワードで取得できず::NG            
 
             // 認証失敗
-            $request->session()->flash('employer_loginerror', '認証失敗');
+            session()->flash('employer_loginerror', '認証失敗');
             return back();
 
         }elseif($GetCount == 1){
@@ -486,7 +527,7 @@ class recruitproject_controller extends Controller
         
         if (!$this->LoginStatusCheck()) {
             //セッション切れ
-            $request->session()->flash('employer_loginerror', 'セッション切れ');            
+            session()->flash('employer_loginerror', 'セッション切れ');            
             return redirect()->route('recruitproject.login');
         }
 
@@ -508,7 +549,7 @@ class recruitproject_controller extends Controller
         
         if (!$this->LoginStatusCheck()) {
             //セッション切れ
-            $request->session()->flash('employer_loginerror', 'セッション切れ');            
+            session()->flash('employer_loginerror', 'セッション切れ');            
             return redirect()->route('recruitproject.login');
         }
 
@@ -534,7 +575,7 @@ class recruitproject_controller extends Controller
 
         if (!$this->LoginStatusCheck()) {
             //セッション切れ
-            $request->session()->flash('employer_loginerror', 'セッション切れ');            
+            session()->flash('employer_loginerror', 'セッション切れ');            
             return redirect()->route('recruitproject.login');
         }
        
@@ -738,5 +779,31 @@ class recruitproject_controller extends Controller
 
     }   
 
+    //暗号文の整合性チェック
+    function consistency_check($key_code , $Cipher){
+
+        $Judge = true;
+
+        $check_Cipher = $this->key_code_encryption($key_code); 
+
+        //暗号化したkey_codeと送られてきた暗号文が一致するか確認
+        if($check_Cipher != $Cipher){
+            $Judge = false;             
+        }
+
+        return $Judge;
+    }
+    
+    //key_codeの暗号化
+    function key_code_encryption($key_code){
+
+        //hash_hmac関数
+        $hash = hash_hmac('sha256', $key_code, 'yuma');
+
+        //文字列が長い為、8文字制限
+        $Cipher = substr($hash, 0, 8);
+
+        return $Cipher;
+    }
   
 }
