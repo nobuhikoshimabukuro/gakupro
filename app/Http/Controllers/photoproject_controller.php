@@ -140,7 +140,7 @@ class photoproject_controller extends Controller
 
                 //デバッグモードは全てCode
                 if($APP_DEBUG){
-                    $password = $code;
+                    $password = intval($code);
                 }
 
                 //フォルダ名を作成  コード&英数字の羅列
