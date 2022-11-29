@@ -22,12 +22,8 @@ return new class extends Migration
         Schema::create('employer_m', function (Blueprint $table) {
 
             $table
-                ->increments('id')
-                ->comment('連番');
-
-            $table
-                ->integer('employer_id')
-                ->comment('雇用者ID');
+                ->increments('employer_id')
+                ->comment('雇用者ID:連番');
 
             $table
                 ->string('employer_name', 300)

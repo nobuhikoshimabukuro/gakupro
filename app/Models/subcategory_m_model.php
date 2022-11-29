@@ -13,7 +13,8 @@ class subcategory_m_model extends Model
     //コネクション名を指定
     protected $connection = 'mysql';
     protected $table = 'subcategory_m';
-    protected $primaryKey = 'subcategory_cd';
+
+    protected $primaryKey = 'id';
 
      /**
      * 更新を拒否するカラム
@@ -21,6 +22,15 @@ class subcategory_m_model extends Model
      * @var array
      */
     protected $guarded = [
-        'subcategory_cd',
+        'id',        
     ];
+
+
+    protected $fillable = [
+        'maincategory_cd'
+        ,'subcategory_cd'
+        ,'subcategory_name'
+        ,'display_order'
+    ];
+
 }

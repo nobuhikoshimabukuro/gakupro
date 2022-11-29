@@ -376,10 +376,7 @@ class photoproject_controller extends Controller
                 ->first();   
                 
                 //保存フォルダ情報を取得
-                $Saved_Folder = $photoget_t_info->saved_folder;   
-
-                //保存フォルダ情報を取得
-                $with_password_flg = $photoget_t_info->with_password_flg;
+                $Saved_Folder = $photoget_t_info->saved_folder;                   
 
     
             } catch (Exception $e) {
@@ -408,7 +405,16 @@ class photoproject_controller extends Controller
 
             }
 
-            return view('photoproject/screen/password_check', compact('key_code','Cipher'));
+
+            //パスワード認証が必要かフラグ取得
+            $with_password_flg = $photoget_t_info->with_password_flg;
+
+            if($with_password_flg == 1){
+                return view('photoproject/screen/password_entry', compact('key_code','Cipher'));
+            }else{
+                return redirect()->route('photoproject.photo_confirmation', ['key_code' => $key_code , 'Cipher' => $Cipher , 'password' => $photoget_t_info->password]);
+            }
+            
 
         }else{
 
@@ -426,7 +432,6 @@ class photoproject_controller extends Controller
         //パスワード入力画面から値取得
         $password = $request->password;        
         $key_code = $request->key_code;
-
         $Cipher = $request->Cipher;
 
 

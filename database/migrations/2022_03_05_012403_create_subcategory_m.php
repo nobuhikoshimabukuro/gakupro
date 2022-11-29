@@ -21,22 +21,26 @@ return new class extends Migration
 
         Schema::create('subcategory_m', function (Blueprint $table) {
 
-            $table
-                ->increments('subcategory_cd')
-                ->comment('中分類コード:連番');
-
-            $table
-                ->integer('maincategory_cd')
-                ->default(0)
-                ->comment('大分類コード');
             
             $table
-                ->string('subcategory_name', 50)
+                ->increments('id')
+                ->comment('ID:連番');
+
+            $table
+                ->integer('maincategory_cd')                
+                ->comment('大分類コード');
+
+            $table
+                ->integer('subcategory_cd')
+                ->comment('中分類コード');
+
+            $table
+                ->string('subcategory_name', 100)
                 ->comment('中分類名');
 
             $table
                 ->integer('display_order')
-                ->default(0)
+                ->default(1)
                 ->comment('並び順:大分類毎にグルーピングする');
 
             $table
@@ -67,8 +71,11 @@ return new class extends Migration
             $table
                 ->integer('deleted_by')
                 ->nullable()
-                ->comment('削除者');
+                ->comment('削除者');            
+
         });
+
+
 
         // ALTER 文を実行しテーブルにコメントを設定
         DB::statement("ALTER TABLE subcategory_m COMMENT '中分類マスタ'");
