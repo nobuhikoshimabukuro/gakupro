@@ -14,23 +14,30 @@ class subcategory_m_model extends Model
     protected $connection = 'mysql';
     protected $table = 'subcategory_m';
 
-    protected $primaryKey = 'id';
+    // protected $primaryKey = [
+    //     'maincategory_cd'
+    //     ,'subcategory_cd'  
+    // ];
 
      /**
      * 更新を拒否するカラム
      *
      * @var array
      */
-    protected $guarded = [
-        'id',        
-    ];
+    // protected $guarded = [
+    //     'maincategory_cd'
+    //     ,'subcategory_cd'  
+    // ];
 
 
-    protected $fillable = [
+    protected $fillable = [ 
         'maincategory_cd'
-        ,'subcategory_cd'
+        ,'subcategory_cd'        
         ,'subcategory_name'
         ,'display_order'
+        ,'created_by'
+        ,'updated_by'
+        ,'deleted_by'
     ];
 
 }

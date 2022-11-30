@@ -82,6 +82,9 @@ php artisan migrate
 ・マイグレーション実行 既存Table削除し再作成する
 php artisan migrate:fresh --database=mysql
 
+・マイグレーション実行 既存Table削除し再作成後シードも実行
+php artisan migrate:fresh --database=mysql --seed
+
 ★マイグレーション ロールバックして再作成 シードも実行
 php artisan migrate:refresh --seed
 

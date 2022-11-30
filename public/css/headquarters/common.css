@@ -4,6 +4,17 @@
   min-height: 80vh;
 }
 
+/* 操作不可能 */
+.Impossible {
+	pointer-events: none;
+	opacity: 0.9;
+}
+
+/* 操作可能 */
+.Possible {
+	pointer-events: auto;
+}
+
 button{  
   border: none;  /* 枠線を消す */
   outline: none; /* クリックしたときに表示される枠線を消す */

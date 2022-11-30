@@ -35,8 +35,7 @@ Route::post('master/maincategory/restore', [maincategory_m_controller::class, 'r
 
 Route::get('master/subcategory/', [subcategory_m_controller::class, 'index'])->name('master.subcategory');
 Route::post('master/subcategory/save', [subcategory_m_controller::class, 'save'])->name('master.subcategory.save');
-Route::post('master/subcategory/delete', [subcategory_m_controller::class, 'delete'])->name('master.subcategory.delete');
-Route::post('master/subcategory/restore', [subcategory_m_controller::class, 'restore'])->name('master.subcategory.restore');
+Route::post('master/subcategory/delete_or_restore', [subcategory_m_controller::class, 'delete_or_restore'])->name('master.subcategory.delete_or_restore');
 
 Route::get('master/school/', [school_m_controller::class, 'index'])->name('master.school');
 Route::post('master/school/save', [school_m_controller::class, 'save'])->name('master.school.save');

@@ -21,11 +21,7 @@ return new class extends Migration
 
         Schema::create('subcategory_m', function (Blueprint $table) {
 
-            
-            $table
-                ->increments('id')
-                ->comment('ID:連番');
-
+        
             $table
                 ->integer('maincategory_cd')                
                 ->comment('大分類コード');
@@ -73,6 +69,7 @@ return new class extends Migration
                 ->nullable()
                 ->comment('削除者');            
 
+            $table->primary(['maincategory_cd','subcategory_cd'], 'subcategory_m_primary');
         });
 
 

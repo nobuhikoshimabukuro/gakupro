@@ -43,9 +43,9 @@
                 <td>{{$item->maincategory_name}}</td>
                 <td>{{$item->subcategory_name}}</td>   
                 <td>
-                    <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#Save_Modal'
-                        data-subcategorycd='{{$item->subcategory_cd}}'
+                    <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#Save_Modal'                        
                         data-maincategorycd='{{$item->maincategory_cd}}'
+                        data-subcategorycd='{{$item->subcategory_cd}}'                        
                         data-displayorder='{{$item->display_order}}'
                         data-subcategoryname='{{$item->subcategory_name}}'
                         data-processflg='1'> 
@@ -53,10 +53,11 @@
                     </button>
 
                     <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#Dlete_Modal'
+                        data-maincategorycd='{{$item->maincategory_cd}}'
                         data-subcategorycd='{{$item->subcategory_cd}}'
                         data-maincategoryname='{{$item->maincategory_name}}'
                         data-subcategoryname='{{$item->subcategory_name}}'
-                        data-deleteflg=@if($item->deleted_at) 0 @else 1 @endif>
+                        data-deleteflg=@if($item->deleted_at) 1 @else 0 @endif>
                                     
                         @if($item->deleted_at)
                             <i class='far fa-thumbs-down'></i><i class='fas fa-arrow-right'></i><i class='far fa-thumbs-up'></i>
@@ -91,9 +92,9 @@
                     <form id="Saveform" method="post" action="{{ route('master.subcategory.save') }}">                    
                         @csrf
                         <div class="modal-body">  
-                                                        
+                            
                             <input type="hidden" name="subcategory_cd" id="subcategory_cd" value="">
-                            <input type="hidden" name="branch_cd" id="branch_cd" value="">
+                            <input type="hidden" name="processflg" id="processflg" value="">                            
                                                         
                             <div class="form-group row">
                                 <label for="maincategory_name" class="col-md-6 col-form-label OriginalLabel">大分類名</label>
@@ -138,9 +139,11 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <form id="Deleteform" method="post" action="">                    
+                    <form id="Deleteform" method="post" action="{{ route('master.subcategory.delete_or_restore') }}">                    
                         @csrf
                         <div class="modal-body">  
+                            <input type="hidden" id="delete_flg" name="delete_flg" value="">
+                            <input type="hidden" id="delete_maincategory_cd" name="delete_maincategory_cd" value="">
                             <input type="hidden" id="delete_subcategory_cd" name="delete_subcategory_cd" value="">
                             <input type="hidden" id="delete_maincategory_name" name="delete_maincategory_name" value="">
                             <input type="hidden" id="delete_subcategory_name" name="delete_subcategory_name" value="">
@@ -207,26 +210,36 @@ $(function(){
         let evCon = $(e.relatedTarget);
 
         var maincategory_cd = evCon.data('maincategorycd');
-        var maincategory_name = evCon.data('maincategoryname');
-        var display_order = evCon.data('displayorder');
         var subcategory_cd = evCon.data('subcategorycd');
+
+        var maincategory_name = evCon.data('maincategoryname');
         var subcategory_name = evCon.data('subcategoryname');
 
+        var display_order = evCon.data('displayorder');
 
         //登録処理か更新処理か判断
         var processflg = evCon.data('processflg');
+
+
+        $('#maincategory_cd').removeClass("Impossible");
+
         if(processflg == '0'){
             $('#Save_Modal_Title').html('登録処理');         
             $('#subcategory_cd').val(0);            
-            $('#Save_Modal_Button_Display').html('登録');
+            $('#Save_Modal_Button_Display').html('登録');            
+
         }else{
-            $('#Save_Modal_Title').html('更新処理（中分類CD：' + subcategory_cd+'）');   
+            $('#Save_Modal_Title').html('更新処理');   
             $('#subcategory_cd').val(subcategory_cd);            
             $('#Save_Modal_Button_Display').html('更新');
+
+            $('#maincategory_cd').addClass("Impossible");
         }
         
-        $('#subcategory_name').val(subcategory_name);
+        $('#processflg').val(processflg); 
         $('#maincategory_cd').val(maincategory_cd); 
+
+        $('#subcategory_name').val(subcategory_name);
         $('#display_order').val(display_order);
         
     });
@@ -237,29 +250,35 @@ $(function(){
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
+        var maincategory_cd = evCon.data('maincategorycd');
         var subcategory_cd = evCon.data('subcategorycd');
+
         var maincategory_name = evCon.data('maincategoryname');    
         var subcategory_name = evCon.data('subcategoryname');    
-        var deleteflg = evCon.data('deleteflg');
 
-        if (deleteflg == 0) {
-            var wording = "利用可能にする";
-            $('#Deleteform').prop('action','{{ route('master.subcategory.restore') }}')          
-            $('#Dlete_Modal_RunButton').css({'background-color':'blue','border-color':'blue'});
+        var delete_flg = evCon.data('deleteflg');
+
+        if (delete_flg == 0) {
+            
+            var wording = "利用不可にする";                 
+            $('#Dlete_Modal_RunButton').css({'background-color':'red','border-color':'red'});     
 
         } else {
-            var wording = "利用不可にする";     
-            $('#Deleteform').prop('action','{{ route('master.subcategory.delete') }}')
-            $('#Dlete_Modal_RunButton').css({'background-color':'red','border-color':'red'});            
+
+            var wording = "利用可能にする";                   
+            $('#Dlete_Modal_RunButton').css({'background-color':'blue','border-color':'blue'});
+                
         }
-    
-        $('#Display_Maincategory_CD').html(maincategory_cd);    
+               
         $('#Display_Maincategory_Name').html(maincategory_name);    
         $('#Display_Subcategory_Name').html(subcategory_name);   
         $('.Dlete_Modal_Wording').html(wording);
 
+        $('#delete_flg').val(delete_flg);
 
+        $('#delete_maincategory_cd').val(maincategory_cd);
         $('#delete_subcategory_cd').val(subcategory_cd);
+
         $('#delete_maincategory_name').val(maincategory_name);  
         $('#delete_subcategory_name').val(subcategory_name);  
 
