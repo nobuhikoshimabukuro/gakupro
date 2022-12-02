@@ -22,8 +22,6 @@ class maincategory_m_controller extends Controller
     
     function index()
     {
-      
-
         $maincategory_m_list = maincategory_m_model::withTrashed()
             ->orderBy('maincategory_cd', 'asc')
             ->get();
@@ -39,13 +37,30 @@ class maincategory_m_controller extends Controller
         $maincategory_cd = intval($request->maincategory_cd);
         $maincategory_name = $request->maincategory_name;
 
+        $operator = 9999;
         try {
-            maincategory_m_model::updateOrInsert(
-                ['maincategory_cd' => $maincategory_cd],
-    
-                ['maincategory_name' => $maincategory_name]                
-                
-            );
+
+            if($maincategory_cd == 0){            
+                //新規登録処理
+                maincategory_m_model::create(
+                    [
+                        'maincategory_name' => $maincategory_name,
+                        'created_by' => $operator,                        
+                    ]
+                );            
+
+            }else{
+                //更新処理
+                maincategory_m_model::
+                where('maincategory_cd', $maincategory_cd)                
+                ->update(
+                    [
+                        'maincategory_name' => $maincategory_name,                        
+                        'updated_by' => $operator,            
+                    ]
+                );
+
+            }         
     
         } catch (Exception $e) {
 
@@ -77,57 +92,50 @@ class maincategory_m_controller extends Controller
         return response()->json(['ResultArray' => $ResultArray]);
     }
 
-    //  論理削除処理
-    function delete(Request $request)
+   
+    // 論理削除処理
+    function delete_or_restore(Request $request)
     {
-        $delete_maincategory_cd = intval($request->delete_maincategory_cd);
-        $delete_maincategory_name = $request->delete_maincategory_name;
+        $delete_flg = intval($request->delete_flg);
+
+        $maincategory_cd = intval($request->delete_maincategory_cd);
+        $maincategory_name = $request->delete_maincategory_name;
+        
+        $operator = 9999;
 
         try {
-            $mcon = maincategory_m_model::destroy($delete_maincategory_cd);
-            session()->flash('success', '[大分類CD = ' . $delete_maincategory_cd . ' 大分類名 = ' . $delete_maincategory_name . ']データを利用不可状態にしました');
+            if($delete_flg == 0){
+
+                //論理削除
+                maincategory_m_model::
+                where('maincategory_cd', $maincategory_cd)                
+                ->delete();
+
+                session()->flash('success', '[大分類名 = ' . $maincategory_name .']データを利用不可状態にしました');                
+            }else{    
+
+                //論理削除解除
+                maincategory_m_model::
+                where('maincategory_cd', $maincategory_cd)                
+                ->withTrashed()                
+                ->restore();
+
+                session()->flash('success', '[大分類名 = ' . $maincategory_name . ']データを利用可能状態にしました');                                
+            }
+
         } catch (Exception $e) {
 
-            $ErrorTitle = '大分類マスタ利用不可処理時エラー';
-            $ErrorMessage = $e->getMessage();
-          
-            Common::SendErrorMail($ErrorTitle,$ErrorMessage);
+            $ErrorMessage = '【大分類マスタ利用状況変更処理時エラー】' . $e->getMessage();            
 
-            $LogErrorMessage = $ErrorTitle .'::' .$ErrorMessage;
-            Log::channel('error_log')->info($LogErrorMessage);
-      
-            session()->flash('error', '[大分類CD = ' . $delete_maincategory_cd . ' 大分類名 = ' . $delete_maincategory_name . ']データの利用不可処理時にエラー');            
-        }
+            Log::channel('error_log')->info($ErrorMessage);
 
+            session()->flash('error', '[大分類名 = ' . $maincategory_name . ']データの利用状況変更処理時エラー'); 
+           
+        }       
 
         return back();
     }
 
-    //  論理削除取り消し処理
-    function restore(Request $request)
-    {
-        $delete_maincategory_cd = intval($request->delete_maincategory_cd);
-        $delete_maincategory_name = $request->delete_maincategory_name;
 
-        try {
-            $mcon = maincategory_m_model::where('maincategory_cd', $delete_maincategory_cd)->withTrashed()->get()->first();
-            $mcon->restore();
-            session()->flash('success', '[大分類CD = ' . $delete_maincategory_cd . ' 大分類名 = ' . $delete_maincategory_name . ']データの利用不可状態を解除しました');
-        } catch (Exception $e) {
-
-                        
-            $ErrorTitle = '大分類マスタ利用不可解除処理時エラー';
-            $ErrorMessage = $e->getMessage();
-          
-            Common::SendErrorMail($ErrorTitle,$ErrorMessage);
-
-            $LogErrorMessage = $ErrorTitle .'::' .$ErrorMessage;
-            Log::channel('error_log')->info($LogErrorMessage);
-
-            session()->flash('error', '[大分類CD = ' . $delete_maincategory_cd . ' 大分類名 = ' . $delete_maincategory_name . ']データの利用不可解除時にエラー');            
-        }
-
-        return back();
-    }
 
 }

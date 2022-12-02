@@ -6,6 +6,8 @@ use App\Models\maincategory_m_model;
 use App\Models\subcategory_m_model;
 use App\Http\Requests\subcategory_m_request;
 
+use Carbon\Carbon;
+
 use Illuminate\Support\Facades\Log;
 
 use Illuminate\Http\Request;
@@ -52,9 +54,27 @@ class subcategory_m_controller extends Controller
         $display_order = intval($request->display_order);
 
         $operator = 9999;
+        
         try {
 
             if($processflg == 0){
+
+                //同様の登録がないかチェック
+                //同じ大分類かつ中分類名が一致する場合はinfoする
+                $existence_check = subcategory_m_model::
+                where('maincategory_cd', $maincategory_cd)
+                ->where('subcategory_name', $subcategory_name)
+                ->exists();
+                
+                if($existence_check){
+
+                    $ResultArray = array(
+                        "Result" => "error",
+                        "Message" => '選択した大分類で同じ中分類名が存在します。',
+                    );    
+                    return response()->json(['ResultArray' => $ResultArray]);
+                }
+                
                 //新規登録処理
                 $subcategory_cd = subcategory_m_model::
                 where('maincategory_cd', $maincategory_cd)
@@ -79,6 +99,27 @@ class subcategory_m_controller extends Controller
 
 
             }else{
+
+                 //同様の登録がないかチェック
+                //同じ大分類かつ中分類名が一致する場合はinfoする
+                $existence_check = subcategory_m_model::
+                where('maincategory_cd', $maincategory_cd)
+                ->where('subcategory_cd', '<>',$subcategory_cd)
+                ->where('subcategory_name', $subcategory_name)
+                ->exists();
+                
+
+                if($existence_check){
+
+                    $ResultArray = array(
+                        "Result" => "error",
+                        "Message" => '選択した大分類で同じ中分類名が存在します。',
+                    );    
+                    return response()->json(['ResultArray' => $ResultArray]);
+                }
+
+
+
 
                 //更新処理
                 subcategory_m_model::
@@ -127,62 +168,75 @@ class subcategory_m_controller extends Controller
         $subcategory_cd = intval($request->delete_subcategory_cd);
 
         $maincategory_name = $request->delete_maincategory_name;
-        $subcategory_name = $request->delete_subcategory_name;
-
-        $result = $this->delete_or_restore_process($maincategory_cd , $subcategory_cd , $delete_flg);
-
-        if($result){
-
-            if($delete_flg == 0){
-                session()->flash('success', '[大分類 = ' . $maincategory_name . ' 中分類 = ' . $subcategory_name . ']データを利用不可状態にしました');                
-            }else{    
-                session()->flash('success', '[大分類 = ' . $maincategory_name . ' 中分類 = ' . $subcategory_name . ']データを利用可能状態にしました');                                
-            }
-            
-        }else{
-            session()->flash('error', '[大分類 = ' . $maincategory_name . ' 中分類 = ' . $subcategory_name . ']データの利用状況変更処理時エラー'); 
-        }
-
-        return back();
-    }
-
-    function delete_or_restore_process($maincategory_cd , $subcategory_cd , $delete_flg)
-    {
-
-        $result = true;      
+        $subcategory_name = $request->delete_subcategory_name;       
 
         try {
 
+            
             if($delete_flg == 0){
 
+                //論理削除
                 subcategory_m_model::
                 where('maincategory_cd', $maincategory_cd)
                 ->where('subcategory_cd', $subcategory_cd)
                 ->delete();
 
-            }else{
-                
+                session()->flash('success', '[大分類名 = ' . $maincategory_name . ' 中分類名 = ' . $subcategory_name . ']データを利用不可状態にしました');                
+            }else{    
+
+                //論理削除解除
                 subcategory_m_model::
                 where('maincategory_cd', $maincategory_cd)
                 ->where('subcategory_cd', $subcategory_cd)
+                ->withTrashed()                
                 ->restore();
-              
+
+                session()->flash('success', '[大分類名 = ' . $maincategory_name . ' 中分類名 = ' . $subcategory_name . ']データを利用可能状態にしました');                                
             }
-                
 
         } catch (Exception $e) {
 
-            $result = false;           
-            
-            $ErrorMessage = '【中分類マスタ利用状況変更時エラー】' . $e->getMessage();
+            $ErrorMessage = '【中分類マスタ利用状況変更処理時エラー】' . $e->getMessage();            
 
             Log::channel('error_log')->info($ErrorMessage);
-        
+
+            session()->flash('error', '[大分類名 = ' . $maincategory_name . ' 中分類 = ' . $subcategory_name . ']データの利用状況変更処理時エラー'); 
+           
         }       
 
-        return $result;
-
+        return back();
     }
+
+   
+    // function status_change_prepare($delete_flg)
+    // {
+
+    //     $result = true;    
+
+    //     $operator = 9999;        
+
+    //     $datetime_now = Carbon::now()->toDateTimeString();
+        
+    //     $updated_at = $datetime_now;
+    //     $updated_by = $operator;
+    //     $deleted_at = null;
+    //     $deleted_by = null;
+
+    //     if($delete_flg == 0){          
+    //         $deleted_at = $datetime_now;
+    //         $deleted_by = $operator;
+    //     }
+
+
+    //     $ReturnArray = [
+    //         'updated_at' => $updated_at,
+    //         'updated_by' => $updated_by,
+    //         'deleted_at' => $deleted_at,
+    //         'deleted_by' => $deleted_by,            
+    //     ];
+
+    //     return $ReturnArray;
+    // }
 
 
     

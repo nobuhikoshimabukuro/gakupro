@@ -15,10 +15,12 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-md shadow-sm small">
+    <nav id="header" class="navbar navbar-expand-md shadow-sm small">
 
         <div class="container" style="background-color: transparent">
+
             <div class="dropdown">
+
                 <!-- 切替ボタンの設定 -->
                 <a class="btn dropdown-toggle d-none d-md-block"role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     メニュー
@@ -28,11 +30,45 @@
                 </a>
                 
                 <!-- ドロップメニューの設定 -->
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="nav-link dropdown-item" href="{{ route('headquarters.index') }}">管理Top</a>
-                    <a class="nav-link dropdown-item" href="{{ route('master.index') }}">マスタ一覧</a>
-                    <a class="nav-link dropdown-item" href="{{ route('photoproject.index') }}">写真プロジェクト</a>                    
+                <!-- クリックしても閉じないようにkeep-open-on-click付与 -->                
+                <div class="dropdown-menu keep-open-on-click" aria-labelledby="dropdownMenuLink">
+
+                    <div class="dropdown-submenu">
+                        <label for="target1">管理▼</label>
+                        <input type="checkbox" id="target1" class="switch1" />
+                        <!-- ↓↓最初隠したいコンテンツ↓↓ -->
+                        <div class="content">
+                            <a class="nav-link dropdown-item" href="{{ route('headquarters.index') }}">Top</a>
+                            <a class="nav-link dropdown-item" href="{{ route('master.index') }}">マスタ一覧</a>                          
+                        </div>
+                        <!-- ↑↑最初隠したいコンテンツ ↑↑-->
+                    </div>
+
+                    <div class="dropdown-submenu">
+                        <label for="target2">PhotoPro▼</label>
+                        <input type="checkbox" id="target2" class="switch2" />
+                        <!-- ↓↓最初隠したいコンテンツ↓↓ -->
+                        <div class="content">
+                            <a class="nav-link dropdown-item" href="{{ route('photoproject.index') }}">Top</a>
+                            <a class="nav-link dropdown-item" href="{{ route('photoproject.create_qrcode') }}">QRコード作成</a>                    
+                            <a class="nav-link dropdown-item" href="{{ route('photoproject.password_entry', ['upload_flg' => '1']) }}">写真アップロード</a>
+                            <a class="nav-link dropdown-item" href="{{ route('photoproject.password_entry') }}">写真取得画面</a>  
+                        </div>
+                        <!-- ↑↑最初隠したいコンテンツ ↑↑-->
+                    </div>
+
+                    <div class="dropdown-submenu">
+                        <label for="target3">RecruitPro▼</label>
+                        <input type="checkbox" id="target3" class="switch2" />
+                        <!-- ↓↓最初隠したいコンテンツ↓↓ -->
+                        <div class="content">
+                            <a class="nav-link dropdown-item" href="{{ route('recruitproject.index') }}">Top</a>                            
+                        </div>
+                        <!-- ↑↑最初隠したいコンテンツ ↑↑-->
+                    </div>
+
                 </div>
+
             </div>        
         </div>
     </nav>

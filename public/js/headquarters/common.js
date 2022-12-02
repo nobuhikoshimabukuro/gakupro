@@ -1,4 +1,9 @@
 
+// ドロップダウンメニューを閉じない
+$(document).on('click', '.dropdown-menu', function(e) {
+  if ($(this).hasClass('keep-open-on-click')) { e.stopPropagation(); }
+});
+
 
 function phpProcessingStart() {         
 

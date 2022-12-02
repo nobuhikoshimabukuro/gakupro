@@ -1,3 +1,47 @@
+#header{
+  background-image:
+    radial-gradient(#0ff, transparent),
+    radial-gradient(rgb(65, 38, 216), transparent);
+  background-attachment: fixed;
+}
+.dropdown-submenu {
+  margin: 0;
+  padding: 0;
+}
+
+.dropdown-submenu label {
+  display: block;
+  padding : 8px;
+  color: rgb(41, 20, 20);
+  font-weight: bold;  
+  cursor: pointer;
+}
+
+.dropdown-submenu input[type="checkbox"] {
+  display: none;
+}
+
+.dropdown-submenu .content {
+  height: 0;
+  padding: 0;
+  overflow: hidden;    
+}
+
+.switch1:checked + .content {
+  height: auto;  
+}
+.switch2:checked + .content {
+  height: auto;  
+}
+.switch3:checked + .content {
+  height: auto;  
+}
+
+
+
+
+
+
 #Main{
 
   background-color: #dddee721;

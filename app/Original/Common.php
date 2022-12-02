@@ -25,7 +25,7 @@ class Common
             $Value = $ReturnValueWhenNull;
         }
         return $Value;
-     }
+    }
  
     //置換処理
     //第1引数（$TargetString）は検索する目的の文字

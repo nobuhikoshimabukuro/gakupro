@@ -30,6 +30,8 @@ Route::get('master', [topmenu_controller::class, 'master_index'])->name('master.
 
 Route::get('master/maincategory/', [maincategory_m_controller::class, 'index'])->name('master.maincategory');
 Route::post('master/maincategory/save', [maincategory_m_controller::class, 'save'])->name('master.maincategory.save');
+Route::post('master/maincategory/delete_or_restore', [maincategory_m_controller::class, 'delete_or_restore'])->name('master.maincategory.delete_or_restore');
+
 Route::post('master/maincategory/delete', [maincategory_m_controller::class, 'delete'])->name('master.maincategory.delete');
 Route::post('master/maincategory/restore', [maincategory_m_controller::class, 'restore'])->name('master.maincategory.restore');
 

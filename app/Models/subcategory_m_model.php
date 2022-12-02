@@ -35,9 +35,11 @@ class subcategory_m_model extends Model
         ,'subcategory_cd'        
         ,'subcategory_name'
         ,'display_order'
+        ,'created_at'
         ,'created_by'
+        ,'updated_at'
         ,'updated_by'
+        ,'deleted_at'
         ,'deleted_by'
     ];
-
 }
