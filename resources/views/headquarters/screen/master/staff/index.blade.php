@@ -53,7 +53,7 @@
                         data-staffname='{{$item->staff_name}}'
                         data-staffnameyomi='{{$item->staff_name_yomi}}'
                         data-nickname='{{$item->nickname}}'
-                        data-gendercd='{{$item->gender_cd}}'
+                        data-gender='{{$item->gender}}'
                         data-tel='{{$item->tel}}'
                         data-authority='{{$item->authority}}'                        
                         data-processflg='1'> 
@@ -65,7 +65,7 @@
                         data-staffname='{{$item->staff_name}}'
                         data-staffnameyomi='{{$item->staff_name_yomi}}'
                         data-nickname='{{$item->nickname}}'
-                        data-gendercd='{{$item->gender_cd}}'
+                        data-gender='{{$item->gender}}'
                         data-tel='{{$item->tel}}'
                         data-authority='{{$item->authority}}'  
                         data-deleteflg=@if($item->deleted_at) 0 @else 1 @endif>
@@ -100,13 +100,25 @@
                         
                     </div>
                     
-                    <form id="Saveform" method="post" action="{{ route('master.school.save') }}">                    
+                    <form id="Saveform" method="post" action="{{ route('master.staff.save') }}">                    
                         @csrf
                         <div class="modal-body">  
                                                         
-                            <input type="hidden" name="school_cd" id="school_cd" value="">                            
+                            <input type="hidden" name="staff_id" id="staff_id" value="">                            
                                                         
+                           
                             <div class="form-group row">
+
+
+                                <label for="staff_name" class="col-md-6 col-form-label OriginalLabel">氏名</label>
+                                <input type="text" name="staff_name" id="staff_name" value="" class="form-control col-md-3">
+    
+                                <label for="staff_name_yomi" class="col-md-6 col-form-label OriginalLabel">シメイ</label>
+                                <input type="text" name="staff_name_yomi" id="staff_name_yomi" value="" class="form-control col-md-3">
+    
+                                <label for="nickname" class="col-md-6 col-form-label OriginalLabel">ニックネーム</label>
+                                <input type="text" name="nickname" id="nickname" value="" class="form-control col-md-3">
+    
                                 <label for="gender" class="col-md-6 col-form-label OriginalLabel">性別</label>                               
                                 <select id='gender' name='gender' class='form-control input-sm'>									
 										@foreach($gender_list as $item)
@@ -116,6 +128,12 @@
 										@endforeach
                                 </select>
 
+                                <label for="tel" class="col-md-6 col-form-label OriginalLabel">TEL</label>
+                                <input type="tel" name="tel" id="tel" value="" class="form-control col-md-3">
+
+                                <label for="mailaddress" class="col-md-6 col-form-label OriginalLabel">メールアドレス</label>
+                                <input type="text" name="mailaddress" id="mailaddress" value="" class="form-control col-md-3">
+
                                 <label for="authority" class="col-md-6 col-form-label OriginalLabel">権限</label>                               
                                 <select id='authority' name='authority' class='form-control input-sm'>									
 										@foreach($authority_list as $item)
@@ -124,19 +142,6 @@
                                         </option>
 										@endforeach
                                 </select>
-
-                               
-                                <label for="staff_name" class="col-md-6 col-form-label OriginalLabel">氏名</label>
-                                <input type="text" name="staff_name" id="staff_name" value="" class="form-control col-md-3">
-
-                                <label for="tel" class="col-md-6 col-form-label OriginalLabel">TEL</label>
-                                <input type="tel" name="tel" id="tel" value="" class="form-control col-md-3">
-
-                            
-
-                                <label for="mailaddress" class="col-md-6 col-form-label OriginalLabel">メールアドレス</label>
-                                <input type="text" name="mailaddress" id="mailaddress" value="" class="form-control col-md-3">
-
                               </div>                                                 
                             
                         </div>
@@ -162,24 +167,25 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <form id="Deleteform" method="post" action="">                    
+                    
+                    <form id="Deleteform" method="post" action="{{ route('master.staff.delete_or_restore') }}">       
                         @csrf
-                        <div class="modal-body">  
-                            <input type="hidden" id="delete_school_cd" name="delete_school_cd" value="">
-                            <input type="hidden" id="delete_maincategory_name" name="delete_maincategory_name" value="">
-                            <input type="hidden" id="delete_school_name" name="delete_school_name" value="">
+                        <div class="modal-body">
+
+                            <input type="hidden" id="delete_staff_id" name="delete_staff_id" value="">                            
+                            <input type="hidden" id="delete_staff_name" name="delete_staff_name" value="">
             
 
-                            <table class="Dlete_Modal_Table">
+                            <table class="dlete_modal_table">
                                 
                                 <tr>
-                                    <td class="Dlete_Modal_Table-Column">大分類名：</td> 
-                                    <td class="Dlete_Modal_Table-Value"><span id="Display_Maincategory_Name"></span></td>                                                                       
+                                    <td class="dlete_modal_table-column">スタッフID：</td> 
+                                    <td class="dlete_modal_table-value"><span id="Display_Maincategory_Name"></span></td>                                                                       
                                 </tr>
 
                                 <tr>
-                                    <td class="Dlete_Modal_Table-Column">中分類名：</td> 
-                                    <td class="Dlete_Modal_Table-Value"><span id="Display_school_Name"></span></td>                                                                       
+                                    <td class="dlete_modal_table-column">スタッフ名：</td> 
+                                    <td class="dlete_modal_table-value"><span id="Display_staff_Name"></span></td>                                                                       
                                 </tr>
 
                             </table>                            
@@ -223,42 +229,48 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        $('#school_cd').val('');        
-        $('#school_name').val('');
+        $('#staff_id').val('');        
+        $('#staff_name').val('');
+        $('#staff_name_yomi').val('');
+        $('#nickname').val('');
+        $('#gender').val('');
         $('#tel').val('');
-        $('#hp_url').val('');
-        $('#mailaddress').val(''); 
+        $('#mailaddress').val('');
+        $('#authority').val(''); 
 
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
-        var school_cd = evCon.data('schoolcd');
-        var school_division = evCon.data('schooldivision');
-        var school_name = evCon.data('schoolname');
+        var staff_id = evCon.data('staffid');
+        var staff_name = evCon.data('staffname');
+        var staff_name_yomi = evCon.data('staffnameyomi');
+        var gender = evCon.data('gender');
+        var nickname = evCon.data('nickname');
         var tel = evCon.data('tel');
-        var hp_url = evCon.data('hpurl');
         var mailaddress = evCon.data('mailaddress');
+        var authority = evCon.data('authority');
 
 
         //登録処理か更新処理か判断
         var processflg = evCon.data('processflg');
         if(processflg == '0'){
             $('#Save_Modal_Title').html('登録処理');         
-            $('#school_cd').val(0);            
+            $('#staff_id').val(0);            
             $('#Save_Modal_Button_Display').html('登録');
         }else{
-            $('#Save_Modal_Title').html('更新処理（学校CD：' + school_cd + '）');   
-            $('#school_cd').val(school_cd);            
+            $('#Save_Modal_Title').html('更新処理');   
+            $('#staff_id').val(staff_id);            
             $('#Save_Modal_Button_Display').html('更新');
         }
-        
-     
-        $('#school_division').val(school_division);
-        $('#school_name').val(school_name); 
+             
+        $('#staff_id').val(staff_id);
+        $('#staff_name').val(staff_name);
+        $('#staff_name_yomi').val(staff_name_yomi);
+        $('#nickname').val(nickname);
+        $('#gender').val(gender);
         $('#tel').val(tel);
-        $('#hp_url').val(hp_url); 
         $('#mailaddress').val(mailaddress);
-                
+        $('#authority').val(authority);                
     });
 
 
@@ -267,31 +279,29 @@ $(function(){
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
-        var school_cd = evCon.data('schoolcd');
+        var staff_id = evCon.data('staffcd');
         var maincategory_name = evCon.data('maincategoryname');    
-        var school_name = evCon.data('schoolname');    
+        var staff_name = evCon.data('staffname');    
         var deleteflg = evCon.data('deleteflg');
 
         if (deleteflg == 0) {
-            var wording = "利用可能にする";
-            $('#Deleteform').prop('action','{{ route('master.school.restore') }}')          
+            var wording = "利用可能にする";            
             $('#Dlete_Modal_RunButton').css({'background-color':'blue','border-color':'blue'});
 
         } else {
-            var wording = "利用不可にする";     
-            $('#Deleteform').prop('action','{{ route('master.school.delete') }}')
+            var wording = "利用不可にする";                 
             $('#Dlete_Modal_RunButton').css({'background-color':'red','border-color':'red'});            
         }
     
         $('#Display_Maincategory_CD').html(maincategory_cd);    
         $('#Display_Maincategory_Name').html(maincategory_name);    
-        $('#Display_school_Name').html(school_name);   
+        $('#Display_staff_Name').html(staff_name);   
         $('.Dlete_Modal_Wording').html(wording);
 
 
-        $('#delete_school_cd').val(school_cd);
+        $('#delete_staff_id').val(staff_id);
         $('#delete_maincategory_name').val(maincategory_name);  
-        $('#delete_school_name').val(school_name);  
+        $('#delete_staff_name').val(staff_name);  
 
     });
 
@@ -382,7 +392,7 @@ $(function(){
                 } else {
 
                     //{{-- その他のエラー --}}
-                    errorsHtml += '<li class="text-left">' + data.status + ':' + errorThrown + '</li>';
+                    errorsHtml += '<li class="text-left">登録処理エラー</li>';
 
                 }
 

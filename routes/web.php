@@ -42,6 +42,10 @@ Route::post('master/subcategory/save', [subcategory_m_controller::class, 'save']
 Route::post('master/subcategory/delete_or_restore', [subcategory_m_controller::class, 'delete_or_restore'])->name('master.subcategory.delete_or_restore');
 
 Route::get('master/staff/', [staff_m_controller::class, 'index'])->name('master.staff');
+Route::post('master/staff/save', [staff_m_controller::class, 'save'])->name('master.staff.save');
+Route::post('master/staff/delete_or_restore', [staff_m_controller::class, 'delete_or_restore'])->name('master.staff.delete_or_restore');
+
+
 
 
 Route::get('master/school/', [school_m_controller::class, 'index'])->name('master.school');

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\staff_m_model;
 use App\Models\subcategory_m_model;
 
+use Exception;
+use Illuminate\Support\Facades\Log;
+
 use Illuminate\Http\Request;
 
 class staff_m_controller extends Controller
@@ -33,13 +36,13 @@ class staff_m_controller extends Controller
             'staff_m.staff_name_yomi as staff_name_yomi',
             'staff_m.nickname as nickname',
 
-            'staff_m.gender as gender_cd',
+            'staff_m.gender as gender',
             'genderinfo.subcategory_name as gender_name',
 
             'staff_m.tel as tel',
             'staff_m.mailaddress as mailaddress',
 
-            'staff_m.authority as authority_cd',
+            'staff_m.authority as authority',
             'authorityinfo.subcategory_name as authority_name',
        
         )
@@ -59,4 +62,135 @@ class staff_m_controller extends Controller
         
         return view('headquarters/screen/master/staff/index', compact('staff_list','gender_list','authority_list'));
     }
+
+
+    //  更新処理
+    function save(request $request)
+    {
+
+        $staff_id = intval($request->staff_id);
+
+        
+        $staff_name = $request->staff_name;
+        $staff_name_yomi = $request->staff_name_yomi;
+        $nickname = $request->nickname;        
+        $gender = intval($request->gender);
+        $tel = $request->tel;
+        $mailaddress = $request->mailaddress;
+        $authority = intval($request->authority);
+        $operator = 9999;
+        
+        try {
+
+            if($staff_id == 0){
+                               
+                //新規登録処理                
+                staff_m_model::create(
+                    [
+                        'staff_name' => $staff_name,                        
+                        'staff_name_yomi' => $staff_name_yomi,     
+                        'nickname' => $nickname,
+                        'gender' => $gender,
+                        'tel' => $tel,
+                        'mailaddress' => $mailaddress,
+                        'authority' => $authority,
+                        'tel' => $tel,
+                        'created_by' => $operator,                        
+                    ]
+                );            
+
+
+            }else{
+
+                //更新処理
+                staff_m_model::
+                where('staff_id', $staff_id)                
+                ->update(
+                    [
+                        'staff_name' => $staff_name,                        
+                        'staff_name_yomi' => $staff_name_yomi,     
+                        'nickname' => $nickname,
+                        'gender' => $gender,
+                        'tel' => $tel,
+                        'mailaddress' => $mailaddress,
+                        'authority' => $authority,
+                        'tel' => $tel,
+                        'updated_by' => $operator,                 
+                    ]
+                );
+            }
+    
+        } catch (Exception $e) {            
+            
+            $ErrorMessage = '【スタッフマスタ登録エラー】' . $e->getMessage();            
+
+            Log::channel('error_log')->info($ErrorMessage);
+
+            $ResultArray = array(
+                "Result" => "error",
+                "Message" => $ErrorMessage,
+            );
+
+            return response()->json(['ResultArray' => $ResultArray]);
+                                
+        }
+
+        $ResultArray = array(
+            "Result" => "success",
+            "Message" => '',
+        );
+
+        session()->flash('success', 'データを登録しました。');
+        session()->flash('message-type', 'success');
+        return response()->json(['ResultArray' => $ResultArray]);
+    }
+
+    //  論理削除処理
+    function delete_or_restore(Request $request)
+    {
+        $delete_flg = intval($request->delete_flg);
+
+        $maincategory_cd = intval($request->delete_maincategory_cd);
+        $subcategory_cd = intval($request->delete_subcategory_cd);
+
+        $maincategory_name = $request->delete_maincategory_name;
+        $subcategory_name = $request->delete_subcategory_name;       
+
+        try {
+
+            
+            if($delete_flg == 0){
+
+                //論理削除
+                subcategory_m_model::
+                where('maincategory_cd', $maincategory_cd)
+                ->where('subcategory_cd', $subcategory_cd)
+                ->delete();
+
+                session()->flash('success', '[大分類名 = ' . $maincategory_name . ' 中分類名 = ' . $subcategory_name . ']データを利用不可状態にしました');                
+            }else{    
+
+                //論理削除解除
+                subcategory_m_model::
+                where('maincategory_cd', $maincategory_cd)
+                ->where('subcategory_cd', $subcategory_cd)
+                ->withTrashed()                
+                ->restore();
+
+                session()->flash('success', '[大分類名 = ' . $maincategory_name . ' 中分類名 = ' . $subcategory_name . ']データを利用可能状態にしました');                                
+            }
+
+        } catch (Exception $e) {
+
+            $ErrorMessage = '【中分類マスタ利用状況変更処理時エラー】' . $e->getMessage();            
+
+            Log::channel('error_log')->info($ErrorMessage);
+
+            session()->flash('error', '[大分類名 = ' . $maincategory_name . ' 中分類 = ' . $subcategory_name . ']データの利用状況変更処理時エラー'); 
+           
+        }       
+
+        return back();
+    }
+
 }

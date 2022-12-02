@@ -8,11 +8,12 @@ use App\Http\Requests\subcategory_m_request;
 
 use Carbon\Carbon;
 
+use Exception;
 use Illuminate\Support\Facades\Log;
 
 use Illuminate\Http\Request;
 
-use Exception;
+
 
 class subcategory_m_controller extends Controller
 {
