@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\topmenu_controller;
+
 use App\Http\Controllers\Master\mailaddresscheck_t_controller;
 use App\Http\Controllers\Master\maincategory_m_controller;
 use App\Http\Controllers\Master\subcategory_m_controller;
@@ -11,8 +11,9 @@ use App\Http\Controllers\Master\member_m_controller;
 use App\Http\Controllers\Master\school_m_controller;
 use App\Http\Controllers\Master\staff_m_controller;
 
-use App\Http\Controllers\photoproject_controller;
-use App\Http\Controllers\recruitproject_controller;
+use App\Http\Controllers\Headquarters\headquarters_controller;
+use App\Http\Controllers\PhotoProject\photoproject_controller;
+use App\Http\Controllers\RecruitProject\recruitproject_controller;
 
 
 
@@ -20,11 +21,14 @@ use App\Http\Controllers\recruitproject_controller;
 
 
 
+Route::get('/', [headquarters_controller::class, 'index'])->name('headquarters.index');
+Route::get('login', [headquarters_controller::class, 'login'])->name('headquarters.login');
+Route::get('logout', [headquarters_controller::class, 'logout'])->name('headquarters.logout');
+Route::post('login_password_check', [headquarters_controller::class, 'login_password_check'])->name('headquarters.login_password_check');
 
-Route::get('/', [topmenu_controller::class, 'index'])->name('headquarters.index');
 
-Route::get('master', [topmenu_controller::class, 'master_index'])->name('master.index');
-// Route::get('photoproject', [topmenu_controller::class, 'photoproject_index'])->name('photoproject.index');
+Route::get('master', [headquarters_controller::class, 'master_index'])->name('master.index');
+// Route::get('photoproject', [headquarters_controller::class, 'photoproject_index'])->name('photoproject.index');
 
 
 

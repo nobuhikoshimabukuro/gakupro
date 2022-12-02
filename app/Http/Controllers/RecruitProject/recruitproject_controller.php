@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\RecruitProject;
 use App\Http\Controllers\Controller;
 
 use Exception;
@@ -529,6 +529,8 @@ class recruitproject_controller extends Controller
         if($GetCount == 0){
             //ログインIDとパスワードで取得できず::NG            
 
+            $this->SessionInfoRemove();
+            
             // 認証失敗
             session()->flash('employer_loginerror', '認証失敗');
             return back();

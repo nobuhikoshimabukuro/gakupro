@@ -14,6 +14,38 @@ use Illuminate\Http\Request;
 class Common
 {   
     
+    //管理側session確認処理
+    public static function SessionConfirmation()
+    {
+        //返却用変数、初期値はfalse
+        $Judge = false;
+
+        // 指定キーがセッションに存在するかを調べる
+        if ((session()->exists('login_flg'))) {
+
+            $login_flg = session()->get('login_flg');
+
+            $staff_id = session()->get('staff_id');
+            $staff_name = session()->get('staff_name');            
+            $staff_name_yomi = session()->get('staff_name_yomi');
+
+            //login_flgが'1'はsession確認OK
+            if ($login_flg == 1) {
+
+                //改めてセッションに格納
+                session()->put('staff_id', $staff_id);
+                session()->put('staff_name', $staff_name);
+                session()->put('staff_name_yomi', $staff_name_yomi);
+                //ログイン状況をtrueで設定
+                session()->put('login_flg', 1);
+
+                $Judge = true;
+            }
+        }
+
+        return $Judge;
+    }
+
     //入力画面にてテキストボックス未入力、チェックボックスの未チェックの場合はNullを取得するため
     //Null時に返却してほしい値を第二引数に設定してください。
     //第1引数（$Value）は対象の値

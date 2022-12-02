@@ -69,7 +69,18 @@
 
                 </div>
 
-            </div>        
+            </div>            
+            
+            <div class="">
+                <h3>
+                    {{session()->get('staff_name')}}
+                </h3>                
+            </div>
+
+            <div class="">
+                <a class="nav-link dropdown-item" href="{{ route('headquarters.logout') }}">ログアウト</a>                       
+            </div>
+
         </div>
     </nav>
 
