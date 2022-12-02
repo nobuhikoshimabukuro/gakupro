@@ -3,13 +3,11 @@
 use Illuminate\Support\Facades\Route;
 
 
-use App\Http\Controllers\Master\mailaddresscheck_t_controller;
-use App\Http\Controllers\Master\maincategory_m_controller;
-use App\Http\Controllers\Master\subcategory_m_controller;
-use App\Http\Controllers\Master\majorsubject_m_controller;
-use App\Http\Controllers\Master\member_m_controller;
-use App\Http\Controllers\Master\school_m_controller;
-use App\Http\Controllers\Master\staff_m_controller;
+
+use App\Http\Controllers\Headquarters\Master\maincategory_m_controller;
+use App\Http\Controllers\Headquarters\Master\subcategory_m_controller;
+use App\Http\Controllers\Headquarters\Master\school_m_controller;
+use App\Http\Controllers\Headquarters\Master\staff_m_controller;
 
 use App\Http\Controllers\Headquarters\headquarters_controller;
 use App\Http\Controllers\PhotoProject\photoproject_controller;
@@ -42,6 +40,9 @@ Route::post('master/maincategory/restore', [maincategory_m_controller::class, 'r
 Route::get('master/subcategory/', [subcategory_m_controller::class, 'index'])->name('master.subcategory');
 Route::post('master/subcategory/save', [subcategory_m_controller::class, 'save'])->name('master.subcategory.save');
 Route::post('master/subcategory/delete_or_restore', [subcategory_m_controller::class, 'delete_or_restore'])->name('master.subcategory.delete_or_restore');
+
+Route::get('master/staff/', [staff_m_controller::class, 'index'])->name('master.staff');
+
 
 Route::get('master/school/', [school_m_controller::class, 'index'])->name('master.school');
 Route::post('master/school/save', [school_m_controller::class, 'save'])->name('master.school.save');

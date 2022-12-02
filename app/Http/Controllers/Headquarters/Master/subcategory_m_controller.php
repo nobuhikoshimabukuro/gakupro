@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Master;
+namespace App\Http\Controllers\Headquarters\Master;
 use App\Http\Controllers\Controller;
 use App\Models\maincategory_m_model;
 use App\Models\subcategory_m_model;

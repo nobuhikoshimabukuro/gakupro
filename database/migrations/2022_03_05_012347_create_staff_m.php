@@ -38,6 +38,11 @@ return new class extends Migration
                 ->string('nickname', 50)
                 ->nullable()
                 ->comment('スタッフニックネーム');
+            
+            $table
+                ->integer('gender')
+                ->nullable()
+                ->comment('性別:中分類マスタを参照');
 
             $table
                 ->string('tel', 15)
@@ -52,7 +57,7 @@ return new class extends Migration
             $table
                 ->integer('authority')
                 ->default(0)
-                ->comment('権限');
+                ->comment('権限:中分類マスタを参照');
 
             $table
                 ->dateTime('created_at')

@@ -36,11 +36,18 @@
 
         <div class="col-6 col-md-4 col-xl-3 p-3 menu_btn">
             <a href="{{ route('master.school') }}">
-                <div class="bg-dark rounded-lg text-light p-2 menu-btn">
-                    {{-- <i class="fas fa-school fa-3x mb-1"></i> --}}
-                    {{-- <i class="fas fa-screwdriver fa-3x mb-1"></i> --}}
+                <div class="bg-dark rounded-lg text-light p-2 menu-btn">                    
                     <i class="fas fa-school fa-3x mb-1"></i>
                     <h6>学校マスタ</h6>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-xl-3 p-3 menu_btn">
+            <a href="{{ route('master.staff') }}">
+                <div class="bg-dark rounded-lg text-light p-2 menu-btn">                    
+                    <i class="fas fa-school fa-3x mb-1"></i>
+                    <h6>スタッフマスタ</h6>
                 </div>
             </a>
         </div>

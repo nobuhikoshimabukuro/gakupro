@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Master;
+namespace App\Http\Controllers\Headquarters\Master;
 use App\Http\Controllers\Controller;
 use App\Models\maincategory_m_model;
 use App\Models\subcategory_m_model;
@@ -17,7 +17,7 @@ class school_m_controller extends Controller
         $school_division_list = subcategory_m_model::select(
             'subcategory_cd as school_division_cd',
             'subcategory_name as school_division_name',         
-        )->where('maincategory_cd',2)
+        )->where('maincategory_cd',3)
         ->orderBy('display_order', 'asc')
         ->get();
 
