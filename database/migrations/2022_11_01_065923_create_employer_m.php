@@ -26,6 +26,10 @@ return new class extends Migration
                 ->comment('雇用者ID:連番');
 
             $table
+                ->integer('employer_division')
+                ->comment('雇用者区分:分類マスタ参照');
+
+            $table
                 ->string('employer_name', 300)
                 ->comment('雇用者名:法人名、個人事業主名、個人名など');
 
@@ -67,6 +71,12 @@ return new class extends Migration
                 ->string('mailaddress', 200)
                 ->nullable()
                 ->comment('メールアドレス');
+
+                
+            $table
+                ->text('remarks')
+                ->nullable()
+                ->comment('備考');
 
             $table
                 ->dateTime('created_at')

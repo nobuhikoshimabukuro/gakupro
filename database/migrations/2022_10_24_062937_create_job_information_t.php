@@ -61,10 +61,9 @@ return new class extends Migration
             $table
                 ->string('mailaddress', 200)
                 ->nullable()
-                ->comment('メールアドレス');
-
+                ->comment('メールアドレス');         
             $table
-                ->string('remarks', 1000)
+                ->text('remarks')
                 ->nullable()
                 ->comment('備考');
 

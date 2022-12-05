@@ -26,11 +26,11 @@ return new class extends Migration
                 ->comment('学生メンバーID:連番');
 
             $table
-                ->string('member_name', 50)
+                ->string('member_name', 100)
                 ->comment('氏名');
 
             $table
-                ->string('member_name_yomi', 50)
+                ->string('member_name_yomi', 100)
                 ->nullable()
                 ->comment('氏名（フリガナ）:全角カタカナ');
 

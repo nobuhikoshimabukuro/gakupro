@@ -43,7 +43,7 @@ return new class extends Migration
                 ->comment('学習期間（月数単位）');
 
             $table
-                ->text('Remarks')
+                ->text('remarks')
                 ->nullable()
                 ->comment('備考');
 

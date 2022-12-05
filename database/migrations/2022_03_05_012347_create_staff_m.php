@@ -26,16 +26,16 @@ return new class extends Migration
                 ->comment('スタッフID:連番');
 
             $table
-                ->string('staff_name', 50)
+                ->string('staff_name', 100)
                 ->comment('スタッフ氏名');
 
             $table
-                ->string('staff_name_yomi', 50)
+                ->string('staff_name_yomi', 100)
                 ->nullable()
                 ->comment('氏名（フリガナ）:全角カタカナ');
 
             $table
-                ->string('nickname', 50)
+                ->string('nick_name', 100)
                 ->nullable()
                 ->comment('スタッフニックネーム');
             
@@ -58,6 +58,11 @@ return new class extends Migration
                 ->integer('authority')
                 ->default(0)
                 ->comment('権限:中分類マスタを参照');
+                
+            $table
+                ->text('remarks')
+                ->nullable()
+                ->comment('備考');
 
             $table
                 ->dateTime('created_at')

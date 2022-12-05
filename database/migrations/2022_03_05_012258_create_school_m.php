@@ -27,26 +27,52 @@ return new class extends Migration
 
             $table
                 ->integer('school_division')
-                ->comment('学校区分:大分類マスタ参照');
+                ->comment('学校区分:分類マスタ参照');
 
             $table
-                ->string('school_name', 50)
+                ->string('school_name', 100)
                 ->comment('学校名');
+                
+            $table
+                ->string('post_code', 10)
+                ->nullable()
+                ->comment('郵便番号');
 
             $table
-                ->string('tel', 15)
+                ->string('address1', 300)
                 ->nullable()
-                ->comment('学校電話番号');
+                ->comment('住所1');
 
             $table
-                ->string('hp_url', 50)
+                ->string('address2', 300)
                 ->nullable()
-                ->comment('学校HPのURL');
+                ->comment('住所2');
+                
+            $table
+                ->string('tel', 20)
+                ->nullable()
+                ->comment('電話番号');
 
             $table
-                ->string('mailaddress', 100)
+                ->string('fax', 20)
                 ->nullable()
-                ->comment('学校メールアドレス');
+                ->comment('電話番号');
+
+            $table
+                ->string('hp_url', 200)
+                ->nullable()
+                ->comment('HP_URL');
+
+            $table
+                ->string('mailaddress', 200)
+                ->nullable()
+                ->comment('メールアドレス');
+
+                
+            $table
+                ->text('remarks')
+                ->nullable()
+                ->comment('備考');
 
             $table
                 ->dateTime('created_at')
