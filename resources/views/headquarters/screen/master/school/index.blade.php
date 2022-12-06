@@ -42,10 +42,13 @@
 
             @foreach ($school_m_list as $item)
             <tr>
-                <td>{{$item->school_cd}}</td>
+                <td>{{$item->school_cd}}
+                    <button id="majorsubject_open_button_{{$item->school_cd}}" class="majorsubject_open_button" data-schoolcd='{{$item->school_cd}}'>↓</button>
+                    <button id="majorsubject_close_button_{{$item->school_cd}}" class="majorsubject_close_button d-none" data-schoolcd='{{$item->school_cd}}'>↑</button>
+                </td>
                 <td>{{$item->school_name}}</td>                   
                 <td>{{$item->tel}}</td>
-                <td>{{$item->hp_url}}</td>
+                <td><a href="{{$item->hp_url}}" target="_blank" rel="noopener noreferrer">{{$item->hp_url}}</a></td>
                 <td>
                     <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#Save_Modal'
                         data-schoolcd='{{$item->school_cd}}'
@@ -76,6 +79,42 @@
 
                 </td>
             </tr>
+
+            
+                
+            @if(!is_null($majorsubject_m_list->where('school_cd', $item->school_cd)->first()))
+
+            
+                <tr class="majorsubject-tr school_cd_{{$item->school_cd}} d-none">
+                    
+                    <td>専攻CD</td>
+                    <td>専攻名</td>
+                    <td>期間(ヶ月)</td>
+                    <td>備考</td>                    
+                    <td></td>
+                    
+                </tr>
+                @foreach ($majorsubject_m_list as $info)
+
+                    @if($item->school_cd == $info->school_cd)
+                        <tr class="majorsubject-tr school_cd_{{$item->school_cd}} d-none">
+                            
+                            <td>{{$info->majorsubject_cd}}</td>
+                            <td>{{$info->majorsubject_name}}</td>                   
+                            <td>{{$info->studyperiod}}</td>
+                            <td>{{$info->remarks}}</td>                            
+                            <td></td>
+                        </tr>
+                    @endif
+            
+                @endforeach
+
+            </div>
+
+            @endif
+
+                
+            
 
             @endforeach
         </table>
@@ -285,7 +324,28 @@ $(function(){
     });
 
 
+    
+    $('.majorsubject_open_button').click(function () {
 
+        
+        var school_cd = $(this).data('schoolcd');
+
+        $('.school_cd_' + school_cd).removeClass('d-none');		
+        $('#majorsubject_open_button_' + school_cd).addClass('d-none');
+        $('#majorsubject_close_button_' + school_cd).removeClass('d-none');
+
+    });
+
+
+    $('.majorsubject_close_button').click(function () {
+        
+        var school_cd = $(this).data('schoolcd');
+
+        $('.school_cd_' + school_cd).addClass('d-none');
+        $('#majorsubject_open_button_' + school_cd).removeClass('d-none');
+        $('#majorsubject_close_button_' + school_cd).addClass('d-none');
+
+    });
 
     // 「保存」ボタンがクリックされたら
     $('#SaveButton').click(function () {

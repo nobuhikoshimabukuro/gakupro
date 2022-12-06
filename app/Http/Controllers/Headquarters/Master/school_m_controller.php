@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\maincategory_m_model;
 use App\Models\subcategory_m_model;
 use App\Models\school_m_model;
+use App\Models\majorsubject_m_model;
 
 use Illuminate\Http\Request;
 
@@ -18,7 +19,7 @@ class school_m_controller extends Controller
             'subcategory_cd as school_division_cd',
             'subcategory_name as school_division_name',         
         )->where('maincategory_cd',3)
-        ->orderBy('display_order', 'asc')
+        ->orderBy('display_order', 'asc')        
         ->get();
 
         $school_m_list = school_m_model::select(
@@ -36,11 +37,26 @@ class school_m_controller extends Controller
             $join->on('school_m.school_division', '=', 'subcategory_m.subcategory_cd');
         })
         ->where('maincategory_cd',2)
-        ->orderBy('school_m.school_cd', 'asc')        
+        ->orderBy('school_m.school_cd', 'asc') 
+        ->withTrashed()       
         ->get();
 
+        $majorsubject_m_list = majorsubject_m_model::select(
+
+            'majorsubject_m.school_cd as school_cd',
+            'majorsubject_m.majorsubject_cd as majorsubject_cd',
+            'majorsubject_m.majorsubject_name as majorsubject_name',
+            'majorsubject_m.studyperiod as studyperiod',
+            'majorsubject_m.remarks as remarks',           
+        )       
+        ->orderBy('majorsubject_m.school_cd', 'asc')        
+        ->orderBy('majorsubject_m.majorsubject_cd', 'asc') 
+        ->withTrashed()
+        ->get();        
+
         
-        return view('headquarters/screen/master/school/index', compact('school_m_list','school_division_list'));
+        
+        return view('headquarters/screen/master/school/index', compact('school_m_list','school_division_list','majorsubject_m_list'));
     }
 
 
