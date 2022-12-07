@@ -75,9 +75,10 @@ class headquarters_controller extends Controller
             session()->put('staff_id', $staff_info->staff_id);
             session()->put('staff_name', $staff_info->staff_name);
             session()->put('staff_name_yomi', $staff_info->staff_name_yomi);
+            session()->put('authority', $staff_info->authority);
             session()->put('login_flg', 1);
 
-            return redirect(route('headquarters.index'));  
+            return redirect(route('headquarters.index'));
 
         }elseif($GetCount > 1){
             //ログインIDとパスワードで1件以上取得::CriticalError
@@ -92,7 +93,7 @@ class headquarters_controller extends Controller
        
         $this->SessionInfoRemove();
          
-        return view('headquarters/screen/staff_login');
+        return redirect(route('headquarters.login'));
     }
 
     //ログイン情報を破棄
@@ -101,6 +102,7 @@ class headquarters_controller extends Controller
         session()->remove('staff_id');
         session()->remove('staff_name');
         session()->remove('staff_name_yomi');
+        session()->remove('authority');
         session()->remove('login_flg');
 
     }

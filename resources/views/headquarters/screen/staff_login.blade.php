@@ -80,24 +80,24 @@ $(function(){
     
     $("#ApproveForm").keypress(function(e) {
 
-        if(e.which == 13) {
+        if(e.which == 13) {            
             // 判定
-            if( document.getElementById("ApproveButton") != document.activeElement ){            
+            if( document.getElementById("ApproveButton") != document.activeElement ){                            
                 return false;
+            }else{
+
+                LoginProcess();
+
             }            
         }
-    });
-
-
-
-    $("#ApproveForm").keypress(function(e) {
-        if(e.which == 13) {
-            return false;
-        }
-    });
-
+    });    
     
-    $('#ApproveButton').click(function () {
+    $('#ApproveButton').click(function () {        
+        LoginProcess();
+    });
+
+
+    function LoginProcess(){
 
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
@@ -109,10 +109,7 @@ $(function(){
 
         if(login_id == ""){
             Judge = false;
-
-            $("#login_id").addClass("is-invalid");
-                  
-            
+            $("#login_id").addClass("is-invalid");                              
         }
 
 
@@ -121,26 +118,21 @@ $(function(){
             $("#password").addClass("is-invalid");            
         }
 
-
         if(!Judge){
-            
             return false;
         }
-
         
         //{{-- マウスカーソルを待機中に --}}         
         document.body.style.cursor = 'wait';
-
 
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
         $(this).prop("disabled", true);
 
-      
         // 確認画面へ画面遷移
         $('#ApproveForm').submit(); 
 
-    });
+    }
 
 
         

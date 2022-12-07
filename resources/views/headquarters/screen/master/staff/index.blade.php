@@ -38,6 +38,10 @@
                 <th>TEL</th>                
                 <th>権限</th>
                 <th>件数【<span id='TotalNumber'>{{$staff_list->count()}}</span>件】</th>
+
+                @if($operator_authority > 1)
+                    <th>ログイン情報</th>
+                @endif
             </tr>
 
             @foreach ($staff_list as $item)
@@ -78,6 +82,20 @@
                     </button>             
 
                 </td>
+
+                @if($operator_authority > 1)
+                    <td>
+                        <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#LoginInfo_Modal'
+                            data-passwordid='{{$item->password_id}}'
+                            data-staffid='{{$item->staff_id}}'
+                            data-loginid='{{$item->login_id}}'
+                            data-password='{{$item->password}}'
+                            > 
+                            <i class="fas fa-info"></i>
+                        </button>
+                    </td>
+                @endif
+
             </tr>
 
             @endforeach
@@ -100,7 +118,7 @@
                         
                     </div>
                     
-                    <form id="Saveform" method="post" action="{{ route('master.staff.save') }}">                    
+                    <form id="SaveForm" method="post" action="{{ route('master.staff.save') }}">                    
                         @csrf
                         <div class="modal-body">  
                                                         
@@ -209,6 +227,51 @@
                 </div>
             </div>
         </div>
+
+
+        {{-- パスワード変更モーダル --}}
+        <div class="modal fade" id="LoginInfo_Modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="LoginInfo_Modal_Label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="LoginInfo_Modal_Label"><span id="LoginInfo_Modal_Title"></span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="ajax-msg m-2">
+                        
+                    </div>
+                    
+                    <form id="LoginInfoForm" method="post" action="{{ route('master.staff.login_info_update') }}">                    
+                        @csrf
+                        <div class="modal-body">  
+                                                        
+                            <input type="hidden" name="logininfo_staff_id" id="logininfo_staff_id" value="">
+                            <input type="hidden" name="logininfo_password_id" id="logininfo_password_id" value="">
+                            
+                            <div class="form-group row">
+    
+                                <label for="login_id" class="col-md-6 col-form-label OriginalLabel">ログインID</label>
+                                <input type="text" name="login_id" id="login_id" value="" class="form-control col-md-3">
+    
+                                <label for="password" class="col-md-6 col-form-label OriginalLabel">パスワード</label>
+                                <input type="text" name="password" id="password" value="" class="form-control col-md-3">
+                            </div>                                                 
+                            
+                        </div>
+
+                        <div class="modal-footer">               
+                            <button type="submit" id='LoginInfoChangeButton' class="btn btn-primary">ログイン情報変更</button>       
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
       
 
     </div>
@@ -279,7 +342,7 @@ $(function(){
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
-        var staff_id = evCon.data('staffcd');
+        var staff_id = evCon.data('staffid');
         var maincategory_name = evCon.data('maincategoryname');    
         var staff_name = evCon.data('staffname');    
         var deleteflg = evCon.data('deleteflg');
@@ -307,6 +370,25 @@ $(function(){
 
 
 
+    //ログイン情報変更モーダル表示時
+    $('#LoginInfo_Modal').on('show.bs.modal', function(e) {
+        // イベント発生元
+        let evCon = $(e.relatedTarget);
+        
+        var password_id = evCon.data('passwordid');
+        var staff_id = evCon.data('staffid');
+        var login_id = evCon.data('loginid');    
+        var password = evCon.data('password');
+
+        $('#logininfo_password_id').val(password_id);
+        $('#logininfo_staff_id').val(staff_id);
+        $('#login_id').val(login_id);  
+        $('#password').val(password);  
+
+    });
+
+
+
 
     // 「保存」ボタンがクリックされたら
     $('#SaveButton').click(function () {
@@ -324,7 +406,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#Saveform');
+        let f = $('#SaveForm');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';

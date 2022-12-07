@@ -4,37 +4,32 @@ namespace App\Http\Controllers\Headquarters\Master;
 use App\Http\Controllers\Controller;
 
 use App\Models\staff_m_model;
+use App\Models\staff_password_t_model;
 use App\Models\subcategory_m_model;
 
 use Exception;
 use Illuminate\Support\Facades\Log;
-
 use Illuminate\Http\Request;
 
+use App\Repositories\GenderList;
+use App\Repositories\AuthorityList;
+use Illuminate\Support\Facades\DB;
 class staff_m_controller extends Controller
 {
     function index()
     {
-        $gender_list = subcategory_m_model::select(
-            'subcategory_cd as gender_cd',
-            'subcategory_name as gender_name',
-        )->where('maincategory_cd',1)
-        ->orderBy('display_order', 'asc')
-        ->get();
+        $gender_list = GenderList::get();
 
-        $authority_list = subcategory_m_model::select(
-            'subcategory_cd as authority_cd',
-            'subcategory_name as authority_name',
-        )->where('maincategory_cd',2)
-        ->orderBy('display_order', 'asc')
-        ->get();
+        $authority_list = AuthorityList::get();      
+
+        $operator_authority = session()->get('authority');
 
         $staff_list = staff_m_model::select(
 
             'staff_m.staff_id as staff_id',
             'staff_m.staff_name as staff_name',
             'staff_m.staff_name_yomi as staff_name_yomi',
-            'staff_m.nickname as nickname',
+            'staff_m.nick_name as nick_name',
 
             'staff_m.gender as gender',
             'genderinfo.subcategory_name as gender_name',
@@ -45,6 +40,9 @@ class staff_m_controller extends Controller
             'staff_m.authority as authority',
             'authorityinfo.subcategory_name as authority_name',
        
+            'staff_password_t.id as password_id',
+            'staff_password_t.login_id as login_id',
+            'staff_password_t.password as password',
         )
         ->leftJoin('subcategory_m as genderinfo', function ($join) {
             $join->on('genderinfo.subcategory_cd', '=', 'staff_m.gender')
@@ -55,12 +53,17 @@ class staff_m_controller extends Controller
             $join->on('authorityinfo.subcategory_cd', '=', 'staff_m.authority')
                 ->where('authorityinfo.maincategory_cd', '=', '2');
             ;
+        })     
+        ->leftJoin('staff_password_t', function ($join) {
+            $join->on('staff_password_t.staff_id', '=', 'staff_m.staff_id')
+                ->whereNull('staff_password_t.deleted_at');
+            ;
         })       
         ->orderBy('staff_m.staff_id', 'asc')        
         ->get();
 
         
-        return view('headquarters/screen/master/staff/index', compact('staff_list','gender_list','authority_list'));
+        return view('headquarters/screen/master/staff/index', compact('staff_list','gender_list','authority_list','operator_authority'));
     }
 
 
@@ -191,6 +194,57 @@ class staff_m_controller extends Controller
         }       
 
         return back();
+    }
+
+    // ログイン情報更新処理
+    function login_info_update(request $request)
+    {
+        
+        $id = intval($request->logininfo_password_id);
+        $staff_id = intval($request->logininfo_staff_id);
+        $login_id = $request->login_id;
+        $password = $request->password;
+        $operator = 9999;
+        
+        try {
+    
+            DB::connection('mysql')->beginTransaction();
+
+            //論理削除
+            staff_password_t_model::
+            where('id', $id)        
+            ->delete();
+
+            //新規登録処理                
+            staff_password_t_model::create(
+                [
+                    'staff_id' => $staff_id,                        
+                    'login_id' => $login_id,     
+                    'password' => $password,               
+                    'created_by' => $operator,                        
+                ]
+            );          
+
+            session()->flash('success', '[スタッフID = ' . $staff_id . ']のログイン情報を変更しました。');                
+
+            DB::connection('mysql')->commit();
+
+        } catch (Exception $e) {
+
+            DB::connection('mysql')->rollBack();
+
+            $ErrorMessage = '【ログイン情報変更処理時エラー】' . $e->getMessage();            
+
+            Log::channel('error_log')->info($ErrorMessage);
+            
+            session()->flash('error', '[スタッフID = ' . $staff_id . ']のログイン情報を変更時にエラーが発生しました。');                
+
+        }  
+
+        return back();
+
+        
+
     }
 
 }

@@ -18,6 +18,7 @@ class staff_password_t_model extends Model
 
 
     protected $fillable = [        
+        'staff_id',
         'login_id',
         'password'      
     ];

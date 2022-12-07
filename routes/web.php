@@ -44,7 +44,7 @@ Route::post('master/subcategory/delete_or_restore', [subcategory_m_controller::c
 Route::get('master/staff/', [staff_m_controller::class, 'index'])->name('master.staff');
 Route::post('master/staff/save', [staff_m_controller::class, 'save'])->name('master.staff.save');
 Route::post('master/staff/delete_or_restore', [staff_m_controller::class, 'delete_or_restore'])->name('master.staff.delete_or_restore');
-
+Route::post('master/staff/login_info_update', [staff_m_controller::class, 'login_info_update'])->name('master.staff.login_info_update');
 
 
 

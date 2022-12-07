@@ -15,10 +15,10 @@
 
         
         
-        <div class="col-6 col-md-4 col-xl-3 p-3 menu_btn">
+        <div class="col-6 col-md-4 col-xl-3 p-3 ">
             <a href="{{ route('master.index') }}">
               
-                <div class="bg-dark rounded-lg text-light p-2 menu-btn">
+                <div class="bg-dark rounded-lg text-light p-2 ">
                     <i class="fas fa-coins fa-3x mb-1"></i>
                     <h6>各マスタ</h6>
                 </div>
@@ -27,9 +27,9 @@
 
         
        
-        <div class="col-6 col-md-4 col-xl-3 p-3 menu_btn">
+        <div class="col-6 col-md-4 col-xl-3 p-3 ">
             <a href="{{ route('photoproject.index') }}">
-                <div class="bg-dark rounded-lg text-light p-2 menu-btn">
+                <div class="bg-dark rounded-lg text-light p-2 ">
                     <i class="fas fa-camera fa-3x mb-1"></i>
                     <h6>写真プロジェクト                        
                     </h6>
@@ -38,9 +38,9 @@
         </div>
 
 
-        <div class="col-6 col-md-4 col-xl-3 p-3 menu_btn">
+        <div class="col-6 col-md-4 col-xl-3 p-3 ">
             <a href="{{ route('recruitproject.index') }}">
-                <div class="bg-dark rounded-lg text-light p-2 menu-btn">
+                <div class="bg-dark rounded-lg text-light p-2 ">
                     <i class="fas fa-praying-hands fa-3x mb-1"></i>
                     <h6>リクルートプロジェクト                        
                     </h6>
