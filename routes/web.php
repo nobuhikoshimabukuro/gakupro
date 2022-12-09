@@ -68,10 +68,7 @@ Route::get('photoproject/create_qrcode', [photoproject_controller::class, 'creat
 Route::post('photoproject/create_qrcode_execution', [photoproject_controller::class, 'create_qrcode_execution'])->name('photoproject.create_qrcode_execution');
 Route::get('photoproject/qrcode_download', [photoproject_controller::class, 'qrcode_download'])->name('photoproject.qrcode_download');
 
-
-
-Route::get('photoproject/photo_confirmation', [photoproject_controller::class, 'photo_confirmation'])->name('photoproject.photo_confirmation');
-// Route::post('photoproject/photo_confirmation', [photoproject_controller::class, 'photo_confirmation'])->name('photoproject.photo_confirmation');
+Route::post('photoproject/photo_confirmation', [photoproject_controller::class, 'photo_confirmation'])->name('photoproject.photo_confirmation');
 
 Route::post('photoproject/batch_download', [photoproject_controller::class, 'batch_download'])->name('photoproject.batch_download');
 //写真プロジェクト  End
