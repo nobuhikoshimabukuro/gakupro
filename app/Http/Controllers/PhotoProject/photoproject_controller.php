@@ -412,7 +412,9 @@ class photoproject_controller extends Controller
             if($with_password_flg == 1){
                 return view('photoproject/screen/password_entry', compact('key_code','Cipher'));
             }else{
-                return redirect()->route('photoproject.photo_confirmation', ['key_code' => $key_code , 'Cipher' => $Cipher , 'password' => $photoget_t_info->password]);
+                //パスワード不要のため、そのまま写真表示画面
+                // return redirect()->action([photoproject_controller::class, 'photo_confirmation'],['key_code' => $key_code , 'Cipher' => $Cipher]);
+                return redirect()->route('photoproject.photo_confirmation',['key_code' => $key_code , 'Cipher' => $Cipher]);
             }
             
 
@@ -425,8 +427,8 @@ class photoproject_controller extends Controller
         
     }
 
-    //写真取得用パスワードチェック処理後、確認画面へ遷移
-    function photo_confirmation(Request $request)
+    //写真取得用パスワードチェック処理
+    function password_check(Request $request)
     {
        
         //パスワード入力画面から値取得
@@ -437,15 +439,10 @@ class photoproject_controller extends Controller
 
         //暗号化したkey_codeと送られてきた暗号文が一致していれば正常
         if(!$this->consistency_check($key_code,$Cipher)){
-
             // 暗号文と不一致   不正な処理
             session()->flash('photo_get_password_check_error', 'Qrコードを再読み後パスワードを入力してください。');
             return back();
-
-
-        }    
-
-        
+        }            
 
         //キーコードから日付とコードを取得
         $key_code_split = $this->key_code_split($key_code);
@@ -464,19 +461,8 @@ class photoproject_controller extends Controller
             
             if(count($photoget_t_info) == 1){
 
-                //パスワード認証OK                 
-                $Saved_Folder = $photoget_t_info[0]->saved_folder;
-
-                $UploadFileInfo = array();
-            
-                //get_upload_info関数に必要値を渡して写真のアップロード状況を取得
-                $UploadFileInfo = $this->get_upload_info($date,$Saved_Folder); 
-               
-                //端末判断(PCかそれ以外)
-                $PC_FLG = Common::TerminalCheck($request);
-
-
-                return view('photoproject/screen/photo_confirmation', compact('key_code','Cipher','UploadFileInfo','PC_FLG'));
+                //パスワード認証OK                
+                return redirect()->route('photoproject.photo_confirmation',['key_code' => $key_code , 'Cipher' => $Cipher]);
 
             }elseif(count($photoget_t_info) > 1){
                 //データが複数ある為、CriticalError
@@ -522,6 +508,60 @@ class photoproject_controller extends Controller
         }       
     
     }
+
+    //写真表示画面へ遷移
+    function photo_confirmation(Request $request)
+    {
+            
+        $key_code = $request->key_code;
+
+        $Cipher = $request->Cipher;
+
+        //暗号化したkey_codeと送られてきた暗号文が一致していれば正常
+        if(!$this->consistency_check($key_code,$Cipher)){
+
+            // 暗号文と不一致   不正な処理
+            //エラーメッセージ設定
+            session()->flash('errormessage','Qrチケットを再度読み込んでください。');
+            return redirect()->route('photoproject.info');      
+            
+        }
+       
+     
+
+      
+        //キーコードから日付とコードを取得
+        $key_code_split = $this->key_code_split($key_code);
+        $date = $key_code_split["date"];
+        $code = $key_code_split["code"];
+
+        //日付、コード、パスワードで絞込
+        $photoget_t_info = photoget_t_model::withTrashed()                    
+        ->where('date', '=', $date)  
+        ->where('code', '=', $code)              
+        ->first();
+
+        //パスワード認証が必要かフラグ取得
+        $with_password_flg = $photoget_t_info->with_password_flg;
+
+        // if($with_password_flg == 1){            
+        //     return redirect()->route('photoproject.password_entry', ['key_code' => $key_code , 'Cipher' => $Cipher]); 
+        // }
+                     
+        $Saved_Folder = $photoget_t_info->saved_folder;
+
+        $UploadFileInfo = array();
+    
+        //get_upload_info関数に必要値を渡して写真のアップロード状況を取得
+        $UploadFileInfo = $this->get_upload_info($date,$Saved_Folder); 
+    
+        //端末判断(PCかそれ以外)
+        $PC_FLG = Common::TerminalCheck($request);
+
+        return view('photoproject/screen/photo_confirmation', compact('key_code','Cipher','UploadFileInfo','PC_FLG'));    
+    }
+    
+
 
     //写真一括ダウンロードの為、zipフォルダ作成
     function batch_download(Request $request)

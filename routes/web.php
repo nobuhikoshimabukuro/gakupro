@@ -59,6 +59,7 @@ Route::get('photoproject/photoproject_index', [photoproject_controller::class, '
 Route::get('photoproject/info', [photoproject_controller::class, 'info'])->name('photoproject.info');
 
 Route::get('photoproject/password_entry', [photoproject_controller::class, 'password_entry'])->name('photoproject.password_entry');
+Route::post('photoproject/password_check', [photoproject_controller::class, 'password_check'])->name('photoproject.password_check');
 
 Route::get('photoproject/photo_upload', [photoproject_controller::class, 'photo_upload'])->name('photoproject.photo_upload');
 Route::post('photoproject/photo_upload_execution', [photoproject_controller::class, 'photo_upload_execution'])->name('photoproject.photo_upload_execution');
@@ -68,7 +69,10 @@ Route::post('photoproject/create_qrcode_execution', [photoproject_controller::cl
 Route::get('photoproject/qrcode_download', [photoproject_controller::class, 'qrcode_download'])->name('photoproject.qrcode_download');
 
 
-Route::post('photoproject/photo_confirmation', [photoproject_controller::class, 'photo_confirmation'])->name('photoproject.photo_confirmation');
+
+Route::get('photoproject/photo_confirmation', [photoproject_controller::class, 'photo_confirmation'])->name('photoproject.photo_confirmation');
+// Route::post('photoproject/photo_confirmation', [photoproject_controller::class, 'photo_confirmation'])->name('photoproject.photo_confirmation');
+
 Route::post('photoproject/batch_download', [photoproject_controller::class, 'batch_download'])->name('photoproject.batch_download');
 //写真プロジェクト  End
 

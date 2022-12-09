@@ -12,17 +12,13 @@
 </style>
 <div class="mt-3 text-center container">
     
-    
-
-    
-
     <div class="ajax-msg">
         
     </div>
 
     <div id='PasswordArea' class="">
         
-        <form action="{{ route('photoproject.photo_confirmation') }}" id='ApproveForm' method="post" enctype="multipart/form-data">
+        <form action="{{ route('photoproject.password_check') }}" id='ApproveForm' method="post" enctype="multipart/form-data">
             @csrf                
 
             <input type="hidden" name="key_code" id="" value="{{$key_code}}" class="form-control">
