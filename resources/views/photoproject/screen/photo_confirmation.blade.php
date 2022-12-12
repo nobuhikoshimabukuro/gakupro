@@ -121,13 +121,14 @@ table {
 #InformationButtonArea{
 
     position:absolute;
-	bottom: 10px;
-	right: 10px;
+	bottom: 50vh;
+	right: 50vw;
 	z-index: 100;
-	padding: 40px;
+	padding: 1vh;
 	
-	width: 130px;
-	height:130px;	
+	width: 10vh;
+	height:10vh;	
+background-color: red;
 }
 
 
@@ -156,51 +157,63 @@ table {
 
             @if($PC_FLG)
 
-                <div id="" class="col-2 p-0">
+                <div id="" class="col-3 p-0">
                 </div>
 
 
-                <div id="" class="col-3 text-right p-0">                
+                <div id="" class="col-2 text-left p-0">                
 
                     <button type="button" id="AllDownloadButton" class="btn btn-secondary"            
-                    >一括Download <i class="fas fa-download"></i>
+                    >All DL <i class="fas fa-download"></i>
                     </button> 
 
                 </div>
+                <div id="" class="col-2 text-center m-0 p-0">
 
-                <div id="" class="col-2 p-0">
+                    <button type="button" id="InformationButton" class="btn btn-secondary" data-bs-toggle='modal' data-bs-target='#Information_Modal'>
+                        Info <i class="fas fa-info"></i>
+                    </button>
+
                 </div>
 
 
-                <div id="" class="col-3 text-left p-0">
+                <div id="" class="col-2 text-right p-0">
 
                     <button type="button" id="SelectDownloadButton" class="btn btn-secondary"
                     data-targetpath="{{$UploadFileInfo[0]["PublicPath"]}}"
                     data-filename="{{$UploadFileInfo[0]["FileName"]}}'"
-                    >選択画像Download <i class="fas fa-download"></i>
+                    >Select DL <i class="fas fa-download"></i>
                     </button> 
 
                 </div>
 
-                <div id="" class="col-2 p-0">
+                <div id="" class="col-3 p-0">
                 </div>
 
             @else
 
-                <div id="" class="col-6 text-left m-0 p-0">
+                <div id="" class="col-5 text-left m-0 p-0">
 
                     <button type="button" id="AllDownloadButton" class="btn btn-secondary MobileButton"            
-                    >一括Download <i class="fas fa-download"></i>
+                    >All DL <i class="fas fa-download"></i>
                     </button> 
 
                 </div>
 
-                <div id="" class="col-6 text-right m-0 p-0">
+                <div id="" class="col-2 text-center m-0 p-0">
+
+                    <button type="button" id="InformationButton" class="" data-bs-toggle='modal' data-bs-target='#Information_Modal'>
+                        <i class="fas fa-info"></i>
+                    </button>
+
+                </div>
+
+                <div id="" class="col-5 text-right m-0 p-0">
 
                     <button type="button" id="SelectDownloadButton" class="btn btn-secondary MobileButton"
                     data-targetpath="{{$UploadFileInfo[0]["PublicPath"]}}"
                     data-filename="{{$UploadFileInfo[0]["FileName"]}}'"
-                    >選択画像Download <i class="fas fa-download"></i>
+                    >Select DL <i class="fas fa-download"></i>
                     </button> 
 
                 </div>        
@@ -237,16 +250,25 @@ table {
     </div>
 
 
-    <div id="InformationButtonArea">
+    {{-- <div id="InformationButtonArea">
 
-        <button type="button">
-            インフォメーション
-        </button>
+        <div id="up-area" style="text-align: center;">
+            <i id="up" class="fas fa-arrow-up"></i>
+        </div>
 
-        <button type="button" id="InformationButton" class="" data-bs-toggle='modal' data-bs-target='#Information_Modal'>
-            <i class="fas fa-mobile-alt"></i>
-        </button>
-    </div>
+        <div id="center-area" style="text-align: center;">
+            <i id="left" class="fas fa-arrow-left"></i>            
+            <button type="button" id="InformationButton" class="" data-bs-toggle='modal' data-bs-target='#Information_Modal'>
+                <i class="fas fa-info"></i>
+            </button>
+            <i id="right" class="fas fa-arrow-right"></i>
+            
+        </div>
+
+        <div id="down-area" style="text-align: center;">
+            <i id="down" class="fas fa-arrow-down"></i>
+        </div>     
+    </div> --}}
 
 
     {{-- インフォメーションモーダル --}}
@@ -260,9 +282,8 @@ table {
                 </div>
 
                 <div class="modal-body">  
-
-                    
-                    
+                    iPhoneをご利用の方                    
+                    .....
 
                 </div>
 
