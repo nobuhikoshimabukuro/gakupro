@@ -38,7 +38,7 @@ class photoproject_controller extends Controller
     //お客様用エラー画面
     function info(Request $request)
     {        
-        return view('photoproject/screen/info');        
+        return view('photoproject/screen/info');
     }
 
 
@@ -320,6 +320,17 @@ class photoproject_controller extends Controller
         
     }
 
+    
+
+    function qr_announce_transition(Request $request)
+    {
+        return redirect()->route('photoproject.qr_announce');
+    }
+
+    function qr_announce(Request $request)
+    {
+        return view('photoproject/screen/qr_announce');    
+    }
 
     //写真取得用パスワード入力画面 or 写真アップロード画面への遷移先分岐
     function password_entry(Request $request)
@@ -704,7 +715,9 @@ class photoproject_controller extends Controller
 
         } catch (Exception $e) {
 
-            $m =  $e->getMessage();
+            $error_message =  $e->getMessage();
+
+            Log::channel('error_log')->info("画像アップロードエラー【key_code:" . $key_code ."】" . $error_message);
 
             $ResultArray = array(
                 "Result" => "error",

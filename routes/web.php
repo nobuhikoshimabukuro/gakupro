@@ -69,6 +69,8 @@ Route::post('photoproject/create_qrcode_execution', [photoproject_controller::cl
 Route::get('photoproject/qrcode_download', [photoproject_controller::class, 'qrcode_download'])->name('photoproject.qrcode_download');
 
 Route::post('photoproject/photo_confirmation', [photoproject_controller::class, 'photo_confirmation'])->name('photoproject.photo_confirmation');
+Route::get('photoproject/photo_confirmation', [photoproject_controller::class, 'qr_announce_transition'])->name('photoproject.qr_announce_transition');
+Route::get('photoproject/qr_announce', [photoproject_controller::class, 'qr_announce'])->name('photoproject.qr_announce');
 
 Route::post('photoproject/batch_download', [photoproject_controller::class, 'batch_download'])->name('photoproject.batch_download');
 //写真プロジェクト  End

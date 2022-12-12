@@ -19,7 +19,8 @@ html,body{
     */
     background-color: rgb(248, 248, 247);
 
-    position: relative
+    position: relative;
+    
 }
 
 
@@ -116,14 +117,21 @@ table {
     padding: 2px;
 }
 
-#InformationButton{
 
-    position: fixed; /* 要素の位置を固定する */
-    top: 0; /* 基準の位置を画面の一番下に指定する */
-    left: 0; /* 基準の位置を画面の一番右に指定する */
-    border: none;
-    outline: none;
-    background: transparent;
+#InformationButtonArea{
+
+    position:absolute;
+	bottom: 10px;
+	right: 10px;
+	z-index: 100;
+	padding: 40px;
+	
+	width: 130px;
+	height:130px;	
+}
+
+
+#InformationButton{
 
 }
 
@@ -229,9 +237,16 @@ table {
     </div>
 
 
-    {{-- <button type="button" id="InformationButton" class="" data-bs-toggle='modal' data-bs-target='#Information_Modal'>
-        <i class="fas fa-mobile-alt"></i>スマートフォンの方へ
-    </button> --}}
+    <div id="InformationButtonArea">
+
+        <button type="button">
+            インフォメーション
+        </button>
+
+        <button type="button" id="InformationButton" class="" data-bs-toggle='modal' data-bs-target='#Information_Modal'>
+            <i class="fas fa-mobile-alt"></i>
+        </button>
+    </div>
 
 
     {{-- インフォメーションモーダル --}}
@@ -328,6 +343,43 @@ $(function(){
         $('#PhotoSelectArea').outerHeight(vh * PhotoSelectArea_vh);
     }
    
+
+
+    var _isMoving = false; //移動中かどうかのフラグ true:移動中 false:停止中
+    var _clickX,  _clickY; //クリックされた位置
+    var _position;         //クリックされた時の要素の位置
+
+    //mousedownイベント
+    $("#InformationButtonArea").on("mousedown", function(e) {
+      if (_isMoving) return; //移動中の場合は処理しない
+
+      _isMoving = true; //移動中にする
+
+      //クリックされた座標を保持します
+      _clickX = e.screenX;
+      _clickY = e.screenY;
+
+      //クリックされた時の要素の座標を保持します
+      _position = $("#InformationButtonArea").position();
+    });
+
+    //mousemoveイベント
+    $("#Main").on("mousemove", function(e) {
+      if (_isMoving == false) return; //移動中でない場合は処理しない
+
+      //クリックされた時の要素の座標に、移動量を加算したものを、座標として設定します
+      $("#InformationButtonArea").css("left", (_position.left + e.screenX - _clickX) + "px");
+      $("#InformationButtonArea").css("top" , (_position.top  + e.screenY - _clickY) + "px");
+    });
+
+    //mouseupイベント
+    $("#InformationButtonArea").on("mouseup", function(e) {
+      if (_isMoving == false) return; //移動中でない場合は処理しない
+
+      _isMoving = false; //停止中にする
+    });
+
+
 
     $(".PhotoButton").on('click',function(e){
         
