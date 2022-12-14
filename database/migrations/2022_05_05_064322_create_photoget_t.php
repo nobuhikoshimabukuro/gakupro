@@ -61,6 +61,11 @@ return new class extends Migration
                 ->comment('QRチケットファイル名');
 
             $table
+                ->string('url', 100)
+                ->nullable()
+                ->comment('作成されたurl');
+
+            $table
                 ->dateTime('created_at')
                 ->default(DB::raw('CURRENT_TIMESTAMP'))
                 ->comment('作成日時:自動生成');

@@ -153,24 +153,6 @@ class photoproject_controller extends Controller
                 $Qr_ImageName = 'QrCode_'.$date.$code .'.png';
                 $Qr_TicketName = 'QrTicket_'.$date.$code .'.png';            
 
-                //photoget_tにデータ作成
-                photoget_t_model::create(
-                    [
-                        "date" => $date
-                        ,"code" => $code
-                        ,"password" => $password
-                        ,"with_password_flg" => $with_password_flg
-                        ,"saved_folder" => $saved_folder
-                        ,"name1" => $Qr_ImageName
-                        ,"name2" => $Qr_TicketName
-                    ]
-                );            
-
-                //get_path_info関数で各階層情報を取得
-                $Saved_Path_Info = $this->get_path_info($date);   
-
-            //Qrコード作成から保存  Start
-
                 $key_code = $date . $code;
 
                 //key_codeを暗号化
@@ -187,6 +169,27 @@ class photoproject_controller extends Controller
                     }
                     
                 }
+
+                //photoget_tにデータ作成
+                photoget_t_model::create(
+                    [
+                        "date" => $date
+                        ,"code" => $code
+                        ,"password" => $password
+                        ,"with_password_flg" => $with_password_flg
+                        ,"saved_folder" => $saved_folder
+                        ,"name1" => $Qr_ImageName
+                        ,"name2" => $Qr_TicketName
+                        ,"url" => $url
+                    ]
+                );            
+
+                //get_path_info関数で各階層情報を取得
+                $Saved_Path_Info = $this->get_path_info($date);   
+
+            //Qrコード作成から保存  Start
+
+              
 
                 //設定したUrlでQrコード作成
                 $Create_Qr_Image = QrCode::size(150)->format('png')->generate($url);
@@ -515,14 +518,14 @@ class photoproject_controller extends Controller
                     //日付、コードのみで絞り込んでもデータ取れていない場合は異常
                     //※※※※※※※※※※※※※※※※※※※
 
-                    session()->flash('photo_get_password_check_error', 'Qrコードを再読み後パスワードを入力してください。');
+                    session()->flash('photo_get_password_check_error', 'Qrコードを再読みしてください。');
                     return back();
                 }               
             }
 
         } catch (Exception $e) {
 
-            session()->flash('photo_get_password_check_error', 'Qrコードを再読み後パスワードを入力してください。');
+            session()->flash('photo_get_password_check_error', 'Qrコードを再読みしてください。');
             return back();       
 
         }       

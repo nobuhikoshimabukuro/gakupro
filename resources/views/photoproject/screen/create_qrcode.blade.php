@@ -158,7 +158,9 @@
                             <th>日付</th>            
                             <th>コード</th>
                             <th>パスワード</th>
-                            <th>フォルダ名</th>
+                            <th>UP or DL</th>
+                            <th>パスワード有</th>
+                            
                             {{-- <th>QrCode名</th>
                             <th>チケット名</th>                     --}}
                         </tr>
@@ -169,9 +171,19 @@
                                 <td>{{$info->display_date}}</td>
                                 <td>{{$info->code}}</td>
                                 <td>{{$info->password}}</td>                        
-                                <td>{{$info->saved_folder}}</td>
-                                {{-- <td>{{$info->name1}}</td>
-                                <td>{{$info->name2}}</td>                     --}}
+                                <td>
+                                    <button type='button' onclick="window.open('{{$info->url}}&upload_flg=1')"><i class="fas fa-upload"></i></button>
+                                    <button type='button' onclick="window.open('{{$info->url}}')"><i class="fas fa-download"></i></i></button>
+                                    
+                                </td>
+                                <td>
+                                    @if($info->saved_folder == 1)
+                                    必要
+                                    @else
+                                    不要
+                                    @endif                                    
+                                </td>
+                               
                             </tr>    
                         @endforeach
 
