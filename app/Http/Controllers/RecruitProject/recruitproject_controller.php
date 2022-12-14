@@ -20,14 +20,14 @@ use App\Models\employer_password_t_model;
 use App\Models\job_information_t_model;
 use App\Models\mailaddresscheck_t_model;
 
+use App\Repositories\GenderList;
+use App\Repositories\AuthorityList;
+use App\Repositories\EmployerDivisionList;
 
 
 use Illuminate\Http\Request;
-
 use Intervention\Image\Facades\Image;
-
 use Illuminate\Support\Facades\DB;
-
 use App\Http\Requests\employer_m_request;
 
 class recruitproject_controller extends Controller
@@ -205,6 +205,8 @@ class recruitproject_controller extends Controller
         }
 
 
+        
+
         $employer_id = session()->get('employer_id');
 
         $employer_info = employer_m_model::
@@ -243,7 +245,9 @@ class recruitproject_controller extends Controller
             $LoginFlg = 1;
         }
 
-        return view('recruitproject/screen/employer_information_register', compact('mailaddress','employer_info','LoginFlg'));   
+        $employer_division_list = EmployerDivisionList::get();   
+
+        return view('recruitproject/screen/employer_information_register', compact('mailaddress','employer_info','LoginFlg','employer_division_list'));   
 
     }    
   

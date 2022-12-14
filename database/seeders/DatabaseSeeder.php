@@ -130,6 +130,14 @@ class DatabaseSeeder extends Seeder
             [
                 'maincategory_cd' => 3,
                 'subcategory_cd' => 4,
+                'subcategory_name' => '職業訓練校',
+                'display_order' => 3,
+                'created_by' => '9999',
+                'updated_by' => '9999',
+            ],
+            [
+                'maincategory_cd' => 3,
+                'subcategory_cd' => 5,
                 'subcategory_name' => '短期大学',
                 'display_order' => 4,
                 'created_by' => '9999',
@@ -137,7 +145,7 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'maincategory_cd' => 3,
-                'subcategory_cd' => 5,
+                'subcategory_cd' => 6,
                 'subcategory_name' => '大学',
                 'display_order' => 5,
                 'created_by' => '9999',
@@ -166,6 +174,15 @@ class DatabaseSeeder extends Seeder
                 'subcategory_cd' => 3,
                 'subcategory_name' => '個人事業主',
                 'display_order' => 3,
+                'created_by' => '9999',
+                'updated_by' => '9999',
+            ],
+
+            [
+                'maincategory_cd' => 4,
+                'subcategory_cd' => 4,
+                'subcategory_name' => 'その他',
+                'display_order' => 4,
                 'created_by' => '9999',
                 'updated_by' => '9999',
             ],
@@ -221,6 +238,42 @@ class DatabaseSeeder extends Seeder
             ],   
 
         ]);     
+
+
+        DB::table('employer_m')->insert([
+            
+            [   
+                'employer_id' => '1',             
+                'employer_division' => '3',
+                'employer_name' => '遊遊craft',
+                'employer_name_kana' => 'ユウユウクラフト',
+                'post_code' => '9040000',
+                'address1' => '沖縄県西原町1111',
+                'address2' => 'ユウユウビル　102',
+                'tel' => '098-000-0000',
+                'fax' => '098-111-1111',
+                'hp_url' => 'https://www.yahoo.co.jp/',
+                'mailaddress' => 'test@gmail.com',
+                'remarks' => '業種：生産業（家具作り）やWebシステム構築',
+                'created_by' => '9999',
+                'updated_by' => '9999',
+            ],          
+
+        ]);    
+
+        DB::table('employer_password_t')->insert([
+            
+            [   
+                'employer_id' => '1',             
+                'login_id' => '1',
+                'password' => '1',                
+                'created_by' => '9999',
+                'updated_by' => '9999',
+            ],          
+
+        ]);   
+
+
 
 
         DB::table('school_m')->insert([

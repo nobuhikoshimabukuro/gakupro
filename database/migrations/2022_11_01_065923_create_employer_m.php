@@ -35,6 +35,7 @@ return new class extends Migration
 
             $table
                 ->string('employer_name_kana', 300)
+                ->nullable()
                 ->comment('雇用者名カナ');
                 
             $table

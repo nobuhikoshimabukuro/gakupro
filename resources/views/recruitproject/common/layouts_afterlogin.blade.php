@@ -53,7 +53,7 @@
     </nav>
 
 @yield('content')
-@include('common.footer')
+
 <script src="{{ asset('js/bootstrap.js') }}"></script>
 <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('js/app.js') }}"></script>
@@ -61,6 +61,6 @@
 
 
 @yield('pagejs')
-{{-- @include('common.footer') --}}
 </body>
+@include('common.footer')
 </html>

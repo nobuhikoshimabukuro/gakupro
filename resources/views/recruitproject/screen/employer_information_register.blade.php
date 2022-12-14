@@ -81,6 +81,23 @@
 
             <div class="row div-Area">
                 <div class="col-sm-3 col-xs-12 label-Area">   
+                    <label for="employer_division">雇用者区分</label>                
+                    <div class="Required">必須</div>                              
+                </div>
+
+                <div class="col-sm-9 col-xs-12 input-Area">   
+                    <select id='employer_division' name='employer_division' class='form-control input-sm'>
+                            @foreach($employer_division_list as $item)
+                                <option value="{{$item->employer_category_cd}}" @if(($LoginFlg == 1) && ($item->employer_division == $employer_info->employer_division)) selected @endif>
+                                    {{$item->employer_division_name}}
+                                </option>
+                            @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="row div-Area">
+                <div class="col-sm-3 col-xs-12 label-Area">   
                     <label for="employer_name">雇用者名</label>                
                     <div class="Required">必須</div>                              
                 </div>
@@ -145,7 +162,7 @@
 
             <div class="row div-Area">
                 <div class="col-sm-3 col-xs-12 label-Area">   
-                    <label for="post_code">郵便番号</label>                      
+                    <label for="post_code">郵便番号(数字のみ)</label>                      
                     <button type="button" id="AddressSearchButton" class=""><i class="fas fa-search"></i></button>
                 </div>
 
@@ -279,11 +296,11 @@ $(function(){
 
         var post_code = $('input[name="post_code"]').val();
 		
-
-		if((post_code).length != 7){
+        
+		if(!$.isNumeric(post_code)){
 
 			let errorsHtml = '<div class="alert alert-danger text-left">';			
-			errorsHtml += '<li>郵便番号は数字７桁で入力してください</li>';
+			errorsHtml += '<li>郵便番号は数字7桁で入力してください</li>';
 			errorsHtml += '</div>';
 				
 			//{{-- アラート --}}
@@ -307,7 +324,7 @@ $(function(){
                 message += "\n"
                 message += "住所1に検索処理にて取得した住所が上書きされます。"
                 message += "\n"
-                message += "住所検索を実行実行しますか？"
+                message += "住所検索を実行しますか？"
 
             if (confirm(message)) {
                 $('input[name="address1"]').val(""); 
