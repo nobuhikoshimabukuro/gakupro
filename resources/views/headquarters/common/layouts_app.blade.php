@@ -38,7 +38,7 @@
                         <input type="checkbox" id="target1" class="switch1" />
                         <!-- ↓↓最初隠したいコンテンツ↓↓ -->
                         <div class="content">
-                            <a class="nav-link dropdown-item" href="{{ route('headquarters.index') }}">Top</a>
+                            <a class="nav-link dropdown-item" href="{{ route('headquarters.index') }}">管理Top</a>
                             <a class="nav-link dropdown-item" href="{{ route('master.index') }}">マスタ一覧</a>                          
                         </div>
                         <!-- ↑↑最初隠したいコンテンツ ↑↑-->
@@ -49,10 +49,8 @@
                         <input type="checkbox" id="target2" class="switch2" />
                         <!-- ↓↓最初隠したいコンテンツ↓↓ -->
                         <div class="content">
-                            <a class="nav-link dropdown-item" href="{{ route('photoproject.index') }}">Top</a>
-                            <a class="nav-link dropdown-item" href="{{ route('photoproject.create_qrcode') }}">QRコード作成</a>                    
-                            <a class="nav-link dropdown-item" href="{{ route('photoproject.password_entry', ['upload_flg' => '1']) }}">写真アップロード</a>
-                            <a class="nav-link dropdown-item" href="{{ route('photoproject.password_entry') }}">写真取得画面</a>  
+                            <a class="nav-link dropdown-item" href="{{ route('photoproject.index') }}">フォトプロTop</a>
+                            <a class="nav-link dropdown-item" href="{{ route('photoproject.create_qrcode') }}">QRコード管理画面</a>                                                
                         </div>
                         <!-- ↑↑最初隠したいコンテンツ ↑↑-->
                     </div>
@@ -62,7 +60,9 @@
                         <input type="checkbox" id="target3" class="switch2" />
                         <!-- ↓↓最初隠したいコンテンツ↓↓ -->
                         <div class="content">
-                            <a class="nav-link dropdown-item" href="{{ route('recruitproject.index') }}">Top</a>                            
+                            <a class="nav-link dropdown-item" href="{{ route('recruitproject.index') }}">リクプロTop</a>
+                            <a class="nav-link dropdown-item" href="{{ route('recruitproject.login') }}">雇用者ログイン画面</a>
+                            <a class="nav-link dropdown-item" href="{{ route('recruitproject.mailaddress_temporary_registration') }}">新規登録画面</a>
                         </div>
                         <!-- ↑↑最初隠したいコンテンツ ↑↑-->
                     </div>

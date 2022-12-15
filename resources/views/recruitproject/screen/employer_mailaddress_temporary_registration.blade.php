@@ -67,28 +67,46 @@
 $(function(){
 
 
-    
+    $(document).ready(function () {        
+        $('#mailaddress').focus();
+    });
     
 
     $("#SendMailForm").keypress(function(e) {
-        if(e.which == 13) {
-            return false;
+        if(e.which == 13) {            
+            // 判定
+            if( document.getElementById("SendMailButton") == document.activeElement ){
+                
+                SendMail();
+            
+            }else if( document.getElementById("mailaddress") == document.activeElement ){
+
+                $('#SendMailButton').focus();
+                return false;         
+            }else{
+                return false;
+            }            
         }
     });
 
 
-
     $(document).on("click", "#SendMailButton", function (e) {
+        SendMail();
+    });
 
 
-         //{{-- メッセージクリア --}}
-         $('#Message-Area').html('');
+
+    function SendMail(){
+
+    //{{-- メッセージクリア --}}
+    $('#Message-Area').html('');
         $('.is-invalid').removeClass('is-invalid');
 
         var mailaddress = $("#mailaddress").val();        
 
         if(mailaddress == ""){
-            $("#mailaddress").addClass("is-invalid");                  
+            $("#mailaddress").addClass("is-invalid");   
+            $('#mailaddress').focus();               
             return false;
         }
         
@@ -183,8 +201,12 @@ $(function(){
             });
 
 
-    });
-    
+    }
+
+
+
+
+ 
 
     
 

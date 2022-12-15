@@ -64,13 +64,26 @@
 $(function(){
 
 
+    $(document).ready(function () {        
+        $('#password').focus();
+    });
+
     
 
     $("#ApproveForm").keypress(function(e) {
 
-        if(e.which == 13) {
+        if(e.which == 13) {            
             // 判定
-            if( document.getElementById("ApproveButton") != document.activeElement ){            
+            if( document.getElementById("ApproveButton") == document.activeElement ){
+                
+                PasswordCheckProcess();         
+
+            }else if( document.getElementById("password") == document.activeElement ){
+
+                $('#ApproveButton').focus();
+                return false;
+
+            }else{
                 return false;
             }            
         }
@@ -78,22 +91,24 @@ $(function(){
 
     
     $('#ApproveButton').click(function () {
+        PasswordCheckProcess();  
+
+    });
+
+    function PasswordCheckProcess(){
 
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        
+
         var password = $("#password").val();
-       
-      
+
         if(password == ""){            
             $("#password").addClass("is-invalid");            
             return false;
         }
 
-
-        
         //{{-- マウスカーソルを待機中に --}}         
         document.body.style.cursor = 'wait';
 
@@ -102,11 +117,11 @@ $(function(){
         // 保存tを押したらdisabled, 10秒後にenable
         $(this).prop("disabled", true);
 
-      
+
         // 確認画面へ画面遷移
         $('#ApproveForm').submit(); 
 
-    });
+    }
 
 
         

@@ -1,7 +1,7 @@
-@extends('photoproject.common.layouts_management')
+@extends('headquarters.common.layouts_app')
 
 @section('pagehead')
-@section('title', 'QRコード作成画面')  
+@section('title', 'QRコード管理画面')  
 @endsection
 @section('content')
 

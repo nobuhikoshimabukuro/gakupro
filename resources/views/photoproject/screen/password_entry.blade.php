@@ -16,13 +16,14 @@
         
     </div>
 
-    <div id='PasswordArea' class="">
         
-        <form action="{{ route('photoproject.photo_confirmation') }}" id='ApproveForm' method="post" enctype="multipart/form-data">
-            @csrf                
+    <form action="{{ route('photoproject.photo_confirmation') }}" id='ApproveForm' method="post" enctype="multipart/form-data">
+        @csrf
 
-            <input type="hidden" name="key_code" id="" value="{{$key_code}}" class="form-control">
-            <input type="hidden" name="Cipher" id="" value="{{$Cipher}}" class="form-control">
+        <input type="hidden" name="key_code" id="" value="{{$key_code}}" class="form-control">
+        <input type="hidden" name="Cipher" id="" value="{{$Cipher}}" class="form-control">
+
+        <div class="row">                    
 
             <div class="row">                    
 
@@ -33,14 +34,17 @@
                     <input type="password" name="password" id="password" value="" class="form-control text-right">
                 </div>
 
+               
                 <div class="col-4 text-left">
                     <button type="button" id='ApproveButton' class="btn btn-secondary">GO</button>
-                </div>      
+                </div>         
 
             </div>          
-
+            
+            
+                                
             @if(session('photo_get_password_check_error'))
-        
+    
                 <div class="row"> 
                     <div class="col-12 text-center">
                             {{session('photo_get_password_check_error')}}  
@@ -49,11 +53,12 @@
                 </div> 
 
             @endif
+            
 
-        </form>
-        
-    </div>
-   
+        </div>      
+
+
+    </form>
     
 </div>
 @endsection
@@ -64,20 +69,35 @@
 $(function(){
 
 
+    $(document).ready(function () {        
+        $('#password').focus();
+    });
+
+    
     $("#ApproveForm").keypress(function(e) {
 
-        if(e.which == 13) {
+        if(e.which == 13) {            
             // 判定
-            if( document.getElementById("ApproveButton") != document.activeElement ){            
+            if( document.getElementById("ApproveButton") == document.activeElement ){
+                
+                PasswordCheckProcess();            
+        
+            }else if( document.getElementById("password") == document.activeElement ){
+
+                $('#ApproveButton').focus();
+                return false;
+
+            }else{
                 return false;
             }            
         }
-
+    });    
+    
+    $('#ApproveButton').click(function () {        
+        PasswordCheckProcess();
     });
 
-
-
-    $('#ApproveButton').click(function () {
+    function PasswordCheckProcess(){
 
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
@@ -103,7 +123,10 @@ $(function(){
         // 確認画面へ画面遷移
         $('#ApproveForm').submit(); 
 
-    });
+    }
+
+
+
 
 
 

@@ -1,7 +1,7 @@
-@extends('photoproject.common.layouts_management')
+@extends('headquarters.common.layouts_app')
 
 @section('pagehead')
-@section('title', 'メニュー')  
+@section('title', 'フォトプロメニュー')  
 @endsection
 @section('content')
 
@@ -20,7 +20,7 @@
             <a href="{{ route('photoproject.create_qrcode') }}">
                 <div class="bg-dark rounded-lg text-light p-2 ">                    
                     <i class="fas fa-qrcode fa-3x mb-1"></i>
-                    <h6>QRコード作成</h6>
+                    <h6>QRコード管理画面</h6>
                 </div>
             </a>
         </div>      

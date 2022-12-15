@@ -78,70 +78,78 @@ $(function(){
 
 
     
-    $("#ApproveForm").keypress(function(e) {
-
-        if(e.which == 13) {
-            // 判定
-            if( document.getElementById("ApproveButton") != document.activeElement ){            
-                return false;
-            }            
-        }
-    });
-
-
-
-    $("#ApproveForm").keypress(function(e) {
-        if(e.which == 13) {
-            return false;
-        }
+    $(document).ready(function () {        
+        $('#login_id').focus();
     });
 
     
-    $('#ApproveButton').click(function () {
+    $("#ApproveForm").keypress(function(e) {
 
-        //{{-- メッセージクリア --}}
-        $('.ajax-msg').html('');
+        if(e.which == 13) {            
+            // 判定
+            if( document.getElementById("ApproveButton") == document.activeElement ){
+                
+                LoginProcess();
+            
+            }else if( document.getElementById("login_id") == document.activeElement ){
+
+                $('#password').focus();
+                return false;
+
+            }else if( document.getElementById("password") == document.activeElement ){
+
+                $('#ApproveButton').focus();
+                return false;
+
+            }else{
+                return false;
+            }            
+        }
+    });    
+    
+    $('#ApproveButton').click(function () {        
+        LoginProcess();
+    });
+
+
+    function LoginProcess(){
+
+       //{{-- メッセージクリア --}}
+       $('.ajax-msg').html('');
         $('.is-invalid').removeClass('is-invalid');
 
         var login_id = $("#login_id").val();
         var password = $("#password").val();
         var Judge = true;
 
-        if(login_id == ""){
-            Judge = false;
-
-            $("#login_id").addClass("is-invalid");
-                  
-            
-        }
-
-
         if(password == ""){
+            $('#password').focus();
             Judge = false;
             $("#password").addClass("is-invalid");            
         }
 
-
-        if(!Judge){
-            
-            return false;
+        if(login_id == ""){
+            $('#login_id').focus();
+            Judge = false;
+            $("#login_id").addClass("is-invalid");                              
         }
 
+
+        if(!Judge){
+            return false;
+        }
         
         //{{-- マウスカーソルを待機中に --}}         
         document.body.style.cursor = 'wait';
-
 
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
         $(this).prop("disabled", true);
 
-      
         // 確認画面へ画面遷移
         $('#ApproveForm').submit(); 
 
-    });
-
+    }
 
         
 

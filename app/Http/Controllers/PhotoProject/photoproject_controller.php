@@ -42,12 +42,6 @@ class photoproject_controller extends Controller
     }
 
 
-    
-    function photoproject_index(Request $request)
-    {        
-        return view('photoproject/screen/index');        
-    }
-
     //QRコード作成画面遷移
     function create_qrcode(Request $request)
     {       

@@ -12,7 +12,10 @@
 </style>
 <div class="mt-3 text-center container">
     
-    
+    <div class="ajax-msg">
+        
+    </div>
+
     <form action="{{ route('headquarters.login_password_check') }}" id='ApproveForm' method="post" enctype="multipart/form-data">
         @csrf
         <div class="row">                    
@@ -22,7 +25,7 @@
                     <label for="" class="col-form-label OriginalLabel">ログインID</label>
                 </div>
                 <div class="col-4">                    
-                    <input type="text" name="login_id" id="login_id" value="" class="form-control text-right">
+                    <input type="text" name="login_id" id="login_id" value="" class="form-control text-right input_number_only">
                 </div>
 
                 <div class="col-4 text-left">                    
@@ -60,36 +63,54 @@
 
         </div>      
 
-        {{-- @php phpinfo() @endphp --}}
-        
-        
-
 
     </form>
     
+    <div class="col-6 col-md-4 col-xl-3 p-3 ">
+        <a href="{{ route('headquarters.test') }}">
+            <div class="bg-dark rounded-lg text-light p-2 ">                    
+                <i class="fas fa-qrcode fa-3x mb-1"></i>
+                <h6>test</h6>
+            </div>
+        </a>
+    </div>      
+
 </div>
 @endsection
 
 @section('pagejs')
-<script src="{{ asset('js/common.js') }}"></script>
+
 <script type="text/javascript">
 
 $(function(){
 
+    $(document).ready(function () {        
+        $('#login_id').focus();
+    });
 
     
     $("#ApproveForm").keypress(function(e) {
 
         if(e.which == 13) {            
             // 判定
-            if( document.getElementById("ApproveButton") != document.activeElement ){                            
-                return false;
-            }else{
-
+            if( document.getElementById("ApproveButton") == document.activeElement ){
+                
                 LoginProcess();
+            
+            }else if( document.getElementById("login_id") == document.activeElement ){                
+                $('#password').focus();
+                return false;
 
+            }else if( document.getElementById("password") == document.activeElement ){
+
+                $('#ApproveButton').focus();
+                return false;
+
+            }else{
+                return false;
             }            
         }
+
     });    
     
     $('#ApproveButton').click(function () {        
@@ -107,16 +128,20 @@ $(function(){
         var password = $("#password").val();
         var Judge = true;
 
+        if(password == ""){
+            $('#password').focus();
+            Judge = false;
+            $("#password").addClass("is-invalid");            
+        }
+
         if(login_id == ""){
+            $('#login_id').focus();
             Judge = false;
             $("#login_id").addClass("is-invalid");                              
         }
 
 
-        if(password == ""){
-            Judge = false;
-            $("#password").addClass("is-invalid");            
-        }
+       
 
         if(!Judge){
             return false;
@@ -134,8 +159,33 @@ $(function(){
 
     }
 
+    
 
+
+      
+
+    // $('#login_id').change(function() {
+    //     $('#login_id').val(test($('#login_id').val()));
+    // });
+
+    // function test(before_value){
         
+    //     var after_value = '';
+
+    //     var before_value_array = before_value.toLowerCase().split('');
+
+    //     $.each(before_value_array, function (key, value) {
+			
+    //         if (($.isNumeric(value))) {
+		
+    //             after_value = after_value.toString() + value.toString();
+    //         }
+
+					
+	// 	});
+
+    //     return after_value;
+    // }
 
 
 });

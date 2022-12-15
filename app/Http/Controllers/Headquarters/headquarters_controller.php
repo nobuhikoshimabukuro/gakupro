@@ -13,21 +13,6 @@ use App\Models\staff_password_t_model;
 
 class headquarters_controller extends Controller
 {
-
-    function index()
-    {        
-       
-         //Session確認処理        
-         if(!Common::SessionConfirmation()){
-            //Session確認で戻り値が(true)時は管理のTop画面に遷移
-            return redirect(route('headquarters.login'));            
-        }
-
-        return view('headquarters/screen/index');
-    }
-
-
-
     function login()
     {        
        
@@ -107,16 +92,63 @@ class headquarters_controller extends Controller
 
     }
 
-
-
-    function master_index()
+    function index()
     {        
-        return view('headquarters/screen/master/index');
+        //Session確認処理        
+        if(!Common::SessionConfirmation()){
+            //Session確認で戻り値が(true)時は管理のTop画面に遷移
+            return redirect(route('headquarters.login'));            
+        }
+
+        return view('headquarters/screen/top');
     }     
 
 
 
+    function master_index()
+    {        
+        //Session確認処理        
+        if(!Common::SessionConfirmation()){
+            //Session確認で戻り値が(true)時は管理のTop画面に遷移
+            return redirect(route('headquarters.login'));            
+        }
 
+        return view('headquarters/screen/master/index');
+    }     
+
+    
+    function photoproject_index()
+    {        
+        //Session確認処理        
+        if(!Common::SessionConfirmation()){
+            //Session確認で戻り値が(true)時は管理のTop画面に遷移
+            return redirect(route('headquarters.login'));            
+        }
+
+        return view('headquarters/screen/photoproject/index');        
+    }     
+
+
+    function recruitproject_index()
+    {        
+       
+         //Session確認処理        
+         if(!Common::SessionConfirmation()){
+            //Session確認で戻り値が(true)時は管理のTop画面に遷移
+            return redirect(route('headquarters.login'));            
+        }
+
+        return view('headquarters/screen/recruitproject/index');
+    }
+
+
+
+    function test()
+    {        
+     
+
+        return view('headquarters/screen/photoproject/index');        
+    }  
 
 
 

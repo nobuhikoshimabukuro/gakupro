@@ -18,44 +18,43 @@ use App\Http\Controllers\RecruitProject\recruitproject_controller;
 
 
 
+Route::get('test', [headquarters_controller::class, 'test'])->name('headquarters.test');
 
-Route::get('/', [headquarters_controller::class, 'index'])->name('headquarters.index');
-Route::get('login', [headquarters_controller::class, 'login'])->name('headquarters.login');
-Route::get('logout', [headquarters_controller::class, 'logout'])->name('headquarters.logout');
-Route::post('login_password_check', [headquarters_controller::class, 'login_password_check'])->name('headquarters.login_password_check');
-
-
-Route::get('master', [headquarters_controller::class, 'master_index'])->name('master.index');
-// Route::get('photoproject', [headquarters_controller::class, 'photoproject_index'])->name('photoproject.index');
+Route::get('headquarters/top', [headquarters_controller::class, 'index'])->name('headquarters.index');
+Route::get('headquarters/login', [headquarters_controller::class, 'login'])->name('headquarters.login');
+Route::get('headquarters/logout', [headquarters_controller::class, 'logout'])->name('headquarters.logout');
+Route::post('headquarters/login_password_check', [headquarters_controller::class, 'login_password_check'])->name('headquarters.login_password_check');
 
 
-
-Route::get('master/maincategory/', [maincategory_m_controller::class, 'index'])->name('master.maincategory');
-Route::post('master/maincategory/save', [maincategory_m_controller::class, 'save'])->name('master.maincategory.save');
-Route::post('master/maincategory/delete_or_restore', [maincategory_m_controller::class, 'delete_or_restore'])->name('master.maincategory.delete_or_restore');
-
-Route::post('master/maincategory/delete', [maincategory_m_controller::class, 'delete'])->name('master.maincategory.delete');
-Route::post('master/maincategory/restore', [maincategory_m_controller::class, 'restore'])->name('master.maincategory.restore');
-
-Route::get('master/subcategory/', [subcategory_m_controller::class, 'index'])->name('master.subcategory');
-Route::post('master/subcategory/save', [subcategory_m_controller::class, 'save'])->name('master.subcategory.save');
-Route::post('master/subcategory/delete_or_restore', [subcategory_m_controller::class, 'delete_or_restore'])->name('master.subcategory.delete_or_restore');
-
-Route::get('master/staff/', [staff_m_controller::class, 'index'])->name('master.staff');
-Route::post('master/staff/save', [staff_m_controller::class, 'save'])->name('master.staff.save');
-Route::post('master/staff/delete_or_restore', [staff_m_controller::class, 'delete_or_restore'])->name('master.staff.delete_or_restore');
-Route::post('master/staff/login_info_update', [staff_m_controller::class, 'login_info_update'])->name('master.staff.login_info_update');
+Route::get('headquarters/master', [headquarters_controller::class, 'master_index'])->name('master.index');
+Route::get('headquarters/recruitproject', [headquarters_controller::class, 'recruitproject_index'])->name('recruitproject.index');
+Route::get('headquarters/photoproject', [headquarters_controller::class, 'photoproject_index'])->name('photoproject.index');
 
 
+Route::get('headquarters/master/maincategory/', [maincategory_m_controller::class, 'index'])->name('master.maincategory');
+Route::post('headquarters/master/maincategory/save', [maincategory_m_controller::class, 'save'])->name('master.maincategory.save');
+Route::post('headquarters/master/maincategory/delete_or_restore', [maincategory_m_controller::class, 'delete_or_restore'])->name('master.maincategory.delete_or_restore');
 
-Route::get('master/school/', [school_m_controller::class, 'index'])->name('master.school');
-Route::post('master/school/save', [school_m_controller::class, 'save'])->name('master.school.save');
-Route::post('master/school/delete', [school_m_controller::class, 'delete'])->name('master.school.delete');
-Route::post('master/school/restore', [school_m_controller::class, 'restore'])->name('master.school.restore');
+Route::post('headquarters/master/maincategory/delete', [maincategory_m_controller::class, 'delete'])->name('master.maincategory.delete');
+Route::post('headquarters/master/maincategory/restore', [maincategory_m_controller::class, 'restore'])->name('master.maincategory.restore');
+
+Route::get('headquarters/master/subcategory/', [subcategory_m_controller::class, 'index'])->name('master.subcategory');
+Route::post('headquarters/master/subcategory/save', [subcategory_m_controller::class, 'save'])->name('master.subcategory.save');
+Route::post('headquarters/master/subcategory/delete_or_restore', [subcategory_m_controller::class, 'delete_or_restore'])->name('master.subcategory.delete_or_restore');
+
+Route::get('headquarters/master/staff/', [staff_m_controller::class, 'index'])->name('master.staff');
+Route::post('headquarters/master/staff/save', [staff_m_controller::class, 'save'])->name('master.staff.save');
+Route::post('headquarters/master/staff/delete_or_restore', [staff_m_controller::class, 'delete_or_restore'])->name('master.staff.delete_or_restore');
+Route::post('headquarters/master/staff/login_info_update', [staff_m_controller::class, 'login_info_update'])->name('master.staff.login_info_update');
+
+
+
+Route::get('headquarters/master/school/', [school_m_controller::class, 'index'])->name('master.school');
+Route::post('headquarters/master/school/save', [school_m_controller::class, 'save'])->name('master.school.save');
+Route::post('headquarters/master/school/delete', [school_m_controller::class, 'delete'])->name('master.school.delete');
+Route::post('headquarters/master/school/restore', [school_m_controller::class, 'restore'])->name('master.school.restore');
 
 //写真プロジェクト  Start
-
-Route::get('photoproject/photoproject_index', [photoproject_controller::class, 'photoproject_index'])->name('photoproject.index');
 Route::get('photoproject/info', [photoproject_controller::class, 'info'])->name('photoproject.info');
 
 Route::get('photoproject/password_entry', [photoproject_controller::class, 'password_entry'])->name('photoproject.password_entry');
@@ -85,7 +84,7 @@ Route::post('recruitproject/mailaddress_temporary_registration_process', [recrui
 Route::get('recruitproject/mailaddress_approval', [recruitproject_controller::class, 'mailaddress_approval'])->name('recruitproject.mailaddress_approval');
 Route::post('recruitproject/mailaddress_approval_check', [recruitproject_controller::class, 'mailaddress_approval_check'])->name('recruitproject.mailaddress_approval_check');
 
-Route::get('recruitproject', [recruitproject_controller::class, 'index'])->name('recruitproject.index');
+
 
 Route::get('recruitproject/login', [recruitproject_controller::class, 'login'])->name('recruitproject.login');
 Route::get('recruitproject/logout', [recruitproject_controller::class, 'logout'])->name('recruitproject.logout');
@@ -109,5 +108,5 @@ Route::get('recruitproject/job_information_confirmation', [recruitproject_contro
 Route::get('recruitproject/job_information_register', [recruitproject_controller::class, 'job_information_register'])->name('recruitproject.job_information_register');
 
 
-Route::get('recruitproject/test2', [recruitproject_controller::class, 'test2'])->name('recruitproject.test2');
+
 
