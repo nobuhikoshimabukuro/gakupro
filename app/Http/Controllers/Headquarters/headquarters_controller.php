@@ -144,10 +144,8 @@ class headquarters_controller extends Controller
 
 
     function test()
-    {        
-     
-
-        return view('headquarters/screen/photoproject/index');        
+    {
+        return view('test');        
     }  
 
 

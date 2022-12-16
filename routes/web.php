@@ -9,10 +9,16 @@ use App\Http\Controllers\Headquarters\Master\subcategory_m_controller;
 use App\Http\Controllers\Headquarters\Master\school_m_controller;
 use App\Http\Controllers\Headquarters\Master\staff_m_controller;
 
+use App\Http\Controllers\HP\hp_controller;
+
 use App\Http\Controllers\Headquarters\headquarters_controller;
 use App\Http\Controllers\PhotoProject\photoproject_controller;
 use App\Http\Controllers\RecruitProject\recruitproject_controller;
 
+
+
+
+Route::get('/', [hp_controller::class, 'index'])->name('hp.index');
 
 
 

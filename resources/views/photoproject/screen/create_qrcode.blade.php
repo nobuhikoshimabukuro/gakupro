@@ -166,14 +166,24 @@
                         </tr>
             
                         @foreach ($photoget_t_info as $Index =>  $info)
+
+                            @php
+                                $Upload_Url = $info->url . "&upload_flg=1";
+                                $Download_Url = $info->url;
+                            @endphp
                             <tr>
                                 <td>{{$info->id}}</td>
                                 <td>{{$info->display_date}}</td>
                                 <td>{{$info->code}}</td>
                                 <td>{{$info->password}}</td>                        
                                 <td>
-                                    <button type='button' onclick="window.open('{{$info->url}}&upload_flg=1')"><i class="fas fa-upload"></i></button>
-                                    <button type='button' onclick="window.open('{{$info->url}}')"><i class="fas fa-download"></i></i></button>
+
+                                    <button type='button' class="btn btn-secondary CopyButton" 
+                                    data-uploadurl="{{$Upload_Url}}" 
+                                    data-downloadurl="{{$Download_Url}}">Url Copy</button>
+                                    
+                                    <button type='button' onclick="window.open('{{$Upload_Url}}')"><i class="fas fa-upload"></i></button>
+                                    <button type='button' onclick="window.open('{{$Download_Url}}')"><i class="fas fa-download"></i></i></button>
                                     
                                 </td>
                                 <td>
@@ -604,6 +614,33 @@ $(function(){
     });
 
 
+
+    $(".CopyButton").on('click',function(e){
+        
+        var upload_url = $(this).data('uploadurl');
+        var download_url = $(this).data('downloadurl');
+       
+        // テキストエリアのテキストを取得（コピーさせるテキスト）
+       
+
+        var text = "アップロードページ" + "\n" + upload_url + "\n";
+        text += "ダウンロードページ" + "\n" + download_url;
+        // コピーする媒体となるテキストエリアを生成
+        var clipboard = $('<textarea></textarea>');
+        clipboard.text(text);
+        // body直下に一時的に挿入
+        $('body').append(clipboard);
+        // 選択状態にする
+        clipboard.select();
+        // WebExtension APIのブラウザ拡張の仕組みを呼び出しクリップボードにコピー
+        document.execCommand('copy');
+        // 不要なテキストエリアを削除
+        clipboard.remove();
+        // 通知
+        alert('クリップボードにコピーしました');
+       
+
+    });
 
 
 

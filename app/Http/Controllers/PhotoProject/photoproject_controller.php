@@ -212,23 +212,23 @@ class photoproject_controller extends Controller
                 //Qrコードの画像を取得            
                 $QrImage = Image::make($Saved_Path_Info["StoragePath_QrCode"] . $Qr_ImageName);
 
+
+
                 $Position = 'center';
                 $Position_X = 0;
                 $Position_Y = -40;
 
                 $Create_QrTicket->insert($QrImage , $Position , $Position_X , $Position_Y); 
-                
-                
-
+                                
                 $word = 'Pass:' . $password;
                 $Create_QrTicket->text($word, 10, 10, function($font){
-                    $font->size(10);
+                    $font->size(40);
                     $font->color('#f00');
                     // $font->align('center');
                     // $font->valign('top');
                     // $font->angle(45);
                 });
-
+              
                 $Create_QrTicket->save($StoragePath_QrTicket . $Qr_TicketName);
 
             //Qrチケット作成から保存  End
