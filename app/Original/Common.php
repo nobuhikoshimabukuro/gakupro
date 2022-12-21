@@ -172,12 +172,12 @@ class Common
         }
 
      
-        $termina_iInfo = array(            
+        $termina_info = array(            
             "pc_flg" => $pc_flg,
             "terminal" => $terminal,           
         );   
 
-        return $termina_iInfo;
+        return $termina_info;
 
     }
 

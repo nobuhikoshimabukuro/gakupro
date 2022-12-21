@@ -132,12 +132,12 @@ background-color: red;
 }
 
 #languageSelectArea{
-    margin-bottom: 2px;
+    margin-bottom: 4px;
 }
 
 .languageSelectButton , .terminalSelectButton{
     color: rgb(37, 29, 29);
-    border: 1rem;
+    font-weight: 600;
 }
 
 .languageSelectd , .terminalSelectd{
@@ -145,7 +145,7 @@ background-color: red;
     background: -webkit-linear-gradient(top, #c4bcb2, rgb(243, 186, 186));
     background: linear-gradient(to bottom, #e9b46f, rgb(186, 218, 219));
     color: rgb(244, 248, 234);
-    font-weight: 600;
+    font-weight: 750;
 }
 
 
@@ -167,10 +167,10 @@ background-color: red;
 
         <div id="DownloadButtonArea" class="row m-0 p-0">
 
-            <input type="hidden" id="pc_flg" value="{{$termina_iInfo['pc_flg']}}">
-            <input type="hidden" id="terminal" value="{{$termina_iInfo['terminal']}}">
+            <input type="hidden" id="pc_flg" value="{{$termina_info['pc_flg']}}">
+            <input type="hidden" id="terminal" value="{{$termina_info['terminal']}}">
                         
-            @if($termina_iInfo['pc_flg'] == 1)
+            @if($termina_info['pc_flg'] == 1)
                 
                 
 
@@ -302,7 +302,7 @@ background-color: red;
                     </div>
 
 
-                    @if($termina_iInfo['pc_flg'] == 1)
+                    @if($termina_info['pc_flg'] == 1)
 
                         
                         <div id="terminalSelectArea" class="row">

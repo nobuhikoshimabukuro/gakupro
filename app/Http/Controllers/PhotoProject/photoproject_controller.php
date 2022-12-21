@@ -477,9 +477,9 @@ class photoproject_controller extends Controller
                 $UploadFileInfo = $this->get_upload_info($date,$Saved_Folder); 
             
                 //端末情報取得
-                $termina_iInfo = Common::TerminalCheck($request);
+                $termina_info = Common::TerminalCheck($request);
         
-                return view('photoproject/screen/photo_confirmation', compact('key_code','Cipher','UploadFileInfo','termina_iInfo'));  
+                return view('photoproject/screen/photo_confirmation', compact('key_code','Cipher','UploadFileInfo','termina_info'));  
 
             }elseif(count($photoget_t_info) > 1){
                 //データが複数ある為、CriticalError
@@ -630,7 +630,7 @@ class photoproject_controller extends Controller
         try{
 
             //端末情報取得
-            $termina_iInfo = Common::TerminalCheck($request);
+            $termina_info = Common::TerminalCheck($request);
 
             $photoget_t_info = photoget_t_model::withTrashed()
             ->where('date', '=', $date)  
@@ -650,7 +650,7 @@ class photoproject_controller extends Controller
         }   
 
         
-        return view('photoproject/screen/photo_upload', compact('key_code','UploadFileInfo','termina_iInfo'));        
+        return view('photoproject/screen/photo_upload', compact('key_code','UploadFileInfo','termina_info'));        
     }
 
     //写真アップロード処理

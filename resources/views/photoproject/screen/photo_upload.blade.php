@@ -81,7 +81,7 @@ body{
                     
                                 
                         <div id="DropZone">               
-                            @if($PC_FLG)            
+                            @if($termina_info['pc_flg'] == 1)   
                                 <p>ファイルをドラッグ＆ドロップもしくはファイル選択してください。</p>
                                 <p>※複数アップロードする場合は一度に選択してください。</p>      
                             @else
