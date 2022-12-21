@@ -187,7 +187,7 @@
                                     
                                 </td>
                                 <td>
-                                    @if($info->saved_folder == 1)
+                                    @if($info->with_password_flg == 1)
                                     必要
                                     @else
                                     不要

@@ -476,10 +476,10 @@ class photoproject_controller extends Controller
                 //get_upload_info関数に必要値を渡して写真のアップロード状況を取得
                 $UploadFileInfo = $this->get_upload_info($date,$Saved_Folder); 
             
-                //端末判断(PCかそれ以外)
-                $PC_FLG = Common::TerminalCheck($request);
+                //端末情報取得
+                $termina_iInfo = Common::TerminalCheck($request);
         
-                return view('photoproject/screen/photo_confirmation', compact('key_code','Cipher','UploadFileInfo','PC_FLG'));  
+                return view('photoproject/screen/photo_confirmation', compact('key_code','Cipher','UploadFileInfo','termina_iInfo'));  
 
             }elseif(count($photoget_t_info) > 1){
                 //データが複数ある為、CriticalError
@@ -629,8 +629,8 @@ class photoproject_controller extends Controller
 
         try{
 
-            //端末判断(PCかそれ以外)
-            $PC_FLG = Common::TerminalCheck($request);
+            //端末情報取得
+            $termina_iInfo = Common::TerminalCheck($request);
 
             $photoget_t_info = photoget_t_model::withTrashed()
             ->where('date', '=', $date)  
@@ -650,7 +650,7 @@ class photoproject_controller extends Controller
         }   
 
         
-        return view('photoproject/screen/photo_upload', compact('key_code','UploadFileInfo','PC_FLG'));        
+        return view('photoproject/screen/photo_upload', compact('key_code','UploadFileInfo','termina_iInfo'));        
     }
 
     //写真アップロード処理

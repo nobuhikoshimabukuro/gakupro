@@ -131,9 +131,21 @@ table {
 background-color: red;
 }
 
+#languageSelectArea{
+    margin-bottom: 2px;
+}
 
-#InformationButton{
+.languageSelectButton , .terminalSelectButton{
+    color: rgb(37, 29, 29);
+    border: 1rem;
+}
 
+.languageSelectd , .terminalSelectd{
+    background: -moz-linear-gradient(top, #c48123, rgb(160, 189, 30));
+    background: -webkit-linear-gradient(top, #c4bcb2, rgb(243, 186, 186));
+    background: linear-gradient(to bottom, #e9b46f, rgb(186, 218, 219));
+    color: rgb(244, 248, 234);
+    font-weight: 600;
 }
 
 
@@ -155,7 +167,12 @@ background-color: red;
 
         <div id="DownloadButtonArea" class="row m-0 p-0">
 
-            @if($PC_FLG)
+            <input type="hidden" id="pc_flg" value="{{$termina_iInfo['pc_flg']}}">
+            <input type="hidden" id="terminal" value="{{$termina_iInfo['terminal']}}">
+                        
+            @if($termina_iInfo['pc_flg'] == 1)
+                
+                
 
                 <div id="" class="col-3 p-0">
                 </div>
@@ -164,7 +181,7 @@ background-color: red;
                 <div id="" class="col-2 text-left p-0">                
 
                     <button type="button" id="AllDownloadButton" class="btn btn-secondary"            
-                    >All DL <i class="fas fa-download"></i>
+                    ><span id='AllDownloadButton-Text'>全てDL </span><i class="fas fa-download"></i>
                     </button> 
 
                 </div>
@@ -182,7 +199,7 @@ background-color: red;
                     <button type="button" id="SelectDownloadButton" class="btn btn-secondary"
                     data-targetpath="{{$UploadFileInfo[0]["PublicPath"]}}"
                     data-filename="{{$UploadFileInfo[0]["FileName"]}}'"
-                    >Select DL <i class="fas fa-download"></i>
+                    ><span id='SelectDownloadButton-Text'>選択DL </span><i class="fas fa-download"></i>
                     </button> 
 
                 </div>
@@ -192,10 +209,12 @@ background-color: red;
 
             @else
 
+                <input type="hidden" id="PC_FLG" value="0">
+
                 <div id="" class="col-5 text-left m-0 p-0">
 
                     <button type="button" id="AllDownloadButton" class="btn btn-secondary MobileButton"            
-                    >All DL <i class="fas fa-download"></i>
+                    ><span id='AllDownloadButton-Text'>全てDL </span><i class="fas fa-download"></i>
                     </button> 
 
                 </div>
@@ -213,7 +232,7 @@ background-color: red;
                     <button type="button" id="SelectDownloadButton" class="btn btn-secondary MobileButton"
                     data-targetpath="{{$UploadFileInfo[0]["PublicPath"]}}"
                     data-filename="{{$UploadFileInfo[0]["FileName"]}}'"
-                    >Select DL <i class="fas fa-download"></i>
+                    ><span id='SelectDownloadButton-Text'>選択DL </span><i class="fas fa-download"></i>
                     </button> 
 
                 </div>        
@@ -250,26 +269,6 @@ background-color: red;
     </div>
 
 
-    {{-- <div id="InformationButtonArea">
-
-        <div id="up-area" style="text-align: center;">
-            <i id="up" class="fas fa-arrow-up"></i>
-        </div>
-
-        <div id="center-area" style="text-align: center;">
-            <i id="left" class="fas fa-arrow-left"></i>            
-            <button type="button" id="InformationButton" class="" data-bs-toggle='modal' data-bs-target='#Information_Modal'>
-                <i class="fas fa-info"></i>
-            </button>
-            <i id="right" class="fas fa-arrow-right"></i>
-            
-        </div>
-
-        <div id="down-area" style="text-align: center;">
-            <i id="down" class="fas fa-arrow-down"></i>
-        </div>     
-    </div> --}}
-
 
     {{-- インフォメーションモーダル --}}
     <div class="modal fade" id="Information_Modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="Create_Modal_Label" aria-hidden="true">
@@ -281,9 +280,88 @@ background-color: red;
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
+                                
+             
                 <div class="modal-body">  
-                    iPhoneをご利用の方                    
-                    .....
+                    
+                    <div id="languageSelectArea" class="row">
+                        <div id="" class="col-5 text-right m-0 p-0">
+                            <button type="button" id="JapaneseSelect" 
+                            class="btn languageSelectButton"
+                            data-target="1">Japanese</button> 
+                        </div>    
+                        
+                        <div id="" class="col-2 text-right m-0 p-0">
+                        </div>
+
+                        <div id="" class="col-5 text-left m-0 p-0">
+                            <button type="button" id="EnglishSelect" 
+                            class="btn languageSelectButton"
+                            data-target="2">English</button>                             
+                        </div>
+                    </div>
+
+
+                    @if($termina_iInfo['pc_flg'] == 1)
+
+                        
+                        <div id="terminalSelectArea" class="row">
+
+                            <div id="" class="col-5 text-right m-0 p-0">
+                                <button type="button" id="macOSSelect" 
+                                class="btn terminalSelectButton"
+                                data-target="1">macOS</button>                             
+                            </div>
+                            
+                            
+                            <div id="" class="col-2 text-right m-0 p-0">
+                            </div>
+
+                            
+
+                            <div id="" class="col-5 text-left m-0 p-0">
+                                <button type="button" id="windowsSelect" 
+                                class="btn terminalSelectButton"
+                                data-target="2">windows</button> 
+                            </div>  
+
+                        </div>
+
+                    @else
+
+                        <div id="terminalSelectArea" class="row">
+
+                            <div id="" class="col-5 text-right m-0 p-0">
+                                <button type="button" id="iOSSelect" 
+                                class="btn terminalSelectButton"
+                                data-target="1">iOS</button>                             
+                            </div>
+                            
+                            <div id="" class="col-2 text-right m-0 p-0">
+                            </div>
+
+                            <div id="" class="col-5 text-left m-0 p-0">
+                                <button type="button" id="AndroidSelect" 
+                                class="btn terminalSelectButton"
+                                data-target="2">Android</button> 
+                            </div>    
+                            
+                           
+
+                        </div>
+
+                    @endif
+                   
+
+                    <div id="ExplanationArea" class="row">
+
+                        <span id="Explanation-Text">
+
+                        </span>
+                     
+
+                    </div>
+
 
                 </div>
 
@@ -338,16 +416,24 @@ background-color: red;
   
 $(function(){   
 
-    window.addEventListener('load', function(){
-        
+    var language = '1';
+    var pc_flg = $('#pc_flg').val();    
+    var terminal = $('#terminal').val();;
+
+
+    $(document).ready(function(){
         PhotoSwitching();
         LoaderEnd();
-    });
 
+        languageChange();
+        terminalSelect();
+        ExplanationChange();
+    });
 
     // 画面幅が変更されたときに実行させたい処理内容
     $(window).resize(function(){ 
 
+        LoaderEnd();
         PhotoSwitching();        
       
     });
@@ -364,42 +450,150 @@ $(function(){
         $('#PhotoSelectArea').outerHeight(vh * PhotoSelectArea_vh);
     }
    
+  
 
+    $(".languageSelectButton").on('click',function(e){
+           
+        language = $(this).data('target');
+        languageChange();        
+        ExplanationChange();
 
-    var _isMoving = false; //移動中かどうかのフラグ true:移動中 false:停止中
-    var _clickX,  _clickY; //クリックされた位置
-    var _position;         //クリックされた時の要素の位置
-
-    //mousedownイベント
-    $("#InformationButtonArea").on("mousedown", function(e) {
-      if (_isMoving) return; //移動中の場合は処理しない
-
-      _isMoving = true; //移動中にする
-
-      //クリックされた座標を保持します
-      _clickX = e.screenX;
-      _clickY = e.screenY;
-
-      //クリックされた時の要素の座標を保持します
-      _position = $("#InformationButtonArea").position();
     });
 
-    //mousemoveイベント
-    $("#Main").on("mousemove", function(e) {
-      if (_isMoving == false) return; //移動中でない場合は処理しない
+    function languageChange(){
 
-      //クリックされた時の要素の座標に、移動量を加算したものを、座標として設定します
-      $("#InformationButtonArea").css("left", (_position.left + e.screenX - _clickX) + "px");
-      $("#InformationButtonArea").css("top" , (_position.top  + e.screenY - _clickY) + "px");
+        //選択中のクラスを解除
+        $('.languageSelectd').removeClass('languageSelectd');
+
+        // target = 1(日本語)
+        // target = 2(英語)
+
+        if(language == 1){
+
+            $('#JapaneseSelect').addClass('languageSelectd');
+
+            $('#AllDownloadButton-Text').html("全てDL ");
+            $('#SelectDownloadButton-Text').html("選択DL ");
+
+
+        }else if(language == 2){
+
+            $('#EnglishSelect').addClass('languageSelectd');
+
+            $('#AllDownloadButton-Text').html("All DL ");
+            $('#SelectDownloadButton-Text').html("Select DL ");
+
+
+
+        }
+       
+    }
+
+    $(".terminalSelectButton").on('click',function(e){
+
+        terminal = $(this).data('target');
+        
+        terminalSelect();
+        ExplanationChange();
+
     });
 
-    //mouseupイベント
-    $("#InformationButtonArea").on("mouseup", function(e) {
-      if (_isMoving == false) return; //移動中でない場合は処理しない
+    function terminalSelect(){
+      
+        $('.terminalSelectd').removeClass('terminalSelectd');
+        
+        if(pc_flg == 1){
 
-      _isMoving = false; //停止中にする
-    });
+            if(terminal == 1){
+                
+                $('#macOSSelect').addClass('terminalSelectd');
 
+            }else if(terminal == 2){
+
+                $('#windowsSelect').addClass('terminalSelectd');                
+
+            }
+
+        }else{
+
+            if(terminal == 1){
+
+                $('#iOSSelect').addClass('terminalSelectd');                
+
+            }else if(terminal == 2){
+
+                $('#AndroidSelect').addClass('terminalSelectd');               
+
+            }
+        }       
+
+    }
+
+    function ExplanationChange(){
+
+        var Selectlanguage = "";
+
+        var Selectterminal = "";
+        if(language == 1){
+        
+            Selectlanguage = "日本語"
+
+            if(pc_flg == 1){
+
+                if(terminal == 1){
+
+                    Selectterminal = "macOS";
+                    
+
+                }else if(terminal == 2){
+
+                    Selectterminal = "windows";
+                }
+
+            }else{
+
+                if(terminal == 1){
+
+                    Selectterminal = "iOS";
+                    
+                }else if(terminal == 2){
+
+                    Selectterminal = "Android";
+                }
+            }               
+       
+
+        }else if(language == 2){
+
+            Selectlanguage = "English"
+       
+
+            if(pc_flg == 1){
+
+                if(terminal == 1){
+
+                    Selectterminal = "macOS";                    
+
+                }else if(terminal == 2){
+
+                    Selectterminal = "windows";
+                }
+
+                }else{
+
+                if(terminal == 1){
+
+                    Selectterminal = "iOS";
+                    
+                }else if(terminal == 2){
+
+                    Selectterminal = "Android";
+                }
+            }               
+        }
+
+        $('#Explanation-Text').html(Selectlanguage + ' ' + Selectterminal);
+    }
 
 
     $(".PhotoButton").on('click',function(e){

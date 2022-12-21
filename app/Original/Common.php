@@ -10,6 +10,7 @@ use App\Models\staff_m_model;
 
 use Illuminate\Http\Request;
 
+use Jenssegers\Agent\Agent;
 
 class Common
 {   
@@ -123,20 +124,60 @@ class Common
 
     //※利用者の端末がPCかそれ以外かチェックする    
     //第1引数 Request $request
-    //戻り値 PC_FLG (ture = PC , false = PC以外)
+    //戻り値 端末情報
     public static function TerminalCheck(Request $request)
     {
-        //初期値はture
-        $PC_FLG = true;
 
-        //端末判断
-        $user_agent = $request->userAgent();
-        
-        if ((strpos($user_agent, 'iPhone')) || (strpos($user_agent, 'iPod')) || (strpos($user_agent, 'Android'))){              
-            $PC_FLG = false;            
+        $agent = new Agent();
+
+        // デバイスのチェック
+        $isAndroidOS = $agent->isAndroidOS();
+        $isPhone = $agent->isPhone();
+        $isDesktop = $agent->isDesktop();
+        $isTablet = $agent->isTablet();
+        $platform = $agent->platform();
+        $device = $agent->device();
+        $browser = $agent->browser();      
+
+        if($isPhone || $isTablet){
+            $pc_flg = 0;
+        }else{
+            $pc_flg = 1;
         }
 
-        return $PC_FLG;
+        $terminal = 99;                
+
+        if($pc_flg == 0){
+
+            if( is_int(strpos($platform, 'iOS')) || is_int(strpos($device, 'iPhone')) ){
+
+                $terminal = 1;
+
+            }else if( is_int(strpos($platform, 'android')) || is_int(strpos($device, '不明')) ){
+
+                $terminal = 2;                
+            }
+        
+        }else{
+
+            if( is_int(strpos($platform, 'macOS')) || is_int(strpos($device, 'iPhone')) ){
+
+                $terminal = 1;
+
+            }else if( is_int(strpos($platform, 'Windows')) || is_int(strpos($platform, 'windows')) ){
+
+                $terminal = 2;                
+            }
+
+        }
+
+     
+        $termina_iInfo = array(            
+            "pc_flg" => $pc_flg,
+            "terminal" => $terminal,           
+        );   
+
+        return $termina_iInfo;
 
     }
 
