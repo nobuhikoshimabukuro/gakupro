@@ -1,5 +1,14 @@
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Git Hub
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+shimabukuronobuhiko@gmail.com
+nobu6856
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Gmail
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 yuyucraft.main@gmail.com
 Gg03310527
 
@@ -92,4 +101,22 @@ VALUE-DOMAIN ユーザー名 ：yuyucraft
 https://www.value-domain.com/coresv.php?garef=auto_email
 ○ CORESERVERコントロールパネル
 https://cp.coreserver.jp/account/login/v2006.coreserver.jp/?garef=auto_email
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+VSCode	SSH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Host coreserver
+HostName v2006.coreserver.jp
+User yuyucraft
+PasswordAuthentication no
+IdentityFile ~/.ssh/key_rsa.htm    
+IdentitiesOnly yes
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SSH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+パス：00310527
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
