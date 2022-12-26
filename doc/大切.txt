@@ -107,16 +107,73 @@ https://cp.coreserver.jp/account/login/v2006.coreserver.jp/?garef=auto_email
 VSCode	SSH
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+参考：https://www.sria.co.jp/blog/2021/06/5316/
+-----------------------------------------------------------------------
+
+
 Host coreserver
 HostName v2006.coreserver.jp
 User yuyucraft
 PasswordAuthentication no
-IdentityFile ~/.ssh/key_rsa.htm    
+IdentityFile ~/.ssh/key_rsa.htm
 IdentitiesOnly yes
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 SSH
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 パス：00310527
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FTP（FFFTP）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+《基本タブ》
+ホスト設定名：yuyucraft
+ホスト名（アドレス）：v2006.coreserver.jp
+ユーザー名：yuyucraft
+パスワード/パスフレーズ：wExGYCWSpcvj
+初期フォルダ：空白
+《暗号化タブ》
+FTPS(Explicit)で接続のみチェック
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+mysql
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+DB-Name:yuyucraft_db
+DB-User:yuyucraft_db
+DB-Pass:03310527
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+A5接続
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+《基本タブ》
+ホスト名：localhost
+ポート番号：3306
+ユーザーID：yuyucraft_db
+パスワード：03310527
+データベース：yuyucraft_db
+
+
+《SSH2トンネルタブ》
+SSH2ホスト名：v2006.coreserver.jp
+ポート番号：22
+ユーザーID：yuyucraft
+
+※鍵ファイル認証にチェック
+パスフレーズ：03310527
+秘密鍵ファイル：ユーザーの直下→.sshの特定キー指定
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
