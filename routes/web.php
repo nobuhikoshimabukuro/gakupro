@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\Log;
+
 use Illuminate\Support\Facades\Route;
 
 
@@ -15,7 +17,7 @@ use App\Http\Controllers\Headquarters\headquarters_controller;
 use App\Http\Controllers\PhotoProject\photoproject_controller;
 use App\Http\Controllers\RecruitProject\recruitproject_controller;
 
-
+Log::channel('error_log')->info($LogErrorMessage);
 
 
 Route::get('/', [hp_controller::class, 'index'])->name('hp.index');
