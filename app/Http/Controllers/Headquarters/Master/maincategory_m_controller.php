@@ -77,6 +77,7 @@ class maincategory_m_controller extends Controller
                 "Result" => "error",
                 "Message" => $ErrorTitle,
             );
+            
 
             return response()->json(['ResultArray' => $ResultArray]);
                                 
