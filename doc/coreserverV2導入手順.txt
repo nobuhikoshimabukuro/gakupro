@@ -32,6 +32,11 @@ alias composer='php /home/yuyucraft/composer.phar'
 コマンド：php artisan migrate:fresh --database=mysql --seed
 
 
+⑪シンボリックリンクの設定
+cd /home/yuyucraft/domains/yu-yu-craft.com/gakupro
+php artisan storage:link
+
+
 
 
 

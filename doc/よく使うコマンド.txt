@@ -117,6 +117,8 @@ composer require barryvdh/laravel-debugbar
 ルールの作成
 php artisan make:rule KatakanaValidation
 
+シンボリックリンク
+php artisan storage:link
 
 
 テニス用
