@@ -247,6 +247,8 @@ class photoproject_controller extends Controller
 
             $m =  $e->getMessage();
 
+            Log::channel('error_log')->info("【QRコード作成エラー】" . $m);
+
             $ResultArray = array(
                 "Result" => "error",
                 "Message" => '',
