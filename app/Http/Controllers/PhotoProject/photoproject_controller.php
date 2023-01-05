@@ -204,7 +204,7 @@ class photoproject_controller extends Controller
                 if (!file_exists($StoragePath_QrTicket)) {
                     //フォルダ作成
                     // mkdir($StoragePath_QrTicket, 0777);
-                    Storage::makeDirectory($StoragePath_QrTicket);
+                    Storage::makeDirectory($Saved_Path_Info["PublicPath_QrTicket"]);
                 }
                 
                 //QrTicket_Templateを取得            
@@ -802,8 +802,10 @@ class photoproject_controller extends Controller
         $StoragePath_QrCode = "storage/photoproject/" . $Date. "/QrCode/";
         $PublicPath_QrCode = "public/photoproject/" . $Date . "/QrCode/";
 
-        $StoragePath_QrTicket = "storage/photoproject/" . $Date. "/QrTicket/";
+        $StoragePath_QrTicket = "storage/photoproject/" . $Date. "/QrTicket/";        
         $PublicPath_QrTicket = "public/photoproject/" . $Date. "/QrTicket/";
+
+        
 
         $StoragePath_QrTicket_Template = "storage/photoproject/QrTicket_Template/QR_Template.png";
         
