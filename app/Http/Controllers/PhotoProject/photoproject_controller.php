@@ -179,12 +179,25 @@ class photoproject_controller extends Controller
                 );            
 
                 //get_path_info関数で各階層情報を取得
-                $Saved_Path_Info = $this->get_path_info($date);   
+                $Saved_Path_Info = $this->get_path_info($date);                   
+
+
+                //QrCodeとQrチケットの保存場所
+                Storage::disk('photo_project_storage_path')->makeDirectory($Saved_Path_Info["CreatePath_QrCode"]);
+                Storage::disk('photo_project_storage_path')->makeDirectory($Saved_Path_Info["CreatePath_QrTicket"]);
+           
+
 
             //Qrコード作成から保存  Start
               
                 //設定したUrlでQrコード作成
                 $Create_Qr_Image = QrCode::size(150)->format('png')->generate($url);
+
+                $StoragePath_QrCode = $Saved_Path_Info["StoragePath_QrCode"];
+
+               
+
+                
 
               
                 //作成したQrコード画像を指定階層に保存
@@ -198,14 +211,7 @@ class photoproject_controller extends Controller
             //Qrチケット作成から保存  Start
 
                 //QrTicket保存場所
-                $StoragePath_QrTicket = $Saved_Path_Info["StoragePath_QrTicket"];
-
-                //QrTicket保存場所が存在しない場合のみ作成      
-                if (!file_exists($StoragePath_QrTicket)) {
-                    //フォルダ作成
-                    mkdir($StoragePath_QrTicket, 0777);
-                    
-                }
+                $StoragePath_QrTicket = $Saved_Path_Info["StoragePath_QrTicket"];              
                 
                 //QrTicket_Templateを取得            
                 $Create_QrTicket = Image::make($Saved_Path_Info["StoragePath_QrTicket_Template"]);
@@ -805,7 +811,8 @@ class photoproject_controller extends Controller
         $StoragePath_QrTicket = "storage/photoproject/" . $Date. "/QrTicket/";        
         $PublicPath_QrTicket = "public/photoproject/" . $Date. "/QrTicket/";
 
-       
+        $CreatePath_QrTicket = $Date. "/QrTicket/";
+        $CreatePath_QrCode = $Date. "/QrCode/";       
 
         $StoragePath_QrTicket_Template = "storage/photoproject/QrTicket_Template/QR_Template.png";
         
@@ -819,7 +826,10 @@ class photoproject_controller extends Controller
 
             'StoragePath_QrTicket' => $StoragePath_QrTicket,
             'PublicPath_QrTicket' => $PublicPath_QrTicket,
-            'StoragePath_QrTicket_Template' => $StoragePath_QrTicket_Template
+            'StoragePath_QrTicket_Template' => $StoragePath_QrTicket_Template,
+
+            'CreatePath_QrTicket' => $CreatePath_QrTicket,
+            'CreatePath_QrCode' => $CreatePath_QrCode
         ];
 
         return $ReturnArray;
