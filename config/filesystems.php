@@ -39,7 +39,7 @@ return [
                     'public'  => 0775, // public なディレクトリは775で作成 
                 ],
                 'file' => [
-                    'public' => 0775, // public なファイルは664で作成
+                    'public' => 0664, // public なファイルは664で作成
                 ],
             ]
         ],
@@ -55,7 +55,7 @@ return [
                     'public'  => 0775, // public なディレクトリは775で作成 
                 ],
                 'file' => [
-                    'public' => 0775, // public なファイルは664で作成
+                    'public' => 0664, // public なファイルは664で作成
                 ],
             ]
         ],
@@ -81,7 +81,7 @@ return [
                     'public'  => 0775, // public なディレクトリは775で作成 
                 ],
                 'file' => [
-                    'public' => 0775, // public なファイルは664で作成
+                    'public' => 0664, // public なファイルは664で作成
                 ],
             ]
         ],
@@ -96,7 +96,7 @@ return [
                     'public'  => 0775, // public なディレクトリは775で作成 
                 ],
                 'file' => [
-                    'public' => 0775, // public なファイルは664で作成
+                    'public' => 0664, // public なファイルは664で作成
                 ],
             ]
         ],
