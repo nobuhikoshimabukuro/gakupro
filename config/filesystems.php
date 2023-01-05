@@ -32,7 +32,7 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => storage_path('app'),
+            'root' => storage_path('app'),            
         ],
 
         'public' => [
@@ -40,6 +40,15 @@ return [
             'root' => storage_path('app/public'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
+
+            'permissions' => [ // permissions 設定値を追記
+                'dir' => [
+                    'public'  => 0775, // public なディレクトリは775で作成 
+                ],
+                'file' => [
+                    'public' => 0775, // public なファイルは664で作成
+                ],
+            ]
         ],
 
         's3' => [
@@ -57,12 +66,30 @@ return [
         'photo_project_public_path' => [
             'driver' => 'local',
             'root' => public_path('storage/photoproject'),
+
+            'permissions' => [ // permissions 設定値を追記
+                'dir' => [
+                    'public'  => 0775, // public なディレクトリは775で作成 
+                ],
+                'file' => [
+                    'public' => 0775, // public なファイルは664で作成
+                ],
+            ]
         ],
 
         // 追加
         'photo_project_storage_path' => [
             'driver' => 'local',
             'root' => storage_path('app/public/photoproject'),
+
+            'permissions' => [ // permissions 設定値を追記
+                'dir' => [
+                    'public'  => 0775, // public なディレクトリは775で作成 
+                ],
+                'file' => [
+                    'public' => 0775, // public なファイルは664で作成
+                ],
+            ]
         ],
 
     ],
