@@ -182,21 +182,11 @@ class photoproject_controller extends Controller
                 $Saved_Path_Info = $this->get_path_info($date);   
 
             //Qrコード作成から保存  Start
-
               
-
                 //設定したUrlでQrコード作成
                 $Create_Qr_Image = QrCode::size(150)->format('png')->generate($url);
 
-                //作成したQrコード画像を指定階層に保存
-                $StoragePath_QrCode = $Saved_Path_Info["StoragePath_QrCode"];
-                //QrCode保存場所が存在しない場合のみ作成      
-                if (!file_exists($StoragePath_QrCode)) {
-                    //フォルダ作成
-                    mkdir($StoragePath_QrCode, 0777);
-                    
-                }
-
+              
                 //作成したQrコード画像を指定階層に保存
                 $PublicPath_QrCode = $Saved_Path_Info["PublicPath_QrCode"];
 
