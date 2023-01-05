@@ -796,16 +796,25 @@ class photoproject_controller extends Controller
 
         $Date = str_replace('-', '', $Date);
               
-        $StoragePath_Photo = "storage/photoproject/". $Date."/". $Saved_Folder ."/phot/";
-        $PublicPath_Photo = "public/photoproject/". $Date."/". $Saved_Folder ."/phot/";
+        // $StoragePath_Photo = "storage/photoproject/". $Date."/". $Saved_Folder ."/phot/";
+        // $PublicPath_Photo = "public/photoproject/". $Date."/". $Saved_Folder ."/phot/";
 
-        $StoragePath_QrCode = "storage/photoproject/" . $Date. "/QrCode/";
-        $PublicPath_QrCode = "public/photoproject/" . $Date . "/QrCode/";
+        // $StoragePath_QrCode = "storage/photoproject/" . $Date. "/QrCode/";
+        // $PublicPath_QrCode = "public/photoproject/" . $Date . "/QrCode/";
 
-        $StoragePath_QrTicket = "storage/photoproject/" . $Date. "/QrTicket/";        
-        $PublicPath_QrTicket = "public/photoproject/" . $Date. "/QrTicket/";
+        // $StoragePath_QrTicket = "storage/photoproject/" . $Date. "/QrTicket/";        
+        // $PublicPath_QrTicket = "public/photoproject/" . $Date. "/QrTicket/";
 
         
+        $StoragePath_Photo = "storage/photoproject/". $Date."c/". $Saved_Folder ."/phot/";
+        $PublicPath_Photo = "public/photoproject/". $Date."/c". $Saved_Folder ."/phot/";
+
+        $StoragePath_QrCode = "storage/photoproject/" . $Date. "c/QrCode/";
+        $PublicPath_QrCode = "public/photoproject/" . $Date . "c/QrCode/";
+
+        $StoragePath_QrTicket = "storage/photoproject/" . $Date. "c/QrTicket/";        
+        $PublicPath_QrTicket = "public/photoproject/" . $Date. "c/QrTicket/";
+
 
         $StoragePath_QrTicket_Template = "storage/photoproject/QrTicket_Template/QR_Template.png";
         
