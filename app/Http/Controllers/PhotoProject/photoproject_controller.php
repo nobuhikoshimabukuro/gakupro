@@ -203,7 +203,8 @@ class photoproject_controller extends Controller
                 //QrTicket保存場所が存在しない場合のみ作成      
                 if (!file_exists($StoragePath_QrTicket)) {
                     //フォルダ作成
-                    mkdir($StoragePath_QrTicket, 0777);
+                    // mkdir($StoragePath_QrTicket, 0777);
+                    Storage::makeDirectory($StoragePath_QrTicket);
                 }
                 
                 //QrTicket_Templateを取得            
