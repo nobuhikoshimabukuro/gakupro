@@ -31,7 +31,7 @@
                     <label for="" class="col-form-label OriginalLabel">パスワード</label>
                 </div>
                 <div class="col-4">                    
-                    <input type="password" name="password" id="password" value="" class="form-control text-right">
+                    <input type="tel" name="password" id="password" value="" class="form-control text-right">
                 </div>
 
                
