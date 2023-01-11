@@ -76,7 +76,7 @@ class staff_m_controller extends Controller
         
         $staff_name = $request->staff_name;
         $staff_name_yomi = $request->staff_name_yomi;
-        $nickname = $request->nickname;        
+        $nick_name = $request->nick_name;        
         $gender = intval($request->gender);
         $tel = $request->tel;
         $mailaddress = $request->mailaddress;
@@ -92,7 +92,7 @@ class staff_m_controller extends Controller
                     [
                         'staff_name' => $staff_name,                        
                         'staff_name_yomi' => $staff_name_yomi,     
-                        'nickname' => $nickname,
+                        'nick_name' => $nick_name,
                         'gender' => $gender,
                         'tel' => $tel,
                         'mailaddress' => $mailaddress,
@@ -112,7 +112,7 @@ class staff_m_controller extends Controller
                     [
                         'staff_name' => $staff_name,                        
                         'staff_name_yomi' => $staff_name_yomi,     
-                        'nickname' => $nickname,
+                        'nick_name' => $nick_name,
                         'gender' => $gender,
                         'tel' => $tel,
                         'mailaddress' => $mailaddress,
