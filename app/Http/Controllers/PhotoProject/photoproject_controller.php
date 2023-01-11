@@ -139,7 +139,7 @@ class photoproject_controller extends Controller
 
                 //フォルダ名を作成  コード&英数字の羅列
                 //例:001_aG4r
-                $saved_folder =  $code . '_' . $this->make_saved_folder(4);
+                $saved_folder =  $code . '_' . $this->make_saved_folder(10);
 
                 //Qrコードとチケット名を設定
                 //例:QrCode_20220101001.png
@@ -183,8 +183,11 @@ class photoproject_controller extends Controller
 
 
                 //QrCodeとQrチケットの保存場所
-                Storage::disk('photo_project_storage_path')->makeDirectory($Saved_Path_Info["CreatePath_QrCode"]);
-                Storage::disk('photo_project_storage_path')->makeDirectory($Saved_Path_Info["CreatePath_QrTicket"]);
+                // Storage::disk('photo_project_storage_path')->makeDirectory($Saved_Path_Info["CreatePath_QrCode"]);
+                // Storage::disk('photo_project_storage_path')->makeDirectory($Saved_Path_Info["CreatePath_QrTicket"]);
+
+                Storage::disk('photo_project_public_path')->makeDirectory($Saved_Path_Info["CreatePath_QrCode"]);
+                Storage::disk('photo_project_public_path')->makeDirectory($Saved_Path_Info["CreatePath_QrTicket"]);
            
 
 
