@@ -56,7 +56,7 @@
                         data-staffid='{{$item->staff_id}}'
                         data-staffname='{{$item->staff_name}}'
                         data-staffnameyomi='{{$item->staff_name_yomi}}'
-                        data-nickname='{{$item->nickname}}'
+                        data-nickname='{{$item->nick_name}}'
                         data-gender='{{$item->gender}}'
                         data-tel='{{$item->tel}}'
                         data-authority='{{$item->authority}}'                        
@@ -68,7 +68,7 @@
                         data-staffid='{{$item->staff_id}}'
                         data-staffname='{{$item->staff_name}}'
                         data-staffnameyomi='{{$item->staff_name_yomi}}'
-                        data-nickname='{{$item->nickname}}'
+                        data-nickname='{{$item->nick_name}}'
                         data-gender='{{$item->gender}}'
                         data-tel='{{$item->tel}}'
                         data-authority='{{$item->authority}}'  
@@ -134,8 +134,8 @@
                                 <label for="staff_name_yomi" class="col-md-6 col-form-label OriginalLabel">シメイ</label>
                                 <input type="text" name="staff_name_yomi" id="staff_name_yomi" value="" class="form-control col-md-3">
     
-                                <label for="nickname" class="col-md-6 col-form-label OriginalLabel">ニックネーム</label>
-                                <input type="text" name="nickname" id="nickname" value="" class="form-control col-md-3">
+                                <label for="nick_name" class="col-md-6 col-form-label OriginalLabel">ニックネーム</label>
+                                <input type="text" name="nick_name" id="nick_name" value="" class="form-control col-md-3">
     
                                 <label for="gender" class="col-md-6 col-form-label OriginalLabel">性別</label>                               
                                 <select id='gender' name='gender' class='form-control input-sm'>									
@@ -295,7 +295,7 @@ $(function(){
         $('#staff_id').val('');        
         $('#staff_name').val('');
         $('#staff_name_yomi').val('');
-        $('#nickname').val('');
+        $('#nick_name').val('');
         $('#gender').val('');
         $('#tel').val('');
         $('#mailaddress').val('');
@@ -308,7 +308,7 @@ $(function(){
         var staff_name = evCon.data('staffname');
         var staff_name_yomi = evCon.data('staffnameyomi');
         var gender = evCon.data('gender');
-        var nickname = evCon.data('nickname');
+        var nick_name = evCon.data('nickname');
         var tel = evCon.data('tel');
         var mailaddress = evCon.data('mailaddress');
         var authority = evCon.data('authority');
@@ -329,7 +329,7 @@ $(function(){
         $('#staff_id').val(staff_id);
         $('#staff_name').val(staff_name);
         $('#staff_name_yomi').val(staff_name_yomi);
-        $('#nickname').val(nickname);
+        $('#nick_name').val(nick_name);
         $('#gender').val(gender);
         $('#tel').val(tel);
         $('#mailaddress').val(mailaddress);
