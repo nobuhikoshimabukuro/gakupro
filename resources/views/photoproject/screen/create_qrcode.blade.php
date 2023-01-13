@@ -159,7 +159,7 @@
                             <th>コード</th>
                             <th>パスワード</th>
                             <th>UP or DL</th>
-                            <th>パスワード有</th>
+                            <th>パスワード入力必要</th>
                             
                             {{-- <th>QrCode名</th>
                             <th>チケット名</th>                     --}}
@@ -188,10 +188,14 @@
                                 </td>
                                 <td>
                                     @if($info->with_password_flg == 1)
-                                    必要
+                                        必要
                                     @else
-                                    不要
+                                        不要
                                     @endif                                    
+                                    <button type='button' class="btn btn-secondary with_password_flg_ChangeButton"
+                                        data-id="{{$info->id}}"
+                                        data-passwordflg="{{$info->with_password_flg}}"
+                                    >変更</button>
                                 </td>
                                
                             </tr>    
@@ -451,98 +455,7 @@ $(function(){
 
 
 
-    $('#AllDownloadButton').click(function () {
-
-
-        $('.ajax-msg1').html('');
-        $('.ajax-msg2').html('');
-        $('.invalid-feedback').html('');
-        $('.is-invalid').removeClass('is-invalid');
-        
-        var Date = $('#Date').val();
-        var Url = "{{ route('photoproject.qrcode_download') }}";
-
-        var Message = "日付：" + Date + "\n一括ダウンロードしますか?";
-        
-
-        if(!confirm(Message)){
-			return false;
-		}
-
-            
-        phpProcessingStart();
-
-        $.ajax({
-            url: Url, // 送信先
-            type: 'get',
-            dataType: 'json',
-            data: {Date : Date},
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-
-        })
-            // 送信成功
-            .done(function (data, textStatus, jqXHR) {
-                
-                phpProcessingEnd();
-
-                var ResultArray = data.ResultArray;
-
-                var Result = ResultArray["Result"];
-
-                if(Result=='success'){
-
-                    var ZipName = ResultArray["ZipName"];
-                    var ZipDownloadPath = ResultArray["ZipDownloadPath"];
-
-                    var a = document.createElement('a');
-                    a.download = ZipName;
-                    a.href = ZipDownloadPath;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-
-                }else{
-
-                    var errorsHtml = '<div class="alert alert-danger text-left">';
-                    var massage1 = "Qrコード一括ダウンロード処理でエラーが発生しました。";
-                    var massage2 = "管理に報告をお願い致します。";
-
-                    errorsHtml += '<li>' + massage1 + '</li>';                    
-                    errorsHtml += '<li>' + massage2 + '</li>';
-                    errorsHtml += '</div>';
-
-                    //{{-- アラート --}}    
-                    $('.ajax-msg1').html(errorsHtml);
-
-                  
-
-                }
-
-            
-            })
-
-                // 送信失敗
-                .fail(function (data, textStatus, errorThrown) {
-                    
-                    phpProcessingEnd();
-
-                    var errorsHtml = '<div class="alert alert-danger text-left">';
-                    var massage1 = "Qrコード一括ダウンロード処理でエラーが発生しました。";
-                    var massage2 = "管理に報告をお願い致します。";
-
-                    errorsHtml += '<li>' + massage1 + '</li>';                    
-                    errorsHtml += '<li>' + massage2 + '</li>';
-                    errorsHtml += '</div>';
-
-                    //{{-- アラート --}}    
-                    $('.ajax-msg1').html(errorsHtml);
-
-                });
-
-
-
-
-    });
+    
 
 
 
@@ -641,6 +554,101 @@ $(function(){
        
 
     });
+
+
+    $('#AllDownloadButton').click(function () {
+
+
+        $('.ajax-msg1').html('');
+        $('.ajax-msg2').html('');
+        $('.invalid-feedback').html('');
+        $('.is-invalid').removeClass('is-invalid');
+
+        var Date = $('#Date').val();
+        var Url = "{{ route('photoproject.qrcode_download') }}";
+
+        var Message = "日付：" + Date + "\n一括ダウンロードしますか?";
+
+
+        if(!confirm(Message)){
+            return false;
+        }
+
+            
+        phpProcessingStart();
+
+        $.ajax({
+            url: Url, // 送信先
+            type: 'get',
+            dataType: 'json',
+            data: {Date : Date},
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+
+        })
+            // 送信成功
+            .done(function (data, textStatus, jqXHR) {
+                
+                phpProcessingEnd();
+
+                var ResultArray = data.ResultArray;
+
+                var Result = ResultArray["Result"];
+
+                if(Result=='success'){
+
+                    var ZipName = ResultArray["ZipName"];
+                    var ZipDownloadPath = ResultArray["ZipDownloadPath"];
+
+                    var a = document.createElement('a');
+                    a.download = ZipName;
+                    a.href = ZipDownloadPath;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+
+                }else{
+
+                    var errorsHtml = '<div class="alert alert-danger text-left">';
+                    var massage1 = "Qrコード一括ダウンロード処理でエラーが発生しました。";
+                    var massage2 = "管理に報告をお願い致します。";
+
+                    errorsHtml += '<li>' + massage1 + '</li>';                    
+                    errorsHtml += '<li>' + massage2 + '</li>';
+                    errorsHtml += '</div>';
+
+                    //{{-- アラート --}}    
+                    $('.ajax-msg1').html(errorsHtml);
+
+                
+
+                }
+
+            
+            })
+
+                // 送信失敗
+                .fail(function (data, textStatus, errorThrown) {
+                    
+                    phpProcessingEnd();
+
+                    var errorsHtml = '<div class="alert alert-danger text-left">';
+                    var massage1 = "Qrコード一括ダウンロード処理でエラーが発生しました。";
+                    var massage2 = "管理に報告をお願い致します。";
+
+                    errorsHtml += '<li>' + massage1 + '</li>';                    
+                    errorsHtml += '<li>' + massage2 + '</li>';
+                    errorsHtml += '</div>';
+
+                    //{{-- アラート --}}    
+                    $('.ajax-msg1').html(errorsHtml);
+
+                });
+
+
+
+
+    });
+
 
 
 
@@ -753,10 +761,104 @@ $(function(){
 
                 });
 
-});
+    });
 
 
 
+
+    $('.with_password_flg_ChangeButton').click(function () {
+
+        //{{-- メッセージクリア --}}
+        $('.ajax-msg1').html('');
+        $('.ajax-msg2').html('');
+        $('.invalid-feedback').html('');
+        $('.is-invalid').removeClass('is-invalid');
+
+
+     
+
+        var id = $(this).data('id'); 
+        var with_password_flg = $(this).data('passwordflg'); 
+       
+        var message = "";
+        
+        if(with_password_flg == 0){
+            message = "パスワード入力必要状態に変更しますか?";
+        }else{
+            message = "パスワード入力不要状態に変更しますか?";
+        }
+
+        if(!confirm(message)){          
+            return false;        
+        }
+
+        var Url = "{{ route('photoproject.with_password_flg_change') }}";
+
+        phpProcessingStart();
+
+        $.ajax({
+            url: Url, // 送信先
+            type: 'post',
+            dataType: 'json',
+            data: {id : id , with_password_flg : with_password_flg},
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}         
+        })
+            // 送信成功
+            .done(function (data, textStatus, jqXHR) {
+
+            
+
+                var ResultArray = data.ResultArray;
+
+                var Result = ResultArray["Result"];
+
+
+                if(Result == 'success'){
+
+                    location.reload();
+                                    
+
+                    
+                }else{
+
+
+                    var errorsHtml = '<div class="alert alert-danger text-left">';
+                    var massage1 = "パスワード必要フラグの変更時にエラーが発生しました。";
+                    var massage2 = "管理に報告をお願い致します。";
+
+                    errorsHtml += '<li>' + massage1 + '</li>';                    
+                    errorsHtml += '<li>' + massage2 + '</li>';
+                    errorsHtml += '</div>';
+
+                    //{{-- アラート --}}    
+                    $('.ajax-msg2').html(errorsHtml);
+            
+
+                }
+
+                
+                phpProcessingEnd();
+
+            })
+                // 送信失敗
+                .fail(function (data, textStatus, errorThrown) {
+
+                    phpProcessingEnd();
+
+                    var errorsHtml = '<div class="alert alert-danger text-left">';
+                    var massage1 = "パスワード必要フラグの変更時にエラーが発生しました。";
+                    var massage2 = "管理に報告をお願い致します。";
+
+                    errorsHtml += '<li>' + massage1 + '</li>';                    
+                    errorsHtml += '<li>' + massage2 + '</li>';
+                    errorsHtml += '</div>';
+
+                    //{{-- アラート --}}    
+                    $('.ajax-msg2').html(errorsHtml);
+
+                });
+
+        });
 
 
 

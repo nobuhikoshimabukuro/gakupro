@@ -79,6 +79,8 @@ Route::post('photoproject/photo_confirmation', [photoproject_controller::class, 
 Route::get('photoproject/photo_confirmation', [photoproject_controller::class, 'qr_announce_transition'])->name('photoproject.qr_announce_transition');
 Route::get('photoproject/qr_announce', [photoproject_controller::class, 'qr_announce'])->name('photoproject.qr_announce');
 
+Route::post('photoproject/with_password_flg_change', [photoproject_controller::class, 'with_password_flg_change'])->name('photoproject.with_password_flg_change');
+
 Route::post('photoproject/batch_download', [photoproject_controller::class, 'batch_download'])->name('photoproject.batch_download');
 //写真プロジェクト  End
 

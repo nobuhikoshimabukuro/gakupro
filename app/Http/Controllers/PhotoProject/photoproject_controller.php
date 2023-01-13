@@ -329,13 +329,73 @@ class photoproject_controller extends Controller
         
     }
 
-    
+    //パスワード必要フラグの変更処理
+    function with_password_flg_change(Request $request)
+    {
 
+        $id = $request->id;
+        $with_password_flg = $request->with_password_flg;
+        
+        if($with_password_flg == 0){
+            $with_password_flg = 1;
+        }else if($with_password_flg == 1){
+            $with_password_flg = 0;
+        }
+
+        $operator = '1';
+        try {
+
+        
+            //更新処理
+            photoget_t_model::
+            where('id', $id)                
+            ->update(
+                [
+                    'with_password_flg' => $with_password_flg,                        
+                    'updated_by' => $operator,            
+                ]
+            );
+
+         
+    
+        } catch (Exception $e) {
+
+                        
+            $ErrorTitle = '写真プロジェクト[パスワード必要変更処理エラー]';
+            $ErrorMessage = $e->getMessage();
+                      
+            Common::SendErrorMail($ErrorTitle,$ErrorMessage);
+
+            $LogErrorMessage = $ErrorTitle .'::' .$ErrorMessage;
+            Log::channel('error_log')->info($LogErrorMessage);
+
+            $ResultArray = array(
+                "Result" => "error",
+                "Message" => $ErrorTitle,
+            );
+            
+
+            return response()->json(['ResultArray' => $ResultArray]);
+                                
+        }
+
+        $ResultArray = array(
+            "Result" => "success",
+            "Message" => '',
+        );
+
+        return response()->json(['ResultArray' => $ResultArray]);
+    }
+
+    
+    
+    //写真取得画面のURLを直接読み込んだ場合_1
     function qr_announce_transition(Request $request)
     {
         return redirect()->route('photoproject.qr_announce');
     }
 
+    //写真取得画面のURLを直接読み込んだ場合_2
     function qr_announce(Request $request)
     {
         return view('photoproject/screen/qr_announce');    
@@ -481,17 +541,17 @@ class photoproject_controller extends Controller
             
             if(count($photoget_t_info) == 1){
 
-                $Saved_Folder = $photoget_t_info[0]->saved_folder;
+                $photoget_t_info = $photoget_t_info[0];
 
                 $UploadFileInfo = array();
             
                 //get_upload_info関数に必要値を渡して写真のアップロード状況を取得
-                $UploadFileInfo = $this->get_upload_info($date,$Saved_Folder); 
+                $UploadFileInfo = $this->get_upload_info($date,$photoget_t_info->saved_folder); 
             
                 //端末情報取得
                 $termina_info = Common::TerminalCheck($request);
         
-                return view('photoproject/screen/photo_confirmation', compact('key_code','Cipher','UploadFileInfo','termina_info'));  
+                return view('photoproject/screen/photo_confirmation', compact('photoget_t_info','key_code','Cipher','UploadFileInfo','termina_info'));  
 
             }elseif(count($photoget_t_info) > 1){
                 //データが複数ある為、CriticalError
@@ -508,7 +568,7 @@ class photoproject_controller extends Controller
                 ->where('code', '=', $code)  
                 ->get();
 
-                if(count($photoget_t_info) == 1){
+                if(count($photoget_t_check) > 0){
                       
                     //日付、コードのみで絞り込んでデータが1レコード存在時は、単純にパスワード認証不一致                    
                 

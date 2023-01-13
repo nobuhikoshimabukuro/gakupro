@@ -362,8 +362,24 @@ background-color: red;
 
                     </div>
 
+                    <div id="" class="row">
+
+                        <h4>共有用URL  <button type='button' class="btn btn-secondary CopyButton"                 
+                            data-downloadurl="{{$photoget_t_info->url}}">Url Copy</button></h4>
+                        {{$photoget_t_info->url}}
+
+                        @if($photoget_t_info->with_password_flg == 1)
+                        <br>パスワードも送ってね
+                        @endif
+
+                        
+
+                    </div>
+
 
                 </div>
+
+              
 
                 <div class="modal-footer">                                   
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
@@ -703,6 +719,30 @@ $(function(){
     });
 
 
+
+    $(".CopyButton").on('click',function(e){
+        
+        
+        var download_url = $(this).data('downloadurl');
+       
+        // テキストエリアのテキストを取得（コピーさせるテキスト）        
+        var text = "ダウンロードページ" + "\n" + download_url;
+        // コピーする媒体となるテキストエリアを生成
+        var clipboard = $('<textarea></textarea>');
+        clipboard.text(text);
+        // Information_Modal直下に一時的に挿入        
+        $('#Information_Modal').append(clipboard);        
+        // 選択状態にする
+        clipboard.select();
+        // WebExtension APIのブラウザ拡張の仕組みを呼び出しクリップボードにコピー
+        document.execCommand('copy');
+        // 不要なテキストエリアを削除
+        clipboard.remove();
+        // 通知
+        alert('クリップボードにコピーしました');
+       
+
+    });
 
 
  
