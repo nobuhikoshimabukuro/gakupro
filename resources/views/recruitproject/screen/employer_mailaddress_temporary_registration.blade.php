@@ -19,7 +19,7 @@
         @csrf
         <div class="row">                    
 
-            <div class="row">                    
+            <div id="Input-Area"class="row">                    
                 <div class="col-4 text-right">
                     <label for="" class="col-form-label OriginalLabel">メールアドレス</label>
                 </div>
@@ -48,11 +48,6 @@
            
 
         </div>      
-
-        {{-- @php phpinfo() @endphp --}}
-        
-        
-
 
     </form>
     
