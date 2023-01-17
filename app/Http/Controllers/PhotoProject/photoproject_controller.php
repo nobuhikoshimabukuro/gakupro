@@ -179,17 +179,14 @@ class photoproject_controller extends Controller
                 );            
 
                 //get_path_info関数で各階層情報を取得
-                $Saved_Path_Info = $this->get_path_info($date);                   
-
+                $Saved_Path_Info = $this->get_path_info($date,$saved_folder);
 
                 //QrCodeとQrチケットの保存場所
-                // Storage::disk('photo_project_storage_path')->makeDirectory($Saved_Path_Info["CreatePath_QrCode"]);
-                // Storage::disk('photo_project_storage_path')->makeDirectory($Saved_Path_Info["CreatePath_QrTicket"]);
-
-                Storage::disk('photo_project_public_path')->makeDirectory($Saved_Path_Info["CreatePath_QrCode"], '0757');
-                Storage::disk('photo_project_public_path')->makeDirectory($Saved_Path_Info["CreatePath_QrTicket"], '0757');
+                Storage::disk('photo_project_public_path')->makeDirectory($Saved_Path_Info["CreatePath_QrCode"]);
+                Storage::disk('photo_project_public_path')->makeDirectory($Saved_Path_Info["CreatePath_QrTicket"]);
+                Storage::disk('photo_project_public_path')->makeDirectory($Saved_Path_Info["CreatePath_Saved_Folder"]);
            
-                // File::makeDirectory(Storage::path($Saved_Path_Info["CreatePath_QrTicket"]), '0757');
+           
 
             //Qrコード作成から保存  Start
               
@@ -863,10 +860,10 @@ class photoproject_controller extends Controller
     //各階層の固定値取得処理
     function get_path_info($Date = 0 , $Saved_Folder = 0){
 
-        $Date = str_replace('-', '', $Date) . 'd';
+        $Date = str_replace('-', '', $Date);
               
-        $StoragePath_Photo = "storage/photoproject/". $Date."/". $Saved_Folder ."/phot/";
-        $PublicPath_Photo = "public/photoproject/". $Date."/". $Saved_Folder ."/phot/";
+        $StoragePath_Photo = "storage/photoproject/". $Date."/". $Saved_Folder ."/";
+        $PublicPath_Photo = "public/photoproject/". $Date."/". $Saved_Folder ."/";
 
         $StoragePath_QrCode = "storage/photoproject/" . $Date. "/QrCode/";
         $PublicPath_QrCode = "public/photoproject/" . $Date . "/QrCode/";
@@ -876,6 +873,7 @@ class photoproject_controller extends Controller
 
         $CreatePath_QrTicket = $Date. "/QrTicket/";
         $CreatePath_QrCode = $Date. "/QrCode/";       
+        $CreatePath_Saved_Folder = $Date. "/" . $Saved_Folder . "/";
 
         $StoragePath_QrTicket_Template = "storage/photoproject/QrTicket_Template/QR_Template.png";
         
@@ -892,7 +890,8 @@ class photoproject_controller extends Controller
             'StoragePath_QrTicket_Template' => $StoragePath_QrTicket_Template,
 
             'CreatePath_QrTicket' => $CreatePath_QrTicket,
-            'CreatePath_QrCode' => $CreatePath_QrCode
+            'CreatePath_QrCode' => $CreatePath_QrCode,
+            'CreatePath_Saved_Folder' => $CreatePath_Saved_Folder,
         ];
 
         return $ReturnArray;
