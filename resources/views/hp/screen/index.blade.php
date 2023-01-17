@@ -12,7 +12,7 @@
 <div id="container">
 
     <header>
-    <h1 id="logo"><a href="index.html"><img src="images/logo.png" alt="SAMPLE COMPANY"></a></h1>
+    <h1 id="logo"><a href="index.html"><img src="{{ asset('img/hp/0001.png') }}" alt="SAMPLE"></a></h1>
     <div id="tel">0120-000-0000<br><span class="small">受付9:00〜18:00/日祝休</span></div>
     </header>
     

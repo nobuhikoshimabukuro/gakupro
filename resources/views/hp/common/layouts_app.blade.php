@@ -16,7 +16,7 @@
 
 <body>
 
-    <nav id="header" class="navbar navbar-expand-md shadow-sm small">
+    {{-- <nav id="header" class="navbar navbar-expand-md shadow-sm small">
 
         <div class="container" style="background-color: transparent">
 
@@ -52,7 +52,7 @@
       
 
         </div>
-    </nav>
+    </nav> --}}
 
 @yield('content')
 
@@ -63,9 +63,12 @@
 <script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('js/hp/common.js') }}"></script>
 
+<script src="{{ asset('js/hp/main.js') }}"></script>
+<script src="{{ asset('js/hp/slick.js') }}"></script>
+
 
 @yield('pagejs')
 
 </body>
-@include('common.footer')
+
 </html>
