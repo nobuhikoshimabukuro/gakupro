@@ -186,10 +186,10 @@ class photoproject_controller extends Controller
                 // Storage::disk('photo_project_storage_path')->makeDirectory($Saved_Path_Info["CreatePath_QrCode"]);
                 // Storage::disk('photo_project_storage_path')->makeDirectory($Saved_Path_Info["CreatePath_QrTicket"]);
 
-                Storage::disk('photo_project_public_path')->makeDirectory($Saved_Path_Info["CreatePath_QrCode"]);
-                Storage::disk('photo_project_public_path')->makeDirectory($Saved_Path_Info["CreatePath_QrTicket"]);
+                // Storage::disk('photo_project_public_path')->makeDirectory($Saved_Path_Info["CreatePath_QrCode"]);
+                // Storage::disk('photo_project_public_path')->makeDirectory($Saved_Path_Info["CreatePath_QrTicket"]);
            
-
+                File::makeDirectory(Storage::path($Saved_Path_Info["CreatePath_QrTicket"]), '0757');
 
             //Qrコード作成から保存  Start
               
