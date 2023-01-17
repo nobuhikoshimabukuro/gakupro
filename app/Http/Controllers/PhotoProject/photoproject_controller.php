@@ -939,7 +939,8 @@ class photoproject_controller extends Controller
             $PublicPath = asset($Saved_Path . $FileName);
 
             //配列にアップロードファイルパスとファイル名を格納
-            $Info = array('PublicPath' => $PublicPath ,'StoragePath' => str_replace("public", "storage", $FilePath) , 'FileName' => $FileName);
+            // $Info = array('PublicPath' => $PublicPath ,'StoragePath' => str_replace("public", "storage", $FilePath) , 'FileName' => $FileName);
+            $Info = array('PublicPath' => $PublicPath , 'FileName' => $FileName);
             array_push($photo_info, $Info);
         }
 
