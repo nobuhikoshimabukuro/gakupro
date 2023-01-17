@@ -8,6 +8,7 @@
     <link href="{{ asset('css/hp/common.css') }}" rel="stylesheet">      
     <link href="{{ asset('css/hp/footer.css') }}" rel="stylesheet">
     
+    <link href="{{ asset('css/hp/style.css') }}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">  {{-- CSRFトークン --}}
     @yield('pagehead')
     <title>@yield('title')</title>
