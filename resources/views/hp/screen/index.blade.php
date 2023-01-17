@@ -12,7 +12,7 @@
 <div id="container">
 
     <header>
-    <h1 id="logo"><a href="index.html"><img src="{{ asset('img/hp/0001.png') }}" alt="SAMPLE"></a></h1>
+    <h1 id="logo"><a href="index.html"><img src="{{ asset('img/hp/1.png') }}" alt="SAMPLE"></a></h1>
     <div id="tel">0120-000-0000<br><span class="small">受付9:00〜18:00/日祝休</span></div>
     </header>
     
@@ -55,9 +55,9 @@
     
     <!--スライドショー（slick）-->
     <div class="mainimg">
-    <div><img src="images/1.jpg" alt=""></div>
-    <div><img src="images/2.jpg" alt=""></div>
-    <div><img src="images/3.jpg" alt=""></div>
+    <div><img src="{{ asset('img/hp/2.png') }}" alt=""></div>
+    <div><img src="{{ asset('img/hp/3.png') }}" alt=""></div>
+    <div><img src="{{ asset('img/hp/4.png') }}" alt=""></div>    
     </div>
     
     <div id="contents">
