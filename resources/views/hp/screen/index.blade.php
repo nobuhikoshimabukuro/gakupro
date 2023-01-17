@@ -9,7 +9,12 @@
    
 </style>
 
-<div id="container">
+<a class="nav-link dropdown-item" href="{{ route('headquarters.login') }}">管理者</a>
+
+@php
+phpinfo();
+@endphp
+{{-- <div id="container">
 
     <header>
     <h1 id="logo"><a href="index.html"><img src="{{ asset('img/hp/1.png') }}" alt="SAMPLE"></a></h1>
@@ -712,7 +717,7 @@
     <li><a href="#">サンプルメニュー</a></li>
     <li><a href="#">サンプルメニュー</a></li>
     </ul>
-    </div>
+    </div> --}}
 
 @endsection
 
