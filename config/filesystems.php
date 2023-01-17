@@ -75,6 +75,7 @@ return [
         'photo_project_public_path' => [
             'driver' => 'local',
             'root' => public_path('storage/photoproject'),
+            'visibility' => 'public',
 
             'permissions' => [ // permissions 設定値を追記
                 'dir' => [
@@ -90,7 +91,7 @@ return [
         'photo_project_storage_path' => [
             'driver' => 'local',
             'root' => storage_path('app/public/photoproject'),
-
+            'visibility' => 'public',
             'permissions' => [ // permissions 設定値を追記
                 'dir' => [
                     'public'  => 0775, // public なディレクトリは775で作成 
