@@ -41,6 +41,8 @@
     radial-gradient(rgb(65, 38, 216), transparent);
   background-attachment: fixed;
   min-height: 5vh;
+
+  
 }
 
 #Main{
@@ -57,6 +59,10 @@
   padding: 5px;
   width: 100%;;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
   /*絶対位置*/
   /* position: absolute; */
 

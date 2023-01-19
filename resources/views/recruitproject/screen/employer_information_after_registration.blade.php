@@ -13,7 +13,7 @@
     }
 
 </style>
-<div class="mt-3 text-center container">
+<div id="Main" class="mt-3 text-center container">
     
     <div id="" class="row m-0 p-0">   
     
@@ -65,7 +65,7 @@
 @endsection
 
 @section('pagejs')
-<script src="{{ asset('js/common.js') }}"></script>
+
 <script type="text/javascript">
 
 $(function(){

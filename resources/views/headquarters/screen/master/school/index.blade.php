@@ -237,7 +237,7 @@
 @endsection
 
 @section('pagejs')
-<script src="{{ asset('js/common.js') }}"></script>
+
 <script type="text/javascript">
 
 $(function(){
