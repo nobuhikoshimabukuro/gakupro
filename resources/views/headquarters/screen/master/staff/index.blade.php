@@ -23,7 +23,7 @@
             <a href="" class="btn btn--red btn--radius btn--cubic" 
             data-bs-toggle='modal' data-bs-target='#Save_Modal'            
             data-processflg='0'
-            ><i class='fas fa-plus-circle'></i>　新規追加</a>               
+            ><i class='fas fa-plus-circle'></i><span class="NewAddition-ButtonName"></span></a>
         </div>
 
     </div>

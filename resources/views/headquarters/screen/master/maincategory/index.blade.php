@@ -6,6 +6,7 @@
 @section('content')
 
 <div id="Main" class="mt-3 text-center container">
+    
    <div class="row">
 
     @include('headquarters.common.alert')
@@ -23,7 +24,7 @@
             data-bs-toggle='modal' data-bs-target='#Save_Modal'
             data-maincategorycd='新規登録時に自動採番'
             data-processflg='0'
-            ><i class='fas fa-plus-circle'></i>　新規追加</a>               
+            ><i class='fas fa-plus-circle'></i><span class="NewAddition-ButtonName"></span></a>               
         </div>
 
     </div>

@@ -113,6 +113,15 @@ button{
   text-align: right;  
   margin-bottom: 5px;
 }
+
+.NewAddition-ButtonName{
+  font-weight: 600;
+  color: rgb(36, 27, 27);
+}
+/* 新規追加ボタンのボタン文字設定 */
+.NewAddition-ButtonName:before{
+  content:" Add Data";
+}
 /* マスタ画面のtable設定 Start */
 
 .DataInfoTable-Wrap {
