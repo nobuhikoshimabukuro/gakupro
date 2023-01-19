@@ -30,7 +30,7 @@
     </div>
 
 
-        <table id='' class='DataInfoTable'>
+        <table id='' class='DataInfoTable DataInfoTable-Wrap'>
             
             <tr>
                 <th>スタッフID</th>
