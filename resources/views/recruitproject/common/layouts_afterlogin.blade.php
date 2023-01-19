@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">  
-    <link href="{{ asset('css/recruitproject/common.css') }}" rel="stylesheet">      
-    <link href="{{ asset('css/recruitproject/footer.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/recruitproject/common.css') }}" rel="stylesheet">          
     
     <meta name="csrf-token" content="{{ csrf_token() }}">  {{-- CSRFトークン --}}
     @yield('pagehead')

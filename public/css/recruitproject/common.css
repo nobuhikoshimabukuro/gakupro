@@ -1,9 +1,33 @@
+
+#header{
+  background-image:
+    radial-gradient(#0ff, transparent),
+    radial-gradient(rgb(65, 38, 216), transparent);
+  background-attachment: fixed;
+  min-height: 5vh;
+}
+
 #Main{
 
   background-color: #dddee721;
-  min-height: 80vh;
+  min-height: 86vh;
 }
 
+#footer {
+  color: #fff;
+  font-size: 15px;
+  background: linear-gradient(45deg, rgb(145,236,255) 0%, rgb(167,205,250) 100%), center center no-repeat;
+  background-size: cover;  
+  padding: 5px;
+  width: 100%;;
+
+  /*絶対位置*/
+  /* position: absolute; */
+
+  /* bottom: 0; */
+  margin-top: 1vh;
+  min-height: 5vh;
+}
 button{  
   border: none;  /* 枠線を消す */
   outline: none; /* クリックしたときに表示される枠線を消す */

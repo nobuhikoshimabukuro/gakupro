@@ -383,19 +383,13 @@ class photoproject_controller extends Controller
 
         return response()->json(['ResultArray' => $ResultArray]);
     }
-
-    
     
     //写真取得画面のURLを直接読み込んだ場合_1
     function qr_announce_transition(Request $request)
     {
-        return redirect()->route('photoproject.qr_announce');
-    }
-
-    //写真取得画面のURLを直接読み込んだ場合_2
-    function qr_announce(Request $request)
-    {
-        return view('photoproject/screen/qr_announce');    
+        //エラーメッセージ設定
+        session()->flash('errormessage','Qrチケットを再度読み込んでください。');
+        return redirect()->route('photoproject.info');    
     }
 
     //写真取得用パスワード入力画面 or 写真アップロード画面への遷移先分岐

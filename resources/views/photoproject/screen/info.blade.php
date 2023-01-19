@@ -9,19 +9,20 @@
 
 </style>
 
-<div class="mt-3 text-center container">
+<div id="Main" class="mt-3 text-center container">
     
     <div id='' class="row">
      
-        @if(session('errormessage')) 
-            <h4>処理エラー</h4>           
-            <h5>{{session('errormessage')}}</h5>
-        @endif
-
         @if(session('before_upload_message')) 
             <h4>画像がまだアップロードされておりません。</h4>           
             <h4>時間をあけて再度QRコードを読み直してください。</h4>
+        @else
+            <h4>再度QRコードを読み直してください。</h4>
         @endif
+
+        <div id="">
+            <img id=''src='{{ asset('img/photoproject/syazai.png') }}' alt=''>                       
+        </div>
 
     </div>
  

@@ -12,7 +12,7 @@
     
 </style>
 
-<div class="mt-3 text-center container">
+<div id="Main" class="mt-3 text-center container">
     
     <div class="ajax-msg"></div>
     <form action="{{ route('recruitproject.mailaddress_temporary_registration_process') }}" id='SendMailForm' method="post" enctype="multipart/form-data">
