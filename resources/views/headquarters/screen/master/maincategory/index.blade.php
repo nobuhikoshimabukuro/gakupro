@@ -31,7 +31,9 @@
     </div>
 
 
-        <table id='' class='DataInfoTable DataInfoTable-Wrap'>
+    <div id="DataDisplayArea" class="DataInfoTable-Wrap m-0 p-0">
+
+        <table id='' class='DataInfoTable'>
             
             <tr>
                 <th>大分類CD</th>
@@ -69,6 +71,7 @@
             @endforeach
         </table>
 
+    </div>
 
 
 

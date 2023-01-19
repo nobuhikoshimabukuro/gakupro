@@ -29,8 +29,8 @@
 
     </div>
 
-
-        <table id='' class='DataInfoTable DataInfoTable-Wrap'>
+    <div id="DataDisplayArea" class="DataInfoTable-Wrap m-0 p-0">
+        <table id='' class='DataInfoTable'>
             
             <tr>
                 <th>スタッフID</th>
@@ -100,7 +100,7 @@
 
             @endforeach
         </table>
-
+    </div>
 
 
 

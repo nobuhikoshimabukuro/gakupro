@@ -29,8 +29,9 @@
 
     </div>
 
+    <div id="DataDisplayArea" class="DataInfoTable-Wrap m-0 p-0">
 
-        <table id='' class='DataInfoTable DataInfoTable-Wrap'>
+        <table id='' class='DataInfoTable'>
             
             <tr>
                 <th>大分類名</th>
@@ -72,7 +73,7 @@
             @endforeach
         </table>
 
-
+    </div>
 
 
         {{-- 登録/更新用モーダル --}}
