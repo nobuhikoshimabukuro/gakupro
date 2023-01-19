@@ -11,16 +11,13 @@
     @include('headquarters.common.alert')
 
     <div class="row">
-        <div class="col-4 text-left">
+        <div class="col-6 text-left">
             <h4 class="MasterTitle">
                 中分類マスタ
             </h4>
         </div>
 
-        <div class="col-4">         
-        </div>
-
-        <div class="col-4 NewAddition-Button">
+        <div class="col-6 NewAddition-Button">
             <a href="" class="btn btn--red btn--radius btn--cubic" 
             data-bs-toggle='modal' data-bs-target='#Save_Modal'            
             data-processflg='0'
