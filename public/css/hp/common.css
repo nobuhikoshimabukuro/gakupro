@@ -242,18 +242,18 @@ a.btn--radius {
 /* マスタ画面の新規登録ボタン設定 End */
 
 /* マスタ画面の削除モーダル設定 start */
-.Dlete_Modal_Table{
+.dlete_modal_table{
   width: 100%;
 }
 
-.Dlete_Modal_Table-Column{
+.dlete_modal_table-column{
    padding: 1%;
    margin: 1%;
    width: 50%;
    text-align: right;
 }
 
-.Dlete_Modal_Table-Value{
+.dlete_modal_table-value{
    padding: 1%;
    margin: 1%;
    width: 50%;

@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 
 class subcategory_m_controller extends Controller
 {
-    function index()
+    function index(Request $request)
     {
         $maincategory_m_list = maincategory_m_model::orderBy('maincategory_cd', 'asc')->get();
 
@@ -182,7 +182,7 @@ class subcategory_m_controller extends Controller
                 ->where('subcategory_cd', $subcategory_cd)
                 ->delete();
 
-                session()->flash('success', '[大分類名 = ' . $maincategory_name . ' 中分類名 = ' . $subcategory_name . ']データを利用不可状態にしました');                
+                session()->flash('success', '[大分類名 = ' . $maincategory_name . ' 中分類名 = ' . $subcategory_name . ']データを利用不可状態にしました');
             }else{    
 
                 //論理削除解除
@@ -192,7 +192,7 @@ class subcategory_m_controller extends Controller
                 ->withTrashed()                
                 ->restore();
 
-                session()->flash('success', '[大分類名 = ' . $maincategory_name . ' 中分類名 = ' . $subcategory_name . ']データを利用可能状態にしました');                                
+                session()->flash('success', '[大分類名 = ' . $maincategory_name . ' 中分類名 = ' . $subcategory_name . ']データを利用可能状態にしました');
             }
 
         } catch (Exception $e) {

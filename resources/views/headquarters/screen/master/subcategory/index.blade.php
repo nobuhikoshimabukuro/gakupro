@@ -19,7 +19,7 @@
 
         <div class="col-6 NewAddition-Button">
             <a href="" class="btn btn--red btn--radius btn--cubic" 
-            data-bs-toggle='modal' data-bs-target='#Save_Modal'            
+            data-bs-toggle='modal' data-bs-target='#save_modal'            
             data-processflg='0'
             ><i class='fas fa-plus-circle'></i><span class="NewAddition-ButtonName"></span></a>            
         </div>
@@ -33,7 +33,7 @@
             <tr>
                 <th>大分類名</th>
                 <th>中分類名</th>            
-                <th>件数【<span id='TotalNumber'>{{$subcategory_m_list->count()}}</span>件】</th>
+                <th>件数【<span id='TotalCount'>{{count($subcategory_m_list)}}</span>件】</th>
             </tr>
 
             @foreach ($subcategory_m_list as $item)
@@ -41,7 +41,7 @@
                 <td>{{$item->maincategory_name}}</td>
                 <td>{{$item->subcategory_name}}</td>   
                 <td>
-                    <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#Save_Modal'                        
+                    <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#save_modal'                        
                         data-maincategorycd='{{$item->maincategory_cd}}'
                         data-subcategorycd='{{$item->subcategory_cd}}'                        
                         data-displayorder='{{$item->display_order}}'
@@ -50,7 +50,7 @@
                         <i class='far fa-edit'></i>
                     </button>
 
-                    <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#Dlete_Modal'
+                    <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#dlete_modal'
                         data-maincategorycd='{{$item->maincategory_cd}}'
                         data-subcategorycd='{{$item->subcategory_cd}}'
                         data-maincategoryname='{{$item->maincategory_name}}'
@@ -74,12 +74,12 @@
 
 
         {{-- 登録/更新用モーダル --}}
-        <div class="modal fade" id="Save_Modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="Save_Modal_Label" aria-hidden="true">
+        <div class="modal fade" id="save_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="save_modal_label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="Save_Modal_Label"><span id="Save_Modal_Title"></span></h5>
+                        <h5 class="modal-title" id="save_modal_label"><span id="save_modal_title"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -117,7 +117,7 @@
                         </div>
 
                         <div class="modal-footer">               
-                            <button type="submit" id='SaveButton' class="btn btn-primary"><span id='Save_Modal_Button_Display'></span></button>       
+                            <button type="submit" id='SaveButton' class="btn btn-primary"><span id='save_modal_button_display'></span></button>       
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
                         </div>
                     </form>
@@ -128,12 +128,12 @@
 
 
         {{-- 削除用モーダル --}}
-        <div class="modal fade" id="Dlete_Modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="Dlete_Modal_Label" aria-hidden="true">
+        <div class="modal fade" id="dlete_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="dlete_modal_label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="Dlete_Modal_Label">操作確認</h5>
+                        <h5 class="modal-title" id="dlete_modal_label">操作確認</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -147,16 +147,16 @@
                             <input type="hidden" id="delete_subcategory_name" name="delete_subcategory_name" value="">
             
 
-                            <table class="Dlete_Modal_Table">
+                            <table class="dlete_modal_table">
                                 
                                 <tr>
-                                    <td class="Dlete_Modal_Table-Column">大分類名：</td> 
-                                    <td class="Dlete_Modal_Table-Value"><span id="Display_Maincategory_Name"></span></td>                                                                       
+                                    <td class="dlete_modal_table-column">大分類名：</td> 
+                                    <td class="dlete_modal_table-value"><span id="display_maincategory_name"></span></td>                                                                       
                                 </tr>
 
                                 <tr>
-                                    <td class="Dlete_Modal_Table-Column">中分類名：</td> 
-                                    <td class="Dlete_Modal_Table-Value"><span id="Display_Subcategory_Name"></span></td>                                                                       
+                                    <td class="dlete_modal_table-column">中分類名：</td> 
+                                    <td class="dlete_modal_table-value"><span id="Display_Subcategory_Name"></span></td>                                                                       
                                 </tr>
 
                             </table>                            
@@ -168,7 +168,7 @@
                             <div class="row">
 
                                 <div class="col-12 tect-right"> 
-                                    <button type="submit" id='Dlete_Modal_RunButton' class="btn btn-primary"><span class="Dlete_Modal_Wording"></span></button>       
+                                    <button type="submit" id='dlete_modal_runbutton' class="btn btn-primary"><span class="dlete_modal_wording"></span></button>       
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>      
                                 </div>
                                                         
@@ -193,7 +193,7 @@
 $(function(){
 
     //登録、更新用モーダル表示時
-    $('#Save_Modal').on('show.bs.modal', function(e) {
+    $('#save_modal').on('show.bs.modal', function(e) {
 
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
@@ -222,14 +222,14 @@ $(function(){
         $('#maincategory_cd').removeClass("Impossible");
 
         if(processflg == '0'){
-            $('#Save_Modal_Title').html('登録処理');         
+            $('#save_modal_title').html('登録処理');         
             $('#subcategory_cd').val(0);            
-            $('#Save_Modal_Button_Display').html('登録');            
+            $('#save_modal_button_display').html('登録');            
 
         }else{
-            $('#Save_Modal_Title').html('更新処理');   
+            $('#save_modal_title').html('更新処理');   
             $('#subcategory_cd').val(subcategory_cd);            
-            $('#Save_Modal_Button_Display').html('更新');
+            $('#save_modal_button_display').html('更新');
 
             $('#maincategory_cd').addClass("Impossible");
         }
@@ -244,7 +244,7 @@ $(function(){
 
 
     //削除モーダル表示時
-    $('#Dlete_Modal').on('show.bs.modal', function(e) {
+    $('#dlete_modal').on('show.bs.modal', function(e) {
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
@@ -259,18 +259,18 @@ $(function(){
         if (delete_flg == 0) {
             
             var wording = "利用不可にする";                 
-            $('#Dlete_Modal_RunButton').css({'background-color':'red','border-color':'red'});     
+            $('#dlete_modal_runbutton').css({'background-color':'red','border-color':'red'});     
 
         } else {
 
             var wording = "利用可能にする";                   
-            $('#Dlete_Modal_RunButton').css({'background-color':'blue','border-color':'blue'});
+            $('#dlete_modal_runbutton').css({'background-color':'blue','border-color':'blue'});
                 
         }
                
-        $('#Display_Maincategory_Name').html(maincategory_name);    
+        $('#display_maincategory_name').html(maincategory_name);    
         $('#Display_Subcategory_Name').html(subcategory_name);   
-        $('.Dlete_Modal_Wording').html(wording);
+        $('.dlete_modal_wording').html(wording);
 
         $('#delete_flg').val(delete_flg);
 

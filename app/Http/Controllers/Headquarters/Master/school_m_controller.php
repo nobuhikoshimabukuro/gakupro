@@ -10,10 +10,11 @@ use App\Models\majorsubject_m_model;
 use Illuminate\Http\Request;
 
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class school_m_controller extends Controller
 {
-    function index()
+    function index(Request $request)
     {
         $school_division_list = subcategory_m_model::select(
             'subcategory_cd as school_division_cd',
@@ -30,6 +31,7 @@ class school_m_controller extends Controller
             'school_m.school_name as school_name',
             'school_m.tel as tel',
             'school_m.hp_url as hp_url',
+            'school_m.remarks as remarks',
             'school_m.mailaddress as mailaddress',
             'school_m.deleted_at as deleted_at',
         )
@@ -41,22 +43,23 @@ class school_m_controller extends Controller
         ->withTrashed()       
         ->get();
 
-        $majorsubject_m_list = majorsubject_m_model::select(
+        foreach($school_m_list as $info){
 
-            'majorsubject_m.school_cd as school_cd',
-            'majorsubject_m.majorsubject_cd as majorsubject_cd',
-            'majorsubject_m.majorsubject_name as majorsubject_name',
-            'majorsubject_m.studyperiod as studyperiod',
-            'majorsubject_m.remarks as remarks',           
-        )       
-        ->orderBy('majorsubject_m.school_cd', 'asc')        
-        ->orderBy('majorsubject_m.majorsubject_cd', 'asc') 
-        ->withTrashed()
-        ->get();        
+            $school_cd = $info->school_cd;
+
+            $majorsubject_count = majorsubject_m_model::
+            where('school_cd',$school_cd)
+            ->withTrashed()
+            ->count();       
+
+            $info->majorsubject_count = $majorsubject_count;
+
+        }
+        
 
         
         
-        return view('headquarters/screen/master/school/index', compact('school_m_list','school_division_list','majorsubject_m_list'));
+        return view('headquarters/screen/master/school/index', compact('school_m_list','school_division_list'));
     }
 
 
@@ -133,47 +136,45 @@ class school_m_controller extends Controller
     }
 
     //  論理削除処理
-    function delete(Request $request)
+    function delete_or_restore(Request $request)
     {
-        $delete_subcategory_cd = intval($request->delete_subcategory_cd);
-        $maincategory_name = $request->delete_maincategory_name;
-        $subcategory_name = $request->delete_subcategory_name;
+        $delete_flg = intval($request->delete_flg);
+        $school_cd = intval($request->delete_school_cd);
+        $school_name = $request->delete_school_name;           
+
         try {
-            $mcon = subcategory_m_model::destroy($delete_subcategory_cd);
-            session()->flash('success', '[大分類 = ' . $maincategory_name . ' 中分類 = ' . $subcategory_name . ']データを利用不可状態にしました');
+
+            
+            if($delete_flg == 0){
+
+                //論理削除
+                school_m_model::
+                where('school_cd', $school_cd)                
+                ->delete();
+
+                session()->flash('success', '[学校名 = ' . $school_name. ']データを利用不可状態にしました');                
+            }else{    
+
+                //論理削除解除
+                school_m_model::
+                where('school_cd', $school_cd)                
+                ->withTrashed()                
+                ->restore();
+
+                session()->flash('success', '[学校名 = ' . $school_name . ']データを利用可能状態にしました');                                
+            }
+
         } catch (Exception $e) {
 
-            $e->getMessage();            
-            
-            $ErrorMessage = '中分類マスタ利用不可処理時エラー';
+            $ErrorMessage = '【学校マスタ利用状況変更処理時エラー】' . $e->getMessage();            
 
-            session()->flash('error', '[大分類 = ' . $maincategory_name . ' 中分類 = ' . $subcategory_name . ']データの利用不可処理時にエラー');            
-        }
+            Log::channel('error_log')->info($ErrorMessage);
 
+            session()->flash('error', '[学校名 = ' . $school_name . ']データの利用状況変更処理時エラー'); 
+           
+        }       
 
         return back();
     }
 
-    //  論理削除取り消し処理
-    function restore(Request $request)
-    {
-        $delete_subcategory_cd = intval($request->delete_subcategory_cd);
-        $maincategory_name = $request->delete_maincategory_name;
-        $subcategory_name = $request->delete_subcategory_name;
-
-        try {
-            $mcon = subcategory_m_model::where('subcategory_cd', $delete_subcategory_cd)->withTrashed()->get()->first();
-            $mcon->restore();
-            session()->flash('success', '[大分類 = ' . $maincategory_name . ' 中分類 = ' . $subcategory_name . ']データの利用不可状態を解除しました');
-        } catch (Exception $e) {
-
-            $e->getMessage();            
-            
-            $ErrorMessage = '中分類マスタ利用不可解除処理時エラー';
-            
-            session()->flash('error', '[大分類 = ' . $maincategory_name . ' 中分類 = ' . $subcategory_name . ']データの利用不可解除時にエラー');            
-        }
-
-        return back();
-    }
 }

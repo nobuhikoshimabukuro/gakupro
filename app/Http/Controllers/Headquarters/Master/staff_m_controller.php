@@ -16,7 +16,7 @@ use App\Repositories\AuthorityList;
 use Illuminate\Support\Facades\DB;
 class staff_m_controller extends Controller
 {
-    function index()
+    function index(Request $request)
     {
         $gender_list = GenderList::get();
 

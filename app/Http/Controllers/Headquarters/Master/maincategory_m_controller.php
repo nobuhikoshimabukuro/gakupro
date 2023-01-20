@@ -20,7 +20,7 @@ use Illuminate\Http\Request;
 class maincategory_m_controller extends Controller
 {
     
-    function index()
+    function index(Request $request)
     {
         $maincategory_m_list = maincategory_m_model::withTrashed()
             ->orderBy('maincategory_cd', 'asc')

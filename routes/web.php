@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Headquarters\Master\maincategory_m_controller;
 use App\Http\Controllers\Headquarters\Master\subcategory_m_controller;
-use App\Http\Controllers\Headquarters\Master\school_m_controller;
 use App\Http\Controllers\Headquarters\Master\staff_m_controller;
+use App\Http\Controllers\Headquarters\Master\school_m_controller;
+use App\Http\Controllers\Headquarters\Master\majorsubject_m_controller;
 
 use App\Http\Controllers\HP\hp_controller;
 
@@ -57,12 +58,12 @@ Route::post('headquarters/master/staff/save', [staff_m_controller::class, 'save'
 Route::post('headquarters/master/staff/delete_or_restore', [staff_m_controller::class, 'delete_or_restore'])->name('master.staff.delete_or_restore');
 Route::post('headquarters/master/staff/login_info_update', [staff_m_controller::class, 'login_info_update'])->name('master.staff.login_info_update');
 
-
-
 Route::get('headquarters/master/school/', [school_m_controller::class, 'index'])->name('master.school');
 Route::post('headquarters/master/school/save', [school_m_controller::class, 'save'])->name('master.school.save');
-Route::post('headquarters/master/school/delete', [school_m_controller::class, 'delete'])->name('master.school.delete');
-Route::post('headquarters/master/school/restore', [school_m_controller::class, 'restore'])->name('master.school.restore');
+Route::post('headquarters/master/school/delete_or_restore', [school_m_controller::class, 'delete_or_restore'])->name('master.school.delete_or_restore');
+
+Route::get('headquarters/master/majorsubject/index', [majorsubject_m_controller::class, 'index'])->name('master.majorsubject');
+Route::post('headquarters/master/majorsubject/delete_or_restore', [majorsubject_m_controller::class, 'delete_or_restore'])->name('master.majorsubject.delete_or_restore');
 //本部  End
 
 

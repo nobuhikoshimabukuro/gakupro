@@ -20,7 +20,7 @@
 
         <div class="col-6 NewAddition-Button">
             <a href="" class="btn btn--red btn--radius btn--cubic" 
-            data-bs-toggle='modal' data-bs-target='#Save_Modal'            
+            data-bs-toggle='modal' data-bs-target='#save_modal'            
             data-processflg='0'
             ><i class='fas fa-plus-circle'></i><span class="NewAddition-ButtonName"></span></a>  
         </div>
@@ -35,20 +35,69 @@
                 <th>学校名</th>
                 <th>TEL</th>
                 <th>HP</th>
-                <th>件数【<span id='TotalNumber'>{{$school_m_list->count()}}</span>件】</th>
+                <th>専攻総数</th>
+                <th>備考</th>
+                <th>件数【<span id='TotalCount'>{{count($school_m_list)}}</span>件】</th>
             </tr>
 
             @foreach ($school_m_list as $item)
             <tr>
-                <td>{{$item->school_cd}}
-                    <button id="majorsubject_open_button_{{$item->school_cd}}" class="majorsubject_open_button" data-schoolcd='{{$item->school_cd}}'>↓</button>
-                    <button id="majorsubject_close_button_{{$item->school_cd}}" class="majorsubject_close_button d-none" data-schoolcd='{{$item->school_cd}}'>↑</button>
-                </td>
+                <td>{{$item->school_cd}}</td>
                 <td>{{$item->school_name}}</td>                   
                 <td>{{$item->tel}}</td>
-                <td><a href="{{$item->hp_url}}" target="_blank" rel="noopener noreferrer">{{$item->hp_url}}</a></td>
                 <td>
-                    <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#Save_Modal'
+                    <a href="{{$item->hp_url}}" target="_blank" rel="noopener noreferrer">{{$item->hp_url}}</a>
+                </td>
+                <td>
+                    <button class='btn btn-warning' type='button' onclick= "location.href='{{ route('master.majorsubject' ,['school_cd' => $item->school_cd]) }}'">専攻情報確認【{{$item->majorsubject_count}}】</button>
+                </td>          
+                
+                @php
+                    // 表示する最大文字数
+                    $LimitStr = 4;
+                    $ButtonName = "";
+
+                    // ボタン表示フラグ
+                    $DisplayBtnFLG = true;
+
+                    if(!is_null($item->remarks)){
+
+                        // 申込情報備考文字数取得
+                        $StrCount = mb_strlen($item->remarks);
+
+                        if($StrCount > $LimitStr){
+                            // 最大文字数に達している場合、"$申込情報備考（指定した文字数）..."と表示
+                            $ButtonName =  mb_substr($item->remarks, 0 , $LimitStr);
+                            $ButtonName =  $ButtonName . "...";
+
+
+                        }else if($StrCount <= $LimitStr){
+                            
+                            $ButtonName = $item->remarks;
+                        }
+
+                    }else{
+
+                        // 申込情報備考が登録されていない場合
+                        $DisplayBtnFLG = false;
+
+                    }
+
+                @endphp
+                <td>
+                    @if($DisplayBtnFLG)  
+                        
+                        <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#remarks_modal'
+                        data-schoolcd="{{$item->school_cd}}"
+                        data-schoolname='{{$item->school_name}}'
+                        data-remarks="{{$item->remarks}}"											
+                        >{{$ButtonName}}                  
+                   
+                    @endif                  
+                
+                </td>
+                <td>
+                    <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#save_modal'
                         data-schoolcd='{{$item->school_cd}}'
                         data-schooldivision='{{$item->school_division}}'
                         data-schoolname='{{$item->school_name}}'
@@ -59,14 +108,14 @@
                         <i class='far fa-edit'></i>
                     </button>
 
-                    <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#Dlete_Modal'
+                    <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#dlete_modal'
                         data-schoolcd='{{$item->school_cd}}'
                         data-schooldivision='{{$item->school_division}}'
                         data-schoolname='{{$item->school_name}}'
                         data-tel='{{$item->tel}}'
                         data-hpurl='{{$item->hp_url}}'
                         data-mailaddress='{{$item->mailaddress}}'
-                        data-deleteflg=@if($item->deleted_at) 0 @else 1 @endif>
+                        data-deleteflg=@if($item->deleted_at) 1 @else 0 @endif>
                                     
                         @if($item->deleted_at)
                             <i class='far fa-thumbs-down'></i><i class='fas fa-arrow-right'></i><i class='far fa-thumbs-up'></i>
@@ -76,43 +125,7 @@
                     </button>             
 
                 </td>
-            </tr>
-
-            
-                
-            @if(!is_null($majorsubject_m_list->where('school_cd', $item->school_cd)->first()))
-
-            
-                <tr class="majorsubject-tr school_cd_{{$item->school_cd}} d-none">
-                    
-                    <td>専攻CD</td>
-                    <td>専攻名</td>
-                    <td>期間(ヶ月)</td>
-                    <td>備考</td>                    
-                    <td></td>
-                    
-                </tr>
-                @foreach ($majorsubject_m_list as $info)
-
-                    @if($item->school_cd == $info->school_cd)
-                        <tr class="majorsubject-tr school_cd_{{$item->school_cd}} d-none">
-                            
-                            <td>{{$info->majorsubject_cd}}</td>
-                            <td>{{$info->majorsubject_name}}</td>                   
-                            <td>{{$info->studyperiod}}</td>
-                            <td>{{$info->remarks}}</td>                            
-                            <td></td>
-                        </tr>
-                    @endif
-            
-                @endforeach
-
-            </div>
-
-            @endif
-
-                
-            
+            </tr>           
 
             @endforeach
         </table>
@@ -122,12 +135,12 @@
 
 
         {{-- 登録/更新用モーダル --}}
-        <div class="modal fade" id="Save_Modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="Save_Modal_Label" aria-hidden="true">
+        <div class="modal fade" id="save_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="save_modal_label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="Save_Modal_Label"><span id="Save_Modal_Title"></span></h5>
+                        <h5 class="modal-title" id="save_modal_label"><span id="save_modal_title"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -169,7 +182,7 @@
                         </div>
 
                         <div class="modal-footer">               
-                            <button type="submit" id='SaveButton' class="btn btn-primary"><span id='Save_Modal_Button_Display'></span></button>       
+                            <button type="submit" id='SaveButton' class="btn btn-primary"><span id='save_modal_button_display'></span></button>       
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
                         </div>
                     </form>
@@ -177,60 +190,83 @@
                 </div>
             </div>
         </div>
+        
+       {{-- 削除用モーダル --}}
+       <div class="modal fade" id="dlete_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="dlete_modal_label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
 
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dlete_modal_label">操作確認</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
 
-        {{-- 削除用モーダル --}}
-        <div class="modal fade" id="Dlete_Modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="Dlete_Modal_Label" aria-hidden="true">
+                <form id="Deleteform" method="post" action="{{ route('master.school.delete_or_restore') }}">                           
+                    @csrf
+                    <div class="modal-body">  
+                        <input type="hidden" id="delete_flg" name="delete_flg" value="">
+                        <input type="hidden" id="delete_school_cd" name="delete_school_cd" value="">
+                        <input type="hidden" id="delete_school_name" name="delete_school_name" value="">
+        
+
+                        <table class="dlete_modal_table">
+
+                            <tr>
+                                <td class="dlete_modal_table-column">学校CD：</td>
+                                <td class="dlete_modal_table-value"><span id="display_school_cd"></span></td>
+                            </tr>
+                            <tr>
+                                <td class="dlete_modal_table-column">学校名：</td> 
+                                <td class="dlete_modal_table-value"><span id="display_school_name"></span></td>                                                                       
+                            </tr>
+
+                        </table>                            
+
+                    </div>
+
+                    <div class="modal-footer">         
+                        
+                        <div class="row">
+
+                            <div class="col-12 tect-right"> 
+                                <button type="submit" id='dlete_modal_runbutton' class="btn btn-primary"><span class="dlete_modal_wording"></span></button>       
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>      
+                            </div>
+                                                    
+                        </div>          
+                        
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+  
+
+       
+
+        {{-- 備考確認用モーダル --}}
+        <div class="modal fade" id="remarks_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="remarks_modal_label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="Dlete_Modal_Label">操作確認</h5>
+	                  <div class="modal-header">
+                        <h5 class="modal-title" id=""><span id="remarks_modal_title"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                   
+                    <div class="modal-body">                                                          
+                        <textarea id="remarks_modal_Remarks" class="form-control" rows="4" cols="40" readonly></textarea>
+                    </div>
 
-                    <form id="Deleteform" method="post" action="">                    
-                        @csrf
-                        <div class="modal-body">  
-                            <input type="hidden" id="delete_school_cd" name="delete_school_cd" value="">
-                            <input type="hidden" id="delete_maincategory_name" name="delete_maincategory_name" value="">
-                            <input type="hidden" id="delete_school_name" name="delete_school_name" value="">
-            
-
-                            <table class="Dlete_Modal_Table">
-                                
-                                <tr>
-                                    <td class="Dlete_Modal_Table-Column">大分類名：</td> 
-                                    <td class="Dlete_Modal_Table-Value"><span id="Display_Maincategory_Name"></span></td>                                                                       
-                                </tr>
-
-                                <tr>
-                                    <td class="Dlete_Modal_Table-Column">中分類名：</td> 
-                                    <td class="Dlete_Modal_Table-Value"><span id="Display_school_Name"></span></td>                                                                       
-                                </tr>
-
-                            </table>                            
-
-                        </div>
-
-                        <div class="modal-footer">         
-                            
-                            <div class="row">
-
-                                <div class="col-12 tect-right"> 
-                                    <button type="submit" id='Dlete_Modal_RunButton' class="btn btn-primary"><span class="Dlete_Modal_Wording"></span></button>       
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>      
-                                </div>
-                                                        
-                            </div>          
-                            
-                        </div>
-                    </form>
-
+                    <div class="modal-footer">               
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                    </div>
                 </div>
             </div>
         </div>
-      
+
+
 
     </div>
 </div>
@@ -242,8 +278,23 @@
 
 $(function(){
 
+    //備考モーダル
+    $('#remarks_modal').on('show.bs.modal',function(e){
+        // イベント発生元
+        let evCon = $(e.relatedTarget);
+
+        let school_name = evCon.data('schoolname');
+        let remarks = evCon.data('remarks');
+
+        var Title = school_name + "の備考"
+        $('#remarks_modal_title').html(Title);
+        $('#remarks_modal_Remarks').val(remarks);
+        
+    });
+
+
     //登録、更新用モーダル表示時
-    $('#Save_Modal').on('show.bs.modal', function(e) {
+    $('#save_modal').on('show.bs.modal', function(e) {
 
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
@@ -270,13 +321,13 @@ $(function(){
         //登録処理か更新処理か判断
         var processflg = evCon.data('processflg');
         if(processflg == '0'){
-            $('#Save_Modal_Title').html('登録処理');         
+            $('#save_modal_title').html('登録処理');         
             $('#school_cd').val(0);            
-            $('#Save_Modal_Button_Display').html('登録');
+            $('#save_modal_button_display').html('登録');
         }else{
-            $('#Save_Modal_Title').html('更新処理（学校CD：' + school_cd + '）');   
+            $('#save_modal_title').html('更新処理（学校CD：' + school_cd + '）');   
             $('#school_cd').val(school_cd);            
-            $('#Save_Modal_Button_Display').html('更新');
+            $('#save_modal_button_display').html('更新');
         }
         
      
@@ -287,37 +338,36 @@ $(function(){
         $('#mailaddress').val(mailaddress);
                 
     });
-
-
-    //削除モーダル表示時
-    $('#Dlete_Modal').on('show.bs.modal', function(e) {
+   
+   //削除モーダル表示時
+   $('#dlete_modal').on('show.bs.modal', function(e) {
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
         var school_cd = evCon.data('schoolcd');
-        var maincategory_name = evCon.data('maincategoryname');    
         var school_name = evCon.data('schoolname');    
         var deleteflg = evCon.data('deleteflg');
+    
+        var delete_flg = evCon.data('deleteflg');
 
-        if (deleteflg == 0) {
-            var wording = "利用可能にする";
-            $('#Deleteform').prop('action','{{ route('master.school.restore') }}')          
-            $('#Dlete_Modal_RunButton').css({'background-color':'blue','border-color':'blue'});
+        if (delete_flg == 0) {            
+            var wording = "利用不可にする";                 
+            $('#dlete_modal_runbutton').css({'background-color':'red','border-color':'red'});     
 
         } else {
-            var wording = "利用不可にする";     
-            $('#Deleteform').prop('action','{{ route('master.school.delete') }}')
-            $('#Dlete_Modal_RunButton').css({'background-color':'red','border-color':'red'});            
+            var wording = "利用可能にする";                   
+            $('#dlete_modal_runbutton').css({'background-color':'blue','border-color':'blue'});                
         }
+
+       
     
-        $('#Display_Maincategory_CD').html(maincategory_cd);    
-        $('#Display_Maincategory_Name').html(maincategory_name);    
-        $('#Display_school_Name').html(school_name);   
-        $('.Dlete_Modal_Wording').html(wording);
+        $('#display_school_cd').html(school_cd);    
+        $('#display_school_name').html(school_name);    
+        $('.dlete_modal_wording').html(wording);
 
 
+        $('#delete_flg').val(delete_flg);
         $('#delete_school_cd').val(school_cd);
-        $('#delete_maincategory_name').val(maincategory_name);  
         $('#delete_school_name').val(school_name);  
 
     });
