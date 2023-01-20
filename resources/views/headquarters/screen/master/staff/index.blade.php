@@ -346,13 +346,17 @@ $(function(){
         var staff_name = evCon.data('staffname');    
         var deleteflg = evCon.data('deleteflg');
 
-        if (deleteflg == 0) {
-            var wording = "利用可能にする";            
-            $('#dlete_modal_runbutton').css({'background-color':'blue','border-color':'blue'});
+        $('#dlete_modal_runbutton').removeClass('delete_button');
+        $('#dlete_modal_runbutton').removeClass('restore_button');        
+
+        if (delete_flg == 0) {            
+            var wording = "利用不可にする";                 
+            $('#dlete_modal_runbutton').addClass('delete_button');  
 
         } else {
-            var wording = "利用不可にする";                 
-            $('#dlete_modal_runbutton').css({'background-color':'red','border-color':'red'});            
+            
+            var wording = "利用可能にする";
+            $('#dlete_modal_runbutton').addClass('restore_button');  
         }
     
         $('#display_maincategory_cd').html(maincategory_cd);    

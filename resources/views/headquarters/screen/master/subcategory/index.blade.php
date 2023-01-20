@@ -256,16 +256,17 @@ $(function(){
 
         var delete_flg = evCon.data('deleteflg');
 
-        if (delete_flg == 0) {
-            
+        $('#dlete_modal_runbutton').removeClass('delete_button');
+        $('#dlete_modal_runbutton').removeClass('restore_button');        
+
+        if (delete_flg == 0) {            
             var wording = "利用不可にする";                 
-            $('#dlete_modal_runbutton').css({'background-color':'red','border-color':'red'});     
+            $('#dlete_modal_runbutton').addClass('delete_button');  
 
         } else {
-
-            var wording = "利用可能にする";                   
-            $('#dlete_modal_runbutton').css({'background-color':'blue','border-color':'blue'});
-                
+            
+            var wording = "利用可能にする";
+            $('#dlete_modal_runbutton').addClass('restore_button');  
         }
                
         $('#display_maincategory_name').html(maincategory_name);    

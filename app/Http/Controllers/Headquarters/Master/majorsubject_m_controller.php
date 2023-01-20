@@ -22,6 +22,15 @@ class majorsubject_m_controller extends Controller
         $school_info = null;
         $majorsubject_m_list = array();
 
+        $school_m_list = school_m_model::select(
+
+            'school_m.school_cd as school_cd',            
+            'school_m.school_name as school_name',        
+            'school_m.deleted_at as deleted_at',
+        )        
+        ->orderBy('school_m.school_cd', 'asc')          
+        ->get();
+
         if(!is_null($school_cd)){
 
             $school_info = school_m_model::select(
@@ -70,7 +79,7 @@ class majorsubject_m_controller extends Controller
             ->get();       
 
         }        
-        return view('headquarters/screen/master/majorsubject/index', compact('school_info','majorsubject_m_list'));
+        return view('headquarters/screen/master/majorsubject/index', compact('school_cd','school_m_list','school_info','majorsubject_m_list'));
     }
 
 

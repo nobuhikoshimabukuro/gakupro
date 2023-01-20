@@ -273,6 +273,29 @@ a.btn--radius {
    width: 50%;
    text-align: left;
 }
+
+.delete_button{
+  background-color: rgb(243, 50, 50);
+  border-color: rgb(243, 50, 50);
+}
+
+.delete_button:hover{
+  background-color:red;
+  border-color: red;
+}
+
+
+.restore_button{
+  background-color: rgb(47, 47, 231);
+  border-color: rgb(47, 47, 231);
+}
+
+.restore_button:hover{
+  background-color: blue;
+  border-color: blue;
+}
+
+
 /* マスタ画面の削除モーダル設定 End */
 
 

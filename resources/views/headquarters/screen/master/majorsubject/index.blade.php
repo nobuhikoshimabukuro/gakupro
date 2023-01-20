@@ -11,13 +11,13 @@
     @include('headquarters.common.alert')
 
     <div class="row">
+
         <div class="col-6 text-left">
             <h4 class="MasterTitle">
                 専攻マスタ
             </h4>
-        </div>
+        </div>       
         
-
         <div class="col-6 NewAddition-Button">
             <a href="" class="btn btn--red btn--radius btn--cubic" 
             data-bs-toggle='modal' data-bs-target='#save_modal'            
@@ -26,6 +26,29 @@
         </div>
 
     </div>
+      
+    <div class="row">
+
+        <div class="col-9 text-left">
+            <select id='school_cd' name='school_cd' class='form-control input-sm'>
+                <option value=''>
+                @foreach($school_m_list as $item)
+                    <option value="{{$item->school_cd}}" @if($school_cd == $item->school_cd) selected @endif>
+                        {{$item->school_name}}
+                        
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="col-3 text-left">
+            <button type="button" id="AddressSearchButton" class=""><i class="fas fa-search"></i></button>
+        </div>
+        
+
+
+    </div>
+
 
     <div id="DataDisplayArea" class="DataInfoTable-Wrap m-0 p-0">
         <table id='' class='DataInfoTable'>
@@ -332,13 +355,17 @@ $(function(){
         var majorsubject_name = evCon.data('majorsubject_name');
         var delete_flg = evCon.data('deleteflg');
     
+        $('#dlete_modal_runbutton').removeClass('delete_button');
+        $('#dlete_modal_runbutton').removeClass('restore_button');        
+
         if (delete_flg == 0) {            
             var wording = "利用不可にする";                 
-            $('#dlete_modal_runbutton').css({'background-color':'red','border-color':'red'});     
+            $('#dlete_modal_runbutton').addClass('delete_button');  
 
         } else {
-            var wording = "利用可能にする";                   
-            $('#dlete_modal_runbutton').css({'background-color':'blue','border-color':'blue'});                
+            
+            var wording = "利用可能にする";
+            $('#dlete_modal_runbutton').addClass('restore_button');  
         }
 
             
