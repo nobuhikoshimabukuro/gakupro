@@ -32,6 +32,19 @@
   min-height: 5vh;
 }
 
+/* クリアボタン */
+.ClearButton{
+  margin: 3px;
+  color: #fff;
+  background-color: #eb6100;
+  border-radius: 100vh;
+}
+
+.ClearButton:hover{
+  color: #fff;
+  background: #f56500;
+}
+
 button{  
   border: none;  /* 枠線を消す */
   outline: none; /* クリックしたときに表示される枠線を消す */
@@ -63,7 +76,7 @@ button{
 }
 /* マスタ画面のtable設定 Start */
 
-.DataInfoTable-Wrap {
+.Table-Wrap {
   overflow-x: scroll;
 }
 

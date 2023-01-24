@@ -18,10 +18,18 @@ class majorsubject_m_controller extends Controller
     function index(Request $request)
     {
 
-        $school_cd = $request->school_cd;
-        $school_info = null;
+        
         $majorsubject_m_list = array();
 
+        //検索項目格納用配列
+        $SearchElementArray = [
+            'school_cd' => $request->school_cd,
+            'school_name' => $request->school_name,
+            'majorsubject_name' => $request->majorsubject_name
+        ];
+
+        
+        //プルダウン作成の為
         $school_m_list = school_m_model::select(
 
             'school_m.school_cd as school_cd',            
@@ -30,56 +38,47 @@ class majorsubject_m_controller extends Controller
         )        
         ->orderBy('school_m.school_cd', 'asc')          
         ->get();
+       
+              
+        $majorsubject_m_list = majorsubject_m_model::select(
 
-        if(!is_null($school_cd)){
+            'majorsubject_m.id as id',
+            'majorsubject_m.school_cd as school_cd',
+            'school_m.school_name as school_name',
+            'school_m.school_division as school_division',
+            'subcategory_m.subcategory_name as school_division_name',
+            'majorsubject_m.majorsubject_cd as majorsubject_cd',
+            'majorsubject_m.majorsubject_name as majorsubject_name',
+            'majorsubject_m.studyperiod as studyperiod',
+            'majorsubject_m.remarks as remarks',
+            'majorsubject_m.deleted_at as deleted_at',
+        )       
+        ->leftJoin('school_m', function ($join) {
+            $join->on('school_m.school_cd', '=', 'majorsubject_m.school_cd');
+        })
+        ->leftJoin('subcategory_m', function ($join) {
+            $join->on('school_m.school_division', '=', 'subcategory_m.subcategory_cd');
+        })       
+        ->where('subcategory_m.maincategory_cd', '=', 2)        
+        ->orderBy('majorsubject_m.school_cd', 'asc')        
+        ->orderBy('majorsubject_m.majorsubject_cd', 'asc') ;
+        
+        
+        if(!is_null($SearchElementArray['school_cd'])){
+            $majorsubject_m_list = $majorsubject_m_list->where('majorsubject_m.school_cd', '=', $SearchElementArray['school_cd']);
+        }
+        
+        if(!is_null($SearchElementArray["school_name"])){
+            $majorsubject_m_list = $majorsubject_m_list->where('school_m.school_name', 'like', '%' . $SearchElementArray['school_name'] . '%');
+        } 
+        
+        if(!is_null($SearchElementArray["majorsubject_name"])){
+            $majorsubject_m_list = $majorsubject_m_list->where('majorsubject_m.majorsubject_name', 'like', '%' . $SearchElementArray['majorsubject_name'] . '%');            
+        } 
 
-            $school_info = school_m_model::select(
-
-                'school_m.school_cd as school_cd',
-                'school_m.school_division as school_division',
-                'subcategory_m.subcategory_name as school_division_name',
-                'school_m.school_name as school_name',
-                'school_m.tel as tel',
-                'school_m.hp_url as hp_url',
-                'school_m.mailaddress as mailaddress',
-                'school_m.deleted_at as deleted_at',
-            )
-            ->leftJoin('subcategory_m', function ($join) {
-                $join->on('school_m.school_division', '=', 'subcategory_m.subcategory_cd');
-            })
-            ->where('maincategory_cd',2)
-            ->orderBy('school_m.school_cd', 'asc') 
-            ->withTrashed()       
-            ->first();
-    
-            $majorsubject_m_list = majorsubject_m_model::select(
-    
-                'majorsubject_m.id as id',
-                'majorsubject_m.school_cd as school_cd',
-                'school_m.school_name as school_name',
-                'school_m.school_division as school_division',
-                'subcategory_m.subcategory_name as school_division_name',
-                'majorsubject_m.majorsubject_cd as majorsubject_cd',
-                'majorsubject_m.majorsubject_name as majorsubject_name',
-                'majorsubject_m.studyperiod as studyperiod',
-                'majorsubject_m.remarks as remarks',
-                'majorsubject_m.deleted_at as deleted_at',
-            )       
-            ->leftJoin('school_m', function ($join) {
-                $join->on('school_m.school_cd', '=', 'majorsubject_m.school_cd');
-            })
-            ->leftJoin('subcategory_m', function ($join) {
-                $join->on('school_m.school_division', '=', 'subcategory_m.subcategory_cd');
-            })
-            ->where('majorsubject_m.school_cd', '=', $school_cd)
-            ->where('subcategory_m.maincategory_cd', '=', 2)        
-            ->orderBy('majorsubject_m.school_cd', 'asc')        
-            ->orderBy('majorsubject_m.majorsubject_cd', 'asc') 
-            ->withTrashed()
-            ->get();       
-
-        }        
-        return view('headquarters/screen/master/majorsubject/index', compact('school_cd','school_m_list','school_info','majorsubject_m_list'));
+        $majorsubject_m_list = $majorsubject_m_list->get();        
+        
+        return view('headquarters/screen/master/majorsubject/index', compact('SearchElementArray','school_m_list','majorsubject_m_list'));
     }
 
 

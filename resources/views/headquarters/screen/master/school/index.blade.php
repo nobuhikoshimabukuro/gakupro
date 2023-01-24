@@ -27,7 +27,7 @@
 
     </div>
 
-    <div id="DataDisplayArea" class="DataInfoTable-Wrap m-0 p-0">
+    <div id="DataDisplayArea" class="Table-Wrap m-0 p-0">
         <table id='' class='DataInfoTable'>
             
             <tr>

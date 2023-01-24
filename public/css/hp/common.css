@@ -110,7 +110,7 @@ button{
 }
 /* マスタ画面のtable設定 Start */
 
-.DataInfoTable-Wrap {
+.Table-Wrap {
   overflow-x: scroll;
 }
 

@@ -5,6 +5,9 @@
 @endsection
 @section('content')
 
+<style>
+
+    </style>
 <div id="Main" class="mt-3 text-center container">
    <div class="row">
 
@@ -27,30 +30,52 @@
 
     </div>
       
-    <div class="row">
+    <form id="SearchForm" class="row" action="" method="get">
 
-        <div class="col-9 text-left">
-            <select id='school_cd' name='school_cd' class='form-control input-sm'>
-                <option value=''>
-                @foreach($school_m_list as $item)
-                    <option value="{{$item->school_cd}}" @if($school_cd == $item->school_cd) selected @endif>
-                        {{$item->school_name}}
-                        
-                    </option>
-                @endforeach
-            </select>
+    
+        <div id="SearchFormArea" class="Table-Wrap m-0 p-0">
+            <table id='' class='DataInfoTable'>
+                <tr>                
+                    <th>学校選択</th>
+                    <th>学校名</th>
+                    <th>専攻名</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+
+                <tr>              
+                    <td>
+                        <select id='school_cd' name='school_cd' class='form-control input-sm'>
+                            <option value=''>未選択</option>
+                            @foreach($school_m_list as $item)
+                                <option value="{{$item->school_cd}}" @if($SearchElementArray['school_cd'] == $item->school_cd) selected @endif>
+                                    {{$item->school_name}}
+                                    
+                                </option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" id="" name="school_name" value="{{$SearchElementArray['school_name']}}" class="form-control">
+                    </td>                
+                    <td>
+                        <input type="text" id="" name="majorsubject_name" value="{{$SearchElementArray['majorsubject_name']}}" class="form-control">
+                    </td>
+
+                    <td>                        
+                        <a id="" class="btn ClearButton">クリア</a>                        
+                    </td>
+                    <td>                                                                       
+                        <button type="submit" id="" class="btn SearchButton" onclick="return SearchFormCheck();">検索 <i class="fas fa-search"></i></button>
+                    </td>
+                </tr>
+
+            </table>
         </div>
+             
+    </form>
 
-        <div class="col-3 text-left">
-            <button type="button" id="AddressSearchButton" class=""><i class="fas fa-search"></i></button>
-        </div>
-        
-
-
-    </div>
-
-
-    <div id="DataDisplayArea" class="DataInfoTable-Wrap m-0 p-0">
+    <div id="DataDisplayArea" class="Table-Wrap m-0 p-0">
         <table id='' class='DataInfoTable'>
             
             <tr>                
@@ -281,6 +306,41 @@
 
 <script type="text/javascript">
 
+
+//一覧表示画面の検索ボタンクリック時の処理
+//検索項目に値に、入力または選択があるかチェックする
+function SearchFormCheck() {
+
+	 $(".is-invalid").removeClass('is-invalid');
+
+	var FormData = $("#SearchForm").serializeArray();
+	var NoInputCheck = false;
+
+	$.each(FormData, function(i, element) {		
+
+		var TargetValue = $("[name='"+ element.name +"']").val();
+		
+		if(TargetValue != ''){
+			NoInputCheck = true;			
+		}
+
+	});
+	
+	if(NoInputCheck == false){
+
+		$.each(FormData, function(i, element) {
+
+			$("[name='"+ element.name +"']").addClass('is-invalid');
+
+		});
+
+		alert('検索項目を1つ以上設定してください。');	
+		return false;
+
+	}
+}
+
+
 $(function(){
 
 
@@ -380,6 +440,17 @@ $(function(){
         $('#delete_majorsubject_name').val(majorsubject_name);
 
     });
+
+    // 「クリア」ボタンがクリックされたら
+    $('.ClearButton').click(function () {
+
+        var FormData = $("#SearchForm").serializeArray();        
+
+        $.each(FormData, function(i, element) {		
+            $("[name='"+ element.name +"']").val("");          
+        });
+    });
+
 
     // 「保存」ボタンがクリックされたら
     $('#SaveButton').click(function () {

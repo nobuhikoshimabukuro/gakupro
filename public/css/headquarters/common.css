@@ -71,7 +71,31 @@
   min-height: 5vh;
 }
 
+/* クリアボタン */
+.ClearButton{
+  margin: 3px;
+  color: #fff;
+  background-color: #eb6100;
+  border-radius: 100vh;
+}
 
+.ClearButton:hover{
+  color: #fff;
+  background: #98e719;
+}
+
+/* 検索ボタン */
+.SearchButton{
+  margin: 3px;
+  color: #fff;
+  background-color: #055fe6;
+  border-radius: 100vh;
+}
+
+.SearchButton:hover{
+  color: #fff;
+  background: #5c59ee;
+}
 
 /* 操作不可能 */
 .Impossible {
@@ -124,9 +148,10 @@ button{
 }
 /* マスタ画面のtable設定 Start */
 
-.DataInfoTable-Wrap {
+.Table-Wrap {
   overflow-x: scroll;
 }
+
 
 .DataInfoTable{  
   width: 100%;
