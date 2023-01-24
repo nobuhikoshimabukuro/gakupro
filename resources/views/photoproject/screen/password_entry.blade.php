@@ -28,7 +28,7 @@
             <div class="row">                    
 
                 <div class="col-4 text-right">
-                    <label for="" class="col-form-label OriginalLabel">パスワード</label>
+                    <label for="" class="col-form-label original-label">パスワード</label>
                 </div>
                 <div class="col-4">                    
                     <input type="tel" name="password" id="password" value="" class="form-control text-right">

@@ -29,6 +29,35 @@
 
     </div>
 
+    <form id="SearchForm" class="row" action="" method="get">
+
+        <div class="col-12">
+    
+            <div id="SearchFormArea" class="Table-Wrap m-0 p-0">
+                <table id='' class='SearchInfoTable'>
+                    <tr>                
+                        <th>大分類名</th>                                      
+                        <th>
+                            <a id="" class="original-btn ClearButton">クリア</a>  
+                        </th>                    
+                    </tr>
+
+                    <tr>                        
+                        <td>
+                            <input type="text" id="" name="search_maincategory_name" value="{{$SearchElementArray['search_maincategory_name']}}" class="form-control">
+                        </td>                
+                        
+                        <td>                         
+                            <button type="submit" id="" class="original-btn SearchButton" onclick="return SearchFormCheck();">検索 <i class="fas fa-search"></i></button>                                                                                              
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        
+        </div>
+             
+    </form>
 
     <div id="DataDisplayArea" class="Table-Wrap m-0 p-0">
 
@@ -95,7 +124,7 @@
                             <input type="hidden" name="maincategory_cd" id="maincategory_cd">
                             
                             <div class="form-group row">
-                                <label for="maincategory_name" class="col-md-6 col-form-label OriginalLabel">大分類名</label>
+                                <label for="maincategory_name" class="col-md-6 col-form-label original-label">大分類名</label>
                                 <input type="text" name="maincategory_name" id="maincategory_name" value="" class="form-control col-md-3">
                             </div>                     
                      
@@ -249,7 +278,15 @@ $(function(){
 
     });
 
+    // 「クリア」ボタンがクリックされたら
+    $('.ClearButton').click(function () {
 
+        var FormData = $("#SearchForm").serializeArray();        
+
+        $.each(FormData, function(i, element) {		
+            $("[name='"+ element.name +"']").val("");          
+        });
+    });
 
 
     // 「保存」ボタンがクリックされたら

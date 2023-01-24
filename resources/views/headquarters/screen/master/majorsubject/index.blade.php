@@ -32,45 +32,58 @@
       
     <form id="SearchForm" class="row" action="" method="get">
 
-    
-        <div id="SearchFormArea" class="Table-Wrap m-0 p-0">
-            <table id='' class='DataInfoTable'>
-                <tr>                
-                    <th>学校選択</th>
-                    <th>学校名</th>
-                    <th>専攻名</th>
-                    <th></th>
-                    <th></th>
-                </tr>
+        <div class="col-12">
+            <div id="SearchFormArea" class="Table-Wrap m-0 p-0">
+                <table id='' class='SearchInfoTable'>
+                    <tr>
+                        <th>学校区分選択</th>                
+                        <th>学校選択</th>
+                        <th>学校名</th>
+                        <th>専攻名</th>
+                        <th>
+                            <a id="" class="original-btn ClearButton">クリア</a>  
+                        </th>                    
+                    </tr>
 
-                <tr>              
-                    <td>
-                        <select id='school_cd' name='school_cd' class='form-control input-sm'>
-                            <option value=''>未選択</option>
-                            @foreach($school_m_list as $item)
-                                <option value="{{$item->school_cd}}" @if($SearchElementArray['school_cd'] == $item->school_cd) selected @endif>
-                                    {{$item->school_name}}
-                                    
-                                </option>
-                            @endforeach
-                        </select>
-                    </td>
-                    <td>
-                        <input type="text" id="" name="school_name" value="{{$SearchElementArray['school_name']}}" class="form-control">
-                    </td>                
-                    <td>
-                        <input type="text" id="" name="majorsubject_name" value="{{$SearchElementArray['majorsubject_name']}}" class="form-control">
-                    </td>
+                    <tr>             
+                        <td>
+                            <select id='search_school_division' name='search_school_division' class='form-control input-sm'>
+                                <option value=''>未選択</option>
+                                    @foreach($school_division_list as $item)
+                                    <option value="{{$item->school_division_cd}}"@if($SearchElementArray['search_school_division'] == $item->school_division_cd) selected @endif>
+                                        {{$item->school_division_name}}
+                                    </option>
+                                    @endforeach
+                            </select>
+                        </td> 
+                        <td>
+                            <select id='search_school_cd' name='search_school_cd' class='form-control input-sm'>
+                                <option value=''>未選択</option>
+                                @foreach($school_m_list as $item)
+                                    <option value="{{$item->school_cd}}" 
+                                        class="target_school_division target_school_division_{{$item->school_division}}"
+                                        @if($SearchElementArray['search_school_cd'] == $item->school_cd) selected @endif                                    
+                                    >
+                                        {{$item->school_name}}
+                                        
+                                    </option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" id="" name="search_school_name" value="{{$SearchElementArray['search_school_name']}}" class="form-control">
+                        </td>                
+                        <td>
+                            <input type="text" id="" name="search_majorsubject_name" value="{{$SearchElementArray['search_majorsubject_name']}}" class="form-control">
+                        </td>
+                    
+                        <td>                             
+                            <button type="submit" id="" class="original-btn SearchButton" onclick="return SearchFormCheck();">検索 <i class="fas fa-search"></i></button>                                                                                          
+                        </td>
+                    </tr>
 
-                    <td>                        
-                        <a id="" class="btn ClearButton">クリア</a>                        
-                    </td>
-                    <td>                                                                       
-                        <button type="submit" id="" class="btn SearchButton" onclick="return SearchFormCheck();">検索 <i class="fas fa-search"></i></button>
-                    </td>
-                </tr>
-
-            </table>
+                </table>
+            </div>
         </div>
              
     </form>
@@ -78,8 +91,10 @@
     <div id="DataDisplayArea" class="Table-Wrap m-0 p-0">
         <table id='' class='DataInfoTable'>
             
-            <tr>                
+            <tr>
+                <th>区分</th>                
                 <th>学校名</th>
+                <th></th>
                 <th>専攻名</th>
                 <th>期間[ヶ月]</th>
                 <th>備考</th>
@@ -87,8 +102,14 @@
             </tr>
 
             @foreach ($majorsubject_m_list as $item)
-            <tr>              
-                <td>{{$item->school_name}}【{{$item->school_division_name}}】</td>
+            <tr>
+                <td>{{$item->school_division_name}}</td>
+                <td>
+                    {{$item->school_name}}                    
+                </td>
+                <td>
+                    <button class='btn btn-warning' type='button' onclick= "location.href='{{ route('master.school' ,['school_cd' => $item->school_cd]) }}'">学校情報確認</button>
+                </td>                
                 <td>{{$item->majorsubject_name}}</td>                
                 <td>{{$item->studyperiod}}</td>
                 
@@ -193,18 +214,18 @@
                             <input type="hidden" name="school_cd" id="school_cd" value="">                            
                                                         
                             <div class="form-group row">
-                                <label for="school_division" class="col-md-6 col-form-label OriginalLabel">学校区分</label>                               
+                                <label for="school_division" class="col-md-6 col-form-label original-label">学校区分</label>                               
                                
-                                <label for="school_name" class="col-md-6 col-form-label OriginalLabel">学校名</label>
+                                <label for="school_name" class="col-md-6 col-form-label original-label">学校名</label>
                                 <input type="text" name="school_name" id="school_name" value="" class="form-control col-md-3">
 
-                                <label for="tel" class="col-md-6 col-form-label OriginalLabel">電話番号</label>
+                                <label for="tel" class="col-md-6 col-form-label original-label">電話番号</label>
                                 <input type="text" name="tel" id="tel" value="" class="form-control col-md-3">
 
-                                <label for="hp_url" class="col-md-6 col-form-label OriginalLabel">HPのURL</label>
+                                <label for="hp_url" class="col-md-6 col-form-label original-label">HPのURL</label>
                                 <input type="text" name="hp_url" id="hp_url" value="" class="form-control col-md-3">
 
-                                <label for="mailaddress" class="col-md-6 col-form-label OriginalLabel">メールアドレス</label>
+                                <label for="mailaddress" class="col-md-6 col-form-label original-label">メールアドレス</label>
                                 <input type="text" name="mailaddress" id="mailaddress" value="" class="form-control col-md-3">
 
                               </div>                                                 
@@ -343,6 +364,24 @@ function SearchFormCheck() {
 
 $(function(){
 
+
+    
+
+    $('#search_school_division').change(function() {
+
+        var search_school_division = $(this).val();
+
+        $("#search_school_cd").val("");
+        
+        $('.target_school_division').removeClass('d-none');
+
+        if(search_school_division != ""){
+            $('.target_school_division').addClass('d-none');
+            $('.target_school_division_' + search_school_division).removeClass('d-none');
+        }
+        
+        
+    });
 
     //備考モーダル
     $('#remarks_modal').on('show.bs.modal',function(e){

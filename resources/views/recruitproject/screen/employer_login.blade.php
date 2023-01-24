@@ -19,7 +19,7 @@
 
             <div class="row">                    
                 <div class="col-4 text-right">
-                    <label for="" class="col-form-label OriginalLabel">ログインID</label>
+                    <label for="" class="col-form-label original-label">ログインID</label>
                 </div>
                 <div class="col-4">                    
                     <input type="text" name="login_id" id="login_id" value="" class="form-control text-right">
@@ -31,7 +31,7 @@
 
             <div class="row">                    
                 <div class="col-4 text-right">
-                    <label for="" class="col-form-label OriginalLabel">パスワード</label>
+                    <label for="" class="col-form-label original-label">パスワード</label>
                 </div>
                 <div class="col-4">                    
                     <input type="password" name="password" id="password" value="" class="form-control text-right">

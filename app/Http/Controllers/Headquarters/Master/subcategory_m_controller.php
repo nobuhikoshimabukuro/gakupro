@@ -19,6 +19,14 @@ class subcategory_m_controller extends Controller
 {
     function index(Request $request)
     {
+
+        //検索項目格納用配列
+        $SearchElementArray = [
+            'search_maincategory_cd' => $request->search_maincategory_cd,
+            'search_subcategory_name' => $request->search_subcategory_name,
+        ];
+
+        //プルダウン作成の為
         $maincategory_m_list = maincategory_m_model::orderBy('maincategory_cd', 'asc')->get();
 
         $subcategory_m_list = subcategory_m_model::select(
@@ -37,9 +45,19 @@ class subcategory_m_controller extends Controller
         })
         ->orderBy('subcategory_m.maincategory_cd', 'asc')
         ->orderBy('subcategory_m.display_order', 'asc')
-        ->withTrashed()->get();
+        ->withTrashed();
+        
+        if(!is_null($SearchElementArray['search_maincategory_cd'])){
+            $subcategory_m_list = $subcategory_m_list->where('subcategory_m.maincategory_cd', '=', $SearchElementArray['search_maincategory_cd']);
+        }
 
-        return view('headquarters/screen/master/subcategory/index', compact('subcategory_m_list','maincategory_m_list'));        
+        if(!is_null($SearchElementArray['search_subcategory_name'])){            
+            $subcategory_m_list = $subcategory_m_list->where('subcategory_m.subcategory_name', 'like', '%' . $SearchElementArray['search_subcategory_name'] . '%');
+        }
+
+        $subcategory_m_list = $subcategory_m_list->get();
+
+        return view('headquarters/screen/master/subcategory/index', compact('SearchElementArray','subcategory_m_list','maincategory_m_list'));        
     }
 
 

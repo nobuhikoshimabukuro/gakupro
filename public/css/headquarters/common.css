@@ -126,11 +126,31 @@ button{
   text-align: right;
 }
 
-.OriginalLabel{
+.original-label{
     padding: 0;
     margin: 2% 0 0 1%;    
     text-align: left;
     font-weight: 600;
+}
+
+.original-btn{
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  /* color: #212529; */
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  /* background-color: transparent; */
+  border: 1px solid transparent;
+  padding: 0.1rem 0.5rem;
+  font-size: 1rem;
+  /* border-radius: 0.25rem; */
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .NewAddition-Button{
@@ -150,6 +170,40 @@ button{
 
 .Table-Wrap {
   overflow-x: scroll;
+}
+
+.SearchInfoTable{  
+  width: 100%;
+
+  border-collapse:separate;
+  border-spacing: 0;    
+  white-space: nowrap;
+
+}
+
+.SearchInfoTable th{
+  text-align: center;
+  color:rgb(20, 4, 4);  
+  min-width: 80px;
+  min-height: 30px;
+  padding:0;
+  
+}
+
+.SearchInfoTable td{
+  text-align: center; 
+  min-width: 80px;
+  padding: 5px;  
+}
+
+.SearchInfoTable th:last-child{
+  text-align: right;
+  padding-right: 5px;  
+}
+
+.SearchInfoTable td:last-child{
+  text-align: right;
+  padding-right: 5px;  
 }
 
 

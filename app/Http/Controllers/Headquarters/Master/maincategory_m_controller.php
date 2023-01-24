@@ -22,11 +22,21 @@ class maincategory_m_controller extends Controller
     
     function index(Request $request)
     {
-        $maincategory_m_list = maincategory_m_model::withTrashed()
-            ->orderBy('maincategory_cd', 'asc')
-            ->get();
+        //検索項目格納用配列
+        $SearchElementArray = [
+            'search_maincategory_name' => $request->search_maincategory_name                   
+        ];
 
-        return view('headquarters/screen/master/maincategory/index', compact('maincategory_m_list'));
+        $maincategory_m_list = maincategory_m_model::withTrashed()->orderBy('maincategory_cd', 'asc');
+            
+
+        if(!is_null($SearchElementArray['search_maincategory_name'])){            
+            $maincategory_m_list = $maincategory_m_list->where('maincategory_m.maincategory_name', 'like', '%' . $SearchElementArray['search_maincategory_name'] . '%');
+        }
+
+        $maincategory_m_list = $maincategory_m_list->get();
+
+        return view('headquarters/screen/master/maincategory/index', compact('SearchElementArray','maincategory_m_list'));
     }
 
 

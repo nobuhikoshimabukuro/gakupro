@@ -21,7 +21,7 @@
 
             <div id="Input-Area"class="row">                    
                 <div class="col-4 text-right">
-                    <label for="" class="col-form-label OriginalLabel">メールアドレス</label>
+                    <label for="" class="col-form-label original-label">メールアドレス</label>
                 </div>
                 <div class="col-4">                    
                     <input type="text" name="mailaddress" id="mailaddress" value="" class="form-control text-left">

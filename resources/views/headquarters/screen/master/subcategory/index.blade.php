@@ -26,6 +26,47 @@
 
     </div>
 
+
+    <form id="SearchForm" class="row" action="" method="get">
+
+        <div class="col-12">
+            <div id="SearchFormArea" class="Table-Wrap m-0 p-0">
+                <table id='' class='SearchInfoTable'>
+                    <tr>
+                        <th>大分類選択</th>
+                        <th>中分類名</th>                        
+                        <th>
+                            <a id="" class="original-btn ClearButton">クリア</a>  
+                        </th>                    
+                    </tr>
+
+                    <tr>             
+                        <td>
+                            <select id='search_maincategory_cd' name='search_maincategory_cd' class='form-control input-sm'>
+                                <option value=''>未選択</option>
+                                    @foreach($maincategory_m_list as $item)
+                                    <option value="{{$item->maincategory_cd}}"@if($SearchElementArray['search_maincategory_cd'] == $item->maincategory_cd) selected @endif>
+                                        {{$item->maincategory_name}}
+                                    </option>
+                                    @endforeach
+                            </select>
+                        </td>                      
+
+                        <td>
+                            <input type="text" id="" name="search_subcategory_name" value="{{$SearchElementArray['search_subcategory_name']}}" class="form-control">
+                        </td>                    
+                        <td>                             
+                            <button type="submit" id="" class="original-btn SearchButton" onclick="return SearchFormCheck();">検索 <i class="fas fa-search"></i></button>                                                                                          
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+             
+    </form>
+
+
     <div id="DataDisplayArea" class="Table-Wrap m-0 p-0">
 
         <table id='' class='DataInfoTable'>
@@ -95,7 +136,7 @@
                             <input type="hidden" name="processflg" id="processflg" value="">                            
                                                         
                             <div class="form-group row">
-                                <label for="maincategory_name" class="col-md-6 col-form-label OriginalLabel">大分類名</label>
+                                <label for="maincategory_name" class="col-md-6 col-form-label original-label">大分類名</label>
                                
                                 <select id='maincategory_cd' name='maincategory_cd' class='form-control input-sm'>
 									<option value=''>
@@ -106,10 +147,10 @@
 										@endforeach
                                 </select>
                                
-                                <label for="subcategory_name" class="col-md-6 col-form-label OriginalLabel">中分類名</label>
+                                <label for="subcategory_name" class="col-md-6 col-form-label original-label">中分類名</label>
                                 <input type="text" name="subcategory_name" id="subcategory_name" value="" class="form-control col-md-3">
 
-                                <label for="display_order" class="col-md-6 col-form-label OriginalLabel">表示順</label>
+                                <label for="display_order" class="col-md-6 col-form-label original-label">表示順</label>
                                 <input type="text" name="display_order" id="display_order" value="" class="form-control col-md-3">
                               </div>                     
                             <p></p>
@@ -283,6 +324,16 @@ $(function(){
 
     });
 
+
+    // 「クリア」ボタンがクリックされたら
+    $('.ClearButton').click(function () {
+
+        var FormData = $("#SearchForm").serializeArray();        
+
+        $.each(FormData, function(i, element) {		
+            $("[name='"+ element.name +"']").val("");          
+        });
+    });
 
 
 

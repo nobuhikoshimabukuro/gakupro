@@ -16,6 +16,13 @@ class school_m_controller extends Controller
 {
     function index(Request $request)
     {
+
+        //検索項目格納用配列
+        $SearchElementArray = [
+            'search_school_division' => $request->search_school_division,
+            'search_school_name' => $request->search_school_name           
+        ];
+
         $school_division_list = subcategory_m_model::select(
             'subcategory_cd as school_division_cd',
             'subcategory_name as school_division_name',         
@@ -38,10 +45,20 @@ class school_m_controller extends Controller
         ->leftJoin('subcategory_m', function ($join) {
             $join->on('school_m.school_division', '=', 'subcategory_m.subcategory_cd');
         })
-        ->where('maincategory_cd',2)
+        ->where('maincategory_cd',3)
         ->orderBy('school_m.school_cd', 'asc') 
-        ->withTrashed()       
-        ->get();
+        ->withTrashed();       
+        
+
+        if(!is_null($SearchElementArray['search_school_division'])){
+            $school_m_list = $school_m_list->where('school_m.school_division', '=', $SearchElementArray['search_school_division']);
+        }
+        
+        if(!is_null($SearchElementArray["search_school_name"])){
+            $school_m_list = $school_m_list->where('school_m.school_name', 'like', '%' . $SearchElementArray['search_school_name'] . '%');
+        } 
+      
+        $school_m_list = $school_m_list->get();        
 
         foreach($school_m_list as $info){
 
@@ -59,7 +76,7 @@ class school_m_controller extends Controller
 
         
         
-        return view('headquarters/screen/master/school/index', compact('school_m_list','school_division_list'));
+        return view('headquarters/screen/master/school/index', compact('SearchElementArray','school_m_list','school_division_list'));
     }
 
 

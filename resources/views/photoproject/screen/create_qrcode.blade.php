@@ -239,7 +239,7 @@
                     <div class="form-group row">
 
                         <div class="col-4" align="right">
-                            <label for="Modal_Date" class="col-md-6 col-form-label OriginalLabel">開催日</label>
+                            <label for="Modal_Date" class="col-md-6 col-form-label original-label">開催日</label>
                         </div>
                         <div class="col-8" align="left">
                             <label><span id="Modal_Display_Date"></span></label>
@@ -253,9 +253,9 @@
                         <div class="col-4" align="right">
 
                             @if($CreatedFLG)                            
-                                <label for="Count" class="col-md-6 col-form-label OriginalLabel">追加数</label>
+                                <label for="Count" class="col-md-6 col-form-label original-label">追加数</label>
                             @else                            
-                                <label for="Count" class="col-md-6 col-form-label OriginalLabel">作成数</label>
+                                <label for="Count" class="col-md-6 col-form-label original-label">作成数</label>
                             @endif                                
                         </div>
                         <div class="col-8" align="left">
@@ -265,7 +265,7 @@
                     
                     <div class="form-group row">                    
                         <div class="col-4" align="right">
-                            <label for="WithPasswordFlg" class="col-md-6 col-form-label OriginalLabel">パス有</label>
+                            <label for="WithPasswordFlg" class="col-md-6 col-form-label original-label">パス有</label>
                         </div>
                         <div class="col-8" align="left">                            
                             <input type="checkbox" id="WithPasswordFlg" value="1" name="WithPasswordFlg" checked>
@@ -276,7 +276,7 @@
                         <div class="form-group row">
 
                             <div class="col-4" align="right">                                
-                                <label for="Count" class="col-md-6 col-form-label OriginalLabel">ローカルIP</label>                                                            
+                                <label for="Count" class="col-md-6 col-form-label original-label">ローカルIP</label>                                                            
                             </div>
                             <div class="col-8" align="left">
                                 <input type="text" name="IpAddress" id="IpAddress" value="" class="form-control">

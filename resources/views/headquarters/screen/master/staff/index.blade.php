@@ -127,16 +127,16 @@
                             <div class="form-group row">
 
 
-                                <label for="staff_name" class="col-md-6 col-form-label OriginalLabel">氏名</label>
+                                <label for="staff_name" class="col-md-6 col-form-label original-label">氏名</label>
                                 <input type="text" name="staff_name" id="staff_name" value="" class="form-control col-md-3">
     
-                                <label for="staff_name_yomi" class="col-md-6 col-form-label OriginalLabel">シメイ</label>
+                                <label for="staff_name_yomi" class="col-md-6 col-form-label original-label">シメイ</label>
                                 <input type="text" name="staff_name_yomi" id="staff_name_yomi" value="" class="form-control col-md-3">
     
-                                <label for="nick_name" class="col-md-6 col-form-label OriginalLabel">ニックネーム</label>
+                                <label for="nick_name" class="col-md-6 col-form-label original-label">ニックネーム</label>
                                 <input type="text" name="nick_name" id="nick_name" value="" class="form-control col-md-3">
     
-                                <label for="gender" class="col-md-6 col-form-label OriginalLabel">性別</label>                               
+                                <label for="gender" class="col-md-6 col-form-label original-label">性別</label>                               
                                 <select id='gender' name='gender' class='form-control input-sm'>									
 										@foreach($gender_list as $item)
 										<option value="{{$item->gender_cd}}">
@@ -145,13 +145,13 @@
 										@endforeach
                                 </select>
 
-                                <label for="tel" class="col-md-6 col-form-label OriginalLabel">TEL</label>
+                                <label for="tel" class="col-md-6 col-form-label original-label">TEL</label>
                                 <input type="tel" name="tel" id="tel" value="" class="form-control col-md-3">
 
-                                <label for="mailaddress" class="col-md-6 col-form-label OriginalLabel">メールアドレス</label>
+                                <label for="mailaddress" class="col-md-6 col-form-label original-label">メールアドレス</label>
                                 <input type="text" name="mailaddress" id="mailaddress" value="" class="form-control col-md-3">
 
-                                <label for="authority" class="col-md-6 col-form-label OriginalLabel">権限</label>                               
+                                <label for="authority" class="col-md-6 col-form-label original-label">権限</label>                               
                                 <select id='authority' name='authority' class='form-control input-sm'>									
 										@foreach($authority_list as $item)
 										<option value="{{$item->authority_cd}}">
@@ -251,10 +251,10 @@
                             
                             <div class="form-group row">
     
-                                <label for="login_id" class="col-md-6 col-form-label OriginalLabel">ログインID</label>
+                                <label for="login_id" class="col-md-6 col-form-label original-label">ログインID</label>
                                 <input type="text" name="login_id" id="login_id" value="" class="form-control col-md-3">
     
-                                <label for="password" class="col-md-6 col-form-label OriginalLabel">パスワード</label>
+                                <label for="password" class="col-md-6 col-form-label original-label">パスワード</label>
                                 <input type="text" name="password" id="password" value="" class="form-control col-md-3">
                             </div>                                                 
                             
