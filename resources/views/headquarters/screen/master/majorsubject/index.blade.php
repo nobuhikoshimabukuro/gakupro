@@ -108,7 +108,7 @@
                     {{$item->school_name}}                    
                 </td>
                 <td>
-                    <button class='btn btn-warning' type='button' onclick= "location.href='{{ route('master.school' ,['school_cd' => $item->school_cd]) }}'">学校情報確認</button>
+                    <button class='btn btn-warning' type='button' onclick= "location.href='{{ route('master.school' ,['search_school_cd' => $item->school_cd]) }}'">学校情報確認</button>
                 </td>                
                 <td>{{$item->majorsubject_name}}</td>                
                 <td>{{$item->studyperiod}}</td>
@@ -368,6 +368,11 @@ $(function(){
     
 
     $('#search_school_division').change(function() {
+
+        $("#page_menu1 option").each(function(i){
+            alert($(this).text() + " : " + $(this).val());
+    });
+
 
         var search_school_division = $(this).val();
 

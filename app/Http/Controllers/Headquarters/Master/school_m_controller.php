@@ -19,6 +19,7 @@ class school_m_controller extends Controller
 
         //検索項目格納用配列
         $SearchElementArray = [
+            'search_school_cd' => $request->search_school_cd,
             'search_school_division' => $request->search_school_division,
             'search_school_name' => $request->search_school_name           
         ];
@@ -49,6 +50,10 @@ class school_m_controller extends Controller
         ->orderBy('school_m.school_cd', 'asc') 
         ->withTrashed();       
         
+
+        if(!is_null($SearchElementArray['search_school_cd'])){
+            $school_m_list = $school_m_list->where('school_m.school_cd', '=', $SearchElementArray['search_school_cd']);
+        }
 
         if(!is_null($SearchElementArray['search_school_division'])){
             $school_m_list = $school_m_list->where('school_m.school_division', '=', $SearchElementArray['search_school_division']);

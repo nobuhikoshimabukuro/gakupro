@@ -93,7 +93,7 @@
                     <a href="{{$item->hp_url}}" target="_blank" rel="noopener noreferrer">{{$item->hp_url}}</a>
                 </td>
                 <td>
-                    <button class='btn btn-warning' type='button' onclick= "location.href='{{ route('master.majorsubject' ,['school_cd' => $item->school_cd]) }}'">専攻情報確認【{{$item->majorsubject_count}}】</button>
+                    <button class='btn btn-warning' type='button' onclick= "location.href='{{ route('master.majorsubject' ,['search_school_cd' => $item->school_cd]) }}'">専攻情報確認【{{$item->majorsubject_count}}】</button>
                 </td>          
                 
                 @php
