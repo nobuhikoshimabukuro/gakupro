@@ -34,7 +34,7 @@ class maincategory_m_controller extends Controller
             $maincategory_m_list = $maincategory_m_list->where('maincategory_m.maincategory_name', 'like', '%' . $SearchElementArray['search_maincategory_name'] . '%');
         }
 
-        $maincategory_m_list = $maincategory_m_list->get();
+        $maincategory_m_list = $maincategory_m_list->paginate(env('Paginate_Count'));
 
         return view('headquarters/screen/master/maincategory/index', compact('SearchElementArray','maincategory_m_list'));
     }

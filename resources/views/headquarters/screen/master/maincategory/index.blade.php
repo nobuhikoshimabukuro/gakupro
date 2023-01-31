@@ -5,6 +5,10 @@
 @endsection
 @section('content')
 
+
+
+
+
 <div id="Main" class="mt-3 text-center container">
     
    <div class="row">
@@ -59,8 +63,18 @@
              
     </form>
 
-    <div id="DataDisplayArea" class="Table-Wrap m-0 p-0">
+    <div class="m-0 text-left">
+        {{-- ページャー --}}                
+        @if(count($maincategory_m_list) > 0)                                
+          <div class="m-0">{{ $maincategory_m_list->appends(request()->query())->links() }}</div>
+        @endif
+    </div>
+  
 
+    <div id="DataDisplayArea" class="Table-Wrap m-0">
+
+       
+       
         <table id='' class='DataInfoTable'>
             
             <tr>
@@ -101,7 +115,7 @@
 
     </div>
 
-
+   
 
         {{-- 登録/更新用モーダル --}}
         <div class="modal fade" id="save_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="save_modal_label" aria-hidden="true">

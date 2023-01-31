@@ -68,7 +68,15 @@
              
     </form>
 
-    <div id="DataDisplayArea" class="Table-Wrap m-0 p-0">
+    <div class="m-0 text-left">
+        {{-- ページャー --}}                
+        @if(count($school_m_list) > 0)                                
+          <div class="m-0">{{ $school_m_list->appends(request()->query())->links() }}</div>
+        @endif
+    </div>
+  
+
+    <div id="DataDisplayArea" class="Table-Wrap m-0">
 
         <table id='' class='DataInfoTable'>
             

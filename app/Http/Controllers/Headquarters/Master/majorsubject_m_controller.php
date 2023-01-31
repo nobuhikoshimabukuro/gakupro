@@ -91,7 +91,8 @@ class majorsubject_m_controller extends Controller
             $majorsubject_m_list = $majorsubject_m_list->where('majorsubject_m.majorsubject_name', 'like', '%' . $SearchElementArray['search_majorsubject_name'] . '%');            
         } 
 
-        $majorsubject_m_list = $majorsubject_m_list->get();        
+        $majorsubject_m_list = $majorsubject_m_list->paginate(env('Paginate_Count'));
+      
         
         return view('headquarters/screen/master/majorsubject/index', compact('SearchElementArray','school_division_list','school_m_list','majorsubject_m_list'));
     }

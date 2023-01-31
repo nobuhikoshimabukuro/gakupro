@@ -60,7 +60,7 @@ class staff_m_controller extends Controller
             ;
         })       
         ->orderBy('staff_m.staff_id', 'asc')        
-        ->get();
+        ->paginate(env('Paginate_Count'));
 
         
         return view('headquarters/screen/master/staff/index', compact('staff_list','gender_list','authority_list','operator_authority'));

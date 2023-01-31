@@ -55,7 +55,7 @@ class subcategory_m_controller extends Controller
             $subcategory_m_list = $subcategory_m_list->where('subcategory_m.subcategory_name', 'like', '%' . $SearchElementArray['search_subcategory_name'] . '%');
         }
 
-        $subcategory_m_list = $subcategory_m_list->get();
+        $subcategory_m_list = $subcategory_m_list->paginate(env('Paginate_Count'));
 
         return view('headquarters/screen/master/subcategory/index', compact('SearchElementArray','subcategory_m_list','maincategory_m_list'));        
     }

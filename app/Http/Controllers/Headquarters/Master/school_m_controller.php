@@ -63,7 +63,7 @@ class school_m_controller extends Controller
             $school_m_list = $school_m_list->where('school_m.school_name', 'like', '%' . $SearchElementArray['search_school_name'] . '%');
         } 
       
-        $school_m_list = $school_m_list->get();        
+        $school_m_list = $school_m_list->paginate(env('Paginate_Count'));    
 
         foreach($school_m_list as $info){
 
