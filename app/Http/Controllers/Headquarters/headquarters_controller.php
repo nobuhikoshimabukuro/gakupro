@@ -145,7 +145,28 @@ class headquarters_controller extends Controller
 
     function test()
     {
-        return view('test');        
+
+        $picturebook_info = array();
+
+        $Saved_Path = "storage/picturebookproject/1/";           
+ 
+        $Files = glob(public_path($Saved_Path.'*.*'));
+       
+        foreach ($Files as $FilePath){
+
+            $file = pathinfo($FilePath);            
+            $FileName = $file['basename'];
+
+            $PublicPath = asset($Saved_Path . $FileName);
+
+            //配列にアップロードファイルパスとファイル名を格納 
+            $Info = array('PublicPath' => $PublicPath , 'FileName' => $FileName);
+            array_push($picturebook_info, $Info);
+        }
+
+        return view('test', compact('picturebook_info'));
+
+        
     }  
 
 
