@@ -50,17 +50,19 @@ class recruitproject_controller extends Controller
     function mailaddress_temporary_registration_process(Request $request)
     {
                 
-
         try {
 
             $mailaddress = $request->mailaddress;
 
             while(true){         
-                //6桁のパスワード作成
-                $password = $this->create_password(6);
+                //6桁数字のみのパスワード作成
+                $password =  Common::create_random_letters_limited_number(6);
                 
+                //平文を暗号文に
+                $encryption_password = Common::encryption($password);
+
                 $check_password = mailaddresscheck_t_model::withTrashed()
-                ->where('password', '=', $password)                        
+                ->where('password', '=', $encryption_password)                        
                 ->exists();
 
                 if(!$check_password){
@@ -70,8 +72,9 @@ class recruitproject_controller extends Controller
             }
 
             while(true){         
-                //6桁のパスワード作成
-                $key_code = $this->create_password(6);
+
+                //6桁のランダム文字列
+                $key_code =  Common::create_random_letters(6);
                 
                 $check_key_code = mailaddresscheck_t_model::withTrashed()
                 ->where('key_code', '=', $key_code)                        
@@ -85,15 +88,15 @@ class recruitproject_controller extends Controller
 
             mailaddresscheck_t_model::create(
                 [
-                    "password" => $password
+                    "password" => $encryption_password
                     ,"key_code" => $key_code
                     ,"mailaddress" => $mailaddress                    
                 ]
     
             );           
 
-            //key_codeを暗号化
-            $Cipher = $this->key_code_encryption($key_code);            
+            //key_codeを暗号化            
+            $Cipher = Common::encryption($key_code);                      
 
             $url = route('recruitproject.mailaddress_approval') . '?key_code=' . $key_code . '&Cipher=' .$Cipher; 
             $subject = "学生応援プロジェクト（確認メール）";
@@ -126,22 +129,24 @@ class recruitproject_controller extends Controller
     {
 
         $key_code = $request->key_code;
-        $Cipher = $request->Cipher;
 
+        //暗号文を平文に
+        $Cipher = Common::decryption($request->Cipher);      
+        
         $mailaddress = "";
 
         //暗号化したkey_codeと送られてきた暗号文が一致していれば正常
-        if(!$this->consistency_check($key_code,$Cipher)){
+        if($key_code ==  $Cipher){
+
+            return view('recruitproject/screen/employer_mailaddress_approval', compact('key_code','Cipher'));               
+            
+        }else{
 
             // 暗号文と不一致   不正な処理           
             session()->flash('infomessage', 'お送りしたメールのURLから再度遷移してください。');
             return view('recruitproject/screen/info');   
-            
+
         }       
-
-    
-
-        return view('recruitproject/screen/employer_mailaddress_approval', compact('key_code','Cipher'));   
 
     }
 
@@ -150,46 +155,52 @@ class recruitproject_controller extends Controller
     {
 
         $key_code = $request->key_code;
-        $Cipher = $request->Cipher;
-        $password = $request->password;
+
+        //暗号文を平文に
+        $Cipher = Common::decryption($request->Cipher);
+        //平文を暗号文に
+        $encryption_password = Common::encryption($request->password);
 
         //暗号化したkey_codeと送られてきた暗号文が一致していれば正常
-        if(!$this->consistency_check($key_code,$Cipher)){
+        if($key_code == $Cipher){
 
-            // 暗号文と不一致   不正な処理
+                        
+            $mailaddresscheck_t = mailaddresscheck_t_model::
+            where('key_code', '=', $key_code)          
+            ->where('password', '=', $encryption_password)  
+            ->get();
+
+            $GetCount = count($mailaddresscheck_t);
             
+            if($GetCount == 0){
+                //ログインIDとパスワードで取得できず::NG            
+
+                // 認証失敗
+                session()->flash('employer_mailaddress_approval_error', 'メッセージはviewで');
+                return back();
+
+            }elseif($GetCount == 1){
+                //ログインIDとパスワードで1件のみ取得::OK
+
+                $mailaddress = $mailaddresscheck_t[0]->mailaddress;
+                session()->flash('certification_mailaddress', $mailaddress);          
+                return redirect()->route('recruitproject.employer_information_register');
+
+            }elseif($GetCount > 1){
+                //ログインIDとパスワードで1件以上取得::CriticalError
+
+            }
+
+
+        }else{
+
+            // 暗号文と不一致   不正な処理            
             session()->flash('infomessage', 'お送りしたメールのURLから再度遷移してください。');
-            return view('recruitproject/screen/info');   
-            
-        }       
-
-        $mailaddresscheck_t = mailaddresscheck_t_model::
-        where('key_code', '=', $key_code)          
-        ->where('password', '=', $password)  
-        ->get();
-
-
-        $GetCount = count($mailaddresscheck_t);
-        
-        if($GetCount == 0){
-            //ログインIDとパスワードで取得できず::NG            
-
-            // 認証失敗
-            session()->flash('employer_mailaddress_approval_error', 'メッセージはviewで');
-            return back();
-
-        }elseif($GetCount == 1){
-            //ログインIDとパスワードで1件のみ取得::OK
-
-            $mailaddress = $mailaddresscheck_t[0]->mailaddress;
-            session()->flash('certification_mailaddress', $mailaddress);          
-            return redirect()->route('recruitproject.employer_information_register');
-        }elseif($GetCount > 1){
-            //ログインIDとパスワードで1件以上取得::CriticalError
+            return view('recruitproject/screen/info');  
 
         }
 
-
+       
     }
 
      
@@ -203,9 +214,6 @@ class recruitproject_controller extends Controller
             session()->flash('employer_loginerror', 'セッション切れ');            
             return redirect()->route('recruitproject.login');
         }
-
-
-        
 
         $employer_id = session()->get('employer_id');
 
@@ -254,7 +262,6 @@ class recruitproject_controller extends Controller
 
     //雇用者新規登録処理
     function employer_information_save(employer_m_request $request){
-
         
         try {                       
                             
@@ -281,15 +288,13 @@ class recruitproject_controller extends Controller
             }
 
             //employer_idの重複チェック
-            while(true){ 
+            while(true){
 
-                
                 $employer_id_check = employer_m_model::withTrashed()
                 ->where('employer_id', '=', $employer_id)                        
                 ->exists();
 
                 if(!$employer_id_check){
-
                     //繰返しの強制終了
                     break; 
                 }
@@ -312,16 +317,12 @@ class recruitproject_controller extends Controller
                     ,"mailaddress" => $mailaddress
                 ]
     
-            );           
-
-            
-            $password = $this->create_password(8);
-
+            );            
 
             //login_idの重複チェック
             while(true){ 
 
-                $login_id = $this->create_login_id(6);
+                $login_id = Common::create_random_letters(4);
                 
                 $login_id_check = employer_password_t_model::withTrashed()
                 ->where('login_id', '=', $login_id)                        
@@ -337,10 +338,13 @@ class recruitproject_controller extends Controller
             //パスワードの重複チェック
             while(true){ 
 
-                $password = $this->create_password(8);
-                
+                $password = Common::create_random_letters_limited_number(6);
+
+                //平文を暗号文に
+                $encryption_password = Common::encryption($password);
+
                 $password_check = employer_password_t_model::withTrashed()
-                ->where('password', '=', $password)                        
+                ->where('password', '=', $encryption_password)                        
                 ->exists();
 
                 if(!$password_check){
@@ -351,12 +355,13 @@ class recruitproject_controller extends Controller
 
             }
 
+            
 
             employer_password_t_model::create(
                 [
                     "employer_id" => $employer_id
                     ,"login_id" => $login_id
-                    ,"password" => $password                       
+                    ,"password" => $encryption_password
                 ]
     
             );      
@@ -405,7 +410,7 @@ class recruitproject_controller extends Controller
             'employer_m.employer_name_kana as employer_name_kana',  
 
             'employer_password_t.login_id as login_id',
-            'employer_password_t.password as password',            
+            'employer_password_t.password as encryption_password',            
 
         )->withTrashed()        
         ->leftJoin('employer_password_t', function ($join) {
@@ -413,6 +418,9 @@ class recruitproject_controller extends Controller
         })
         ->where('employer_m.employer_id', '=', $employer_id)
         ->first();
+
+        //暗号文を平文にして再格納
+        $employer_info->password = Common::decryption($employer_info->encryption_password);
       
         return view('recruitproject/screen/employer_information_after_registration', compact('employer_info'));
         
@@ -521,7 +529,9 @@ class recruitproject_controller extends Controller
     {       
 
         $login_id = $request->login_id;
-        $password = $request->password;
+        
+        //平文を暗号文に
+        $password = Common::encryption($request->password);
 
         $employer_password_t_model = employer_password_t_model::
         where('login_id', '=', $login_id)  
@@ -761,88 +771,5 @@ class recruitproject_controller extends Controller
 
     }
 
-    function create_login_id($length)
-    {               
-       
-        $login_id = "";
      
-        while(true){ 
-
-            $login_id = "";
-
-            $str = array_merge(range('a', 'z'), range('0', '9'), range('A', 'Z'));
-
-            for ($i = 0; $i < $length; $i++) {
-                $login_id .= $str[rand(0, count($str) - 1)];
-            }
-            
-            $check_login_id = employer_password_t_model::withTrashed()
-            ->where('login_id', '=', $login_id)                        
-            ->exists();
-
-            if(!$check_login_id){
-                //繰返しの強制終了
-                break; 
-            }            
-        }
-        return $login_id;
-    }    
-
-
-    function create_password($length)
-    {           
-                
-        $password = "";
-     
-        while(true){ 
-
-            $password = "";
-
-            $str = array_merge(range('a', 'z'), range('0', '9'), range('A', 'Z'));
-
-            for ($i = 0; $i < $length; $i++) {
-                $password .= $str[rand(0, count($str) - 1)];
-            }
-            
-            $check_password = employer_password_t_model::withTrashed()
-            ->where('password', '=', $password)                        
-            ->exists();
-
-            if(!$check_password){
-                //繰返しの強制終了
-                break; 
-            }            
-        }
-
-        return $password;
-
-    }   
-
-    //暗号文の整合性チェック
-    function consistency_check($key_code , $Cipher){
-
-        $Judge = true;
-
-        $check_Cipher = $this->key_code_encryption($key_code); 
-
-        //暗号化したkey_codeと送られてきた暗号文が一致するか確認
-        if($check_Cipher != $Cipher){
-            $Judge = false;             
-        }
-
-        return $Judge;
-    }
-    
-    //key_codeの暗号化
-    function key_code_encryption($key_code){
-
-        //hash_hmac関数
-        $hash = hash_hmac('sha256', $key_code, 'yuma');
-
-        //文字列が長い為、8文字制限
-        $Cipher = substr($hash, 0, 8);
-
-        return $Cipher;
-    }
-  
 }

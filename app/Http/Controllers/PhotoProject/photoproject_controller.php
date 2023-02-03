@@ -115,13 +115,17 @@ class photoproject_controller extends Controller
                 //パスワード作成 ＆ 重複check
                 while(true){ 
 
-                    //設定した最小値と最大値の範囲内で乱数生成            
-                    $password = mt_rand(1000, 9999);                
+                    //数字のみでパスワード作成   
+                    $password = Common::create_random_letters_limited_number(4);
+
+                    //平文を暗号文に
+                    $encryption_password = Common::encryption($password);
 
                     //同日で同じpasswordがある場合はパスワードを再作成
+                    //photoget_t_modelのパスワードは暗号文が登録されている
                     $password_check = photoget_t_model::withTrashed()
                     ->where('date', '=', $date)
-                    ->where('password', '=', $password)
+                    ->where('password', '=', $encryption_password)
                     ->get()->count();
 
                     if($password_check == 0){
@@ -150,7 +154,7 @@ class photoproject_controller extends Controller
                 $key_code = $date . $code;
 
                 //key_codeを暗号化
-                $Cipher = $this->key_code_encryption($key_code);
+                $Cipher = Common::encryption($key_code);
                 
                 //Qrコードに設定するUrlを設定
                 $url = route('photoproject.password_entry') . '?key_code=' . $key_code . '&Cipher=' .$Cipher;
@@ -164,12 +168,14 @@ class photoproject_controller extends Controller
                     
                 }
 
+                //photoget_t_modelのパスワードは暗号文が登録されている
+
                 //photoget_tにデータ作成
                 photoget_t_model::create(
                     [
                         "date" => $date
                         ,"code" => $code
-                        ,"password" => $password
+                        ,"password" => $encryption_password
                         ,"with_password_flg" => $with_password_flg
                         ,"saved_folder" => $saved_folder
                         ,"name1" => $Qr_ImageName
@@ -192,13 +198,6 @@ class photoproject_controller extends Controller
               
                 //設定したUrlでQrコード作成
                 $Create_Qr_Image = QrCode::size(150)->format('png')->generate($url);
-
-                $StoragePath_QrCode = $Saved_Path_Info["StoragePath_QrCode"];
-
-               
-
-                
-
               
                 //作成したQrコード画像を指定階層に保存
                 $PublicPath_QrCode = $Saved_Path_Info["PublicPath_QrCode"];
@@ -227,6 +226,7 @@ class photoproject_controller extends Controller
 
                 $Create_QrTicket->insert($QrImage , $Position , $Position_X , $Position_Y); 
                                 
+                //表示するパスワードは平文
                 $word = 'Pass:' . $password;
                 $Create_QrTicket->text($word, 10, 10, function($font){
                     $font->size(40);
@@ -269,29 +269,20 @@ class photoproject_controller extends Controller
     //QRコードダウンロード処理  zip作成
     function qrcode_download(Request $request)
     {
-
         try{
 
-          
-
             $Date = str_replace('-', '', $request->Date);
-            
 
             //zipの削除
             $deletePath = $Date."/QrTicket/zip";
             Storage::disk('photo_project_public_path')->deleteDirectory($deletePath);
-            
 
             //get_path_info関数に必要値を渡して階層情報を取得
             $Saved_Path_Info = $this->get_path_info($Date);            
             $FullPath = public_path($Saved_Path_Info["StoragePath_QrTicket"]);                  
                  
-            
-
             $Files = glob($FullPath.'*.*');
             
-         
-                
             $ZipName = 'QrTicket.zip';                      
 
             Zip::create($ZipName, $Files)
@@ -341,8 +332,7 @@ class photoproject_controller extends Controller
 
         $operator = '1';
         try {
-
-        
+       
             //更新処理
             photoget_t_model::
             where('id', $id)                
@@ -352,9 +342,7 @@ class photoproject_controller extends Controller
                     'updated_by' => $operator,            
                 ]
             );
-
-         
-    
+            
         } catch (Exception $e) {
 
                         
@@ -401,22 +389,11 @@ class photoproject_controller extends Controller
 
         //urlに記載されているkeycode取得
         $key_code = $request->key_code;
-
-        //urlに記載されている暗号文取得
-        $Cipher = $request->Cipher;
         
+        //暗号文を平文に
+        $Cipher = Common::decryption($request->Cipher);  
 
-        //後程削除↓
-            if(is_null($key_code)){
-                $key_code = Carbon::now()->format('Ymd') . "001";
-            }
-
-            if(is_null($Cipher)){
-                $Cipher = $this->key_code_encryption($key_code); 
-            }
-        //後程削除↑
-     
-
+        
         //upload_flg非存在時は写真取得画面(お客様用)に遷移
         if(is_null($upload_flg)){
 
@@ -429,7 +406,7 @@ class photoproject_controller extends Controller
             }            
             
             //暗号化したkey_codeと送られてきた暗号文が一致していれば正常
-            if(!$this->consistency_check($key_code,$Cipher)){
+            if($key_code != $Cipher){
                 $transition_judge = false;             
             }    
           
@@ -504,12 +481,14 @@ class photoproject_controller extends Controller
        
         //パスワード入力画面から値取得
         $password = $request->password;        
-        $key_code = $request->key_code;
-        $Cipher = $request->Cipher;
+        $key_code = $request->key_code;     
+
+        //暗号文を平文に
+        $Cipher = Common::decryption($request->Cipher);  
 
 
         //暗号化したkey_codeと送られてきた暗号文が一致していれば正常
-        if(!$this->consistency_check($key_code,$Cipher)){
+        if($key_code != $Cipher){
             // 暗号文と不一致   不正な処理
             session()->flash('photo_get_password_check_error', 'Qrコードを再読み後パスワードを入力してください。');
             return back();
@@ -522,11 +501,15 @@ class photoproject_controller extends Controller
         
         try{
 
+
+            //平文を暗号文に
+            $encryption_password = Common::encryption($password);
+
             //日付、コード、パスワードで絞込
             $photoget_t_info = photoget_t_model::withTrashed()                    
             ->where('date', '=', $date)  
             ->where('code', '=', $code)  
-            ->where('password', '=', $password)    
+            ->where('password', '=', $encryption_password)    
             ->get();
 
             
@@ -589,29 +572,23 @@ class photoproject_controller extends Controller
     
     }
 
-
-
     //写真一括ダウンロードの為、zipフォルダ作成
     function batch_download(Request $request)
     {
-
-        
     
         try{
             $key_code = $request->key_code;
 
-            $Cipher = $request->Cipher;
+            //暗号文を平文に
+            $Cipher = Common::decryption($request->Cipher);  
 
             //暗号化したkey_codeと送られてきた暗号文が一致していれば正常
-            if(!$this->consistency_check($key_code,$Cipher)){
-
+            if($key_code != $Cipher){
                 // 暗号文と不一致   不正な処理
                 $ResultArray = array(
                     "Result" => "error"                   
                 );
-
-                return response()->json(['ResultArray' => $ResultArray]);
-                
+                return response()->json(['ResultArray' => $ResultArray]);                
             }
 
             //キーコードから日付とコードを取得
@@ -638,7 +615,7 @@ class photoproject_controller extends Controller
 
             $Files = glob($FullPath.'*.*');
                 
-            $ZipName = 'MemorialPhoto.zip';                      
+            $ZipName = 'photos.zip';                      
 
             Zip::create($ZipName, $Files)
             ->saveTo($FullPath . '/zip');
@@ -707,11 +684,8 @@ class photoproject_controller extends Controller
 
 
         } catch (Exception $e) {
-
             $Judge = false;
-
-        }   
-
+        }
         
         return view('photoproject/screen/photo_upload', compact('key_code','UploadFileInfo','termina_info'));        
     }
@@ -719,16 +693,15 @@ class photoproject_controller extends Controller
     //写真アップロード処理
     function photo_upload_execution(Request $request)
     {
-        
-        $all = $request->all();
-
-        $key_code = $request->key_code;
-
-        $key_code_split = $this->key_code_split($key_code);
-        $date = $key_code_split["date"];
-        $code = $key_code_split["code"];
-
         try{
+
+            $all = $request->all();
+
+            $key_code = $request->key_code;
+
+            $key_code_split = $this->key_code_split($key_code);
+            $date = $key_code_split["date"];
+            $code = $key_code_split["code"];        
 
             $photoget_t_info = photoget_t_model::withTrashed()
             ->where('date', '=', $date)  
@@ -740,7 +713,6 @@ class photoproject_controller extends Controller
             
             //get_path_info関数に必要値を渡して階層情報を取得
             $Saved_Path_Info = $this->get_path_info($Date,$Saved_Folder);            
-            
 
             //get_upload_info関数に必要値を渡して写真のアップロード状況を取得
             $Files = $this->get_upload_info($Date,$Saved_Folder);  
@@ -783,15 +755,10 @@ class photoproject_controller extends Controller
                 "Result" => "error",
                 "Message" => '',
             );
-
         }
-
         return response()->json(['ResultArray' => $ResultArray]);        
-
     }
 
-
-    
 
     //$key_codeを日付とcodeに分解
     function key_code_split($key_code){
@@ -812,33 +779,6 @@ class photoproject_controller extends Controller
         ];
 
         return $ReturnArray;
-    }
-
-    //暗号文の整合性チェック
-    function consistency_check($key_code , $Cipher){
-
-        $Judge = true;
-
-        $check_Cipher = $this->key_code_encryption($key_code); 
-
-        //暗号化したkey_codeと送られてきた暗号文が一致するか確認
-        if($check_Cipher != $Cipher){
-            $Judge = false;             
-        }
-
-        return $Judge;
-    }
-    
-    //key_codeの暗号化
-    function key_code_encryption($key_code){
-
-        //hash_hmac関数
-        $hash = hash_hmac('sha256', $key_code, 'yuma');
-
-        //文字列が長い為、8文字制限
-        $Cipher = substr($hash, 0, 8);
-
-        return $Cipher;
     }
 
     //アップロードファイル格納フォルダ名作成    
@@ -910,7 +850,6 @@ class photoproject_controller extends Controller
         return $ReturnArray;
     }
 
-
     //写真のアップロード状況確認用処理
     function get_upload_info($Date = 0 , $Saved_Folder = 0){
 
@@ -932,8 +871,7 @@ class photoproject_controller extends Controller
 
             $PublicPath = asset($Saved_Path . $FileName);
 
-            //配列にアップロードファイルパスとファイル名を格納
-            // $Info = array('PublicPath' => $PublicPath ,'StoragePath' => str_replace("public", "storage", $FilePath) , 'FileName' => $FileName);
+            //配列にアップロードファイルパスとファイル名を格納            
             $Info = array('PublicPath' => $PublicPath , 'FileName' => $FileName);
             array_push($photo_info, $Info);
         }

@@ -44,9 +44,10 @@
                 <th>氏名</th>                
                 <th>TEL</th>                
                 <th>権限</th>
-                <th>件数【<span id='TotalCount'>{{count($staff_list)}}</span>件】</th>
+               
 
                 @if($operator_authority > 1)
+                    <th>件数【<span id='TotalCount'>{{count($staff_list)}}</span>件】</th>
                     <th>ログイン情報</th>
                 @endif
             </tr>
@@ -58,39 +59,42 @@
                 <td>{{$item->tel}}</td>
                 <td>{{$item->authority_name}}</td>
                
-                <td>
-                    <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#save_modal'
-                        data-staffid='{{$item->staff_id}}'
-                        data-staffname='{{$item->staff_name}}'
-                        data-staffnameyomi='{{$item->staff_name_yomi}}'
-                        data-nickname='{{$item->nick_name}}'
-                        data-gender='{{$item->gender}}'
-                        data-tel='{{$item->tel}}'
-                        data-authority='{{$item->authority}}'                        
-                        data-processflg='1'> 
-                        <i class='far fa-edit'></i>
-                    </button>
-
-                    <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#dlete_modal'
-                        data-staffid='{{$item->staff_id}}'
-                        data-staffname='{{$item->staff_name}}'
-                        data-staffnameyomi='{{$item->staff_name_yomi}}'
-                        data-nickname='{{$item->nick_name}}'
-                        data-gender='{{$item->gender}}'
-                        data-tel='{{$item->tel}}'
-                        data-authority='{{$item->authority}}'  
-                        data-deleteflg=@if($item->deleted_at) 0 @else 1 @endif>
-                                    
-                        @if($item->deleted_at)
-                            <i class='far fa-thumbs-down'></i><i class='fas fa-arrow-right'></i><i class='far fa-thumbs-up'></i>
-                        @else
-                            <i class='far fa-thumbs-up'></i><i class='fas fa-arrow-right'></i><i class='far fa-thumbs-down'></i>
-                        @endif
-                    </button>             
-
-                </td>
 
                 @if($operator_authority > 1)
+
+                    <td>
+                        <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#save_modal'
+                            data-staffid='{{$item->staff_id}}'
+                            data-staffname='{{$item->staff_name}}'
+                            data-staffnameyomi='{{$item->staff_name_yomi}}'
+                            data-nickname='{{$item->nick_name}}'
+                            data-gender='{{$item->gender}}'
+                            data-tel='{{$item->tel}}'
+                            data-authority='{{$item->authority}}'                        
+                            data-processflg='1'> 
+                            <i class='far fa-edit'></i>
+                        </button>
+
+                        <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#dlete_modal'
+                            data-staffid='{{$item->staff_id}}'
+                            data-staffname='{{$item->staff_name}}'
+                            data-staffnameyomi='{{$item->staff_name_yomi}}'
+                            data-nickname='{{$item->nick_name}}'
+                            data-gender='{{$item->gender}}'
+                            data-tel='{{$item->tel}}'
+                            data-authority='{{$item->authority}}'  
+                            data-deleteflg=@if($item->deleted_at) 1 @else 0 @endif>
+                                        
+                            @if($item->deleted_at)
+                                <i class='far fa-thumbs-down'></i><i class='fas fa-arrow-right'></i><i class='far fa-thumbs-up'></i>
+                            @else
+                                <i class='far fa-thumbs-up'></i><i class='fas fa-arrow-right'></i><i class='far fa-thumbs-down'></i>
+                            @endif
+                        </button>             
+
+                    </td>
+
+                
                     <td>
                         <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#LoginInfo_Modal'
                             data-passwordid='{{$item->password_id}}'
@@ -205,12 +209,12 @@
                                 
                                 <tr>
                                     <td class="dlete_modal_table-column">スタッフID：</td> 
-                                    <td class="dlete_modal_table-value"><span id="display_maincategory_name"></span></td>                                                                       
+                                    <td class="dlete_modal_table-value"><span id="display_staff_id"></span></td>                                                                       
                                 </tr>
 
                                 <tr>
                                     <td class="dlete_modal_table-column">スタッフ名：</td> 
-                                    <td class="dlete_modal_table-value"><span id="Display_staff_Name"></span></td>                                                                       
+                                    <td class="dlete_modal_table-value"><span id="display_staff_name"></span></td>                                                                       
                                 </tr>
 
                             </table>                            
@@ -349,10 +353,9 @@ $(function(){
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
-        var staff_id = evCon.data('staffid');
-        var maincategory_name = evCon.data('maincategoryname');    
+        var staff_id = evCon.data('staffid');        
         var staff_name = evCon.data('staffname');    
-        var deleteflg = evCon.data('deleteflg');
+        var delete_flg = evCon.data('deleteflg');
 
         $('#dlete_modal_runbutton').removeClass('delete_button');
         $('#dlete_modal_runbutton').removeClass('restore_button');        
@@ -367,14 +370,14 @@ $(function(){
             $('#dlete_modal_runbutton').addClass('restore_button');  
         }
     
-        $('#display_maincategory_cd').html(maincategory_cd);    
-        $('#display_maincategory_name').html(maincategory_name);    
-        $('#Display_staff_Name').html(staff_name);   
+        
+         
+        $('#display_staff_id').html(staff_id);   
+        $('#display_staff_name').html(staff_name);   
         $('.dlete_modal_wording').html(wording);
 
 
-        $('#delete_staff_id').val(staff_id);
-        $('#delete_maincategory_name').val(maincategory_name);  
+        $('#delete_staff_id').val(staff_id);        
         $('#delete_staff_name').val(staff_name);  
 
     });

@@ -10,7 +10,7 @@ use App\Models\subcategory_m_model;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
-
+use App\Original\Common;
 use App\Repositories\GenderList;
 use App\Repositories\AuthorityList;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +42,7 @@ class staff_m_controller extends Controller
        
             'staff_password_t.id as password_id',
             'staff_password_t.login_id as login_id',
-            'staff_password_t.password as password',
+            'staff_password_t.password as encrypted_password',
         )
         ->leftJoin('subcategory_m as genderinfo', function ($join) {
             $join->on('genderinfo.subcategory_cd', '=', 'staff_m.gender')
@@ -62,6 +62,13 @@ class staff_m_controller extends Controller
         ->orderBy('staff_m.staff_id', 'asc')        
         ->paginate(env('Paginate_Count'));
 
+
+        foreach($staff_list as $info){
+
+            //DBに登録されている暗号化したパスワードを平文に変更し再格納
+            $encrypted_password = $info->encrypted_password;              
+            $info->password = Common::decryption($info->encrypted_password);
+        }
         
         return view('headquarters/screen/master/staff/index', compact('staff_list','gender_list','authority_list','operator_authority'));
     }
@@ -171,6 +178,7 @@ class staff_m_controller extends Controller
                 ->delete();
 
                 session()->flash('success', '[大分類名 = ' . $maincategory_name . ' 中分類名 = ' . $subcategory_name . ']データを利用不可状態にしました');                
+                
             }else{    
 
                 //論理削除解除
@@ -203,16 +211,17 @@ class staff_m_controller extends Controller
         $id = intval($request->logininfo_password_id);
         $staff_id = intval($request->logininfo_staff_id);
         $login_id = $request->login_id;
-        $password = $request->password;
-        $operator = 9999;
+        //画面で入力した平文パスワードを暗号化
+        $password = Common::encryption($request->password);
+        $operator = session()->get('staff_id');
         
         try {
     
             DB::connection('mysql')->beginTransaction();
 
-            //論理削除
+            //スタッフIDで全てのデータの論理削除
             staff_password_t_model::
-            where('id', $id)        
+            where('staff_id', $staff_id)        
             ->delete();
 
             //新規登録処理                

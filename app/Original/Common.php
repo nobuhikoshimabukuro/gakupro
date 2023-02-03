@@ -52,8 +52,7 @@ class Common
     //第1引数（$Value）は対象の値
     //第2引数（$ReturnValueWhenNull）はNull時に返却する文字
     public function NullValueConversion($Value , $ReturnValueWhenNull)
-    {
-      
+    {      
         if (is_null($Value)) {
             $Value = $ReturnValueWhenNull;
         }
@@ -170,7 +169,6 @@ class Common
             }
 
         }
-
      
         $termina_info = array(            
             "pc_flg" => $pc_flg,
@@ -181,8 +179,72 @@ class Common
 
     }
 
+    //ランダム文字列作成処理    引数で桁数を指定する
+    public static function create_random_letters($length)
+    {           
+                
+        $password = "";
+     
+        // $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $chars = 'abcdefhkmnpqrstuvwxyzAEFHJKLMNPRSTUVWXY345679';
 
+        $count = mb_strlen($chars);
+     
+        for ($i = 0, $result = ''; $i < $length; $i++) {
+            $index = rand(0, $count - 1);
+            $password .= mb_substr($chars, $index, 1);
+        }        
+
+        return $password;
+
+    }   
+
+    //ランダム文字列（数字のみ）作成処理    引数で桁数を指定する
+    public static function create_random_letters_limited_number($length)
+    {           
+                
+        $password = "";
+     
+        // $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        $chars = '0123456789';
+
+        $count = mb_strlen($chars);
+     
+        for ($i = 0, $result = ''; $i < $length; $i++) {
+            $index = rand(0, $count - 1);
+            $password .= mb_substr($chars, $index, 1);
+        }        
+
+        return $password;
+
+    }   
+
+
+    //※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※
+    //※本番稼働後は暗号化キーは絶対に変更してはダメ
+    //※$encryption_key = 'yuma';
+    //※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※
+    // 平文から暗号文
+    public static function encryption($plain_text)
+    {
+        $encryption_key = 'yuma';
+
+        $encrypted_text = openssl_encrypt($plain_text, 'AES-128-ECB', $encryption_key);
+
+        return $encrypted_text;
+    }
+    
+    // 暗号文から平文
+    public static function decryption($encrypted_text)
+    {
+        $encryption_key = 'yuma';
+      
+        $plain_text = openssl_decrypt($encrypted_text, 'AES-128-ECB', $encryption_key);
+       
+        return $plain_text;
+    }
 
     
+
 }
 

@@ -33,8 +33,7 @@ class headquarters_controller extends Controller
         $password = $request->password;
 
         $staff_password_t_model = staff_password_t_model::
-        where('login_id', '=', $login_id)  
-        ->where('password', '=', $password)
+        where('login_id', '=', $login_id)          
         ->get();
 
         $GetCount = count($staff_password_t_model);
@@ -50,23 +49,56 @@ class headquarters_controller extends Controller
         }elseif($GetCount == 1){
             //ログインIDとパスワードで1件のみ取得::OK
 
+            //暗号化されたパスワードを平文に戻す
+            $plain_text = Common::decryption($staff_password_t_model[0]->password);
 
-            $staff_info = staff_m_model::
-            where('staff_id', '=', $staff_password_t_model[0]->staff_id)          
-            ->first();
+            //平文パスワードとログイン画面で入力したパスワードを整合性確認
+            if($plain_text == $password){
 
-            $this->SessionInfoRemove();
+                //パスワード一致
+                $staff_info = staff_m_model::
+                where('staff_id', '=', $staff_password_t_model[0]->staff_id)          
+                ->first();
+    
+                $this->SessionInfoRemove();
+    
+                if(is_null($staff_info)){
 
-            session()->put('staff_id', $staff_info->staff_id);
-            session()->put('staff_name', $staff_info->staff_name);
-            session()->put('staff_name_yomi', $staff_info->staff_name_yomi);
-            session()->put('authority', $staff_info->authority);
-            session()->put('login_flg', 1);
+                    // スタッフ情報取得できず
+                    session()->flash('staff_loginerror', '認証失敗');
+                    return back();
 
-            return redirect(route('headquarters.index'));
+                }else{
+
+                    session()->put('staff_id', $staff_info->staff_id);
+                    session()->put('staff_name', $staff_info->staff_name);
+                    session()->put('staff_name_yomi', $staff_info->staff_name_yomi);
+                    session()->put('authority', $staff_info->authority);
+                    session()->put('login_flg', 1);
+        
+                    return redirect(route('headquarters.index'));                    
+                }
+               
+
+            }else{
+
+                //パスワード不一致
+                $this->SessionInfoRemove();
+                // 認証失敗
+                session()->flash('staff_loginerror', '認証失敗');
+                return back();
+
+            }
+                     
 
         }elseif($GetCount > 1){
             //ログインIDとパスワードで1件以上取得::CriticalError
+
+             //パスワード不一致
+             $this->SessionInfoRemove();
+             // 認証失敗
+             session()->flash('staff_loginerror', '認証失敗');
+             return back();
 
         }
         
@@ -89,7 +121,7 @@ class headquarters_controller extends Controller
         session()->remove('staff_name_yomi');
         session()->remove('authority');
         session()->remove('login_flg');
-
+        
     }
 
     function index()

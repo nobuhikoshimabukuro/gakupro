@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Original\Common;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -20,28 +21,28 @@ class DatabaseSeeder extends Seeder
                 'maincategory_cd' => 1,
                 'maincategory_name' => '性別',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             [
                 'maincategory_cd' => 2,
                 'maincategory_name' => '権限',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             [
                 'maincategory_cd' => 3,
                 'maincategory_name' => '学校区分',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             [
                 'maincategory_cd' => 4,
                 'maincategory_name' => '雇用者区分',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
 
@@ -56,7 +57,7 @@ class DatabaseSeeder extends Seeder
                 'subcategory_name' => '未選択',
                 'display_order' => 1,
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
             [
                 'maincategory_cd' => 1,
@@ -64,7 +65,7 @@ class DatabaseSeeder extends Seeder
                 'subcategory_name' => '男性',
                 'display_order' => 2,
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
             [
                 'maincategory_cd' => 1,
@@ -72,7 +73,7 @@ class DatabaseSeeder extends Seeder
                 'subcategory_name' => '女性',
                 'display_order' => 3,
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             //権限
@@ -82,7 +83,7 @@ class DatabaseSeeder extends Seeder
                 'subcategory_name' => '一般',
                 'display_order' => 1,
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
             [
                 'maincategory_cd' => 2,
@@ -90,7 +91,7 @@ class DatabaseSeeder extends Seeder
                 'subcategory_name' => '管理者',
                 'display_order' => 2,
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
             [
                 'maincategory_cd' => 2,
@@ -98,7 +99,7 @@ class DatabaseSeeder extends Seeder
                 'subcategory_name' => 'システム管理者',
                 'display_order' => 3,
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
 
@@ -109,7 +110,7 @@ class DatabaseSeeder extends Seeder
                 'subcategory_name' => '高校',
                 'display_order' => 1,
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
             [
                 'maincategory_cd' => 3,
@@ -117,7 +118,7 @@ class DatabaseSeeder extends Seeder
                 'subcategory_name' => '高専',
                 'display_order' => 2,
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
             [
                 'maincategory_cd' => 3,
@@ -125,7 +126,7 @@ class DatabaseSeeder extends Seeder
                 'subcategory_name' => '専門学校',
                 'display_order' => 3,
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
             [
                 'maincategory_cd' => 3,
@@ -133,7 +134,7 @@ class DatabaseSeeder extends Seeder
                 'subcategory_name' => '職業訓練校',
                 'display_order' => 3,
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
             [
                 'maincategory_cd' => 3,
@@ -141,7 +142,7 @@ class DatabaseSeeder extends Seeder
                 'subcategory_name' => '短期大学',
                 'display_order' => 4,
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
             [
                 'maincategory_cd' => 3,
@@ -149,7 +150,7 @@ class DatabaseSeeder extends Seeder
                 'subcategory_name' => '大学',
                 'display_order' => 5,
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             //雇用者区分
@@ -159,7 +160,7 @@ class DatabaseSeeder extends Seeder
                 'subcategory_name' => '株式会社',
                 'display_order' => 1,
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
             [
                 'maincategory_cd' => 4,
@@ -167,7 +168,7 @@ class DatabaseSeeder extends Seeder
                 'subcategory_name' => '有限会社',
                 'display_order' => 2,
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
             [
                 'maincategory_cd' => 4,
@@ -175,7 +176,7 @@ class DatabaseSeeder extends Seeder
                 'subcategory_name' => '個人事業主',
                 'display_order' => 3,
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             [
@@ -184,7 +185,7 @@ class DatabaseSeeder extends Seeder
                 'subcategory_name' => 'その他',
                 'display_order' => 4,
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
         ]);     
@@ -201,7 +202,7 @@ class DatabaseSeeder extends Seeder
                 'mailaddress' => '',
                 'authority' => '3',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             [
@@ -214,7 +215,20 @@ class DatabaseSeeder extends Seeder
                 'mailaddress' => '',
                 'authority' => '3',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
+            ],          
+
+            [
+             
+                'staff_name' => '一般　太郎',
+                'staff_name_yomi' => 'イッパン　タロウ',
+                'nick_name' => 'イッパン',
+                'gender' => '1',
+                'tel' => '090-1234-5678',
+                'mailaddress' => '',
+                'authority' => '1',
+                'created_by' => '9999',
+                
             ],          
 
         ]);     
@@ -224,22 +238,30 @@ class DatabaseSeeder extends Seeder
             [                
                 'staff_id' => '1',
                 'login_id' => '1',
-                'password' => '1',               
+                'password' => Common::encryption("1"),        
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             [                
                 'staff_id' => '2',
                 'login_id' => '2',
-                'password' => '2',               
+                'password' => Common::encryption("2"),        
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
+            ],   
+
+            [                
+                'staff_id' => '3',
+                'login_id' => '3',
+                'password' => Common::encryption("3"),                  
+                'created_by' => '9999',
+                
             ],   
 
         ]);     
 
-
+        
         DB::table('employer_m')->insert([
             
             [   
@@ -256,7 +278,7 @@ class DatabaseSeeder extends Seeder
                 'mailaddress' => 'test@gmail.com',
                 'remarks' => '業種：生産業（家具作り）やWebシステム構築',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],          
 
         ]);    
@@ -266,9 +288,9 @@ class DatabaseSeeder extends Seeder
             [   
                 'employer_id' => '1',             
                 'login_id' => '1',
-                'password' => '1',                
+                'password' => Common::encryption("1"),
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],          
 
         ]);   
@@ -291,7 +313,7 @@ class DatabaseSeeder extends Seeder
                 'mailaddress' => '',               
                 'remarks' => '',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             [                
@@ -307,7 +329,7 @@ class DatabaseSeeder extends Seeder
                 'mailaddress' => '',               
                 'remarks' => '',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             [                
@@ -323,7 +345,7 @@ class DatabaseSeeder extends Seeder
                 'mailaddress' => '',               
                 'remarks' => '',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             [                
@@ -339,7 +361,7 @@ class DatabaseSeeder extends Seeder
                 'mailaddress' => '',               
                 'remarks' => '',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],        
         ]);     
 
@@ -352,7 +374,7 @@ class DatabaseSeeder extends Seeder
                 'studyperiod' => '36',              
                 'remarks' => '１年次はグラフィック、デザイン、マンガ、ファッションの基礎。２年次から自分の適性にあった専門分野を選択。',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             [                
@@ -362,7 +384,7 @@ class DatabaseSeeder extends Seeder
                 'studyperiod' => '24',              
                 'remarks' => '入学から専門分野の学習が始まる。',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             [                
@@ -372,7 +394,7 @@ class DatabaseSeeder extends Seeder
                 'studyperiod' => '12',              
                 'remarks' => '全てのデザイン科目を学習するため、カメラに興味あって学習している生徒がいる可能性あり。',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             [                
@@ -382,7 +404,7 @@ class DatabaseSeeder extends Seeder
                 'studyperiod' => '24',              
                 'remarks' => '昼間部（通学制）と「通信部」の2コースがある。HPを見た感じ写真に特化しているのがわかる。',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             [                
@@ -392,7 +414,7 @@ class DatabaseSeeder extends Seeder
                 'studyperiod' => '6',              
                 'remarks' => '昼間部（通学制）と「通信部」の2コースがある。HPを見た感じ写真に特化しているのがわかる。',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             [                
@@ -402,7 +424,7 @@ class DatabaseSeeder extends Seeder
                 'studyperiod' => '24',              
                 'remarks' => 'カメラの専門コースではなく、授業の一環でカメラの基礎を学習すると思われる。目指す職業でフォトグラファーがあるので、カメラマンを目指して入学する生徒もいる可能性あり。',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
             [                
@@ -412,7 +434,7 @@ class DatabaseSeeder extends Seeder
                 'studyperiod' => '36',              
                 'remarks' => '中学卒業後に進学できる学校。カメラも扱うと思うが、主に映像だと思われる。',
                 'created_by' => '9999',
-                'updated_by' => '9999',
+                
             ],
 
            

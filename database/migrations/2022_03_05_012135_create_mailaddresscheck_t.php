@@ -29,7 +29,7 @@ return new class extends Migration
                 ->comment('キーコード');
 
             $table                
-                ->string('password', 100)
+                ->string('password', 1000)
                 ->comment('認証用パスワード');
 
             $table

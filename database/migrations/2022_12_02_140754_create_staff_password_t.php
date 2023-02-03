@@ -33,7 +33,7 @@ return new class extends Migration
                 ->comment('ログインID');
 
             $table
-                ->string('password', 100)
+                ->string('password', 1000)
                 ->comment('パスワード');
 
             $table

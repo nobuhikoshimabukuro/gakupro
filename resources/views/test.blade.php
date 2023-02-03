@@ -48,11 +48,10 @@
 
 .pdf{
 
-    min-width: 100vw;
-    max-width: 100vw;
+    width: 100%;
 
-    min-height: 100vh;
-    max-height: 100vh;
+    height: 90vh;
+    
 
 }
 </style>
@@ -69,8 +68,13 @@
 
                 @foreach($picturebook_info as $info)
                     <td class="pdf-td">
-                        <embed src='{{$info['PublicPath']}}'class="pdf" alt="">    
-                    </td>                
+                        {{-- <embed src='{{$info['PublicPath']}}'class="pdf" alt="">     --}}
+                            <object data="{{$info['PublicPath']}}" type="application/pdf" class="pdf">
+                            </object>
+                    </td>           
+                    
+                    
+
                 @endforeach
                 
             </tr>
