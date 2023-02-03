@@ -8,7 +8,7 @@
 <style>
 
 html,body{
-  overflow: hidden
+  /* overflow: hidden */
 }
 
 
@@ -420,7 +420,7 @@ background-color: red;
 <form id="batch_download_form" method="post" class="d-none" action="{{ route('photoproject.batch_download') }}">  
     @csrf
     <input type="hidden" name="key_code" id="" value="{{$key_code}}">
-    <input type="hidden" name="Cipher" id="" value="{{$Cipher}}">    
+    <input type="hidden" name="cipher" id="" value="{{$cipher}}">    
 </form>
 
 
@@ -669,7 +669,7 @@ $(function(){
     $('#AllDownloadButton').click(function () {
 
         var key_code = $("#key_code").val();
-        var Cipher = $("#Cipher").val();
+        var cipher = $("#cipher").val();
 
         let f = $('#batch_download_form');
 

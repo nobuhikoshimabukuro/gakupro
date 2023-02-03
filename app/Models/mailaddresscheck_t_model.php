@@ -22,10 +22,12 @@ class mailaddresscheck_t_model extends Model
 
 
     protected $fillable = [
-        'password',
         'key_code',
+        'cipher',
+        'password',
         'mailaddress',
-        'checkcount'      
+        'check_count',     
+        
     ];
 
 

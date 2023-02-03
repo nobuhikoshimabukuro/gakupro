@@ -28,17 +28,22 @@ return new class extends Migration
                 ->string('key_code', 100)
                 ->comment('キーコード');
 
+            $table
+                ->string('cipher', 1000)
+                ->nullable()
+                ->comment('暗号文');
+
             $table                
                 ->string('password', 1000)
                 ->comment('認証用パスワード');
-
+                
             $table
                 ->string('mailaddress', 100)
                 ->comment('メールアドレス');
 
     
             $table
-                ->integer('checkcount')
+                ->integer('check_count')
                 ->default(0)
                 ->comment('認証回数(初期値=0)');
 

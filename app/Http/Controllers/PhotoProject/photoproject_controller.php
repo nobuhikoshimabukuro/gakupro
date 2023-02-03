@@ -111,6 +111,7 @@ class photoproject_controller extends Controller
                 $code = str_pad($i + $CreatedCount, 3, 0, STR_PAD_LEFT);
 
                 $password = "";
+                $cipher = "";
                         
                 //パスワード作成 ＆ 重複check
                 while(true){ 
@@ -136,9 +137,27 @@ class photoproject_controller extends Controller
                     
                 }
 
+                //暗号文作成 ＆ 重複check
+                while(true){ 
+
+                    $cipher = Common::create_random_letters(10);
+                    $password_check = photoget_t_model::withTrashed()
+                    ->where('cipher', '=', $cipher)                    
+                    ->get()->count();
+
+                    if($password_check == 0){
+
+                        //繰返しの強制終了
+                        break; 
+                    }
+                    
+                }
+
                 //デバッグモードは全てCode
                 if($APP_DEBUG){
-                    $password = intval($code);
+                    $password = intval($code);      
+                    //平文を暗号文に
+                    $encryption_password = Common::encryption($password);            
                 }
 
                 //フォルダ名を作成  コード&英数字の羅列
@@ -151,13 +170,10 @@ class photoproject_controller extends Controller
                 $Qr_ImageName = 'QrCode_'.$date.$code .'.png';
                 $Qr_TicketName = 'QrTicket_'.$date.$code .'.png';            
 
-                $key_code = $date . $code;
-
-                //key_codeを暗号化
-                $Cipher = Common::encryption($key_code);
+                $key_code = $date . $code;            
                 
                 //Qrコードに設定するUrlを設定
-                $url = route('photoproject.password_entry') . '?key_code=' . $key_code . '&Cipher=' .$Cipher;
+                $url = route('photoproject.password_entry') . '?key_code=' . $key_code . '&cipher=' .$cipher;
              
 
                 if($APP_DEBUG){
@@ -181,6 +197,7 @@ class photoproject_controller extends Controller
                         ,"name1" => $Qr_ImageName
                         ,"name2" => $Qr_TicketName
                         ,"url" => $url
+                        ,"cipher" => $cipher
                     ]
                 );            
 
@@ -386,12 +403,9 @@ class photoproject_controller extends Controller
       
         //画像アップロード画面に遷移するか判断する為
         $upload_flg = $request->upload_flg;
-
         //urlに記載されているkeycode取得
-        $key_code = $request->key_code;
-        
-        //暗号文を平文に
-        $Cipher = Common::decryption($request->Cipher);  
+        $key_code = $request->key_code;                
+        $cipher = $request->cipher;
 
         
         //upload_flg非存在時は写真取得画面(お客様用)に遷移
@@ -399,17 +413,7 @@ class photoproject_controller extends Controller
 
             //画面遷移判断用
             $transition_judge = true;
-
-            //key_code、または暗号が取得できない場合はエラー画面にリダイレクト
-            if(is_null($key_code) || is_null($Cipher)){
-                $transition_judge = false;  
-            }            
-            
-            //暗号化したkey_codeと送られてきた暗号文が一致していれば正常
-            if($key_code != $Cipher){
-                $transition_judge = false;             
-            }    
-          
+         
             try{
 
                 //キーコードから日付とコードを取得
@@ -421,16 +425,16 @@ class photoproject_controller extends Controller
                 $photoget_t_info = photoget_t_model::withTrashed()                   
                 ->where('date', '=', $date)  
                 ->where('code', '=', $code)  
+                ->where('cipher', '=', $cipher)  
                 ->first();   
-                
-                //保存フォルダ情報を取得
-                $Saved_Folder = $photoget_t_info->saved_folder;                   
 
+                if(is_null($photoget_t_info)){
+                    $transition_judge = false;   
+                }
+                
     
             } catch (Exception $e) {
-
-                $transition_judge = false;   
-    
+                $transition_judge = false;       
             }    
 
             //処理エラー
@@ -439,6 +443,9 @@ class photoproject_controller extends Controller
                 session()->flash('errormessage','Qrチケットを再度読み込んでください。');
                 return redirect()->route('photoproject.info');            
             }
+
+            //保存フォルダ情報を取得
+            $Saved_Folder = $photoget_t_info->saved_folder;     
 
             //get_upload_info関数に必要値を渡して写真のアップロード状況を取得
             $Files = $this->get_upload_info($date,$Saved_Folder);                      
@@ -458,11 +465,14 @@ class photoproject_controller extends Controller
             $with_password_flg = $photoget_t_info->with_password_flg;
 
             if($with_password_flg == 1){
-                return view('photoproject/screen/password_entry', compact('key_code','Cipher'));
+                return view('photoproject/screen/password_entry', compact('key_code','cipher'));
             }else{
                 //パスワード不要のため、そのまま写真表示画面
-                $password = $photoget_t_info->password;            
-                return view('photoproject/screen/password_auto_entry', compact('key_code','Cipher','password'));
+                $encryption_password = $photoget_t_info->password; 
+
+                //暗号文を平文に
+                $password = Common::decryption($encryption_password);           
+                return view('photoproject/screen/password_auto_entry', compact('key_code','cipher','password'));
             }
             
 
@@ -479,27 +489,30 @@ class photoproject_controller extends Controller
     function photo_confirmation(Request $request)
     {
        
-        //パスワード入力画面から値取得
-        $password = $request->password;        
-        $key_code = $request->key_code;     
-
-        //暗号文を平文に
-        $Cipher = Common::decryption($request->Cipher);  
-
-
-        //暗号化したkey_codeと送られてきた暗号文が一致していれば正常
-        if($key_code != $Cipher){
-            // 暗号文と不一致   不正な処理
-            session()->flash('photo_get_password_check_error', 'Qrコードを再読み後パスワードを入力してください。');
-            return back();
-        }            
-
-        //キーコードから日付とコードを取得
-        $key_code_split = $this->key_code_split($key_code);
-        $date = $key_code_split["date"];
-        $code = $key_code_split["code"];
-        
         try{
+
+            //パスワード入力画面から値取得
+            $password = $request->password;
+            $key_code = $request->key_code;
+            $cipher = $request->cipher;
+
+            //キーコードから日付とコードを取得
+            $key_code_split = $this->key_code_split($key_code);
+            $date = $key_code_split["date"];
+            $code = $key_code_split["code"];
+            
+            //日付、コード、暗号文で
+            $photoget_t_info_check = photoget_t_model::withTrashed()                    
+            ->where('date', '=', $date)  
+            ->where('code', '=', $code)  
+            ->where('cipher', '=', $cipher)    
+            ->first();
+
+            if(is_null($photoget_t_info_check)){  
+                //key_codeと暗号文が不整合
+                session()->flash('photo_get_password_check_error', 'Qrコードを再読みしてください。');
+                return back();
+            }
 
 
             //平文を暗号文に
@@ -509,6 +522,7 @@ class photoproject_controller extends Controller
             $photoget_t_info = photoget_t_model::withTrashed()                    
             ->where('date', '=', $date)  
             ->where('code', '=', $code)  
+            ->where('cipher', '=', $cipher)
             ->where('password', '=', $encryption_password)    
             ->get();
 
@@ -525,7 +539,7 @@ class photoproject_controller extends Controller
                 //端末情報取得
                 $termina_info = Common::TerminalCheck($request);
         
-                return view('photoproject/screen/photo_confirmation', compact('photoget_t_info','key_code','Cipher','UploadFileInfo','termina_info'));  
+                return view('photoproject/screen/photo_confirmation', compact('photoget_t_info','key_code','cipher','UploadFileInfo','termina_info'));  
 
             }elseif(count($photoget_t_info) > 1){
                 //データが複数ある為、CriticalError
@@ -540,6 +554,7 @@ class photoproject_controller extends Controller
                 $photoget_t_check = photoget_t_model::withTrashed()                      
                 ->where('date', '=', $date)  
                 ->where('code', '=', $code)  
+                ->where('cipher', '=', $cipher)
                 ->get();
 
                 if(count($photoget_t_check) > 0){
@@ -577,19 +592,8 @@ class photoproject_controller extends Controller
     {
     
         try{
-            $key_code = $request->key_code;
-
-            //暗号文を平文に
-            $Cipher = Common::decryption($request->Cipher);  
-
-            //暗号化したkey_codeと送られてきた暗号文が一致していれば正常
-            if($key_code != $Cipher){
-                // 暗号文と不一致   不正な処理
-                $ResultArray = array(
-                    "Result" => "error"                   
-                );
-                return response()->json(['ResultArray' => $ResultArray]);                
-            }
+            $key_code = $request->key_code;            
+            $cipher = $request->cipher;
 
             //キーコードから日付とコードを取得
             $key_code_split = $this->key_code_split($key_code);
@@ -599,8 +603,17 @@ class photoproject_controller extends Controller
             //日付、コード、パスワードで絞込
             $photoget_t_info = photoget_t_model::withTrashed()                    
             ->where('date', '=', $date)  
-            ->where('code', '=', $code)          
+            ->where('code', '=', $code)
+            ->where('cipher', '=', $cipher)
             ->first();
+
+            if(is_null($photoget_t_info)){                
+                // 暗号文と不一致   不正な処理
+                $ResultArray = array(
+                "Result" => "error"                   
+                );
+                return response()->json(['ResultArray' => $ResultArray]);    
+            }
 
             $Saved_Folder = $photoget_t_info->saved_folder;        
 

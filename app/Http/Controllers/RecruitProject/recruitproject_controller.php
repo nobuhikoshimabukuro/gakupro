@@ -74,7 +74,7 @@ class recruitproject_controller extends Controller
             while(true){         
 
                 //6桁のランダム文字列
-                $key_code =  Common::create_random_letters(6);
+                $key_code =  Common::create_random_letters(8);
                 
                 $check_key_code = mailaddresscheck_t_model::withTrashed()
                 ->where('key_code', '=', $key_code)                        
@@ -86,19 +86,33 @@ class recruitproject_controller extends Controller
                 }            
             }
 
+            while(true){         
+
+                //6桁のランダム文字列
+                $cipher =  Common::create_random_letters(8);
+                
+                $check_cipher = mailaddresscheck_t_model::withTrashed()
+                ->where('cipher', '=', $cipher)                        
+                ->exists();
+
+                if(!$check_cipher){
+                    //繰返しの強制終了
+                    break; 
+                }            
+            }
+
             mailaddresscheck_t_model::create(
                 [
                     "password" => $encryption_password
                     ,"key_code" => $key_code
+                    ,"cipher" => $cipher
                     ,"mailaddress" => $mailaddress                    
                 ]
     
             );           
+                    
 
-            //key_codeを暗号化            
-            $Cipher = Common::encryption($key_code);                      
-
-            $url = route('recruitproject.mailaddress_approval') . '?key_code=' . $key_code . '&Cipher=' .$Cipher; 
+            $url = route('recruitproject.mailaddress_approval') . '?key_code=' . $key_code . '&cipher=' .$cipher; 
             $subject = "学生応援プロジェクト（確認メール）";
 
             Mail::to($mailaddress)->send(new SendMailAddressConfirmation($url , $password , $subject));
@@ -128,24 +142,25 @@ class recruitproject_controller extends Controller
     function mailaddress_approval(Request $request)
     {
 
-        $key_code = $request->key_code;
-
-        //暗号文を平文に
-        $Cipher = Common::decryption($request->Cipher);      
+        $key_code = $request->key_code;       
+        $cipher = $request->cipher;      
         
-        $mailaddress = "";
+        //mailaddresscheck_tからデータを取得
+        $mailaddresscheck_t_info = mailaddresscheck_t_model::withTrashed()                   
+        ->where('key_code', '=', $key_code)          
+        ->where('cipher', '=', $cipher)  
+        ->first();   
 
-        //暗号化したkey_codeと送られてきた暗号文が一致していれば正常
-        if($key_code ==  $Cipher){
+        //key_codeと暗号文でデータが存在すればOK
 
-            return view('recruitproject/screen/employer_mailaddress_approval', compact('key_code','Cipher'));               
-            
-        }else{
+        if(is_null($mailaddresscheck_t_info)){
 
             // 暗号文と不一致   不正な処理           
             session()->flash('infomessage', 'お送りしたメールのURLから再度遷移してください。');
-            return view('recruitproject/screen/info');   
-
+            return view('recruitproject/screen/info');              
+            
+        }else{
+            return view('recruitproject/screen/employer_mailaddress_approval', compact('key_code','cipher'));
         }       
 
     }
@@ -154,19 +169,22 @@ class recruitproject_controller extends Controller
     function mailaddress_approval_check(Request $request)
     {
 
-        $key_code = $request->key_code;
-
-        //暗号文を平文に
-        $Cipher = Common::decryption($request->Cipher);
-        //平文を暗号文に
+        $key_code = $request->key_code;        
+        $cipher = $request->cipher;            
         $encryption_password = Common::encryption($request->password);
 
-        //暗号化したkey_codeと送られてきた暗号文が一致していれば正常
-        if($key_code == $Cipher){
+        //mailaddresscheck_tからデータを取得
+        $mailaddresscheck_t_info = mailaddresscheck_t_model::withTrashed()                   
+        ->where('key_code', '=', $key_code)          
+        ->where('cipher', '=', $cipher)  
+        ->first();   
+        
+        if(!is_null($mailaddresscheck_t_info)){
 
                         
             $mailaddresscheck_t = mailaddresscheck_t_model::
-            where('key_code', '=', $key_code)          
+            where('key_code', '=', $key_code)
+            ->where('cipher', '=', $cipher)
             ->where('password', '=', $encryption_password)  
             ->get();
 

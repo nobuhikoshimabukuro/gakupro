@@ -21,7 +21,7 @@
         @csrf
 
         <input type="hidden" name="key_code" id="" value="{{$key_code}}" class="form-control">
-        <input type="hidden" name="Cipher" id="" value="{{$Cipher}}" class="form-control">
+        <input type="hidden" name="cipher" id="" value="{{$cipher}}" class="form-control">
 
         <div class="row">                    
 

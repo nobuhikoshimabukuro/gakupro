@@ -35,10 +35,10 @@ return new class extends Migration
                 ->nullable()
                 ->comment('写真取得用コード');
 
-            $table
-                ->integer('password')
+            $table                
+                ->string('password', 1000)
                 ->nullable()
-                ->comment('写真取得用パスワード');
+                ->comment('認証用パスワード');
 
             $table
                 ->integer('with_password_flg')
@@ -64,6 +64,11 @@ return new class extends Migration
                 ->string('url', 100)
                 ->nullable()
                 ->comment('作成されたurl');
+
+            $table
+                ->string('cipher', 1000)
+                ->nullable()
+                ->comment('暗号文');
 
             $table
                 ->dateTime('created_at')

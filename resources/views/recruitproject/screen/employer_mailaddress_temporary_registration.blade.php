@@ -85,6 +85,8 @@ $(function(){
     });
 
 
+
+
     $(document).on("click", "#SendMailButton", function (e) {
         SendMail();
     });
@@ -93,8 +95,8 @@ $(function(){
 
     function SendMail(){
 
-    //{{-- メッセージクリア --}}
-    $('#Message-Area').html('');
+        //{{-- メッセージクリア --}}
+        $('#Message-Area').html('');
         $('.is-invalid').removeClass('is-invalid');
 
         var mailaddress = $("#mailaddress").val();        
@@ -105,6 +107,13 @@ $(function(){
             return false;
         }
         
+
+        var display_html = '';
+            display_html = '<div class="alert alert-danger text-left">';
+            display_html += '<li class="text-left">メール送信中</li>';
+            display_html += '</div>';
+        $('#Message-Area').html(display_html);
+
         let f = $('#SendMailForm');
 
         phpProcessingStart();
@@ -120,10 +129,7 @@ $(function(){
                 
                 //{{-- ボタン有効 --}}
                 $('#SendMailButton').prop("disabled", false);
-                //{{-- マウスカーソルを通常に --}}                    
-                document.body.style.cursor = 'auto';
-
-
+                
                 var ResultArray = data.ResultArray;
 
                 var Result = ResultArray["Result"];
@@ -131,20 +137,12 @@ $(function(){
                 phpProcessingEnd();
 
                 if(Result=='success'){
-
-                    // location.reload();
-
                     
+                    display_html = '<div class="text-left">';
+                    display_html += 'メールを送信しました。';
+                    display_html += '</div>';
 
-                    //{{-- アラートメッセージ表示 --}}
-                    var errorsHtml = '';
-                    errorsHtml = '<div class="text-left">';
-                    errorsHtml += 'メールを送信しました。';
-                    errorsHtml += '</div>';
-
-                        //{{-- アラート --}}
-                    $('#Message-Area').html(errorsHtml);
-                    //{{-- 画面上部へ --}}
+                    $('#Message-Area').html(display_html);                   
 
                     $("html,body").animate({
                         scrollTop: 0
@@ -155,14 +153,14 @@ $(function(){
 
                     var ErrorMessage = ResultArray["Message"];
 
-                    //{{-- アラートメッセージ表示 --}}
-                    var errorsHtml = '';
-                    errorsHtml = '<div class="alert alert-danger text-left">';
-                    errorsHtml += '<li class="text-left">' + ErrorMessage + '</li>';
-                    errorsHtml += '</div>';
+                    
+                    
+                    display_html = '<div class="alert alert-danger text-left">';
+                    display_html += '<li class="text-left">' + ErrorMessage + '</li>';
+                    display_html += '</div>';
 
                         //{{-- アラート --}}
-                    $('#Message-Area').html(errorsHtml);
+                    $('#Message-Area').html(display_html);
                     //{{-- 画面上部へ --}}
 
                     $("html,body").animate({
@@ -179,14 +177,13 @@ $(function(){
                 
                 phpProcessingEnd();
                 
-                //{{-- アラートメッセージ表示 --}}
-                var errorsHtml = '';
-                    errorsHtml = '<div class="alert alert-danger text-left">';
-                    errorsHtml += '<li class="text-left">メール送信処理でエラーが発生しました。</li>';
-                    errorsHtml += '</div>';
+                
+                display_html = '<div class="alert alert-danger text-left">';
+                display_html += '<li class="text-left">メール送信処理でエラーが発生しました。</li>';
+                display_html += '</div>';
 
                 //{{-- アラート --}}
-                $('#Message-Area').html(errorsHtml);
+                $('#Message-Area').html(display_html);
                 //{{-- 画面上部へ --}}
                 $("html,body").animate({
                     scrollTop: 0
