@@ -20,17 +20,18 @@
         <div class="row">                    
 
             <div id="Input-Area"class="row">                    
-                <div class="col-4 text-right">
+                <div class="col-sm-3 col-xs-12">  
                     <label for="" class="col-form-label original-label">メールアドレス</label>
                 </div>
-                <div class="col-4">                    
+                <div class="col-sm-6 col-xs-9">                       
                     <input type="text" name="mailaddress" id="mailaddress" value="" class="form-control text-left">
                 </div>
 
-                <div class="col-4 text-left">
+                <div class="col-sm-3 col-xs-3">   
                     <button type="button" id='SendMailButton' class="btn btn-secondary">メール送信</button>
                 </div>      
             </div>       
+
 
             <div class="row">                    
                 <div class="col-4 text-right">
@@ -109,7 +110,7 @@ $(function(){
         
 
         var display_html = '';
-            display_html = '<div class="alert alert-danger text-left">';
+            display_html = '<div class="text-left">';
             display_html += '<li class="text-left">メール送信中</li>';
             display_html += '</div>';
         $('#Message-Area').html(display_html);
