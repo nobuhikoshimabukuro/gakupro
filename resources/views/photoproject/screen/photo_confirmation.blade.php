@@ -150,7 +150,7 @@ background-color: red;
 
 
 .display_url{
-    font-size: 7px;
+    font-size: 5px;
 }
 
 </style>
