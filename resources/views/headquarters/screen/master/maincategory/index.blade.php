@@ -1,4 +1,4 @@
-@extends('headquarters.common.layouts_app')
+@extends('headquarters.common.layouts_beforelogin')
 
 @section('pagehead')
 @section('title', '大分類マスタ')  
@@ -16,7 +16,7 @@
     @include('headquarters.common.alert')
 
     <div class="row">
-        <div class="col-6 text-left">
+        <div class="col-6 text-start">
             <h4 class="MasterTitle">
                 大分類マスタ
             </h4>
@@ -63,7 +63,7 @@
              
     </form>
 
-    <div class="m-0 text-left">
+    <div class="m-0 text-start">
         {{-- ページャー --}}                
         @if(count($maincategory_m_list) > 0)                                
           <div class="m-0">{{ $maincategory_m_list->appends(request()->query())->links() }}</div>
@@ -347,8 +347,8 @@ $(function(){
 
                     //{{-- アラートメッセージ表示 --}}
                     var errorsHtml = '';
-                    errorsHtml = '<div class="alert alert-danger text-left">';
-                    errorsHtml += '<li class="text-left">' + ErrorMessage + '</li>';
+                    errorsHtml = '<div class="alert alert-danger text-start">';
+                    errorsHtml += '<li class="text-start">' + ErrorMessage + '</li>';
                     errorsHtml += '</div>';
 
                         //{{-- アラート --}}
@@ -371,13 +371,13 @@ $(function(){
             .fail(function (data, textStatus, errorThrown) {
                 
                 //{{-- アラートメッセージ表示 --}}
-                let errorsHtml = '<div class="alert alert-danger text-left">';
+                let errorsHtml = '<div class="alert alert-danger text-start">';
 
                 if (data.status == '422') {
                     //{{-- vlidationエラー --}}
                     $.each(data.responseJSON.errors, function (key, value) {
                         //{{-- responsからerrorsを取得しメッセージと赤枠を設定 --}}
-                        errorsHtml += '<li  class="text-left">' + value[0] + '</li>';
+                        errorsHtml += '<li  class="text-start">' + value[0] + '</li>';
                     
                         $("[name='" + key + "']").addClass('is-invalid');
                         
@@ -387,7 +387,7 @@ $(function(){
                 } else {
 
                     //{{-- その他のエラー --}}
-                    errorsHtml += '<li class="text-left">登録処理エラー</li>';
+                    errorsHtml += '<li class="text-start">登録処理エラー</li>';
 
                 }
 

@@ -53,6 +53,6 @@
 
 
 @yield('pagejs')
-@include('common.footer')
+{{-- @include('common.footer') --}}
 </body>
 </html>

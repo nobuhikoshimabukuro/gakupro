@@ -27,15 +27,15 @@
 
             <div class="row">                    
 
-                <div class="col-4 text-right">
+                <div class="col-4 text-end">
                     <label for="" class="col-form-label original-label">パスワード</label>
                 </div>
                 <div class="col-4">                    
-                    <input type="tel" name="password" id="password" value="" class="form-control text-right">
+                    <input type="tel" name="password" id="password" value="" class="form-control text-end">
                 </div>
 
                
-                <div class="col-4 text-left">
+                <div class="col-4 text-start">
                     <button type="button" id='ApproveButton' class="btn btn-secondary">GO</button>
                 </div>         
 

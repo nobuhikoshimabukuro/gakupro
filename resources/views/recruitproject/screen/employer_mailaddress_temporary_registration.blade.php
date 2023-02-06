@@ -17,31 +17,72 @@
     <div class="ajax-msg"></div>
     <form action="{{ route('recruitproject.mailaddress_temporary_registration_process') }}" id='SendMailForm' method="post" enctype="multipart/form-data">
         @csrf
+
         <div class="row">                    
 
-            <div id="Input-Area"class="row">                    
-                <div class="col-sm-3 col-xs-12">  
-                    <label for="" class="col-form-label original-label">メールアドレス</label>
+            <div class="row m-1">          
+
+                <div class="col-xl-6 col-sm-12">  
+
+                    <p>
+                        ここに説明書き
+                    </p>
+
                 </div>
-                <div class="col-sm-6 col-xs-9">                       
-                    <input type="text" name="mailaddress" id="mailaddress" value="" class="form-control text-left">
+                
+                <div class="col-xl-6 col-sm-12">  
+
+                    <table style="min-width: 100%">
+
+                        <tr>
+                            <th class="text-start">
+                                宛先名
+                            </th>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <input type="text" name="destination_name" id="destination_name" value="" class="form-control text-start">
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <th class="text-start">
+                                メールアドレス
+                            </th>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <input type="text" name="mailaddress" id="mailaddress" value="" class="form-control text-start">                                
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-end">                                
+                                <button type="button" id='SendMailButton' class="btn btn-secondary">メール送信</button>
+                            </td>
+                        </tr>
+
+                    </table>
+                    
                 </div>
 
-                <div class="col-sm-3 col-xs-3">   
-                    <button type="button" id='SendMailButton' class="btn btn-secondary">メール送信</button>
-                </div>      
+
             </div>       
 
 
+
+
             <div class="row">                    
-                <div class="col-4 text-right">
+                <div class="col-4 text-end">
                   
                 </div>
                 <div id="Message-Area" class="col-4">                    
                                       
                 </div>
 
-                <div class="col-4 text-left">
+                <div class="col-4 text-start">
                   
                 </div>      
             </div>     
@@ -110,8 +151,8 @@ $(function(){
         
 
         var display_html = '';
-            display_html = '<div class="text-left">';
-            display_html += '<li class="text-left">メール送信中</li>';
+            display_html = '<div class="text-start">';
+            display_html += '<li class="text-start">メール送信中</li>';
             display_html += '</div>';
         $('#Message-Area').html(display_html);
 
@@ -139,7 +180,7 @@ $(function(){
 
                 if(Result=='success'){
                     
-                    display_html = '<div class="text-left">';
+                    display_html = '<div class="text-start">';
                     display_html += 'メールを送信しました。';
                     display_html += '</div>';
 
@@ -156,8 +197,8 @@ $(function(){
 
                     
                     
-                    display_html = '<div class="alert alert-danger text-left">';
-                    display_html += '<li class="text-left">' + ErrorMessage + '</li>';
+                    display_html = '<div class="alert alert-danger text-start">';
+                    display_html += '<li class="text-start">' + ErrorMessage + '</li>';
                     display_html += '</div>';
 
                         //{{-- アラート --}}
@@ -179,8 +220,8 @@ $(function(){
                 phpProcessingEnd();
                 
                 
-                display_html = '<div class="alert alert-danger text-left">';
-                display_html += '<li class="text-left">メール送信処理でエラーが発生しました。</li>';
+                display_html = '<div class="alert alert-danger text-start">';
+                display_html += '<li class="text-start">メール送信処理でエラーが発生しました。</li>';
                 display_html += '</div>';
 
                 //{{-- アラート --}}

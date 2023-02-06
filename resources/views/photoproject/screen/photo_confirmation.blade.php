@@ -178,7 +178,7 @@ background-color: red;
                 </div>
 
 
-                <div id="" class="col-2 text-left p-0">                
+                <div id="" class="col-2 text-start p-0">                
 
                     <button type="button" id="AllDownloadButton" class="btn btn-secondary"            
                     ><span id='AllDownloadButton-Text'>全てDL </span><i class="fas fa-download"></i>
@@ -194,7 +194,7 @@ background-color: red;
                 </div>
 
 
-                <div id="" class="col-2 text-right p-0">
+                <div id="" class="col-2 text-end p-0">
 
                     <button type="button" id="SelectDownloadButton" class="btn btn-secondary"
                     data-targetpath="{{$UploadFileInfo[0]["PublicPath"]}}"
@@ -211,7 +211,7 @@ background-color: red;
 
                 <input type="hidden" id="PC_FLG" value="0">
 
-                <div id="" class="col-5 text-left m-0 p-0">
+                <div id="" class="col-5 text-start m-0 p-0">
 
                     <button type="button" id="AllDownloadButton" class="btn btn-secondary MobileButton"            
                     ><span id='AllDownloadButton-Text'>全てDL </span><i class="fas fa-download"></i>
@@ -227,7 +227,7 @@ background-color: red;
 
                 </div>
 
-                <div id="" class="col-5 text-right m-0 p-0">
+                <div id="" class="col-5 text-end m-0 p-0">
 
                     <button type="button" id="SelectDownloadButton" class="btn btn-secondary MobileButton"
                     data-targetpath="{{$UploadFileInfo[0]["PublicPath"]}}"
@@ -285,16 +285,16 @@ background-color: red;
                 <div class="modal-body">  
                     
                     <div id="languageSelectArea" class="row">
-                        <div id="" class="col-5 text-right m-0 p-0">
+                        <div id="" class="col-5 text-end m-0 p-0">
                             <button type="button" id="JapaneseSelect" 
                             class="btn languageSelectButton"
                             data-target="1">Japanese</button> 
                         </div>    
                         
-                        <div id="" class="col-2 text-right m-0 p-0">
+                        <div id="" class="col-2 text-end m-0 p-0">
                         </div>
 
-                        <div id="" class="col-5 text-left m-0 p-0">
+                        <div id="" class="col-5 text-start m-0 p-0">
                             <button type="button" id="EnglishSelect" 
                             class="btn languageSelectButton"
                             data-target="2">English</button>                             
@@ -307,19 +307,19 @@ background-color: red;
                         
                         <div id="terminalSelectArea" class="row">
 
-                            <div id="" class="col-5 text-right m-0 p-0">
+                            <div id="" class="col-5 text-end m-0 p-0">
                                 <button type="button" id="macOSSelect" 
                                 class="btn terminalSelectButton"
                                 data-target="1">macOS</button>                             
                             </div>
                             
                             
-                            <div id="" class="col-2 text-right m-0 p-0">
+                            <div id="" class="col-2 text-end m-0 p-0">
                             </div>
 
                             
 
-                            <div id="" class="col-5 text-left m-0 p-0">
+                            <div id="" class="col-5 text-start m-0 p-0">
                                 <button type="button" id="windowsSelect" 
                                 class="btn terminalSelectButton"
                                 data-target="2">windows</button> 
@@ -331,16 +331,16 @@ background-color: red;
 
                         <div id="terminalSelectArea" class="row">
 
-                            <div id="" class="col-5 text-right m-0 p-0">
+                            <div id="" class="col-5 text-end m-0 p-0">
                                 <button type="button" id="iOSSelect" 
                                 class="btn terminalSelectButton"
                                 data-target="1">iOS</button>                             
                             </div>
                             
-                            <div id="" class="col-2 text-right m-0 p-0">
+                            <div id="" class="col-2 text-end m-0 p-0">
                             </div>
 
-                            <div id="" class="col-5 text-left m-0 p-0">
+                            <div id="" class="col-5 text-start m-0 p-0">
                                 <button type="button" id="AndroidSelect" 
                                 class="btn terminalSelectButton"
                                 data-target="2">Android</button> 

@@ -1,4 +1,4 @@
-@extends('headquarters.common.layouts_app')
+@extends('headquarters.common.layouts_beforelogin')
 
 @section('pagehead')
 @section('title', 'QRコード管理画面')  
@@ -259,7 +259,7 @@
                             @endif                                
                         </div>
                         <div class="col-8" align="left">
-                            <input type="tel" name="Count" id="Count" value="" class="form-control text-right">
+                            <input type="tel" name="Count" id="Count" value="" class="form-control text-end">
                         </div>
                     </div>    
                     
@@ -608,7 +608,7 @@ $(function(){
 
                 }else{
 
-                    var errorsHtml = '<div class="alert alert-danger text-left">';
+                    var errorsHtml = '<div class="alert alert-danger text-start">';
                     var massage1 = "Qrコード一括ダウンロード処理でエラーが発生しました。";
                     var massage2 = "管理に報告をお願い致します。";
 
@@ -631,7 +631,7 @@ $(function(){
                     
                     phpProcessingEnd();
 
-                    var errorsHtml = '<div class="alert alert-danger text-left">';
+                    var errorsHtml = '<div class="alert alert-danger text-start">';
                     var massage1 = "Qrコード一括ダウンロード処理でエラーが発生しました。";
                     var massage2 = "管理に報告をお願い致します。";
 
@@ -674,7 +674,7 @@ $(function(){
         if(Date == "" || Date == null){
 
             
-            var errorsHtml = '<div class="alert alert-danger text-left">';
+            var errorsHtml = '<div class="alert alert-danger text-start">';
 
             var massage1 = "モーダルを閉じ、開催日を設定してください";
             errorsHtml += '<li>' + massage1 + '</li>';
@@ -724,7 +724,7 @@ $(function(){
                 }else{
 
         
-                    var errorsHtml = '<div class="alert alert-danger text-left">';
+                    var errorsHtml = '<div class="alert alert-danger text-start">';
                     var massage1 = "Qrチケット作成処理でエラーが発生しました。";
                     var massage2 = "管理に報告をお願い致します。";
 
@@ -745,7 +745,7 @@ $(function(){
                 // 送信失敗
                 .fail(function (data, textStatus, errorThrown) {
 
-                   var errorsHtml = '<div class="alert alert-danger text-left">';
+                   var errorsHtml = '<div class="alert alert-danger text-start">';
                     var massage1 = "Qrチケット作成処理でエラーが発生しました。";
                     var massage2 = "管理に報告をお願い致します。";
 
@@ -822,7 +822,7 @@ $(function(){
                 }else{
 
 
-                    var errorsHtml = '<div class="alert alert-danger text-left">';
+                    var errorsHtml = '<div class="alert alert-danger text-start">';
                     var massage1 = "パスワード必要フラグの変更時にエラーが発生しました。";
                     var massage2 = "管理に報告をお願い致します。";
 
@@ -845,7 +845,7 @@ $(function(){
 
                     phpProcessingEnd();
 
-                    var errorsHtml = '<div class="alert alert-danger text-left">';
+                    var errorsHtml = '<div class="alert alert-danger text-start">';
                     var massage1 = "パスワード必要フラグの変更時にエラーが発生しました。";
                     var massage2 = "管理に報告をお願い致します。";
 

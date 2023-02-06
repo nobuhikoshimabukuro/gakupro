@@ -68,9 +68,9 @@ body{
 
 
                 <div class="row">    
-                    <div class="col-12 text-left">
+                    <div class="col-12 text-start">
                         <label id="key_code_Label"for="" class="">key_code:</label>
-                        <input type="tel" id="key_code" name="key_code" value="@if($key_code != ''){{$key_code}}@endif" class="text-right">
+                        <input type="tel" id="key_code" name="key_code" value="@if($key_code != ''){{$key_code}}@endif" class="text-end">
                     </div>
                 </div>       
 
@@ -121,7 +121,7 @@ body{
                 @if(count($UploadFileInfo) > 0)                
 
                 
-                    <div class="col-12 text-right">
+                    <div class="col-12 text-end">
                         <button type="button" id="UploadedPhotoDisplayButton" class="btn btn-secondary UploadedPhotoDisplayChangeButton" data-mode="1">表示【{{count($UploadFileInfo)}}】 <i class="far fa-eye"></i></button>
                         <button type="button" id="UploadedPhotoDisplayNonButton" class="btn btn-secondary UploadedPhotoDisplayChangeButton d-none" data-mode="2">非表示 <i class="far fa-eye-slash"></i></button>
                     </div>   
@@ -375,7 +375,7 @@ $(function(){
                     UploaderEnd();
 
                     massage = "アップロード処理でエラーが発生しました。";
-                    var errorsHtml = '<div class="alert alert-danger text-left">';
+                    var errorsHtml = '<div class="alert alert-danger text-start">';
                     errorsHtml += '<li>' + massage + '</li>';                    
                     errorsHtml += '</div>';
 
@@ -394,7 +394,7 @@ $(function(){
                     UploaderEnd();
 
                     massage = "アップロード処理でエラーが発生しました。";
-                    var errorsHtml = '<div class="alert alert-danger text-left">';
+                    var errorsHtml = '<div class="alert alert-danger text-start">';
                     errorsHtml += '<li>' + massage + '</li>';                    
                     errorsHtml += '</div>';
 

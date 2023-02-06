@@ -1,4 +1,4 @@
-@extends('headquarters.common.layouts_app')
+@extends('headquarters.common.layouts_beforelogin')
 
 @section('pagehead')
 @section('title', 'メニュー')  

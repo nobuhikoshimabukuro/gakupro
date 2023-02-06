@@ -87,6 +87,9 @@
 
                 <div class="col-sm-9 col-xs-12 input-Area">   
                     <select id='employer_division' name='employer_division' class='form-control input-sm'>
+                            <option value="">
+                                未選択
+                            </option>
                             @foreach($employer_division_list as $item)
                                 <option value="{{$item->employer_category_cd}}" @if(($LoginFlg == 1) && ($item->employer_division == $employer_info->employer_division)) selected @endif>
                                     {{$item->employer_division_name}}
@@ -299,7 +302,7 @@ $(function(){
         
 		if(!$.isNumeric(post_code)){
 
-			let errorsHtml = '<div class="alert alert-danger text-left">';			
+			let errorsHtml = '<div class="alert alert-danger text-start">';			
 			errorsHtml += '<li>郵便番号は数字7桁で入力してください</li>';
 			errorsHtml += '</div>';
 				
@@ -494,8 +497,8 @@ $(function(){
 
                     //{{-- アラートメッセージ表示 --}}
                     var errorsHtml = '';
-                    errorsHtml = '<div class="alert alert-danger text-left">';
-                    errorsHtml += '<li class="text-left">' + ErrorMessage + '</li>';
+                    errorsHtml = '<div class="alert alert-danger text-start">';
+                    errorsHtml += '<li class="text-start">' + ErrorMessage + '</li>';
                     errorsHtml += '</div>';
 
                         //{{-- アラート --}}
@@ -520,13 +523,13 @@ $(function(){
                 document.body.style.cursor = 'auto';
 
                 //{{-- アラートメッセージ表示 --}}
-                let errorsHtml = '<div class="alert alert-danger text-left">';
+                let errorsHtml = '<div class="alert alert-danger text-start">';
 
                 if (data.status == '422') {
                     //{{-- vlidationエラー --}}
                     $.each(data.responseJSON.errors, function (key, value) {
                         //{{-- responsからerrorsを取得しメッセージと赤枠を設定 --}}
-                        errorsHtml += '<li  class="text-left">' + value[0] + '</li>';
+                        errorsHtml += '<li  class="text-start">' + value[0] + '</li>';
                     
                         $("[name='" + key + "']").addClass('is-invalid');                        
                         $("[name='" + key + "']").next('.invalid-feedback').text(value);
@@ -535,8 +538,8 @@ $(function(){
                 } else {
 
                     //{{-- その他のエラー --}}
-                    // errorsHtml += '<li class="text-left">' + data.status + ':' + errorThrown + '</li>';
-                    errorsHtml += '<li  class="text-left">エラーが発生しました</li>';
+                    // errorsHtml += '<li class="text-start">' + data.status + ':' + errorThrown + '</li>';
+                    errorsHtml += '<li  class="text-start">エラーが発生しました</li>';
 
                 }
 

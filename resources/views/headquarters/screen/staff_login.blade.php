@@ -1,4 +1,4 @@
-@extends('recruitproject.common.layouts_beforelogin')
+@extends('headquarters.common.layouts_beforelogin')
 
 @section('pagehead')
 @section('title', 'ログイン画面')  
@@ -20,27 +20,33 @@
         @csrf
         <div class="row">                    
 
-            <div class="row">                    
-                <div class="col-4 text-right">
+            <div class="row m-1">                    
+                <div class="col-12 text-center">
+                    <h4>ゆうゆうクラフトシステム　ログイン画面</h4>
+                </div>               
+            </div>    
+
+            <div class="row m-1">                    
+                <div class="col-4 text-end">
                     <label for="" class="col-form-label original-label">ログインID</label>
                 </div>
                 <div class="col-4">                    
-                    <input type="text" name="login_id" id="login_id" value="" class="form-control text-right input_number_only">
+                    <input type="text" name="login_id" id="login_id" value="" class="form-control text-end input_number_only">
                 </div>
 
-                <div class="col-4 text-left">                    
+                <div class="col-4 text-start">                    
                 </div>      
             </div>       
 
-            <div class="row">                    
-                <div class="col-4 text-right">
+            <div class="row m-1">           
+                <div class="col-4 text-end">
                     <label for="" class="col-form-label original-label">パスワード</label>
                 </div>
                 <div class="col-4">                    
-                    <input type="password" name="password" id="password" value="" class="form-control text-right">
+                    <input type="password" name="password" id="password" value="" class="form-control text-end">
                 </div>
 
-                <div class="col-4 text-left">
+                <div class="col-4 text-start">
                     <button type="button" id='ApproveButton' class="btn btn-secondary">GO</button>
                 </div>      
             </div>   

@@ -1,4 +1,4 @@
-@php 
+@php
     $css_connect = "?" . date('YmdHis');
 @endphp
 
@@ -9,9 +9,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{{ asset('css/all.css') . $css_connect}}" rel="stylesheet">
-    <link href="{{ asset('css/bootstrap.css') . $css_connect}}" rel="stylesheet">  
-    <link href="{{ asset('css/headquarters/common.css') . $css_connect}}" rel="stylesheet">          
-    
+    <link href="{{ asset('css/bootstrap.css') . $css_connect}}" rel="stylesheet">
+    <link href="{{ asset('css/headquarters/common.css') . $css_connect}}" rel="stylesheet">
+
     <meta name="csrf-token" content="{{ csrf_token() }}">  {{-- CSRFトークン --}}
     @yield('pagehead')
     <title>@yield('title')</title>
@@ -32,9 +32,9 @@
                 <a class="btn d-block d-sm-block d-md-none" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     メニュー
                 </a>
-                
+
                 <!-- ドロップメニューの設定 -->
-                <!-- クリックしても閉じないようにkeep-open-on-click付与 -->                
+                <!-- クリックしても閉じないようにkeep-open-on-click付与 -->
                 <div class="dropdown-menu keep-open-on-click" aria-labelledby="dropdownMenuLink">
 
                     <div class="dropdown-submenu">
@@ -43,7 +43,7 @@
                         <!-- ↓↓最初隠したいコンテンツ↓↓ -->
                         <div class="content">
                             <a class="nav-link dropdown-item" href="{{ route('headquarters.index') }}">管理Top</a>
-                            <a class="nav-link dropdown-item" href="{{ route('master.index') }}">マスタ一覧</a>                          
+                            <a class="nav-link dropdown-item" href="{{ route('master.index') }}">マスタ一覧</a>
                         </div>
                         <!-- ↑↑最初隠したいコンテンツ ↑↑-->
                     </div>
@@ -54,7 +54,7 @@
                         <!-- ↓↓最初隠したいコンテンツ↓↓ -->
                         <div class="content">
                             <a class="nav-link dropdown-item" href="{{ route('photoproject.index') }}">フォトプロTop</a>
-                            <a class="nav-link dropdown-item" href="{{ route('photoproject.create_qrcode') }}">QRコード管理画面</a>                                                
+                            <a class="nav-link dropdown-item" href="{{ route('photoproject.create_qrcode') }}">QRコード管理画面</a>
                         </div>
                         <!-- ↑↑最初隠したいコンテンツ ↑↑-->
                     </div>
@@ -73,16 +73,16 @@
 
                 </div>
 
-            </div>            
-            
-            <div class="">
-                <h3>
-                    {{session()->get('staff_name')}}
-                </h3>                
             </div>
 
             <div class="">
-                <a class="nav-link dropdown-item" href="{{ route('headquarters.logout') }}">ログアウト</a>                       
+                <h3>
+                    {{session()->get('staff_name')}}
+                </h3>
+            </div>
+
+            <div class="">
+                <a class="nav-link dropdown-item" href="{{ route('headquarters.logout') }}">ログアウト</a>
             </div>
 
         </div>
@@ -101,5 +101,5 @@
 @yield('pagejs')
 
 </body>
-@include('common.footer')
+{{-- @include('common.footer') --}}
 </html>

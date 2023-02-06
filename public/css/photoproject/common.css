@@ -51,17 +51,7 @@ button{
   background: transparent; /* 背景の灰色を消す */
 }
 
-.text-left{
-  text-align: left;
-}
 
-.text-center{
-  text-align: center;
-}
-
-.text-right{
-  text-align: right;
-}
 
 .original-label{
     padding: 0;

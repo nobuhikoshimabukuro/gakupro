@@ -12,9 +12,9 @@
 
 
 @if(count($errors) > 0)
-<div class="alert alert-danger font-weight-bold text-left mt-1">
+<div class="alert alert-danger font-weight-bold text-start mt-1">
   @foreach($errors->all() as $error)
-  <li class="text-left">{{$error}}</li>
+  <li class="text-start">{{$error}}</li>
   @endforeach
 </div>
 @endif

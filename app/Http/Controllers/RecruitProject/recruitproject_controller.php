@@ -53,6 +53,7 @@ class recruitproject_controller extends Controller
         try {
 
             $mailaddress = $request->mailaddress;
+            $destination_name = $request->destination_name;
 
             while(true){         
                 //6桁数字のみのパスワード作成
@@ -106,6 +107,7 @@ class recruitproject_controller extends Controller
                     "password" => $encryption_password
                     ,"key_code" => $key_code
                     ,"cipher" => $cipher
+                    ,"destination_name" => $destination_name
                     ,"mailaddress" => $mailaddress                    
                 ]
     
@@ -115,7 +117,7 @@ class recruitproject_controller extends Controller
             $url = route('recruitproject.mailaddress_approval') . '?key_code=' . $key_code . '&cipher=' .$cipher; 
             $subject = "学生応援プロジェクト（確認メール）";
 
-            Mail::to($mailaddress)->send(new SendMailAddressConfirmation($url , $password , $subject));
+            Mail::to($mailaddress)->send(new SendMailAddressConfirmation($subject , $destination_name , $url , $password));
 
         } catch (Exception $e) {
 

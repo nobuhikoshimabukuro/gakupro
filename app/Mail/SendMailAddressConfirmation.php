@@ -11,20 +11,23 @@ class SendMailAddressConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $url;
-    public $password;
     public $subject;
+    public $destination_name;
+    public $url;    
+    public $password;
+    
     
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($url , $password, $subject)
+    public function __construct($subject , $destination_name , $url , $password)
     {
-        $this->url = $url;
-        $this->password = $password;
         $this->subject = $subject;
+        $this->destination_name = $destination_name;
+        $this->url = $url;        
+        $this->password = $password;
       
     }
 
@@ -38,7 +41,7 @@ class SendMailAddressConfirmation extends Mailable
         return $this
         ->view('recruitproject.mails.mailaddress_confirmation')
         ->subject($this->subject)
-        ->with(['url' => "url" , 'password' => "password"]); 
+        ->with(['destination_name' => "destination_name" , 'url' => "url" , 'password' => "password"]); 
 
     }
 }
