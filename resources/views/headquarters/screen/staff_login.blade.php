@@ -21,11 +21,11 @@
         <div class="row">                    
 
             <div class="row m-1">                    
-                <div class="col-12 text-center">
-                    <h4>ゆうゆうクラフトシステム　ログイン画面</h4>
-                </div>               
-            </div>    
-
+                
+                <div class="col-12 text-center">                    
+                    <h4>ゆうゆうクラフト</h4>
+                </div>
+            </div>       
             <div class="row m-1">                    
                 <div class="col-4 text-end">
                     <label for="" class="col-form-label original-label">ログインID</label>

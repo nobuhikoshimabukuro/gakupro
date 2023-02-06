@@ -1,4 +1,4 @@
-@extends('headquarters.common.layouts_beforelogin')
+@extends('headquarters.common.layouts_afterlogin')
 
 @section('pagehead')
 @section('title', 'メニュー')  
@@ -59,6 +59,14 @@
       
 
       
+        <div class="col-6 col-md-4 col-xl-3 p-3 ">
+            <a href="{{ route('headquarters.phpinfo') }}">
+                <div class="bg-dark rounded-lg text-light p-2 ">                    
+                    <i class="fas fa-school fa-3x mb-1"></i>
+                    <h6>PHP情報</h6>
+                </div>
+            </a>
+        </div>
 
         
         </div>

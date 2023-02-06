@@ -1,4 +1,4 @@
-@extends('headquarters.common.layouts_beforelogin')
+@extends('headquarters.common.layouts_afterlogin')
 
 @section('pagehead')
 @section('title', '大分類マスタ')  

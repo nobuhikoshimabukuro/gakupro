@@ -148,6 +148,19 @@ class headquarters_controller extends Controller
         return view('headquarters/screen/master/index');
     }     
 
+
+    function phpinfo()
+    {        
+       
+        //Session確認処理        
+        if(!Common::SessionConfirmation()){
+            //Session確認で戻り値が(true)時は管理のTop画面に遷移
+            return redirect(route('headquarters.login'));            
+        }
+
+        return view('headquarters/screen/phpinfo');
+    }
+
     
     function photoproject_index()
     {        

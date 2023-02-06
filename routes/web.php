@@ -31,6 +31,8 @@ Route::get('test', [headquarters_controller::class, 'test'])->name('headquarters
 
 
 //本部  Start
+Route::get('headquarters/phpinfo', [headquarters_controller::class, 'phpinfo'])->name('headquarters.phpinfo');
+
 Route::get('headquarters/top', [headquarters_controller::class, 'index'])->name('headquarters.index');
 Route::get('headquarters/login', [headquarters_controller::class, 'login'])->name('headquarters.login');
 Route::get('headquarters/logout', [headquarters_controller::class, 'logout'])->name('headquarters.logout');

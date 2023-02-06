@@ -11,9 +11,6 @@
 
 <a class="nav-link dropdown-item" href="{{ route('headquarters.login') }}">管理者</a>
 
-@php
-phpinfo();
-@endphp
 {{-- <div id="container">
 
     <header>
