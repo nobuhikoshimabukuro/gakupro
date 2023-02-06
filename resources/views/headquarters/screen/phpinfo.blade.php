@@ -5,15 +5,13 @@
 @endsection
 @section('content')
 
-<style>
-   
-</style>
 
-<div id="Main"class="mt-3 text-center container">
-    <div class="row">
-       
-        {{phpinfo()}}
-    </div>
+
+
+
+<div id="Main" class="mt-3 text-center container">
+    
+    {{phpinfo();}}
 </div>
 @endsection
 
@@ -23,8 +21,7 @@
 
 $(function(){
 
-
-
+    
 
 });
 

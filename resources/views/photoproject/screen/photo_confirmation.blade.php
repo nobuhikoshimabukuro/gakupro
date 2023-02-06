@@ -149,6 +149,9 @@ background-color: red;
 }
 
 
+.display_url{
+    font-size: 7px;
+}
 
 </style>
 
@@ -366,10 +369,12 @@ background-color: red;
 
                         <h4>共有用URL  <button type='button' class="btn btn-secondary CopyButton"                 
                             data-downloadurl="{{$photoget_t_info->url}}">Url Copy</button></h4>
-                        {{$photoget_t_info->url}}
+                        
+                        <span class="display_url">{{$photoget_t_info->url}}</span>
 
                         @if($photoget_t_info->with_password_flg == 1)
-                        <br>パスワードも送ってね
+                        <br>
+                        パスワードも送ってね
                         @endif
 
                         
