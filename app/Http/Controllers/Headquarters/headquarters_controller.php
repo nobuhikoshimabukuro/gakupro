@@ -187,8 +187,19 @@ class headquarters_controller extends Controller
     }
 
 
-
     function test()
+    {
+
+        $picturebook_info = array();
+
+   
+        return view('headquarters/screen/test/index');
+
+        
+    }  
+
+
+    function test1()
     {
 
         $picturebook_info = array();
@@ -209,7 +220,8 @@ class headquarters_controller extends Controller
             array_push($picturebook_info, $Info);
         }
 
-        return view('test', compact('picturebook_info'));
+        
+        return view('headquarters/screen/test/test1', compact('picturebook_info'));
 
         
     }  

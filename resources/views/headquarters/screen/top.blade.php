@@ -62,7 +62,7 @@
         <div class="col-6 col-md-4 col-xl-3 p-3 ">
             <a href="{{ route('headquarters.phpinfo') }}">
                 <div class="bg-dark rounded-lg text-light p-2 ">                    
-                    <i class="fas fa-school fa-3x mb-1"></i>
+                    <i class="fas fa-info fa-3x mb-1"></i>
                     <h6>PHP情報</h6>
                 </div>
             </a>

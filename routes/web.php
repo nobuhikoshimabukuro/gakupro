@@ -27,7 +27,8 @@ Route::get('/', [hp_controller::class, 'index'])->name('hp.index');
 
 
 
-Route::get('test', [headquarters_controller::class, 'test'])->name('headquarters.test');
+Route::get('headquarters/test', [headquarters_controller::class, 'test'])->name('headquarters.test');
+Route::get('headquarters/test1', [headquarters_controller::class, 'test1'])->name('headquarters.test1');
 
 
 //本部  Start
