@@ -330,14 +330,14 @@ a.btn--radius {
 .dlete_modal_table-column{
    padding: 1%;
    margin: 1%;
-   width: 50%;
+   width: 25%;
    text-align: right;
 }
 
 .dlete_modal_table-value{
    padding: 1%;
    margin: 1%;
-   width: 50%;
+   width: 75%;
    text-align: left;
 }
 

@@ -229,26 +229,6 @@ a.btn--radius {
 }
 /* マスタ画面の新規登録ボタン設定 End */
 
-/* マスタ画面の削除モーダル設定 start */
-.dlete_modal_table{
-  width: 100%;
-}
-
-.dlete_modal_table-column{
-   padding: 1%;
-   margin: 1%;
-   width: 50%;
-   text-align: right;
-}
-
-.dlete_modal_table-value{
-   padding: 1%;
-   margin: 1%;
-   width: 50%;
-   text-align: left;
-}
-/* マスタ画面の削除モーダル設定 End */
-
 
 
 

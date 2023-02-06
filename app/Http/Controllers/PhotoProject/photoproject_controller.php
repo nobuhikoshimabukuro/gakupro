@@ -72,6 +72,9 @@ class photoproject_controller extends Controller
             $QrTicketSaved_Path = asset($StoragePath_QrTicket . $info->name2);                       
 
             $display_date = substr($info->date, 0, 4) .'/'. substr($info->date, 4, 2) .'/'. substr($info->date, 6, 2);
+            
+            //暗号文を平文に            
+            $info->display_password = Common::decryption( $info->password);
 
             $info->display_date = $display_date;
 
@@ -91,10 +94,7 @@ class photoproject_controller extends Controller
         DB::connection('mysql')->beginTransaction();
 
         try{
-
-            //.envに設定しているデバックモードを取得    true or false
-            $APP_DEBUG = env('APP_DEBUG');
-                            
+                
             $date = str_replace('-', '', $request->Date);
             $Count = $request->Count;
             $with_password_flg = $request->WithPasswordFlg;
@@ -153,11 +153,13 @@ class photoproject_controller extends Controller
                     
                 }
 
+
+                //.envに設定しているデバックモードを取得    true or false
                 //デバッグモードは全てCode
-                if($APP_DEBUG){
+                if(env('APP_DEBUG')){
                     $password = intval($code);      
                     //平文を暗号文に
-                    $encryption_password = Common::encryption($password);            
+                    $encryption_password = Common::encryption($password);
                 }
 
                 //フォルダ名を作成  コード&英数字の羅列
@@ -176,7 +178,7 @@ class photoproject_controller extends Controller
                 $url = route('photoproject.password_entry') . '?key_code=' . $key_code . '&cipher=' .$cipher;
              
 
-                if($APP_DEBUG){
+                if(env('APP_DEBUG')){
                     $IpAddress = $request->IpAddress;
                     if(!(is_null($IpAddress) || $IpAddress == "")){
                         $url = str_replace("127.0.0.1", $IpAddress, $url);

@@ -175,7 +175,7 @@
                                 <td>{{$info->id}}</td>
                                 <td>{{$info->display_date}}</td>
                                 <td>{{$info->code}}</td>
-                                <td>{{$info->password}}</td>                        
+                                <td>{{$info->display_password}}</td>                        
                                 <td>
 
                                     <button type='button' class="btn btn-secondary CopyButton" 
