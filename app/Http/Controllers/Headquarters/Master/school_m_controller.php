@@ -89,27 +89,38 @@ class school_m_controller extends Controller
     function save(request $request)
     {
 
-        $school_cd = intval($request->school_cd);
+        $processflg = intval($request->processflg);
 
-        $school_division = intval($request->school_division);        
+        $school_division = intval($request->school_division);      
+        $school_cd = intval($request->school_cd);          
         $school_name = $request->school_name;
+        $post_code = $request->post_code;
+        $address1 = $request->address1;
+        $address2 = $request->address2;
         $tel = $request->tel;
+        $fax = $request->fax;
         $hp_url = $request->hp_url;
-        $mailaddress = $request->mailaddress;        
+        $mailaddress = $request->mailaddress;
+        $remarks = $request->remarks;       
 
         try {
 
 
-            if($school_cd == 0){
+            if($processflg == 0){
 
          
                 school_m_model::create(
                     [
                         'school_division' => $school_division,
                         'school_name' => $school_name,
+                        'post_code' => $post_code,
+                        'address1' => $address1,
+                        'address2' => $address2,
                         'tel' => $tel,
+                        'fax' => $fax,                        
                         'hp_url' => $hp_url,
                         'mailaddress' => $mailaddress,
+                        'remarks' => $remarks,
                       
                     ]
                 );
@@ -122,8 +133,14 @@ class school_m_controller extends Controller
                     [
                         'school_division' => $school_division,
                         'school_name' => $school_name,
+                        'post_code' => $post_code,
+                        'address1' => $address1,
+                        'address2' => $address2,
+                        'tel' => $tel,
+                        'fax' => $fax,                        
                         'hp_url' => $hp_url,
-                        'mailaddress' => $mailaddress,                  
+                        'mailaddress' => $mailaddress,
+                        'remarks' => $remarks,                  
                     
                     ]
                 );

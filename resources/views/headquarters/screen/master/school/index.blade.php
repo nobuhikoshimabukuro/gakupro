@@ -95,9 +95,9 @@
             <tr>
                 <td>{{$item->school_cd}}</td>
                 <td>{{$item->school_division_name}}</td>
-                <td>{{$item->school_name}}</td>                   
-                <td>{{$item->tel}}</td>
-                <td>
+                <td class="text-start">{{$item->school_name}}</td>                   
+                <td class="text-start">{{$item->tel}}</td>
+                <td class="text-start">
                     <a href="{{$item->hp_url}}" target="_blank" rel="noopener noreferrer">{{$item->hp_url}}</a>
                 </td>
                 <td>
@@ -153,9 +153,14 @@
                         data-schoolcd='{{$item->school_cd}}'
                         data-schooldivision='{{$item->school_division}}'
                         data-schoolname='{{$item->school_name}}'
+                        data-post_code='{{$item->post_code}}'
+                        data-address1='{{$item->address1}}'
+                        data-address2='{{$item->address2}}'
                         data-tel='{{$item->tel}}'
+                        data-fax='{{$item->fax}}'
                         data-hpurl='{{$item->hp_url}}'
                         data-mailaddress='{{$item->mailaddress}}'
+                        data-remarks='{{$item->remarks}}'
                         data-processflg='1'> 
                         <i class='far fa-edit'></i>
                     </button>
@@ -164,9 +169,14 @@
                         data-schoolcd='{{$item->school_cd}}'
                         data-schooldivision='{{$item->school_division}}'
                         data-schoolname='{{$item->school_name}}'
+                        data-post_code='{{$item->post_code}}'
+                        data-address1='{{$item->address1}}'
+                        data-address2='{{$item->address2}}'
                         data-tel='{{$item->tel}}'
+                        data-fax='{{$item->fax}}'
                         data-hpurl='{{$item->hp_url}}'
                         data-mailaddress='{{$item->mailaddress}}'
+                        data-remarks='{{$item->remarks}}'
                         data-deleteflg=@if($item->deleted_at) 1 @else 0 @endif>
                                     
                         @if($item->deleted_at)
@@ -204,7 +214,7 @@
                         @csrf
                         <div class="modal-body">  
                                                         
-                            <input type="hidden" name="school_cd" id="school_cd" value="">                            
+                            <input type="hidden" name="processflg" id="processflg" value="">                  
                                                         
                             <div class="form-group row">
                                 <label for="school_division" class="col-md-6 col-form-label original-label">学校区分</label>                               
@@ -216,18 +226,35 @@
                                         </option>
 										@endforeach
                                 </select>
-                               
+                            
+                                <input type="hidden" name="school_cd" id="school_cd" value="">  
+
                                 <label for="school_name" class="col-md-6 col-form-label original-label">学校名</label>
                                 <input type="text" name="school_name" id="school_name" value="" class="form-control col-md-3">
 
-                                <label for="tel" class="col-md-6 col-form-label original-label">電話番号</label>
-                                <input type="text" name="tel" id="tel" value="" class="form-control col-md-3">
+                                <label for="post_code" class="col-md-6 col-form-label original-label">郵便番号</label>
+                                <input type="tel" name="post_code" id="post_code" value="" class="form-control col-md-3">
+                                
+                                <label for="address1" class="col-md-6 col-form-label original-label">住所1</label>
+                                <input type="text" name="address1" id="address1" value="" class="form-control col-md-3">
 
-                                <label for="hp_url" class="col-md-6 col-form-label original-label">HPのURL</label>
+                                <label for="address2" class="col-md-6 col-form-label original-label">住所2</label>
+                                <input type="text" name="address2" id="address2" value="" class="form-control col-md-3">
+
+                                <label for="tel" class="col-md-6 col-form-label original-label">電話番号</label>
+                                <input type="tel" name="tel" id="tel" value="" class="form-control col-md-3">
+
+                                <label for="fax" class="col-md-6 col-form-label original-label">FAX</label>
+                                <input type="tel" name="fax" id="fax" value="" class="form-control col-md-3">
+
+                                <label for="hp_url" class="col-md-6 col-form-label original-label">住所2</label>
                                 <input type="text" name="hp_url" id="hp_url" value="" class="form-control col-md-3">
 
                                 <label for="mailaddress" class="col-md-6 col-form-label original-label">メールアドレス</label>
                                 <input type="text" name="mailaddress" id="mailaddress" value="" class="form-control col-md-3">
+
+                                <label for="remarks" class="col-md-6 col-form-label original-label">備考</label>                                
+                                <textarea name="remarks" id="remarks" class="form-control col-md-3" rows="4"></textarea>
 
                               </div>                                                 
                             
@@ -260,19 +287,25 @@
                         <input type="hidden" id="delete_school_cd" name="delete_school_cd" value="">
                         <input type="hidden" id="delete_school_name" name="delete_school_name" value="">
         
-
-                        <table class="dlete_modal_table">
+                        <table class="w-100">
 
                             <tr>
-                                <td class="dlete_modal_table-column">学校CD：</td>
-                                <td class="dlete_modal_table-value"><span id="display_school_cd"></span></td>
-                            </tr>
-                            <tr>
-                                <td class="dlete_modal_table-column">学校名：</td> 
-                                <td class="dlete_modal_table-value"><span id="display_school_name"></span></td>                                                                       
+                                <td class="text-start">学校CD</td>                                
                             </tr>
 
-                        </table>                            
+                            <tr>                                
+                                <td class="text-start"><span id="display_school_cd"></span></td>
+                            </tr>
+                         
+                            <tr>
+                                <td class="text-start">学校名</td>                                
+                            </tr>
+
+                            <tr>                                
+                                <td class="text-start"><span id="display_school_name"></span></td>
+                            </tr>
+
+                        </table>                                    
 
                     </div>
 
@@ -353,11 +386,11 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        $('#school_cd').val('');        
-        $('#school_name').val('');
-        $('#tel').val('');
-        $('#hp_url').val('');
-        $('#mailaddress').val(''); 
+        var FormData = $("#Saveform").serializeArray();        
+
+        $.each(FormData, function(i, element) {		
+            $("[name='"+ element.name +"']").val("");          
+        });
 
         // イベント発生元
         let evCon = $(e.relatedTarget);
@@ -365,29 +398,39 @@ $(function(){
         var school_cd = evCon.data('schoolcd');
         var school_division = evCon.data('schooldivision');
         var school_name = evCon.data('schoolname');
+        var post_code = evCon.data('postcode');
+        var address1 = evCon.data('address1');
+        var address2 = evCon.data('address2');
         var tel = evCon.data('tel');
+        var fax = evCon.data('fax');
         var hp_url = evCon.data('hpurl');
         var mailaddress = evCon.data('mailaddress');
-
-
+        var remarks = evCon.data('remarks');
+        
         //登録処理か更新処理か判断
         var processflg = evCon.data('processflg');
         if(processflg == '0'){
             $('#save_modal_title').html('登録処理');         
-            $('#school_cd').val(0);            
+            school_cd = 0;
             $('#save_modal_button_display').html('登録');
         }else{
-            $('#save_modal_title').html('更新処理（学校CD：' + school_cd + '）');   
-            $('#school_cd').val(school_cd);            
+            $('#save_modal_title').html('更新処理');                           
             $('#save_modal_button_display').html('更新');
         }
         
      
+        $('#processflg').val(processflg);
+        $('#school_cd').val(school_cd);        
         $('#school_division').val(school_division);
-        $('#school_name').val(school_name); 
+        $('#school_name').val(school_name);
+        $('#post_code').val(post_code);
+        $('#address1').val(address1); 
+        $('#address2').val(address2);        
         $('#tel').val(tel);
-        $('#hp_url').val(hp_url); 
-        $('#mailaddress').val(mailaddress);
+        $('#fax').val(fax);
+        $('#hp_url').val(hp_url);
+        $('#mailaddress').val(mailaddress); 
+        $('#remarks').val(remarks); 
                 
     });
    

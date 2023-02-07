@@ -110,15 +110,15 @@
 
             @foreach ($majorsubject_m_list as $item)
             <tr>
-                <td>{{$item->school_division_name}}</td>
-                <td>
+                <td class="text-start">{{$item->school_division_name}}</td>
+                <td class="text-start">
                     {{$item->school_name}}                    
                 </td>
                 <td>
                     <button class='btn btn-warning' type='button' onclick= "location.href='{{ route('master.school' ,['search_school_cd' => $item->school_cd]) }}'">学校情報確認</button>
                 </td>                
-                <td>{{$item->majorsubject_name}}</td>                
-                <td>{{$item->studyperiod}}</td>
+                <td class="text-start">{{$item->majorsubject_name}}</td>                
+                <td class="text-center">{{$item->studyperiod}}</td>
                 
                 
                 @php
@@ -167,8 +167,8 @@
 
                 <td>
                     <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#save_modal'
-                        data-id='{{$item->id}}'
-                        data-school_cd='{{$item->school_cd}}'                        
+                        data-schoolcd='{{$item->school_cd}}'
+                        data-majorsubjectcd='{{$item->majorsubject_cd}}'
                         data-majorsubject_name='{{$item->majorsubject_name}}'
                         data-studyperiod='{{$item->studyperiod}}'
                         data-remarks='{{$item->remarks}}'
@@ -177,7 +177,8 @@
                     </button>
 
                     <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#dlete_modal'
-                        data-id='{{$item->id}}'
+                        data-schoolcd='{{$item->school_cd}}'
+                        data-majorsubjectcd='{{$item->majorsubject_cd}}'
                         data-schoolname='{{$item->school_name}}'
                         data-majorsubject_name='{{$item->majorsubject_name}}'                        
                         data-deleteflg=@if($item->deleted_at) 1 @else 0 @endif>
@@ -214,26 +215,36 @@
                         
                     </div>
                     
-                    <form id="Saveform" method="post" action="{{ route('master.school.save') }}">                    
+                    <form id="Saveform" method="post" action="{{ route('master.majorsubject.save') }}">                    
                         @csrf
-                        <div class="modal-body">  
-                                                        
-                            <input type="hidden" name="school_cd" id="school_cd" value="">                            
+                        <div class="modal-body">                                                         
                                                         
                             <div class="form-group row">
-                                <label for="school_division" class="col-md-6 col-form-label original-label">学校区分</label>                               
-                               
-                                <label for="school_name" class="col-md-6 col-form-label original-label">学校名</label>
-                                <input type="text" name="school_name" id="school_name" value="" class="form-control col-md-3">
+                                
+                                <input type="hidden" name="processflg" id="processflg" value="">               
 
-                                <label for="tel" class="col-md-6 col-form-label original-label">電話番号</label>
-                                <input type="text" name="tel" id="tel" value="" class="form-control col-md-3">
+                                <label for="school_cd" class="col-md-6 col-form-label original-label">学校名</label>
+                                <select id='school_cd' name='school_cd' class='form-control input-sm'>
+                                    <option value=''>未選択</option>
+                                    @foreach($school_m_list as $item)
+                                        <option value="{{$item->school_cd}}" >
+                                            {{$item->school_name}}                                            
+                                        </option>
+                                    @endforeach
+                                </select>
+                            
+                                <input type="hidden" name="majorsubject_cd" id="majorsubject_cd" value=""> 
 
-                                <label for="hp_url" class="col-md-6 col-form-label original-label">HPのURL</label>
-                                <input type="text" name="hp_url" id="hp_url" value="" class="form-control col-md-3">
+                                <label for="majorsubject_name" class="col-md-6 col-form-label original-label">専攻名</label>
+                                <input type="text" name="majorsubject_name" id="majorsubject_name" value="" class="form-control col-md-3">
 
-                                <label for="mailaddress" class="col-md-6 col-form-label original-label">メールアドレス</label>
-                                <input type="text" name="mailaddress" id="mailaddress" value="" class="form-control col-md-3">
+                                <label for="studyperiod" class="col-md-6 col-form-label original-label">学習期間【ヶ月】</label>
+                                <input type="text" name="studyperiod" id="studyperiod" value="" class="form-control col-md-3">
+
+                                <label for="remarks" class="col-md-6 col-form-label original-label">備考</label>                                
+                                <textarea name="remarks" id="remarks" class="form-control col-md-3" rows="4"></textarea>
+                                
+                                
 
                               </div>                                                 
                             
@@ -264,22 +275,29 @@
                         @csrf
                         <div class="modal-body">  
                         <input type="hidden" id="delete_flg" name="delete_flg" value="">
-                        <input type="hidden" id="delete_id" name="delete_id" value="">
+                        <input type="hidden" id="delete_school_cd" name="delete_school_cd" value="">
+                        <input type="hidden" id="delete_majorsubject_cd" name="delete_majorsubject_cd" value="">
                         <input type="hidden" id="delete_school_name" name="delete_school_name" value="">                        
                         <input type="hidden" id="delete_majorsubject_name" name="delete_majorsubject_name" value="">
                         
 
 
-                        <table class="dlete_modal_table">
+                        <table class="w-100">
 
                             <tr>
-                                <td class="dlete_modal_table-column">学校名：</td>
-                                <td class="dlete_modal_table-value"><span id="display_school_name"></span></td>
+                                <td class="text-start">学校名</td>                                
+                            </tr>
+
+                            <tr>                                
+                                <td class="text-start"><span id="display_school_name"></span></td>
                             </tr>
                          
                             <tr>
-                                <td class="dlete_modal_table-column">専攻名：</td>
-                                <td class="dlete_modal_table-value"><span id="display_majorsubject_name"></span></td>
+                                <td class="text-start">専攻名</td>                                
+                            </tr>
+
+                            <tr>                                
+                                <td class="text-start"><span id="display_majorsubject_name"></span></td>
                             </tr>
 
                         </table>                            
@@ -417,42 +435,44 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        $('#school_cd').val('');        
-        $('#school_name').val('');
-        $('#tel').val('');
-        $('#hp_url').val('');
-        $('#mailaddress').val(''); 
+        
+        var FormData = $("#Saveform").serializeArray();        
+
+        $.each(FormData, function(i, element) {		
+            $("[name='"+ element.name +"']").val("");          
+        });
 
         // イベント発生元
         let evCon = $(e.relatedTarget);
-
         var school_cd = evCon.data('schoolcd');
-        var school_division = evCon.data('schooldivision');
         var school_name = evCon.data('schoolname');
-        var tel = evCon.data('tel');
-        var hp_url = evCon.data('hpurl');
-        var mailaddress = evCon.data('mailaddress');
+        var majorsubject_cd = evCon.data('majorsubjectcd');
+        var majorsubject_name = evCon.data('majorsubject_name');
+        var studyperiod = evCon.data('studyperiod');
+        var remarks = evCon.data('remarks');
+        
 
 
         //登録処理か更新処理か判断
         var processflg = evCon.data('processflg');
         if(processflg == '0'){
             $('#save_modal_title').html('登録処理');         
-            $('#school_cd').val(0);            
+            majorsubject_cd = 0;            
             $('#save_modal_button_display').html('登録');
+            $("select[name='school_cd']").removeAttr("disabled");
         }else{
-            $('#save_modal_title').html('更新処理（学校CD：' + school_cd + '）');   
-            $('#school_cd').val(school_cd);            
+            $('#save_modal_title').html('更新処理');               
             $('#save_modal_button_display').html('更新');
+            $("select[name='school_cd']").attr("disabled", true);
         }
         
      
-        $('#school_division').val(school_division);
-        $('#school_name').val(school_name); 
-        $('#tel').val(tel);
-        $('#hp_url').val(hp_url); 
-        $('#mailaddress').val(mailaddress);
-                
+        $('#processflg').val(processflg);  
+        $('#school_cd').val(school_cd);
+        $('#majorsubject_cd').val(majorsubject_cd);                            
+        $('#majorsubject_name').val(majorsubject_name); 
+        $('#studyperiod').val(studyperiod); 
+        $('#remarks').val(remarks);       
     });
 
 
@@ -461,7 +481,8 @@ $(function(){
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
-        var id = evCon.data('id');
+        var school_cd = evCon.data('schoolcd');
+        var majorsubject_cd = evCon.data('majorsubjectcd');
         var school_name = evCon.data('schoolname');
         var majorsubject_name = evCon.data('majorsubject_name');
         var delete_flg = evCon.data('deleteflg');
@@ -486,7 +507,8 @@ $(function(){
 
 
         $('#delete_flg').val(delete_flg);
-        $('#delete_id').val(id);
+        $('#delete_school_cd').val(school_cd);
+        $('#delete_majorsubject_cd').val(majorsubject_cd);
         $('#delete_school_name').val(school_name);
         $('#delete_majorsubject_name').val(majorsubject_name);
 

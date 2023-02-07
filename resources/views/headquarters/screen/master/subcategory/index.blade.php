@@ -195,20 +195,26 @@
                             <input type="hidden" id="delete_subcategory_name" name="delete_subcategory_name" value="">
             
 
-                            <table class="dlete_modal_table">
-                                
-                                <tr>
-                                    <td class="dlete_modal_table-column">大分類名：</td> 
-                                    <td class="dlete_modal_table-value"><span id="display_maincategory_name"></span></td>                                                                       
-                                </tr>
+                            <table class="w-100">
 
                                 <tr>
-                                    <td class="dlete_modal_table-column">中分類名：</td> 
-                                    <td class="dlete_modal_table-value"><span id="Display_Subcategory_Name"></span></td>                                                                       
+                                    <td class="text-start">大分類名</td>                                
                                 </tr>
-
-                            </table>                            
-
+    
+                                <tr>                                
+                                    <td class="text-start"><span id="display_maincategory_name"></span></td>
+                                </tr>
+                             
+                                <tr>
+                                    <td class="text-start">中分類名</td>                                
+                                </tr>
+    
+                                <tr>                                
+                                    <td class="text-start"><span id="Display_Subcategory_Name"></span></td>
+                                </tr>
+    
+                            </table>                           
+                           
                         </div>
 
                         <div class="modal-footer">         

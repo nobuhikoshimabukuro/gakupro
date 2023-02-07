@@ -4,44 +4,37 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
-
 return new class extends Migration
 {
-    /**
+   /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        if (Schema::hasTable('majorsubject_m')) {
+        if (Schema::hasTable('member_password_t')) {
             // テーブルが存在していればリターン
             return;
         }
 
-        Schema::create('majorsubject_m', function (Blueprint $table) {
+        Schema::create('member_password_t', function (Blueprint $table) {
 
             $table
-                ->integer('school_cd')
-                ->comment('学校コード');
+                ->increments('id')
+                ->comment('連番');
 
             $table
-                ->integer('majorsubject_cd')
-                ->comment('専攻コード');
+                ->integer('member_id')
+                ->comment('メンバーID');
 
             $table
-                ->string('majorsubject_name', 30)
-                ->comment('専攻名');
+                ->string('login_id', 100)
+                ->comment('ログインID');
 
             $table
-                ->integer('studyperiod')
-                ->nullable()
-                ->comment('学習期間（月数単位）');
-
-            $table
-                ->text('remarks')
-                ->nullable()
-                ->comment('備考');
+                ->string('password', 1000)
+                ->comment('パスワード');
 
             $table
                 ->dateTime('created_at')
@@ -72,13 +65,10 @@ return new class extends Migration
                 ->integer('deleted_by')
                 ->nullable()
                 ->comment('削除者');
-
-            $table->primary(['school_cd','majorsubject_cd'], 'majorsubject_m_primary');
         });
 
-        
         // ALTER 文を実行しテーブルにコメントを設定
-        DB::statement("ALTER TABLE majorsubject_m COMMENT '学校別専攻マスタ'");
+        DB::statement("ALTER TABLE member_password_t COMMENT '学生メンバーパスワード管理テーブル'");
     }
 
     /**
@@ -88,6 +78,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('majorsubject_m');
+        Schema::dropIfExists('member_password_t');
     }
 };

@@ -53,8 +53,6 @@ class majorsubject_m_controller extends Controller
 
               
         $majorsubject_m_list = majorsubject_m_model::select(
-
-            'majorsubject_m.id as id',
             'majorsubject_m.school_cd as school_cd',
             'school_m.school_name as school_name',
             'school_m.school_division as school_division',
@@ -71,6 +69,7 @@ class majorsubject_m_controller extends Controller
         ->leftJoin('subcategory_m', function ($join) {
             $join->on('school_m.school_division', '=', 'subcategory_m.subcategory_cd');
         })       
+        ->withTrashed()
         ->where('subcategory_m.maincategory_cd', '=', 3)        
         ->orderBy('majorsubject_m.school_cd', 'asc')        
         ->orderBy('majorsubject_m.majorsubject_cd', 'asc') ;
@@ -98,12 +97,95 @@ class majorsubject_m_controller extends Controller
     }
 
 
+    //  更新処理
+    function save(request $request)
+    {
+
+        $processflg = intval($request->processflg);
+
+        $school_cd = intval($request->school_cd);
+        $majorsubject_cd = intval($request->majorsubject_cd);
+        $majorsubject_name = $request->majorsubject_name;
+        $studyperiod = intval($request->studyperiod);
+        $remarks = $request->remarks;
+
+        $operator = 9999;
+        
+        try {
+
+            if($processflg == 0){
+
+                //新規登録処理
+                $max_majorsubject_cd = majorsubject_m_model::
+                where('school_cd', $school_cd)                
+                ->max('majorsubject_cd');
+            
+                if(is_null($max_majorsubject_cd)){
+                    $majorsubject_cd = 1;
+                }else{
+                    $majorsubject_cd = $max_majorsubject_cd + 1; 
+                }
+                
+                majorsubject_m_model::create(
+                    [
+                        'school_cd' => $school_cd,                        
+                        'majorsubject_cd' => $majorsubject_cd,     
+                        'majorsubject_name' => $majorsubject_name,
+                        'studyperiod' => $studyperiod,
+                        'remarks' => $remarks,
+                        'created_by' => $operator,
+                        
+                    ]
+                );            
+
+            }else{
+                
+                //更新処理
+                majorsubject_m_model::
+                where('school_cd', $school_cd)
+                ->where('majorsubject_cd', $majorsubject_cd)
+                ->update(
+                    [
+                        'majorsubject_name' => $majorsubject_name,
+                        'studyperiod' => $studyperiod,
+                        'remarks' => $remarks,
+                        'created_by' => $operator,          
+                    ]
+                );
+            }
+    
+        } catch (Exception $e) {            
+            
+            $ErrorMessage = '【学校別専攻マスタ登録エラー】' . $e->getMessage();            
+
+            Log::channel('error_log')->info($ErrorMessage);
+
+            $ResultArray = array(
+                "Result" => "error",
+                "Message" => $ErrorMessage,
+            );
+
+            return response()->json(['ResultArray' => $ResultArray]);
+                                
+        }
+
+        $ResultArray = array(
+            "Result" => "success",
+            "Message" => '',
+        );
+
+        session()->flash('success', 'データを登録しました。');
+        session()->flash('message-type', 'success');
+        return response()->json(['ResultArray' => $ResultArray]);
+    }
+
 
     //  論理削除処理
     function delete_or_restore(Request $request)
     {
         $delete_flg = intval($request->delete_flg);
-        $id = intval($request->delete_id);
+        $school_cd = intval($request->delete_school_cd);
+        $majorsubject_cd = intval($request->delete_majorsubject_cd);
         $school_name = $request->delete_school_name;           
         $majorsubject_name = $request->delete_majorsubject_name;  
 
@@ -114,7 +196,8 @@ class majorsubject_m_controller extends Controller
 
                 //論理削除
                 majorsubject_m_model::
-                where('id', $id)                
+                where('school_cd', $school_cd)
+                ->where('majorsubject_cd', $majorsubject_cd)
                 ->delete();
 
                 session()->flash('success', '[学校名 = ' . $school_name . ' 専攻名 = ' . $majorsubject_name . ']データを利用不可状態にしました');
@@ -122,7 +205,8 @@ class majorsubject_m_controller extends Controller
 
                 //論理削除解除
                 majorsubject_m_model::
-                where('id', $id)                
+                where('school_cd', $school_cd)
+                ->where('majorsubject_cd', $majorsubject_cd)
                 ->withTrashed()                
                 ->restore();
 

@@ -59,6 +59,7 @@ Route::post('headquarters/master/subcategory/delete_or_restore', [subcategory_m_
 Route::get('headquarters/master/staff/', [staff_m_controller::class, 'index'])->name('master.staff');
 Route::post('headquarters/master/staff/save', [staff_m_controller::class, 'save'])->name('master.staff.save');
 Route::post('headquarters/master/staff/delete_or_restore', [staff_m_controller::class, 'delete_or_restore'])->name('master.staff.delete_or_restore');
+Route::get('headquarters/master/staff/login_info_check', [staff_m_controller::class, 'login_info_check'])->name('master.staff.login_info_check');
 Route::post('headquarters/master/staff/login_info_update', [staff_m_controller::class, 'login_info_update'])->name('master.staff.login_info_update');
 
 Route::get('headquarters/master/school/', [school_m_controller::class, 'index'])->name('master.school');
@@ -66,6 +67,7 @@ Route::post('headquarters/master/school/save', [school_m_controller::class, 'sav
 Route::post('headquarters/master/school/delete_or_restore', [school_m_controller::class, 'delete_or_restore'])->name('master.school.delete_or_restore');
 
 Route::get('headquarters/master/majorsubject/index', [majorsubject_m_controller::class, 'index'])->name('master.majorsubject');
+Route::post('headquarters/master/majorsubject/save', [majorsubject_m_controller::class, 'save'])->name('master.majorsubject.save');
 Route::post('headquarters/master/majorsubject/delete_or_restore', [majorsubject_m_controller::class, 'delete_or_restore'])->name('master.majorsubject.delete_or_restore');
 //本部  End
 

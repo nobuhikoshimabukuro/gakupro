@@ -174,18 +174,23 @@
                             <input type="hidden" id="delete_maincategory_name" name="delete_maincategory_name" value="">
             
 
-                            <table class="dlete_modal_table">
+                            <tr>
+                                <td class="text-start">大分類CD</td>                                
+                            </tr>
 
-                                <tr>
-                                    <td class="dlete_modal_table-column">大分類CD：</td>
-                                    <td class="dlete_modal_table-value"><span id="display_maincategory_cd"></span></td>
-                                </tr>
-                                <tr>
-                                    <td class="dlete_modal_table-column">大分類名称：</td> 
-                                    <td class="dlete_modal_table-value"><span id="display_maincategory_name"></span></td>                                                                       
-                                </tr>
+                            <tr>                                
+                                <td class="text-start"><span id="display_maincategory_cd"></span></td>
+                            </tr>
+                         
+                            <tr>
+                                <td class="text-start">大分類名称</td>                                
+                            </tr>
 
-                            </table>                            
+                            <tr>                                
+                                <td class="text-start"><span id="display_maincategory_name"></span></td>
+                            </tr>
+
+               
 
                         </div>
 

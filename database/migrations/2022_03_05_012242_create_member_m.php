@@ -67,17 +67,7 @@ return new class extends Migration
             $table
                 ->string('graduation_yearmonth', 7)
                 ->nullable()
-                ->comment('予定卒業年月:形式(yyyy/mm)');
-
-            $table
-                ->string('login_id', 30)
-                ->nullable()
-                ->comment('ログインID');
-
-            $table
-                ->string('password', 30)
-                ->nullable()
-                ->comment('ログインパスワード');
+                ->comment('予定卒業年月:形式(yyyy/mm)');           
 
             $table
                 ->string('emergencycontact_relations', 30)

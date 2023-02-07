@@ -1,7 +1,7 @@
 @extends('headquarters.common.layouts_afterlogin')
 
 @section('pagehead')
-@section('title', 'スタッフマスタ')  
+@section('title', 'メンバー')  
 @endsection
 @section('content')
 
@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-6 text-start">
             <h4 class="MasterTitle">
-                スタッフマスタ
+                メンバー
             </h4>
         </div>
 

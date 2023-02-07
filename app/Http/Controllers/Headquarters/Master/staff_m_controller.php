@@ -40,6 +40,8 @@ class staff_m_controller extends Controller
             'staff_m.authority as authority',
             'authorityinfo.subcategory_name as authority_name',
        
+            'staff_m.deleted_at as deleted_at',
+
             'staff_password_t.id as password_id',
             'staff_password_t.login_id as login_id',
             'staff_password_t.password as encrypted_password',
@@ -59,6 +61,7 @@ class staff_m_controller extends Controller
                 ->whereNull('staff_password_t.deleted_at');
             ;
         })       
+        ->withTrashed()
         ->orderBy('staff_m.staff_id', 'asc')        
         ->paginate(env('Paginate_Count'));
 
@@ -160,11 +163,8 @@ class staff_m_controller extends Controller
     {
         $delete_flg = intval($request->delete_flg);
 
-        $maincategory_cd = intval($request->delete_maincategory_cd);
-        $subcategory_cd = intval($request->delete_subcategory_cd);
-
-        $maincategory_name = $request->delete_maincategory_name;
-        $subcategory_name = $request->delete_subcategory_name;       
+        $staff_id = intval($request->delete_staff_id);
+        $staff_name = $request->delete_staff_name;        
 
         try {
 
@@ -172,36 +172,102 @@ class staff_m_controller extends Controller
             if($delete_flg == 0){
 
                 //論理削除
-                subcategory_m_model::
-                where('maincategory_cd', $maincategory_cd)
-                ->where('subcategory_cd', $subcategory_cd)
+                staff_m_model::
+                where('staff_id', $staff_id)                
                 ->delete();
+                   
+                session()->flash('success', '[スタッフID = ' . $staff_id . ' スタッフ名 = ' . $staff_name . ']データを利用不可状態にしました');                                
 
-                session()->flash('success', '[大分類名 = ' . $maincategory_name . ' 中分類名 = ' . $subcategory_name . ']データを利用不可状態にしました');                
-                
             }else{    
 
                 //論理削除解除
-                subcategory_m_model::
-                where('maincategory_cd', $maincategory_cd)
-                ->where('subcategory_cd', $subcategory_cd)
-                ->withTrashed()                
+                staff_m_model::
+                where('staff_id', $staff_id) 
+                ->withTrashed()
                 ->restore();
 
-                session()->flash('success', '[大分類名 = ' . $maincategory_name . ' 中分類名 = ' . $subcategory_name . ']データを利用可能状態にしました');                                
+                session()->flash('success', '[スタッフID = ' . $staff_id . ' スタッフ名 = ' . $staff_name . ']データを利用可能状態にしました');                                
             }
 
         } catch (Exception $e) {
 
-            $ErrorMessage = '【中分類マスタ利用状況変更処理時エラー】' . $e->getMessage();            
+            $ErrorMessage = '【スタッフマスタ利用状況変更処理時エラー】' . $e->getMessage();            
 
             Log::channel('error_log')->info($ErrorMessage);
 
-            session()->flash('error', '[大分類名 = ' . $maincategory_name . ' 中分類 = ' . $subcategory_name . ']データの利用状況変更処理時エラー'); 
+            session()->flash('error', '[スタッフID = ' . $staff_id . ' スタッフ名 = ' . $staff_name . ']データの利用状況変更処理時エラー'); 
            
         }       
 
         return back();
+    }
+
+    // ログイン情報重複確認処理
+    function login_info_check(request $request){
+
+        $staff_id = $request->staff_id;
+        $login_id = $request->login_id;
+        //画面で入力した平文パスワードを暗号化
+        $password = Common::encryption($request->password);
+                
+        try {
+
+            $login_id_duplication = "";
+            $password_duplication = "";
+
+            //ログインIDでデータ重複チェック
+            $login_id_check = staff_password_t_model::
+            where('login_id', $login_id)   
+            ->where('staff_id', '<>', $staff_id)              
+            ->first();
+
+            if(!is_null($login_id_check)){
+                $login_id_duplication = "ログインID重複エラー";
+            }
+
+            //パスワード（暗号文）でデータ重複チェック
+            $login_id_check = staff_password_t_model::
+            where('password', $password)  
+            ->where('staff_id', '<>', $staff_id)                    
+            ->first();
+
+            if(!is_null($login_id_check)){
+                $password_duplication = "パスワード重複エラー";
+            }
+
+            if($login_id_duplication == "" && $password_duplication == ""){
+                      
+                $ResultArray = array(
+                    "Result" => "success",
+                    "Message" => '',
+                );
+
+            }else{
+
+                $ResultArray = array(
+                    "Result" => "duplication_error",
+                    "login_id_duplication" => $login_id_duplication,
+                    "password_duplication" => $password_duplication,
+                );
+
+            }         
+
+
+        } catch (Exception $e) {
+
+            $ErrorMessage = '【スタッフマスタログイン情報確認エラー】' . $e->getMessage();            
+
+            Log::channel('error_log')->info($ErrorMessage);
+
+            $ResultArray = array(
+                "Result" => "error",
+                "Message" => $ErrorMessage,
+            );           
+         
+        }  
+
+        return response()->json(['ResultArray' => $ResultArray]);
+
     }
 
     // ログイン情報更新処理
@@ -221,7 +287,7 @@ class staff_m_controller extends Controller
 
             //スタッフIDで全てのデータの論理削除
             staff_password_t_model::
-            where('staff_id', $staff_id)        
+            where('staff_id', $staff_id)                    
             ->delete();
 
             //新規登録処理                
@@ -251,8 +317,6 @@ class staff_m_controller extends Controller
         }  
 
         return back();
-
-        
 
     }
 

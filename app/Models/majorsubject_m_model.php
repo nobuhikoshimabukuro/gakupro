@@ -21,6 +21,21 @@ class majorsubject_m_model extends Model
     * @var array
     */
     protected $guarded = [
-        'school_cd',
+        'school_cd'
+        ,'majorsubject_cd'  
+    ];
+
+    protected $fillable = [ 
+        'school_cd'
+        ,'majorsubject_cd'        
+        ,'majorsubject_name'
+        ,'studyperiod'
+        ,'remarks'
+        ,'created_at'
+        ,'created_by'
+        ,'updated_at'
+        ,'updated_by'
+        ,'deleted_at'
+        ,'deleted_by'
     ];
 }

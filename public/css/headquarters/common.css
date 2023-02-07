@@ -323,24 +323,6 @@ a.btn--radius {
 /* マスタ画面の新規登録ボタン設定 End */
 
 /* マスタ画面の削除モーダル設定 start */
-.dlete_modal_table{
-  width: 100%;
-}
-
-.dlete_modal_table-column{
-   padding: 1%;
-   margin: 1%;
-   width: 25%;
-   text-align: right;
-}
-
-.dlete_modal_table-value{
-   padding: 1%;
-   margin: 1%;
-   width: 75%;
-   text-align: left;
-}
-
 .delete_button{
   background-color: rgb(243, 50, 50);
   border-color: rgb(243, 50, 50);
