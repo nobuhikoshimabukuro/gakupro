@@ -19,11 +19,11 @@
 
         
 
-        <div class="col-6 NewAddition-Button">
+        <div class="col-6 new_addition_button">
             <a href="" class="btn btn--red btn--radius btn--cubic" 
             data-bs-toggle='modal' data-bs-target='#save_modal'            
             data-processflg='0'
-            ><i class='fas fa-plus-circle'></i><span class="NewAddition-ButtonName"></span></a>
+            ><i class='fas fa-plus-circle'></i><span class="new_addition_button_name"></span></a>
         </div>
 
     </div>
@@ -36,8 +36,8 @@
     </div>
   
 
-    <div id="DataDisplayArea" class="Table-Wrap m-0">
-        <table id='' class='DataInfoTable'>
+    <div id="DataDisplayArea" class="table_wrap m-0">
+        <table id='' class='data_info_table'>
             
             <tr>
                 <th>スタッフID</th>
@@ -63,7 +63,7 @@
                 @if($operator_authority > 1)
 
                     <td>
-                        <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#save_modal'
+                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#save_modal'
                             data-staffid='{{$item->staff_id}}'
                             data-staffname='{{$item->staff_name}}'
                             data-staffnameyomi='{{$item->staff_name_yomi}}'
@@ -75,7 +75,7 @@
                             <i class='far fa-edit'></i>
                         </button>
 
-                        <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#dlete_modal'
+                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#dlete_modal'
                             data-staffid='{{$item->staff_id}}'
                             data-staffname='{{$item->staff_name}}'
                             data-staffnameyomi='{{$item->staff_name_yomi}}'
@@ -96,7 +96,7 @@
 
                 
                     <td>
-                        <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#LoginInfo_Modal'
+                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#LoginInfo_Modal'
                             data-passwordid='{{$item->password_id}}'
                             data-staffid='{{$item->staff_id}}'
                             data-loginid='{{$item->login_id}}'
@@ -129,7 +129,7 @@
                         
                     </div>
                     
-                    <form id="SaveForm" method="post" action="{{ route('master.staff.save') }}">                    
+                    <form id="save_form" method="post" action="{{ route('master.staff.save') }}">                    
                         @csrf
                         <div class="modal-body">  
                                                         
@@ -197,7 +197,7 @@
                     </div>
 
                     
-                    <form id="Deleteform" method="post" action="{{ route('master.staff.delete_or_restore') }}">       
+                    <form id="delete_form" method="post" action="{{ route('master.staff.delete_or_restore') }}">       
                         @csrf
                         <div class="modal-body">
 
@@ -568,7 +568,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#SaveForm');
+        let f = $('#save_form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';

@@ -21,16 +21,16 @@ function phpProcessingEnd() {
 
 function LoaderEnd() {
   $(".InoperableClass").removeClass('InoperableClass');
-  $("#LoadingArea").remove(); 
+  $("#loading_area").remove(); 
 }
 
 function UploaderStart() {
   $("#Main").addClass('InoperableClass');
-  $("#UploadingArea").removeClass('d-none');  
+  $("#uploading_area").removeClass('d-none');  
 }
 
 function UploaderEnd() {
-  $("#UploadingArea").addClass('d-none');  
+  $("#uploading_area").addClass('d-none');  
   $("#Main").removeClass('InoperableClass');  
 }
 

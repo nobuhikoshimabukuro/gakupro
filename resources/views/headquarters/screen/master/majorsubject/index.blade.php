@@ -21,11 +21,11 @@
             </h4>
         </div>       
         
-        <div class="col-6 NewAddition-Button">
+        <div class="col-6 new_addition_button">
             <a href="" class="btn btn--red btn--radius btn--cubic" 
             data-bs-toggle='modal' data-bs-target='#save_modal'            
             data-processflg='0'
-            ><i class='fas fa-plus-circle'></i><span class="NewAddition-ButtonName"></span></a>  
+            ><i class='fas fa-plus-circle'></i><span class="new_addition_button_name"></span></a>  
         </div>
 
     </div>
@@ -33,15 +33,15 @@
     <form id="SearchForm" class="row" action="" method="get">
 
         <div class="col-12">
-            <div id="SearchFormArea" class="Table-Wrap m-0 p-0">
-                <table id='' class='SearchInfoTable'>
+            <div id="SearchFormArea" class="table_wrap m-0 p-0">
+                <table id='' class='search_info_table'>
                     <tr>
                         <th>学校区分選択</th>                
                         <th>学校選択</th>
                         <th>学校名</th>
                         <th>専攻名</th>
                         <th>
-                            <a id="" class="original-btn ClearButton">クリア</a>  
+                            <a id="" class="original_button clear_button">クリア</a>  
                         </th>                    
                     </tr>
 
@@ -78,7 +78,7 @@
                         </td>
                     
                         <td>                             
-                            <button type="submit" id="" class="original-btn SearchButton" onclick="return SearchFormCheck();">検索 <i class="fas fa-search"></i></button>                                                                                          
+                            <button type="submit" id="" class="original_button search_button" onclick="return SearchFormCheck();">検索 <i class="fas fa-search"></i></button>                                                                                          
                         </td>
                     </tr>
 
@@ -95,8 +95,8 @@
     </div>
   
 
-    <div id="DataDisplayArea" class="Table-Wrap m-0">
-        <table id='' class='DataInfoTable'>
+    <div id="DataDisplayArea" class="table_wrap m-0">
+        <table id='' class='data_info_table'>
             
             <tr>
                 <th>区分</th>                
@@ -156,7 +156,7 @@
                 <td>
                     @if($DisplayBtnFLG)  
                         
-                        <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#remarks_modal'
+                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#remarks_modal'
                         data-majorsubjectname="{{$item->majorsubject_name}}"
                         data-remarks="{{$item->remarks}}"											
                         >{{$ButtonName}}                  
@@ -166,7 +166,7 @@
                 </td>
 
                 <td>
-                    <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#save_modal'
+                    <button class='modal_button' data-bs-toggle='modal' data-bs-target='#save_modal'
                         data-schoolcd='{{$item->school_cd}}'
                         data-majorsubjectcd='{{$item->majorsubject_cd}}'
                         data-majorsubject_name='{{$item->majorsubject_name}}'
@@ -176,7 +176,7 @@
                         <i class='far fa-edit'></i>
                     </button>
 
-                    <button class='ModalButton' data-bs-toggle='modal' data-bs-target='#dlete_modal'
+                    <button class='modal_button' data-bs-toggle='modal' data-bs-target='#dlete_modal'
                         data-schoolcd='{{$item->school_cd}}'
                         data-majorsubjectcd='{{$item->majorsubject_cd}}'
                         data-schoolname='{{$item->school_name}}'
@@ -215,7 +215,7 @@
                         
                     </div>
                     
-                    <form id="Saveform" method="post" action="{{ route('master.majorsubject.save') }}">                    
+                    <form id="save_form" method="post" action="{{ route('master.majorsubject.save') }}">                    
                         @csrf
                         <div class="modal-body">                                                         
                                                         
@@ -271,7 +271,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <form id="Deleteform" method="post" action="{{ route('master.majorsubject.delete_or_restore') }}">                           
+                    <form id="delete_form" method="post" action="{{ route('master.majorsubject.delete_or_restore') }}">                           
                         @csrf
                         <div class="modal-body">  
                         <input type="hidden" id="delete_flg" name="delete_flg" value="">
@@ -436,7 +436,7 @@ $(function(){
         $('.is-invalid').removeClass('is-invalid');
 
         
-        var FormData = $("#Saveform").serializeArray();        
+        var FormData = $("#save_form").serializeArray();        
 
         $.each(FormData, function(i, element) {		
             $("[name='"+ element.name +"']").val("");          
@@ -515,7 +515,7 @@ $(function(){
     });
 
     // 「クリア」ボタンがクリックされたら
-    $('.ClearButton').click(function () {
+    $('.clear_button').click(function () {
 
         var FormData = $("#SearchForm").serializeArray();        
 
@@ -541,7 +541,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#Saveform');
+        let f = $('#save_form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';

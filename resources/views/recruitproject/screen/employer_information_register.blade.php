@@ -74,7 +74,7 @@
         <div class="ajax-msg m-2">            
         </div>
 
-        <form id="Saveform" method="post" action="{{ $action }}">
+        <form id="save_form" method="post" action="{{ $action }}">
         @csrf
 
             <input type="hidden" name="LoginFlg" id="LoginFlg" class="form-control" value="{{$LoginFlg}}">
@@ -455,7 +455,7 @@ $(function(){
         $('.ajax-msg').html('');        
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#Saveform');
+        let f = $('#save_form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';

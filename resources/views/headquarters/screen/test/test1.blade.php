@@ -28,7 +28,7 @@
     max-height: 100vh;
 }
 
-.DataInfoTable{
+.data_info_table{
     min-width: 100vw;
     max-width: 100vw;
 
@@ -58,9 +58,9 @@
 
 <body>
     <a href="{{$picturebook_info[0]['PublicPath']}}">pdfを表示</a>
-    <div id="DataDisplayArea" class="Table-Wrap m-0">
+    <div id="DataDisplayArea" class="table_wrap m-0">
 
-        <table id='' class='DataInfoTable'>
+        <table id='' class='data_info_table'>
             
             
             

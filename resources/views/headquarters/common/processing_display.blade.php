@@ -1,4 +1,4 @@
-<div id="LoadingArea">
+<div id="loading_area">
   <ul>
     <li>L</li>
     <li>o</li>
@@ -10,8 +10,8 @@
    </ul>
 </div>
 
-<div id="UploadingArea" class="d-none">
-{{-- <div id="UploadingArea" class=""> --}}
+<div id="uploading_area" class="d-none">
+{{-- <div id="uploading_area" class=""> --}}
   <ul>
     <li>U</li>
     <li>p</li>

@@ -33,14 +33,14 @@
 }
 
 /* クリアボタン */
-.ClearButton{
+.clear_button{
   margin: 3px;
   color: #fff;
   background-color: #eb6100;
   border-radius: 100vh;
 }
 
-.ClearButton:hover{
+.clear_button:hover{
   color: #fff;
   background: #f56500;
 }
@@ -58,17 +58,17 @@ button{
     font-weight: 600;
 }
 
-.NewAddition-Button{
+.new_addition_button{
   text-align: right;  
   margin-bottom: 5px;
 }
 /* マスタ画面のtable設定 Start */
 
-.Table-Wrap {
+.table_wrap {
   overflow-x: scroll;
 }
 
-.DataInfoTable{  
+.data_info_table{  
   width: 100%;
 
   border-collapse:separate;
@@ -77,16 +77,16 @@ button{
 
 }
 
-.DataInfoTable th:first-child{
+.data_info_table th:first-child{
   border-radius: 5px 0 0 0;
 }
 
-.DataInfoTable th:last-child{
+.data_info_table th:last-child{
   border-radius: 0 5px 0 0;
   border-right: 1px solid #3c6690;
 }
 
-.DataInfoTable th{
+.data_info_table th{
   text-align: center;
   color:white;
   background: linear-gradient(#829ebc,#225588);
@@ -98,7 +98,7 @@ button{
   padding: 5px 0;
 }
 
-.DataInfoTable td{
+.data_info_table td{
   text-align: center;
   border-left: 1px solid #a8b7c5;
   border-bottom: 1px solid #a8b7c5;
@@ -108,15 +108,15 @@ button{
   padding: 5px 10px;
 }
 
-.DataInfoTable td:last-child{
+.data_info_table td:last-child{
   border-right: 1px solid #a8b7c5;
 }
 
-.DataInfoTable tr:last-child td:first-child {
+.data_info_table tr:last-child td:first-child {
   border-radius: 0 0 0 5px;
 }
 
-.DataInfoTable tr:last-child td:last-child {
+.data_info_table tr:last-child td:last-child {
   border-radius: 0 0 5px 0;
 } 
 
@@ -124,21 +124,21 @@ button{
 
 
 /* モーダル内のボタン設定 Start */
-.ModalButton{  
+.modal_button{  
   border: none;
   outline: none; /* クリックしたときに表示される枠線を消す */
   background: transparent; /* 背景の灰色を消す */
 }
 
-.ModalButton:hover {
+.modal_button:hover {
   background-color: #cdf06d;
   cursor: pointer;
 }
-.ModalButton.active {
+.modal_button.active {
   background-color: #cdf06d;
 }
 
-.ModalButton.focus {
+.modal_button.focus {
   background-color: #cdf06d;
 }
 /* モーダル内のボタン設定 End */
@@ -202,7 +202,7 @@ a.btn--radius {
 
 /* loader.blade.php ↓ */
 
-#LoadingArea{
+#loading_area{
   position: absolute;
   top: 50%;
   left: 50%;
@@ -210,7 +210,7 @@ a.btn--radius {
 
 
 
-#LoadingArea ul{
+#loading_area ul{
   position: absolute;
   top:50%;
   left:50%;
@@ -219,7 +219,7 @@ a.btn--radius {
   padding:0;
   display:flex}
 
-#LoadingArea ul li{
+#loading_area ul li{
   list-style:none;
   color:#484848;
   font-family:arial;
@@ -233,26 +233,26 @@ a.btn--radius {
   100%{color:#fff900;text-shadow:0 0 7px #fff900 ,0 0 50px #fff900}
 }
 
-#LoadingArea ul li:nth-child(1){animation-delay:0.2s}
-#LoadingArea ul li:nth-child(2){animation-delay:0.4s}
-#LoadingArea ul li:nth-child(3){animation-delay:0.6s}
-#LoadingArea ul li:nth-child(4){animation-delay:0.8s}
-#LoadingArea ul li:nth-child(5){animation-delay:1s}
-#LoadingArea ul li:nth-child(6){animation-delay:1.2s}
-#LoadingArea ul li:last-child{animation-delay:1.4s}
+#loading_area ul li:nth-child(1){animation-delay:0.2s}
+#loading_area ul li:nth-child(2){animation-delay:0.4s}
+#loading_area ul li:nth-child(3){animation-delay:0.6s}
+#loading_area ul li:nth-child(4){animation-delay:0.8s}
+#loading_area ul li:nth-child(5){animation-delay:1s}
+#loading_area ul li:nth-child(6){animation-delay:1.2s}
+#loading_area ul li:last-child{animation-delay:1.4s}
 
 /* loader.blade.php ↑ */
 
 
 
 
-#UploadingArea{
+#uploading_area{
   position: absolute;
   top: 50%;
   left: 50%;
 }
 
-#UploadingArea ul{
+#uploading_area ul{
   position: absolute;
   top:50%;
   left:50%;
@@ -261,7 +261,7 @@ a.btn--radius {
   padding:0;
   display:flex}
 
-#UploadingArea ul li{
+#uploading_area ul li{
   list-style:none;
   color:#484848;
   font-family:arial;
@@ -275,12 +275,12 @@ a.btn--radius {
   100%{color:#fff900;text-shadow:0 0 7px #fff900 ,0 0 50px #fff900}
 }
 
-#UploadingArea ul li:nth-child(1){animation-delay:0.2s}
-#UploadingArea ul li:nth-child(2){animation-delay:0.4s}
-#UploadingArea ul li:nth-child(3){animation-delay:0.6s}
-#UploadingArea ul li:nth-child(4){animation-delay:0.8s}
-#UploadingArea ul li:nth-child(5){animation-delay:1s}
-#UploadingArea ul li:nth-child(6){animation-delay:1.2s}
-#UploadingArea ul li:nth-child(7){animation-delay:1.4s}
-#UploadingArea ul li:nth-child(8){animation-delay:1.6s}
-#UploadingArea ul li:last-child{animation-delay:1.8s}
+#uploading_area ul li:nth-child(1){animation-delay:0.2s}
+#uploading_area ul li:nth-child(2){animation-delay:0.4s}
+#uploading_area ul li:nth-child(3){animation-delay:0.6s}
+#uploading_area ul li:nth-child(4){animation-delay:0.8s}
+#uploading_area ul li:nth-child(5){animation-delay:1s}
+#uploading_area ul li:nth-child(6){animation-delay:1.2s}
+#uploading_area ul li:nth-child(7){animation-delay:1.4s}
+#uploading_area ul li:nth-child(8){animation-delay:1.6s}
+#uploading_area ul li:last-child{animation-delay:1.8s}

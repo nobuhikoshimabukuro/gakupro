@@ -40,7 +40,7 @@
         margin: 10px 0 10px 0;
     }
      
-    #DataInfoTable{
+    #data_info_table{
         width: 100%;
     }
 
@@ -148,10 +148,10 @@
                 </div> 
 
                 
-                <div id="DataDisplayArea" class="Table-Wrap m-0 p-0">
+                <div id="DataDisplayArea" class="table_wrap m-0 p-0">
 
-                    {{-- <table id='DataInfoTable' class='DataInfoTable'> --}}
-                        <table id='' class='DataInfoTable m-0 p-0'>
+                    {{-- <table id='data_info_table' class='data_info_table'> --}}
+                        <table id='' class='data_info_table m-0 p-0'>
                         
                         <tr>
                             <th>ID</th>

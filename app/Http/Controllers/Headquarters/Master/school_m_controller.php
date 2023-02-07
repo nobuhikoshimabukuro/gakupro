@@ -37,10 +37,15 @@ class school_m_controller extends Controller
             'school_m.school_division as school_division',
             'subcategory_m.subcategory_name as school_division_name',
             'school_m.school_name as school_name',
+            'school_m.post_code as post_code',
+            'school_m.address1 as address1',
+            'school_m.address2 as address2',
             'school_m.tel as tel',
+            'school_m.fax as fax',
             'school_m.hp_url as hp_url',
-            'school_m.remarks as remarks',
             'school_m.mailaddress as mailaddress',
+            'school_m.remarks as remarks',
+            
             'school_m.deleted_at as deleted_at',
         )
         ->leftJoin('subcategory_m', function ($join) {
