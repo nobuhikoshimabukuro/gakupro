@@ -66,7 +66,7 @@
 
 </style>
 
-<div id="Main" class="mt-3 text-center container">
+<div id="main" class="mt-3 text-center container">
     
  
     <div class="row p-0">
@@ -213,7 +213,7 @@
 
             <div id="ButtonArea" class="row div-Area">        
                 <div class="col-12" align="right">              
-                    <button type="button" id="SaveButton" class="btn btn-primary" >{{$process_button}}</button>
+                    <button type="button" id="save_button" class="btn btn-primary" >{{$process_button}}</button>
                 </div>        
             </div> 
 
@@ -441,14 +441,14 @@ $(function(){
 
         
     // 処理実行ボタンがクリックされたら
-    $('#SaveButton').click(function () {
+    $('#save_button').click(function () {
      
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
-        $('#SaveButton').prop("disabled", true);
+        $('#save_button').prop("disabled", true);
 
         setTimeout(function () {
-            $('#SaveButton').prop("disabled", false);
+            $('#save_button').prop("disabled", false);
         }, 3000);
 
         
@@ -470,7 +470,7 @@ $(function(){
             .done(function (data, textStatus, jqXHR) {
                 
                 //{{-- ボタン有効 --}}
-                $('#SaveButton').prop("disabled", false);
+                $('#save_button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 
@@ -518,7 +518,7 @@ $(function(){
             .fail(function (data, textStatus, errorThrown) {
                 
                 //{{-- ボタン有効 --}}
-                $('#SaveButton').prop("disabled", false);
+                $('#save_button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 

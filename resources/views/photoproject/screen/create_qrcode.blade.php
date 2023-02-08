@@ -12,30 +12,30 @@
         overflow-y: scroll;
     }
 
-    #Main button{        
+    #main button{        
         padding: 2px;
         margin: 1vh;
     }
 
-    .SelectArea{       
+    .select_area{       
        padding: 3px;
     }
 
-    .Select{       
+    .select{       
        background-color: rgb(189, 204, 247);       
     }
 
-    .QRCode_Image{       
+    .qr_code_image{       
        width: 100%;
     }
 
     
-    .CodeArea{
+    .code_area{
         font-size: 20px;
         font-weight: 600;
     }
 
-    #OperationArea{
+    #operation_area{
         padding: 0;
         margin: 10px 0 10px 0;
     }
@@ -50,7 +50,7 @@
 @include('photoproject.common.processing_display')
 
 
-<div id='Main' class="mt-3 text-center container InoperableClass">
+<div id='main' class="mt-3 text-center container inoperable_class">
 
     
     <div class="row m-0 p-0">
@@ -70,18 +70,18 @@
 
         <form action="{{ route('photoproject.create_qrcode') }}" method="get" enctype="multipart/form-data" class="m-0 p-0">     
 
-            <div id="OperationArea" class="row m-0 p-0">            
+            <div id="operation_area" class="row m-0 p-0">            
                     
                 <div class="col-9 m-0 p-0" align="left">
 
-                    <label for="Date" class="">開催日</label>
-                    <input type="date" id="Date" name="Date"  value="{{$Date}}">                        
+                    <label for="date" class="">開催日</label>
+                    <input type="date" id="date" name="date"  value="{{$date}}">                        
                     <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i>検索</button>             
 
                 </div>
 
                 <div class="col-3 m-0 p-0" align="right">              
-                    <button type="button" id="" class="btn btn-secondary DisplaySwitching" data-bs-toggle='modal' data-bs-target='#Create_Modal'>
+                    <button type="button" id="" class="btn btn-secondary display_switching" data-bs-toggle='modal' data-bs-target='#create_modal'>
                         <i class="fas fa-folder-plus"></i>作成
                     </button>
 
@@ -105,16 +105,16 @@
                     <button type="button" id="" class="DisplayChangeButton btn btn-secondary d-none" data-mode="2"><i class="fas fa-database"></i> データ表示</button>            
                 </div>
                 
-                <div id="ImageDisplayArea"class="row p-0 m-0 d-none">
+                <div id="image_display_area"class="row p-0 m-0 d-none">
                     
                     <div class="col-4 p-0" align="left">                    
-                        <button type="button" id="DisplaySwitchingButton" class="btn btn-secondary DisplaySwitching" data-mode="1"><span id='ChangeButtonInfo2'>Qr表示</span></button>                    
+                        <button type="button" id="display_switching_button" class="btn btn-secondary display_switching" data-mode="1"><span id='ChangeButtonInfo2'>Qr表示</span></button>                    
                     </div>
 
                     <div class="col-8 p-0" align="right">
-                        <button type="button" id="SelectDownloadButton" class="btn btn-secondary d-none">選択DL <i class="fas fa-download"></i></button>
+                        <button type="button" id="selectDownloadButton" class="btn btn-secondary d-none">選択DL <i class="fas fa-download"></i></button>
                         <button type="button" id="AllDownloadButton" class="btn btn-secondary">一括DL <i class="fas fa-download"></i></button> 
-                        {{-- <button type="button" id="AllSelectButton" class="btn btn-secondary" data-mode="1"><span id='ChangeButtonInfo1'>全選択</span></button> --}}
+                        {{-- <button type="button" id="AllselectButton" class="btn btn-secondary" data-mode="1"><span id='ChangeButtonInfo1'>全選択</span></button> --}}
                         
                     </div>
 
@@ -122,20 +122,20 @@
                         
                         <div class="col-6 col-md-4 col-xl-3 p-0" style="margin-top: 10px;">
 
-                            <div id="SelectArea{{$Index}}" class="SelectArea"
+                            <div id="select_area{{$Index}}" class="select_area"
                             data-download_path="{{$info->QrTicketSaved_Path}}"  
                             data-ticket_name="{{$info->name2}}"  >            
 
                                 <div class="row">
-                                    <div class="CodeArea">{{$info->code}}</div>
+                                    <div class="code_area">{{$info->code}}</div>
                                 </div>
                             
-                                <button type="button" id="QrTicketButton{{$Index}}" data-target="{{$Index}}" class="SelectButton QrTicketButton">
-                                    <img src="{{$info->QrTicketSaved_Path}}" class="QRCode_Image" alt="">
+                                <button type="button" id="QrTicketButton{{$Index}}" data-target="{{$Index}}" class="selectButton QrTicketButton">
+                                    <img src="{{$info->QrTicketSaved_Path}}" class="qr_code_image" alt="">
                                 </button>
 
-                                <button type="button" id="QrCodeButton{{$Index}}" data-target="{{$Index}}" class="SelectButton QrCodeButton d-none" style="margin-bottom: 15px;">
-                                    <img src="{{$info->QrCodeSaved_Path}}" class="QRCode_Image" alt="">
+                                <button type="button" id="QrCodeButton{{$Index}}" data-target="{{$Index}}" class="selectButton QrCodeButton d-none" style="margin-bottom: 15px;">
+                                    <img src="{{$info->QrCodeSaved_Path}}" class="qr_code_image" alt="">
                                 </button>
 
                             </div>     
@@ -178,7 +178,7 @@
                                 <td>{{$info->display_password}}</td>                        
                                 <td>
 
-                                    <button type='button' class="btn btn-secondary CopyButton" 
+                                    <button type='button' class="btn btn-secondary copy_button" 
                                     data-uploadurl="{{$Upload_Url}}" 
                                     data-downloadurl="{{$Download_Url}}">Url Copy</button>
                                     
@@ -192,7 +192,7 @@
                                     @else
                                         不要
                                     @endif                                    
-                                    <button type='button' class="btn btn-secondary with_password_flg_ChangeButton"
+                                    <button type='button' class="btn btn-secondary with_password_flg_change_button"
                                         data-id="{{$info->id}}"
                                         data-passwordflg="{{$info->with_password_flg}}"
                                     >変更</button>
@@ -222,12 +222,12 @@
 
 
 {{-- 作成用モーダル --}}
-<div class="modal fade" id="Create_Modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="Create_Modal_Label" aria-hidden="true">
+<div class="modal fade" id="create_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="create_modal_Label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title" id="Create_Modal_Label"><span id="Create_Modal_Title"></span></h5>
+                <h5 class="modal-title" id="create_modal_Label"><span id="create_modal_Title"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -239,11 +239,11 @@
                     <div class="form-group row">
 
                         <div class="col-4" align="right">
-                            <label for="Modal_Date" class="col-md-6 col-form-label original-label">開催日</label>
+                            <label for="Modal_date" class="col-md-6 col-form-label original-label">開催日</label>
                         </div>
                         <div class="col-8" align="left">
-                            <label><span id="Modal_Display_Date"></span></label>
-                            <input type="hidden" name="Modal_Date" id="Modal_Date" value="" class="form-control">
+                            <label><span id="Modal_Display_date"></span></label>
+                            <input type="hidden" name="Modal_date" id="Modal_date" value="" class="form-control">
                         </div>
 
                     </div>                     
@@ -253,13 +253,13 @@
                         <div class="col-4" align="right">
 
                             @if($CreatedFLG)                            
-                                <label for="Count" class="col-md-6 col-form-label original-label">追加数</label>
+                                <label for="count" class="col-md-6 col-form-label original-label">追加数</label>
                             @else                            
-                                <label for="Count" class="col-md-6 col-form-label original-label">作成数</label>
+                                <label for="count" class="col-md-6 col-form-label original-label">作成数</label>
                             @endif                                
                         </div>
                         <div class="col-8" align="left">
-                            <input type="tel" name="Count" id="Count" value="" class="form-control text-end">
+                            <input type="tel" name="count" id="count" value="" class="form-control text-end">
                         </div>
                     </div>    
                     
@@ -276,7 +276,7 @@
                         <div class="form-group row">
 
                             <div class="col-4" align="right">                                
-                                <label for="Count" class="col-md-6 col-form-label original-label">ローカルIP</label>                                                            
+                                <label for="count" class="col-md-6 col-form-label original-label">ローカルIP</label>                                                            
                             </div>
                             <div class="col-8" align="left">
                                 <input type="text" name="IpAddress" id="IpAddress" value="" class="form-control">
@@ -316,13 +316,13 @@
 $(function(){
 
     //作成用モーダル表示時
-    $('#Create_Modal').on('show.bs.modal', function(e) {
+    $('#create_modal').on('show.bs.modal', function(e) {
 
-        var SelectDate = $('#Date').val();
+        var selectdate = $('#date').val();
 
-        $('#Modal_Date').val(SelectDate);
+        $('#Modal_date').val(selectdate);
 
-        $('#Modal_Display_Date').html(SelectDate);
+        $('#Modal_Display_date').html(selectdate);
        
 
     });
@@ -333,62 +333,62 @@ $(function(){
         var mode = $(this).data('mode');
 
         $("#DataDisplayArea").removeClass('d-none');
-        $("#ImageDisplayArea").removeClass('d-none');
+        $("#image_display_area").removeClass('d-none');
 
         $(".DisplayChangeButton").removeClass('d-none');
         
         if(mode == 1){
             $("#DataDisplayArea").addClass('d-none');           
         }else{
-            $("#ImageDisplayArea").addClass('d-none');           
+            $("#image_display_area").addClass('d-none');           
         }
 
         $(this).addClass('d-none');
      
     });
 
-    $('#AllSelectButton').click(function () {
+    $('#AllselectButton').click(function () {
 
         var mode = $(this).data('mode');
 
-        $(".SelectArea").removeClass('Select');
+        $(".select_area").removeClass('select');
 
         if(mode == 1){
             $('#ChangeButtonInfo1').html('選択解除');            
-            $(".SelectArea").addClass('Select');                
+            $(".select_area").addClass('select');                
             $(this).data('mode', '2');
         }else{            
             $('#ChangeButtonInfo1').html('全選択');            
-            $(".SelectArea").removeClass('Select');
+            $(".select_area").removeClass('select');
             $(this).data('mode', '1');
         }
         
-        SelectDownloadButtonDisplayJudge();
+        selectDownloadButtonDisplayJudge();
 
     });
 
-    $('.SelectButton').click(function () {
+    $('.selectButton').click(function () {
 
         var target = $(this).data('target');
-        var TargetID = "#SelectArea" + target;
+        var TargetID = "#select_area" + target;
 
-        if($(TargetID).hasClass('Select')){
+        if($(TargetID).hasClass('select')){
 
-            $(TargetID).removeClass('Select');
+            $(TargetID).removeClass('select');
 
         }else{
 
-            $(TargetID).addClass('Select');
+            $(TargetID).addClass('select');
 
         }
 
-        SelectDownloadButtonDisplayJudge();
+        selectDownloadButtonDisplayJudge();
 
     });
         
-    function SelectDownloadButtonDisplayJudge(){
+    function selectDownloadButtonDisplayJudge(){
 
-        var TargetElementID = "#SelectDownloadButton";
+        var TargetElementID = "#selectDownloadButton";
 
         $(TargetElementID).removeClass('d-none');
 
@@ -396,14 +396,14 @@ $(function(){
         var i = 0;
         while(true){
 
-            var TargetID = "#SelectArea" + i;
+            var TargetID = "#select_area" + i;
 
             //存在しない場合は処理抜け
             if(!($(TargetID).length)){				
                 break;							
             }
 
-            if($(TargetID).hasClass('Select')){
+            if($(TargetID).hasClass('select')){
 
                 var Download_Path = $(TargetID).data('download_path'); 
                 var Ticket_Name = $(TargetID).data('ticket_name');                 
@@ -433,7 +433,7 @@ $(function(){
     }
 
 
-    $('#DisplaySwitchingButton').click(function () {       
+    $('#display_switching_button').click(function () {       
 
         var mode = $(this).data('mode');
 
@@ -461,21 +461,21 @@ $(function(){
 
 
 
-    $('#SelectDownloadButton').click(function () {
+    $('#selectDownloadButton').click(function () {
 
         var TargetList = [];
         var i = 0;
 
         while(true){
 
-            var TargetID = "#SelectArea" + i;
+            var TargetID = "#select_area" + i;
 
             //存在しない場合は処理抜け
             if(!($(TargetID).length)){				
                 break;							
             }
 
-            if($(TargetID).hasClass('Select')){
+            if($(TargetID).hasClass('select')){
 
                 var Download_Path = $(TargetID).data('download_path'); 
                 var Ticket_Name = $(TargetID).data('ticket_name');                 
@@ -492,14 +492,14 @@ $(function(){
             i++;
         }   
 
-        var SelectCount = TargetList.length;
+        var select_count = TargetList.length;
 
-        if (SelectCount == 0){
+        if (select_count == 0){
             alert('データが選択されていません。');
             return false;
         }
 
-        var Message = "選択数：" + SelectCount + "\nダウンロードしますか?";
+        var Message = "選択数：" + select_count + "\nダウンロードしますか?";
         
 
         if(!confirm(Message)){
@@ -528,7 +528,7 @@ $(function(){
 
 
 
-    $(".CopyButton").on('click',function(e){
+    $(".copy_button").on('click',function(e){
         
         var upload_url = $(this).data('uploadurl');
         var download_url = $(this).data('downloadurl');
@@ -564,10 +564,10 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        var Date = $('#Date').val();
+        var date = $('#date').val();
         var Url = "{{ route('photoproject.qrcode_download') }}";
 
-        var Message = "日付：" + Date + "\n一括ダウンロードしますか?";
+        var Message = "日付：" + date + "\n一括ダウンロードしますか?";
 
 
         if(!confirm(Message)){
@@ -581,7 +581,7 @@ $(function(){
             url: Url, // 送信先
             type: 'get',
             dataType: 'json',
-            data: {Date : Date},
+            data: {date : date},
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 
         })
@@ -661,8 +661,8 @@ $(function(){
         $('.is-invalid').removeClass('is-invalid');
 
 
-        var Date = $("#Date").val();
-        var Count = $("#Count").val();
+        var date = $("#date").val();
+        var count = $("#count").val();
         var IpAddress = $("#IpAddress").val();
         var WithPasswordFlg = 0;
 
@@ -671,7 +671,7 @@ $(function(){
         } 
 
 
-        if(Date == "" || Date == null){
+        if(date == "" || date == null){
 
             
             var errorsHtml = '<div class="alert alert-danger text-start">';
@@ -703,7 +703,7 @@ $(function(){
             url: Url, // 送信先
             type: 'post',
             dataType: 'json',
-            data: {Date : Date , Count : Count , IpAddress : IpAddress, WithPasswordFlg : WithPasswordFlg},   
+            data: {date : date , count : count , IpAddress : IpAddress, WithPasswordFlg : WithPasswordFlg},   
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}         
         })
             // 送信成功
@@ -766,7 +766,7 @@ $(function(){
 
 
 
-    $('.with_password_flg_ChangeButton').click(function () {
+    $('.with_password_flg_change_button').click(function () {
 
         //{{-- メッセージクリア --}}
         $('.ajax-msg1').html('');

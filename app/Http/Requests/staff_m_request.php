@@ -27,7 +27,7 @@ class staff_m_request extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -54,7 +54,7 @@ class staff_m_request extends FormRequest
         return [
             
             'staff_name' => '氏名',
-            'staff_name' => '氏名カナ',
+            'staff_name_yomi' => '氏名カナ',
             'nick_name' => 'ニックネーム',
             'gender' => '性別',
             'tel' => '電話番号',
@@ -63,10 +63,10 @@ class staff_m_request extends FormRequest
             'remarks' => '備考',
         ];
     }
-
-
     public function messages()
     {
-        return [];
+        return [
+            'required' => ':attributeは必ず入力してください。',
+        ];
     }
 }

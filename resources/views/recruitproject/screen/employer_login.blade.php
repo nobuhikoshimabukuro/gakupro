@@ -10,7 +10,7 @@
 
 
 </style>
-<div id="Main" class="mt-3 text-center container">
+<div id="main" class="mt-3 text-center container">
     
     
     <form action="{{ route('recruitproject.login_password_check') }}" id='ApproveForm' method="post" enctype="multipart/form-data">

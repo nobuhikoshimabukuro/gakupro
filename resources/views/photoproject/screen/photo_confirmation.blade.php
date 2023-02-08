@@ -12,7 +12,7 @@ html,body{
 }
 
 
-#Main{
+#main{
     width: 100%;
     /*jQueryで高さ取得
     height:100vh;  
@@ -24,7 +24,7 @@ html,body{
 }
 
 
-#MainPhotoArea{     
+#main_photo_area{     
     top: 0;
     left: 0;
     width: 100%;
@@ -35,7 +35,7 @@ html,body{
 }
 
 
-#MainPhoto{       
+#main_photo{       
     padding: 1vh;    
     width: 100%;    
     height:  100%;
@@ -51,7 +51,7 @@ html,body{
     opacity:1;
 }
 
-#PhotoSelectArea{        
+#photo_select_area{        
       
     object-fit: contain;
     
@@ -64,7 +64,7 @@ html,body{
     bottom: 0; /*下に固定*/
 }
 
-#PhotoSelectArea table {
+#photo_select_area table {
    
     display: block;
     overflow-x: scroll;
@@ -74,7 +74,7 @@ html,body{
 }
 
 
-#PhotoSelectArea td {  
+#photo_select_area td {  
   max-width:15vh; 
   max-height:15vh;
   min-width:15vh; 
@@ -83,64 +83,47 @@ html,body{
 }
 
 
-#PhotoSelectArea .SubPhoto{ 
+#photo_select_area .SubPhoto{ 
     
     width: 80%;    
     object-fit: contain;
 }
 
-
-
 table {
-    border-collapse: separate; /* 枠線(ボーダー)を離して表示 */
-    
-  }
-
-  #PhotoSelectArea .PhotoNonSelect {
-    border: 1px rgb(98, 136, 238) dashed;
-    
+    border-collapse: separate; /* 枠線(ボーダー)を離して表示 */    
 }
-#PhotoSelectArea .PhotoSelect {
+
+#photo_select_area .photo_non_select {
+    border: 1px rgb(98, 136, 238) dashed;    
+}
+
+#photo_select_area .photo_select {
     border: 1px rgb(216, 186, 18) solid;
     
 }
 
 
 
-#DownloadButtonArea {
+#download_button_area {
     
     margin-bottom: 1vh;    
 
 }
 
-.MobileButton{
+.mobile_button{
     padding: 2px;
 }
 
-
-#InformationButtonArea{
-
-    position:absolute;
-	bottom: 50vh;
-	right: 50vw;
-	z-index: 100;
-	padding: 1vh;
-	
-	width: 10vh;
-	height:10vh;	
-background-color: red;
-}
-
-#languageSelectArea{
+#language_aelect_area{
     margin-bottom: 4px;
 }
 
-.languageSelectButton , .terminalSelectButton{
+.language_select_button , .terminal_select_button{
     color: rgb(37, 29, 29);
     font-weight: 600;
 }
 
-.languageSelectd , .terminalSelectd{
+.language_selectd , .terminal_selectd{
     background: -moz-linear-gradient(top, #c48123, rgb(160, 189, 30));
     background: -webkit-linear-gradient(top, #c4bcb2, rgb(243, 186, 186));
     background: linear-gradient(to bottom, #e9b46f, rgb(186, 218, 219));
@@ -157,18 +140,18 @@ background-color: red;
 
 @include('photoproject.common.processing_display')
 
-<div id="Main" class="InoperableClass">
+<div id="main" class="inoperable_class">
     
-    <div id="MainPhotoArea">
+    <div id="main_photo_area">
 
-        <img id='MainPhoto'src='{{$UploadFileInfo[0]["PublicPath"]}}' alt=''>           
+        <img id='main_photo'src='{{$UploadFileInfo[0]["PublicPath"]}}' alt=''>           
 
     </div>
 
-    <div id="PhotoSelectArea" class="row">
+    <div id="photo_select_area" class="row">
 
 
-        <div id="DownloadButtonArea" class="row m-0 p-0">
+        <div id="download_button_area" class="row m-0 p-0">
 
             <input type="hidden" id="pc_flg" value="{{$termina_info['pc_flg']}}">
             <input type="hidden" id="terminal" value="{{$termina_info['terminal']}}">
@@ -183,14 +166,14 @@ background-color: red;
 
                 <div id="" class="col-2 text-start p-0">                
 
-                    <button type="button" id="AllDownloadButton" class="btn btn-secondary"            
-                    ><span id='AllDownloadButton-Text'>全てDL </span><i class="fas fa-download"></i>
+                    <button type="button" id="all_download_button" class="btn btn-secondary"            
+                    ><span id='all_download_button-text'>全てDL </span><i class="fas fa-download"></i>
                     </button> 
 
                 </div>
                 <div id="" class="col-2 text-center m-0 p-0">
 
-                    <button type="button" id="InformationButton" class="btn btn-secondary" data-bs-toggle='modal' data-bs-target='#Information_Modal'>
+                    <button type="button" id="information_button" class="btn btn-secondary" data-bs-toggle='modal' data-bs-target='#information_modal'>
                         Info <i class="fas fa-info"></i>
                     </button>
 
@@ -199,10 +182,10 @@ background-color: red;
 
                 <div id="" class="col-2 text-end p-0">
 
-                    <button type="button" id="SelectDownloadButton" class="btn btn-secondary"
+                    <button type="button" id="select_download_button" class="btn btn-secondary"
                     data-targetpath="{{$UploadFileInfo[0]["PublicPath"]}}"
                     data-filename="{{$UploadFileInfo[0]["FileName"]}}'"
-                    ><span id='SelectDownloadButton-Text'>選択DL </span><i class="fas fa-download"></i>
+                    ><span id='select_download_button-Text'>選択DL </span><i class="fas fa-download"></i>
                     </button> 
 
                 </div>
@@ -216,15 +199,15 @@ background-color: red;
 
                 <div id="" class="col-5 text-start m-0 p-0">
 
-                    <button type="button" id="AllDownloadButton" class="btn btn-secondary MobileButton"            
-                    ><span id='AllDownloadButton-Text'>全てDL </span><i class="fas fa-download"></i>
+                    <button type="button" id="all_download_button" class="btn btn-secondary mobile_button"            
+                    ><span id='all_download_button-text'>全てDL </span><i class="fas fa-download"></i>
                     </button> 
 
                 </div>
 
                 <div id="" class="col-2 text-center m-0 p-0">
 
-                    <button type="button" id="InformationButton" class="" data-bs-toggle='modal' data-bs-target='#Information_Modal'>
+                    <button type="button" id="information_button" class="" data-bs-toggle='modal' data-bs-target='#information_modal'>
                         <i class="fas fa-info"></i>
                     </button>
 
@@ -232,10 +215,10 @@ background-color: red;
 
                 <div id="" class="col-5 text-end m-0 p-0">
 
-                    <button type="button" id="SelectDownloadButton" class="btn btn-secondary MobileButton"
+                    <button type="button" id="select_download_button" class="btn btn-secondary mobile_button"
                     data-targetpath="{{$UploadFileInfo[0]["PublicPath"]}}"
                     data-filename="{{$UploadFileInfo[0]["FileName"]}}'"
-                    ><span id='SelectDownloadButton-Text'>選択DL </span><i class="fas fa-download"></i>
+                    ><span id='select_download_button-Text'>選択DL </span><i class="fas fa-download"></i>
                     </button> 
 
                 </div>        
@@ -251,13 +234,13 @@ background-color: red;
 
                 @foreach ($UploadFileInfo as $Index => $Info)
 
-                    <td id='SubPhoto-td{{$Index}}' class="SubPhoto-td @if($Index == 0) PhotoSelect @else Transparent PhotoNonSelect @endif">                                                
+                    <td id='subPhoto_td{{$Index}}' class="subPhoto_td @if($Index == 0) photo_select @else Transparent photo_non_select @endif">                                                
 
-                        <button type="button" id="PhotoButton{{$Index}}" class="PhotoButton" 
+                        <button type="button" id="photo_button{{$Index}}" class="photo_button" 
                         data-targetindex="{{$Index}}" 
                         data-targetpath="{{$Info["PublicPath"]}}" 
                         data-filename="{{$Info["FileName"]}}">
-                            <div id="SubPhotoInnerArea{{$Index}}"class="SubPhotoInnerArea">
+                            <div id="subphoto_inner_area{{$Index}}"class="subphoto_inner_area">
                                 <img src="{{$Info["PublicPath"]}}" class="SubPhoto" alt="">
                             </div>
                         </button>
@@ -274,7 +257,7 @@ background-color: red;
 
 
     {{-- インフォメーションモーダル --}}
-    <div class="modal fade" id="Information_Modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="Create_Modal_Label" aria-hidden="true">
+    <div class="modal fade" id="information_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="Create_Modal_Label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
 
@@ -287,10 +270,10 @@ background-color: red;
              
                 <div class="modal-body">  
                     
-                    <div id="languageSelectArea" class="row">
+                    <div id="language_aelect_area" class="row">
                         <div id="" class="col-5 text-end m-0 p-0">
-                            <button type="button" id="JapaneseSelect" 
-                            class="btn languageSelectButton"
+                            <button type="button" id="japanese_select" 
+                            class="btn language_select_button"
                             data-target="1">Japanese</button> 
                         </div>    
                         
@@ -298,8 +281,8 @@ background-color: red;
                         </div>
 
                         <div id="" class="col-5 text-start m-0 p-0">
-                            <button type="button" id="EnglishSelect" 
-                            class="btn languageSelectButton"
+                            <button type="button" id="english_select" 
+                            class="btn language_select_button"
                             data-target="2">English</button>                             
                         </div>
                     </div>
@@ -308,11 +291,11 @@ background-color: red;
                     @if($termina_info['pc_flg'] == 1)
 
                         
-                        <div id="terminalSelectArea" class="row">
+                        <div id="terminal_select_area" class="row">
 
                             <div id="" class="col-5 text-end m-0 p-0">
                                 <button type="button" id="macOSSelect" 
-                                class="btn terminalSelectButton"
+                                class="btn terminal_select_button"
                                 data-target="1">macOS</button>                             
                             </div>
                             
@@ -324,7 +307,7 @@ background-color: red;
 
                             <div id="" class="col-5 text-start m-0 p-0">
                                 <button type="button" id="windowsSelect" 
-                                class="btn terminalSelectButton"
+                                class="btn terminal_select_button"
                                 data-target="2">windows</button> 
                             </div>  
 
@@ -332,11 +315,11 @@ background-color: red;
 
                     @else
 
-                        <div id="terminalSelectArea" class="row">
+                        <div id="terminal_select_area" class="row">
 
                             <div id="" class="col-5 text-end m-0 p-0">
                                 <button type="button" id="iOSSelect" 
-                                class="btn terminalSelectButton"
+                                class="btn terminal_select_button"
                                 data-target="1">iOS</button>                             
                             </div>
                             
@@ -345,7 +328,7 @@ background-color: red;
 
                             <div id="" class="col-5 text-start m-0 p-0">
                                 <button type="button" id="AndroidSelect" 
-                                class="btn terminalSelectButton"
+                                class="btn terminal_select_button"
                                 data-target="2">Android</button> 
                             </div>    
                             
@@ -356,9 +339,9 @@ background-color: red;
                     @endif
                    
 
-                    <div id="ExplanationArea" class="row">
+                    <div id="explanation_area" class="row">
 
-                        <span id="Explanation-Text">
+                        <span id="explanation_text">
 
                         </span>
                      
@@ -367,7 +350,7 @@ background-color: red;
 
                     <div id="" class="row">
 
-                        <h4>共有用URL  <button type='button' class="btn btn-secondary CopyButton"                 
+                        <h4>共有用URL  <button type='button' class="btn btn-secondary copy_button"                 
                             data-downloadurl="{{$photoget_t_info->url}}">Url Copy</button></h4>
                         
                         <span class="display_url">{{$photoget_t_info->url}}</span>
@@ -392,30 +375,6 @@ background-color: red;
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     
@@ -461,19 +420,19 @@ $(function(){
 
     function PhotoSwitching(){
 
-        var MainPhotoArea_vh = 0.77;
-        var PhotoSelectArea_vh = 0.21;
+        var main_photo_area_vh = 0.77;
+        var photo_select_area_vh = 0.21;
 
         var vh = $(window).height();
 
-        $('#Main').outerHeight(vh);
-        $('#MainPhotoArea').outerHeight(vh * MainPhotoArea_vh);
-        $('#PhotoSelectArea').outerHeight(vh * PhotoSelectArea_vh);
+        $('#main').outerHeight(vh);
+        $('#main_photo_area').outerHeight(vh * main_photo_area_vh);
+        $('#photo_select_area').outerHeight(vh * photo_select_area_vh);
     }
    
   
 
-    $(".languageSelectButton").on('click',function(e){
+    $(".language_select_button").on('click',function(e){
            
         language = $(this).data('target');
         languageChange();        
@@ -484,25 +443,25 @@ $(function(){
     function languageChange(){
 
         //選択中のクラスを解除
-        $('.languageSelectd').removeClass('languageSelectd');
+        $('.language_selectd').removeClass('language_selectd');
 
         // target = 1(日本語)
         // target = 2(英語)
 
         if(language == 1){
 
-            $('#JapaneseSelect').addClass('languageSelectd');
+            $('#japanese_select').addClass('language_selectd');
 
-            $('#AllDownloadButton-Text').html("全てDL ");
-            $('#SelectDownloadButton-Text').html("選択DL ");
+            $('#all_download_button-text').html("全てDL ");
+            $('#select_download_button-Text').html("選択DL ");
 
 
         }else if(language == 2){
 
-            $('#EnglishSelect').addClass('languageSelectd');
+            $('#english_select').addClass('language_selectd');
 
-            $('#AllDownloadButton-Text').html("All DL ");
-            $('#SelectDownloadButton-Text').html("Select DL ");
+            $('#all_download_button-text').html("All DL ");
+            $('#select_download_button-Text').html("Select DL ");
 
 
 
@@ -510,7 +469,7 @@ $(function(){
        
     }
 
-    $(".terminalSelectButton").on('click',function(e){
+    $(".terminal_select_button").on('click',function(e){
 
         terminal = $(this).data('target');
         
@@ -521,17 +480,17 @@ $(function(){
 
     function terminalSelect(){
       
-        $('.terminalSelectd').removeClass('terminalSelectd');
+        $('.terminal_selectd').removeClass('terminal_selectd');
         
         if(pc_flg == 1){
 
             if(terminal == 1){
                 
-                $('#macOSSelect').addClass('terminalSelectd');
+                $('#macOSSelect').addClass('terminal_selectd');
 
             }else if(terminal == 2){
 
-                $('#windowsSelect').addClass('terminalSelectd');                
+                $('#windowsSelect').addClass('terminal_selectd');                
 
             }
 
@@ -539,11 +498,11 @@ $(function(){
 
             if(terminal == 1){
 
-                $('#iOSSelect').addClass('terminalSelectd');                
+                $('#iOSSelect').addClass('terminal_selectd');                
 
             }else if(terminal == 2){
 
-                $('#AndroidSelect').addClass('terminalSelectd');               
+                $('#AndroidSelect').addClass('terminal_selectd');               
 
             }
         }       
@@ -613,43 +572,43 @@ $(function(){
             }               
         }
 
-        $('#Explanation-Text').html(Selectlanguage + ' ' + Selectterminal);
+        $('#explanation_text').html(Selectlanguage + ' ' + Selectterminal);
     }
 
 
-    $(".PhotoButton").on('click',function(e){
+    $(".photo_button").on('click',function(e){
         
         var targetindex = $(this).data('targetindex');
         var targetpath = $(this).data('targetpath');
         var filename = $(this).data('filename');
 
-        $('.PhotoSelect').removeClass('PhotoSelect');			
-        $('.PhotoNonSelect').removeClass('PhotoNonSelect');		
+        $('.photo_select').removeClass('photo_select');			
+        $('.photo_non_select').removeClass('photo_non_select');		
 
-        $('.SubPhoto-td').addClass('PhotoNonSelect');
-        $('#SubPhoto-td' + targetindex).removeClass('PhotoNonSelect');
-        $('#SubPhoto-td' + targetindex).addClass('PhotoSelect');	
+        $('.subPhoto_td').addClass('photo_non_select');
+        $('#subPhoto_td' + targetindex).removeClass('photo_non_select');
+        $('#subPhoto_td' + targetindex).addClass('photo_select');	
 
-		$('.SubPhoto-td').addClass('Transparent');
-        $('#SubPhoto-td' + targetindex).removeClass('Transparent');
+		$('.subPhoto_td').addClass('Transparent');
+        $('#subPhoto_td' + targetindex).removeClass('Transparent');
         
 
-        $("#MainPhotoArea").empty();
+        $("#main_photo_area").empty();
 
         var Element = "";
 
-        Element +="<img id='MainPhoto'src='" + targetpath + "' alt=''>";
+        Element +="<img id='main_photo'src='" + targetpath + "' alt=''>";
 
-        $('#MainPhotoArea').append(Element);
+        $('#main_photo_area').append(Element);
 
 
-        $('#SelectDownloadButton').data('targetpath', targetpath);
-        $('#SelectDownloadButton').data('filename', filename);
+        $('#select_download_button').data('targetpath', targetpath);
+        $('#select_download_button').data('filename', filename);
        
 
     });
 
-    $("#SelectDownloadButton").on('click',function(e){    
+    $("#select_download_button").on('click',function(e){    
 
         var targetpath = $(this).data('targetpath');
         var filename = $(this).data('filename');
@@ -671,7 +630,7 @@ $(function(){
     });
 
 
-    $('#AllDownloadButton').click(function () {
+    $('#all_download_button').click(function () {
 
         var key_code = $("#key_code").val();
         var cipher = $("#cipher").val();
@@ -725,7 +684,7 @@ $(function(){
 
 
 
-    $(".CopyButton").on('click',function(e){
+    $(".copy_button").on('click',function(e){
         
         
         var download_url = $(this).data('downloadurl');
@@ -735,8 +694,8 @@ $(function(){
         // コピーする媒体となるテキストエリアを生成
         var clipboard = $('<textarea></textarea>');
         clipboard.text(text);
-        // Information_Modal直下に一時的に挿入        
-        $('#Information_Modal').append(clipboard);        
+        // information_modal直下に一時的に挿入        
+        $('#information_modal').append(clipboard);        
         // 選択状態にする
         clipboard.select();
         // WebExtension APIのブラウザ拡張の仕組みを呼び出しクリップボードにコピー

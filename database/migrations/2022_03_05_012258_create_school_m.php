@@ -56,7 +56,7 @@ return new class extends Migration
             $table
                 ->string('fax', 20)
                 ->nullable()
-                ->comment('電話番号');
+                ->comment('FAX');
 
             $table
                 ->string('hp_url', 200)

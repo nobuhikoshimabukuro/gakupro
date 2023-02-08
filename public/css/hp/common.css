@@ -42,7 +42,7 @@
   min-height: 5vh;
 }
 
-#Main{
+#main{
 
   background-color: #dddee721;
   min-height: 86vh;
@@ -69,15 +69,11 @@
 }
 
 /* 操作不可能 */
-.Impossible {
+.impossible {
 	pointer-events: none;
 	opacity: 0.9;
 }
 
-/* 操作可能 */
-.Possible {
-	pointer-events: auto;
-}
 
 button{  
   border: none;  /* 枠線を消す */
@@ -233,7 +229,7 @@ a.btn--radius {
 
 
 
-.InoperableClass{
+.inoperable_class{
   pointer-events: none;
   opacity:0.1;
 }

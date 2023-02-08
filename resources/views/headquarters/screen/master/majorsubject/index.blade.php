@@ -8,7 +8,7 @@
 <style>
 
     </style>
-<div id="Main" class="mt-3 text-center container">
+<div id="main" class="mt-3 text-center container">
    <div class="row">
 
     @include('headquarters.common.alert')
@@ -105,7 +105,7 @@
                 <th>専攻名</th>
                 <th>期間[ヶ月]</th>
                 <th>備考</th>
-                <th>件数【<span id='TotalCount'>{{count($majorsubject_m_list)}}</span>件】</th>
+                <th>件数【<span id='total_count'>{{count($majorsubject_m_list)}}</span>件】</th>
             </tr>
 
             @foreach ($majorsubject_m_list as $item)
@@ -251,7 +251,7 @@
                         </div>
 
                         <div class="modal-footer">               
-                            <button type="submit" id='SaveButton' class="btn btn-primary"><span id='save_modal_button_display'></span></button>       
+                            <button type="submit" id='save_button' class="btn btn-primary"><span id='save_modal_button_display'></span></button>       
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
                         </div>
                     </form>
@@ -526,14 +526,14 @@ $(function(){
 
 
     // 「保存」ボタンがクリックされたら
-    $('#SaveButton').click(function () {
+    $('#save_button').click(function () {
      
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
         $(this).prop("disabled", true);
 
         setTimeout(function () {
-            $('#SaveButton').prop("disabled", false);
+            $('#save_button').prop("disabled", false);
         }, 3000);
 
         //{{-- メッセージクリア --}}
@@ -580,7 +580,7 @@ $(function(){
                         scrollTop: 0
                     }, "300");
                     //{{-- ボタン有効 --}}
-                    $('#SaveButton').prop("disabled", false);
+                    $('#save_button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -622,7 +622,7 @@ $(function(){
                     scrollTop: 0
                 }, "300");
                 //{{-- ボタン有効 --}}
-                $('#SaveButton').prop("disabled", false);
+                $('#save_button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 

@@ -10,7 +10,7 @@
 
 
 </style>
-<div id="Main" class="mt-3 text-center container">
+<div id="main" class="mt-3 text-center container">
     
     <div class="ajax-msg">
         

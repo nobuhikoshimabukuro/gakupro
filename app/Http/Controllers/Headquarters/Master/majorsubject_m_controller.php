@@ -7,8 +7,9 @@ use App\Models\subcategory_m_model;
 use App\Models\school_m_model;
 use App\Models\majorsubject_m_model;
 
-
+use App\Original\create_list;
 use Illuminate\Http\Request;
+use App\Http\Requests\majorsubject_m_request;
 
 use Exception;
 use Illuminate\Support\Facades\Log;
@@ -32,16 +33,10 @@ class majorsubject_m_controller extends Controller
 
         
         //プルダウン作成の為
-
-        $school_division_list = subcategory_m_model::select(
-            'subcategory_cd as school_division_cd',
-            'subcategory_name as school_division_name',         
-        )->where('maincategory_cd',3)
-        ->orderBy('display_order', 'asc')        
-        ->get();
+        $school_division_list = create_list::school_division_list();
+       
 
         $school_m_list = school_m_model::select(
-
             'school_m.school_cd as school_cd',
             'school_m.school_name as school_name',
             'school_m.school_division as school_division',
@@ -56,7 +51,7 @@ class majorsubject_m_controller extends Controller
             'majorsubject_m.school_cd as school_cd',
             'school_m.school_name as school_name',
             'school_m.school_division as school_division',
-            'subcategory_m.subcategory_name as school_division_name',
+            'school_division_info.subcategory_name as school_division_name',
             'majorsubject_m.majorsubject_cd as majorsubject_cd',
             'majorsubject_m.majorsubject_name as majorsubject_name',
             'majorsubject_m.studyperiod as studyperiod',
@@ -65,12 +60,12 @@ class majorsubject_m_controller extends Controller
         )       
         ->leftJoin('school_m', function ($join) {
             $join->on('school_m.school_cd', '=', 'majorsubject_m.school_cd');
-        })
-        ->leftJoin('subcategory_m', function ($join) {
-            $join->on('school_m.school_division', '=', 'subcategory_m.subcategory_cd');
-        })       
-        ->withTrashed()
-        ->where('subcategory_m.maincategory_cd', '=', 3)        
+        })          
+        ->leftJoin('subcategory_m as school_division_info', function ($join) {
+            $join->on('school_division_info.subcategory_cd', '=', 'school_m.school_division')
+                 ->where('school_division_info.maincategory_cd', '=', env('school_division_subcategory_cd'));            
+        })             
+        ->withTrashed()        
         ->orderBy('majorsubject_m.school_cd', 'asc')        
         ->orderBy('majorsubject_m.majorsubject_cd', 'asc') ;
         
@@ -90,7 +85,7 @@ class majorsubject_m_controller extends Controller
             $majorsubject_m_list = $majorsubject_m_list->where('majorsubject_m.majorsubject_name', 'like', '%' . $SearchElementArray['search_majorsubject_name'] . '%');            
         } 
 
-        $majorsubject_m_list = $majorsubject_m_list->paginate(env('Paginate_Count'));
+        $majorsubject_m_list = $majorsubject_m_list->paginate(env('paginate_count'));
       
         
         return view('headquarters/screen/master/majorsubject/index', compact('SearchElementArray','school_division_list','school_m_list','majorsubject_m_list'));
@@ -98,7 +93,7 @@ class majorsubject_m_controller extends Controller
 
 
     //  更新処理
-    function save(request $request)
+    function save(majorsubject_m_request $request)
     {
 
         $processflg = intval($request->processflg);

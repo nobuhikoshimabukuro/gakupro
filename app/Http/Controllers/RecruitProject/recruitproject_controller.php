@@ -14,15 +14,14 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
 use App\Original\Common;
+use App\Original\create_list;
 
 use App\Models\employer_m_model;
 use App\Models\employer_password_t_model;
 use App\Models\job_information_t_model;
 use App\Models\mailaddresscheck_t_model;
 
-use App\Repositories\GenderList;
-use App\Repositories\AuthorityList;
-use App\Repositories\EmployerDivisionList;
+
 
 
 use Illuminate\Http\Request;
@@ -273,7 +272,7 @@ class recruitproject_controller extends Controller
             $LoginFlg = 1;
         }
 
-        $employer_division_list = EmployerDivisionList::get();   
+        $employer_division_list = create_list::employer_division_list();   
 
         return view('recruitproject/screen/employer_information_register', compact('mailaddress','employer_info','LoginFlg','employer_division_list'));   
 

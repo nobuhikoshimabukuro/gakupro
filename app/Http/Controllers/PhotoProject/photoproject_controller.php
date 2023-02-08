@@ -48,20 +48,20 @@ class photoproject_controller extends Controller
 
         $Qrcode_InfoArray = array();
                 
-        $Date = $request->Date;
-        if(is_null($Date)){            
+        $date = $request->date;
+        if(is_null($date)){            
             
             $Today = Carbon::today();
-            $Date =  $Today->format('Y-m-d');           
+            $date =  $Today->format('Y-m-d');           
 
         }
 
 
         $photoget_t_info = photoget_t_model::withTrashed()
-        ->where('date', '=', str_replace('-', '', $Date))          
+        ->where('date', '=', str_replace('-', '', $date))          
         ->get();            
 
-        $Saved_Path_Info = $this->get_path_info(str_replace('-', '', $Date));            
+        $Saved_Path_Info = $this->get_path_info(str_replace('-', '', $date));            
         $StoragePath_QrCode = $Saved_Path_Info["StoragePath_QrCode"];
         $StoragePath_QrTicket = $Saved_Path_Info["StoragePath_QrTicket"];
             
@@ -83,7 +83,7 @@ class photoproject_controller extends Controller
 
         }
 
-        return view('photoproject/screen/create_qrcode', compact('Date','photoget_t_info'));
+        return view('photoproject/screen/create_qrcode', compact('date','photoget_t_info'));
         
     }
 
@@ -95,8 +95,8 @@ class photoproject_controller extends Controller
 
         try{
                 
-            $date = str_replace('-', '', $request->Date);
-            $Count = $request->Count;
+            $date = str_replace('-', '', $request->date);
+            $count = $request->count;
             $with_password_flg = $request->WithPasswordFlg;
            
             //指定された開催日で既に作成されたデータ数を取得
@@ -105,7 +105,7 @@ class photoproject_controller extends Controller
             ->get()->count();        
 
             //画面で指定された作成数分ループ        
-            for ($i = 1; $i <= $Count; $i++) {
+            for ($i = 1; $i <= $count; $i++) {
 
                 //画面で指定されたデータ数 + 既に作成されたデータを加算し0埋め3桁のコード作成[001]など
                 $code = str_pad($i + $CreatedCount, 3, 0, STR_PAD_LEFT);
@@ -290,14 +290,14 @@ class photoproject_controller extends Controller
     {
         try{
 
-            $Date = str_replace('-', '', $request->Date);
+            $date = str_replace('-', '', $request->date);
 
             //zipの削除
-            $deletePath = $Date."/QrTicket/zip";
+            $deletePath = $date."/QrTicket/zip";
             Storage::disk('photo_project_public_path')->deleteDirectory($deletePath);
 
             //get_path_info関数に必要値を渡して階層情報を取得
-            $Saved_Path_Info = $this->get_path_info($Date);            
+            $Saved_Path_Info = $this->get_path_info($date);            
             $FullPath = public_path($Saved_Path_Info["StoragePath_QrTicket"]);                  
                  
             $Files = glob($FullPath.'*.*');
@@ -663,9 +663,9 @@ class photoproject_controller extends Controller
     }
 
 
-    function delete_zip($Date = 0 , $Saved_Folder = 0){
+    function delete_zip($date = 0 , $Saved_Folder = 0){
 
-        $deletePath = $Date."/".$Saved_Folder."/phot/zip";
+        $deletePath = $date."/".$Saved_Folder."/phot/zip";
         Storage::disk('photo_project_public_path')->deleteDirectory($deletePath);
 
     }
@@ -724,13 +724,13 @@ class photoproject_controller extends Controller
             ->first();            
 
             $Saved_Folder = $photoget_t_info->saved_folder;            
-            $Date = $photoget_t_info->date;
+            $date = $photoget_t_info->date;
             
             //get_path_info関数に必要値を渡して階層情報を取得
-            $Saved_Path_Info = $this->get_path_info($Date,$Saved_Folder);            
+            $Saved_Path_Info = $this->get_path_info($date,$Saved_Folder);            
 
             //get_upload_info関数に必要値を渡して写真のアップロード状況を取得
-            $Files = $this->get_upload_info($Date,$Saved_Folder);  
+            $Files = $this->get_upload_info($date,$Saved_Folder);  
             //既にアップロードされているfile総数を取得
             $ExistingFileCount = count($Files);
 
@@ -807,22 +807,22 @@ class photoproject_controller extends Controller
     }
 
     //各階層の固定値取得処理
-    function get_path_info($Date = 0 , $Saved_Folder = 0){
+    function get_path_info($date = 0 , $Saved_Folder = 0){
 
-        $Date = str_replace('-', '', $Date);
+        $date = str_replace('-', '', $date);
               
-        $StoragePath_Photo = "storage/photoproject/". $Date."/". $Saved_Folder ."/";
-        $PublicPath_Photo = "public/photoproject/". $Date."/". $Saved_Folder ."/";
+        $StoragePath_Photo = "storage/photoproject/". $date."/". $Saved_Folder ."/";
+        $PublicPath_Photo = "public/photoproject/". $date."/". $Saved_Folder ."/";
 
-        $StoragePath_QrCode = "storage/photoproject/" . $Date. "/QrCode/";
-        $PublicPath_QrCode = "public/photoproject/" . $Date . "/QrCode/";
+        $StoragePath_QrCode = "storage/photoproject/" . $date. "/QrCode/";
+        $PublicPath_QrCode = "public/photoproject/" . $date . "/QrCode/";
 
-        $StoragePath_QrTicket = "storage/photoproject/" . $Date. "/QrTicket/";        
-        $PublicPath_QrTicket = "public/photoproject/" . $Date. "/QrTicket/";
+        $StoragePath_QrTicket = "storage/photoproject/" . $date. "/QrTicket/";        
+        $PublicPath_QrTicket = "public/photoproject/" . $date. "/QrTicket/";
 
-        $CreatePath_QrTicket = $Date. "/QrTicket/";
-        $CreatePath_QrCode = $Date. "/QrCode/";       
-        $CreatePath_Saved_Folder = $Date. "/" . $Saved_Folder . "/";
+        $CreatePath_QrTicket = $date. "/QrTicket/";
+        $CreatePath_QrCode = $date. "/QrCode/";       
+        $CreatePath_Saved_Folder = $date. "/" . $Saved_Folder . "/";
 
         $StoragePath_QrTicket_Template = "storage/photoproject/QrTicket_Template/QR_Template.png";
         
@@ -866,13 +866,13 @@ class photoproject_controller extends Controller
     }
 
     //写真のアップロード状況確認用処理
-    function get_upload_info($Date = 0 , $Saved_Folder = 0){
+    function get_upload_info($date = 0 , $Saved_Folder = 0){
 
 
         $photo_info = array();
 
         //get_path_info関数に必要値を渡して階層情報を取得
-        $Saved_Path_Info = $this->get_path_info($Date,$Saved_Folder);            
+        $Saved_Path_Info = $this->get_path_info($date,$Saved_Folder);            
         $Saved_Path = $Saved_Path_Info["StoragePath_Photo"];           
         
 

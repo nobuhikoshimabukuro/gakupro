@@ -4,7 +4,7 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 
-class RequiredComboBoxValidation implements Rule
+class PostalCodeValidation implements Rule
 {
     /**
      * Create a new rule instance.
@@ -25,12 +25,7 @@ class RequiredComboBoxValidation implements Rule
      */
     public function passes($attribute, $value)
     {
-        if(is_null($value) || $value == ""){
-            return false;
-        }else{
-            return true;
-        }
-        
+        return preg_match('/^\d{3}[-]\d{4}$/', $value);
     }
 
     /**
@@ -40,7 +35,6 @@ class RequiredComboBoxValidation implements Rule
      */
     public function message()
     {
-        return ":attributeは必ず選択してください。";
-
+        return ":attributeを確認してください。";
     }
 }

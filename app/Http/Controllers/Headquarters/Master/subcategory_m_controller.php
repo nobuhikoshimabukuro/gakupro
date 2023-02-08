@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Headquarters\Master;
 use App\Http\Controllers\Controller;
 use App\Models\maincategory_m_model;
 use App\Models\subcategory_m_model;
-use App\Http\Requests\subcategory_m_request;
+
 
 use Carbon\Carbon;
 
@@ -12,6 +12,7 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\subcategory_m_request;
 
 
 
@@ -55,14 +56,14 @@ class subcategory_m_controller extends Controller
             $subcategory_m_list = $subcategory_m_list->where('subcategory_m.subcategory_name', 'like', '%' . $SearchElementArray['search_subcategory_name'] . '%');
         }
 
-        $subcategory_m_list = $subcategory_m_list->paginate(env('Paginate_Count'));
+        $subcategory_m_list = $subcategory_m_list->paginate(env('paginate_count'));
 
         return view('headquarters/screen/master/subcategory/index', compact('SearchElementArray','subcategory_m_list','maincategory_m_list'));        
     }
 
 
     //  更新処理
-    function save(request $request)
+    function save(subcategory_m_request $request)
     {
 
         $processflg = intval($request->processflg);
@@ -136,9 +137,6 @@ class subcategory_m_controller extends Controller
                     );    
                     return response()->json(['ResultArray' => $ResultArray]);
                 }
-
-
-
 
                 //更新処理
                 subcategory_m_model::

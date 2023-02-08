@@ -5,7 +5,7 @@
 @endsection
 @section('content')
 
-<div id="Main" class="mt-3 text-center container">
+<div id="main" class="mt-3 text-center container">
    <div class="row">
 
     @include('headquarters.common.alert')
@@ -30,8 +30,8 @@
 
     <div class="m-0 text-start">
         {{-- ページャー --}}                
-        @if(count($staff_list) > 0)                                
-          <div class="m-0">{{ $staff_list->appends(request()->query())->links() }}</div>
+        @if(count($member_list) > 0)                                
+          <div class="m-0">{{ $member_list->appends(request()->query())->links() }}</div>
         @endif
     </div>
   
@@ -40,72 +40,88 @@
         <table id='' class='data_info_table'>
             
             <tr>
-                <th>スタッフID</th>
-                <th>氏名</th>                
-                <th>TEL</th>                
-                <th>権限</th>
-               
-
-                @if($operator_authority > 1)
-                    <th>件数【<span id='TotalCount'>{{count($staff_list)}}</span>件】</th>
-                    <th>ログイン情報</th>
-                @endif
+                <th>メンバーID</th>
+                <th>学校区分</th>
+                <th>学校名</th>
+                <th>専攻名</th>
+                <th>氏名</th>
+                <th>入学年月</th>
+                <th>卒業予定年月</th>                
+                <th>件数【<span id='total_count'>{{count($member_list)}}</span>件】</th>
+                <th>ログイン情報</th>
+                
             </tr>
 
-            @foreach ($staff_list as $item)
+            @foreach ($member_list as $item)
             <tr>
-                <td>{{$item->staff_id}}</td>
-                <td>{{$item->staff_name}}</td>                
-                <td>{{$item->tel}}</td>
-                <td>{{$item->authority_name}}</td>
-               
+                <td>{{$item->member_id}}</td>
+                <td>{{$item->school_division_name}}</td>                
+                <td>{{$item->school_name}}</td>
+                <td>{{$item->majorsubject_name}}</td> 
+                <td>{{$item->member_name}}</td> 
 
-                @if($operator_authority > 1)
+                <td>{{$item->admission_yearmonth}}</td>
+                <td>{{$item->graduation_yearmonth}}</td>
 
-                    <td>
-                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#save_modal'
-                            data-staffid='{{$item->staff_id}}'
-                            data-staffname='{{$item->staff_name}}'
-                            data-staffnameyomi='{{$item->staff_name_yomi}}'
-                            data-nickname='{{$item->nick_name}}'
-                            data-gender='{{$item->gender}}'
-                            data-tel='{{$item->tel}}'
-                            data-authority='{{$item->authority}}'                        
-                            data-processflg='1'> 
-                            <i class='far fa-edit'></i>
-                        </button>
+                <td>
+                    <button class='modal_button' data-bs-toggle='modal' data-bs-target='#save_modal'
+                        data-memberid='{{$item->member_id}}'
+                        data-membername='{{$item->member_name}}'
+                        data-membernameyomi='{{$item->member_name_yomi}}'
+                        data-gender='{{$item->gender}}'
+                        data-birthday='{{$item->birthday}}'
+                        data-tel='{{$item->tel}}'
+                        data-mailaddress='{{$item->mailaddress}}'
+                        data-schoolcd='{{$item->school_cd}}'
+                        data-majorsubjectcd='{{$item->majorsubject_cd}}'
+                        data-admissionyearmonth='{{$item->admission_yearmonth}}'
+                        data-graduationyearmonth='{{$item->graduation_yearmonth}}'
+                        data-emergencycontactrelations='{{$item->emergencycontact_relations}}'
+                        data-emergencycontacttel='{{$item->emergencycontact_tel}}'
+                        data-remarks='{{$item->remarks}}'
+                        data-registrationstatus='{{$item->registration_status}}'
+                        data-processflg='1'> 
+                        <i class='far fa-edit'></i>
+                    </button>
 
-                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#dlete_modal'
-                            data-staffid='{{$item->staff_id}}'
-                            data-staffname='{{$item->staff_name}}'
-                            data-staffnameyomi='{{$item->staff_name_yomi}}'
-                            data-nickname='{{$item->nick_name}}'
-                            data-gender='{{$item->gender}}'
-                            data-tel='{{$item->tel}}'
-                            data-authority='{{$item->authority}}'  
-                            data-deleteflg=@if($item->deleted_at) 1 @else 0 @endif>
-                                        
-                            @if($item->deleted_at)
-                                <i class='far fa-thumbs-down'></i><i class='fas fa-arrow-right'></i><i class='far fa-thumbs-up'></i>
-                            @else
-                                <i class='far fa-thumbs-up'></i><i class='fas fa-arrow-right'></i><i class='far fa-thumbs-down'></i>
-                            @endif
-                        </button>             
+                    <button class='modal_button' data-bs-toggle='modal' data-bs-target='#dlete_modal'
+                        data-memberid='{{$item->member_id}}'
+                        data-membername='{{$item->member_name}}'
+                        data-membernameyomi='{{$item->member_name_yomi}}'
+                        data-gender='{{$item->gender}}'
+                        data-birthday='{{$item->birthday}}'
+                        data-tel='{{$item->tel}}'
+                        data-mailaddress='{{$item->mailaddress}}'
+                        data-schoolcd='{{$item->school_cd}}'
+                        data-majorsubjectcd='{{$item->majorsubject_cd}}'
+                        data-admissionyearmonth='{{$item->admission_yearmonth}}'
+                        data-graduationyearmonth='{{$item->graduation_yearmonth}}'
+                        data-emergencycontactrelations='{{$item->emergencycontact_relations}}'
+                        data-emergencycontacttel='{{$item->emergencycontact_tel}}'
+                        data-remarks='{{$item->remarks}}'
+                        data-registrationstatus='{{$item->registration_status}}'
+                        data-deleteflg=@if($item->deleted_at) 1 @else 0 @endif>
+                                    
+                        @if($item->deleted_at)
+                            <i class='far fa-thumbs-down'></i><i class='fas fa-arrow-right'></i><i class='far fa-thumbs-up'></i>
+                        @else
+                            <i class='far fa-thumbs-up'></i><i class='fas fa-arrow-right'></i><i class='far fa-thumbs-down'></i>
+                        @endif
+                    </button>             
 
-                    </td>
+                </td>
 
+            
+                <td>
+                    <button class='modal_button' data-bs-toggle='modal' data-bs-target='#login_info_modal'                        
+                        data-memberid='{{$item->member_id}}'
+                        data-loginid='{{$item->login_id}}'
+                        data-password='{{$item->password}}'
+                        > 
+                        <i class="fas fa-info"></i>
+                    </button>
+                </td>
                 
-                    <td>
-                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#LoginInfo_Modal'
-                            data-passwordid='{{$item->password_id}}'
-                            data-staffid='{{$item->staff_id}}'
-                            data-loginid='{{$item->login_id}}'
-                            data-password='{{$item->password}}'
-                            > 
-                            <i class="fas fa-info"></i>
-                        </button>
-                    </td>
-                @endif
 
             </tr>
 
@@ -129,33 +145,34 @@
                         
                     </div>
                     
-                    <form id="save_form" method="post" action="{{ route('master.staff.save') }}">                    
+                    <form id="save_form" method="post" action="{{ route('master.member.save') }}">                    
                         @csrf
                         <div class="modal-body">  
                                                         
-                            <input type="hidden" name="staff_id" id="staff_id" value="">                            
+                            <input type="hidden" name="member_id" id="member_id" value="">
+                            <input type="hidden" name="processflg" id="processflg" value="">
                                                         
                            
                             <div class="form-group row">
 
 
-                                <label for="staff_name" class="col-md-6 col-form-label original-label">氏名</label>
-                                <input type="text" name="staff_name" id="staff_name" value="" class="form-control col-md-3">
+                                <label for="member_name" class="col-md-6 col-form-label original-label">氏名</label>
+                                <input type="text" name="member_name" id="member_name" value="" class="form-control col-md-3">
     
-                                <label for="staff_name_yomi" class="col-md-6 col-form-label original-label">シメイ</label>
-                                <input type="text" name="staff_name_yomi" id="staff_name_yomi" value="" class="form-control col-md-3">
-    
-                                <label for="nick_name" class="col-md-6 col-form-label original-label">ニックネーム</label>
-                                <input type="text" name="nick_name" id="nick_name" value="" class="form-control col-md-3">
-    
+                                <label for="member_name_yomi" class="col-md-6 col-form-label original-label">シメイ</label>
+                                <input type="text" name="member_name_yomi" id="member_name_yomi" value="" class="form-control col-md-3">
+                                        
                                 <label for="gender" class="col-md-6 col-form-label original-label">性別</label>                               
                                 <select id='gender' name='gender' class='form-control input-sm'>									
 										@foreach($gender_list as $item)
-										<option value="{{$item->gender_cd}}">
-                                            {{$item->gender_name}}
-                                        </option>
+                                            <option value="{{$item->gender_cd}}">
+                                                {{$item->gender_name}}
+                                            </option>
 										@endforeach
                                 </select>
+
+                                <label for="birthday" class="col-md-6 col-form-label original-label">生年月日</label>
+                                <input type="date" name="birthday" id="birthday" value="" class="form-control col-md-3">
 
                                 <label for="tel" class="col-md-6 col-form-label original-label">TEL</label>
                                 <input type="tel" name="tel" id="tel" value="" class="form-control col-md-3">
@@ -163,20 +180,49 @@
                                 <label for="mailaddress" class="col-md-6 col-form-label original-label">メールアドレス</label>
                                 <input type="text" name="mailaddress" id="mailaddress" value="" class="form-control col-md-3">
 
-                                <label for="authority" class="col-md-6 col-form-label original-label">権限</label>                               
-                                <select id='authority' name='authority' class='form-control input-sm'>									
-										@foreach($authority_list as $item)
-										<option value="{{$item->authority_cd}}">
-                                            {{$item->authority_name}}
-                                        </option>
-										@endforeach
+                                <label for="school_cd" class="col-md-6 col-form-label original-label">学校選択</label>
+                                <select id='school_cd' name='school_cd' class='form-control input-sm'>									
+                                    <option value="">---</option>
+                                    @foreach($school_list as $item)
+                                    <option value="{{$item->school_cd}}">
+                                        {{$item->school_name}}
+                                    </option>
+                                    @endforeach
                                 </select>
+
+                                <label for="majorsubject_cd" class="col-md-6 col-form-label original-label">専攻選択</label>
+                                <select id='majorsubject_cd' name='majorsubject_cd' class='form-control input-sm impossible'>
+                                    <option value="">---</option>
+                                    @foreach($majorsubject_list as $item)
+                                    <option value="{{$item->majorsubject_cd}}">
+                                        {{$item->majorsubject_name}}
+                                    </option>
+                                    @endforeach
+                                </select>
+
+                                <label for="admission_yearmonth" class="col-md-6 col-form-label original-label">入学年月</label>
+                                <input type="month" name="admission_yearmonth" id="admission_yearmonth" value="" class="form-control col-md-3">
+
+                                <label for="graduation_yearmonth" class="col-md-6 col-form-label original-label">卒業予定年月</label>
+                                <input type="month" name="graduation_yearmonth" id="graduation_yearmonth" value="" class="form-control col-md-3">
+
+                                <label for="emergencycontact_relations" class="col-md-6 col-form-label original-label">緊急時連絡先</label>
+                                <input type="text" name="emergencycontact_relations" id="emergencycontact_relations" value="" placeholder="両親、兄弟など" class="form-control col-md-3">
+
+                                <label for="emergencycontact_tel" class="col-md-6 col-form-label original-label">緊急時連絡先電話番号</label>
+                                <input type="text" name="emergencycontact_tel" id="emergencycontact_tel" value="" class="form-control col-md-3">
+
+                                <label for="remarks" class="col-md-6 col-form-label original-label">備考</label>                                
+                                <textarea name="remarks" id="remarks" class="form-control col-md-3" rows="4"></textarea>
+
+                                                             
+                            
                               </div>                                                 
                             
                         </div>
 
                         <div class="modal-footer">               
-                            <button type="submit" id='SaveButton' class="btn btn-primary"><span id='save_modal_button_display'></span></button>       
+                            <button type="submit" id='save_button' class="btn btn-primary"><span id='save_modal_button_display'></span></button>       
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
                         </div>
                     </form>
@@ -197,13 +243,13 @@
                     </div>
 
                     
-                    <form id="delete_form" method="post" action="{{ route('master.staff.delete_or_restore') }}">       
+                    <form id="delete_form" method="post" action="{{ route('master.member.delete_or_restore') }}">       
                         @csrf
                         <div class="modal-body">
 
                             <input type="hidden" id="delete_flg" name="delete_flg" value="">
-                            <input type="hidden" id="delete_staff_id" name="delete_staff_id" value="">                            
-                            <input type="hidden" id="delete_staff_name" name="delete_staff_name" value="">
+                            <input type="hidden" id="delete_member_id" name="delete_member_id" value="">                            
+                            <input type="hidden" id="delete_member_name" name="delete_member_name" value="">
             
                             <table class="w-100">
                                 
@@ -212,7 +258,7 @@
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="display_staff_id"></span></td>
+                                    <td class="text-start"><span id="display_member_id"></span></td>
                                 </tr>
                              
                                 <tr>
@@ -220,7 +266,7 @@
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="display_staff_name"></span></td>
+                                    <td class="text-start"><span id="display_member_name"></span></td>
                                 </tr>
 
                             </table>                            
@@ -247,12 +293,12 @@
 
 
         {{-- パスワード変更モーダル --}}
-        <div class="modal fade" id="LoginInfo_Modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="LoginInfo_Modal_Label" aria-hidden="true">
+        <div class="modal fade" id="login_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="login_info_modal_Label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="LoginInfo_Modal_Label"><span id="LoginInfo_Modal_Title"></span></h5>
+                        <h5 class="modal-title" id="login_info_modal_Label"><span id="login_info_modal_Title"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -260,12 +306,12 @@
                         
                     </div>
                     
-                    <form id="LoginInfoForm" method="post" action="{{ route('master.staff.login_info_update') }}">                    
+                    <form id="login_info_form" method="post" action="{{ route('master.member.login_info_update') }}">                    
                         @csrf
                         <div class="modal-body">  
                                                        
                             
-                            <input type="hidden" name="logininfo_staff_id" id="logininfo_staff_id" value="">
+                            <input type="hidden" name="logininfo_member_id" id="logininfo_member_id" value="">
                             <input type="hidden" name="logininfo_password_id" id="logininfo_password_id" value="">
                             
                             <div class="form-group row">
@@ -280,7 +326,7 @@
                         </div>
 
                         <div class="modal-footer">               
-                            <button type="button" id='LoginInfoChangeButton' class="btn btn-primary">ログイン情報変更</button>       
+                            <button type="button" id='login_info_change_button' class="btn btn-primary">ログイン情報変更</button>       
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
                         </div>
                     </form>
@@ -302,6 +348,91 @@
 
 $(function(){
 
+
+    
+
+    $('#school_cd').change(function() {
+        majorsubject_search();
+    });
+
+    function majorsubject_list_remove(){
+        $("select#majorsubject_cd option").remove();
+    }
+
+    function majorsubject_search(){
+       
+        
+
+       
+
+        var Url = "{{ route('master.member.majorsubject_search')}}"
+
+        majorsubject_list_remove();
+        var school_cd = $('#school_cd').val();
+
+        $('#majorsubject_cd').removeClass("impossible");
+        if(school_cd == ""){
+            $('#majorsubject_cd').addClass("impossible");
+            $("#majorsubject_cd").append($("<option>").val("").text("学校を選択してください。"));
+            return false;
+        }
+
+        //マウスカーソルを砂時計に
+        document.body.style.cursor = 'wait';
+
+        $.ajax({
+            url: Url, // 送信先
+            type: 'get',
+            dataType: 'json',
+            data: {school_cd : school_cd},
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+
+        })
+        .done(function (data, textStatus, jqXHR) {
+            // テーブルに通信できた場合
+            var ResultArray = data.ResultArray;
+
+            var status = ResultArray["status"];
+
+            //テーブルに通信時、データを検索できたか判定
+            if (status == 'success') {
+
+                var majorsubject_list = ResultArray["majorsubject_list"];
+
+                $.each(majorsubject_list, function(index, info) {
+
+                    var majorsubject_cd = info["majorsubject_cd"];
+                    var majorsubject_name = info["majorsubject_name"];
+                
+                    $("#majorsubject_cd").append($("<option>").val(majorsubject_cd).text(majorsubject_name));
+
+                })
+
+                $('#majorsubject_cd').removeClass("impossible");
+                $('#majorsubject_cd').focus();
+
+            }else if(status == 'nodata'){
+                        
+                $("#majorsubject_cd").append($("<option>").val('').text('専攻情報なし'));
+
+            }else{
+         
+
+
+            }
+
+            //マウスカーソルを通常に
+            document.body.style.cursor = 'auto';
+
+        })
+            .fail(function (data, textStatus, errorThrown) {
+            
+
+            });
+
+
+    }
+
     //登録、更新用モーダル表示時
     $('#save_modal').on('show.bs.modal', function(e) {
 
@@ -309,49 +440,64 @@ $(function(){
         $('.ajax-msg').html('');
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
+        
+        var FormData = $("#save_form").serializeArray();        
 
-        $('#staff_id').val('');        
-        $('#staff_name').val('');
-        $('#staff_name_yomi').val('');
-        $('#nick_name').val('');
-        $('#gender').val('');
-        $('#tel').val('');
-        $('#mailaddress').val('');
-        $('#authority').val(''); 
-
+        $.each(FormData, function(i, element) {		
+            $("[name='"+ element.name +"']").val("");          
+        });
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
-        var staff_id = evCon.data('staffid');
-        var staff_name = evCon.data('staffname');
-        var staff_name_yomi = evCon.data('staffnameyomi');
+        var member_id = evCon.data('memberid');
+        var member_name = evCon.data('membername');
+        var member_name_yomi = evCon.data('membernameyomi');
         var gender = evCon.data('gender');
-        var nick_name = evCon.data('nickname');
+        var birthday = evCon.data('birthday');
         var tel = evCon.data('tel');
         var mailaddress = evCon.data('mailaddress');
-        var authority = evCon.data('authority');
+        var school_cd = evCon.data('schoolcd');
+        var majorsubject_cd = evCon.data('majorsubjectcd');
+        var admission_yearmonth = evCon.data('admissionyearmonth');
+        var graduation_yearmonth = evCon.data('graduationyearmonth');
+        var emergencycontact_relations = evCon.data('emergencycontactrelations');
+        var emergencycontact_tel = evCon.data('emergencycontacttel');
+        var remarks = evCon.data('remarks');
+        
 
 
         //登録処理か更新処理か判断
         var processflg = evCon.data('processflg');
+
         if(processflg == '0'){
-            $('#save_modal_title').html('登録処理');         
-            $('#staff_id').val(0);            
+            $('#save_modal_title').html('登録処理');                     
             $('#save_modal_button_display').html('登録');
-        }else{
-            $('#save_modal_title').html('更新処理');   
-            $('#staff_id').val(staff_id);            
-            $('#save_modal_button_display').html('更新');
+            member_id = 0;        
+        }else{            
+            $('#save_modal_title').html('更新処理');                         
+            $('#save_modal_button_display').html('更新');            
         }
              
-        $('#staff_id').val(staff_id);
-        $('#staff_name').val(staff_name);
-        $('#staff_name_yomi').val(staff_name_yomi);
-        $('#nick_name').val(nick_name);
+        $('#processflg').val(processflg);    
+        $('#member_id').val(member_id);
+        $('#member_name').val(member_name);
+        $('#member_name_yomi').val(member_name_yomi);
         $('#gender').val(gender);
+        $('#birthday').val(birthday);
         $('#tel').val(tel);
         $('#mailaddress').val(mailaddress);
-        $('#authority').val(authority);                
+        $('#school_cd').val(school_cd);
+        $('#majorsubject_cd').val(majorsubject_cd);
+        $('#admission_yearmonth').val(admission_yearmonth);
+        $('#graduation_yearmonth').val(graduation_yearmonth);
+        $('#emergencycontact_relations').val(emergencycontact_relations);
+        $('#emergencycontact_tel').val(emergencycontact_tel);
+        $('#remarks').val(remarks);
+               
+      
+        majorsubject_search();
+      
+
     });
 
 
@@ -360,8 +506,8 @@ $(function(){
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
-        var staff_id = evCon.data('staffid');        
-        var staff_name = evCon.data('staffname');    
+        var member_id = evCon.data('memberid');        
+        var member_name = evCon.data('membername');    
         var delete_flg = evCon.data('deleteflg');
 
         $('#dlete_modal_runbutton').removeClass('delete_button');
@@ -379,30 +525,30 @@ $(function(){
     
         
          
-        $('#display_staff_id').html(staff_id);   
-        $('#display_staff_name').html(staff_name);   
+        $('#display_member_id').html(member_id);   
+        $('#display_member_name').html(member_name);   
         $('.dlete_modal_wording').html(wording);
 
         $('#delete_flg').val(delete_flg);
-        $('#delete_staff_id').val(staff_id);        
-        $('#delete_staff_name').val(staff_name);  
+        $('#delete_member_id').val(member_id);        
+        $('#delete_member_name').val(member_name);  
 
     });
 
 
 
     //ログイン情報変更モーダル表示時
-    $('#LoginInfo_Modal').on('show.bs.modal', function(e) {
+    $('#login_info_modal').on('show.bs.modal', function(e) {
         // イベント発生元
         let evCon = $(e.relatedTarget);
         
         var password_id = evCon.data('passwordid');
-        var staff_id = evCon.data('staffid');
+        var member_id = evCon.data('memberid');
         var login_id = evCon.data('loginid');    
         var password = evCon.data('password');
 
         $('#logininfo_password_id').val(password_id);
-        $('#logininfo_staff_id').val(staff_id);
+        $('#logininfo_member_id').val(member_id);
         $('#login_id').val(login_id);  
         $('#password').val(password);  
 
@@ -411,7 +557,7 @@ $(function(){
 
 
     // 「ログイン情報変更」ボタンがクリックされたら
-    $('#LoginInfoChangeButton').click(function () {
+    $('#login_info_change_button').click(function () {
      
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
@@ -420,7 +566,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        var staff_id = $("#logininfo_staff_id").val();
+        var member_id = $("#logininfo_member_id").val();
         var login_id = $("#login_id").val();
         var password = $("#password").val();
         var Judge = true;
@@ -446,10 +592,10 @@ $(function(){
         $(this).prop("disabled", true);
 
         setTimeout(function () {
-            $('#LoginInfoChangeButton').prop("disabled", false);
+            $('#login_info_change_button').prop("disabled", false);
         }, 3000);
 
-        var Url = "{{ route('master.staff.login_info_check')}}"
+        var Url = "{{ route('master.member.login_info_check')}}"
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
@@ -458,7 +604,7 @@ $(function(){
             url: Url, // 送信先
             type: 'get',
             dataType: 'json',
-            data: {staff_id : staff_id , login_id : login_id , password : password},
+            data: {member_id : member_id , login_id : login_id , password : password},
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 
         })
@@ -472,7 +618,7 @@ $(function(){
                 if(Result=='success'){
 
                     // ログイン情報変更処理開始
-                    $('#LoginInfoForm').submit();
+                    $('#login_info_form').submit();
 
                 }else if(Result=='duplication_error'){
 
@@ -500,7 +646,7 @@ $(function(){
                     $('.login-info-msg').html(errorsHtml);
                  
                     //{{-- ボタン有効 --}}
-                    $('#LoginInfoChangeButton').prop("disabled", false);
+                    $('#login_info_change_button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -518,7 +664,7 @@ $(function(){
                     $('.login-info-msg').html(errorsHtml);
                  
                     //{{-- ボタン有効 --}}
-                    $('#LoginInfoChangeButton').prop("disabled", false);
+                    $('#login_info_change_button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -542,7 +688,7 @@ $(function(){
                 $('.login-info-msg').html(errorsHtml);
                 
                 //{{-- ボタン有効 --}}
-                $('#LoginInfoChangeButton').prop("disabled", false);
+                $('#login_info_change_button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';                
 
@@ -553,14 +699,14 @@ $(function(){
 
 
     // 「保存」ボタンがクリックされたら
-    $('#SaveButton').click(function () {
+    $('#save_button').click(function () {
      
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
         $(this).prop("disabled", true);
 
         setTimeout(function () {
-            $('#SaveButton').prop("disabled", false);
+            $('#save_button').prop("disabled", false);
         }, 3000);
 
         //{{-- メッセージクリア --}}
@@ -607,7 +753,7 @@ $(function(){
                         scrollTop: 0
                     }, "300");
                     //{{-- ボタン有効 --}}
-                    $('#SaveButton').prop("disabled", false);
+                    $('#save_button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -649,7 +795,7 @@ $(function(){
                     scrollTop: 0
                 }, "300");
                 //{{-- ボタン有効 --}}
-                $('#SaveButton').prop("disabled", false);
+                $('#save_button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 

@@ -11,6 +11,7 @@ use App\Http\Controllers\Headquarters\Master\subcategory_m_controller;
 use App\Http\Controllers\Headquarters\Master\staff_m_controller;
 use App\Http\Controllers\Headquarters\Master\school_m_controller;
 use App\Http\Controllers\Headquarters\Master\majorsubject_m_controller;
+use App\Http\Controllers\Headquarters\Master\member_m_controller;
 
 use App\Http\Controllers\HP\hp_controller;
 
@@ -69,6 +70,17 @@ Route::post('headquarters/master/school/delete_or_restore', [school_m_controller
 Route::get('headquarters/master/majorsubject/index', [majorsubject_m_controller::class, 'index'])->name('master.majorsubject');
 Route::post('headquarters/master/majorsubject/save', [majorsubject_m_controller::class, 'save'])->name('master.majorsubject.save');
 Route::post('headquarters/master/majorsubject/delete_or_restore', [majorsubject_m_controller::class, 'delete_or_restore'])->name('master.majorsubject.delete_or_restore');
+
+
+Route::get('headquarters/master/member/', [member_m_controller::class, 'index'])->name('master.member');
+Route::post('headquarters/master/member/save', [member_m_controller::class, 'save'])->name('master.member.save');
+Route::post('headquarters/master/member/delete_or_restore', [member_m_controller::class, 'delete_or_restore'])->name('master.member.delete_or_restore');
+Route::get('headquarters/master/member/login_info_check', [member_m_controller::class, 'login_info_check'])->name('master.member.login_info_check');
+Route::post('headquarters/master/member/login_info_update', [member_m_controller::class, 'login_info_update'])->name('master.member.login_info_update');
+
+
+Route::get('headquarters/master/member/majorsubject_search', [member_m_controller::class, 'majorsubject_search'])->name('master.member.majorsubject_search');
+
 //本部  End
 
 

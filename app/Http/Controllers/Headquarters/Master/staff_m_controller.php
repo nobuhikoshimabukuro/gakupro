@@ -13,16 +13,17 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Original\Common;
-use App\Repositories\GenderList;
-use App\Repositories\AuthorityList;
+use App\Original\create_list;
+use App\Repositories\gender_list;
+use App\Repositories\authority_list;
 use Illuminate\Support\Facades\DB;
 class staff_m_controller extends Controller
 {
     function index(Request $request)
     {
-        $gender_list = GenderList::get();
+        $gender_list = create_list::gender_list();
 
-        $authority_list = AuthorityList::get();      
+        $authority_list = create_list::authority_list();      
 
         $operator_authority = session()->get('authority');
 
@@ -42,6 +43,7 @@ class staff_m_controller extends Controller
             'staff_m.authority as authority',
             'authorityinfo.subcategory_name as authority_name',
        
+            'staff_m.remarks as remarks',
             'staff_m.deleted_at as deleted_at',
 
             'staff_password_t.id as password_id',
@@ -50,13 +52,11 @@ class staff_m_controller extends Controller
         )
         ->leftJoin('subcategory_m as genderinfo', function ($join) {
             $join->on('genderinfo.subcategory_cd', '=', 'staff_m.gender')
-                 ->where('genderinfo.maincategory_cd', '=', '1');
-            ;
+                 ->where('genderinfo.maincategory_cd', '=', '1');            
         })
         ->leftJoin('subcategory_m as authorityinfo', function ($join) {
             $join->on('authorityinfo.subcategory_cd', '=', 'staff_m.authority')
-                ->where('authorityinfo.maincategory_cd', '=', '2');
-            ;
+                ->where('authorityinfo.maincategory_cd', '=', env('authority_subcategory_cd'));            
         })     
         ->leftJoin('staff_password_t', function ($join) {
             $join->on('staff_password_t.staff_id', '=', 'staff_m.staff_id')
@@ -65,14 +65,16 @@ class staff_m_controller extends Controller
         })       
         ->withTrashed()
         ->orderBy('staff_m.staff_id', 'asc')        
-        ->paginate(env('Paginate_Count'));
-
-
+        ->paginate(env('paginate_count'));
+     
         foreach($staff_list as $info){
 
-            //DBに登録されている暗号化したパスワードを平文に変更し再格納
-            $encrypted_password = $info->encrypted_password;              
-            $info->password = Common::decryption($info->encrypted_password);
+            $password = "";
+            if($info->encrypted_password != ""){            
+                $password = Common::decryption($info->encrypted_password);
+            }
+            //DBに登録されている暗号化したパスワードを平文に変更し再格納                    
+            $info->password = $password;            
         }
         
         return view('headquarters/screen/master/staff/index', compact('staff_list','gender_list','authority_list','operator_authority'));
@@ -82,7 +84,7 @@ class staff_m_controller extends Controller
     //  更新処理
     function save(staff_m_request $request)
     {
-
+        $processflg = intval($request->processflg);
         $staff_id = intval($request->staff_id);
 
         
@@ -93,11 +95,13 @@ class staff_m_controller extends Controller
         $tel = $request->tel;
         $mailaddress = $request->mailaddress;
         $authority = intval($request->authority);
+        $remarks = $request->remarks;
+                
         $operator = 9999;
         
         try {
 
-            if($staff_id == 0){
+            if($processflg == 0){
                                
                 //新規登録処理                
                 staff_m_model::create(
@@ -109,7 +113,7 @@ class staff_m_controller extends Controller
                         'tel' => $tel,
                         'mailaddress' => $mailaddress,
                         'authority' => $authority,
-                        'tel' => $tel,
+                        'remarks' => $remarks,
                         'created_by' => $operator,                        
                     ]
                 );            
@@ -129,7 +133,7 @@ class staff_m_controller extends Controller
                         'tel' => $tel,
                         'mailaddress' => $mailaddress,
                         'authority' => $authority,
-                        'tel' => $tel,
+                        'remarks' => $remarks,
                         'updated_by' => $operator,                 
                     ]
                 );

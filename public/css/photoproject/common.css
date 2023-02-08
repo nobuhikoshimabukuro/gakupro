@@ -7,7 +7,7 @@
   min-height: 5vh;
 }
 
-#Main{
+#main{
 
   background-color: #dddee721;
   min-height: 86vh;
@@ -199,7 +199,7 @@ a.btn--radius {
 
 
 
-.InoperableClass{
+.inoperable_class{
   pointer-events: none;
   opacity:0.1;
 }

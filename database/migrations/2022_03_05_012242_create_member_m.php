@@ -35,6 +35,11 @@ return new class extends Migration
                 ->comment('氏名（フリガナ）:全角カタカナ');
 
             $table
+                ->integer('gender')
+                ->nullable()
+                ->comment('性別:中分類マスタを参照');
+                
+            $table
                 ->date('birthday')
                 ->nullable()
                 ->comment('誕生日');

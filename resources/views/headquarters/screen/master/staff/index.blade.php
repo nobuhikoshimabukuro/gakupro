@@ -5,7 +5,7 @@
 @endsection
 @section('content')
 
-<div id="Main" class="mt-3 text-center container">
+<div id="main" class="mt-3 text-center container">
    <div class="row">
 
     @include('headquarters.common.alert')
@@ -47,7 +47,7 @@
                
 
                 @if($operator_authority > 1)
-                    <th>件数【<span id='TotalCount'>{{count($staff_list)}}</span>件】</th>
+                    <th>件数【<span id='total_count'>{{count($staff_list)}}</span>件】</th>
                     <th>ログイン情報</th>
                 @endif
             </tr>
@@ -70,7 +70,9 @@
                             data-nickname='{{$item->nick_name}}'
                             data-gender='{{$item->gender}}'
                             data-tel='{{$item->tel}}'
-                            data-authority='{{$item->authority}}'                        
+                            data-authority='{{$item->authority}}' 
+                            data-remarks='{{$item->remarks}}' 
+                                                   
                             data-processflg='1'> 
                             <i class='far fa-edit'></i>
                         </button>
@@ -83,6 +85,7 @@
                             data-gender='{{$item->gender}}'
                             data-tel='{{$item->tel}}'
                             data-authority='{{$item->authority}}'  
+                            data-remarks='{{$item->remarks}}' 
                             data-deleteflg=@if($item->deleted_at) 1 @else 0 @endif>
                                         
                             @if($item->deleted_at)
@@ -96,7 +99,7 @@
 
                 
                     <td>
-                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#LoginInfo_Modal'
+                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#login_info_modal'
                             data-passwordid='{{$item->password_id}}'
                             data-staffid='{{$item->staff_id}}'
                             data-loginid='{{$item->login_id}}'
@@ -134,7 +137,8 @@
                         @csrf
                         <div class="modal-body">  
                                                         
-                            <input type="hidden" name="staff_id" id="staff_id" value="">                            
+                            <input type="hidden" name="staff_id" id="staff_id" value="">
+                            <input type="hidden" name="processflg" id="processflg" value="">
                                                         
                            
                             <div class="form-group row">
@@ -172,12 +176,16 @@
                                         </option>
 										@endforeach
                                 </select>
+
+                                <label for="remarks" class="col-md-6 col-form-label original-label">備考</label>                                
+                                <textarea name="remarks" id="remarks" class="form-control col-md-3" rows="4"></textarea>
+
                               </div>                                                 
                             
                         </div>
 
                         <div class="modal-footer">               
-                            <button type="submit" id='SaveButton' class="btn btn-primary"><span id='save_modal_button_display'></span></button>       
+                            <button type="submit" id='save_button' class="btn btn-primary"><span id='save_modal_button_display'></span></button>       
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
                         </div>
                     </form>
@@ -248,12 +256,12 @@
 
 
         {{-- パスワード変更モーダル --}}
-        <div class="modal fade" id="LoginInfo_Modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="LoginInfo_Modal_Label" aria-hidden="true">
+        <div class="modal fade" id="login_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="login_info_modal_Label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="LoginInfo_Modal_Label"><span id="LoginInfo_Modal_Title"></span></h5>
+                        <h5 class="modal-title" id="login_info_modal_Label"><span id="login_info_modal_Title"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -261,7 +269,7 @@
                         
                     </div>
                     
-                    <form id="LoginInfoForm" method="post" action="{{ route('master.staff.login_info_update') }}">                    
+                    <form id="login_info_form" method="post" action="{{ route('master.staff.login_info_update') }}">                    
                         @csrf
                         <div class="modal-body">  
                                                        
@@ -281,7 +289,7 @@
                         </div>
 
                         <div class="modal-footer">               
-                            <button type="button" id='LoginInfoChangeButton' class="btn btn-primary">ログイン情報変更</button>       
+                            <button type="button" id='login_info_change_button' class="btn btn-primary">ログイン情報変更</button>       
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
                         </div>
                     </form>
@@ -311,15 +319,12 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        $('#staff_id').val('');        
-        $('#staff_name').val('');
-        $('#staff_name_yomi').val('');
-        $('#nick_name').val('');
-        $('#gender').val('');
-        $('#tel').val('');
-        $('#mailaddress').val('');
-        $('#authority').val(''); 
+        var FormData = $("#save_form").serializeArray();        
 
+        $.each(FormData, function(i, element) {		
+            $("[name='"+ element.name +"']").val("");          
+        });
+       
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
@@ -331,20 +336,21 @@ $(function(){
         var tel = evCon.data('tel');
         var mailaddress = evCon.data('mailaddress');
         var authority = evCon.data('authority');
+        var remarks = evCon.data('remarks');
 
-
+        
         //登録処理か更新処理か判断
         var processflg = evCon.data('processflg');
         if(processflg == '0'){
-            $('#save_modal_title').html('登録処理');         
-            $('#staff_id').val(0);            
+            $('#save_modal_title').html('登録処理');                          
             $('#save_modal_button_display').html('登録');
+            staff_id = 0;
         }else{
-            $('#save_modal_title').html('更新処理');   
-            $('#staff_id').val(staff_id);            
+            $('#save_modal_title').html('更新処理');
             $('#save_modal_button_display').html('更新');
         }
-             
+        
+        $('#processflg').val(processflg);    
         $('#staff_id').val(staff_id);
         $('#staff_name').val(staff_name);
         $('#staff_name_yomi').val(staff_name_yomi);
@@ -353,6 +359,8 @@ $(function(){
         $('#tel').val(tel);
         $('#mailaddress').val(mailaddress);
         $('#authority').val(authority);                
+        $('#remarks').val(remarks);                
+        
     });
 
 
@@ -393,7 +401,7 @@ $(function(){
 
 
     //ログイン情報変更モーダル表示時
-    $('#LoginInfo_Modal').on('show.bs.modal', function(e) {
+    $('#login_info_modal').on('show.bs.modal', function(e) {
         // イベント発生元
         let evCon = $(e.relatedTarget);
         
@@ -412,7 +420,7 @@ $(function(){
 
 
     // 「ログイン情報変更」ボタンがクリックされたら
-    $('#LoginInfoChangeButton').click(function () {
+    $('#login_info_change_button').click(function () {
      
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
@@ -447,7 +455,7 @@ $(function(){
         $(this).prop("disabled", true);
 
         setTimeout(function () {
-            $('#LoginInfoChangeButton').prop("disabled", false);
+            $('#login_info_change_button').prop("disabled", false);
         }, 3000);
 
         var Url = "{{ route('master.staff.login_info_check')}}"
@@ -473,7 +481,7 @@ $(function(){
                 if(Result=='success'){
 
                     // ログイン情報変更処理開始
-                    $('#LoginInfoForm').submit();
+                    $('#login_info_form').submit();
 
                 }else if(Result=='duplication_error'){
 
@@ -501,7 +509,7 @@ $(function(){
                     $('.login-info-msg').html(errorsHtml);
                  
                     //{{-- ボタン有効 --}}
-                    $('#LoginInfoChangeButton').prop("disabled", false);
+                    $('#login_info_change_button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -519,7 +527,7 @@ $(function(){
                     $('.login-info-msg').html(errorsHtml);
                  
                     //{{-- ボタン有効 --}}
-                    $('#LoginInfoChangeButton').prop("disabled", false);
+                    $('#login_info_change_button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -543,7 +551,7 @@ $(function(){
                 $('.login-info-msg').html(errorsHtml);
                 
                 //{{-- ボタン有効 --}}
-                $('#LoginInfoChangeButton').prop("disabled", false);
+                $('#login_info_change_button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';                
 
@@ -554,14 +562,14 @@ $(function(){
 
 
     // 「保存」ボタンがクリックされたら
-    $('#SaveButton').click(function () {
+    $('#save_button').click(function () {
      
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
         $(this).prop("disabled", true);
 
         setTimeout(function () {
-            $('#SaveButton').prop("disabled", false);
+            $('#save_button').prop("disabled", false);
         }, 3000);
 
         //{{-- メッセージクリア --}}
@@ -608,7 +616,7 @@ $(function(){
                         scrollTop: 0
                     }, "300");
                     //{{-- ボタン有効 --}}
-                    $('#SaveButton').prop("disabled", false);
+                    $('#save_button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -650,7 +658,7 @@ $(function(){
                     scrollTop: 0
                 }, "300");
                 //{{-- ボタン有効 --}}
-                $('#SaveButton').prop("disabled", false);
+                $('#save_button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 

@@ -12,7 +12,7 @@
     
 </style>
 
-<div id="Main" class="mt-3 text-center container">
+<div id="main" class="mt-3 text-center container">
     <div class="row">
  
         <div class="col-6 col-md-4 col-xl-3 p-3 ">

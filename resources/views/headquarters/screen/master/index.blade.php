@@ -11,7 +11,7 @@
     
 </style>
 
-<div id="Main"class="mt-3 text-center container">
+<div id="main"class="mt-3 text-center container">
     <div class="row">
        
        
@@ -57,6 +57,15 @@
                 <div class="bg-dark rounded-lg text-light p-2 ">                    
                     <i class="fas fa-people-carry fa-3x mb-1"></i>
                     <h6>スタッフマスタ</h6>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-xl-3 p-3">
+            <a href="{{ route('master.member') }}">
+                <div class="bg-dark rounded-lg text-light p-2 ">                    
+                    <i class="fas fa-people-carry fa-3x mb-1"></i>
+                    <h6>メンバーマスタ</h6>
                 </div>
             </a>
         </div>

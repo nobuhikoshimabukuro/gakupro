@@ -440,5 +440,28 @@ class DatabaseSeeder extends Seeder
            
         ]);     
 
+        DB::table('member_m')->insert([
+            
+            [                
+                'member_id' => '1',
+                'member_name' => '学生　太郎',
+                'member_name_yomi' => 'ガクセイ　タロウ',
+                'gender' => '2',
+                'birthday' => '2005/02/09',
+                'tel' => '080-1234-5678',
+                'mailaddress' => 'test@test.com',
+                'school_cd' => '1',
+                'majorsubject_cd' => '1',
+                'admission_yearmonth' => '2022-04',
+                'graduation_yearmonth' => '2024-03',
+                'emergencycontact_relations' => '父親',
+                'emergencycontact_tel' => '070-1234-5678',
+                'remarks' => '備考テスト',
+                'registration_status' => '1',                
+                'created_by' => '9999',
+                
+            ],           
+        ]);     
+
     }
 }
