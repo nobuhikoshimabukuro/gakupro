@@ -7,6 +7,8 @@ use App\Models\staff_m_model;
 use App\Models\staff_password_t_model;
 use App\Models\subcategory_m_model;
 
+use App\Http\Requests\staff_m_request;
+
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
@@ -78,7 +80,7 @@ class staff_m_controller extends Controller
 
 
     //  更新処理
-    function save(request $request)
+    function save(staff_m_request $request)
     {
 
         $staff_id = intval($request->staff_id);
