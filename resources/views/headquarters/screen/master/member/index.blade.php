@@ -1,7 +1,7 @@
 @extends('headquarters.common.layouts_afterlogin')
 
 @section('pagehead')
-@section('title', 'メンバー')  
+@section('title', 'メンバーマスタ')  
 @endsection
 @section('content')
 
@@ -11,22 +11,102 @@
     @include('headquarters.common.alert')
 
     <div class="row">
+
         <div class="col-6 text-start">
-            <h4 class="MasterTitle">
-                メンバー
+            <h4 class="master_title">
+                メンバーマスタ
             </h4>
-        </div>
-
+        </div>       
         
-
         <div class="col-6 new_addition_button">
             <a href="" class="btn btn--red btn--radius btn--cubic" 
             data-bs-toggle='modal' data-bs-target='#save_modal'            
             data-processflg='0'
-            ><i class='fas fa-plus-circle'></i><span class="new_addition_button_name"></span></a>
+            ><i class='fas fa-plus-circle'></i><span class="new_addition_button_name"></span></a>  
         </div>
 
     </div>
+      
+    <form id="search_form" class="row" action="" method="get">
+
+        <div class="col-12">
+            <div id="search_form_area" class="table_wrap m-0 p-0">
+                <table id='' class='search_info_table'>
+                    <tr>
+                        <th>学校区分選択</th>                
+                        <th>学校選択</th>                        
+                        <th>専攻選択</th>
+                        <th>氏名</th>
+                        <th>
+                            <a id="" class="original_button clear_button">クリア</a>  
+                        </th>                    
+                    </tr>
+
+                    <tr>             
+                        <td>
+                            <select id='search_school_division' name='search_school_division' class='form-control input-sm'>
+                                <option value=''>未選択</option>
+                                    @foreach($school_division_list as $item)
+                                    <option value="{{$item->school_division_cd}}"@if($search_element_array['search_school_division'] == $item->school_division_cd) selected @endif>
+                                        {{$item->school_division_name}}
+                                    </option>
+                                    @endforeach
+                            </select>
+                        </td> 
+                        <td>
+                            
+                            @if(is_null($search_element_array['search_school_division']))                             
+                                <select id='search_school_cd' name='search_school_cd' class='form-control input-sm impossible'>
+                                <option value=''>学校区分を選択してください。</option>
+                            @else
+                                <select id='search_school_cd' name='search_school_cd' class='form-control input-sm'>
+                                <option value=''>-----</option>
+                            @endif
+
+                        
+                                @foreach($school_list as $item)
+                                    <option value="{{$item->school_cd}}"                                         
+                                        @if($search_element_array['search_school_cd'] == $item->school_cd) selected @endif                                    
+                                    >
+                                        {{$item->school_name}}
+                                        
+                                    </option>
+                                @endforeach
+                            </select>
+                        </td>                       
+                        <td>
+
+                            @if(is_null($search_element_array['search_school_division']))                             
+                                <select id='search_majorsubject_cd' name='search_majorsubject_cd' class='form-control input-sm impossible'>
+                                <option value=''>学校を選択してください。</option>
+                            @else
+                                <select id='search_majorsubject_cd' name='search_majorsubject_cd' class='form-control input-sm'>
+                                <option value=''>-----</option>
+                            @endif                                                            
+                                
+                                @foreach($majorsubject_list as $item)
+                                <option value="{{$item->majorsubject_cd}}"
+                                    @if($search_element_array['search_majorsubject_cd'] == $item->majorsubject_cd) selected @endif                                    
+                                    >
+                                    {{$item->majorsubject_name}}
+                                </option>
+                                @endforeach
+                            </select>
+                        </td>
+
+                        <td>
+                            <input type="text" id="" name="search_member_name" value="{{$search_element_array['search_member_name']}}" class="form-control">
+                        </td>
+                    
+                        <td>                             
+                            <button type="submit" id="" class="original_button search_button" onclick="return search_formCheck();">検索 <i class="fas fa-search"></i></button>                                                                                          
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>             
+    </form>
 
     <div class="m-0 text-start">
         {{-- ページャー --}}                
@@ -155,6 +235,7 @@
                            
                             <div class="form-group row">
 
+                                
 
                                 <label for="member_name" class="col-md-6 col-form-label original-label">氏名</label>
                                 <input type="text" name="member_name" id="member_name" value="" class="form-control col-md-3">
@@ -163,7 +244,8 @@
                                 <input type="text" name="member_name_yomi" id="member_name_yomi" value="" class="form-control col-md-3">
                                         
                                 <label for="gender" class="col-md-6 col-form-label original-label">性別</label>                               
-                                <select id='gender' name='gender' class='form-control input-sm'>									
+                                <select id='gender' name='gender' class='form-control input-sm'>		
+                                        <option value="">---</option>							
 										@foreach($gender_list as $item)
                                             <option value="{{$item->gender_cd}}">
                                                 {{$item->gender_name}}
@@ -171,7 +253,7 @@
 										@endforeach
                                 </select>
 
-                                <label for="birthday" class="col-md-6 col-form-label original-label">生年月日</label>
+                                <label for="birthday" class="col-md-6 col-form-label original-label">生年月日<span id="display_age"></span></label>                                
                                 <input type="date" name="birthday" id="birthday" value="" class="form-control col-md-3">
 
                                 <label for="tel" class="col-md-6 col-form-label original-label">TEL</label>
@@ -192,9 +274,9 @@
 
                                 <label for="majorsubject_cd" class="col-md-6 col-form-label original-label">専攻選択</label>
                                 <select id='majorsubject_cd' name='majorsubject_cd' class='form-control input-sm impossible'>
-                                    <option value="">---</option>
+                                    <option value="">学校を選択してください。</option>
                                     @foreach($majorsubject_list as $item)
-                                    <option value="{{$item->majorsubject_cd}}">
+                                    <option value="{{$item->majorsubject_cd}}" data-memberid='{{$item->member_id}}'>
                                         {{$item->majorsubject_name}}
                                     </option>
                                     @endforeach
@@ -222,7 +304,7 @@
                         </div>
 
                         <div class="modal-footer">               
-                            <button type="submit" id='save_button' class="btn btn-primary"><span id='save_modal_button_display'></span></button>       
+                            <button type="button" id='save_button' class="btn btn-primary"><span id='save_modal_button_display'></span></button>       
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
                         </div>
                     </form>
@@ -254,7 +336,7 @@
                             <table class="w-100">
                                 
                                 <tr>
-                                    <td class="text-start">スタッフIDs</td>                                
+                                    <td class="text-start">メンバーID</td>                                
                                 </tr>
     
                                 <tr>                                
@@ -262,7 +344,7 @@
                                 </tr>
                              
                                 <tr>
-                                    <td class="text-start">スタッフ名</td>                                
+                                    <td class="text-start">氏名</td>                                
                                 </tr>
     
                                 <tr>                                
@@ -346,45 +428,263 @@
 
 <script type="text/javascript">
 
-$(function(){
 
+//一覧表示画面の検索ボタンクリック時の処理
+//検索項目に値に、入力または選択があるかチェックする
+function search_formCheck() {
 
+    $(".is-invalid").removeClass('is-invalid');
+
+    var FormData = $("#search_form").serializeArray();
+    var NoInputCheck = false;
+
+    $.each(FormData, function(i, element) {		
+
+    var TargetValue = $("[name='"+ element.name +"']").val();
     
-
-    $('#school_cd').change(function() {
-        majorsubject_search();
-    });
-
-    function majorsubject_list_remove(){
-        $("select#majorsubject_cd option").remove();
+    if(TargetValue != ''){
+        NoInputCheck = true;			
     }
 
-    function majorsubject_search(){
-       
-        
+    });
 
-       
+    if(NoInputCheck == false){
 
-        var Url = "{{ route('master.member.majorsubject_search')}}"
+    $.each(FormData, function(i, element) {
 
-        majorsubject_list_remove();
+        $("[name='"+ element.name +"']").addClass('is-invalid');
+
+    });
+
+    alert('検索項目を1つ以上設定してください。');	
+    return false;
+
+    }
+}
+
+
+
+$(function(){
+
+    $(document).on("blur", "#admission_yearmonth", function (e) {
+        graduation_yearmonth_get();
+    });
+
+    $(document).on("blur", "#birthday", function (e) {
+        age_measurement();
+    });
+
+    function age_measurement(){
+
+        var display_age = "";
+
+        var input_birthday = new Date($('#birthday').val());
+
+        if(input_birthday == "" ){
+            return false;
+        }
+      
+        //今日
+        var today = new Date();
+ 
+        //今年の誕生日
+        var thisYearsBirthday = new Date(today.getFullYear(), input_birthday.getMonth(), input_birthday.getDate());
+
+        //年齢
+        var age = today.getFullYear() - input_birthday.getFullYear();
+
+        if(today < thisYearsBirthday){
+            //今年まだ誕生日が来ていない
+            age--;
+        }
+
+        if($.isNumeric(age)){
+
+            if(age < 0){
+                age = 0;
+            }
+            display_age = "【" + age + "歳】"
+        }
+
+        $('#display_age').html(display_age);
+    }
+
+
+    $('#search_school_division').change(function() {
+        school_search(1);
+    });
+
+    $('#search_school_cd').change(function() {
+        majorsubject_search(1);
+    });
+
+    $('#school_cd').change(function() {
+        majorsubject_search(2);
+    });
+
+
+    function graduation_yearmonth_get(){
+    
         var school_cd = $('#school_cd').val();
+        var majorsubject_cd = $('#majorsubject_cd').val();
+        var admission_yearmonth = $('#admission_yearmonth').val();
 
-        $('#majorsubject_cd').removeClass("impossible");
-        if(school_cd == ""){
-            $('#majorsubject_cd').addClass("impossible");
-            $("#majorsubject_cd").append($("<option>").val("").text("学校を選択してください。"));
+        var graduation_yearmonth = $('#graduation_yearmonth').val();
+
+        var get_graduation_yearmonth = "";
+
+        if(school_cd != "" && majorsubject_cd != "" && admission_yearmonth != "" && graduation_yearmonth == ""){
+
+            var check_date = new Date((admission_yearmonth + "-01").replace("-", "/"));
+            check_date = check_date.getFullYear() + "-" + check_date.getMonth();
+
+            if(admission_yearmonth == check_date){
+                get_graduation_yearmonth = "2030-11";
+            }
+
+            var studyperiod = $('[name=majorsubject_cd] option:selected').data('studyperiod');
+
+        }
+
+        if(get_graduation_yearmonth != ""){
+            $('#graduation_yearmonth').val(get_graduation_yearmonth);
+        }
+
+
+    }
+
+    function school_search(branch){
+       
+        var target_form_id = "";
+        var search_school_division = "";
+        var target_element_id = "";
+       
+        if(branch == 1){
+
+            target_form_id = "#search_form";
+            search_school_division = $('#search_school_division').val();
+            target_element_id = "#search_school_cd";
+        }else if(branch == 2){
+
+            target_form_id = "#save_form";
+            search_school_division = $('#school_division').val();
+            target_element_id = "#school_cd";
+        }
+
+       $("select" + target_element_id + " option").remove();
+
+       $(target_element_id).removeClass("impossible");
+       
+       if(search_school_division == ""){
+           $(target_element_id).addClass("impossible");
+           $(target_element_id).append($("<option>").val("").text("学校区分を選択してください。"));
+           return false;
+       }
+
+       //マウスカーソルを砂時計に
+       document.body.style.cursor = 'wait';
+       $(target_form_id).addClass("impossible");
+       
+       var Url = "{{ route('master.member.school_search')}}"
+
+       $.ajax({
+           url: Url, // 送信先
+           type: 'get',
+           dataType: 'json',
+           data: {search_school_division : search_school_division},
+           headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+
+       })
+       .done(function (data, textStatus, jqXHR) {
+           // テーブルに通信できた場合
+           var ResultArray = data.ResultArray;
+
+           var status = ResultArray["status"];
+
+           //テーブルに通信時、データを検索できたか判定
+           if (status == 'success') {
+
+                var school_list = ResultArray["school_list"];
+
+                $(target_element_id).append($("<option>").val("").text("------"));
+                $.each(school_list, function(index, info) {
+
+                    var school_cd = info["school_cd"];
+                    var school_name = info["school_name"];
+
+                    $(target_element_id).append($("<option>").val(school_cd).text(school_name));
+
+                })
+
+               $(target_element_id).removeClass("impossible");
+               
+           }else if(status == 'nodata'){
+                       
+               $(target_element_id).append($("<option>").val('').text('学校情報なし'));
+
+           }else{
+        
+               $(target_element_id).append($("<option>").val('').text('学校情報取得エラー'));
+
+           }
+
+           //マウスカーソルを通常に
+           document.body.style.cursor = 'auto';
+           $(target_form_id).removeClass("impossible");
+
+       })
+           .fail(function (data, textStatus, errorThrown) {
+           
+                 //マウスカーソルを通常に
+               document.body.style.cursor = 'auto';
+               $(target_form_id).removeClass("impossible");
+               $(target_element_id).append($("<option>").val('').text('学校情報取得エラー'));
+
+           });
+
+
+   }
+
+
+    function majorsubject_search(branch){
+       
+        var target_form_id = "";
+        var search_school_cd = "";
+        var target_element_id = "";
+        
+        if(branch == 1){
+
+            target_form_id = "#search_form";
+            search_school_cd = $('#search_school_cd').val();
+            target_element_id = "#search_majorsubject_cd";
+        }else if(branch == 2){
+
+            target_form_id = "#save_form";
+            search_school_cd = $('#school_cd').val();
+            target_element_id = "#majorsubject_cd";
+        }
+
+        $("select" + target_element_id + " option").remove();
+
+        $(target_element_id).removeClass("impossible");
+        
+        if(search_school_cd == ""){
+            $(target_element_id).addClass("impossible");
+            $(target_element_id).append($("<option>").val("").text("学校を選択してください。"));
             return false;
         }
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
+        $(target_form_id).addClass("impossible");
+
+        var Url = "{{ route('master.member.majorsubject_search')}}"
 
         $.ajax({
             url: Url, // 送信先
             type: 'get',
             dataType: 'json',
-            data: {school_cd : school_cd},
+            data: {search_school_cd : search_school_cd},
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 
         })
@@ -399,39 +699,71 @@ $(function(){
 
                 var majorsubject_list = ResultArray["majorsubject_list"];
 
+                $(target_element_id).append($("<option>").val("").text("------"));
                 $.each(majorsubject_list, function(index, info) {
 
                     var majorsubject_cd = info["majorsubject_cd"];
                     var majorsubject_name = info["majorsubject_name"];
+                    var studyperiod = info["studyperiod"];
+
+                    var append_text = "<option value='" + majorsubject_cd + "' data-studyperiod='" + studyperiod + "'>" + majorsubject_name + "</option>";
+                                    
                 
-                    $("#majorsubject_cd").append($("<option>").val(majorsubject_cd).text(majorsubject_name));
+                    $(target_element_id).append(append_text);
+                    // $(target_element_id).append($("<option>").val(majorsubject_cd).text(majorsubject_name));
 
                 })
 
-                $('#majorsubject_cd').removeClass("impossible");
-                $('#majorsubject_cd').focus();
-
+                $(target_element_id).removeClass("impossible");
+                
             }else if(status == 'nodata'){
                         
-                $("#majorsubject_cd").append($("<option>").val('').text('専攻情報なし'));
+                $(target_element_id).append($("<option>").val('').text('専攻情報なし'));
 
             }else{
          
-
+                $(target_element_id).append($("<option>").val('').text('専攻情報取得エラー'));
 
             }
 
             //マウスカーソルを通常に
             document.body.style.cursor = 'auto';
+            $(target_form_id).removeClass("impossible");
 
         })
             .fail(function (data, textStatus, errorThrown) {
             
+                  //マウスカーソルを通常に
+                document.body.style.cursor = 'auto';
+                $(target_form_id).removeClass("impossible");
+                $(target_element_id).append($("<option>").val('').text('専攻情報取得エラー'));
 
             });
 
 
     }
+
+    // 「クリア」ボタンがクリックされたら
+    $('.clear_button').click(function () {
+
+        var target_element_id = ""
+        var FormData = $("#search_form").serializeArray();        
+
+        target_element_id = "#search_school_cd"
+        $("select" + target_element_id + " option").remove();
+        $(target_element_id).addClass("impossible");
+        $(target_element_id).append($("<option>").val("").text("学校区分を選択してください。"));
+
+        target_element_id = "#search_majorsubject_cd"
+        $("select" + target_element_id + " option").remove();
+        $(target_element_id).addClass("impossible");
+        $(target_element_id).append($("<option>").val("").text("学校を選択してください。"));
+
+        $.each(FormData, function(i, element) {		
+            $("[name='"+ element.name +"']").val("");          
+        });
+
+    });
 
     //登録、更新用モーダル表示時
     $('#save_modal').on('show.bs.modal', function(e) {
@@ -474,7 +806,7 @@ $(function(){
             $('#save_modal_button_display').html('登録');
             member_id = 0;        
         }else{            
-            $('#save_modal_title').html('更新処理');                         
+            $('#save_modal_title').html('更新処理');
             $('#save_modal_button_display').html('更新');            
         }
              
@@ -493,11 +825,8 @@ $(function(){
         $('#emergencycontact_relations').val(emergencycontact_relations);
         $('#emergencycontact_tel').val(emergencycontact_tel);
         $('#remarks').val(remarks);
-               
-      
-        majorsubject_search();
-      
-
+        
+        age_measurement();
     });
 
 

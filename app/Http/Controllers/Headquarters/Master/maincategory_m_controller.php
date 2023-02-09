@@ -23,20 +23,20 @@ class maincategory_m_controller extends Controller
     function index(Request $request)
     {
         //検索項目格納用配列
-        $SearchElementArray = [
+        $search_element_array = [
             'search_maincategory_name' => $request->search_maincategory_name                   
         ];
 
         $maincategory_m_list = maincategory_m_model::withTrashed()->orderBy('maincategory_cd', 'asc');
             
 
-        if(!is_null($SearchElementArray['search_maincategory_name'])){            
-            $maincategory_m_list = $maincategory_m_list->where('maincategory_m.maincategory_name', 'like', '%' . $SearchElementArray['search_maincategory_name'] . '%');
+        if(!is_null($search_element_array['search_maincategory_name'])){            
+            $maincategory_m_list = $maincategory_m_list->where('maincategory_m.maincategory_name', 'like', '%' . $search_element_array['search_maincategory_name'] . '%');
         }
 
         $maincategory_m_list = $maincategory_m_list->paginate(env('paginate_count'));
 
-        return view('headquarters/screen/master/maincategory/index', compact('SearchElementArray','maincategory_m_list'));
+        return view('headquarters/screen/master/maincategory/index', compact('search_element_array','maincategory_m_list'));
     }
 
 

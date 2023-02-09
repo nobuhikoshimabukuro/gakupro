@@ -12,7 +12,7 @@
 
     <div class="row">
         <div class="col-6 text-start">
-            <h4 class="MasterTitle">
+            <h4 class="master_title">
                 スタッフマスタ
             </h4>
         </div>
@@ -217,7 +217,7 @@
                             <table class="w-100">
                                 
                                 <tr>
-                                    <td class="text-start">スタッフIDs</td>                                
+                                    <td class="text-start">スタッフID</td>                                
                                 </tr>
     
                                 <tr>                                

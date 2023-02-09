@@ -78,7 +78,7 @@ Route::post('headquarters/master/member/delete_or_restore', [member_m_controller
 Route::get('headquarters/master/member/login_info_check', [member_m_controller::class, 'login_info_check'])->name('master.member.login_info_check');
 Route::post('headquarters/master/member/login_info_update', [member_m_controller::class, 'login_info_update'])->name('master.member.login_info_update');
 
-
+Route::get('headquarters/master/member/school_search', [member_m_controller::class, 'school_search'])->name('master.member.school_search');
 Route::get('headquarters/master/member/majorsubject_search', [member_m_controller::class, 'majorsubject_search'])->name('master.member.majorsubject_search');
 
 //本部  End

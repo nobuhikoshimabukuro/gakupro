@@ -16,7 +16,7 @@
     <div class="row">
 
         <div class="col-6 text-start">
-            <h4 class="MasterTitle">
+            <h4 class="master_title">
                 専攻マスタ
             </h4>
         </div>       
@@ -30,10 +30,10 @@
 
     </div>
       
-    <form id="SearchForm" class="row" action="" method="get">
+    <form id="search_form" class="row" action="" method="get">
 
         <div class="col-12">
-            <div id="SearchFormArea" class="table_wrap m-0 p-0">
+            <div id="search_form_area" class="table_wrap m-0 p-0">
                 <table id='' class='search_info_table'>
                     <tr>
                         <th>学校区分選択</th>                
@@ -50,19 +50,24 @@
                             <select id='search_school_division' name='search_school_division' class='form-control input-sm'>
                                 <option value=''>未選択</option>
                                     @foreach($school_division_list as $item)
-                                    <option value="{{$item->school_division_cd}}"@if($SearchElementArray['search_school_division'] == $item->school_division_cd) selected @endif>
+                                    <option value="{{$item->school_division_cd}}"@if($search_element_array['search_school_division'] == $item->school_division_cd) selected @endif>
                                         {{$item->school_division_name}}
                                     </option>
                                     @endforeach
                             </select>
                         </td> 
                         <td>
-                            <select id='search_school_cd' name='search_school_cd' class='form-control input-sm'>
-                                <option value=''>未選択</option>
-                                @foreach($school_m_list as $item)
+                            @if(is_null($search_element_array['search_school_division']))                             
+                                <select id='search_school_cd' name='search_school_cd' class='form-control input-sm impossible'>
+                                <option value=''>学校区分を選択してください。</option>
+                            @else
+                                <select id='search_school_cd' name='search_school_cd' class='form-control input-sm'>
+                                <option value=''>-----</option>
+                            @endif
+                                @foreach($school_list as $item)
                                     <option value="{{$item->school_cd}}" 
                                         class="target_school_division target_school_division_{{$item->school_division}}"
-                                        @if($SearchElementArray['search_school_cd'] == $item->school_cd) selected @endif                                    
+                                        @if($search_element_array['search_school_cd'] == $item->school_cd) selected @endif                                    
                                     >
                                         {{$item->school_name}}
                                         
@@ -71,22 +76,22 @@
                             </select>
                         </td>
                         <td>
-                            <input type="text" id="" name="search_school_name" value="{{$SearchElementArray['search_school_name']}}" class="form-control">
+                            <input type="text" id="" name="search_school_name" value="{{$search_element_array['search_school_name']}}" class="form-control">
                         </td>                
                         <td>
-                            <input type="text" id="" name="search_majorsubject_name" value="{{$SearchElementArray['search_majorsubject_name']}}" class="form-control">
+                            <input type="text" id="" name="search_majorsubject_name" value="{{$search_element_array['search_majorsubject_name']}}" class="form-control">
                         </td>
                     
                         <td>                             
-                            <button type="submit" id="" class="original_button search_button" onclick="return SearchFormCheck();">検索 <i class="fas fa-search"></i></button>                                                                                          
+                            <button type="submit" id="" class="original_button search_button" onclick="return search_formCheck();">検索 <i class="fas fa-search"></i></button>                                                                                          
                         </td>
                     </tr>
 
                 </table>
             </div>
-        </div>
-             
+        </div>             
     </form>
+
     <div class="m-0 text-start">
         {{-- ページャー --}}                
         @if(count($majorsubject_m_list) > 0)                                
@@ -223,10 +228,20 @@
                                 
                                 <input type="hidden" name="processflg" id="processflg" value="">               
 
-                                <label for="school_cd" class="col-md-6 col-form-label original-label">学校名</label>
-                                <select id='school_cd' name='school_cd' class='form-control input-sm'>
+                                <label for="school_division" class="col-md-6 col-form-label original-label">区分</label>
+                                <select id='school_division' name='school_division' class='form-control input-sm'>
                                     <option value=''>未選択</option>
-                                    @foreach($school_m_list as $item)
+                                        @foreach($school_division_list as $item)
+                                        <option value="{{$item->school_division_cd}}">
+                                            {{$item->school_division_name}}
+                                        </option>
+                                        @endforeach
+                                </select>
+
+                                <label for="school_cd" class="col-md-6 col-form-label original-label">学校名</label>
+                                <select id='school_cd' name='school_cd' class='form-control input-sm impossible'>
+                                    <option value=''>学校区分を選択してください。</option>
+                                    @foreach($school_list as $item)
                                         <option value="{{$item->school_cd}}" >
                                             {{$item->school_name}}                                            
                                         </option>
@@ -355,11 +370,11 @@
 
 //一覧表示画面の検索ボタンクリック時の処理
 //検索項目に値に、入力または選択があるかチェックする
-function SearchFormCheck() {
+function search_formCheck() {
 
 	 $(".is-invalid").removeClass('is-invalid');
 
-	var FormData = $("#SearchForm").serializeArray();
+	var FormData = $("#search_form").serializeArray();
 	var NoInputCheck = false;
 
 	$.each(FormData, function(i, element) {		
@@ -390,28 +405,106 @@ function SearchFormCheck() {
 $(function(){
 
 
-    
-
     $('#search_school_division').change(function() {
-
-        $("#page_menu1 option").each(function(i){
-            alert($(this).text() + " : " + $(this).val());
+        school_search(1);
     });
 
+    $('#school_division').change(function() {
+        school_search(2);
+    });
+    
+    function school_search(branch){
+       
+        var target_form_id = "";
+        var search_school_division = "";       
+        var target_element_id = "";
+       
+        if(branch == 1){
 
-        var search_school_division = $(this).val();
+            target_form_id = "#search_form";
+            search_school_division = $('#search_school_division').val();
+            target_element_id = "#search_school_cd";
+        }else if(branch == 2){
 
-        $("#search_school_cd").val("");
-        
-        $('.target_school_division').removeClass('d-none');
-
-        if(search_school_division != ""){
-            $('.target_school_division').addClass('d-none');
-            $('.target_school_division_' + search_school_division).removeClass('d-none');
+            target_form_id = "#save_form";
+            search_school_division = $('#school_division').val();
+            target_element_id = "#school_cd";
         }
+
+       $("select" + target_element_id + " option").remove();
+
+       $(target_element_id).removeClass("impossible");
+       
+       if(search_school_division == ""){
+           $(target_element_id).addClass("impossible");
+           $(target_element_id).append($("<option>").val("").text("学校区分を選択してください。"));
+           return false;
+       }
+
+       //マウスカーソルを砂時計に
+       document.body.style.cursor = 'wait';
+
+       var Url = "{{ route('master.member.school_search')}}"
+
+       $(target_form_id).addClass("impossible");
+
+       $.ajax({
+           url: Url, // 送信先
+           type: 'get',
+           dataType: 'json',
+           data: {search_school_division : search_school_division},
+           headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+
+       })
+       .done(function (data, textStatus, jqXHR) {
+           // テーブルに通信できた場合
+           var ResultArray = data.ResultArray;
+
+           var status = ResultArray["status"];
+
+           //テーブルに通信時、データを検索できたか判定
+           if (status == 'success') {
+
+                var school_list = ResultArray["school_list"];
+
+                $(target_element_id).append($("<option>").val("").text("------"));
+                $.each(school_list, function(index, info) {
+
+                    var school_cd = info["school_cd"];
+                    var school_name = info["school_name"];
+
+                    $(target_element_id).append($("<option>").val(school_cd).text(school_name));
+
+                })
+
+               $(target_element_id).removeClass("impossible");
+               
+           }else if(status == 'nodata'){
+                       
+               $(target_element_id).append($("<option>").val('').text('学校情報なし'));
+
+           }else{
         
-        
-    });
+               $(target_element_id).append($("<option>").val('').text('学校情報取得エラー'));
+
+           }
+
+           //マウスカーソルを通常に
+           document.body.style.cursor = 'auto';
+           $(target_form_id).removeClass("impossible");
+
+       })
+           .fail(function (data, textStatus, errorThrown) {
+           
+                //マウスカーソルを通常に
+               document.body.style.cursor = 'auto';
+               $(target_form_id).removeClass("impossible");
+               $(target_element_id).append($("<option>").val('').text('学校情報取得エラー'));
+
+           });
+
+
+   }
 
     //備考モーダル
     $('#remarks_modal').on('show.bs.modal',function(e){
@@ -517,7 +610,7 @@ $(function(){
     // 「クリア」ボタンがクリックされたら
     $('.clear_button').click(function () {
 
-        var FormData = $("#SearchForm").serializeArray();        
+        var FormData = $("#search_form").serializeArray();        
 
         $.each(FormData, function(i, element) {		
             $("[name='"+ element.name +"']").val("");          

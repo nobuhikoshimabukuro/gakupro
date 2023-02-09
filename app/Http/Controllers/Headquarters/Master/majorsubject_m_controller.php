@@ -19,16 +19,12 @@ class majorsubject_m_controller extends Controller
     function index(Request $request)
     {
 
-        
-        $majorsubject_m_list = array();
-
-        
         //検索項目格納用配列
-        $SearchElementArray = [
+        $search_element_array = [
             'search_school_division' => $request->search_school_division,
             'search_school_cd' => $request->search_school_cd,
             'search_school_name' => $request->search_school_name,
-            'search_majorsubject_name' => $request->search_majorsubject_name
+            'search_majorsubject_name' => $request->search_majorsubject_name,            
         ];
 
         
@@ -36,7 +32,7 @@ class majorsubject_m_controller extends Controller
         $school_division_list = create_list::school_division_list();
        
 
-        $school_m_list = school_m_model::select(
+        $school_list = school_m_model::select(
             'school_m.school_cd as school_cd',
             'school_m.school_name as school_name',
             'school_m.school_division as school_division',
@@ -69,26 +65,26 @@ class majorsubject_m_controller extends Controller
         ->orderBy('majorsubject_m.school_cd', 'asc')        
         ->orderBy('majorsubject_m.majorsubject_cd', 'asc') ;
         
-        if(!is_null($SearchElementArray['search_school_division'])){
-            $majorsubject_m_list = $majorsubject_m_list->where('school_m.school_division', '=', $SearchElementArray['search_school_division']);
+        if(!is_null($search_element_array['search_school_division'])){
+            $majorsubject_m_list = $majorsubject_m_list->where('school_m.school_division', '=', $search_element_array['search_school_division']);
         }
         
-        if(!is_null($SearchElementArray['search_school_cd'])){
-            $majorsubject_m_list = $majorsubject_m_list->where('majorsubject_m.school_cd', '=', $SearchElementArray['search_school_cd']);
+        if(!is_null($search_element_array['search_school_cd'])){
+            $majorsubject_m_list = $majorsubject_m_list->where('majorsubject_m.school_cd', '=', $search_element_array['search_school_cd']);
         }
         
-        if(!is_null($SearchElementArray["search_school_name"])){
-            $majorsubject_m_list = $majorsubject_m_list->where('school_m.school_name', 'like', '%' . $SearchElementArray['search_school_name'] . '%');
+        if(!is_null($search_element_array["search_school_name"])){
+            $majorsubject_m_list = $majorsubject_m_list->where('school_m.school_name', 'like', '%' . $search_element_array['search_school_name'] . '%');
         } 
         
-        if(!is_null($SearchElementArray["search_majorsubject_name"])){
-            $majorsubject_m_list = $majorsubject_m_list->where('majorsubject_m.majorsubject_name', 'like', '%' . $SearchElementArray['search_majorsubject_name'] . '%');            
+        if(!is_null($search_element_array["search_majorsubject_name"])){
+            $majorsubject_m_list = $majorsubject_m_list->where('majorsubject_m.majorsubject_name', 'like', '%' . $search_element_array['search_majorsubject_name'] . '%');            
         } 
 
         $majorsubject_m_list = $majorsubject_m_list->paginate(env('paginate_count'));
       
         
-        return view('headquarters/screen/master/majorsubject/index', compact('SearchElementArray','school_division_list','school_m_list','majorsubject_m_list'));
+        return view('headquarters/screen/master/majorsubject/index', compact('search_element_array','school_division_list','school_list','majorsubject_m_list'));
     }
 
 
@@ -144,7 +140,7 @@ class majorsubject_m_controller extends Controller
                         'majorsubject_name' => $majorsubject_name,
                         'studyperiod' => $studyperiod,
                         'remarks' => $remarks,
-                        'created_by' => $operator,          
+                        'updated_by' => $operator,          
                     ]
                 );
             }

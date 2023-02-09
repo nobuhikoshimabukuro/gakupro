@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
             [
                 'maincategory_cd' => 1,
                 'subcategory_cd' => 1,
-                'subcategory_name' => '未選択',
+                'subcategory_name' => '男性',
                 'display_order' => 1,
                 'created_by' => '9999',
                 
@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
             [
                 'maincategory_cd' => 1,
                 'subcategory_cd' => 2,
-                'subcategory_name' => '男性',
+                'subcategory_name' => '女性',
                 'display_order' => 2,
                 'created_by' => '9999',
                 
@@ -70,7 +70,7 @@ class DatabaseSeeder extends Seeder
             [
                 'maincategory_cd' => 1,
                 'subcategory_cd' => 3,
-                'subcategory_name' => '女性',
+                'subcategory_name' => '未選択',
                 'display_order' => 3,
                 'created_by' => '9999',
                 
@@ -446,7 +446,7 @@ class DatabaseSeeder extends Seeder
                 'member_id' => '1',
                 'member_name' => '学生　太郎',
                 'member_name_yomi' => 'ガクセイ　タロウ',
-                'gender' => '2',
+                'gender' => '1',
                 'birthday' => '2005/02/09',
                 'tel' => '080-1234-5678',
                 'mailaddress' => 'test@test.com',

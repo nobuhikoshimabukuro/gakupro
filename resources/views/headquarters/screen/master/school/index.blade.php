@@ -12,7 +12,7 @@
 
     <div class="row">
         <div class="col-6 text-start">
-            <h4 class="MasterTitle">
+            <h4 class="master_title">
                 学校マスタ
             </h4>
         </div>
@@ -27,11 +27,11 @@
 
     </div>
 
-    <form id="SearchForm" class="row" action="" method="get">
+    <form id="search_form" class="row" action="" method="get">
 
         <div class="col-12">
     
-            <div id="SearchFormArea" class="table_wrap m-0 p-0">
+            <div id="search_form_area" class="table_wrap m-0 p-0">
                 <table id='' class='search_info_table'>
                     <tr>                
                         <th>学校区分選択</th>
@@ -46,18 +46,18 @@
                             <select id='' name='search_school_division' class='form-control input-sm'>
                                 <option value=''>未選択</option>
                                     @foreach($school_division_list as $item)
-                                    <option value="{{$item->school_division_cd}}"@if($SearchElementArray['search_school_division'] == $item->school_division_cd) selected @endif>
+                                    <option value="{{$item->school_division_cd}}"@if($search_element_array['search_school_division'] == $item->school_division_cd) selected @endif>
                                         {{$item->school_division_name}}
                                     </option>
                                     @endforeach
                             </select>
                         </td>
                         <td>
-                            <input type="text" id="" name="search_school_name" value="{{$SearchElementArray['search_school_name']}}" class="form-control">
+                            <input type="text" id="" name="search_school_name" value="{{$search_element_array['search_school_name']}}" class="form-control">
                         </td>                
                         
                         <td>                         
-                            <button type="submit" id="" class="original_button search_button" onclick="return SearchFormCheck();">検索 <i class="fas fa-search"></i></button>                                                                                              
+                            <button type="submit" id="" class="original_button search_button" onclick="return search_formCheck();">検索 <i class="fas fa-search"></i></button>                                                                                              
                         </td>
                     </tr>
 
@@ -70,8 +70,8 @@
 
     <div class="m-0 text-start">
         {{-- ページャー --}}                
-        @if(count($school_m_list) > 0)                                
-          <div class="m-0">{{ $school_m_list->appends(request()->query())->links() }}</div>
+        @if(count($school_list) > 0)                                
+          <div class="m-0">{{ $school_list->appends(request()->query())->links() }}</div>
         @endif
     </div>
   
@@ -88,10 +88,10 @@
                 <th>HP</th>
                 <th>専攻総数</th>
                 <th>備考</th>
-                <th>件数【<span id='total_count'>{{count($school_m_list)}}</span>件】</th>
+                <th>件数【<span id='total_count'>{{count($school_list)}}</span>件】</th>
             </tr>
 
-            @foreach ($school_m_list as $item)
+            @foreach ($school_list as $item)
             <tr>
                 <td>{{$item->school_cd}}</td>
                 <td>{{$item->school_division_name}}</td>
@@ -476,7 +476,7 @@ $(function(){
     // 「クリア」ボタンがクリックされたら
     $('.clear_button').click(function () {
 
-        var FormData = $("#SearchForm").serializeArray();        
+        var FormData = $("#search_form").serializeArray();        
 
         $.each(FormData, function(i, element) {		
             $("[name='"+ element.name +"']").val("");          

@@ -22,7 +22,7 @@ class subcategory_m_controller extends Controller
     {
 
         //検索項目格納用配列
-        $SearchElementArray = [
+        $search_element_array = [
             'search_maincategory_cd' => $request->search_maincategory_cd,
             'search_subcategory_name' => $request->search_subcategory_name,
         ];
@@ -48,17 +48,17 @@ class subcategory_m_controller extends Controller
         ->orderBy('subcategory_m.display_order', 'asc')
         ->withTrashed();
         
-        if(!is_null($SearchElementArray['search_maincategory_cd'])){
-            $subcategory_m_list = $subcategory_m_list->where('subcategory_m.maincategory_cd', '=', $SearchElementArray['search_maincategory_cd']);
+        if(!is_null($search_element_array['search_maincategory_cd'])){
+            $subcategory_m_list = $subcategory_m_list->where('subcategory_m.maincategory_cd', '=', $search_element_array['search_maincategory_cd']);
         }
 
-        if(!is_null($SearchElementArray['search_subcategory_name'])){            
-            $subcategory_m_list = $subcategory_m_list->where('subcategory_m.subcategory_name', 'like', '%' . $SearchElementArray['search_subcategory_name'] . '%');
+        if(!is_null($search_element_array['search_subcategory_name'])){            
+            $subcategory_m_list = $subcategory_m_list->where('subcategory_m.subcategory_name', 'like', '%' . $search_element_array['search_subcategory_name'] . '%');
         }
 
         $subcategory_m_list = $subcategory_m_list->paginate(env('paginate_count'));
 
-        return view('headquarters/screen/master/subcategory/index', compact('SearchElementArray','subcategory_m_list','maincategory_m_list'));        
+        return view('headquarters/screen/master/subcategory/index', compact('search_element_array','subcategory_m_list','maincategory_m_list'));        
     }
 
 

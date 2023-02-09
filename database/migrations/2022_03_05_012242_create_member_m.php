@@ -91,7 +91,8 @@ return new class extends Migration
 
             $table
                 ->integer('registration_status')
-                ->comment('登録状況:1=仮登録 2=本登録 3=卒業');
+                ->default(0)
+                ->comment('登録状況:1=本登録 2=卒業');
 
             $table
                 ->dateTime('created_at')

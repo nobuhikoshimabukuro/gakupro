@@ -20,7 +20,7 @@ class school_m_controller extends Controller
     {
 
         //検索項目格納用配列
-        $SearchElementArray = [
+        $search_element_array = [
             'search_school_cd' => $request->search_school_cd,
             'search_school_division' => $request->search_school_division,
             'search_school_name' => $request->search_school_name           
@@ -28,7 +28,7 @@ class school_m_controller extends Controller
 
         $school_division_list = create_list::school_division_list();
       
-        $school_m_list = school_m_model::select(
+        $school_list = school_m_model::select(
 
             'school_m.school_cd as school_cd',
             'school_m.school_division as school_division',
@@ -53,21 +53,21 @@ class school_m_controller extends Controller
         ->withTrashed();       
         
 
-        if(!is_null($SearchElementArray['search_school_cd'])){
-            $school_m_list = $school_m_list->where('school_m.school_cd', '=', $SearchElementArray['search_school_cd']);
+        if(!is_null($search_element_array['search_school_cd'])){
+            $school_list = $school_list->where('school_m.school_cd', '=', $search_element_array['search_school_cd']);
         }
 
-        if(!is_null($SearchElementArray['search_school_division'])){
-            $school_m_list = $school_m_list->where('school_m.school_division', '=', $SearchElementArray['search_school_division']);
+        if(!is_null($search_element_array['search_school_division'])){
+            $school_list = $school_list->where('school_m.school_division', '=', $search_element_array['search_school_division']);
         }
         
-        if(!is_null($SearchElementArray["search_school_name"])){
-            $school_m_list = $school_m_list->where('school_m.school_name', 'like', '%' . $SearchElementArray['search_school_name'] . '%');
+        if(!is_null($search_element_array["search_school_name"])){
+            $school_list = $school_list->where('school_m.school_name', 'like', '%' . $search_element_array['search_school_name'] . '%');
         } 
       
-        $school_m_list = $school_m_list->paginate(env('paginate_count'));    
+        $school_list = $school_list->paginate(env('paginate_count'));    
 
-        foreach($school_m_list as $info){
+        foreach($school_list as $info){
 
             $school_cd = $info->school_cd;
 
@@ -83,7 +83,7 @@ class school_m_controller extends Controller
 
         
         
-        return view('headquarters/screen/master/school/index', compact('SearchElementArray','school_m_list','school_division_list'));
+        return view('headquarters/screen/master/school/index', compact('search_element_array','school_list','school_division_list'));
     }
 
 
