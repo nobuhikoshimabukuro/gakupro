@@ -346,7 +346,7 @@
                     </div>
                    
                     <div class="modal-body">                                                          
-                        <textarea id="remarks_modal_Remarks" class="form-control" rows="4" cols="40" readonly></textarea>
+                        <textarea id="remarks_modal_remarks" class="form-control" rows="4" cols="40" readonly></textarea>
                     </div>
 
                     <div class="modal-footer">               
@@ -516,7 +516,7 @@ $(function(){
 
         var title = majorsubject_name + "の備考"
         $('#remarks_modal_title').html(title);
-        $('#remarks_modal_Remarks').val(remarks);
+        $('#remarks_modal_remarks').val(remarks);
         
     });
 

@@ -135,8 +135,16 @@
             @foreach ($member_list as $item)
             <tr>
                 <td>{{$item->member_id}}</td>
-                <td>{{$item->school_division_name}}</td>                
-                <td>{{$item->school_name}}</td>
+                <td>{{$item->school_division_name}}</td>
+
+                <td>{{$item->school_name}}
+                    <button class='modal_button' data-bs-toggle='modal' data-bs-target='#school_info_modal'                        
+                        data-schoolcd='{{$item->school_cd}}'                        
+                        > 
+                        <i class="fas fa-info"></i>
+                    </button>
+                </td>
+
                 <td>{{$item->majorsubject_name}}</td> 
                 <td>{{$item->member_name}}</td> 
 
@@ -417,6 +425,126 @@
             </div>
         </div>
 
+
+        {{-- 学校情報モーダル --}}
+        <div class="modal fade" id="school_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="school_info_modal_label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="school_info_modal_label">学校情報</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    
+                   
+                        <div class="modal-body">                     
+            
+                            <table class="w-100">
+                                
+                                <tr>
+                                    <th class="text-start">学校区分</th>                                
+                                </tr>
+    
+                                <tr>                                
+                                    <td class="text-start"><span id="school_info_modal_school_division_name"></span></td>
+                                </tr>
+
+                                <tr>
+                                    <th class="text-start">学校名</th>                                
+                                </tr>
+    
+                                <tr>                                
+                                    <td class="text-start"><span id="school_info_modal_school_name"></span></td>
+                                </tr>
+                             
+                                <tr>
+                                    <th class="text-start">郵便番号</th>                                
+                                </tr>
+    
+                                <tr>                                
+                                    <td class="text-start"><span id="school_info_modal_post_code"></span></td>
+                                </tr>
+
+                                <tr>
+                                    <th class="text-start">住所1</th>                                
+                                </tr>
+    
+                                <tr>                                
+                                    <td class="text-start"><span id="school_info_modal_address1"></span></td>
+                                </tr>
+
+                                <tr>
+                                    <th class="text-start">住所2</th>                                
+                                </tr>
+    
+                                <tr>                                
+                                    <td class="text-start"><span id="school_info_modal_address2"></span></td>
+                                </tr>
+
+                                <tr>
+                                    <th class="text-start">TEL</th>                                
+                                </tr>
+    
+                                <tr>                                
+                                    <td class="text-start"><span id="school_info_modal_tel"></span></td>
+                                </tr>
+
+                                <tr>
+                                    <th class="text-start">FAX</th>                                
+                                </tr>
+    
+                                <tr>                                
+                                    <td class="text-start"><span id="school_info_modal_fax"></span></td>
+                                </tr>
+
+                                <tr>
+                                    <th class="text-start">HP_URL</th>                                
+                                </tr>
+    
+                                <tr>                                
+                                    <td class="text-start"><span id="school_info_modal_hp_url"></span></td>
+                                </tr>
+
+                                <tr>
+                                    <th class="text-start">メールアドレス</th>                                
+                                </tr>
+    
+                                <tr>                                
+                                    <td class="text-start"><span id="school_info_modal_mailaddress"></span></td>
+                                </tr>
+                                
+                                <tr>
+                                    <th class="text-start">備考</th>                                
+                                </tr>
+    
+                                <tr>          
+                                    <td>
+                                        <textarea id="school_info_modal_remarks" class="form-control" rows="4" cols="40" readonly></textarea>
+                                    </td>
+                                    
+                                </tr>
+
+                            </table>                            
+
+                        </div>
+
+                        <div class="modal-footer">         
+                            
+                            <div class="row">
+
+                                <div class="col-12 tect-right">                                         
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>      
+                                </div>
+                                                        
+                            </div>          
+                            
+                        </div>
+                   
+
+                </div>
+            </div>
+        </div>
 
       
 
@@ -1024,6 +1152,91 @@ $(function(){
     });
 
 
+    //ログイン情報変更モーダル表示時
+    $('#school_info_modal').on('show.bs.modal', function(e) {
+        // イベント発生元
+        let evCon = $(e.relatedTarget);
+                         
+        school_info_search(evCon.data('schoolcd'));
+       
+      
+    });
+
+    function school_info_search(search_school_cd){
+            
+        $('#school_info_modal_school_division_name').html('');
+        $('#school_info_modal_school_name').html('');
+        $('#school_info_modal_post_code').html('');
+        $('#school_info_modal_address1').html('');
+        $('#school_info_modal_address2').html('');
+        $('#school_info_modal_tel').html('');
+        $('#school_info_modal_fax').html('');
+        $('#school_info_modal_mailaddress').html('');
+        $('#school_info_modal_hp_url').html('');
+        $('#school_info_modal_remarks').val("");     
+
+        if(school_cd == ""){
+            return false;
+        }
+
+        //マウスカーソルを砂時計に
+        document.body.style.cursor = 'wait';      
+
+        var Url = "{{ route('master.member.school_info_search')}}"
+
+        $.ajax({
+            url: Url, // 送信先
+            type: 'get',
+            dataType: 'json',
+            data: {search_school_cd : search_school_cd},
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+
+        })
+        .done(function (data, textStatus, jqXHR) {
+            // テーブルに通信できた場合
+            var ResultArray = data.ResultArray;
+
+            var status = ResultArray["status"];
+
+            //テーブルに通信時、データを検索できたか判定
+            if (status == 'success') {
+
+                var school_info = ResultArray["school_info"];
+
+                $('#school_info_modal_school_division_name').html(school_info["school_division_name"]);
+                $('#school_info_modal_school_name').html(school_info["school_name"]);
+                $('#school_info_modal_post_code').html(school_info["post_code"]);
+                $('#school_info_modal_address1').html(school_info["address1"]);
+                $('#school_info_modal_address2').html(school_info["address2"]);
+                $('#school_info_modal_tel').html(school_info["tel"]);
+                $('#school_info_modal_fax').html(school_info["fax"]);
+                $('#school_info_modal_hp_url').html(school_info["hp_url"]);
+                $('#school_info_modal_mailaddress').html(school_info["mailaddress"]);
+                $('#school_info_modal_remarks').html(school_info["remarks"]);
+
+                                
+            }else if(status == 'nodata'){
+                        
+                
+
+            }else{
+            
+                
+
+            }
+
+            //マウスカーソルを通常に
+            document.body.style.cursor = 'auto';
+            
+
+        })
+            .fail(function (data, textStatus, errorThrown) {
+            
+                    //マウスカーソルを通常に
+                document.body.style.cursor = 'auto';             
+
+            });
+   }
 
     // 「保存」ボタンがクリックされたら
     $('#save_button').click(function () {

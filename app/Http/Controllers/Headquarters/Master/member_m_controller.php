@@ -303,7 +303,7 @@ class member_m_controller extends Controller
         return back();
     }
 
-    //学校検索処理
+    //学校検索処理  プルダウン絞り込みのため
     function school_search(Request $request)
     {
         $search_school_division = $request->search_school_division;
@@ -358,7 +358,7 @@ class member_m_controller extends Controller
     }
 
 
-    //学校別専攻検索処理
+    //学校別専攻検索処理    プルダウン絞り込みのため
     function majorsubject_search(Request $request)
     {
 
@@ -418,7 +418,75 @@ class member_m_controller extends Controller
 
         return response()->json(['ResultArray' => $ResultArray]);
 
+    }
+
+    function school_info_search(Request $request){
+
+        $search_school_cd = $request->search_school_cd;
+
+        $get_school_info = school_m_model::select(
+
+            'school_m.school_cd as school_cd',
+            'school_m.school_division as school_division',
+            'school_division_info.subcategory_name as school_division_name',
+            'school_m.school_name as school_name',
+            'school_m.post_code as post_code',
+            'school_m.address1 as address1',
+            'school_m.address2 as address2',
+            'school_m.tel as tel',
+            'school_m.fax as fax',
+            'school_m.hp_url as hp_url',
+            'school_m.mailaddress as mailaddress',
+            'school_m.remarks as remarks',
+            
+            'school_m.deleted_at as deleted_at',
+        )
+        ->leftJoin('subcategory_m as school_division_info', function ($join) {
+            $join->on('school_division_info.subcategory_cd', '=', 'school_m.school_division')
+                 ->where('school_division_info.maincategory_cd', '=', env('school_division_subcategory_cd'));
+        })        
+        ->orderBy('school_m.school_cd', 'asc') 
+        ->where('school_m.school_cd', '=', $search_school_cd)
+        ->withTrashed()
+        ->first();
+        
+
+        
+
+        if(is_null($get_school_info)){
+
+            $message = "学校情報なし";
+            $ResultArray = array(
+                "status" => "nodata",
+                "message" => $message
+            );
+
+        }else{
+
+            $school_info = array(
+                "school_division_name" => $get_school_info->school_division_name,
+                "school_name" => $get_school_info->school_name,
+                "post_code" => $get_school_info->post_code,
+                "address1" => $get_school_info->address1,
+                "address2" => $get_school_info->address2,
+                "tel" => $get_school_info->tel,
+                "fax" => $get_school_info->fax,
+                "hp_url" => $get_school_info->hp_url,
+                "mailaddress" => $get_school_info->mailaddress,
+                "remarks" => $get_school_info->remarks
+            );
+
+            $ResultArray = array(
+                "status" => "success",
+                "school_info" =>  $school_info
+            );
+
+
+        }
+
+        return response()->json(['ResultArray' => $ResultArray]);
 
     }
+    
     
 }
