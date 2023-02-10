@@ -92,7 +92,7 @@ class majorsubject_m_controller extends Controller
     function save(majorsubject_m_request $request)
     {
 
-        $processflg = intval($request->processflg);
+        $process_flg = intval($request->process_flg);
 
         $school_cd = intval($request->school_cd);
         $majorsubject_cd = intval($request->majorsubject_cd);
@@ -104,7 +104,7 @@ class majorsubject_m_controller extends Controller
         
         try {
 
-            if($processflg == 0){
+            if($process_flg == 0){
 
                 //新規登録処理
                 $max_majorsubject_cd = majorsubject_m_model::

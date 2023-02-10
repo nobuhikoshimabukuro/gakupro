@@ -201,6 +201,7 @@ class DatabaseSeeder extends Seeder
                 'tel' => '090-1234-5678',
                 'mailaddress' => '',
                 'authority' => '3',
+                'remarks' => '学生応援プロジェクト創始者、システム管理者',
                 'created_by' => '9999',
                 
             ],
@@ -214,6 +215,7 @@ class DatabaseSeeder extends Seeder
                 'tel' => '090-1234-5678',
                 'mailaddress' => '',
                 'authority' => '3',
+                'remarks' => '学生応援プロジェクト創始者、兼代表',
                 'created_by' => '9999',
                 
             ],          
@@ -227,6 +229,7 @@ class DatabaseSeeder extends Seeder
                 'tel' => '090-1234-5678',
                 'mailaddress' => '',
                 'authority' => '1',
+                'remarks' => '2023年12月入社',
                 'created_by' => '9999',
                 
             ],          

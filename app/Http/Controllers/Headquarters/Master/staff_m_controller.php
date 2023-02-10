@@ -14,13 +14,19 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Original\Common;
 use App\Original\create_list;
-use App\Repositories\gender_list;
-use App\Repositories\authority_list;
+
 use Illuminate\Support\Facades\DB;
 class staff_m_controller extends Controller
 {
     function index(Request $request)
     {
+
+        //検索項目格納用配列
+        $search_element_array = [
+            'search_authority_cd' => $request->search_authority_cd,            
+            'search_staff_name' => $request->search_staff_name,            
+        ];
+
         $gender_list = create_list::gender_list();
 
         $authority_list = create_list::authority_list();      
@@ -64,8 +70,18 @@ class staff_m_controller extends Controller
             ;
         })       
         ->withTrashed()
-        ->orderBy('staff_m.staff_id', 'asc')        
-        ->paginate(env('paginate_count'));
+        ->orderBy('staff_m.staff_id', 'asc');        
+
+        if(!is_null($search_element_array['search_authority_cd'])){
+            $staff_list = $staff_list->where('staff_m.authority', '=', $search_element_array['search_authority_cd']);
+        }
+        
+        if(!is_null($search_element_array["search_staff_name"])){
+            $staff_list = $staff_list->where('staff_m.staff_name', 'like', '%' . $search_element_array['search_staff_name'] . '%');
+        } 
+
+
+        $staff_list = $staff_list->paginate(env('paginate_count'));
      
         foreach($staff_list as $info){
 
@@ -77,14 +93,14 @@ class staff_m_controller extends Controller
             $info->password = $password;            
         }
         
-        return view('headquarters/screen/master/staff/index', compact('staff_list','gender_list','authority_list','operator_authority'));
+        return view('headquarters/screen/master/staff/index', compact('staff_list','search_element_array','gender_list','authority_list'));
     }
 
 
     //  更新処理
     function save(staff_m_request $request)
     {
-        $processflg = intval($request->processflg);
+        $process_flg = intval($request->process_flg);
         $staff_id = intval($request->staff_id);
 
         
@@ -101,7 +117,7 @@ class staff_m_controller extends Controller
         
         try {
 
-            if($processflg == 0){
+            if($process_flg == 0){
                                
                 //新規登録処理                
                 staff_m_model::create(

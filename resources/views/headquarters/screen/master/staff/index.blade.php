@@ -22,11 +22,52 @@
         <div class="col-6 new_addition_button">
             <a href="" class="btn btn--red btn--radius btn--cubic" 
             data-bs-toggle='modal' data-bs-target='#save_modal'            
-            data-processflg='0'
+            data-process_flg='0'
             ><i class='fas fa-plus-circle'></i><span class="new_addition_button_name"></span></a>
         </div>
 
     </div>
+
+    <form id="search_form" class="row" action="" method="get">
+
+        <div class="col-12">
+    
+            <div id="search_form_area" class="table_wrap m-0 p-0">
+                <table id='' class='search_info_table'>
+                    <tr>                
+                        <th>権限選択</th>
+                        <th>氏名</th>                    
+                        <th>
+                            <a id="" class="original_button clear_button">クリア</a>  
+                        </th>                    
+                    </tr>
+
+                    <tr>              
+                        <td>
+                            <select id='' name='search_authority_cd' class='form-control input-sm'>
+                                <option value=''>未選択</option>
+                                    @foreach($authority_list as $item)
+                                    <option value="{{$item->authority_cd}}"@if($search_element_array['search_authority_cd'] == $item->authority_cd) selected @endif>
+                                        {{$item->authority_name}}
+                                    </option>
+                                    @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" id="" name="search_staff_name" value="{{$search_element_array['search_staff_name']}}" class="form-control">
+                        </td>                
+                        
+                        <td>                         
+                            <button type="submit" id="" class="original_button search_button" onclick="return search_formCheck();">検索 <i class="fas fa-search"></i></button>                                                                                              
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        
+        </div>
+             
+    </form>
 
     <div class="m-0 text-start">
         {{-- ページャー --}}                
@@ -36,7 +77,7 @@
     </div>
   
 
-    <div id="DataDisplayArea" class="table_wrap m-0">
+    <div id="data_display_area" class="table_wrap m-0">
         <table id='' class='data_info_table'>
             
             <tr>
@@ -44,9 +85,10 @@
                 <th>氏名</th>                
                 <th>TEL</th>                
                 <th>権限</th>
+                <th>備考</th>
                
 
-                @if($operator_authority > 1)
+                @if(session()->get('authority') > 1)
                     <th>件数【<span id='total_count'>{{count($staff_list)}}</span>件】</th>
                     <th>ログイン情報</th>
                 @endif
@@ -58,9 +100,55 @@
                 <td>{{$item->staff_name}}</td>                
                 <td>{{$item->tel}}</td>
                 <td>{{$item->authority_name}}</td>
-               
 
-                @if($operator_authority > 1)
+                @php
+                    // 表示する最大文字数
+                    $LimitStr = 4;
+                    $remarks_button_name = "";
+
+                    // ボタン表示フラグ
+                    $remarks_button_flg = true;
+
+                    if(!is_null($item->remarks)){
+
+                        // 申込情報備考文字数取得
+                        $string_count = mb_strlen($item->remarks);
+
+                        if($string_count > $LimitStr){
+                            // 最大文字数に達している場合、"$申込情報備考（指定した文字数）..."と表示
+                            $remarks_button_name =  mb_substr($item->remarks, 0 , $LimitStr);
+                            $remarks_button_name =  $remarks_button_name . "...";
+
+
+                        }else if($string_count <= $LimitStr){
+                            
+                            $remarks_button_name = $item->remarks;
+                        }
+
+                    }else{
+
+                        // 申込情報備考が登録されていない場合
+                        $remarks_button_flg = false;
+
+                    }
+
+                @endphp
+
+                    <td>
+                        @if($remarks_button_flg)  
+                            
+                            <button class='modal_button' data-bs-toggle='modal' data-bs-target='#remarks_modal'
+                            data-staffid="{{$item->staff_id}}"
+                            data-staffname='{{$item->staff_name}}'
+                            data-remarks="{{$item->remarks}}"											
+                            >{{$remarks_button_name}}                  
+                    
+                        @endif                  
+
+                    </td>
+                                
+
+                @if(session()->get('authority') > 1)
 
                     <td>
                         <button class='modal_button' data-bs-toggle='modal' data-bs-target='#save_modal'
@@ -73,7 +161,7 @@
                             data-authority='{{$item->authority}}' 
                             data-remarks='{{$item->remarks}}' 
                                                    
-                            data-processflg='1'> 
+                            data-process_flg='1'> 
                             <i class='far fa-edit'></i>
                         </button>
 
@@ -138,7 +226,7 @@
                         <div class="modal-body">  
                                                         
                             <input type="hidden" name="staff_id" id="staff_id" value="">
-                            <input type="hidden" name="processflg" id="processflg" value="">
+                            <input type="hidden" name="process_flg" id="process_flg" value="">
                                                         
                            
                             <div class="form-group row">
@@ -254,6 +342,27 @@
             </div>
         </div>
 
+        {{-- 備考確認用モーダル --}}
+        <div class="modal fade" id="remarks_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="remarks_modal_label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+	                  <div class="modal-header">
+                        <h5 class="modal-title" id=""><span id="remarks_modal_title"></span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                   
+                    <div class="modal-body">                                                          
+                        <textarea id="remarks_modal_Remarks" class="form-control" rows="4" cols="40" readonly></textarea>
+                    </div>
+
+                    <div class="modal-footer">               
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         {{-- パスワード変更モーダル --}}
         <div class="modal fade" id="login_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="login_info_modal_Label" aria-hidden="true">
@@ -310,6 +419,32 @@
 <script type="text/javascript">
 
 $(function(){
+    
+    // 「クリア」ボタンがクリックされたら
+    $('.clear_button').click(function () {
+
+        var FormData = $("#search_form").serializeArray();        
+
+        $.each(FormData, function(i, element) {		
+            $("[name='"+ element.name +"']").val("");          
+        });
+
+    });
+
+     //備考モーダル
+     $('#remarks_modal').on('show.bs.modal',function(e){
+        // イベント発生元
+        let evCon = $(e.relatedTarget);
+
+        let staff_name = evCon.data('staffname');
+        let remarks = evCon.data('remarks');
+
+        var title = staff_name + "さんの備考"
+        $('#remarks_modal_title').html(title);
+        $('#remarks_modal_Remarks').val(remarks);
+        
+    });
+
 
     //登録、更新用モーダル表示時
     $('#save_modal').on('show.bs.modal', function(e) {
@@ -340,8 +475,8 @@ $(function(){
 
         
         //登録処理か更新処理か判断
-        var processflg = evCon.data('processflg');
-        if(processflg == '0'){
+        var process_flg = evCon.data('process_flg');
+        if(process_flg == '0'){
             $('#save_modal_title').html('登録処理');                          
             $('#save_modal_button_display').html('登録');
             staff_id = 0;
@@ -350,7 +485,7 @@ $(function(){
             $('#save_modal_button_display').html('更新');
         }
         
-        $('#processflg').val(processflg);    
+        $('#process_flg').val(process_flg);    
         $('#staff_id').val(staff_id);
         $('#staff_name').val(staff_name);
         $('#staff_name_yomi').val(staff_name_yomi);

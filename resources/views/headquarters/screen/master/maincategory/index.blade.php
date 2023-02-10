@@ -27,7 +27,7 @@
             <a href="" class="btn btn--red btn--radius btn--cubic" 
             data-bs-toggle='modal' data-bs-target='#save_modal'
             data-maincategorycd='新規登録時に自動採番'
-            data-processflg='0'
+            data-process_flg='0'
             ><i class='fas fa-plus-circle'></i><span class="new_addition_button_name"></span></a>               
         </div>
 
@@ -71,7 +71,7 @@
     </div>
   
 
-    <div id="DataDisplayArea" class="table_wrap m-0">
+    <div id="data_display_area" class="table_wrap m-0">
 
        
        
@@ -91,7 +91,7 @@
                     <button class='modal_button' data-bs-toggle='modal' data-bs-target='#save_modal'
                         data-maincategorycd='{{$item->maincategory_cd}}'
                         data-maincategoryname='{{$item->maincategory_name}}'
-                        data-processflg='1'> 
+                        data-process_flg='1'> 
                         <i class='far fa-edit'></i>
                     </button>
 
@@ -241,8 +241,8 @@ $(function(){
 
 
         //登録処理か更新処理か判断
-        var processflg = evCon.data('processflg');
-        if(processflg == '0'){
+        var process_flg = evCon.data('process_flg');
+        if(process_flg == '0'){
             $('#save_modal_title').html('新規登録処理');
             $('#maincategory_cd_display').val(maincategory_cd);
             $('#maincategory_cd').val(0);

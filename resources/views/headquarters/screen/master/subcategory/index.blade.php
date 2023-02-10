@@ -20,7 +20,7 @@
         <div class="col-6 new_addition_button">
             <a href="" class="btn btn--red btn--radius btn--cubic" 
             data-bs-toggle='modal' data-bs-target='#save_modal'            
-            data-processflg='0'
+            data-process_flg='0'
             ><i class='fas fa-plus-circle'></i><span class="new_addition_button_name"></span></a>            
         </div>
 
@@ -74,7 +74,7 @@
     </div>
   
 
-    <div id="DataDisplayArea" class="table_wrap m-0">
+    <div id="data_display_area" class="table_wrap m-0">
 
         <table id='' class='data_info_table'>
             
@@ -94,7 +94,7 @@
                         data-subcategorycd='{{$item->subcategory_cd}}'                        
                         data-displayorder='{{$item->display_order}}'
                         data-subcategoryname='{{$item->subcategory_name}}'
-                        data-processflg='1'> 
+                        data-process_flg='1'> 
                         <i class='far fa-edit'></i>
                     </button>
 
@@ -140,7 +140,7 @@
                         <div class="modal-body">  
                             
                             <input type="hidden" name="subcategory_cd" id="subcategory_cd" value="">
-                            <input type="hidden" name="processflg" id="processflg" value="">                            
+                            <input type="hidden" name="process_flg" id="process_flg" value="">                            
                                                         
                             <div class="form-group row">
                                 <label for="maincategory_name" class="col-md-6 col-form-label original-label">大分類名</label>
@@ -272,12 +272,12 @@ $(function(){
         var display_order = evCon.data('displayorder');
 
         //登録処理か更新処理か判断
-        var processflg = evCon.data('processflg');
+        var process_flg = evCon.data('process_flg');
 
 
         $('#maincategory_cd').removeClass("impossible");
 
-        if(processflg == '0'){
+        if(process_flg == '0'){
             $('#save_modal_title').html('登録処理');         
             $('#subcategory_cd').val(0);            
             $('#save_modal_button_display').html('登録');            
@@ -290,7 +290,7 @@ $(function(){
             $('#maincategory_cd').addClass("impossible");
         }
         
-        $('#processflg').val(processflg); 
+        $('#process_flg').val(process_flg); 
         $('#maincategory_cd').val(maincategory_cd); 
 
         $('#subcategory_name').val(subcategory_name);

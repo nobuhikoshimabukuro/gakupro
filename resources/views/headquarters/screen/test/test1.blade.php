@@ -19,7 +19,7 @@
 
 <style>
 
-#DataDisplayArea{
+#data_display_area{
 
     min-width: 100vw;
     max-width: 100vw;
@@ -58,7 +58,7 @@
 
 <body>
     <a href="{{$picturebook_info[0]['PublicPath']}}">pdfを表示</a>
-    <div id="DataDisplayArea" class="table_wrap m-0">
+    <div id="data_display_area" class="table_wrap m-0">
 
         <table id='' class='data_info_table'>
             

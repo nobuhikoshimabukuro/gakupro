@@ -66,7 +66,7 @@ class subcategory_m_controller extends Controller
     function save(subcategory_m_request $request)
     {
 
-        $processflg = intval($request->processflg);
+        $process_flg = intval($request->process_flg);
 
         $maincategory_cd = intval($request->maincategory_cd);
         $subcategory_cd = intval($request->subcategory_cd);
@@ -77,7 +77,7 @@ class subcategory_m_controller extends Controller
         
         try {
 
-            if($processflg == 0){
+            if($process_flg == 0){
 
                 //同様の登録がないかチェック
                 //同じ大分類かつ中分類名が一致する場合はinfoする

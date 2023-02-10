@@ -148,7 +148,7 @@
                 </div> 
 
                 
-                <div id="DataDisplayArea" class="table_wrap m-0 p-0">
+                <div id="data_display_area" class="table_wrap m-0 p-0">
 
                     {{-- <table id='data_info_table' class='data_info_table'> --}}
                         <table id='' class='data_info_table m-0 p-0'>
@@ -332,13 +332,13 @@ $(function(){
 
         var mode = $(this).data('mode');
 
-        $("#DataDisplayArea").removeClass('d-none');
+        $("#data_display_area").removeClass('d-none');
         $("#image_display_area").removeClass('d-none');
 
         $(".DisplayChangeButton").removeClass('d-none');
         
         if(mode == 1){
-            $("#DataDisplayArea").addClass('d-none');           
+            $("#data_display_area").addClass('d-none');           
         }else{
             $("#image_display_area").addClass('d-none');           
         }

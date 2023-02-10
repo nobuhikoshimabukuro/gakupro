@@ -160,7 +160,7 @@ class member_m_controller extends Controller
     function save(member_m_request $request)
     {
 
-        $processflg = intval($request->processflg);
+        $process_flg = intval($request->process_flg);
 
         $member_id = intval($request->member_id);
         $member_name = $request->member_name;
@@ -184,7 +184,7 @@ class member_m_controller extends Controller
         
         try {
 
-            if($processflg == 0){
+            if($process_flg == 0){
 
                               
                 member_m_model::create(

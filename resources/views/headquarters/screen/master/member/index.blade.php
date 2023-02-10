@@ -21,7 +21,7 @@
         <div class="col-6 new_addition_button">
             <a href="" class="btn btn--red btn--radius btn--cubic" 
             data-bs-toggle='modal' data-bs-target='#save_modal'            
-            data-processflg='0'
+            data-process_flg='0'
             ><i class='fas fa-plus-circle'></i><span class="new_addition_button_name"></span></a>  
         </div>
 
@@ -116,7 +116,7 @@
     </div>
   
 
-    <div id="DataDisplayArea" class="table_wrap m-0">
+    <div id="data_display_area" class="table_wrap m-0">
         <table id='' class='data_info_table'>
             
             <tr>
@@ -160,7 +160,7 @@
                         data-emergencycontacttel='{{$item->emergencycontact_tel}}'
                         data-remarks='{{$item->remarks}}'
                         data-registrationstatus='{{$item->registration_status}}'
-                        data-processflg='1'> 
+                        data-process_flg='1'> 
                         <i class='far fa-edit'></i>
                     </button>
 
@@ -230,7 +230,7 @@
                         <div class="modal-body">  
                                                         
                             <input type="hidden" name="member_id" id="member_id" value="">
-                            <input type="hidden" name="processflg" id="processflg" value="">
+                            <input type="hidden" name="process_flg" id="process_flg" value="">
                                                         
                            
                             <div class="form-group row">
@@ -536,14 +536,12 @@ $(function(){
         if(school_cd != "" && majorsubject_cd != "" && admission_yearmonth != "" && graduation_yearmonth == ""){
 
             var check_date = new Date((admission_yearmonth + "-01").replace("-", "/"));
-            check_date = check_date.getFullYear() + "-" + check_date.getMonth();
-
-            if(admission_yearmonth == check_date){
-                get_graduation_yearmonth = "2030-11";
-            }
-
+                        
             var studyperiod = $('[name=majorsubject_cd] option:selected').data('studyperiod');
 
+            check_date.setMonth(check_date.getMonth() + studyperiod);
+
+            get_graduation_yearmonth = check_date.getFullYear() + "-" + check_date.getMonth().toString().padStart(2, "0");
         }
 
         if(get_graduation_yearmonth != ""){
@@ -799,9 +797,9 @@ $(function(){
 
 
         //登録処理か更新処理か判断
-        var processflg = evCon.data('processflg');
+        var process_flg = evCon.data('process_flg');
 
-        if(processflg == '0'){
+        if(process_flg == '0'){
             $('#save_modal_title').html('登録処理');                     
             $('#save_modal_button_display').html('登録');
             member_id = 0;        
@@ -810,7 +808,7 @@ $(function(){
             $('#save_modal_button_display').html('更新');            
         }
              
-        $('#processflg').val(processflg);    
+        $('#process_flg').val(process_flg);    
         $('#member_id').val(member_id);
         $('#member_name').val(member_name);
         $('#member_name_yomi').val(member_name_yomi);

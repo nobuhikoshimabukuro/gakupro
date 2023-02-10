@@ -24,7 +24,7 @@
         <div class="col-6 new_addition_button">
             <a href="" class="btn btn--red btn--radius btn--cubic" 
             data-bs-toggle='modal' data-bs-target='#save_modal'            
-            data-processflg='0'
+            data-process_flg='0'
             ><i class='fas fa-plus-circle'></i><span class="new_addition_button_name"></span></a>  
         </div>
 
@@ -100,7 +100,7 @@
     </div>
   
 
-    <div id="DataDisplayArea" class="table_wrap m-0">
+    <div id="data_display_area" class="table_wrap m-0">
         <table id='' class='data_info_table'>
             
             <tr>
@@ -129,42 +129,42 @@
                 @php
                     // 表示する最大文字数
                     $LimitStr = 4;
-                    $ButtonName = "";
+                    $remarks_button_name = "";
 
                     // ボタン表示フラグ
-                    $DisplayBtnFLG = true;
+                    $remarks_button_flg = true;
 
                     if(!is_null($item->remarks)){
 
                         // 申込情報備考文字数取得
-                        $StrCount = mb_strlen($item->remarks);
+                        $string_count = mb_strlen($item->remarks);
 
-                        if($StrCount > $LimitStr){
+                        if($string_count > $LimitStr){
                             // 最大文字数に達している場合、"$申込情報備考（指定した文字数）..."と表示
-                            $ButtonName =  mb_substr($item->remarks, 0 , $LimitStr);
-                            $ButtonName =  $ButtonName . "...";
+                            $remarks_button_name =  mb_substr($item->remarks, 0 , $LimitStr);
+                            $remarks_button_name =  $remarks_button_name . "...";
 
 
-                        }else if($StrCount <= $LimitStr){
+                        }else if($string_count <= $LimitStr){
                             
-                            $ButtonName = $item->remarks;
+                            $remarks_button_name = $item->remarks;
                         }
 
                     }else{
 
                         // 申込情報備考が登録されていない場合
-                        $DisplayBtnFLG = false;
+                        $remarks_button_flg = false;
 
                     }
 
                 @endphp
                 <td>
-                    @if($DisplayBtnFLG)  
+                    @if($remarks_button_flg)  
                         
                         <button class='modal_button' data-bs-toggle='modal' data-bs-target='#remarks_modal'
                         data-majorsubjectname="{{$item->majorsubject_name}}"
                         data-remarks="{{$item->remarks}}"											
-                        >{{$ButtonName}}                  
+                        >{{$remarks_button_name}}                  
                    
                     @endif                  
                 
@@ -177,7 +177,7 @@
                         data-majorsubject_name='{{$item->majorsubject_name}}'
                         data-studyperiod='{{$item->studyperiod}}'
                         data-remarks='{{$item->remarks}}'
-                        data-processflg='1'> 
+                        data-process_flg='1'> 
                         <i class='far fa-edit'></i>
                     </button>
 
@@ -226,7 +226,7 @@
                                                         
                             <div class="form-group row">
                                 
-                                <input type="hidden" name="processflg" id="processflg" value="">               
+                                <input type="hidden" name="process_flg" id="process_flg" value="">               
 
                                 <label for="school_division" class="col-md-6 col-form-label original-label">区分</label>
                                 <select id='school_division' name='school_division' class='form-control input-sm'>
@@ -514,8 +514,8 @@ $(function(){
         let majorsubject_name = evCon.data('majorsubjectname');
         let remarks = evCon.data('remarks');
 
-        var Title = majorsubject_name + "の備考"
-        $('#remarks_modal_title').html(Title);
+        var title = majorsubject_name + "の備考"
+        $('#remarks_modal_title').html(title);
         $('#remarks_modal_Remarks').val(remarks);
         
     });
@@ -547,8 +547,8 @@ $(function(){
 
 
         //登録処理か更新処理か判断
-        var processflg = evCon.data('processflg');
-        if(processflg == '0'){
+        var process_flg = evCon.data('process_flg');
+        if(process_flg == '0'){
             $('#save_modal_title').html('登録処理');         
             majorsubject_cd = 0;            
             $('#save_modal_button_display').html('登録');
@@ -560,7 +560,7 @@ $(function(){
         }
         
      
-        $('#processflg').val(processflg);  
+        $('#process_flg').val(process_flg);  
         $('#school_cd').val(school_cd);
         $('#majorsubject_cd').val(majorsubject_cd);                            
         $('#majorsubject_name').val(majorsubject_name); 

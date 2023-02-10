@@ -91,7 +91,7 @@ class school_m_controller extends Controller
     function save(school_m_request $request)
     {
 
-        $processflg = intval($request->processflg);
+        $process_flg = intval($request->process_flg);
 
         $school_division = intval($request->school_division);      
         $school_cd = intval($request->school_cd);          
@@ -108,7 +108,7 @@ class school_m_controller extends Controller
         try {
 
 
-            if($processflg == 0){
+            if($process_flg == 0){
 
          
                 school_m_model::create(
