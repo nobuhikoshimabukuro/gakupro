@@ -36,8 +36,10 @@ class staff_m_controller extends Controller
         $staff_list = staff_m_model::select(
 
             'staff_m.staff_id as staff_id',
-            'staff_m.staff_name as staff_name',
-            'staff_m.staff_name_yomi as staff_name_yomi',
+            'staff_m.staff_last_name as staff_last_name',
+            'staff_m.staff_first_name as staff_first_name',
+            'staff_m.staff_last_name_yomi as staff_last_name_yomi',
+            'staff_m.staff_first_name_yomi as staff_first_name_yomi',
             'staff_m.nick_name as nick_name',
 
             'staff_m.gender as gender',
@@ -77,7 +79,15 @@ class staff_m_controller extends Controller
         }
         
         if(!is_null($search_element_array["search_staff_name"])){
-            $staff_list = $staff_list->where('staff_m.staff_name', 'like', '%' . $search_element_array['search_staff_name'] . '%');
+
+            $search_staff_name = $search_element_array["search_staff_name"];
+            $staff_list = $staff_list ->where(function($query) use ($search_staff_name) {
+
+                $query->orWhere('staff_m.staff_last_name', 'like', "%$search_staff_name%")
+                      ->orWhere('staff_m.staff_first_name', 'like', "%$search_staff_name%")
+                      ->orWhere('staff_m.staff_last_name_yomi', 'like', "%$search_staff_name%")
+                      ->orWhere('staff_m.staff_first_name_yomi', 'like', "%$search_staff_name%");
+            });            
         } 
 
 
@@ -104,8 +114,11 @@ class staff_m_controller extends Controller
         $staff_id = intval($request->staff_id);
 
         
-        $staff_name = $request->staff_name;
-        $staff_name_yomi = $request->staff_name_yomi;
+        $staff_last_name = $request->staff_last_name;
+        $staff_first_name = $request->staff_first_name;
+        $staff_last_name_yomi = $request->staff_last_name_yomi;
+        $staff_first_name_yomi = $request->staff_first_name_yomi;
+        
         $nick_name = $request->nick_name;        
         $gender = intval($request->gender);
         $tel = $request->tel;
@@ -122,8 +135,10 @@ class staff_m_controller extends Controller
                 //新規登録処理                
                 staff_m_model::create(
                     [
-                        'staff_name' => $staff_name,                        
-                        'staff_name_yomi' => $staff_name_yomi,     
+                        'staff_last_name' => $staff_last_name,
+                        'staff_first_name' => $staff_first_name,
+                        'staff_last_name_yomi' => $staff_last_name_yomi,
+                        'staff_first_name_yomi' => $staff_first_name_yomi,
                         'nick_name' => $nick_name,
                         'gender' => $gender,
                         'tel' => $tel,
@@ -142,8 +157,10 @@ class staff_m_controller extends Controller
                 where('staff_id', $staff_id)                
                 ->update(
                     [
-                        'staff_name' => $staff_name,                        
-                        'staff_name_yomi' => $staff_name_yomi,     
+                        'staff_last_name' => $staff_last_name,
+                        'staff_first_name' => $staff_first_name,
+                        'staff_last_name_yomi' => $staff_last_name_yomi,
+                        'staff_first_name_yomi' => $staff_first_name_yomi,   
                         'nick_name' => $nick_name,
                         'gender' => $gender,
                         'tel' => $tel,

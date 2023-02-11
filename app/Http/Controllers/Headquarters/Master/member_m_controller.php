@@ -66,8 +66,10 @@ class member_m_controller extends Controller
         $member_list = member_m_model::select(
 
             'member_m.member_id as member_id',
-            'member_m.member_name as member_name',
-            'member_m.member_name_yomi as member_name_yomi',
+            'member_m.member_last_name as member_last_name',
+            'member_m.member_first_name as member_first_name',
+            'member_m.member_last_name_yomi as member_last_name_yomi',
+            'member_m.member_first_name_yomi as member_first_name_yomi',
             'member_m.birthday as birthday',            
 
             'member_m.gender as gender',
@@ -134,10 +136,19 @@ class member_m_controller extends Controller
             $member_list = $member_list->where('member_m.search_majorsubject_cd', '=', $search_element_array['search_majorsubject_cd']);
         }
         
-        if(!is_null($search_element_array["search_member_name"])){
-            $member_list = $member_list->where('member_m.member_name', 'like', '%' . $search_element_array['search_member_name'] . '%');
+                
+        if(!is_null($search_element_array["search_member_name"])){             
+            $search_member_name = $search_element_array["search_member_name"];
+            $member_list = $member_list ->where(function($query) use ($search_member_name) {
+
+                $query->orWhere('member_m.member_last_name', 'like', "%$search_member_name%")
+                      ->orWhere('member_m.member_first_name', 'like', "%$search_member_name%")
+                      ->orWhere('member_m.member_last_name_yomi', 'like', "%$search_member_name%")
+                      ->orWhere('member_m.member_first_name_yomi', 'like', "%$search_member_name%");
+            });           
         } 
-        
+
+
         $member_list = $member_list->paginate(env('paginate_count'));
 
 
@@ -163,8 +174,10 @@ class member_m_controller extends Controller
         $process_flg = intval($request->process_flg);
 
         $member_id = intval($request->member_id);
-        $member_name = $request->member_name;
-        $member_name_yomi = $request->member_name_yomi;
+        $member_last_name = $request->member_last_name;
+        $member_first_name = $request->member_first_name;
+        $member_last_name_yomi = $request->member_last_name_yomi;
+        $member_first_name_yomi = $request->member_first_name_yomi;
         $gender = intval($request->gender);
         
         $birthday = $request->birthday;
@@ -189,8 +202,10 @@ class member_m_controller extends Controller
                               
                 member_m_model::create(
                     [
-                        'member_name' => $member_name,                        
-                        'member_name_yomi' => $member_name_yomi,     
+                        'member_last_name' => $member_last_name,
+                        'member_first_name' => $member_first_name,
+                        'member_last_name_yomi' => $member_last_name_yomi,
+                        'member_first_name_yomi' => $member_first_name_yomi,  
                         'gender' => $gender,
                         'birthday' => $birthday,
                         'tel' => $tel,
@@ -215,8 +230,10 @@ class member_m_controller extends Controller
                 where('member_id', $member_id)                
                 ->update(
                     [
-                        'member_name' => $member_name,                        
-                        'member_name_yomi' => $member_name_yomi,     
+                        'member_last_name' => $member_last_name,
+                        'member_first_name' => $member_first_name,
+                        'member_last_name_yomi' => $member_last_name_yomi,
+                        'member_first_name_yomi' => $member_first_name_yomi,     
                         'gender' => $gender,
                         'birthday' => $birthday,
                         'tel' => $tel,

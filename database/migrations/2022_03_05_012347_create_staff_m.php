@@ -26,14 +26,25 @@ return new class extends Migration
                 ->comment('スタッフID:連番');
 
             $table
-                ->string('staff_name', 100)
-                ->comment('スタッフ氏名');
+                ->string('staff_last_name', 100)
+                ->comment('スタッフ名_姓');
 
             $table
-                ->string('staff_name_yomi', 100)
+                ->string('staff_first_name', 100)
                 ->nullable()
-                ->comment('氏名（フリガナ）:全角カタカナ');
+                ->comment('スタッフ名_名');
 
+            $table
+                ->string('staff_last_name_yomi', 100)
+                ->nullable()
+                ->comment('スタッフ名_姓（フリガナ）:全角カタカナ');
+
+            $table
+                ->string('staff_first_name_yomi', 100)
+                ->nullable()
+                ->comment('スタッフ名_名（フリガナ）:全角カタカナ');
+
+            
             $table
                 ->string('nick_name', 100)
                 ->nullable()

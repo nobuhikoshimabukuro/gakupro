@@ -194,8 +194,10 @@ class DatabaseSeeder extends Seeder
         DB::table('staff_m')->insert([
             
             [                
-                'staff_name' => '島袋　信彦',
-                'staff_name_yomi' => 'シマブクロ　ノブヒコ',
+                'staff_last_name' => '島袋',
+                'staff_first_name' => '信彦',
+                'staff_last_name_yomi' => 'シマブクロ',
+                'staff_first_name_yomi' => 'ノブヒコ',                
                 'nick_name' => 'のぶっち',
                 'gender' => '1',
                 'tel' => '090-1234-5678',
@@ -208,22 +210,26 @@ class DatabaseSeeder extends Seeder
 
             [
              
-                'staff_name' => '崎原　悠磨',
-                'staff_name_yomi' => 'サキハラ　ユウマ',
+                'staff_last_name' => '崎原',
+                'staff_first_name' => '悠磨',
+                'staff_last_name_yomi' => 'サキハラ',
+                'staff_first_name_yomi' => 'ユウマ',   
                 'nick_name' => 'ゆううゆうう',
                 'gender' => '1',
                 'tel' => '090-1234-5678',
                 'mailaddress' => '',
                 'authority' => '3',
-                'remarks' => '学生応援プロジェクト創始者、兼代表',
+                'remarks' => '学生応援プロジェクト創始者、代表',
                 'created_by' => '9999',
                 
             ],          
 
             [
              
-                'staff_name' => '一般　太郎',
-                'staff_name_yomi' => 'イッパン　タロウ',
+                'staff_last_name' => '一般',
+                'staff_first_name' => '太郎',
+                'staff_last_name_yomi' => 'イッパン',
+                'staff_first_name_yomi' => 'タロウ',                
                 'nick_name' => 'イッパン',
                 'gender' => '1',
                 'tel' => '090-1234-5678',
@@ -447,8 +453,10 @@ class DatabaseSeeder extends Seeder
             
             [                
                 'member_id' => '1',
-                'member_name' => '学生　太郎',
-                'member_name_yomi' => 'ガクセイ　タロウ',
+                'member_last_name' => '学生',
+                'member_first_name' => '太郎',
+                'member_last_name_yomi' => 'ガクセイ',
+                'member_first_name_yomi' => 'タロウ',
                 'gender' => '1',
                 'birthday' => '2005/02/09',
                 'tel' => '080-1234-5678',

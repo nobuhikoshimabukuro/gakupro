@@ -146,16 +146,25 @@
                 </td>
 
                 <td>{{$item->majorsubject_name}}</td> 
-                <td>{{$item->member_name}}</td> 
+                <td>
+                    <ruby>{{$item->member_last_name . "　" . $item->member_first_name}}
+                        <rt>
+                            {{$item->member_last_name_yomi . "　".$item->member_first_name_yomi}}
+                        </rt>
+                      </ruby>
+                    
+                </td>
 
                 <td>{{$item->admission_yearmonth}}</td>
                 <td>{{$item->graduation_yearmonth}}</td>
 
                 <td>
                     <button class='modal_button' data-bs-toggle='modal' data-bs-target='#save_modal'
-                        data-memberid='{{$item->member_id}}'
-                        data-membername='{{$item->member_name}}'
-                        data-membernameyomi='{{$item->member_name_yomi}}'
+                        data-memberid='{{$item->member_id}}'                        
+                        data-memberlastname='{{$item->member_last_name}}'
+                        data-memberfirstname='{{$item->member_first_name}}'
+                        data-memberlastnameyomi='{{$item->member_last_name_yomi}}'
+                        data-memberfirstnameyomi='{{$item->member_first_name_yomi}}'
                         data-gender='{{$item->gender}}'
                         data-birthday='{{$item->birthday}}'
                         data-tel='{{$item->tel}}'
@@ -173,9 +182,11 @@
                     </button>
 
                     <button class='modal_button' data-bs-toggle='modal' data-bs-target='#dlete_modal'
-                        data-memberid='{{$item->member_id}}'
-                        data-membername='{{$item->member_name}}'
-                        data-membernameyomi='{{$item->member_name_yomi}}'
+                        data-memberid='{{$item->member_id}}'                        
+                        data-memberlastname='{{$item->member_last_name}}'
+                        data-memberfirstname='{{$item->member_first_name}}'
+                        data-memberlastnameyomi='{{$item->member_last_name_yomi}}'
+                        data-memberfirstnameyomi='{{$item->member_first_name_yomi}}'
                         data-gender='{{$item->gender}}'
                         data-birthday='{{$item->birthday}}'
                         data-tel='{{$item->tel}}'
@@ -243,13 +254,24 @@
                            
                             <div class="form-group row">
 
-                                
+                                <label for="member_last_name" class="col-12 col-form-label original-label">氏名</label>                                
+                                <div class="col-5 p-0 last_name_class">
+                                    <input type="text" name="member_last_name" id="member_last_name" value="" class="form-control col-md-3">
+                                </div>
+                              
+                                <div class="col-5 m-0 p-0">
+                                    <input type="text" name="member_first_name" id="member_first_name" value="" class="form-control col-md-3">
+                                </div>
 
-                                <label for="member_name" class="col-md-6 col-form-label original-label">氏名</label>
-                                <input type="text" name="member_name" id="member_name" value="" class="form-control col-md-3">
-    
-                                <label for="member_name_yomi" class="col-md-6 col-form-label original-label">シメイ</label>
-                                <input type="text" name="member_name_yomi" id="member_name_yomi" value="" class="form-control col-md-3">
+
+                                <label for="member_last_name_yomi" class="col-12 col-form-label original-label">シメイ</label>
+                                
+                                <div class="col-5 p-0 last_name_class">
+                                    <input type="text" name="member_last_name_yomi" id="member_last_name_yomi" value="" class="form-control col-md-3 last_name">
+                                </div>
+                                <div class="col-5 m-0 p-0">
+                                    <input type="text" name="member_first_name_yomi" id="member_first_name_yomi" value="" class="form-control col-md-3 first_name">
+                                </div>      
                                         
                                 <label for="gender" class="col-md-6 col-form-label original-label">性別</label>                               
                                 <select id='gender' name='gender' class='form-control input-sm'>		
@@ -908,8 +930,10 @@ $(function(){
         let evCon = $(e.relatedTarget);
 
         var member_id = evCon.data('memberid');
-        var member_name = evCon.data('membername');
-        var member_name_yomi = evCon.data('membernameyomi');
+        var member_last_name = evCon.data('memberlastname');
+        var member_first_name = evCon.data('memberfirstname');
+        var member_last_name_yomi = evCon.data('memberlastnameyomi');
+        var member_first_name_yomi = evCon.data('memberfirstnameyomi');
         var gender = evCon.data('gender');
         var birthday = evCon.data('birthday');
         var tel = evCon.data('tel');
@@ -937,9 +961,11 @@ $(function(){
         }
              
         $('#process_flg').val(process_flg);    
-        $('#member_id').val(member_id);
-        $('#member_name').val(member_name);
-        $('#member_name_yomi').val(member_name_yomi);
+        $('#member_id').val(member_id);           
+        $('#member_last_name').val(member_last_name);
+        $('#member_first_name').val(member_first_name);
+        $('#member_last_name_yomi').val(member_last_name_yomi);
+        $('#member_first_name_yomi').val(member_first_name_yomi);
         $('#gender').val(gender);
         $('#birthday').val(birthday);
         $('#tel').val(tel);
@@ -962,7 +988,7 @@ $(function(){
         let evCon = $(e.relatedTarget);
 
         var member_id = evCon.data('memberid');        
-        var member_name = evCon.data('membername');    
+        let member_name = evCon.data('memberlastname') + "　" + evCon.data('memberfirstname');
         var delete_flg = evCon.data('deleteflg');
 
         $('#dlete_modal_runbutton').removeClass('delete_button');

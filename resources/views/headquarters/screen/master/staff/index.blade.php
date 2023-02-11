@@ -97,7 +97,12 @@
             @foreach ($staff_list as $item)
             <tr>
                 <td>{{$item->staff_id}}</td>
-                <td>{{$item->staff_name}}</td>                
+                <td>
+                    <ruby>{{$item->staff_last_name}}　{{$item->staff_first_name}}
+                        <rt>{{$item->staff_last_name_yomi}}　{{$item->staff_first_name_yomi}}</rt>
+                      </ruby>
+                    
+                </td>
                 <td>{{$item->tel}}</td>
                 <td>{{$item->authority_name}}</td>
 
@@ -139,7 +144,10 @@
                             
                             <button class='modal_button' data-bs-toggle='modal' data-bs-target='#remarks_modal'
                             data-staffid="{{$item->staff_id}}"
-                            data-staffname='{{$item->staff_name}}'
+                            data-stafflastname='{{$item->staff_last_name}}'
+                            data-stafffirstname='{{$item->staff_first_name}}'
+                            data-stafflastnameyomi='{{$item->staff_last_name_yomi}}'
+                            data-stafffirstnameyomi='{{$item->staff_first_name_yomi}}'
                             data-remarks="{{$item->remarks}}"											
                             >{{$remarks_button_name}}                  
                     
@@ -153,8 +161,10 @@
                     <td>
                         <button class='modal_button' data-bs-toggle='modal' data-bs-target='#save_modal'
                             data-staffid='{{$item->staff_id}}'
-                            data-staffname='{{$item->staff_name}}'
-                            data-staffnameyomi='{{$item->staff_name_yomi}}'
+                            data-stafflastname='{{$item->staff_last_name}}'
+                            data-stafffirstname='{{$item->staff_first_name}}'
+                            data-stafflastnameyomi='{{$item->staff_last_name_yomi}}'
+                            data-stafffirstnameyomi='{{$item->staff_first_name_yomi}}'
                             data-nickname='{{$item->nick_name}}'
                             data-gender='{{$item->gender}}'
                             data-tel='{{$item->tel}}'
@@ -167,8 +177,10 @@
 
                         <button class='modal_button' data-bs-toggle='modal' data-bs-target='#dlete_modal'
                             data-staffid='{{$item->staff_id}}'
-                            data-staffname='{{$item->staff_name}}'
-                            data-staffnameyomi='{{$item->staff_name_yomi}}'
+                            data-stafflastname='{{$item->staff_last_name}}'
+                            data-stafffirstname='{{$item->staff_first_name}}'
+                            data-stafflastnameyomi='{{$item->staff_last_name_yomi}}'
+                            data-stafffirstnameyomi='{{$item->staff_first_name_yomi}}'
                             data-nickname='{{$item->nick_name}}'
                             data-gender='{{$item->gender}}'
                             data-tel='{{$item->tel}}'
@@ -232,11 +244,26 @@
                             <div class="form-group row">
 
 
-                                <label for="staff_name" class="col-md-6 col-form-label original-label">氏名</label>
-                                <input type="text" name="staff_name" id="staff_name" value="" class="form-control col-md-3">
-    
-                                <label for="staff_name_yomi" class="col-md-6 col-form-label original-label">シメイ</label>
-                                <input type="text" name="staff_name_yomi" id="staff_name_yomi" value="" class="form-control col-md-3">
+                                <label for="staff_last_name" class="col-12 col-form-label original-label">氏名</label>
+                                
+                                <div class="col-5 p-0 last_name_class">
+                                    <input type="text" name="staff_last_name" id="staff_last_name" value="" class="form-control col-md-3">
+                                </div>
+                              
+                                <div class="col-5 m-0 p-0">
+                                    <input type="text" name="staff_first_name" id="staff_first_name" value="" class="form-control col-md-3">
+                                </div>
+
+
+                                <label for="staff_last_name_yomi" class="col-12 col-form-label original-label">シメイ</label>
+                                
+                                <div class="col-5 p-0 last_name_class">
+                                    <input type="text" name="staff_last_name_yomi" id="staff_last_name_yomi" value="" class="form-control col-md-3 last_name">
+                                </div>
+                                <div class="col-5 m-0 p-0">
+                                    <input type="text" name="staff_first_name_yomi" id="staff_first_name_yomi" value="" class="form-control col-md-3 first_name">
+                                </div>                                
+                               
     
                                 <label for="nick_name" class="col-md-6 col-form-label original-label">ニックネーム</label>
                                 <input type="text" name="nick_name" id="nick_name" value="" class="form-control col-md-3">
@@ -436,7 +463,7 @@ $(function(){
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
-        let staff_name = evCon.data('staffname');
+        let staff_name = evCon.data('stafflastname') + "　" + evCon.data('stafffirstname');
         let remarks = evCon.data('remarks');
 
         var title = staff_name + "さんの備考"
@@ -464,8 +491,10 @@ $(function(){
         let evCon = $(e.relatedTarget);
 
         var staff_id = evCon.data('staffid');
-        var staff_name = evCon.data('staffname');
-        var staff_name_yomi = evCon.data('staffnameyomi');
+        var staff_last_name = evCon.data('stafflastname');
+        var staff_first_name = evCon.data('stafffirstname');
+        var staff_last_name_yomi = evCon.data('stafflastnameyomi');
+        var staff_first_name_yomi = evCon.data('stafffirstnameyomi');
         var gender = evCon.data('gender');
         var nick_name = evCon.data('nickname');
         var tel = evCon.data('tel');
@@ -487,8 +516,10 @@ $(function(){
         
         $('#process_flg').val(process_flg);    
         $('#staff_id').val(staff_id);
-        $('#staff_name').val(staff_name);
-        $('#staff_name_yomi').val(staff_name_yomi);
+        $('#staff_last_name').val(staff_last_name);
+        $('#staff_first_name').val(staff_first_name);
+        $('#staff_last_name_yomi').val(staff_last_name_yomi);
+        $('#staff_first_name_yomi').val(staff_first_name_yomi);
         $('#nick_name').val(nick_name);
         $('#gender').val(gender);
         $('#tel').val(tel);
@@ -505,7 +536,7 @@ $(function(){
         let evCon = $(e.relatedTarget);
 
         var staff_id = evCon.data('staffid');        
-        var staff_name = evCon.data('staffname');    
+        var staff_name = evCon.data('stafflastname') + "　" + evCon.data('stafffirstname');
         var delete_flg = evCon.data('deleteflg');
 
         $('#dlete_modal_runbutton').removeClass('delete_button');

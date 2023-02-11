@@ -38,13 +38,15 @@ class staff_m_request extends FormRequest
     public function rules()
     {
         return [
-            'staff_name' => [ 'required',new WordCountValidation(1,100)],
-            'staff_name_yomi' => [ 'required',new KatakanaValidation(2)],
+            'staff_last_name' => [ 'required',new WordCountValidation(1,100)],
+            'staff_first_name' => [ 'required',new WordCountValidation(1,100)],
+            'staff_last_name_yomi' => [ 'required',new KatakanaValidation(2)],
+            'staff_first_name_yomi' => [ 'required',new KatakanaValidation(2)],
             'nick_name' => [ 'nullable',new WordCountValidation(0,100)],
             'gender' => [ new RequiredComboBoxValidation()],
             'tel' => ['nullable',new TelephoneNumberValidation() ,new WordCountValidation(0,15)],            
             'mailaddress' => ['nullable','email',new WordCountValidation(0,100)],
-            'authority' => [ new RequiredComboBoxValidation()],            
+            'authority' => [new RequiredComboBoxValidation()],            
             'remarks' => [ 'nullable',new WordCountValidation(0,1000)],
         ];
     }
@@ -53,8 +55,10 @@ class staff_m_request extends FormRequest
     {
         return [
             
-            'staff_name' => '氏名',
-            'staff_name_yomi' => '氏名カナ',
+            'staff_last_name' => '氏名(姓)',
+            'staff_first_name' => '氏名(名)',
+            'staff_last_name_yomi' => '氏名カナ(姓)',
+            'staff_first_name_yomi' => '氏名カナ(名)',
             'nick_name' => 'ニックネーム',
             'gender' => '性別',
             'tel' => '電話番号',

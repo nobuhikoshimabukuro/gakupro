@@ -25,14 +25,25 @@ return new class extends Migration
                 ->increments('member_id')
                 ->comment('学生メンバーID:連番');
 
+                        
             $table
-                ->string('member_name', 100)
-                ->comment('氏名');
+                ->string('member_last_name', 100)
+                ->comment('学生メンバー名_姓');
 
             $table
-                ->string('member_name_yomi', 100)
+                ->string('member_first_name', 100)
                 ->nullable()
-                ->comment('氏名（フリガナ）:全角カタカナ');
+                ->comment('学生メンバー名_名');
+
+            $table
+                ->string('member_last_name_yomi', 100)
+                ->nullable()
+                ->comment('学生メンバー名_姓（フリガナ）:全角カタカナ');
+
+            $table
+                ->string('member_first_name_yomi', 100)
+                ->nullable()
+                ->comment('学生メンバー名_名（フリガナ）:全角カタカナ');
 
             $table
                 ->integer('gender')
