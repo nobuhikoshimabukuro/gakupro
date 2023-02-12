@@ -370,7 +370,7 @@ table {
               
 
                 <div class="modal-footer">                                   
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                    <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
                 </div>  
             </div>
         </div>

@@ -11,24 +11,26 @@
     @include('headquarters.common.alert')
 
     <div class="row">
+
         <div class="col-6 text-start">
             <h4 class="master_title">
                 スタッフマスタ
             </h4>
-        </div>
-
+        </div>       
         
+        <div class="col-6 text-end">
 
-        <div class="col-6 new_addition_button">
-            <a href="" class="btn btn--red btn--radius btn--cubic" 
-            data-bs-toggle='modal' data-bs-target='#save_modal'            
-            data-process_flg='0'
-            ><i class='fas fa-plus-circle'></i><span class="new_addition_button_name"></span></a>
+            <button type="button" class='original_button search_modal_button' data-bs-toggle='modal' data-bs-target='#search_modal'>検索する</button>
+
+            <button type="button" id="" class="original_button add_data_button"
+                data-bs-toggle='modal' data-bs-target='#save_modal'            
+                data-process_flg='0'><span class="add_data_button_name"></span>
+            </button>
         </div>
 
     </div>
 
-    <form id="search_form" class="row" action="" method="get">
+    {{-- <form id="search_form" class="row" action="" method="get">
 
         <div class="col-12">
     
@@ -67,7 +69,7 @@
         
         </div>
              
-    </form>
+    </form> --}}
 
     <div class="m-0 text-start">
         {{-- ページャー --}}                
@@ -217,6 +219,63 @@
     </div>
 
 
+    {{-- 検索モーダル --}}
+    <div class="modal fade" id="search_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="search_modal_label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="search_modal_label">検索</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                
+                <form id="search_form" class="" action="" method="get">
+                    <div class="modal-body">                     
+        
+                        <div class="form-group row">
+
+                            <label for="search_authority_cd" class="col-12 col-form-label original-label">権限選択</label>                                
+                           <select id='' name='search_authority_cd' class='form-control input-sm'>
+                                <option value=''>未選択</option>
+                                    @foreach($authority_list as $item)
+                                    <option value="{{$item->authority_cd}}"@if($search_element_array['search_authority_cd'] == $item->authority_cd) selected @endif>
+                                        {{$item->authority_name}}
+                                    </option>
+                                    @endforeach
+                            </select>
+
+
+                            
+                            
+                            <label for="member_last_name_yomi" class="col-12 col-form-label original-label">氏名（あいまい）</label>
+                            <input type="text" id="" name="search_staff_name" value="{{$search_element_array['search_staff_name']}}" class="form-control">
+                        
+                                                                                        
+                        
+                        </div>     
+                                             
+
+                    </div>
+
+                    <div class="modal-footer row">         
+
+                        <div class="col-6 m-0 p-0 text-start">
+                            
+                            <button type="button" id="" class="original_button clear_button">クリア</button>
+                            <button type="submit" id="" class="original_button search_button" onclick="return search_formCheck();">検索 <i class="fas fa-search"></i></button>
+                        </div>
+
+                        <div class="col-6 m-0 p-0 text-end">
+                            <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                        </div>                            
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
 
         {{-- 登録/更新用モーダル --}}
         <div class="modal fade" id="save_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="save_modal_label" aria-hidden="true">
@@ -299,10 +358,17 @@
                             
                         </div>
 
-                        <div class="modal-footer">               
-                            <button type="submit" id='save_button' class="btn btn-primary"><span id='save_modal_button_display'></span></button>       
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
-                        </div>
+                        <div class="modal-footer row">
+                            <div class="col-4 m-0 p-0 text-start">                                
+                            </div>
+                            <div class="col-4 m-0 p-0 text-center">
+                                <button type="button" id='save_button' class="original_button save_button"><span id='save_modal_button_display'></span></button>
+                            </div>
+
+                            <div class="col-4 m-0 p-0 text-end">
+                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                            </div>                            
+                        </div> 
                     </form>
 
                 </div>
@@ -351,18 +417,17 @@
 
                         </div>
 
-                        <div class="modal-footer">         
-                            
-                            <div class="row">
+                        <div class="modal-footer row">
+                            <div class="col-4 m-0 p-0 text-start">                                
+                            </div>
+                            <div class="col-4 m-0 p-0 text-center">
+                                <button type="submit" id='dlete_modal_runbutton' class="original_button dlete_modal_runbutton"><span class="dlete_modal_wording"></span></button>
+                            </div>
 
-                                <div class="col-12 tect-right"> 
-                                    <button type="submit" id='dlete_modal_runbutton' class="btn btn-primary"><span class="dlete_modal_wording"></span></button>       
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>      
-                                </div>
-                                                        
-                            </div>          
-                            
-                        </div>
+                            <div class="col-4 m-0 p-0 text-end">
+                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>      
+                            </div>                            
+                        </div>        
                     </form>
 
                 </div>
@@ -384,7 +449,7 @@
                     </div>
 
                     <div class="modal-footer">               
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                        <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
                     </div>
                 </div>
             </div>
@@ -426,7 +491,7 @@
 
                         <div class="modal-footer">               
                             <button type="button" id='login_info_change_button' class="btn btn-primary">ログイン情報変更</button>       
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                            <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
                         </div>
                     </form>
 

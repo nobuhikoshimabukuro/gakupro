@@ -164,10 +164,17 @@
                             
                         </div>
 
-                        <div class="modal-footer">               
-                            <button type="submit" id='save_button' class="btn btn-primary"><span id='save_modal_button_display'></span></button>       
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
-                        </div>
+                        <div class="modal-footer row">
+                            <div class="col-4 m-0 p-0 text-start">                                
+                            </div>
+                            <div class="col-4 m-0 p-0 text-center">
+                                <button type="button" id='save_button' class="original_button save_button"><span id='save_modal_button_display'></span></button>
+                            </div>
+
+                            <div class="col-4 m-0 p-0 text-end">
+                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                            </div>                            
+                        </div> 
                     </form>
 
                 </div>
@@ -217,18 +224,17 @@
                            
                         </div>
 
-                        <div class="modal-footer">         
-                            
-                            <div class="row">
+                        <div class="modal-footer row">
+                            <div class="col-4 m-0 p-0 text-start">                                
+                            </div>
+                            <div class="col-4 m-0 p-0 text-center">
+                                <button type="submit" id='dlete_modal_runbutton' class="original_button dlete_modal_runbutton"><span class="dlete_modal_wording"></span></button>
+                            </div>
 
-                                <div class="col-12 tect-right"> 
-                                    <button type="submit" id='dlete_modal_runbutton' class="btn btn-primary"><span class="dlete_modal_wording"></span></button>       
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>      
-                                </div>
-                                                        
-                            </div>          
-                            
-                        </div>
+                            <div class="col-4 m-0 p-0 text-end">
+                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>      
+                            </div>                            
+                        </div>        
                     </form>
 
                 </div>

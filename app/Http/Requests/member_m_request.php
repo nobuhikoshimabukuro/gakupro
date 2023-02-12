@@ -46,8 +46,10 @@ class member_m_request extends FormRequest
     public function rules()
     {
         return [
-            'member_name' => [ 'required',new WordCountValidation(1,100)],            
-            'member_name_yomi' => [ 'required',new KatakanaValidation(2),new WordCountValidation(1,100)],            
+            'member_last_name' => [ 'required',new WordCountValidation(1,100)],
+            'member_first_name' => [ 'required',new WordCountValidation(1,100)],
+            'member_last_name_yomi' => [ 'required',new KatakanaValidation(2)],
+            'member_first_name_yomi' => [ 'required',new KatakanaValidation(2)],           
             'gender' => [ new RequiredComboBoxValidation()],
             'birthday' => [""],
             'tel' => ['nullable',new TelephoneNumberValidation() ,new WordCountValidation(0,15)],            
@@ -67,8 +69,10 @@ class member_m_request extends FormRequest
     {
         return [
             
-            'member_name' => '氏名',
-            'member_name_yomi' => '氏名カナ',
+            'member_last_name' => '氏名(姓)',
+            'member_first_name' => '氏名(名)',
+            'member_last_name_yomi' => '氏名カナ(姓)',
+            'member_first_name_yomi' => '氏名カナ(名)',
             'gender' => '性別',
             'birthday' => '生年月日',
             'tel' => '電話番号',

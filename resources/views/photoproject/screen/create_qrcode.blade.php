@@ -290,7 +290,7 @@
 
             <div class="modal-footer">               
                 <button type="button" id="CreateButton" class="btn btn-secondary">作成</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
             </div>
             
 

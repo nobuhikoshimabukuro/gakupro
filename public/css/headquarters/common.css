@@ -71,7 +71,40 @@
   min-height: 5vh;
 }
 
-/* クリアボタン */
+/* 新規登録ボタン */
+
+.add_data_button{
+  margin: 3px;
+  color: #fff;
+  background-color: #5bb14a;
+  border-radius: 100vh;
+}
+
+
+.add_data_button:hover{
+  color: #fff;
+  background: #49863c;
+}
+
+/* 新規追加ボタンのボタン文字設定 */
+.add_data_button_name:before{
+  content:"新規登録";
+}
+
+/* 検索モーダル表示ボタン */
+.search_modal_button{
+  margin: 3px;
+  color: #fff;
+  background-color: #4f6908;
+  border-radius: 100vh;
+}
+
+.search_modal_button:hover{
+  color: #fff;
+  background: #596d24;
+}
+
+/* 検索項目クリアボタン */
 .clear_button{
   margin: 3px;
   color: #fff;
@@ -96,6 +129,50 @@
   color: #fff;
   background: #5c59ee;
 }
+
+
+/* close_modal_button */
+.close_modal_button{
+  margin: 3px;
+  color: #fff;
+  background-color: #383634;
+  border-radius: 100vh;
+}
+
+.close_modal_button:hover{
+  color: #fff;
+  background-color: #5f4e3c;
+}
+
+
+/* save_button */
+.save_button{
+  margin: 3px;
+  color: #fff;
+  background-color: #0b21e9;
+  border-radius: 100vh;
+}
+
+.save_button:hover{
+  color: #fff;
+  background-color: #2735b4;
+}
+
+/* dlete_modal_runbutton */
+.dlete_modal_runbutton{
+  margin: 3px;
+  color: #fff;  
+  /* 画面の動きで色が変更される */
+  border-radius: 100vh;
+}
+
+.dlete_modal_runbutton:hover{
+  color: #b9c458;    
+}
+
+
+
+
 
 /* 操作不可能 */
 .impossible {
@@ -136,19 +213,7 @@ button{
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.new_addition_button{
-  text-align: right;  
-  margin-bottom: 5px;
-}
 
-.new_addition_button_name{
-  font-weight: 600;
-  color: rgb(36, 27, 27);
-}
-/* 新規追加ボタンのボタン文字設定 */
-.new_addition_button_name:before{
-  content:" Add Data";
-}
 /* マスタ画面のtable設定 Start */
 
 .table_wrap {
@@ -246,7 +311,8 @@ button{
 
 
 #save_form{
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 /* モーダル内のボタン設定 Start */
 .modal_button{  
@@ -291,29 +357,6 @@ button{
 
 
 /* モーダル内のアイコン設定 End */
-
-
-/* マスタ画面の新規登録ボタン設定 Start */
-a.btn--red.btn--cubic {
-  background-color: rgb(206, 247, 204);
-  border-bottom: 5px solid #37e640;  
-}
-
-a.btn--red.btn--cubic:hover {
-  margin-top: 3px;
-  border-bottom: 2px solid #37e640;  
-}
-
-a.btn--radius {
-  border-radius: 100vh;
-}
-
-.fa-position-right {
-  position: absolute;
-  top: calc(50% - .5em);
-  right: 1rem;
-}
-/* マスタ画面の新規登録ボタン設定 End */
 
 /* マスタ画面の削除モーダル設定 start */
 .delete_button{
