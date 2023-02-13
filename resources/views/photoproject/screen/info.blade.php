@@ -6,7 +6,9 @@
 @section('content')
 
 <style>
-
+img{
+    width: 100%;
+}
 </style>
 
 <div id="main" class="mt-3 text-center container">
@@ -14,14 +16,14 @@
     <div id='' class="row">
      
         @if(session('before_upload_message')) 
-            <h4>画像がまだアップロードされておりません。</h4>           
-            <h4>時間をあけて再度QRコードを読み直してください。</h4>
+            <h5>画像がまだアップロードされておりません。</h5>
+            <h5>時間をあけて再度QRコードを読み直してください。</h5>
         @else
-            <h4>再度QRコードを読み直してください。</h4>
+            <h5>再度QRコードを読み直してください。</h5>
         @endif
 
         <div id="">
-            <img id=''src='{{ asset('img/photoproject/syazai.png') }}' alt=''>                       
+            <img id='' class="" src='{{ asset('img/photoproject/syazai.png') }}' alt=''>                       
         </div>
 
     </div>
