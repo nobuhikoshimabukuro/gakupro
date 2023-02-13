@@ -77,7 +77,7 @@
 
             <div class="">
                 <h3>
-                    {{session()->get('staff_name')}}
+                    {{session()->get('staff_name')}}　
                 </h3>
             </div>
 
