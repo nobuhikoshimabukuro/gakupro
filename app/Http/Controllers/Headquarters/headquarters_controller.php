@@ -71,8 +71,8 @@ class headquarters_controller extends Controller
                 }else{
 
                     session()->put('staff_id', $staff_info->staff_id);
-                    session()->put('staff_name', $staff_info->staff_name);
-                    session()->put('staff_name_yomi', $staff_info->staff_name_yomi);
+                    session()->put('staff_name', $staff_info->staff_last_name . "　" . $staff_info->staff_first_name);
+                    session()->put('staff_name_yomi', $staff_info->staff_last_name_yomi . "　" . $staff_info->staff_first_name_yomi);                    
                     session()->put('authority', $staff_info->authority);
                     session()->put('login_flg', 1);
         
