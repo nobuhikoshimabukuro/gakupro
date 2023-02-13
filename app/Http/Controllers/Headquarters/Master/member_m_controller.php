@@ -439,71 +439,162 @@ class member_m_controller extends Controller
 
     function school_info_search(Request $request){
 
-        $search_school_cd = $request->search_school_cd;
+        try {
 
-        $get_school_info = school_m_model::select(
+            $search_school_cd = $request->search_school_cd;
 
-            'school_m.school_cd as school_cd',
-            'school_m.school_division as school_division',
-            'school_division_info.subcategory_name as school_division_name',
-            'school_m.school_name as school_name',
-            'school_m.post_code as post_code',
-            'school_m.address1 as address1',
-            'school_m.address2 as address2',
-            'school_m.tel as tel',
-            'school_m.fax as fax',
-            'school_m.hp_url as hp_url',
-            'school_m.mailaddress as mailaddress',
-            'school_m.remarks as remarks',
-            
-            'school_m.deleted_at as deleted_at',
-        )
-        ->leftJoin('subcategory_m as school_division_info', function ($join) {
-            $join->on('school_division_info.subcategory_cd', '=', 'school_m.school_division')
-                 ->where('school_division_info.maincategory_cd', '=', env('school_division_subcategory_cd'));
-        })        
-        ->orderBy('school_m.school_cd', 'asc') 
-        ->where('school_m.school_cd', '=', $search_school_cd)
-        ->withTrashed()
-        ->first();
-        
+            $get_school_info = school_m_model::select(
 
-        
+                'school_m.school_cd as school_cd',
+                'school_m.school_division as school_division',
+                'school_division_info.subcategory_name as school_division_name',
+                'school_m.school_name as school_name',
+                'school_m.post_code as post_code',
+                'school_m.address1 as address1',
+                'school_m.address2 as address2',
+                'school_m.tel as tel',
+                'school_m.fax as fax',
+                'school_m.hp_url as hp_url',
+                'school_m.mailaddress as mailaddress',
+                'school_m.remarks as remarks',
+                
+                'school_m.deleted_at as deleted_at',
+            )
+            ->leftJoin('subcategory_m as school_division_info', function ($join) {
+                $join->on('school_division_info.subcategory_cd', '=', 'school_m.school_division')
+                    ->where('school_division_info.maincategory_cd', '=', env('school_division_subcategory_cd'));
+            })        
+            ->orderBy('school_m.school_cd', 'asc') 
+            ->where('school_m.school_cd', '=', $search_school_cd)
+            ->withTrashed()
+            ->first();
 
-        if(is_null($get_school_info)){
 
-            $message = "学校情報なし";
+            if(is_null($get_school_info)){
+
+                $message = "学校情報なし";
+                $ResultArray = array(
+                    "status" => "nodata",
+                    "message" => $message
+                );
+
+            }else{
+
+                $school_info = array(
+                    "school_division_name" => $get_school_info->school_division_name,
+                    "school_name" => $get_school_info->school_name,
+                    "post_code" => $get_school_info->post_code,
+                    "address1" => $get_school_info->address1,
+                    "address2" => $get_school_info->address2,
+                    "tel" => $get_school_info->tel,
+                    "fax" => $get_school_info->fax,
+                    "hp_url" => $get_school_info->hp_url,
+                    "mailaddress" => $get_school_info->mailaddress,
+                    "remarks" => $get_school_info->remarks
+                );
+
+                $ResultArray = array(
+                    "status" => "success",
+                    "school_info" =>  $school_info
+                );
+
+
+            }
+
+        } catch (Exception $e) {
+
+            $ErrorMessage = '【学校情報データ取得エラー】' . $e->getMessage();            
+
+            Log::channel('error_log')->info($ErrorMessage);
+
+            $message = "データ取得エラー";
             $ResultArray = array(
-                "status" => "nodata",
+                "status" => "error",
                 "message" => $message
             );
 
-        }else{
-
-            $school_info = array(
-                "school_division_name" => $get_school_info->school_division_name,
-                "school_name" => $get_school_info->school_name,
-                "post_code" => $get_school_info->post_code,
-                "address1" => $get_school_info->address1,
-                "address2" => $get_school_info->address2,
-                "tel" => $get_school_info->tel,
-                "fax" => $get_school_info->fax,
-                "hp_url" => $get_school_info->hp_url,
-                "mailaddress" => $get_school_info->mailaddress,
-                "remarks" => $get_school_info->remarks
-            );
-
-            $ResultArray = array(
-                "status" => "success",
-                "school_info" =>  $school_info
-            );
-
-
         }
+        
 
         return response()->json(['ResultArray' => $ResultArray]);
 
     }
     
+
     
+    
+    function majorsubject_info_search(Request $request){
+
+        try {
+
+            $search_school_cd = $request->search_school_cd;
+            $search_majorsubject_cd = $request->search_majorsubject_cd;
+
+            $get_majorsubject_info = majorsubject_m_model::select(
+
+                'majorsubject_m.school_cd as school_cd',
+                'school_m.school_name as school_name',
+                'majorsubject_m.majorsubject_cd as majorsubject_cd',
+                'majorsubject_m.majorsubject_name as majorsubject_name',
+                'majorsubject_m.studyperiod as studyperiod',
+                'majorsubject_m.remarks as remarks',            
+                'majorsubject_m.deleted_at as deleted_at',
+            )
+            ->leftJoin('school_m', function ($join) {
+                $join->on('school_m.school_cd', '=', 'majorsubject_m.school_cd');            
+            })        
+            ->where('majorsubject_m.school_cd', '=', $search_school_cd)
+            ->where('majorsubject_m.majorsubject_cd', '=', $search_majorsubject_cd)
+            ->withTrashed()
+            ->first();
+            
+
+            
+
+            if(is_null($get_majorsubject_info)){
+
+                $message = "学校別専攻情報なし";
+                $ResultArray = array(
+                    "status" => "nodata",
+                    "message" => $message
+                );
+
+            }else{
+
+                $majorsubject_info = array(
+                    "school_cd" => $get_majorsubject_info->school_cd,
+                    "school_name" => $get_majorsubject_info->school_name,
+                    "majorsubject_cd" => $get_majorsubject_info->majorsubject_cd,
+                    "majorsubject_name" => $get_majorsubject_info->majorsubject_name,
+                    "studyperiod" => $get_majorsubject_info->studyperiod,                
+                    "remarks" => $get_majorsubject_info->remarks
+                );
+
+                $ResultArray = array(
+                    "status" => "success",
+                    "majorsubject_info" =>  $majorsubject_info
+                );
+
+
+            }
+
+
+        } catch (Exception $e) {
+
+            $ErrorMessage = '【学校別専攻情報データ取得エラー】' . $e->getMessage();            
+
+            Log::channel('error_log')->info($ErrorMessage);
+
+            $message = "データ取得エラー";
+            $ResultArray = array(
+                "status" => "error",
+                "message" => $message
+            );
+
+        }
+        
+
+        return response()->json(['ResultArray' => $ResultArray]);
+
+    }
 }

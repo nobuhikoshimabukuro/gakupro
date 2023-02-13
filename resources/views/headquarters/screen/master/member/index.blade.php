@@ -10,23 +10,32 @@
 
     @include('headquarters.common.alert')
 
-    <div class="row">
+    <div class="row">        
 
         <div class="col-6 text-start">
             <h4 class="master_title">
                 メンバーマスタ
             </h4>
-        </div>       
-        
+        </div>    
+
         <div class="col-6 text-end">
 
-            <button type="button" class='original_button search_modal_button' data-bs-toggle='modal' data-bs-target='#search_modal'>検索する</button>
+            <button type="button" class='original_button'>
+                <a href="{{ route('master.index') }}">マスタ一覧へ</a>
+            </button>
+            
+        </div>
 
+        <div class="col-6 text-start">
+            <button type="button" class='original_button search_modal_button' data-bs-toggle='modal' data-bs-target='#search_modal'>検索する</button>
+        </div>
+
+        <div class="col-6 text-end">
             <button type="button" id="" class="original_button add_data_button"
                 data-bs-toggle='modal' data-bs-target='#save_modal'            
                 data-process_flg='0'><span class="add_data_button_name"></span>
             </button>
-        </div>
+        </div>      
 
     </div>
       
@@ -62,15 +71,22 @@
                 <td>{{$item->member_id}}</td>
                 <td>{{$item->school_division_name}}</td>
 
-                <td>{{$item->school_name}}
+                <td>
+                    {{$item->school_name}}
                     <button class='modal_button' data-bs-toggle='modal' data-bs-target='#school_info_modal'                        
                         data-schoolcd='{{$item->school_cd}}'                        
-                        > 
-                        <i class="fas fa-info"></i>
+                    >【情報】
                     </button>
                 </td>
 
-                <td>{{$item->majorsubject_name}}</td> 
+                <td>
+                    {{$item->majorsubject_name}}
+                    <button class='modal_button' data-bs-toggle='modal' data-bs-target='#majorsubject_info_modal'                        
+                        data-schoolcd='{{$item->school_cd}}'                        
+                        data-majorsubjectcd='{{$item->majorsubject_cd}}'
+                    >【情報】
+                    </button>
+                </td> 
                 <td>
                     <ruby>{{$item->member_last_name . "　" . $item->member_first_name}}
                         <rt>
@@ -183,41 +199,49 @@
 
 
                                 <label for="search_school_cd" class="col-12 col-form-label original-label">学校選択</label>
-                                @if(is_null($search_element_array['search_school_division']))                             
+                                @if(is_null($search_element_array['search_school_division']) || $search_element_array['search_school_division'] == "")
                                     <select id='search_school_cd' name='search_school_cd' class='form-control input-sm impossible'>
                                     <option value=''>学校区分を選択してください。</option>
                                 @else
+
                                     <select id='search_school_cd' name='search_school_cd' class='form-control input-sm'>
                                     <option value=''>-----</option>
-                                @endif
-
-                            
                                     @foreach($school_list as $item)
-                                        <option value="{{$item->school_cd}}"                                         
-                                            @if($search_element_array['search_school_cd'] == $item->school_cd) selected @endif                                    
-                                        >
-                                            {{$item->school_name}}
-                                            
-                                        </option>
+                                        
+                                        @if($item->school_division == $search_element_array['search_school_division'])
+                                            <option value="{{$item->school_cd}}"                                         
+                                                @if($search_element_array['search_school_cd'] == $item->school_cd) selected @endif                                    
+                                            >{{$item->school_name}}</option>
+
+                                        @endif
+                                        
                                     @endforeach
+
+                                @endif
                                 </select>
                                 
                                 <label for="search_majorsubject_cd" class="col-12 col-form-label original-label">専攻選択</label>
-                                @if(is_null($search_element_array['search_school_division']))                             
+                                @if(is_null($search_element_array['search_school_cd']) || $search_element_array['search_school_cd'] == "")
                                     <select id='search_majorsubject_cd' name='search_majorsubject_cd' class='form-control input-sm impossible'>
                                     <option value=''>学校を選択してください。</option>
                                 @else
+
                                     <select id='search_majorsubject_cd' name='search_majorsubject_cd' class='form-control input-sm'>
                                     <option value=''>-----</option>
+
+                                        @foreach($majorsubject_list as $item)
+                                            @if($item->school_cd == $search_element_array['search_school_cd'])
+                                                <option value="{{$item->majorsubject_cd}}"
+                                                    @if($search_element_array['search_majorsubject_cd'] == $item->majorsubject_cd) selected @endif                                    
+                                                    >{{$item->majorsubject_name}}
+                                                </option>
+                                            @endif
+                                        @endforeach
+
+
                                 @endif                                                            
                                     
-                                    @foreach($majorsubject_list as $item)
-                                    <option value="{{$item->majorsubject_cd}}"
-                                        @if($search_element_array['search_majorsubject_cd'] == $item->majorsubject_cd) selected @endif                                    
-                                        >
-                                        {{$item->majorsubject_name}}
-                                    </option>
-                                    @endforeach
+                                   
                                 </select>
                                 
                                 <label for="member_last_name_yomi" class="col-12 col-form-label original-label">氏名（あいまい）</label>
@@ -354,17 +378,15 @@
 
                         
                             
-                        <div class="modal-footer row">
-                            <div class="col-4 m-0 p-0 text-start">                                
-                            </div>
-                            <div class="col-4 m-0 p-0 text-center">
+                        <div class="modal-footer row">                            
+                            <div class="col-6 m-0 p-0 text-start">
                                 <button type="button" id='save_button' class="original_button save_button"><span id='save_modal_button_display'></span></button>
                             </div>
 
-                            <div class="col-4 m-0 p-0 text-end">
+                            <div class="col-6 m-0 p-0 text-end">
                                 <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
                             </div>                            
-                        </div>                        
+                        </div>                  
                         
                     </form>
 
@@ -414,14 +436,12 @@
 
                         </div>
 
-                        <div class="modal-footer row">
-                            <div class="col-4 m-0 p-0 text-start">                                
-                            </div>
-                            <div class="col-4 m-0 p-0 text-center">
+                        <div class="modal-footer row">                                                                                      
+                            <div class="col-6 m-0 p-0 text-start">
                                 <button type="submit" id='dlete_modal_runbutton' class="original_button dlete_modal_runbutton"><span class="dlete_modal_wording"></span></button>
                             </div>
 
-                            <div class="col-4 m-0 p-0 text-end">
+                            <div class="col-6 m-0 p-0 text-end">
                                 <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>      
                             </div>                            
                         </div>                                   
@@ -465,10 +485,16 @@
                             
                         </div>
 
-                        <div class="modal-footer">               
-                            <button type="button" id='login_info_change_button' class="btn btn-primary">ログイン情報変更</button>       
-                            <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
-                        </div>
+                        <div class="modal-footer row">                            
+                            <div class="col-8 m-0 p-0 text-start">
+                                <button type="button" id="login_info_change_button" class="original_button login_info_change_button" data-bs-dismiss="modal">ログイン情報変更</button>
+                            </div>
+
+                            <div class="col-4 m-0 p-0 text-end">
+                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                            </div>                            
+                        </div> 
+
                     </form>
 
                 </div>
@@ -485,8 +511,6 @@
                         <h5 class="modal-title" id="school_info_modal_label">学校情報</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-
-                    
                    
                         <div class="modal-body">                     
             
@@ -571,6 +595,82 @@
                                 <tr>          
                                     <td>
                                         <textarea id="school_info_modal_remarks" class="form-control" rows="4" cols="40" readonly></textarea>
+                                    </td>
+                                    
+                                </tr>
+
+                            </table>                            
+
+                        </div>
+
+                        <div class="modal-footer">         
+                            
+                            <div class="row">
+
+                                <div class="col-12 tect-right">                                         
+                                    <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>      
+                                </div>
+                                                        
+                            </div>          
+                            
+                        </div>
+                   
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        {{-- 専攻情報モーダル --}}
+        <div class="modal fade" id="majorsubject_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="majorsubject_info_modal_label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="majorsubject_info_modal_label">専攻情報</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    
+                   
+                        <div class="modal-body">                     
+            
+                            <table class="w-100">
+                                
+                                <tr>
+                                    <th class="text-start">学校名</th>                                
+                                </tr>
+    
+                                <tr>                                
+                                    <td class="text-start"><span id="majorsubject_info_modal_school_name"></span></td>
+                                </tr>
+
+                                <tr>
+                                    <th class="text-start">専攻名</th>                                
+                                </tr>
+    
+                                <tr>                                
+                                    <td class="text-start"><span id="majorsubject_info_modal_majorsubject_name"></span></td>
+                                </tr>
+                             
+                                <tr>
+                                    <th class="text-start">学習期間</th>                                
+                                </tr>
+    
+                                <tr>                                
+                                    <td class="text-start"><span id="majorsubject_info_modal_studyperiod"></span></td>
+                                </tr>
+
+                                <tr>
+                                    <th class="text-start">備考</th>                                
+                                </tr>
+    
+                                <tr>          
+                                    <td>
+                                        <textarea id="majorsubject_info_modal_remarks" class="form-control" rows="4" cols="40" readonly></textarea>
                                     </td>
                                     
                                 </tr>
@@ -1206,7 +1306,7 @@ $(function(){
     });
 
 
-    //ログイン情報変更モーダル表示時
+    //学校情報確認モーダル表示時
     $('#school_info_modal').on('show.bs.modal', function(e) {
         // イベント発生元
         let evCon = $(e.relatedTarget);
@@ -1229,7 +1329,7 @@ $(function(){
         $('#school_info_modal_hp_url').html('');
         $('#school_info_modal_remarks').val("");     
 
-        if(school_cd == ""){
+        if(search_school_cd == ""){
             return false;
         }
 
@@ -1266,7 +1366,7 @@ $(function(){
                 $('#school_info_modal_fax').html(school_info["fax"]);
                 $('#school_info_modal_hp_url').html(school_info["hp_url"]);
                 $('#school_info_modal_mailaddress').html(school_info["mailaddress"]);
-                $('#school_info_modal_remarks').html(school_info["remarks"]);
+                $('#school_info_modal_remarks').val(school_info["remarks"]);
 
                                 
             }else if(status == 'nodata'){
@@ -1291,6 +1391,99 @@ $(function(){
 
             });
    }
+
+
+
+   //専攻情報確認モーダル表示時
+   $('#majorsubject_info_modal').on('show.bs.modal', function(e) {
+        // イベント発生元
+        let evCon = $(e.relatedTarget);
+                         
+        majorsubject_info_search(evCon.data('schoolcd') , evCon.data('majorsubjectcd'));
+       
+      
+    });
+
+    function majorsubject_info_search(search_school_cd,search_majorsubject_cd){
+            
+        $('#majorsubject_info_modal_school_name').html('');
+        $('#majorsubject_info_modal_majorsubject_name').html('');
+        $('#majorsubject_info_modal_studyperiod').html('');        
+        $('#majorsubject_info_modal_remarks').val("");     
+
+        if(search_school_cd == "" || search_majorsubject_cd == ""){
+            return false;
+        }
+
+        //マウスカーソルを砂時計に
+        document.body.style.cursor = 'wait';      
+
+        var Url = "{{ route('master.member.majorsubject_info_search')}}"
+
+        $.ajax({
+            url: Url, // 送信先
+            type: 'get',
+            dataType: 'json',
+            data: {search_school_cd : search_school_cd , search_majorsubject_cd : search_majorsubject_cd},
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+
+        })
+        .done(function (data, textStatus, jqXHR) {
+            // テーブルに通信できた場合
+            var ResultArray = data.ResultArray;
+
+            var status = ResultArray["status"];
+
+            //テーブルに通信時、データを検索できたか判定
+            if (status == 'success') {
+
+                var majorsubject_info = ResultArray["majorsubject_info"];       
+
+                $('#majorsubject_info_modal_school_name').html(majorsubject_info["school_name"]);
+                $('#majorsubject_info_modal_majorsubject_name').html(majorsubject_info["majorsubject_name"]);
+                $('#majorsubject_info_modal_studyperiod').html(majorsubject_info["studyperiod"] + "ヶ月");                
+                $('#majorsubject_info_modal_remarks').val(majorsubject_info["remarks"]);
+
+                                
+            }else if(status == 'nodata'){
+                        
+                
+
+            }else{
+            
+                
+
+            }
+
+            //マウスカーソルを通常に
+            document.body.style.cursor = 'auto';
+            
+
+        })
+            .fail(function (data, textStatus, errorThrown) {
+            
+                    //マウスカーソルを通常に
+                document.body.style.cursor = 'auto';             
+
+            });
+   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // 「保存」ボタンがクリックされたら
     $('#save_button').click(function () {

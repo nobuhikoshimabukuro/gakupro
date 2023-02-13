@@ -10,63 +10,34 @@
 
     @include('headquarters.common.alert')
 
-    <div class="row">
+    <div class="row">        
+
         <div class="col-6 text-start">
             <h4 class="master_title">
                 学校マスタ
             </h4>
+        </div>    
+
+        <div class="col-6 text-end">
+
+            <button type="button" class='original_button'>
+                <a href="{{ route('master.index') }}">マスタ一覧へ</a>
+            </button>
+            
         </div>
-        
 
-        <div class="col-6 new_addition_button">
-            <a href="" class="btn btn--red btn--radius btn--cubic" 
-            data-bs-toggle='modal' data-bs-target='#save_modal'            
-            data-process_flg='0'
-            ><i class='fas fa-plus-circle'></i><span class="new_addition_button_name"></span></a>  
+        <div class="col-6 text-start">
+            <button type="button" class='original_button search_modal_button' data-bs-toggle='modal' data-bs-target='#search_modal'>検索する</button>
         </div>
 
-    </div>
+        <div class="col-6 text-end">
+            <button type="button" id="" class="original_button add_data_button"
+                data-bs-toggle='modal' data-bs-target='#save_modal'            
+                data-process_flg='0'><span class="add_data_button_name"></span>
+            </button>
+        </div>      
 
-    <form id="search_form" class="row" action="" method="get">
-
-        <div class="col-12">
-    
-            <div id="search_form_area" class="table_wrap m-0 p-0">
-                <table id='' class='search_info_table'>
-                    <tr>                
-                        <th>学校区分選択</th>
-                        <th>学校名</th>                    
-                        <th>
-                            <a id="" class="original_button clear_button">クリア</a>  
-                        </th>                    
-                    </tr>
-
-                    <tr>              
-                        <td>
-                            <select id='' name='search_school_division' class='form-control input-sm'>
-                                <option value=''>未選択</option>
-                                    @foreach($school_division_list as $item)
-                                    <option value="{{$item->school_division_cd}}"@if($search_element_array['search_school_division'] == $item->school_division_cd) selected @endif>
-                                        {{$item->school_division_name}}
-                                    </option>
-                                    @endforeach
-                            </select>
-                        </td>
-                        <td>
-                            <input type="text" id="" name="search_school_name" value="{{$search_element_array['search_school_name']}}" class="form-control">
-                        </td>                
-                        
-                        <td>                         
-                            <button type="submit" id="" class="original_button search_button" onclick="return search_formCheck();">検索 <i class="fas fa-search"></i></button>                                                                                              
-                        </td>
-                    </tr>
-
-                </table>
-            </div>
-        
-        </div>
-             
-    </form>
+    </div>  
 
     <div class="m-0 text-start">
         {{-- ページャー --}}                
@@ -194,6 +165,57 @@
     </div>
 
 
+        {{-- 検索モーダル --}}
+        <div class="modal fade" id="search_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="search_modal_label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="search_modal_label">検索</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    
+                    <form id="search_form" class="" action="" method="get">
+                        <div class="modal-body">                     
+            
+                            <div class="form-group row">                                
+                                
+                                <label for="search_school_division" class="col-12 col-form-label original-label">学校区分選択</label>
+                                <select id='search_school_division' name='search_school_division' class='form-control input-sm'>
+                                    <option value=''>未選択</option>
+                                        @foreach($school_division_list as $item)
+                                        <option value="{{$item->school_division_cd}}"@if($search_element_array['search_school_division'] == $item->school_division_cd) selected @endif>
+                                            {{$item->school_division_name}}
+                                        </option>
+                                        @endforeach
+                                </select>
+                            
+                                <label for="search_school_name" class="col-12 col-form-label original-label">学校名（あいまい）</label>
+                                <input type="text" id="search_school_name" name="search_school_name" value="{{$search_element_array['search_school_name']}}" class="form-control">
+                            
+                            </div>     
+                                                
+
+                        </div>
+
+                        <div class="modal-footer row">         
+
+                            <div class="col-6 m-0 p-0 text-start">
+                                
+                                <button type="button" id="" class="original_button clear_button">クリア</button>
+                                <button type="submit" id="" class="original_button search_button" onclick="return search_formCheck();">検索 <i class="fas fa-search"></i></button>
+                            </div>
+
+                            <div class="col-6 m-0 p-0 text-end">
+                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                            </div>                            
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
 
 
         {{-- 登録/更新用モーダル --}}
@@ -260,14 +282,12 @@
                             
                         </div>
 
-                        <div class="modal-footer row">
-                            <div class="col-4 m-0 p-0 text-start">                                
-                            </div>
-                            <div class="col-4 m-0 p-0 text-center">
+                        <div class="modal-footer row">                            
+                            <div class="col-6 m-0 p-0 text-start">
                                 <button type="button" id='save_button' class="original_button save_button"><span id='save_modal_button_display'></span></button>
                             </div>
 
-                            <div class="col-4 m-0 p-0 text-end">
+                            <div class="col-6 m-0 p-0 text-end">
                                 <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
                             </div>                            
                         </div> 
@@ -317,17 +337,15 @@
 
                     </div>
 
-                    <div class="modal-footer row">
-                        <div class="col-4 m-0 p-0 text-start">                                
-                        </div>
-                        <div class="col-4 m-0 p-0 text-center">
+                    <div class="modal-footer row">                                                                                      
+                        <div class="col-6 m-0 p-0 text-start">
                             <button type="submit" id='dlete_modal_runbutton' class="original_button dlete_modal_runbutton"><span class="dlete_modal_wording"></span></button>
                         </div>
 
-                        <div class="col-4 m-0 p-0 text-end">
+                        <div class="col-6 m-0 p-0 text-end">
                             <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>      
                         </div>                            
-                    </div>        
+                    </div>    
                 </form>
 
             </div>

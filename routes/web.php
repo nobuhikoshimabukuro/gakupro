@@ -81,6 +81,7 @@ Route::post('headquarters/master/member/login_info_update', [member_m_controller
 Route::get('headquarters/master/member/school_search', [member_m_controller::class, 'school_search'])->name('master.member.school_search');
 Route::get('headquarters/master/member/majorsubject_search', [member_m_controller::class, 'majorsubject_search'])->name('master.member.majorsubject_search');
 Route::get('headquarters/master/member/school_info_search', [member_m_controller::class, 'school_info_search'])->name('master.member.school_info_search');
+Route::get('headquarters/master/member/majorsubject_info_search', [member_m_controller::class, 'majorsubject_info_search'])->name('master.member.majorsubject_info_search');
 
 //本部  End
 
