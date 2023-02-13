@@ -229,7 +229,7 @@ a.btn--radius {
 
 
 
-.inoperable_class{
+.inoperable{
   pointer-events: none;
   opacity:0.1;
 }

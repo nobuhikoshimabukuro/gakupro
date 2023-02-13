@@ -25,17 +25,17 @@ function phpProcessingEnd() {
 
 
 function LoaderEnd() {
-  $(".inoperable_class").removeClass('inoperable_class');
+  $(".inoperable").removeClass('inoperable');
   $("#loading_area").remove(); 
 }
 
 function UploaderStart() {
-  $("#main").addClass('inoperable_class');
+  $("#main").addClass('inoperable');
   $("#uploading_area").removeClass('d-none');  
 }
 
 function UploaderEnd() {
   $("#uploading_area").addClass('d-none');  
-  $("#main").removeClass('inoperable_class');  
+  $("#main").removeClass('inoperable');  
 }
 

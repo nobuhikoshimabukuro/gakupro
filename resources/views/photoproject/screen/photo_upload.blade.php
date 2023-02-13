@@ -57,8 +57,8 @@ body{
 
 @include('photoproject.common.processing_display')
 
-    {{-- <div id='main' class="mt-3 text-center container inoperable_class">         --}}
-    <div id='main' class="mt-3 text-center container">
+<div id='main' class="mt-3 text-center container inoperable">     
+    {{-- <div id='main' class="mt-3 text-center container"> --}}
         
         <div id='' class="row">
 

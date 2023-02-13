@@ -195,7 +195,7 @@ a.btn--radius {
 }
 /* マスタ画面の新規登録ボタン設定 End */
 
-.inoperable_class{
+.inoperable{
   pointer-events: none;
   opacity:0.1;
 }

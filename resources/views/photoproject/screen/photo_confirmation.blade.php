@@ -140,7 +140,7 @@ table {
 
 @include('photoproject.common.processing_display')
 
-<div id="main" class="inoperable_class">
+<div id="main" class="inoperable">
     
     <div id="main_photo_area">
 
