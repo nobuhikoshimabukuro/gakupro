@@ -29,8 +29,8 @@ function UploaderStart() {
   $("#uploading_area").removeClass('d-none');  
 }
 
-function UploaderEnd() {
-  $("#uploading_area").addClass('d-none');  
+function UploaderEnd() {  
+  $("#uploading_area").remove();
   $("#main").removeClass('inoperable_class');  
 }
 

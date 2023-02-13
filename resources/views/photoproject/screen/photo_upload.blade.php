@@ -57,7 +57,7 @@ body{
 
 @include('photoproject.common.processing_display')
 
-    <div id='Main' class="mt-3 text-center container inoperable_class">        
+    <div id='main' class="mt-3 text-center container inoperable_class">        
         
         <div id='' class="row">
 
@@ -70,7 +70,7 @@ body{
                 <div class="row">    
                     <div class="col-12 text-start">
                         <label id="key_code_Label"for="" class="">key_code:</label>
-                        <input type="tel" id="key_code" name="key_code" value="@if($key_code != ''){{$key_code}}@endif" class="text-end">
+                        <input type="tel" id="key_code" name="key_code" value="@if($key_code != ''){{$key_code}}@endif" class="text-end" readonly>
                     </div>
                 </div>       
 
