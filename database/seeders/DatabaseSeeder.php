@@ -15,6 +15,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        DB::table('project_m')->insert([
+            
+            [   
+                'project_id' => '1',             
+                'project_name' => 'PhotoProject',
+                'remarks' => 'フォトプロジェクト',
+                'created_by' => '9999',
+            ],          
+
+            [                  
+                'project_id' => '2',             
+                'project_name' => 'RecruitProject',
+                'remarks' => 'リクルートプロジェクト',
+                'created_by' => '9999',                
+            ],          
+
+
+        ]);   
+
         DB::table('maincategory_m')->insert([
             
             [
