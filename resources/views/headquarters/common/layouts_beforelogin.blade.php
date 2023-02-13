@@ -1,5 +1,5 @@
 @php
-    $css_connect = "?" . date('YmdHis');
+    $update_now = "?" . date('YmdHis');
 @endphp
 
 <!doctype html>
@@ -8,9 +8,9 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="{{ asset('css/all.css') . $css_connect}}" rel="stylesheet">
-    <link href="{{ asset('css/bootstrap.css') . $css_connect}}" rel="stylesheet">
-    <link href="{{ asset('css/headquarters/common.css') . $css_connect}}" rel="stylesheet">
+    <link href="{{ asset('css/all.css') . $update_now}}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.css') . $update_now}}" rel="stylesheet">
+    <link href="{{ asset('css/headquarters/common.css') . $update_now}}" rel="stylesheet">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">  {{-- CSRFトークン --}}
     @yield('pagehead')
@@ -24,11 +24,10 @@
 @yield('content')
 
 
-
-<script src="{{ asset('js/bootstrap.js') }}"></script>
-<script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
-<script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('js/headquarters/common.js') }}"></script>
+<script src="{{ asset('js/bootstrap.js') . $update_now }}"></script>
+<script src="{{ asset('js/jquery-3.6.0.min.js'). $update_now }}"></script>
+<script src="{{ asset('js/app.js'). $update_now }}"></script>
+<script src="{{ asset('js/headquarters/common.js'). $update_now }}"></script>
 
 
 @yield('pagejs')
