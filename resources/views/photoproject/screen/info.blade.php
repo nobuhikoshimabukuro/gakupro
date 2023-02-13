@@ -6,8 +6,10 @@
 @section('content')
 
 <style>
-img{
+.syazai{
+    margin-top: 5vh;
     width: 100%;
+
 }
 </style>
 
@@ -16,14 +18,14 @@ img{
     <div id='' class="row">
      
         @if(session('before_upload_message')) 
-            <h5>画像がまだアップロードされておりません。</h5>
-            <h5>時間をあけて再度QRコードを読み直してください。</h5>
+            <h6>画像がまだアップロードされておりません。</h6>
+            <h6>時間をあけて再度QRコードを読み直してください。</h6>
         @else
-            <h5>再度QRコードを読み直してください。</h5>
+            <h6>再度QRコードを読み直してください。</h6>
         @endif
 
         <div id="">
-            <img id='' class="" src='{{ asset('img/photoproject/syazai.png') }}' alt=''>                       
+            <img id='' class="syazai" src='{{ asset('img/photoproject/syazai.png') }}' alt=''>                       
         </div>
 
     </div>
