@@ -10,6 +10,7 @@ use App\Http\Controllers\Headquarters\Master\project_m_controller;
 use App\Http\Controllers\Headquarters\Master\maincategory_m_controller;
 use App\Http\Controllers\Headquarters\Master\subcategory_m_controller;
 use App\Http\Controllers\Headquarters\Master\staff_m_controller;
+use App\Http\Controllers\Headquarters\Master\staff_with_project_t_controller;
 use App\Http\Controllers\Headquarters\Master\school_m_controller;
 use App\Http\Controllers\Headquarters\Master\majorsubject_m_controller;
 use App\Http\Controllers\Headquarters\Master\member_m_controller;
@@ -66,6 +67,10 @@ Route::post('headquarters/master/staff/save', [staff_m_controller::class, 'save'
 Route::post('headquarters/master/staff/delete_or_restore', [staff_m_controller::class, 'delete_or_restore'])->name('master.staff.delete_or_restore');
 Route::get('headquarters/master/staff/login_info_check', [staff_m_controller::class, 'login_info_check'])->name('master.staff.login_info_check');
 Route::post('headquarters/master/staff/login_info_update', [staff_m_controller::class, 'login_info_update'])->name('master.staff.login_info_update');
+
+Route::get('headquarters/master/staff/staff_with_project', [staff_with_project_t_controller::class, 'index'])->name('master.staff_with_project');
+Route::get('headquarters/master/staff/staff_with_project/save', [staff_with_project_t_controller::class, 'save'])->name('master.staff_with_project.save');
+
 
 Route::get('headquarters/master/school/', [school_m_controller::class, 'index'])->name('master.school');
 Route::post('headquarters/master/school/save', [school_m_controller::class, 'save'])->name('master.school.save');

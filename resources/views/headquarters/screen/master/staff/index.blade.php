@@ -61,8 +61,11 @@
 
                 @if(session()->get('authority') > 1)
                     <th>件数【<span id='total_count'>{{count($staff_list)}}</span>件】</th>
-                    <th>ログイン情報</th>
+                    <th>ログイン情報</th>                    
                 @endif
+
+                <th></th>
+                
             </tr>
 
             @foreach ($staff_list as $item)
@@ -181,6 +184,11 @@
                     </td>
                 @endif
 
+                <td>
+                    <button class='original_button modal_screen_move_button'>
+                        <a href='{{ route('master.staff_with_project' ,['staff_id' => $item->staff_id]) }}' target='_blank' rel='noopener noreferrer'>プロジェクト管理</a>
+                    </button>
+                </td>
             </tr>
 
             @endforeach
