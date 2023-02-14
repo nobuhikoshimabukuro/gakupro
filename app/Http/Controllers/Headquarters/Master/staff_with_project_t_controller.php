@@ -28,7 +28,7 @@ class staff_with_project_t_controller extends Controller
 
         $staff_with_project_list = staff_with_project_t_model::select(
 
-            'staff_with_project_t.staff_id as project_id',
+            'staff_with_project_t.project_id as project_id',
             'project_m.project_name as project_name',
             'project_m.remarks as project_remarks',
 
@@ -45,45 +45,89 @@ class staff_with_project_t_controller extends Controller
         ->leftJoin('project_m', function ($join) {
             $join->on('staff_with_project_t.project_id', '=', 'project_m.project_id');                 
         })        
+        ->where('staff_with_project_t.staff_id', '=', $staff_id)
         ->orderBy('staff_with_project_t.project_id', 'asc')
         ->get();
 
       
+        $staff_info = staff_m_model::select(
+
+            'staff_m.staff_id as staff_id',
+            'staff_m.staff_last_name as staff_last_name',
+            'staff_m.staff_first_name as staff_first_name',
+            'staff_m.staff_last_name_yomi as staff_last_name_yomi',
+            'staff_m.staff_first_name_yomi as staff_first_name_yomi',
+            'staff_m.nick_name as nick_name',
+            'staff_m.gender as gender',
+            'genderinfo.subcategory_name as gender_name',
+            'staff_m.tel as tel',
+            'staff_m.mailaddress as mailaddress',
+
+            'staff_m.authority as authority',
+            'authorityinfo.subcategory_name as authority_name',
+       
+            'staff_m.remarks as remarks',
+            'staff_m.deleted_at as deleted_at',
+        )
+        ->leftJoin('subcategory_m as genderinfo', function ($join) {
+            $join->on('genderinfo.subcategory_cd', '=', 'staff_m.gender')
+                 ->where('genderinfo.maincategory_cd', '=', '1');            
+        })
+        ->leftJoin('subcategory_m as authorityinfo', function ($join) {
+            $join->on('authorityinfo.subcategory_cd', '=', 'staff_m.authority')
+                ->where('authorityinfo.maincategory_cd', '=', env('authority_subcategory_cd'));            
+        })     
+        ->leftJoin('staff_password_t', function ($join) {
+            $join->on('staff_password_t.staff_id', '=', 'staff_m.staff_id')
+                ->whereNull('staff_password_t.deleted_at');
+            ;
+        })       
+        ->withTrashed()
+        ->where('staff_m.staff_id', '=', $staff_id)
+        ->first();
+
         
-        return view('headquarters/screen/master/staff/staff_with_project', compact('project_list','staff_with_project_list'));
+        
+        return view('headquarters/screen/master/staff/staff_with_project', compact('project_list','staff_with_project_list','staff_info'));
     }
 
 
     //  更新処理
-    function save(staff_m_request $request)
+    function save(Request $request)
     {
         $project_list = project_m_model::get();
                 
+        $staff_id = $request->staff_id;
+
         $operator = 9999;
         
         try {
-
+            
             DB::connection('mysql')->beginTransaction();
+            //table:staff_with_projectの該当するデータを物理削除削除する（staff_idで制限）
+            staff_with_project_t_model::where('staff_id', '=', $staff_id)->forceDelete();           
 
+            foreach($project_list as $info){
 
-            foreach($staff_list as $info){
+                $project_id = $info->project_id;
 
-                $password = "";
-                if($info->encrypted_password != ""){            
-                    $password = common::decryption($info->encrypted_password);
-                }
-                //DBに登録されている暗号化したパスワードを平文に変更し再格納                    
-                $info->password = $password;            
+                $target_name = "project_id_" . $project_id;
+
+                $target_value = $request->$target_name;
+
+                if($target_value == 1){
+
+                     //新規登録処理                
+                    staff_with_project_t_model::create(
+                        [
+                            'staff_id' => $staff_id,
+                            'project_id' => $project_id,                        
+                            'created_by' => $operator,                        
+                        ]
+                    );         
+
+                }                       
             }
-            //新規登録処理                
-            staff_with_project_t_model::create(
-                [
-                    'staff_id' => $staff_id,
-                    'project_id' => $project_id,                        
-                    'created_by' => $operator,                        
-                ]
-            );            
-
 
             DB::connection('mysql')->commit();
     
@@ -109,7 +153,7 @@ class staff_with_project_t_controller extends Controller
             "Message" => '',
         );
 
-        session()->flash('success', 'データを登録しました。');
+        session()->flash('success', 'データを更新しました。');
         session()->flash('message-type', 'success');
         return response()->json(['ResultArray' => $ResultArray]);
     }

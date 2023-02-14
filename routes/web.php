@@ -69,7 +69,7 @@ Route::get('headquarters/master/staff/login_info_check', [staff_m_controller::cl
 Route::post('headquarters/master/staff/login_info_update', [staff_m_controller::class, 'login_info_update'])->name('master.staff.login_info_update');
 
 Route::get('headquarters/master/staff/staff_with_project', [staff_with_project_t_controller::class, 'index'])->name('master.staff_with_project');
-Route::get('headquarters/master/staff/staff_with_project/save', [staff_with_project_t_controller::class, 'save'])->name('master.staff_with_project.save');
+Route::post('headquarters/master/staff/staff_with_project/save', [staff_with_project_t_controller::class, 'save'])->name('master.staff_with_project.save');
 
 
 Route::get('headquarters/master/school/', [school_m_controller::class, 'index'])->name('master.school');

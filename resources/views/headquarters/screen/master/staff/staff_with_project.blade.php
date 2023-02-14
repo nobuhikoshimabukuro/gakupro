@@ -15,9 +15,7 @@
             <div class="col-6 text-start">
                 <h4 class="master_title">
                     プロジェクト管理
-                </h4>
-
-                <button type="button" id='save_button' class="original_button save_button">更新</button>
+                </h4>                
             </div>    
 
             <div class="col-6 text-end">
@@ -28,23 +26,141 @@
                 
             </div>
 
+            <div class="col-12 text-center">
+            
+                <table class="w-100">
+                                    
+                    <tr>
+                        <th class="text-start">氏名</th>                                
+                        <th class="text-start">権限</th>
+                        <th></th>
+                    </tr>
+
+                    <tr>                                
+                        <td class="text-start">
+                            <ruby>{{$staff_info->staff_last_name}}　{{$staff_info->staff_first_name}}
+                                <rt>{{$staff_info->staff_last_name_yomi}}　{{$staff_info->staff_first_name_yomi}}
+                                </rt>
+                            </ruby>
+                        </td>
+
+                        <td class="text-start">
+                            {{$staff_info->authority_name}}
+                        </td>
+
+                        <td class="text-end">
+                            <button type="button" id='save_button' class="original_button save_button">更新</button>
+                        </td>
+
+                    </tr>
+
+                 
+                 
+                    
+
+                </table>      
+
+            </div>
+
         </div>
         
-        <div id="" class="row">
-                   
-            <form id="save_form" method="post" action="{{ route('master.staff_with_project.save') }}">                    
-                @csrf
-                    @foreach ($project_list as $item)
+        <form id="save_form" method="post" action="{{ route('master.staff_with_project.save') }}"> 
+            @csrf
+
+            <input type="hidden" name="staff_id" id="staff_id" value="{{$staff_info->staff_id}}">
+            <div id="" class="row">                 
+                               
+                
+                    @foreach ($project_list as $project_list_item)
+
+                        @php
+                        
+                            $contents = "";
+                            $project_id = $project_list_item->project_id;
+                            $project_name = $project_list_item->project_name;
+
+
+                            foreach($staff_with_project_list as $staff_with_project_list_item){ 
+
+                                if($staff_with_project_list_item->project_id == $project_id){
+                                    $contents = "checked";
+                                }
+
+                            }
+                            
+                        @endphp
 
                         <div class="col-6 col-md-4 col-xl-3 p-3 ">
-                            <label for="project_id_{{$item->project_id}}">{{$item->project_name}}</label>
-                            <input type="checkbox" id='project_id_{{$item->project_id}}' class="" name="project_id_{{$item->project_id}}" value='1'>
+                            <label for="project_id_{{$project_id}}">{{$project_name}}</label>
+                            <input type="checkbox" id='project_id_{{$project_id}}' class="" name="project_id_{{$project_id}}" value='1' {{$contents}}>
                         </div>
 
-                    @endforeach
-            </form>
+                    @endforeach           
             
+            </div>
+        </form>
+
+        {{-- スタッフ情報モーダル --}}
+        <div class="modal fade" id="staff_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staff_info_modal_label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staff_info_modal_label">専攻情報</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    
+                   
+                        <div class="modal-body">                     
+            
+                            <table class="w-100">
+                                
+                                <tr>
+                                    <th class="text-start">氏名</th>                                
+                                    <th class="text-start">権限</th>
+                                </tr>
+    
+                                <tr>                                
+                                    <td class="text-start">
+                                        <ruby>{{$staff_info->staff_last_name}}　{{$staff_info->staff_first_name}}
+                                            <rt>{{$staff_info->staff_last_name_yomi}}　{{$staff_info->staff_first_name_yomi}}
+                                            </rt>
+                                          </ruby>
+                                    </td>
+
+                                    <td class="text-start">　{{$staff_info->authority_name}}</td>
+                                </tr>
+
+                                <tr>
+                                    <th class="text-start">権限</th>                                
+                                </tr>
+    
+                                <tr>                                
+                                    <td class="text-start">　{{$staff_info->authority_name}}</td>
+                                </tr>
+                             
+                                
+
+                            </table>                            
+
+                        </div>
+
+                        <div class="modal-footer row">            
+
+                            <div id="staff_info_modal_screen_move" class="col-8 m-0 p-0 text-start">
+                                
+                            </div>
+
+                            <div class="col-4 m-0 p-0 text-end">
+                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>      
+                            </div>                            
+                        </div> 
+
+                </div>
+            </div>
         </div>
+
             
         {{-- 備考確認用モーダル --}}
         <div class="modal fade" id="remarks_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="remarks_modal_label" aria-hidden="true">
