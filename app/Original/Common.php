@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 use Jenssegers\Agent\Agent;
 
-class Common
+class common
 {   
     
     //管理側session確認処理
@@ -108,11 +108,11 @@ class Common
         } catch (Exception $e) {
 
 
-            $ErrorTitle = 'メール送信エラー';
+            $error_title = 'メール送信エラー';
             $ErrorMessage = $e->getMessage();
                     
-            $LogErrorMessage = $ErrorTitle .'::' .$ErrorMessage;
-            Log::channel('error_log')->info($LogErrorMessage);
+            $log_error_message = $error_title .'::' .$ErrorMessage;
+            Log::channel('error_log')->info($log_error_message);
             $Result = false;          
         }
         

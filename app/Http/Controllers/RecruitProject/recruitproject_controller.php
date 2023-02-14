@@ -13,7 +13,7 @@ use App\Mail\SendMailAddressConfirmation;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
-use App\Original\Common;
+use App\Original\common;
 use App\Original\create_list;
 
 use App\Models\employer_m_model;
@@ -56,10 +56,10 @@ class recruitproject_controller extends Controller
 
             while(true){         
                 //6桁数字のみのパスワード作成
-                $password =  Common::create_random_letters_limited_number(6);
+                $password =  common::create_random_letters_limited_number(6);
                 
                 //平文を暗号文に
-                $encryption_password = Common::encryption($password);
+                $encryption_password = common::encryption($password);
 
                 $check_password = mailaddresscheck_t_model::withTrashed()
                 ->where('password', '=', $encryption_password)                        
@@ -74,7 +74,7 @@ class recruitproject_controller extends Controller
             while(true){         
 
                 //6桁のランダム文字列
-                $key_code =  Common::create_random_letters(8);
+                $key_code =  common::create_random_letters(8);
                 
                 $check_key_code = mailaddresscheck_t_model::withTrashed()
                 ->where('key_code', '=', $key_code)                        
@@ -89,7 +89,7 @@ class recruitproject_controller extends Controller
             while(true){         
 
                 //6桁のランダム文字列
-                $cipher =  Common::create_random_letters(8);
+                $cipher =  common::create_random_letters(8);
                 
                 $check_cipher = mailaddresscheck_t_model::withTrashed()
                 ->where('cipher', '=', $cipher)                        
@@ -172,7 +172,7 @@ class recruitproject_controller extends Controller
 
         $key_code = $request->key_code;        
         $cipher = $request->cipher;            
-        $encryption_password = Common::encryption($request->password);
+        $encryption_password = common::encryption($request->password);
 
         //mailaddresscheck_tからデータを取得
         $mailaddresscheck_t_info = mailaddresscheck_t_model::withTrashed()                   
@@ -341,7 +341,7 @@ class recruitproject_controller extends Controller
             //login_idの重複チェック
             while(true){ 
 
-                $login_id = Common::create_random_letters(4);
+                $login_id = common::create_random_letters(4);
                 
                 $login_id_check = employer_password_t_model::withTrashed()
                 ->where('login_id', '=', $login_id)                        
@@ -357,10 +357,10 @@ class recruitproject_controller extends Controller
             //パスワードの重複チェック
             while(true){ 
 
-                $password = Common::create_random_letters_limited_number(6);
+                $password = common::create_random_letters_limited_number(6);
 
                 //平文を暗号文に
-                $encryption_password = Common::encryption($password);
+                $encryption_password = common::encryption($password);
 
                 $password_check = employer_password_t_model::withTrashed()
                 ->where('password', '=', $encryption_password)                        
@@ -439,7 +439,7 @@ class recruitproject_controller extends Controller
         ->first();
 
         //暗号文を平文にして再格納
-        $employer_info->password = Common::decryption($employer_info->encryption_password);
+        $employer_info->password = common::decryption($employer_info->encryption_password);
       
         return view('recruitproject/screen/employer_information_after_registration', compact('employer_info'));
         
@@ -550,7 +550,7 @@ class recruitproject_controller extends Controller
         $login_id = $request->login_id;
         
         //平文を暗号文に
-        $password = Common::encryption($request->password);
+        $password = common::encryption($request->password);
 
         $employer_password_t_model = employer_password_t_model::
         where('login_id', '=', $login_id)  

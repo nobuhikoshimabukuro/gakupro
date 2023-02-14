@@ -4,8 +4,9 @@ use Illuminate\Support\Facades\Log;
 
 use Illuminate\Support\Facades\Route;
 
+use App\Original\get_data;
 
-
+use App\Http\Controllers\Headquarters\Master\project_m_controller;
 use App\Http\Controllers\Headquarters\Master\maincategory_m_controller;
 use App\Http\Controllers\Headquarters\Master\subcategory_m_controller;
 use App\Http\Controllers\Headquarters\Master\staff_m_controller;
@@ -45,6 +46,9 @@ Route::get('headquarters/master', [headquarters_controller::class, 'master_index
 Route::get('headquarters/recruitproject', [headquarters_controller::class, 'recruitproject_index'])->name('recruitproject.index');
 Route::get('headquarters/photoproject', [headquarters_controller::class, 'photoproject_index'])->name('photoproject.index');
 
+Route::get('headquarters/master/project/', [project_m_controller::class, 'index'])->name('master.project');
+Route::post('headquarters/master/project/save', [project_m_controller::class, 'save'])->name('master.project.save');
+Route::post('headquarters/master/project/delete_or_restore', [project_m_controller::class, 'delete_or_restore'])->name('master.project.delete_or_restore');
 
 Route::get('headquarters/master/maincategory/', [maincategory_m_controller::class, 'index'])->name('master.maincategory');
 Route::post('headquarters/master/maincategory/save', [maincategory_m_controller::class, 'save'])->name('master.maincategory.save');
@@ -78,10 +82,13 @@ Route::post('headquarters/master/member/delete_or_restore', [member_m_controller
 Route::get('headquarters/master/member/login_info_check', [member_m_controller::class, 'login_info_check'])->name('master.member.login_info_check');
 Route::post('headquarters/master/member/login_info_update', [member_m_controller::class, 'login_info_update'])->name('master.member.login_info_update');
 
-Route::get('headquarters/master/member/school_search', [member_m_controller::class, 'school_search'])->name('master.member.school_search');
-Route::get('headquarters/master/member/majorsubject_search', [member_m_controller::class, 'majorsubject_search'])->name('master.member.majorsubject_search');
-Route::get('headquarters/master/member/school_info_search', [member_m_controller::class, 'school_info_search'])->name('master.member.school_info_search');
-Route::get('headquarters/master/member/majorsubject_info_search', [member_m_controller::class, 'majorsubject_info_search'])->name('master.member.majorsubject_info_search');
+
+
+
+Route::get('headquarters/get_data/school_list_get', [get_data::class, 'school_list_get'])->name('get_data.school_list_get');
+Route::get('headquarters/get_data/majorsubject_list_get', [get_data::class, 'majorsubject_list_get'])->name('get_data.majorsubject_list_get');
+Route::get('headquarters/get_data/school_info_get', [get_data::class, 'school_info_get'])->name('get_data.school_info_get');
+Route::get('headquarters/get_data/majorsubject_info_get', [get_data::class, 'majorsubject_info_get'])->name('get_data.majorsubject_info_get');
 
 //本部  End
 

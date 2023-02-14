@@ -71,20 +71,18 @@
                 <td>{{$item->member_id}}</td>
                 <td>{{$item->school_division_name}}</td>
 
-                <td>
-                    {{$item->school_name}}
+                <td class="text-start">
                     <button class='modal_button' data-bs-toggle='modal' data-bs-target='#school_info_modal'                        
                         data-schoolcd='{{$item->school_cd}}'                        
-                    >【情報】
+                    >{{$item->school_name}}
                     </button>
                 </td>
 
-                <td>
-                    {{$item->majorsubject_name}}
+                <td>                    
                     <button class='modal_button' data-bs-toggle='modal' data-bs-target='#majorsubject_info_modal'                        
                         data-schoolcd='{{$item->school_cd}}'                        
                         data-majorsubjectcd='{{$item->majorsubject_cd}}'
-                    >【情報】
+                    >{{$item->majorsubject_name}}
                     </button>
                 </td> 
                 <td>
@@ -487,7 +485,7 @@
 
                         <div class="modal-footer row">                            
                             <div class="col-8 m-0 p-0 text-start">
-                                <button type="button" id="login_info_change_button" class="original_button login_info_change_button" data-bs-dismiss="modal">ログイン情報変更</button>
+                                <button type="button" id="login_info_change_button" class="original_button login_info_change_button">ログイン情報変更</button>
                             </div>
 
                             <div class="col-4 m-0 p-0 text-end">
@@ -521,7 +519,7 @@
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="school_info_modal_school_division_name"></span></td>
+                                    <td class="text-start">　<span id="school_info_modal_school_division_name"></span></td>
                                 </tr>
 
                                 <tr>
@@ -529,7 +527,7 @@
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="school_info_modal_school_name"></span></td>
+                                    <td class="text-start">　<span id="school_info_modal_school_name"></span></td>
                                 </tr>
                              
                                 <tr>
@@ -537,7 +535,7 @@
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="school_info_modal_post_code"></span></td>
+                                    <td class="text-start">　<span id="school_info_modal_post_code"></span></td>
                                 </tr>
 
                                 <tr>
@@ -545,7 +543,7 @@
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="school_info_modal_address1"></span></td>
+                                    <td class="text-start">　<span id="school_info_modal_address1"></span></td>
                                 </tr>
 
                                 <tr>
@@ -553,7 +551,7 @@
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="school_info_modal_address2"></span></td>
+                                    <td class="text-start">　<span id="school_info_modal_address2"></span></td>
                                 </tr>
 
                                 <tr>
@@ -561,7 +559,7 @@
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="school_info_modal_tel"></span></td>
+                                    <td class="text-start">　<span id="school_info_modal_tel"></span></td>
                                 </tr>
 
                                 <tr>
@@ -569,7 +567,7 @@
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="school_info_modal_fax"></span></td>
+                                    <td class="text-start">　<span id="school_info_modal_fax"></span></td>
                                 </tr>
 
                                 <tr>
@@ -577,7 +575,7 @@
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="school_info_modal_hp_url"></span></td>
+                                    <td class="text-start">　<span id="school_info_modal_hp_url"></span></td>
                                 </tr>
 
                                 <tr>
@@ -585,7 +583,7 @@
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="school_info_modal_mailaddress"></span></td>
+                                    <td class="text-start">　<span id="school_info_modal_mailaddress"></span></td>
                                 </tr>
                                 
                                 <tr>
@@ -603,18 +601,17 @@
 
                         </div>
 
-                        <div class="modal-footer">         
-                            
-                            <div class="row">
 
-                                <div class="col-12 tect-right">                                         
-                                    <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>      
-                                </div>
-                                                        
-                            </div>          
-                            
-                        </div>
-                   
+                        <div class="modal-footer row">                            
+                            <div id="school_info_modal_screen_move" class="col-8 m-0 p-0 text-start">
+                                
+                            </div>
+
+                            <div class="col-4 m-0 p-0 text-end">
+                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                            </div>                            
+                        </div> 
+
 
                 </div>
             </div>
@@ -645,7 +642,7 @@
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="majorsubject_info_modal_school_name"></span></td>
+                                    <td class="text-start">　<span id="majorsubject_info_modal_school_name"></span></td>
                                 </tr>
 
                                 <tr>
@@ -653,7 +650,7 @@
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="majorsubject_info_modal_majorsubject_name"></span></td>
+                                    <td class="text-start">　<span id="majorsubject_info_modal_majorsubject_name"></span></td>
                                 </tr>
                              
                                 <tr>
@@ -661,7 +658,7 @@
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="majorsubject_info_modal_studyperiod"></span></td>
+                                    <td class="text-start">　<span id="majorsubject_info_modal_studyperiod"></span></td>
                                 </tr>
 
                                 <tr>
@@ -679,18 +676,16 @@
 
                         </div>
 
-                        <div class="modal-footer">         
-                            
-                            <div class="row">
+                        <div class="modal-footer row">            
 
-                                <div class="col-12 tect-right">                                         
-                                    <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>      
-                                </div>
-                                                        
-                            </div>          
-                            
-                        </div>
-                   
+                            <div id="majorsubject_info_modal_screen_move" class="col-8 m-0 p-0 text-start">
+                                
+                            </div>
+
+                            <div class="col-4 m-0 p-0 text-end">
+                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>      
+                            </div>                            
+                        </div> 
 
                 </div>
             </div>
@@ -789,15 +784,15 @@ $(function(){
 
 
     $('#search_school_division').change(function() {
-        school_search(1);
+        school_list_get(1);
     });
 
     $('#search_school_cd').change(function() {
-        majorsubject_search(1);
+        majorsubject_list_get(1);
     });
 
     $('#school_cd').change(function() {
-        majorsubject_search(2);
+        majorsubject_list_get(2);
     });
 
 
@@ -829,7 +824,7 @@ $(function(){
 
     }
 
-    function school_search(branch){
+    function school_list_get(branch){
        
         var target_form_id = "";
         var search_school_division = "";
@@ -861,7 +856,7 @@ $(function(){
        document.body.style.cursor = 'wait';
        $(target_form_id).addClass("impossible");
        
-       var Url = "{{ route('master.member.school_search')}}"
+       var Url = "{{ route('get_data.school_list_get')}}"
 
        $.ajax({
            url: Url, // 送信先
@@ -922,7 +917,7 @@ $(function(){
    }
 
 
-    function majorsubject_search(branch){
+    function majorsubject_list_get(branch){
        
         var target_form_id = "";
         var search_school_cd = "";
@@ -954,7 +949,7 @@ $(function(){
         document.body.style.cursor = 'wait';
         $(target_form_id).addClass("impossible");
 
-        var Url = "{{ route('master.member.majorsubject_search')}}"
+        var Url = "{{ route('get_data.majorsubject_list_get')}}"
 
         $.ajax({
             url: Url, // 送信先
@@ -1116,7 +1111,7 @@ $(function(){
         let evCon = $(e.relatedTarget);
 
         var member_id = evCon.data('memberid');        
-        let member_name = evCon.data('memberlastname') + "　" + evCon.data('memberfirstname');
+        let member_name = evCon.data('memberlastname') + '　' + evCon.data('memberfirstname');
         var delete_flg = evCon.data('deleteflg');
 
         $('#dlete_modal_runbutton').removeClass('delete_button');
@@ -1311,12 +1306,12 @@ $(function(){
         // イベント発生元
         let evCon = $(e.relatedTarget);
                          
-        school_info_search(evCon.data('schoolcd'));
+        school_info_get(evCon.data('schoolcd'));
        
       
     });
 
-    function school_info_search(search_school_cd){
+    function school_info_get(search_school_cd){
             
         $('#school_info_modal_school_division_name').html('');
         $('#school_info_modal_school_name').html('');
@@ -1336,7 +1331,7 @@ $(function(){
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';      
 
-        var Url = "{{ route('master.member.school_info_search')}}"
+        var Url = "{{ route('get_data.school_info_get')}}"
 
         $.ajax({
             url: Url, // 送信先
@@ -1355,6 +1350,7 @@ $(function(){
             //テーブルに通信時、データを検索できたか判定
             if (status == 'success') {
 
+                var append_text = "";
                 var school_info = ResultArray["school_info"];
 
                 $('#school_info_modal_school_division_name').html(school_info["school_division_name"]);
@@ -1364,10 +1360,26 @@ $(function(){
                 $('#school_info_modal_address2').html(school_info["address2"]);
                 $('#school_info_modal_tel').html(school_info["tel"]);
                 $('#school_info_modal_fax').html(school_info["fax"]);
-                $('#school_info_modal_hp_url').html(school_info["hp_url"]);
+
+                var hp_url = school_info["hp_url"];
+                if(hp_url != ""){
+                    append_text = "<a href='" + hp_url +"' target='_blank' rel='noopener noreferrer'>" + hp_url + "</a>";                
+                    $("#school_info_modal_hp_url").append(append_text);
+                }else{
+                    $('#school_info_modal_hp_url').html("　"); 
+                }                
+                
                 $('#school_info_modal_mailaddress').html(school_info["mailaddress"]);
                 $('#school_info_modal_remarks').val(school_info["remarks"]);
+               
+                var screen_move_url =  "{{ route('master.school')}}" + "?search_school_cd=" + school_info["school_cd"];
 
+                var a_tag = "<a href='" + screen_move_url +"' target='_blank' rel='noopener noreferrer'>学校マスタへ</a>";
+
+                append_text = "<button class='original_button modal_screen_move_button'>" + a_tag + "</button>";
+                
+                $("#school_info_modal_screen_move").html("");
+                $("#school_info_modal_screen_move").append(append_text);
                                 
             }else if(status == 'nodata'){
                         
@@ -1399,12 +1411,12 @@ $(function(){
         // イベント発生元
         let evCon = $(e.relatedTarget);
                          
-        majorsubject_info_search(evCon.data('schoolcd') , evCon.data('majorsubjectcd'));
+        majorsubject_info_get(evCon.data('schoolcd') , evCon.data('majorsubjectcd'));
        
       
     });
 
-    function majorsubject_info_search(search_school_cd,search_majorsubject_cd){
+    function majorsubject_info_get(search_school_cd,search_majorsubject_cd){
             
         $('#majorsubject_info_modal_school_name').html('');
         $('#majorsubject_info_modal_majorsubject_name').html('');
@@ -1418,7 +1430,7 @@ $(function(){
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';      
 
-        var Url = "{{ route('master.member.majorsubject_info_search')}}"
+        var Url = "{{ route('get_data.majorsubject_info_get')}}"
 
         $.ajax({
             url: Url, // 送信先
@@ -1444,6 +1456,15 @@ $(function(){
                 $('#majorsubject_info_modal_studyperiod').html(majorsubject_info["studyperiod"] + "ヶ月");                
                 $('#majorsubject_info_modal_remarks').val(majorsubject_info["remarks"]);
 
+                var screen_move_url =  "{{ route('master.majorsubject')}}" + "?search_school_cd=" + majorsubject_info["school_cd"];
+
+                var a_tag = "<a href='" + screen_move_url +"' target='_blank' rel='noopener noreferrer'>専攻マスタへ</a>";
+
+                append_text = "<button class='original_button modal_screen_move_button'>" + a_tag + "</button>";
+                
+                $("#majorsubject_info_modal_screen_move").html("");
+                $("#majorsubject_info_modal_screen_move").append(append_text);
+
                                 
             }else if(status == 'nodata'){
                         
@@ -1468,6 +1489,147 @@ $(function(){
             });
    }
 
+
+
+   // 「ログイン情報変更」ボタンがクリックされたら
+   $('#login_info_change_button').click(function () {
+     
+        //{{-- メッセージクリア --}}
+        $('.ajax-msg').html('');
+        $('.login-info-msg').html('');
+        
+        $('.invalid-feedback').html('');
+        $('.is-invalid').removeClass('is-invalid');
+
+        var member_id = $("#logininfo_member_id").val();
+        var login_id = $("#login_id").val();
+        var password = $("#password").val();
+        var Judge = true;
+
+        if(password == ""){
+            $('#password').focus();
+            Judge = false;
+            $("#password").addClass("is-invalid");            
+        }
+
+        if(login_id == ""){
+            $('#login_id').focus();
+            Judge = false;
+            $("#login_id").addClass("is-invalid");                              
+        }
+
+        if(!Judge){
+            return false;
+        }
+
+        // ２重送信防止
+        // 保存tを押したらdisabled, 10秒後にenable
+        $(this).prop("disabled", true);
+
+        setTimeout(function () {
+            $('#login_info_change_button').prop("disabled", false);
+        }, 3000);
+
+        var Url = "{{ route('master.member.login_info_check')}}"
+
+        //マウスカーソルを砂時計に
+        document.body.style.cursor = 'wait';
+
+        $.ajax({
+            url: Url, // 送信先
+            type: 'get',
+            dataType: 'json',
+            data: {member_id : member_id , login_id : login_id , password : password},
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+
+        })
+            // 送信成功
+            .done(function (data, textStatus, jqXHR) {
+                
+                var ResultArray = data.ResultArray;
+
+                var Result = ResultArray["Result"];
+
+                if(Result=='success'){
+
+                    // ログイン情報変更処理開始
+                    $('#login_info_form').submit();
+
+                }else if(Result=='duplication_error'){
+
+                    var login_id_duplication = ResultArray["login_id_duplication"];
+                    var password_duplication = ResultArray["password_duplication"];
+
+                    //{{-- アラートメッセージ表示 --}}
+                    var errorsHtml = '';
+                    errorsHtml = '<div class="alert alert-danger text-start">';
+
+                    if(login_id_duplication != ""){                                                
+                        $("#login_id").addClass("is-invalid");      
+                        errorsHtml += '<li class="text-start">' + login_id_duplication + '</li>';
+                    }
+
+                    if(password_duplication != ""){
+                        $("#password").addClass("is-invalid");      
+                        errorsHtml += '<li class="text-start">' + password_duplication + '</li>';
+                    }
+
+                    
+                    errorsHtml += '</div>';
+
+                        //{{-- アラート --}}
+                    $('.login-info-msg').html(errorsHtml);
+                
+                    //{{-- ボタン有効 --}}
+                    $('#login_info_change_button').prop("disabled", false);
+                    //{{-- マウスカーソルを通常に --}}                    
+                    document.body.style.cursor = 'auto';
+
+
+                }else{
+
+                    //{{-- アラートメッセージ表示 --}}
+                    var errorsHtml = '';
+                    errorsHtml = '<div class="alert alert-danger text-start">';
+                    errorsHtml += '<li class="text-start">ログイン情報重複エラー</li>';
+                    
+                    errorsHtml += '</div>';
+
+                        //{{-- アラート --}}
+                    $('.login-info-msg').html(errorsHtml);
+                
+                    //{{-- ボタン有効 --}}
+                    $('#login_info_change_button').prop("disabled", false);
+                    //{{-- マウスカーソルを通常に --}}                    
+                    document.body.style.cursor = 'auto';
+
+                    
+
+                }
+
+            
+            })
+            // 送信失敗
+            .fail(function (data, textStatus, errorThrown) {
+                
+                //{{-- アラートメッセージ表示 --}}
+                var errorsHtml = '';
+                errorsHtml = '<div class="alert alert-danger text-start">';
+                errorsHtml += '<li class="text-start">ログイン情報重複エラー</li>';
+                
+                errorsHtml += '</div>';
+
+                    //{{-- アラート --}}
+                $('.login-info-msg').html(errorsHtml);
+                
+                //{{-- ボタン有効 --}}
+                $('#login_info_change_button').prop("disabled", false);
+                //{{-- マウスカーソルを通常に --}}                    
+                document.body.style.cursor = 'auto';                
+
+            });
+
+    });
 
 
 

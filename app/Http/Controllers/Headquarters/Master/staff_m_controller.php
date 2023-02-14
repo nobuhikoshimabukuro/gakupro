@@ -12,7 +12,7 @@ use App\Http\Requests\staff_m_request;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
-use App\Original\Common;
+use App\Original\common;
 use App\Original\create_list;
 
 use Illuminate\Support\Facades\DB;
@@ -97,7 +97,7 @@ class staff_m_controller extends Controller
 
             $password = "";
             if($info->encrypted_password != ""){            
-                $password = Common::decryption($info->encrypted_password);
+                $password = common::decryption($info->encrypted_password);
             }
             //DBに登録されている暗号化したパスワードを平文に変更し再格納                    
             $info->password = $password;            
@@ -247,7 +247,7 @@ class staff_m_controller extends Controller
         $staff_id = $request->staff_id;
         $login_id = $request->login_id;
         //画面で入力した平文パスワードを暗号化
-        $password = Common::encryption($request->password);
+        $password = common::encryption($request->password);
                 
         try {
 
@@ -317,7 +317,7 @@ class staff_m_controller extends Controller
         $staff_id = intval($request->logininfo_staff_id);
         $login_id = $request->login_id;
         //画面で入力した平文パスワードを暗号化
-        $password = Common::encryption($request->password);
+        $password = common::encryption($request->password);
         $operator = session()->get('staff_id');
         
         try {

@@ -12,7 +12,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
-use App\Original\Common;
+use App\Original\common;
 
 use App\Models\photoget_t_model;
 
@@ -74,7 +74,7 @@ class photoproject_controller extends Controller
             $display_date = substr($info->date, 0, 4) .'/'. substr($info->date, 4, 2) .'/'. substr($info->date, 6, 2);
             
             //暗号文を平文に            
-            $info->display_password = Common::decryption( $info->password);
+            $info->display_password = common::decryption( $info->password);
 
             $info->display_date = $display_date;
 
@@ -117,10 +117,10 @@ class photoproject_controller extends Controller
                 while(true){ 
 
                     //数字のみでパスワード作成   
-                    $password = Common::create_random_letters_limited_number(4);
+                    $password = common::create_random_letters_limited_number(4);
 
                     //平文を暗号文に
-                    $encryption_password = Common::encryption($password);
+                    $encryption_password = common::encryption($password);
 
                     //同日で同じpasswordがある場合はパスワードを再作成
                     //photoget_t_modelのパスワードは暗号文が登録されている
@@ -140,7 +140,7 @@ class photoproject_controller extends Controller
                 //暗号文作成 ＆ 重複check
                 while(true){ 
 
-                    $cipher = Common::create_random_letters(10);
+                    $cipher = common::create_random_letters(10);
                     $password_check = photoget_t_model::withTrashed()
                     ->where('cipher', '=', $cipher)                    
                     ->get()->count();
@@ -159,7 +159,7 @@ class photoproject_controller extends Controller
                 if(env('APP_DEBUG')){
                     $password = intval($code);      
                     //平文を暗号文に
-                    $encryption_password = Common::encryption($password);
+                    $encryption_password = common::encryption($password);
                 }
 
                 //フォルダ名を作成  コード&英数字の羅列
@@ -365,17 +365,17 @@ class photoproject_controller extends Controller
         } catch (Exception $e) {
 
                         
-            $ErrorTitle = '写真プロジェクト[パスワード必要変更処理エラー]';
+            $error_title = '写真プロジェクト[パスワード必要変更処理エラー]';
             $ErrorMessage = $e->getMessage();
                       
-            Common::SendErrorMail($ErrorTitle,$ErrorMessage);
+            common::SendErrorMail($error_title,$ErrorMessage);
 
-            $LogErrorMessage = $ErrorTitle .'::' .$ErrorMessage;
-            Log::channel('error_log')->info($LogErrorMessage);
+            $log_error_message = $error_title .'::' .$ErrorMessage;
+            Log::channel('error_log')->info($log_error_message);
 
             $ResultArray = array(
                 "Result" => "error",
-                "Message" => $ErrorTitle,
+                "Message" => $error_title,
             );
             
 
@@ -473,7 +473,7 @@ class photoproject_controller extends Controller
                 $encryption_password = $photoget_t_info->password; 
 
                 //暗号文を平文に
-                $password = Common::decryption($encryption_password);           
+                $password = common::decryption($encryption_password);           
                 return view('photoproject/screen/password_auto_entry', compact('key_code','cipher','password'));
             }
             
@@ -518,7 +518,7 @@ class photoproject_controller extends Controller
 
 
             //平文を暗号文に
-            $encryption_password = Common::encryption($password);
+            $encryption_password = common::encryption($password);
 
             //日付、コード、パスワードで絞込
             $photoget_t_info = photoget_t_model::withTrashed()                    
@@ -539,7 +539,7 @@ class photoproject_controller extends Controller
                 $UploadFileInfo = $this->get_upload_info($date,$photoget_t_info->saved_folder); 
             
                 //端末情報取得
-                $termina_info = Common::TerminalCheck($request);
+                $termina_info = common::TerminalCheck($request);
         
                 return view('photoproject/screen/photo_confirmation', compact('photoget_t_info','key_code','cipher','UploadFileInfo','termina_info'));  
 
@@ -685,7 +685,7 @@ class photoproject_controller extends Controller
         try{
 
             //端末情報取得
-            $termina_info = Common::TerminalCheck($request);
+            $termina_info = common::TerminalCheck($request);
 
             $photoget_t_info = photoget_t_model::withTrashed()
             ->where('date', '=', $date)  

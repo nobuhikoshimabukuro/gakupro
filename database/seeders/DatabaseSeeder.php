@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Original\Common;
+use App\Original\common;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -267,7 +267,7 @@ class DatabaseSeeder extends Seeder
             [                
                 'staff_id' => '1',
                 'login_id' => '1',
-                'password' => Common::encryption("1"),        
+                'password' => common::encryption("1"),        
                 'created_by' => '9999',
                 
             ],
@@ -275,7 +275,7 @@ class DatabaseSeeder extends Seeder
             [                
                 'staff_id' => '2',
                 'login_id' => '2',
-                'password' => Common::encryption("2"),        
+                'password' => common::encryption("2"),        
                 'created_by' => '9999',
                 
             ],   
@@ -283,7 +283,7 @@ class DatabaseSeeder extends Seeder
             [                
                 'staff_id' => '3',
                 'login_id' => '3',
-                'password' => Common::encryption("3"),                  
+                'password' => common::encryption("3"),                  
                 'created_by' => '9999',
                 
             ],   
@@ -317,7 +317,7 @@ class DatabaseSeeder extends Seeder
             [   
                 'employer_id' => '1',             
                 'login_id' => '1',
-                'password' => Common::encryption("1"),
+                'password' => common::encryption("1"),
                 'created_by' => '9999',
                 
             ],          
@@ -491,8 +491,82 @@ class DatabaseSeeder extends Seeder
                 'registration_status' => '1',                
                 'created_by' => '9999',
                 
-            ],           
+            ], 
+            
+            [                
+                'member_id' => '2',
+                'member_last_name' => '学',
+                'member_first_name' => '花子',
+                'member_last_name_yomi' => 'ガク',
+                'member_first_name_yomi' => 'ハナコ',
+                'gender' => '2',
+                'birthday' => '2005/02/09',
+                'tel' => '080-1234-5678',
+                'mailaddress' => 'test@test.com',
+                'school_cd' => '2',
+                'majorsubject_cd' => '1',
+                'admission_yearmonth' => '2022-04',
+                'graduation_yearmonth' => '2024-03',
+                'emergencycontact_relations' => '父親',
+                'emergencycontact_tel' => '070-1234-5678',
+                'remarks' => '備考テスト',
+                'registration_status' => '1',                
+                'created_by' => '9999',
+                
+            ], 
+
+            [                
+                'member_id' => '3',
+                'member_last_name' => '島袋',
+                'member_first_name' => '青年',
+                'member_last_name_yomi' => 'シマブクロ',
+                'member_first_name_yomi' => 'セイネン',
+                'gender' => '1',
+                'birthday' => '2005/02/09',
+                'tel' => '080-1234-5678',
+                'mailaddress' => 'test@test.com',
+                'school_cd' => '3',
+                'majorsubject_cd' => '1',
+                'admission_yearmonth' => '2022-04',
+                'graduation_yearmonth' => '2024-03',
+                'emergencycontact_relations' => '父親',
+                'emergencycontact_tel' => '070-1234-5678',
+                'remarks' => '備考テスト',
+                'registration_status' => '1',                
+                'created_by' => '9999',
+                
+            ], 
+
         ]);     
+
+        DB::table('member_password_t')->insert([
+            
+            [                
+                'member_id' => '1',
+                'login_id' => '1',
+                'password' => common::encryption("1"),        
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'member_id' => '2',
+                'login_id' => '2',
+                'password' => common::encryption("2"),        
+                'created_by' => '9999',
+                
+            ],   
+
+            [                
+                'member_id' => '3',
+                'login_id' => '3',
+                'password' => common::encryption("3"),                  
+                'created_by' => '9999',
+                
+            ],   
+
+        ]);     
+
 
     }
 }

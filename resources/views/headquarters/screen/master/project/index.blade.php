@@ -1,7 +1,7 @@
 @extends('headquarters.common.layouts_afterlogin')
 
 @section('pagehead')
-@section('title', '大分類マスタ')  
+@section('title', 'プロジェクトマスタ')  
 @endsection
 @section('content')
 
@@ -19,7 +19,7 @@
 
         <div class="col-6 text-start">
             <h4 class="master_title">
-                大分類マスタ
+                プロジェクトマスタ
             </h4>
         </div>    
 
@@ -47,8 +47,8 @@
 
     <div class="m-0 text-start">
         {{-- ページャー --}}                
-        @if(count($maincategory_m_list) > 0)                                
-          <div class="m-0">{{ $maincategory_m_list->appends(request()->query())->links() }}</div>
+        @if(count($project_m_list) > 0)                                
+          <div class="m-0">{{ $project_m_list->appends(request()->query())->links() }}</div>
         @endif
     </div>
   
@@ -60,26 +60,74 @@
         <table id='' class='data_info_table'>
             
             <tr>
-                <th>大分類CD</th>
-                <th>大分類名</th>            
-                <th>件数【<span id='total_count'>{{count($maincategory_m_list)}}</span>件】</th>
+                <th>プロジェクトID</th>
+                <th>プロジェクト名</th>
+                <th>備考</th>
+                <th>件数【<span id='total_count'>{{count($project_m_list)}}</span>件】</th>
             </tr>
 
-            @foreach ($maincategory_m_list as $item)
+            @foreach ($project_m_list as $item)
             <tr>
-                <td>{{$item->maincategory_cd}}</td>
-                <td>{{$item->maincategory_name}}</td>   
+                <td>{{$item->project_id}}</td>
+                <td>{{$item->project_name}}</td>   
+               
+                @php
+                    // 表示する最大文字数
+                    $LimitStr = 4;
+                    $remarks_button_name = "";
+
+                    // ボタン表示フラグ
+                    $remarks_button_flg = true;
+
+                    if(!is_null($item->remarks)){
+
+                        // 申込情報備考文字数取得
+                        $string_count = mb_strlen($item->remarks);
+
+                        if($string_count > $LimitStr){
+                            // 最大文字数に達している場合、"$申込情報備考（指定した文字数）..."と表示
+                            $remarks_button_name =  mb_substr($item->remarks, 0 , $LimitStr);
+                            $remarks_button_name =  $remarks_button_name . "...";
+
+
+                        }else if($string_count <= $LimitStr){
+                            
+                            $remarks_button_name = $item->remarks;
+                        }
+
+                    }else{
+
+                        // 申込情報備考が登録されていない場合
+                        $remarks_button_flg = false;
+
+                    }
+
+                @endphp
+                <td>
+                    @if($remarks_button_flg)  
+                        
+                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#remarks_modal'
+                        data-projectid="{{$item->project_id}}"
+                        data-projectname='{{$item->project_name}}'
+                        data-remarks='{{$item->remarks}}'											
+                        >{{$remarks_button_name}}                  
+                   
+                    @endif                  
+                
+                </td>
+
                 <td>
                     <button class='modal_button' data-bs-toggle='modal' data-bs-target='#save_modal'
-                        data-maincategorycd='{{$item->maincategory_cd}}'
-                        data-maincategoryname='{{$item->maincategory_name}}'
+                        data-projectid='{{$item->project_id}}'
+                        data-projectname='{{$item->project_name}}'
+                        data-remarks='{{$item->remarks}}'
                         data-process_flg='1'> 
                         <i class='far fa-edit'></i>
                     </button>
 
                     <button class='modal_button' data-bs-toggle='modal' data-bs-target='#dlete_modal'
-                        data-maincategorycd='{{$item->maincategory_cd}}'
-                        data-maincategoryname='{{$item->maincategory_name}}'
+                        data-projectid='{{$item->project_id}}'
+                        data-projectname='{{$item->project_name}}'
                         data-deleteflg=@if($item->deleted_at) 1 @else 0 @endif>
                                     
                         @if($item->deleted_at)
@@ -90,6 +138,7 @@
                     </button>             
 
                 </td>
+
             </tr>
 
             @endforeach
@@ -114,8 +163,8 @@
             
                             <div class="form-group row">                                
                                 
-                                <label for="search_maincategory_name" class="col-12 col-form-label original-label">大分類名（あいまい）</label>
-                                <input type="text" id="search_maincategory_name" name="search_maincategory_name" value="{{$search_element_array['search_maincategory_name']}}" class="form-control">
+                                <label for="search_project_name" class="col-12 col-form-label original-label">プロジェクト名（あいまい）</label>
+                                <input type="text" id="search_project_name" name="search_project_name" value="{{$search_element_array['search_project_name']}}" class="form-control">
                                                         
                             </div>     
                             
@@ -154,15 +203,19 @@
                         
                     </div>
                     
-                    <form id="save_form" method="post" action="{{ route('master.maincategory.save') }}">                    
+                    <form id="save_form" method="post" action="{{ route('master.project.save') }}">                    
                         @csrf
                         <div class="modal-body">  
                             
-                            <input type="hidden" name="maincategory_cd" id="maincategory_cd">
+                            <input type="hidden" name="project_id" id="project_id">
                             
                             <div class="form-group row">
-                                <label for="maincategory_name" class="col-md-6 col-form-label original-label">大分類名</label>
-                                <input type="text" name="maincategory_name" id="maincategory_name" value="" class="form-control col-md-3">
+                                <label for="project_name" class="col-md-6 col-form-label original-label">プロジェクト名</label>
+                                <input type="text" name="project_name" id="project_name" value="" class="form-control col-md-3">
+
+                                <label for="remarks" class="col-md-6 col-form-label original-label">備考</label>                                
+                                <textarea name="remarks" id="remarks" class="form-control col-md-3" rows="4"></textarea>
+
                             </div>                     
                      
                             
@@ -195,35 +248,34 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <form id="delete_form" method="post" action="{{ route('master.maincategory.delete_or_restore') }}">                           
+                    <form id="delete_form" method="post" action="{{ route('master.project.delete_or_restore') }}">                           
                         @csrf
                         <div class="modal-body">  
                             <input type="hidden" id="delete_flg" name="delete_flg" value="">
-                            <input type="hidden" id="delete_maincategory_cd" name="delete_maincategory_cd" value="">
-                            <input type="hidden" id="delete_maincategory_name" name="delete_maincategory_name" value="">
+                            <input type="hidden" id="delete_project_id" name="delete_project_id" value="">
+                            <input type="hidden" id="delete_project_name" name="delete_project_name" value="">
             
 
                             <table class="w-100">
 
                                 <tr>
-                                    <td class="text-start">大分類CD</td>                                
+                                    <td class="text-start">プロジェクトID</td>                                
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="display_maincategory_cd"></span></td>
+                                    <td class="text-start"><span id="display_project_id"></span></td>
                                 </tr>
                              
                                 <tr>
-                                    <td class="text-start">大分類名称</td>                                
+                                    <td class="text-start">プロジェクト名称</td>                                
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="display_maincategory_name"></span></td>
+                                    <td class="text-start"><span id="display_project_name"></span></td>
                                 </tr>
     
                             </table>           
-
-
+              
 
                         </div>
 
@@ -241,6 +293,35 @@
                 </div>
             </div>
         </div>
+
+
+        {{-- 備考確認用モーダル --}}
+        <div class="modal fade" id="remarks_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="remarks_modal_label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+	                  <div class="modal-header">
+                        <h5 class="modal-title" id=""><span id="remarks_modal_title"></span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                   
+                    <div class="modal-body">                                                          
+                        <textarea id="remarks_modal_remarks" class="form-control" rows="4" cols="40" readonly></textarea>
+                    </div>
+
+                    <div class="modal-footer">               
+                        <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
       
 
     </div>
@@ -253,6 +334,20 @@
 
 $(function(){
 
+    //備考モーダル
+    $('#remarks_modal').on('show.bs.modal',function(e){
+        // イベント発生元
+        let evCon = $(e.relatedTarget);
+
+        let project_name = evCon.data('projectname');
+        let remarks = evCon.data('remarks');
+
+        var title = project_name + "の備考"
+        $('#remarks_modal_title').html(title);
+        $('#remarks_modal_remarks').val(remarks);
+        
+    });
+
     //登録、更新用モーダル表示時
     $('#save_modal').on('show.bs.modal', function(e) {
 
@@ -260,6 +355,7 @@ $(function(){
         $('.ajax-msg').html('');
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
+
 
         var FormData = $("#save_form").serializeArray();        
 
@@ -270,8 +366,9 @@ $(function(){
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
-        var maincategory_cd = evCon.data('maincategorycd');
-        var maincategory_name = evCon.data('maincategoryname');
+        var project_id = evCon.data('projectid');
+        var project_name = evCon.data('projectname');
+        var remarks = evCon.data('remarks');
 
           
 
@@ -280,18 +377,19 @@ $(function(){
         var process_flg = evCon.data('process_flg');
         if(process_flg == '0'){
             $('#save_modal_title').html('新規登録処理');            
-            $('#maincategory_cd_display').val(maincategory_cd);
-            $('#maincategory_cd').val(0);
+            $('#project_id_display').val(project_id);
+            $('#project_id').val(0);
             $('#save_modal_button_display').html('登録');
         }else{
-            $('#save_modal_title').html('更新処理（大分類CD：' + maincategory_cd+'）');
-            $('#maincategory_cd_display').val(maincategory_cd);
-            $('#maincategory_cd').val(maincategory_cd);
+            $('#save_modal_title').html('更新処理（プロジェクトID：' + project_id+'）');
+            $('#project_id_display').val(project_id);
+            $('#project_id').val(project_id);
             $('#save_modal_button_display').html('更新');
         }
 
         
-        $('#maincategory_name').val(maincategory_name); 
+        $('#project_name').val(project_name); 
+        $('#remarks').val(remarks);
         
     });
 
@@ -301,8 +399,8 @@ $(function(){
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
-        var maincategory_cd = evCon.data('maincategorycd');
-        var maincategory_name = evCon.data('maincategoryname');    
+        var project_id = evCon.data('projectid');
+        var project_name = evCon.data('projectname');    
         var deleteflg = evCon.data('deleteflg');
     
         var delete_flg = evCon.data('deleteflg');
@@ -322,14 +420,14 @@ $(function(){
 
        
     
-        $('#display_maincategory_cd').html(maincategory_cd);    
-        $('#display_maincategory_name').html(maincategory_name);    
+        $('#display_project_id').html(project_id);    
+        $('#display_project_name').html(project_name);    
         $('.dlete_modal_wording').html(wording);
 
 
         $('#delete_flg').val(delete_flg);
-        $('#delete_maincategory_cd').val(maincategory_cd);
-        $('#delete_maincategory_name').val(maincategory_name);  
+        $('#delete_project_id').val(project_id);
+        $('#delete_project_name').val(project_name);  
 
     });
 

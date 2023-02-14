@@ -181,15 +181,36 @@
 }
 
 .login_info_change_button:hover{
-  background-color: #b2c228;
-  border-radius: 40vh;
+  background-color: #b2c228;  
   color: #fff;    
 }
 
+/* modal_screen_move_button */
+.modal_screen_move_button{
+  margin: 3px;
+  background-color: #e744da;
+  border-radius: 100vh;
+  color: #fff;    
+}
+
+.modal_screen_move_button a{
+  text-decoration:none;
+  color: #fff;    
+}
+
+.modal_screen_move_button a:hover{  
+  color: #fff;    
+  text-decoration:underline solid #f00;
+}
 
 
+#school_info_modal th , #majorsubject_info_modal th , #majorsubject_list_modal th{
+  background-color: #fdb0fd;
+}
 
-
+#school_info_modal td , #majorsubject_info_modal td , #majorsubject_list_modal td{
+  background-color: #e5f2f7;
+}
 
 /* 操作不可能 */
 .impossible {

@@ -72,7 +72,10 @@
                     <a href="{{$item->hp_url}}" target="_blank" rel="noopener noreferrer">{{$item->hp_url}}</a>
                 </td>
                 <td>
-                    <button class='btn btn-warning' type='button' onclick= "location.href='{{ route('master.majorsubject' ,['search_school_cd' => $item->school_cd]) }}'">専攻情報確認【{{$item->majorsubject_count}}】</button>
+                    
+                    <button type="button" class='original_button search_modal_button' 
+                    data-schoolcd="{{$item->school_cd}}"
+                    data-bs-toggle='modal' data-bs-target='#majorsubject_list_modal'>専攻情報</button>                    
                 </td>          
                 
                 @php
@@ -377,6 +380,43 @@
         </div>
 
 
+        {{-- 専攻情報リストモーダル --}}
+        <div class="modal fade" id="majorsubject_list_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="majorsubject_list_modal_label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="majorsubject_list_modal_label">専攻情報</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    
+                   
+                        <div class="modal-body">                     
+            
+                            <table id="majorsubject_list_modal_table" class="w-100">
+                               
+
+                            </table>                            
+
+                        </div>
+
+                        <div class="modal-footer row">            
+
+                            <div id="majorsubject_info_modal_screen_move" class="col-8 m-0 p-0 text-start">
+                                
+                            </div>
+
+                            <div class="col-4 m-0 p-0 text-end">
+                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>      
+                            </div>                            
+                        </div> 
+                   
+
+                </div>
+            </div>
+        </div>
+
 
     </div>
 </div>
@@ -516,6 +556,107 @@ $(function(){
             $("[name='"+ element.name +"']").val("");          
         });
     });
+
+
+    //専攻情報確認モーダル表示時
+   $('#majorsubject_list_modal').on('show.bs.modal', function(e) {
+        // イベント発生元
+        let evCon = $(e.relatedTarget);
+                         
+        majorsubject_list_get(evCon.data('schoolcd'));
+       
+      
+    });
+
+    function majorsubject_list_get(search_school_cd){
+       
+        $("#majorsubject_list_modal_table").html("");
+        var append_text = "";
+
+        //マウスカーソルを砂時計に
+        document.body.style.cursor = 'wait';       
+
+        var Url = "{{ route('get_data.majorsubject_list_get')}}"
+
+        $.ajax({
+            url: Url, // 送信先
+            type: 'get',
+            dataType: 'json',
+            data: {search_school_cd : search_school_cd},
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+
+        })
+        .done(function (data, textStatus, jqXHR) {
+           // テーブルに通信できた場合
+           var ResultArray = data.ResultArray;
+
+           var status = ResultArray["status"];
+
+           //テーブルに通信時、データを検索できたか判定
+           if (status == 'success') {
+                
+                append_text = "<tr><th class='text-start'>専攻一覧</th></tr>";
+                $("#majorsubject_list_modal_table").append(append_text);
+
+                var majorsubject_list = ResultArray["majorsubject_list"];
+                
+                $.each(majorsubject_list, function(index, info) {
+
+                    var majorsubject_cd = info["majorsubject_cd"];
+                    var majorsubject_name = info["majorsubject_name"];                   
+
+                    append_text = "<tr><td class='text-start'>" + majorsubject_cd + ":" + majorsubject_name + "</td></tr>";
+
+                    $("#majorsubject_list_modal_table").append(append_text);                
+                })               
+
+
+                    $("#majorsubject_info_modal_screen_move").html("");
+
+                    var screen_move_url =  "{{ route('master.majorsubject')}}" + "?search_school_cd=" + search_school_cd;
+
+                    var a_tag = "<a href='" + screen_move_url +"' target='_blank' rel='noopener noreferrer'>専攻マスタへ</a>";
+
+                    append_text = "<button class='original_button modal_screen_move_button'>" + a_tag + "</button>";
+
+                    $("#majorsubject_info_modal_screen_move").append(append_text);
+               
+           }else if(status == 'nodata'){
+                       
+                
+                append_text = "<tr><th class='text-start'>専攻情報なし</th></tr>";
+                $("#majorsubject_list_modal_table").append(append_text);
+               
+
+           }else{
+        
+                
+                append_text = "<tr><th class='text-start'>専攻情報取得時エラー</th></tr>";
+                $("#majorsubject_list_modal_table").append(append_text);
+               
+
+           }
+
+           //マウスカーソルを通常に
+           document.body.style.cursor = 'auto';
+           
+
+       })
+           .fail(function (data, textStatus, errorThrown) {
+           
+                //マウスカーソルを通常に
+                document.body.style.cursor = 'auto';
+             
+                
+                var append_text = "<tr><th class='text-start'>専攻情報取得時エラー</th></tr>";
+                $("#majorsubject_list_modal_table").append(append_text);
+
+           });
+
+
+   }
+
+
 
     // 「保存」ボタンがクリックされたら
     $('#save_button').click(function () {

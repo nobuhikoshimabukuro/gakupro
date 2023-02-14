@@ -8,64 +8,64 @@ use Illuminate\Support\Facades\Log;
 
 use App\Original\common;
 
-use App\Models\maincategory_m_model;
-use App\Http\Requests\maincategory_m_request;
+use App\Models\project_m_model;
+use App\Http\Requests\project_m_request;
 
 use Illuminate\Http\Request;
 
 
-
-
-
-class maincategory_m_controller extends Controller
+class project_m_controller extends Controller
 {
     
     function index(Request $request)
     {
         //検索項目格納用配列
         $search_element_array = [
-            'search_maincategory_name' => $request->search_maincategory_name                   
+            'search_project_name' => $request->search_project_name                   
         ];
 
-        $maincategory_m_list = maincategory_m_model::withTrashed()->orderBy('maincategory_cd', 'asc');
+        $project_m_list = project_m_model::withTrashed()->orderBy('project_id', 'asc');
             
 
-        if(!is_null($search_element_array['search_maincategory_name'])){            
-            $maincategory_m_list = $maincategory_m_list->where('maincategory_m.maincategory_name', 'like', '%' . $search_element_array['search_maincategory_name'] . '%');
+        if(!is_null($search_element_array['search_project_name'])){            
+            $project_m_list = $project_m_list->where('project_m.project_name', 'like', '%' . $search_element_array['search_project_name'] . '%');
         }
 
-        $maincategory_m_list = $maincategory_m_list->paginate(env('paginate_count'));
+        $project_m_list = $project_m_list->paginate(env('paginate_count'));
 
-        return view('headquarters/screen/master/maincategory/index', compact('search_element_array','maincategory_m_list'));
+        return view('headquarters/screen/master/project/index', compact('search_element_array','project_m_list'));
     }
 
 
     //  更新処理
-    function save(maincategory_m_request $request)
+    function save(Request $request)
     {
 
-        $maincategory_cd = intval($request->maincategory_cd);
-        $maincategory_name = $request->maincategory_name;
+        $project_id = intval($request->project_id);
+        $project_name = $request->project_name;
+        $remarks = $request->remarks;
 
         $operator = 9999;
         try {
 
-            if($maincategory_cd == 0){            
+            if($project_id == 0){            
                 //新規登録処理
-                maincategory_m_model::create(
+                project_m_model::create(
                     [
-                        'maincategory_name' => $maincategory_name,
+                        'project_name' => $project_name,
+                        'remarks' => $remarks,
                         'created_by' => $operator,                        
                     ]
                 );            
 
             }else{
                 //更新処理
-                maincategory_m_model::
-                where('maincategory_cd', $maincategory_cd)                
+                project_m_model::
+                where('project_id', $project_id)                
                 ->update(
                     [
-                        'maincategory_name' => $maincategory_name,                        
+                        'project_name' => $project_name,  
+                        'remarks' => $remarks,                      
                         'updated_by' => $operator,            
                     ]
                 );
@@ -109,8 +109,8 @@ class maincategory_m_controller extends Controller
     {
         $delete_flg = intval($request->delete_flg);
 
-        $maincategory_cd = intval($request->delete_maincategory_cd);
-        $maincategory_name = $request->delete_maincategory_name;
+        $project_id = intval($request->delete_project_id);
+        $project_name = $request->delete_project_name;
         
         $operator = 9999;
 
@@ -118,20 +118,20 @@ class maincategory_m_controller extends Controller
             if($delete_flg == 0){
 
                 //論理削除
-                maincategory_m_model::
-                where('maincategory_cd', $maincategory_cd)                
+                project_m_model::
+                where('project_id', $project_id)                
                 ->delete();
 
-                session()->flash('success', '[大分類名 = ' . $maincategory_name .']データを利用不可状態にしました');                
+                session()->flash('success', '[大分類名 = ' . $project_name .']データを利用不可状態にしました');                
             }else{    
 
                 //論理削除解除
-                maincategory_m_model::
-                where('maincategory_cd', $maincategory_cd)                
+                project_m_model::
+                where('project_id', $project_id)                
                 ->withTrashed()                
                 ->restore();
 
-                session()->flash('success', '[大分類名 = ' . $maincategory_name . ']データを利用可能状態にしました');                                
+                session()->flash('success', '[大分類名 = ' . $project_name . ']データを利用可能状態にしました');                                
             }
 
         } catch (Exception $e) {
@@ -140,7 +140,7 @@ class maincategory_m_controller extends Controller
 
             Log::channel('error_log')->info($ErrorMessage);
 
-            session()->flash('error', '[大分類名 = ' . $maincategory_name . ']データの利用状況変更処理時エラー'); 
+            session()->flash('error', '[大分類名 = ' . $project_name . ']データの利用状況変更処理時エラー'); 
            
         }       
 

@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Original\Common;
+use App\Original\common;
 use Exception;
 
 use App\Models\staff_m_model;
@@ -17,7 +17,7 @@ class headquarters_controller extends Controller
     {        
        
          //Session確認処理        
-         if(Common::SessionConfirmation()){
+         if(common::SessionConfirmation()){
             //Session確認で戻り値が(true)時は管理のTop画面に遷移
             return redirect(route('headquarters.index'));            
         }
@@ -50,7 +50,7 @@ class headquarters_controller extends Controller
             //ログインIDとパスワードで1件のみ取得::OK
 
             //暗号化されたパスワードを平文に戻す
-            $plain_text = Common::decryption($staff_password_t_model[0]->password);
+            $plain_text = common::decryption($staff_password_t_model[0]->password);
 
             //平文パスワードとログイン画面で入力したパスワードを整合性確認
             if($plain_text == $password){
@@ -127,7 +127,7 @@ class headquarters_controller extends Controller
     function index()
     {        
         //Session確認処理        
-        if(!Common::SessionConfirmation()){
+        if(!common::SessionConfirmation()){
             //Session確認で戻り値が(true)時は管理のTop画面に遷移
             return redirect(route('headquarters.login'));            
         }
@@ -140,7 +140,7 @@ class headquarters_controller extends Controller
     function master_index()
     {        
         //Session確認処理        
-        if(!Common::SessionConfirmation()){
+        if(!common::SessionConfirmation()){
             //Session確認で戻り値が(true)時は管理のTop画面に遷移
             return redirect(route('headquarters.login'));            
         }
@@ -153,7 +153,7 @@ class headquarters_controller extends Controller
     {        
        
         //Session確認処理        
-        if(!Common::SessionConfirmation()){
+        if(!common::SessionConfirmation()){
             //Session確認で戻り値が(true)時は管理のTop画面に遷移
             return redirect(route('headquarters.login'));            
         }
@@ -165,7 +165,7 @@ class headquarters_controller extends Controller
     function photoproject_index()
     {        
         //Session確認処理        
-        if(!Common::SessionConfirmation()){
+        if(!common::SessionConfirmation()){
             //Session確認で戻り値が(true)時は管理のTop画面に遷移
             return redirect(route('headquarters.login'));            
         }
@@ -178,7 +178,7 @@ class headquarters_controller extends Controller
     {        
        
          //Session確認処理        
-         if(!Common::SessionConfirmation()){
+         if(!common::SessionConfirmation()){
             //Session確認で戻り値が(true)時は管理のTop画面に遷移
             return redirect(route('headquarters.login'));            
         }

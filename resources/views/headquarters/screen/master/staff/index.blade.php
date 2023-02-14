@@ -456,8 +456,8 @@
                         </div>
 
                         <div class="modal-footer row">                            
-                            <div class="col-8 m-0 p-0 text-start">
-                                <button type="button" id="login_info_change_button" class="original_button login_info_change_button" data-bs-dismiss="modal">ログイン情報変更</button>
+                            <div class="col-8 m-0 p-0 text-start">                                
+                                <button type="button" id="login_info_change_button" class="original_button login_info_change_button">ログイン情報変更</button>
                             </div>
 
                             <div class="col-4 m-0 p-0 text-end">
