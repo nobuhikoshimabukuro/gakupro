@@ -39,7 +39,7 @@ class SendMailAddressConfirmation extends Mailable
     public function build()
     {
         return $this
-        ->view('recruitproject.mails.mailaddress_confirmation')
+        ->view('recruit_project.mails.mailaddress_confirmation')
         ->subject($this->subject)
         ->with(['destination_name' => "destination_name" , 'url' => "url" , 'password' => "password"]); 
 

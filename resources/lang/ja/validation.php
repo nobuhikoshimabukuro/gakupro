@@ -172,7 +172,7 @@ return [
 
         // head
 
-        // ManagerMaster
+        // Managermaster
         'Tantosya_Cd' => '担当者コード',
         'Tantosya_Knji' => '担当者名称（漢字）',
         'Tantosya_Kana' => '担当者名称（カナ）',

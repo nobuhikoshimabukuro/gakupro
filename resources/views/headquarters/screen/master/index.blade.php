@@ -40,7 +40,7 @@
             <a href="{{ route('master.project') }}">
               
                 <div class="bg-dark rounded-lg text-light p-2 ">
-                    <i class="fas fa-th-list fa-3x mb-1"></i>                    
+                    <i class="fab fa-product-hunt fa-3x mb-1"></i>                    
                     <h6>プロジェクトマスタ</h6>
                 </div>
             </a>

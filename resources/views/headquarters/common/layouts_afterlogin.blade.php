@@ -53,8 +53,8 @@
                         <input type="checkbox" id="target2" class="switch2" />
                         <!-- ↓↓最初隠したいコンテンツ↓↓ -->
                         <div class="content">
-                            <a class="nav-link dropdown-item" href="{{ route('photoproject.index') }}">フォトプロTop</a>
-                            <a class="nav-link dropdown-item" href="{{ route('photoproject.create_qrcode') }}">QRコード管理画面</a>
+                            <a class="nav-link dropdown-item" href="{{ route('photo_project.index') }}">フォトプロTop</a>
+                            <a class="nav-link dropdown-item" href="{{ route('photo_project.create_qrcode') }}">QRコード管理画面</a>
                         </div>
                         <!-- ↑↑最初隠したいコンテンツ ↑↑-->
                     </div>
@@ -64,9 +64,9 @@
                         <input type="checkbox" id="target3" class="switch2" />
                         <!-- ↓↓最初隠したいコンテンツ↓↓ -->
                         <div class="content">
-                            <a class="nav-link dropdown-item" href="{{ route('recruitproject.index') }}">リクプロTop</a>
-                            <a class="nav-link dropdown-item" href="{{ route('recruitproject.login') }}">雇用者ログイン画面</a>
-                            <a class="nav-link dropdown-item" href="{{ route('recruitproject.mailaddress_temporary_registration') }}">新規登録画面</a>
+                            <a class="nav-link dropdown-item" href="{{ route('recruit_project.index') }}">リクプロTop</a>
+                            <a class="nav-link dropdown-item" href="{{ route('recruit_project.login') }}">雇用者ログイン画面</a>
+                            <a class="nav-link dropdown-item" href="{{ route('recruit_project.mailaddress_temporary_registration') }}">新規登録画面</a>
                         </div>
                         <!-- ↑↑最初隠したいコンテンツ ↑↑-->
                     </div>

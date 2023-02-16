@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Headquarters;
+namespace App\Http\Controllers\headquarters;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
@@ -19,7 +19,7 @@ class headquarters_controller extends Controller
     {        
        
          //Session確認処理        
-         if(common::SessionConfirmation()){
+         if(common::headquarters_session_confirmation()){
             //Session確認で戻り値が(true)時は管理のTop画面に遷移
             return redirect(route('headquarters.index'));            
         }
@@ -43,7 +43,7 @@ class headquarters_controller extends Controller
         if($GetCount == 0){
             //ログインIDとパスワードで取得できず::NG            
 
-            $this->SessionInfoRemove();
+            common::headquarters_session_remove();
             // 認証失敗
             session()->flash('staff_loginerror', '認証失敗');
             return back();
@@ -62,7 +62,7 @@ class headquarters_controller extends Controller
                 where('staff_id', '=', $staff_password_t_model[0]->staff_id)          
                 ->first();
     
-                $this->SessionInfoRemove();
+                common::headquarters_session_remove();
     
                 if(is_null($staff_info)){
 
@@ -85,7 +85,7 @@ class headquarters_controller extends Controller
             }else{
 
                 //パスワード不一致
-                $this->SessionInfoRemove();
+                common::headquarters_session_remove();
                 // 認証失敗
                 session()->flash('staff_loginerror', '認証失敗');
                 return back();
@@ -97,7 +97,7 @@ class headquarters_controller extends Controller
             //ログインIDとパスワードで1件以上取得::CriticalError
 
              //パスワード不一致
-             $this->SessionInfoRemove();
+             common::headquarters_session_remove();
              // 認証失敗
              session()->flash('staff_loginerror', '認証失敗');
              return back();
@@ -110,13 +110,13 @@ class headquarters_controller extends Controller
     function logout()
     {     
        
-        $this->SessionInfoRemove();
+        common::headquarters_session_remove();
          
         return redirect(route('headquarters.login'));
     }
 
     //ログイン情報を破棄
-    function SessionInfoRemove() {
+    function headquarters_session_remove() {
 
         session()->remove('staff_id');
         session()->remove('staff_name');
@@ -129,7 +129,7 @@ class headquarters_controller extends Controller
     function index()
     {        
         //Session確認処理        
-        if(!common::SessionConfirmation()){
+        if(!common::headquarters_session_confirmation()){
             //Session確認で戻り値が(true)時は管理のTop画面に遷移
             return redirect(route('headquarters.login'));            
         }
@@ -169,7 +169,7 @@ class headquarters_controller extends Controller
     function master_index()
     {        
         //Session確認処理        
-        if(!common::SessionConfirmation()){
+        if(!common::headquarters_session_confirmation()){
             //Session確認で戻り値が(true)時は管理のTop画面に遷移
             return redirect(route('headquarters.login'));            
         }
@@ -185,7 +185,7 @@ class headquarters_controller extends Controller
     {        
        
         //Session確認処理        
-        if(!common::SessionConfirmation()){
+        if(!common::headquarters_session_confirmation()){
             //Session確認で戻り値が(true)時は管理のTop画面に遷移
             return redirect(route('headquarters.login'));            
         }
@@ -194,31 +194,39 @@ class headquarters_controller extends Controller
     }
 
     
-    function photoproject_index()
+    function photo_project_index()
     {        
         //Session確認処理        
-        if(!common::SessionConfirmation()){
+        if(!common::headquarters_session_confirmation()){
             //Session確認で戻り値が(true)時は管理のTop画面に遷移
             return redirect(route('headquarters.login'));            
         }
 
-        return view('headquarters/screen/photoproject/index');        
+        return view('headquarters/screen/photo_project/index');        
     }     
 
 
-    function recruitproject_index()
+    function recruit_project_index()
     {        
        
          //Session確認処理        
-         if(!common::SessionConfirmation()){
+         if(!common::headquarters_session_confirmation()){
             //Session確認で戻り値が(true)時は管理のTop画面に遷移
             return redirect(route('headquarters.login'));            
         }
 
-        return view('headquarters/screen/recruitproject/index');
+        return view('headquarters/screen/recruit_project/index');
     }
 
+    
 
+    function member_index()
+    {
+
+        return view('headquarters/screen/member/index');
+
+        
+    }  
     function test()
     {
 

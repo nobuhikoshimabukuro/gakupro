@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\Headquarters\Master;
+namespace App\Http\Controllers\headquarters\master;
 use App\Http\Controllers\Controller;
 
 use App\Models\member_m_model;
@@ -130,13 +130,12 @@ class member_m_controller extends Controller
         
         if(!is_null($search_element_array['search_school_cd'])){
             $member_list = $member_list->where('member_m.school_cd', '=', $search_element_array['search_school_cd']);
-        }
 
-        if(!is_null($search_element_array['search_majorsubject_cd'])){
-            $member_list = $member_list->where('member_m.search_majorsubject_cd', '=', $search_element_array['search_majorsubject_cd']);
+            if(!is_null($search_element_array['search_majorsubject_cd'])){
+                $member_list = $member_list->where('member_m.majorsubject_cd', '=', $search_element_array['search_majorsubject_cd']);
+            }
         }
-        
-                
+                      
         if(!is_null($search_element_array["search_member_name"])){             
             $search_member_name = $search_element_array["search_member_name"];
             $member_list = $member_list ->where(function($query) use ($search_member_name) {

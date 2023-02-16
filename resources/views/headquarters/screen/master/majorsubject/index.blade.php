@@ -197,7 +197,8 @@
                                         </option>
                                     @endif
                                 @endforeach
-                            @endif                  
+                            @endif            
+                                </select>      
                                           
                             <label for="search_school_name" class="col-12 col-form-label original-label">学校名（あいまい）</label>
                             <input type="text" id="search_school_name" name="search_school_name" value="{{$search_element_array['search_school_name']}}" class="form-control">

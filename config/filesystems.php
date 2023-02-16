@@ -74,7 +74,7 @@ return [
         // 追加
         'photo_project_public_path' => [
             'driver' => 'local',
-            'root' => public_path('storage/photoproject'),
+            'root' => public_path('storage/photo_project'),
             'visibility' => 'public',
 
             'permissions' => [ // permissions 設定値を追記
@@ -90,7 +90,7 @@ return [
         // 追加
         'photo_project_storage_path' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/photoproject'),
+            'root' => storage_path('app/public/photo_project'),
             'visibility' => 'public',
             'permissions' => [ // permissions 設定値を追記
                 'dir' => [

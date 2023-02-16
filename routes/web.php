@@ -6,20 +6,23 @@ use Illuminate\Support\Facades\Route;
 
 use App\Original\get_data;
 
-use App\Http\Controllers\Headquarters\Master\project_m_controller;
-use App\Http\Controllers\Headquarters\Master\maincategory_m_controller;
-use App\Http\Controllers\Headquarters\Master\subcategory_m_controller;
-use App\Http\Controllers\Headquarters\Master\staff_m_controller;
-use App\Http\Controllers\Headquarters\Master\staff_with_project_t_controller;
-use App\Http\Controllers\Headquarters\Master\school_m_controller;
-use App\Http\Controllers\Headquarters\Master\majorsubject_m_controller;
-use App\Http\Controllers\Headquarters\Master\member_m_controller;
+use App\Http\Controllers\headquarters\master\project_m_controller;
+use App\Http\Controllers\headquarters\master\maincategory_m_controller;
+use App\Http\Controllers\headquarters\master\subcategory_m_controller;
+use App\Http\Controllers\headquarters\master\staff_m_controller;
+use App\Http\Controllers\headquarters\master\staff_with_project_t_controller;
+use App\Http\Controllers\headquarters\master\school_m_controller;
+use App\Http\Controllers\headquarters\master\majorsubject_m_controller;
+use App\Http\Controllers\headquarters\master\member_m_controller;
 
 use App\Http\Controllers\HP\hp_controller;
 
-use App\Http\Controllers\Headquarters\headquarters_controller;
-use App\Http\Controllers\PhotoProject\photoproject_controller;
-use App\Http\Controllers\RecruitProject\recruitproject_controller;
+use App\Http\Controllers\headquarters\headquarters_controller;
+use App\Http\Controllers\photo_project\photo_project_controller;
+use App\Http\Controllers\recruit_project\recruit_project_controller;
+
+use App\Http\Controllers\member\member_controller;
+
 
 
 
@@ -44,8 +47,9 @@ Route::post('headquarters/login_password_check', [headquarters_controller::class
 
 
 Route::get('headquarters/master', [headquarters_controller::class, 'master_index'])->name('master.index');
-Route::get('headquarters/recruitproject', [headquarters_controller::class, 'recruitproject_index'])->name('recruitproject.index');
-Route::get('headquarters/photoproject', [headquarters_controller::class, 'photoproject_index'])->name('photoproject.index');
+Route::get('headquarters/recruit_project', [headquarters_controller::class, 'recruit_project_index'])->name('recruit_project.index');
+Route::get('headquarters/photo_project', [headquarters_controller::class, 'photo_project_index'])->name('photo_project.index');
+Route::get('headquarters/member', [headquarters_controller::class, 'member_index'])->name('member.index');
 
 Route::get('headquarters/master/project/', [project_m_controller::class, 'index'])->name('master.project');
 Route::post('headquarters/master/project/save', [project_m_controller::class, 'save'])->name('master.project.save');
@@ -98,55 +102,85 @@ Route::get('headquarters/get_data/majorsubject_info_get', [get_data::class, 'maj
 //本部  End
 
 
+
+
+//メンバー  Start
+// Route::get('member/mailaddress_temporary_registration', [member_controller::class, 'mailaddress_temporary_registration'])->name('member.mailaddress_temporary_registration');
+// Route::post('member/mailaddress_temporary_registration_process', [member_controller::class, 'mailaddress_temporary_registration_process'])->name('member.mailaddress_temporary_registration_process');
+
+// Route::get('member/mailaddress_approval', [member_controller::class, 'mailaddress_approval'])->name('member.mailaddress_approval');
+// Route::post('member/mailaddress_approval_check', [member_controller::class, 'mailaddress_approval_check'])->name('member.mailaddress_approval_check');
+
+
+
+Route::get('member/top', [member_controller::class, 'top'])->name('member.top');
+Route::get('member/login', [member_controller::class, 'login'])->name('member.login');
+Route::get('member/logout', [member_controller::class, 'logout'])->name('member.logout');
+Route::post('member/login_password_check', [member_controller::class, 'login_password_check'])->name('member.login_password_check');
+
+
+
+// Route::get('member/member_information_confirmation', [member_controller::class, 'member_information_confirmation'])->name('member.member_information_confirmation');
+
+// Route::get('member/member_information_register', [member_controller::class, 'member_information_register'])->name('member.member_information_register');
+// Route::post('member/member_information_save', [member_controller::class, 'member_information_save'])->name('member.member_information_save');
+// Route::post('member/member_information_update', [member_controller::class, 'member_information_update'])->name('member.member_information_update');
+
+// Route::get('member/member_information_after_registration', [member_controller::class, 'member_information_after_registration'])->name('member.member_information_after_registration');
+
+
+//メンバー  End
+
+
 //写真プロジェクト  Start
-Route::get('photoproject/info', [photoproject_controller::class, 'info'])->name('photoproject.info');
+Route::get('photo_project/info', [photo_project_controller::class, 'info'])->name('photo_project.info');
 
-Route::get('photoproject/password_entry', [photoproject_controller::class, 'password_entry'])->name('photoproject.password_entry');
-Route::post('photoproject/password_check', [photoproject_controller::class, 'password_check'])->name('photoproject.password_check');
+Route::get('photo_project/password_entry', [photo_project_controller::class, 'password_entry'])->name('photo_project.password_entry');
+Route::post('photo_project/password_check', [photo_project_controller::class, 'password_check'])->name('photo_project.password_check');
 
-Route::get('photoproject/photo_upload', [photoproject_controller::class, 'photo_upload'])->name('photoproject.photo_upload');
-Route::post('photoproject/photo_upload_execution', [photoproject_controller::class, 'photo_upload_execution'])->name('photoproject.photo_upload_execution');
+Route::get('photo_project/photo_upload', [photo_project_controller::class, 'photo_upload'])->name('photo_project.photo_upload');
+Route::post('photo_project/photo_upload_execution', [photo_project_controller::class, 'photo_upload_execution'])->name('photo_project.photo_upload_execution');
 
-Route::get('photoproject/create_qrcode', [photoproject_controller::class, 'create_qrcode'])->name('photoproject.create_qrcode');
-Route::post('photoproject/create_qrcode_execution', [photoproject_controller::class, 'create_qrcode_execution'])->name('photoproject.create_qrcode_execution');
-Route::get('photoproject/qrcode_download', [photoproject_controller::class, 'qrcode_download'])->name('photoproject.qrcode_download');
+Route::get('photo_project/create_qrcode', [photo_project_controller::class, 'create_qrcode'])->name('photo_project.create_qrcode');
+Route::post('photo_project/create_qrcode_execution', [photo_project_controller::class, 'create_qrcode_execution'])->name('photo_project.create_qrcode_execution');
+Route::get('photo_project/qrcode_download', [photo_project_controller::class, 'qrcode_download'])->name('photo_project.qrcode_download');
 
-Route::post('photoproject/photo_confirmation', [photoproject_controller::class, 'photo_confirmation'])->name('photoproject.photo_confirmation');
-Route::get('photoproject/photo_confirmation', [photoproject_controller::class, 'qr_announce_transition'])->name('photoproject.qr_announce_transition');
+Route::post('photo_project/photo_confirmation', [photo_project_controller::class, 'photo_confirmation'])->name('photo_project.photo_confirmation');
+Route::get('photo_project/photo_confirmation', [photo_project_controller::class, 'qr_announce_transition'])->name('photo_project.qr_announce_transition');
 
-Route::post('photoproject/with_password_flg_change', [photoproject_controller::class, 'with_password_flg_change'])->name('photoproject.with_password_flg_change');
+Route::post('photo_project/with_password_flg_change', [photo_project_controller::class, 'with_password_flg_change'])->name('photo_project.with_password_flg_change');
 
-Route::post('photoproject/batch_download', [photoproject_controller::class, 'batch_download'])->name('photoproject.batch_download');
+Route::post('photo_project/batch_download', [photo_project_controller::class, 'batch_download'])->name('photo_project.batch_download');
 //写真プロジェクト  End
 
 
 
 
 //リクルートプロジェクト  Start
-Route::get('recruitproject/mailaddress_temporary_registration', [recruitproject_controller::class, 'mailaddress_temporary_registration'])->name('recruitproject.mailaddress_temporary_registration');
-Route::post('recruitproject/mailaddress_temporary_registration_process', [recruitproject_controller::class, 'mailaddress_temporary_registration_process'])->name('recruitproject.mailaddress_temporary_registration_process');
+Route::get('recruit_project/mailaddress_temporary_registration', [recruit_project_controller::class, 'mailaddress_temporary_registration'])->name('recruit_project.mailaddress_temporary_registration');
+Route::post('recruit_project/mailaddress_temporary_registration_process', [recruit_project_controller::class, 'mailaddress_temporary_registration_process'])->name('recruit_project.mailaddress_temporary_registration_process');
 
-Route::get('recruitproject/mailaddress_approval', [recruitproject_controller::class, 'mailaddress_approval'])->name('recruitproject.mailaddress_approval');
-Route::post('recruitproject/mailaddress_approval_check', [recruitproject_controller::class, 'mailaddress_approval_check'])->name('recruitproject.mailaddress_approval_check');
+Route::get('recruit_project/mailaddress_approval', [recruit_project_controller::class, 'mailaddress_approval'])->name('recruit_project.mailaddress_approval');
+Route::post('recruit_project/mailaddress_approval_check', [recruit_project_controller::class, 'mailaddress_approval_check'])->name('recruit_project.mailaddress_approval_check');
 
-Route::get('recruitproject/login', [recruitproject_controller::class, 'login'])->name('recruitproject.login');
-Route::get('recruitproject/logout', [recruitproject_controller::class, 'logout'])->name('recruitproject.logout');
+Route::get('recruit_project/login', [recruit_project_controller::class, 'login'])->name('recruit_project.login');
+Route::get('recruit_project/logout', [recruit_project_controller::class, 'logout'])->name('recruit_project.logout');
 
-Route::post('recruitproject/login_password_check', [recruitproject_controller::class, 'login_password_check'])->name('recruitproject.login_password_check');
+Route::post('recruit_project/login_password_check', [recruit_project_controller::class, 'login_password_check'])->name('recruit_project.login_password_check');
 
-Route::get('recruitproject/employer_top', [recruitproject_controller::class, 'employer_top'])->name('recruitproject.employer_top');
+Route::get('recruit_project/employer_top', [recruit_project_controller::class, 'employer_top'])->name('recruit_project.employer_top');
 
-Route::get('recruitproject/employer_information_confirmation', [recruitproject_controller::class, 'employer_information_confirmation'])->name('recruitproject.employer_information_confirmation');
+Route::get('recruit_project/employer_information_confirmation', [recruit_project_controller::class, 'employer_information_confirmation'])->name('recruit_project.employer_information_confirmation');
 
-Route::get('recruitproject/employer_information_register', [recruitproject_controller::class, 'employer_information_register'])->name('recruitproject.employer_information_register');
-Route::post('recruitproject/employer_information_save', [recruitproject_controller::class, 'employer_information_save'])->name('recruitproject.employer_information_save');
-Route::post('recruitproject/employer_information_update', [recruitproject_controller::class, 'employer_information_update'])->name('recruitproject.employer_information_update');
+Route::get('recruit_project/employer_information_register', [recruit_project_controller::class, 'employer_information_register'])->name('recruit_project.employer_information_register');
+Route::post('recruit_project/employer_information_save', [recruit_project_controller::class, 'employer_information_save'])->name('recruit_project.employer_information_save');
+Route::post('recruit_project/employer_information_update', [recruit_project_controller::class, 'employer_information_update'])->name('recruit_project.employer_information_update');
 
-Route::get('recruitproject/employer_information_after_registration', [recruitproject_controller::class, 'employer_information_after_registration'])->name('recruitproject.employer_information_after_registration');
+Route::get('recruit_project/employer_information_after_registration', [recruit_project_controller::class, 'employer_information_after_registration'])->name('recruit_project.employer_information_after_registration');
 
 
-Route::get('recruitproject/job_information_confirmation', [recruitproject_controller::class, 'job_information_confirmation'])->name('recruitproject.job_information_confirmation');
-Route::get('recruitproject/job_information_register', [recruitproject_controller::class, 'job_information_register'])->name('recruitproject.job_information_register');
+Route::get('recruit_project/job_information_confirmation', [recruit_project_controller::class, 'job_information_confirmation'])->name('recruit_project.job_information_confirmation');
+Route::get('recruit_project/job_information_register', [recruit_project_controller::class, 'job_information_register'])->name('recruit_project.job_information_register');
 //リクルートプロジェクト  End
 
 

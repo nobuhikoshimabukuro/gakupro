@@ -16,7 +16,7 @@ class common
 {   
     
     //管理側session確認処理
-    public static function SessionConfirmation()
+    public static function headquarters_session_confirmation()
     {
         //返却用変数、初期値はfalse
         $Judge = false;
@@ -46,6 +46,65 @@ class common
 
         return $Judge;
     }
+
+    //管理側ログイン情報を破棄
+    public static function headquarters_session_remove() {
+
+        session()->remove('staff_id');
+        session()->remove('staff_name');
+        session()->remove('staff_name_yomi');
+        session()->remove('authority');
+        session()->remove('login_flg');
+        
+        return true;
+    }
+
+
+
+    //メンバーsession確認処理    
+    public static function member_session_confirmation()
+    {
+        //返却用変数、初期値はfalse
+        $Judge = false;
+
+        // 指定キーがセッションに存在するかを調べる
+        if ((session()->exists('login_flg'))) {
+
+            $login_flg = session()->get('login_flg');
+
+            $member_id = session()->get('member_id');
+            $member_name = session()->get('member_name');            
+            $member_name_yomi = session()->get('member_name_yomi');
+
+            //login_flgが'1'はsession確認OK
+            if ($login_flg == 1) {
+
+                //改めてセッションに格納
+                session()->put('member_id', $member_id);
+                session()->put('member_name', $member_name);
+                session()->put('member_name_yomi', $member_name_yomi);
+                //ログイン状況をtrueで設定
+                session()->put('login_flg', 1);
+
+                $Judge = true;
+            }
+        }
+
+        return $Judge;
+    }
+
+    //管理側ログイン情報を破棄
+    public static function member_session_remove() {
+
+        session()->remove('member_id');
+        session()->remove('member_name');
+        session()->remove('member_name_yomi');        
+        session()->remove('login_flg');
+        
+        return true;
+    }
+
+
 
     //入力画面にてテキストボックス未入力、チェックボックスの未チェックの場合はNullを取得するため
     //Null時に返却してほしい値を第二引数に設定してください。

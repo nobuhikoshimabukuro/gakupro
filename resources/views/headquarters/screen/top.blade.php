@@ -28,7 +28,7 @@
         
        
         <div class="col-6 col-md-4 col-xl-3 p-3 ">
-            <a href="{{ route('photoproject.index') }}">
+            <a href="{{ route('photo_project.index') }}">
                 <div class="bg-dark rounded-lg text-light p-2 ">
                     <i class="fas fa-camera fa-3x mb-1"></i>
                     <h6>写真プロジェクト                        
@@ -39,10 +39,20 @@
 
 
         <div class="col-6 col-md-4 col-xl-3 p-3 ">
-            <a href="{{ route('recruitproject.index') }}">
+            <a href="{{ route('recruit_project.index') }}">
                 <div class="bg-dark rounded-lg text-light p-2 ">
                     <i class="fas fa-praying-hands fa-3x mb-1"></i>
                     <h6>リクルートプロジェクト                        
+                    </h6>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-xl-3 p-3 ">
+            <a href="{{ route('member.index') }}">
+                <div class="bg-dark rounded-lg text-light p-2 ">
+                    <i class="fas fa-praying-hands fa-3x mb-1"></i>
+                    <h6>学生メンバー                        
                     </h6>
                 </div>
             </a>
