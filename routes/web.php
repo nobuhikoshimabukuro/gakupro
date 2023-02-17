@@ -15,7 +15,8 @@ use App\Http\Controllers\headquarters\master\school_m_controller;
 use App\Http\Controllers\headquarters\master\majorsubject_m_controller;
 use App\Http\Controllers\headquarters\master\member_m_controller;
 
-use App\Http\Controllers\HP\hp_controller;
+use App\Http\Controllers\hp\hp_controller;
+
 
 use App\Http\Controllers\headquarters\headquarters_controller;
 use App\Http\Controllers\photo_project\photo_project_controller;
