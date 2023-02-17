@@ -304,7 +304,8 @@ class headquarters_controller extends Controller
 
             //表面テンプレートをセット
             // $pdf->setSourceFile($pdf_tmp_omote_path);
-            $pdf->setSourceFile('template.pdf');
+            
+            $pdf->setSourceFile('storage/photo_project/ticket_template/template.pdf');
 
             $importPage = $pdf->importPage(1);
 
@@ -337,9 +338,9 @@ class headquarters_controller extends Controller
             $pdf->write(0, $password); 
         
             
-            $content = $pdf->Output('create.pdf', 'S');
+            $content = $pdf->Output('public/photo_project/ticket_create/create.pdf', 'S');
 
-            Storage::put('create.pdf', $content, 'private');
+            Storage::put('public/photo_project/ticket_create/create.pdf', $content, 'private');
     }
 
 
