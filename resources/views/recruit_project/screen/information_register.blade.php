@@ -3,14 +3,14 @@
     if($LoginFlg == 0){
         $extends = "recruit_project.common.layouts_beforelogin";
         $title = "雇用者情報登録画面";
-        $action = route('recruit_project.employer_information_save');
+        $action = route('recruit_project.information_save');
         $process_button = "登録";
 
     }elseif($LoginFlg == 1){
 
         $extends = "recruit_project.common.layouts_afterlogin";
         $title = "雇用者情報編集画面";
-        $action = route('recruit_project.employer_information_update');
+        $action = route('recruit_project.information_update');
         $process_button = "更新";
     }
     

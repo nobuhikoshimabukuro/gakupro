@@ -1,19 +1,10 @@
 @php
 
-    if($LoginFlg == 0){
-        $extends = "recruit_project.common.layouts_beforelogin";
-        $title = "雇用者情報登録画面";
-        $action = route('recruit_project.employer_information_save');
-        $process_button = "登録";
 
-    }elseif($LoginFlg == 1){
-
-        $extends = "recruit_project.common.layouts_afterlogin";
-        $title = "雇用者情報編集画面";
-        $action = route('recruit_project.employer_information_update');
-        $process_button = "更新";
-    }
-    
+        $extends = "member.common.layouts_beforelogin";
+        $title = "情報登録画面";
+        $action = route('member.information_save');
+        $process_button = "登録";   
 
 @endphp
 
@@ -34,188 +25,115 @@
 
 <style>
 
-    .div-Area{
-        margin: 1vh;
-        padding: 1vh;
-    }
-
-    .label-Area{
-        text-align: left;
-
-    }
-
-    label{        
-        display:inline;
-    }
-
-    .input-Area{
-        text-align: left;
-    }
-
-    .Required{
-        display:inline;
-        background-color: red;
-        color: wheat;
-        font-weight: 600;        
-        text-align: center;
-        border-radius: 10px; /* ボックスの四つ角を丸くする */
-        padding: 0 3px 0 3px;        
-    }
-
    
 
 </style>
 
-<div id="main" class="mt-3 text-center container">
-    
+<div id="main" class="mt-3 text-center container">    
  
     <div class="row p-0">
 
         <div class="ajax-msg m-2">            
         </div>
 
-        <form id="save_form" method="post" action="{{ $action }}">
+        <form id="save_form" method="post" action="{{ route('member.information_save') }}">
         @csrf
 
-            <input type="hidden" name="LoginFlg" id="LoginFlg" class="form-control" value="{{$LoginFlg}}">
+            
 
-            <div class="row div-Area">
-                <div class="col-sm-3 col-xs-12 label-Area">   
-                    <label for="employer_division">雇用者区分</label>                
-                    <div class="Required">必須</div>                              
-                </div>
+        <div class="row m-1">          
 
-                <div class="col-sm-9 col-xs-12 input-Area">   
-                    <select id='employer_division' name='employer_division' class='form-control input-sm'>
-                            <option value="">
-                                未選択
-                            </option>
-                            @foreach($employer_division_list as $item)
-                                <option value="{{$item->employer_category_cd}}" @if(($LoginFlg == 1) && ($item->employer_division == $employer_info->employer_division)) selected @endif>
-                                    {{$item->employer_division_name}}
+            <div class="col-xl-6 col-sm-12">  
+
+                <p>
+                    ここに説明書き
+                </p>
+
+            </div>
+            
+            <div class="col-xl-6 col-sm-12">  
+
+                <div class="form-group row">
+
+                    <label for="member_last_name" class="col-12 col-form-label original-label">氏名</label>                                
+                    <div class="col-5 p-0 last_name_class">
+                        <input type="text" name="member_last_name" id="member_last_name" value="" class="form-control col-md-3">
+                    </div>
+                  
+                    <div class="col-5 m-0 p-0">
+                        <input type="text" name="member_first_name" id="member_first_name" value="" class="form-control col-md-3">
+                    </div>
+
+
+                    <label for="member_last_name_yomi" class="col-12 col-form-label original-label">シメイ</label>
+                    
+                    <div class="col-5 p-0 last_name_class">
+                        <input type="text" name="member_last_name_yomi" id="member_last_name_yomi" value="" class="form-control col-md-3 last_name">
+                    </div>
+                    <div class="col-5 m-0 p-0">
+                        <input type="text" name="member_first_name_yomi" id="member_first_name_yomi" value="" class="form-control col-md-3 first_name">
+                    </div>      
+                            
+                    <label for="gender" class="col-md-6 col-form-label original-label">性別</label>                               
+                    <select id='gender' name='gender' class='form-control input-sm'>		
+                            <option value="">---</option>							
+                            @foreach($gender_list as $item)
+                                <option value="{{$item->gender_cd}}">
+                                    {{$item->gender_name}}
                                 </option>
                             @endforeach
                     </select>
-                </div>
-            </div>
 
-            <div class="row div-Area">
-                <div class="col-sm-3 col-xs-12 label-Area">   
-                    <label for="employer_name">雇用者名</label>                
-                    <div class="Required">必須</div>                              
-                </div>
+                    <label for="birthday" class="col-md-6 col-form-label original-label">生年月日<span id="display_age"></span></label>                                
+                    <input type="date" name="birthday" id="birthday" value="" class="form-control col-md-3">
 
-                <div class="col-sm-9 col-xs-12 input-Area">   
-                    <input type="text" name="employer_name" id="employer_name" class="form-control" value="@if($LoginFlg == 1){{$employer_info->employer_name}}@endif">
-                    <div class="invalid-feedback"></div>
-                </div>
-            </div>
+                    <label for="tel" class="col-md-6 col-form-label original-label">TEL</label>
+                    <input type="tel" name="tel" id="tel" value="" class="form-control col-md-3">
 
-            <div class="row div-Area">
-                <div class="col-sm-3 col-xs-12 label-Area">   
-                    <label for="employer_name_kana">雇用者名カナ</label>                
-                    <div class="Required">必須</div>                              
-                </div>
+                    <label for="mailaddress" class="col-md-6 col-form-label original-label">メールアドレス</label>
+                    <input type="text" name="mailaddress" id="mailaddress" value="{{$mailaddress}}" class="form-control col-md-3" readonly>
 
-                <div class="col-sm-9 col-xs-12 input-Area">   
-                    <input type="text" name="employer_name_kana" id="employer_name_kana" class="form-control" value="@if($LoginFlg == 1){{$employer_info->employer_name_kana}}@endif">                    
-                    <div class="invalid-feedback"></div>
-                </div>
-            </div>
+                    <label for="school_cd" class="col-md-6 col-form-label original-label">学校選択</label>
+                    <select id='school_cd' name='school_cd' class='form-control input-sm'>									
+                        <option value="">---</option>
+                        @foreach($school_list as $item)
+                        <option value="{{$item->school_cd}}">
+                            {{$item->school_name}}
+                        </option>
+                        @endforeach
+                    </select>
 
-            <div class="row div-Area">
-                <div class="col-sm-3 col-xs-12 label-Area">   
-                    <label for="tel">TEL</label>                
-                    <div class="Required">必須</div>                              
-                </div>
+                    <label for="majorsubject_cd" class="col-md-6 col-form-label original-label">専攻選択</label>
+                    <select id='majorsubject_cd' name='majorsubject_cd' class='form-control input-sm impossible'>
+                        <option value="">学校を選択してください。</option>
+                        @foreach($majorsubject_list as $item)
+                        <option value="{{$item->majorsubject_cd}}" data-memberid='{{$item->member_id}}'>
+                            {{$item->majorsubject_name}}
+                        </option>
+                        @endforeach
+                    </select>
 
-                <div class="col-sm-9 col-xs-12 input-Area">
-                    <input type="tel" name="tel" id="tel" class="form-control" value="@if($LoginFlg == 1){{$employer_info->tel}}@endif">                       
-                    <div class="invalid-feedback"></div>
-                </div>
-            </div>
+                    <label for="admission_yearmonth" class="col-md-6 col-form-label original-label">入学年月</label>
+                    <input type="month" name="admission_yearmonth" id="admission_yearmonth" value="" class="form-control col-md-3">
 
-            <div class="row div-Area">
-                <div class="col-sm-3 col-xs-12 label-Area">   
-                    <label for="fax">FAX</label>                                                         
-                </div>
+                    <label for="graduation_yearmonth" class="col-md-6 col-form-label original-label">卒業予定年月</label>
+                    <input type="month" name="graduation_yearmonth" id="graduation_yearmonth" value="" class="form-control col-md-3">
 
-                <div class="col-sm-9 col-xs-12 input-Area">
-                    <input type="tel" name="fax" id="fax" class="form-control" value="@if($LoginFlg == 1){{$employer_info->fax}}@endif">                    
-                    <div class="invalid-feedback"></div>
-                </div>
-            </div>
+                    <label for="emergencycontact_relations" class="col-md-6 col-form-label original-label">緊急時連絡先</label>
+                    <input type="text" name="emergencycontact_relations" id="emergencycontact_relations" value="" placeholder="両親、兄弟など" class="form-control col-md-3">
 
-
-            <div class="row div-Area">
-                <div class="col-sm-3 col-xs-12 label-Area">   
-                    <label for="mailaddress">メールアドレス</label>
-                </div>
-
-                <div class="col-sm-9 col-xs-12 input-Area">   
-                    @if($LoginFlg == 0)
-                        <input type="text" name="mailaddress" id="mailaddress" class="form-control" value="{{$mailaddress}}" readonly>
-                    @elseif($LoginFlg == 1)
-                        <input type="text" name="mailaddress" id="mailaddress" class="form-control" value="{{$employer_info->mailaddress}}" readonly>
-                    @endif
-
-                </div>
+                    <label for="emergencycontact_tel" class="col-md-6 col-form-label original-label">緊急時連絡先電話番号</label>
+                    <input type="text" name="emergencycontact_tel" id="emergencycontact_tel" value="" class="form-control col-md-3">
+                                                 
+                
+                    <button type="button" id='save_button' class="original_button save_button">登録</button>
+                </div>           
+                
             </div>
 
 
-            <div class="row div-Area">
-                <div class="col-sm-3 col-xs-12 label-Area">   
-                    <label for="post_code">郵便番号(数字のみ)</label>                      
-                    <button type="button" id="AddressSearchButton" class=""><i class="fas fa-search"></i></button>
-                </div>
-
-                <div class="col-sm-9 col-xs-12 input-Area">   
-                    <input type="text" name="post_code" id="post_code" class="form-control" value="@if($LoginFlg == 1){{$employer_info->post_code}}@endif">
-                    <div class="invalid-feedback"></div>
-                </div>
-            </div>
-
-            <div class="row div-Area">
-                <div class="col-sm-3 col-xs-12 label-Area">   
-                    <label for="address1">住所1</label>                                                
-                </div>
-
-                <div class="col-sm-9 col-xs-12 input-Area">   
-                    <input type="text" name="address1" id="address1" class="form-control" value="@if($LoginFlg == 1){{$employer_info->address1}}@endif">                    
-                    <div class="invalid-feedback"></div>
-                </div>
-            </div>
-
-            <div class="row div-Area">
-                <div class="col-sm-3 col-xs-12 label-Area">   
-                    <label for="address2">住所2</label>                                                
-                </div>
-
-                <div class="col-sm-9 col-xs-12 input-Area">   
-                    <input type="text" name="address2" id="address2" class="form-control" value="@if($LoginFlg == 1){{$employer_info->address2}}@endif">                    
-                    <div class="invalid-feedback"></div>
-                </div>
-            </div>
-
-            <div class="row div-Area">
-                <div class="col-sm-3 col-xs-12 label-Area">   
-                    <label for="url">HP_URL</label>                
-                    <button type="button" id="UrlcheckButton" class="btn btn-primary" >Check</button>                                             
-                </div>
-
-                <div class="col-sm-9 col-xs-12 input-Area">   
-
-                    <input type="text" name="hp_url" id="hp_url" class="form-control" placeholder="https://www.example.com/" value="@if($LoginFlg == 1){{$employer_info->hp_url}}@endif"> 
-                    <div class="invalid-feedback"></div>
-                </div>
-            </div>
-
-
-            <div id="ButtonArea" class="row div-Area">        
-                <div class="col-12" align="right">              
-                    <button type="button" id="save_button" class="btn btn-primary" >{{$process_button}}</button>
-                </div>        
-            </div> 
+        </div>       
+    
 
         </form>
 
@@ -235,7 +153,7 @@ $(function(){
 
     $(window).on('load', function() { 
 
-        LoaderEnd();
+        
 
     });
 
@@ -252,207 +170,298 @@ $(function(){
     });
 
 
-    // UrlcheckButton押下イベント
-	$('#UrlcheckButton').on('click', function() {
-	
 
-        $("#hp_url").removeClass('is-invalid');
-        $('#hp_url').attr('placeholder', 'https://www.example.com/');
-        var Url = $('#hp_url').val();
+    $(document).on("blur", "#admission_yearmonth", function (e) {
+        graduation_yearmonth_get();
+    });
 
-        if(Url == ""){
-            $("#hp_url").addClass('is-invalid');
-            $('#hp_url').attr('placeholder', 'URLを入力してください。');
+    $(document).on("blur", "#birthday", function (e) {
+        age_measurement();
+    });
+
+    function age_measurement(){
+
+        var display_age = "";
+
+        var input_birthday = new Date($('#birthday').val());
+
+        if(input_birthday == "" ){
+            return false;
+        }
+      
+        //今日
+        var today = new Date();
+ 
+        //今年の誕生日
+        var thisYearsBirthday = new Date(today.getFullYear(), input_birthday.getMonth(), input_birthday.getDate());
+
+        //年齢
+        var age = today.getFullYear() - input_birthday.getFullYear();
+
+        if(today < thisYearsBirthday){
+            //今年まだ誕生日が来ていない
+            age--;
+        }
+
+        if($.isNumeric(age)){
+
+            if(age < 0){
+                age = 0;
+            }
+            display_age = "【" + age + "歳】"
+        }
+
+        $('#display_age').html(display_age);
+    }
+
+
+    $('#search_school_division').change(function() {
+        school_list_get(1);
+    });
+
+    $('#search_school_cd').change(function() {
+        majorsubject_list_get(1);
+    });
+
+    $('#school_cd').change(function() {
+        majorsubject_list_get(2);
+    });
+
+
+    function graduation_yearmonth_get(){
+    
+        var school_cd = $('#school_cd').val();
+        var majorsubject_cd = $('#majorsubject_cd').val();
+        var admission_yearmonth = $('#admission_yearmonth').val();
+
+        var graduation_yearmonth = $('#graduation_yearmonth').val();
+
+        var get_graduation_yearmonth = "";
+
+        if(school_cd != "" && majorsubject_cd != "" && admission_yearmonth != "" && graduation_yearmonth == ""){
+
+            var check_date = new Date((admission_yearmonth + "-01").replace("-", "/"));
+                        
+            var studyperiod = $('[name=majorsubject_cd] option:selected').data('studyperiod');
+
+            check_date.setMonth(check_date.getMonth() + studyperiod);
+
+            get_graduation_yearmonth = check_date.getFullYear() + "-" + check_date.getMonth().toString().padStart(2, "0");
+        }
+
+        if(get_graduation_yearmonth != ""){
+            $('#graduation_yearmonth').val(get_graduation_yearmonth);
+        }
+
+
+    }
+
+    function school_list_get(branch){
+       
+        var target_form_id = "";
+        var search_school_division = "";
+        var target_element_id = "";
+       
+        if(branch == 1){
+
+            target_form_id = "#search_form";
+            search_school_division = $('#search_school_division').val();
+            target_element_id = "#search_school_cd";
+        }else if(branch == 2){
+
+            target_form_id = "#save_form";
+            search_school_division = $('#school_division').val();
+            target_element_id = "#school_cd";
+        }
+
+       $("select" + target_element_id + " option").remove();
+
+       $(target_element_id).removeClass("impossible");
+       
+       if(search_school_division == ""){
+           $(target_element_id).addClass("impossible");
+           $(target_element_id).append($("<option>").val("").text("学校区分を選択してください。"));
+           return false;
+       }
+
+       //マウスカーソルを砂時計に
+       document.body.style.cursor = 'wait';
+       $(target_form_id).addClass("impossible");
+       
+       var Url = "{{ route('get_data.school_list_get')}}"
+
+       $.ajax({
+           url: Url, // 送信先
+           type: 'get',
+           dataType: 'json',
+           data: {search_school_division : search_school_division},
+           headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+
+       })
+       .done(function (data, textStatus, jqXHR) {
+           // テーブルに通信できた場合
+           var ResultArray = data.ResultArray;
+
+           var status = ResultArray["status"];
+
+           //テーブルに通信時、データを検索できたか判定
+           if (status == 'success') {
+
+                var school_list = ResultArray["school_list"];
+
+                $(target_element_id).append($("<option>").val("").text("------"));
+                $.each(school_list, function(index, info) {
+
+                    var school_cd = info["school_cd"];
+                    var school_name = info["school_name"];
+
+                    $(target_element_id).append($("<option>").val(school_cd).text(school_name));
+
+                })
+
+               $(target_element_id).removeClass("impossible");
+               
+           }else if(status == 'nodata'){
+                       
+               $(target_element_id).append($("<option>").val('').text('学校情報なし'));
+
+           }else{
+        
+               $(target_element_id).append($("<option>").val('').text('学校情報取得エラー'));
+
+           }
+
+           //マウスカーソルを通常に
+           document.body.style.cursor = 'auto';
+           $(target_form_id).removeClass("impossible");
+
+       })
+           .fail(function (data, textStatus, errorThrown) {
+           
+                 //マウスカーソルを通常に
+               document.body.style.cursor = 'auto';
+               $(target_form_id).removeClass("impossible");
+               $(target_element_id).append($("<option>").val('').text('学校情報取得エラー'));
+
+           });
+
+
+   }
+
+
+    function majorsubject_list_get(branch){
+       
+        var target_form_id = "";
+        var search_school_cd = "";
+        var target_element_id = "";
+        
+        if(branch == 1){
+
+            target_form_id = "#search_form";
+            search_school_cd = $('#search_school_cd').val();
+            target_element_id = "#search_majorsubject_cd";
+        }else if(branch == 2){
+
+            target_form_id = "#save_form";
+            search_school_cd = $('#school_cd').val();
+            target_element_id = "#majorsubject_cd";
+        }
+
+        $("select" + target_element_id + " option").remove();
+
+        $(target_element_id).removeClass("impossible");
+        
+        if(search_school_cd == ""){
+            $(target_element_id).addClass("impossible");
+            $(target_element_id).append($("<option>").val("").text("学校を選択してください。"));
             return false;
         }
 
+        //マウスカーソルを砂時計に
+        document.body.style.cursor = 'wait';
+        $(target_form_id).addClass("impossible");
 
-        $(this).prop("disabled", true);
+        var Url = "{{ route('get_data.majorsubject_list_get')}}"
 
-        var vh = $(window).height() / 2;
-        var vw = $(window).width() / 2;
-        var top = vh;
-        var left = vw;        
+        $.ajax({
+            url: Url, // 送信先
+            type: 'get',
+            dataType: 'json',
+            data: {search_school_cd : search_school_cd},
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 
-        var SubWindowPosition = "top=" + top + ",left=" + left + ",width=" + vw + ",height=" + vh ;		
+        })
+        .done(function (data, textStatus, jqXHR) {
+            // テーブルに通信できた場合
+            var ResultArray = data.ResultArray;
 
-        var Newwindow = window.open(Url,1,'toolbar=no,status=no,menubar=no,scrollbars=yes,' + SubWindowPosition);		
+            var status = ResultArray["status"];
 
-        setTimeout(function(){
+            //テーブルに通信時、データを検索できたか判定
+            if (status == 'success') {
 
-            Newwindow.close();
-            $('#UrlcheckButton').prop("disabled", false);
+                var majorsubject_list = ResultArray["majorsubject_list"];
 
-        },5000);
+                $(target_element_id).append($("<option>").val("").text("------"));
+                $.each(majorsubject_list, function(index, info) {
 
-        return false;
+                    var majorsubject_cd = info["majorsubject_cd"];
+                    var majorsubject_name = info["majorsubject_name"];
+                    var studyperiod = info["studyperiod"];
 
-    });
+                    var append_text = "<option value='" + majorsubject_cd + "' data-studyperiod='" + studyperiod + "'>" + majorsubject_name + "</option>";
+                                    
+                
+                    $(target_element_id).append(append_text);
+                    
 
+                })
 
+                $(target_element_id).removeClass("impossible");
+                
+            }else if(status == 'nodata'){
+                        
+                $(target_element_id).append($("<option>").val('').text('専攻情報なし'));
 
-    // AddressSearchButton押下イベント
-	$('#AddressSearchButton').on('click', function() {
-	
-        $('.ajax-msg').html("");
-        $("[name='post_code']").removeClass('is-invalid');
+            }else{
+         
+                $(target_element_id).append($("<option>").val('').text('専攻情報取得エラー'));
 
-        var post_code = $('input[name="post_code"]').val();
-		
-        
-		if(!$.isNumeric(post_code)){
-
-			let errorsHtml = '<div class="alert alert-danger text-start">';			
-			errorsHtml += '<li>郵便番号は数字7桁で入力してください</li>';
-			errorsHtml += '</div>';
-				
-			//{{-- アラート --}}
-			$('.ajax-msg').html(errorsHtml);
-			//{{-- 画面上部へ --}}
-			$("html,body").animate({
-				scrollTop: 0
-			}, "300");
-			
-			$("[name='post_code']").addClass('is-invalid');			
-
-			return false;
-		}
-
-		
-        var address1 = $('input[name="address1"]').val(); 
-
-        if(address1 != ""){
-
-            var message = "住所1の項目に既に入力があります。"
-                message += "\n"
-                message += "住所1に検索処理にて取得した住所が上書きされます。"
-                message += "\n"
-                message += "住所検索を実行しますか？"
-
-            if (confirm(message)) {
-                $('input[name="address1"]').val(""); 
-            } else {                
-                $('input[name="address1"]').focus(); 
-                return false
             }
-        }
-		
 
-		//マウスカーソルを砂時計に
-		document.body.style.cursor = 'wait';
+            //マウスカーソルを通常に
+            document.body.style.cursor = 'auto';
+            $(target_form_id).removeClass("impossible");
 
-		//プレースホルダーの初期化
-		
-		$('input[name="address1"]').removeAttr('placeholder');		
+        })
+            .fail(function (data, textStatus, errorThrown) {
+            
+                  //マウスカーソルを通常に
+                document.body.style.cursor = 'auto';
+                $(target_form_id).removeClass("impossible");
+                $(target_element_id).append($("<option>").val('').text('専攻情報取得エラー'));
 
-		var Zipcode = post_code.substr(0,3) + '-' + post_code.substr(3,4);
-
-		//受け取った入力値をセット
-		var parameter = {zipcode:Zipcode}
-
-		//zipcloudのAPIのURL
-		var zipcloud_url = "https://zipcloud.ibsnet.co.jp/api/search";
-
-		$.ajax({
-		type: "GET",
-		cache: false,
-		data: parameter,
-		url: zipcloud_url,
-		dataType: "jsonp",
-		success: function (ReturnValue) {
-
-			//結果によって処理を振り分ける				
-			//status == 200は、送信成功＆正常に値が返却された場合
-			if (ReturnValue.status == 200) {
-			
-				//郵便番号で取得できた情報が0件の場合
-				//該当する住所が無いと判断
-				if(ReturnValue.results === null){
-										
-					var ErrorMessage = '住所情報所得なし';					
-					//プレースホルダーを設定する
-					$('input[name="Addr1"]').attr('placeholder', ErrorMessage);   					
-					
-					//マウスカーソルを通常に
-					document.body.style.cursor = 'auto';          				
-
-				//郵便番号で取得できた情報が1件の場合
-				//郵便番号で絞り込み成功
-				}else if(ReturnValue.results.length == 1){
-					
-					var AddressInfo = ReturnValue.results[0];
-					var zipcode = AddressInfo.zipcode;
-					var prefcode = AddressInfo.prefcode;
-					var address1 = AddressInfo.address1;
-					var address2 = AddressInfo.address2;
-					var address3 = AddressInfo.address3;
-					var kana1 = AddressInfo.kana1;
-					var kana2 = AddressInfo.kana2;
-					var kana3 = AddressInfo.kana3;
-							
-                    var addressinfo = address1 + address2 + address3;
-					
-					$('input[name="address1"]').val(addressinfo);
-					$('input[name="address1"]').focus(); 
-										
-					//マウスカーソルを通常に
-					document.body.style.cursor = 'auto';          
-					
-				//郵便番号で取得できた情報が2件以上の場合					
-				}else if(ReturnValue.results.length > 1){			         
-
-					var ErrorMessage = '2件以上の住所情報取得';					
-					//プレースホルダーを設定する
-					$('input[name="address1"]').attr('placeholder', ErrorMessage);   	             
-				
-					//マウスカーソルを通常に
-					document.body.style.cursor = 'auto';          					
-				}
-			
-			} else {
-			//送信失敗、または他のエラー時		
-				var ErrorMessage = ReturnValue.message;				
-				//プレースホルダーを設定する
-				$('input[name="Addr1"]').attr('placeholder', ErrorMessage);                  			
-			
-				//マウスカーソルを通常に
-				document.body.style.cursor = 'auto';          
-			}
-		},
-		error: function (XMLHttpRequest, textStatus, errorThrown) {
-				var ErrorMessage = '住所検索処理でエラーが発生しました';				
-				//プレースホルダーを設定する
-				$('input[name="Addr1"]').attr('placeholder', ErrorMessage);                  			
-			
-				//マウスカーソルを通常に
-				document.body.style.cursor = 'auto';
-			}
-		});
+            });
 
 
+    }
 
+    
 
-
-    });
-
-
-
-
-
-        
-    // 処理実行ボタンがクリックされたら
+    // 「保存」ボタンがクリックされたら
     $('#save_button').click(function () {
-     
+        
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
-        $('#save_button').prop("disabled", true);
+        $(this).prop("disabled", true);
 
         setTimeout(function () {
             $('#save_button').prop("disabled", false);
         }, 3000);
 
-        
-        $('.ajax-msg').html('');        
+        //{{-- メッセージクリア --}}
+        $('.ajax-msg').html('');
+        $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
         let f = $('#save_form');
@@ -469,27 +478,28 @@ $(function(){
             // 送信成功
             .done(function (data, textStatus, jqXHR) {
                 
-                //{{-- ボタン有効 --}}
-                $('#save_button').prop("disabled", false);
-                //{{-- マウスカーソルを通常に --}}                    
-                document.body.style.cursor = 'auto';
-
-
                 var ResultArray = data.ResultArray;
 
                 var Result = ResultArray["Result"];
 
                 if(Result=='success'){
 
-                    //画面遷移時のメッセージ表示抑制の為(addEventListener)
-                    $('#LoginFlg').val("1");
-                    var Url = ResultArray["Url"];
-                    
-                    //※新規登録処理成功時と更新処理成功時の画面遷移先は別
+                     //{{-- アラートメッセージ表示 --}}
+                     var errorsHtml = '';
+                    errorsHtml = '<div class="alert alert-danger text-start">';
+                    errorsHtml += '<li class="text-start">登録成功</li>';
+                    errorsHtml += '</div>';
 
-                    //新規登録処理成功時はログインIDとパスワードのお知らせ画面
-                    //更新処理成功時は雇用者情報管理画面
-                    window.location.href = Url;
+                        //{{-- アラート --}}
+                    $('.ajax-msg').html(errorsHtml);
+                    //{{-- 画面上部へ --}}
+                    $("html,body").animate({
+                        scrollTop: 0
+                    }, "300");
+                    //{{-- ボタン有効 --}}
+                    $('#save_button').prop("disabled", false);
+                    //{{-- マウスカーソルを通常に --}}                    
+                    document.body.style.cursor = 'auto';
 
                 }else{
 
@@ -504,10 +514,13 @@ $(function(){
                         //{{-- アラート --}}
                     $('.ajax-msg').html(errorsHtml);
                     //{{-- 画面上部へ --}}
-
                     $("html,body").animate({
                         scrollTop: 0
-                    }, "300");                 
+                    }, "300");
+                    //{{-- ボタン有効 --}}
+                    $('#save_button').prop("disabled", false);
+                    //{{-- マウスカーソルを通常に --}}                    
+                    document.body.style.cursor = 'auto';
 
                 }
 
@@ -517,11 +530,6 @@ $(function(){
             // 送信失敗
             .fail(function (data, textStatus, errorThrown) {
                 
-                //{{-- ボタン有効 --}}
-                $('#save_button').prop("disabled", false);
-                //{{-- マウスカーソルを通常に --}}                    
-                document.body.style.cursor = 'auto';
-
                 //{{-- アラートメッセージ表示 --}}
                 let errorsHtml = '<div class="alert alert-danger text-start">';
 
@@ -531,31 +539,37 @@ $(function(){
                         //{{-- responsからerrorsを取得しメッセージと赤枠を設定 --}}
                         errorsHtml += '<li  class="text-start">' + value[0] + '</li>';
                     
-                        $("[name='" + key + "']").addClass('is-invalid');                        
+                        $("[name='" + key + "']").addClass('is-invalid');
+                        
                         $("[name='" + key + "']").next('.invalid-feedback').text(value);
                     });
 
                 } else {
 
                     //{{-- その他のエラー --}}
-                    // errorsHtml += '<li class="text-start">' + data.status + ':' + errorThrown + '</li>';
-                    errorsHtml += '<li  class="text-start">エラーが発生しました</li>';
+                    errorsHtml += '<li class="text-start">登録処理エラー</li>';
 
                 }
 
                 errorsHtml += '</div>';
                 
                 //{{-- アラート --}}
-                $('.ajax-msg').html(errorsHtml);
+                // $('.ajax-msg').html(errorsHtml);
                 //{{-- 画面上部へ --}}
                 $("html,body").animate({
                     scrollTop: 0
                 }, "300");
-               
+                //{{-- ボタン有効 --}}
+                $('#save_button').prop("disabled", false);
+                //{{-- マウスカーソルを通常に --}}                    
+                document.body.style.cursor = 'auto';
 
             });
 
     });
+
+
+
 
 
 

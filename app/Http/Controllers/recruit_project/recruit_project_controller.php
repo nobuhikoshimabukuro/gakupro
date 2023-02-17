@@ -42,7 +42,7 @@ class recruit_project_controller extends Controller
     //雇用者新規登録前のメールアドレス確認用送信画面遷移
     function mailaddress_temporary_registration(Request $request)
     {
-        return view('recruit_project/screen/employer_mailaddress_temporary_registration');        
+        return view('recruit_project/screen/mailaddress_temporary_registration');        
     }  
 
     //雇用者新規登録前のメールアドレス仮登録処理＆メール送信処理
@@ -161,7 +161,7 @@ class recruit_project_controller extends Controller
             return view('recruit_project/screen/info');              
             
         }else{
-            return view('recruit_project/screen/employer_mailaddress_approval', compact('key_code','cipher'));
+            return view('recruit_project/screen/mailaddress_approval', compact('key_code','cipher'));
         }       
 
     }
@@ -195,7 +195,7 @@ class recruit_project_controller extends Controller
                 //ログインIDとパスワードで取得できず::NG            
 
                 // 認証失敗
-                session()->flash('employer_mailaddress_approval_error', 'メッセージはviewで');
+                session()->flash('authentication_error', 'メッセージはviewで');
                 return back();
 
             }elseif($GetCount == 1){
@@ -203,7 +203,7 @@ class recruit_project_controller extends Controller
 
                 $mailaddress = $mailaddresscheck_t[0]->mailaddress;
                 session()->flash('certification_mailaddress', $mailaddress);          
-                return redirect()->route('recruit_project.employer_information_register');
+                return redirect()->route('recruit_project.information_register');
 
             }elseif($GetCount > 1){
                 //ログインIDとパスワードで1件以上取得::CriticalError
@@ -226,7 +226,7 @@ class recruit_project_controller extends Controller
 
      
     //雇用者情報確認画面遷移
-    function employer_information_confirmation(Request $request)
+    function information_confirmation(Request $request)
     {       
         if (!$this->LoginStatusCheck()) {
             //セッション切れ
@@ -240,12 +240,12 @@ class recruit_project_controller extends Controller
         where('employer_id', '=', $employer_id)          
         ->first();
       
-        return view('recruit_project/screen/employer_information_confirmation', compact('employer_info'));        
+        return view('recruit_project/screen/information_confirmation', compact('employer_info'));        
     }  
     
 
     //雇用者新規登録画面遷移
-    function employer_information_register(Request $request)
+    function information_register(Request $request)
     {
         $employer_info = array();        
 
@@ -274,13 +274,13 @@ class recruit_project_controller extends Controller
 
         $employer_division_list = create_list::employer_division_list();   
 
-        return view('recruit_project/screen/employer_information_register', compact('mailaddress','employer_info','LoginFlg','employer_division_list'));   
+        return view('recruit_project/screen/information_register', compact('mailaddress','employer_info','LoginFlg','employer_division_list'));   
 
     }    
   
 
     //雇用者新規登録処理
-    function employer_information_save(employer_m_request $request){
+    function information_save(employer_m_request $request){
         
         try {                       
                             
@@ -394,7 +394,7 @@ class recruit_project_controller extends Controller
             session()->put('employer_name', $employer_name);
             session()->put('login_flg', 1);
             
-            $Url = route('recruit_project.employer_information_after_registration');
+            $Url = route('recruit_project.information_after_registration');
             $ResultArray = array(
                 "Result" => "success",
                 "Message" => '',
@@ -419,7 +419,7 @@ class recruit_project_controller extends Controller
     }
 
     //雇用者新規登録後の確認画面
-    function employer_information_after_registration(Request $request)
+    function information_after_registration(Request $request)
     {       
 
         $employer_id = session()->get('employer_id');
@@ -441,14 +441,14 @@ class recruit_project_controller extends Controller
         //暗号文を平文にして再格納
         $employer_info->password = common::decryption($employer_info->encryption_password);
       
-        return view('recruit_project/screen/employer_information_after_registration', compact('employer_info'));
+        return view('recruit_project/screen/information_after_registration', compact('employer_info'));
         
     }
 
 
 
     //雇用者更新処理画面
-    function employer_information_update(employer_m_request $request){
+    function information_update(employer_m_request $request){
 
         
         try {
@@ -494,7 +494,7 @@ class recruit_project_controller extends Controller
       
 
             session()->flash('success', 'データを更新しました。');
-            $Url = route('recruit_project.employer_information_confirmation');
+            $Url = route('recruit_project.information_confirmation');
             $ResultArray = array(
                 "Result" => "success",
                 "Message" => '',
@@ -528,10 +528,10 @@ class recruit_project_controller extends Controller
     {       
 
         if ($this->LoginStatusCheck()) {
-            return redirect()->route('recruit_project.employer_top');
+            return redirect()->route('recruit_project.top');
         }        
 
-        return view('recruit_project/screen/employer_login');
+        return view('recruit_project/screen/login');
     }    
 
     //ログアウト処理
@@ -582,7 +582,7 @@ class recruit_project_controller extends Controller
             session()->put('employer_name', $employer_info->employer_name);
             session()->put('login_flg', 1);
 
-            return redirect()->route('recruit_project.employer_top');
+            return redirect()->route('recruit_project.top');
 
         }elseif($GetCount > 1){
             //ログインIDとパスワードで1件以上取得::CriticalError
@@ -593,7 +593,7 @@ class recruit_project_controller extends Controller
     }
 
     //雇用者用TOP画面遷移
-    function employer_top(Request $request)
+    function top(Request $request)
     {       
         
         if (!$this->LoginStatusCheck()) {
@@ -609,7 +609,7 @@ class recruit_project_controller extends Controller
         ->first();
 
       
-        return view('recruit_project/screen/employer_top', compact('employer_info'));
+        return view('recruit_project/screen/top', compact('employer_info'));
     }    
 
    

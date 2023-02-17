@@ -36,7 +36,7 @@
             
             
                                 
-            @if(session('employer_mailaddress_approval_error'))
+            @if(session('authentication_error'))
             
                 <div class="row ajax-msg">
                     <div class="col-12 text-center">

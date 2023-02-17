@@ -13,7 +13,7 @@
 <div id="main" class="mt-3 text-center container">
     
     
-    <form action="{{ route('recruit_project.mailaddress_approval_check') }}" id='ApproveForm' method="post" enctype="multipart/form-data">
+    <form action="{{ route('member.mailaddress_approval_check') }}" id='ApproveForm' method="post" enctype="multipart/form-data">
         @csrf
 
         <input type="hidden" name="key_code" id="key_code" value="{{$key_code}}">
@@ -36,7 +36,7 @@
             
             
                                 
-            @if(session('employer_mailaddress_approval_error'))
+            @if(session('authentication_error'))
             
                 <div class="row ajax-msg">
                     <div class="col-12 text-center">

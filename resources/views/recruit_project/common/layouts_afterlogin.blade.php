@@ -32,8 +32,8 @@
                 
                 <!-- ドロップメニューの設定 -->
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="nav-link dropdown-item" href="{{ route('recruit_project.employer_top') }}">Top</a>           
-                    <a class="nav-link dropdown-item" href="{{ route('recruit_project.employer_information_confirmation') }}">雇用者情報</a>
+                    <a class="nav-link dropdown-item" href="{{ route('recruit_project.top') }}">Top</a>           
+                    <a class="nav-link dropdown-item" href="{{ route('recruit_project.information_confirmation') }}">雇用者情報</a>
                     <a class="nav-link dropdown-item" href="{{ route('recruit_project.job_information_confirmation') }}">求人情報</a>       
                     
                 </div>

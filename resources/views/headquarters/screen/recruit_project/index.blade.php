@@ -18,7 +18,7 @@
         <div class="col-6 col-md-4 col-xl-3 p-3 ">
             <a href="{{ route('recruit_project.login') }}">
                 <div class="bg-dark rounded-lg text-light p-2 ">
-                    <i class="fas fa-praying-hands fa-3x mb-1"></i>
+                    <i class="fas fa-door-open fa-3x mb-1"></i>
                     <h6>雇用者ログイン画面
                     </h6>
                 </div>
@@ -28,7 +28,7 @@
         <div class="col-6 col-md-4 col-xl-3 p-3 ">
             <a href="{{ route('recruit_project.mailaddress_temporary_registration') }}">
                 <div class="bg-dark rounded-lg text-light p-2 ">
-                    <i class="fas fa-praying-hands fa-3x mb-1"></i>
+                    <i class="fas fa-mail-bulk fa-3x mb-1"></i>
                     <h6>雇用者新規登録(メール送信)
                     </h6>
                 </div>

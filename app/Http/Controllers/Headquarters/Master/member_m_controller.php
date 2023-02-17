@@ -17,8 +17,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use App\Original\common;
 use App\Original\create_list;
-use App\Repositories\gender_list;
-use App\Repositories\authority_list;
+
 use Illuminate\Support\Facades\DB;
 
 class member_m_controller extends Controller

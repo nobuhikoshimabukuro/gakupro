@@ -15,7 +15,7 @@
 <div id="main" class="mt-3 text-center container">
     
     <div class="ajax-msg"></div>
-    <form action="{{ route('recruit_project.mailaddress_temporary_registration_process') }}" id='SendMailForm' method="post" enctype="multipart/form-data">
+    <form action="{{ route('member.mailaddress_temporary_registration_process') }}" id='SendMailForm' method="post" enctype="multipart/form-data">
         @csrf
 
         <div class="row">                    

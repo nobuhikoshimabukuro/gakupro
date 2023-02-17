@@ -16,7 +16,7 @@
     <div class="row">
  
         <div class="col-6 col-md-4 col-xl-3 p-3 ">
-            <a href="{{ route('recruit_project.employer_information_confirmation') }}">                
+            <a href="{{ route('recruit_project.information_confirmation') }}">                
                 <div class="bg-primary rounded-lg text-light p-2 ">
                     <i class="fas fa-user-cog fa-3x mb-1"></i>
                     <h6>雇用者情報</h6>

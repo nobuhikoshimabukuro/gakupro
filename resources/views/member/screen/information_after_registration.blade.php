@@ -55,7 +55,7 @@
         
 
         <div id="ScreenTransition" class="d-none">        
-            <h2><a href="{{route('recruit_project.employer_top')}}" rel="noopener noreferrer">TOP画面に遷移する</a></h2>                                  
+            <h2><a href="{{route('recruit_project.top')}}" rel="noopener noreferrer">TOP画面に遷移する</a></h2>                                  
         </div>
 
     </div>

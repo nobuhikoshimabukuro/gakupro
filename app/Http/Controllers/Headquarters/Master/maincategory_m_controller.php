@@ -14,9 +14,6 @@ use App\Http\Requests\maincategory_m_request;
 use Illuminate\Http\Request;
 
 
-
-
-
 class maincategory_m_controller extends Controller
 {
     

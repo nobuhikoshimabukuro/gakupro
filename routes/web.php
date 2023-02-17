@@ -105,11 +105,11 @@ Route::get('headquarters/get_data/majorsubject_info_get', [get_data::class, 'maj
 
 
 //メンバー  Start
-// Route::get('member/mailaddress_temporary_registration', [member_controller::class, 'mailaddress_temporary_registration'])->name('member.mailaddress_temporary_registration');
-// Route::post('member/mailaddress_temporary_registration_process', [member_controller::class, 'mailaddress_temporary_registration_process'])->name('member.mailaddress_temporary_registration_process');
 
-// Route::get('member/mailaddress_approval', [member_controller::class, 'mailaddress_approval'])->name('member.mailaddress_approval');
-// Route::post('member/mailaddress_approval_check', [member_controller::class, 'mailaddress_approval_check'])->name('member.mailaddress_approval_check');
+
+
+
+
 
 
 
@@ -118,12 +118,16 @@ Route::get('member/login', [member_controller::class, 'login'])->name('member.lo
 Route::get('member/logout', [member_controller::class, 'logout'])->name('member.logout');
 Route::post('member/login_password_check', [member_controller::class, 'login_password_check'])->name('member.login_password_check');
 
+Route::get('member/mailaddress_temporary_registration', [member_controller::class, 'mailaddress_temporary_registration'])->name('member.mailaddress_temporary_registration');
+Route::post('member/mailaddress_temporary_registration_process', [member_controller::class, 'mailaddress_temporary_registration_process'])->name('member.mailaddress_temporary_registration_process');
 
+Route::get('member/mailaddress_approval', [member_controller::class, 'mailaddress_approval'])->name('member.mailaddress_approval');
+Route::post('member/mailaddress_approval_check', [member_controller::class, 'mailaddress_approval_check'])->name('member.mailaddress_approval_check');
 
 // Route::get('member/member_information_confirmation', [member_controller::class, 'member_information_confirmation'])->name('member.member_information_confirmation');
 
-// Route::get('member/member_information_register', [member_controller::class, 'member_information_register'])->name('member.member_information_register');
-// Route::post('member/member_information_save', [member_controller::class, 'member_information_save'])->name('member.member_information_save');
+Route::get('member/information_register', [member_controller::class, 'information_register'])->name('member.information_register');
+Route::post('member/information_save', [member_controller::class, 'information_save'])->name('member.information_save');
 // Route::post('member/member_information_update', [member_controller::class, 'member_information_update'])->name('member.member_information_update');
 
 // Route::get('member/member_information_after_registration', [member_controller::class, 'member_information_after_registration'])->name('member.member_information_after_registration');
@@ -168,15 +172,15 @@ Route::get('recruit_project/logout', [recruit_project_controller::class, 'logout
 
 Route::post('recruit_project/login_password_check', [recruit_project_controller::class, 'login_password_check'])->name('recruit_project.login_password_check');
 
-Route::get('recruit_project/employer_top', [recruit_project_controller::class, 'employer_top'])->name('recruit_project.employer_top');
+Route::get('recruit_project/top', [recruit_project_controller::class, 'top'])->name('recruit_project.top');
 
-Route::get('recruit_project/employer_information_confirmation', [recruit_project_controller::class, 'employer_information_confirmation'])->name('recruit_project.employer_information_confirmation');
+Route::get('recruit_project/information_confirmation', [recruit_project_controller::class, 'information_confirmation'])->name('recruit_project.information_confirmation');
 
-Route::get('recruit_project/employer_information_register', [recruit_project_controller::class, 'employer_information_register'])->name('recruit_project.employer_information_register');
-Route::post('recruit_project/employer_information_save', [recruit_project_controller::class, 'employer_information_save'])->name('recruit_project.employer_information_save');
-Route::post('recruit_project/employer_information_update', [recruit_project_controller::class, 'employer_information_update'])->name('recruit_project.employer_information_update');
+Route::get('recruit_project/information_register', [recruit_project_controller::class, 'information_register'])->name('recruit_project.information_register');
+Route::post('recruit_project/information_save', [recruit_project_controller::class, 'information_save'])->name('recruit_project.information_save');
+Route::post('recruit_project/information_update', [recruit_project_controller::class, 'information_update'])->name('recruit_project.information_update');
 
-Route::get('recruit_project/employer_information_after_registration', [recruit_project_controller::class, 'employer_information_after_registration'])->name('recruit_project.employer_information_after_registration');
+Route::get('recruit_project/information_after_registration', [recruit_project_controller::class, 'information_after_registration'])->name('recruit_project.information_after_registration');
 
 
 Route::get('recruit_project/job_information_confirmation', [recruit_project_controller::class, 'job_information_confirmation'])->name('recruit_project.job_information_confirmation');
