@@ -15,7 +15,7 @@
 <div id="main" class="mt-3 text-center container">
     
     <div class="ajax-msg"></div>
-    <form action="{{ route('recruit_project.mailaddress_temporary_registration_process') }}" id='SendMailForm' method="post" enctype="multipart/form-data">
+    <form action="{{ route('recruit_project.mailaddress_temporary_registration_process') }}" id='send_mail_form' method="post" enctype="multipart/form-data">
         @csrf
 
         <div class="row">                    
@@ -60,7 +60,7 @@
 
                         <tr>
                             <td class="text-end">                                
-                                <button type="button" id='SendMailButton' class="btn btn-secondary">メール送信</button>
+                                <button type="button" id='send_mail_button' class="btn btn-secondary">メール送信</button>
                             </td>
                         </tr>
 
@@ -78,7 +78,7 @@
                 <div class="col-4 text-end">
                   
                 </div>
-                <div id="Message-Area" class="col-4">                    
+                <div id="message_area" class="col-4">                    
                                       
                 </div>
 
@@ -105,21 +105,28 @@ $(function(){
 
 
     $(document).ready(function () {        
-        $('#mailaddress').focus();
+        $('#destination_name').focus();
     });
     
 
-    $("#SendMailForm").keypress(function(e) {
+    $("#send_mail_form").keypress(function(e) {
+
         if(e.which == 13) {            
             // 判定
-            if( document.getElementById("SendMailButton") == document.activeElement ){
+            if( document.getElementById("send_mail_button") == document.activeElement ){
                 
                 SendMail();
             
+            }else if( document.getElementById("destination_name") == document.activeElement ){
+
+                $('#mailaddress').focus();
+                return false;         
+
             }else if( document.getElementById("mailaddress") == document.activeElement ){
 
-                $('#SendMailButton').focus();
+                $('#send_mail_button').focus();
                 return false;         
+
             }else{
                 return false;
             }            
@@ -129,7 +136,7 @@ $(function(){
 
 
 
-    $(document).on("click", "#SendMailButton", function (e) {
+    $(document).on("click", "#send_mail_button", function (e) {
         SendMail();
     });
 
@@ -138,7 +145,7 @@ $(function(){
     function SendMail(){
 
         //{{-- メッセージクリア --}}
-        $('#Message-Area').html('');
+        $('#message_area').html('');
         $('.is-invalid').removeClass('is-invalid');
 
         var mailaddress = $("#mailaddress").val();        
@@ -154,9 +161,9 @@ $(function(){
             display_html = '<div class="text-start">';
             display_html += '<li class="text-start">メール送信中</li>';
             display_html += '</div>';
-        $('#Message-Area').html(display_html);
+        $('#message_area').html(display_html);
 
-        let f = $('#SendMailForm');
+        let f = $('#send_mail_form');
 
         phpProcessingStart();
 
@@ -170,7 +177,7 @@ $(function(){
             .done(function (data, textStatus, jqXHR) {
                 
                 //{{-- ボタン有効 --}}
-                $('#SendMailButton').prop("disabled", false);
+                $('#send_mail_button').prop("disabled", false);
                 
                 var ResultArray = data.ResultArray;
 
@@ -184,7 +191,7 @@ $(function(){
                     display_html += 'メールを送信しました。';
                     display_html += '</div>';
 
-                    $('#Message-Area').html(display_html);                   
+                    $('#message_area').html(display_html);                   
 
                     $("html,body").animate({
                         scrollTop: 0
@@ -202,7 +209,7 @@ $(function(){
                     display_html += '</div>';
 
                         //{{-- アラート --}}
-                    $('#Message-Area').html(display_html);
+                    $('#message_area').html(display_html);
                     //{{-- 画面上部へ --}}
 
                     $("html,body").animate({
@@ -225,7 +232,7 @@ $(function(){
                 display_html += '</div>';
 
                 //{{-- アラート --}}
-                $('#Message-Area').html(display_html);
+                $('#message_area').html(display_html);
                 //{{-- 画面上部へ --}}
                 $("html,body").animate({
                     scrollTop: 0

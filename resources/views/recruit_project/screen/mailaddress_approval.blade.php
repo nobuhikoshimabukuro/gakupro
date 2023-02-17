@@ -13,7 +13,7 @@
 <div id="main" class="mt-3 text-center container">
     
     
-    <form action="{{ route('recruit_project.mailaddress_approval_check') }}" id='ApproveForm' method="post" enctype="multipart/form-data">
+    <form action="{{ route('recruit_project.mailaddress_approval_check') }}" id='approve_form' method="post" enctype="multipart/form-data">
         @csrf
 
         <input type="hidden" name="key_code" id="key_code" value="{{$key_code}}">
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="col-4 text-start">
-                    <button type="button" id='ApproveButton' class="btn btn-secondary">GO</button>
+                    <button type="button" id='approve_button' class="btn btn-secondary">GO</button>
                 </div>      
             </div>   
             
@@ -70,17 +70,17 @@ $(function(){
 
     
 
-    $("#ApproveForm").keypress(function(e) {
+    $("#approve_form").keypress(function(e) {
 
         if(e.which == 13) {            
             // 判定
-            if( document.getElementById("ApproveButton") == document.activeElement ){
+            if( document.getElementById("approve_button") == document.activeElement ){
                 
                 PasswordCheckProcess();         
 
             }else if( document.getElementById("password") == document.activeElement ){
 
-                $('#ApproveButton').focus();
+                $('#approve_button').focus();
                 return false;
 
             }else{
@@ -90,7 +90,7 @@ $(function(){
     });
 
     
-    $('#ApproveButton').click(function () {
+    $('#approve_button').click(function () {
         PasswordCheckProcess();  
 
     });
@@ -119,7 +119,7 @@ $(function(){
 
 
         // 確認画面へ画面遷移
-        $('#ApproveForm').submit(); 
+        $('#approve_form').submit(); 
 
     }
 

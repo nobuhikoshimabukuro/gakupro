@@ -695,7 +695,7 @@ $(function(){
    
 
 
-        let f = $('#ApproveForm');  
+        let f = $('#approve_form');  
 
         var Url = "{{ route('photo_project.create_qrcode_execution') }}";
 

@@ -26,11 +26,11 @@
         </div>
 
         <div class="col-6 col-md-4 col-xl-3 p-3 ">
-            <a href="{{ route('headquarters.test1') }}">
+            <a href="{{ route('headquarters.test2') }}">
               
                 <div class="bg-dark rounded-lg text-light p-2 ">
                     <i class="fas fa-coins fa-3x mb-1"></i>
-                    <h6>TEST1</h6>
+                    <h6>TEST2</h6>
                 </div>
             </a>
         </div>

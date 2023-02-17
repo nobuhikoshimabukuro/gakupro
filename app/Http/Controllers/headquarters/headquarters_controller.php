@@ -13,6 +13,13 @@ use App\Models\staff_password_t_model;
 use App\Models\project_m_model;
 use App\Models\staff_with_project_t_model;
 
+
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+
+use setasign\Fpdi\Tcpdf\Fpdi;
+use TCPDF_FONTS;
+
 class headquarters_controller extends Controller
 {
     function login()
@@ -266,6 +273,74 @@ class headquarters_controller extends Controller
         
     }  
 
+    function test2()
+    {
+
+        return view('headquarters/screen/test/test2');
+
+    }
+
+
+    function pdf_test()
+    {
+
+          // 縦A4サイズのPDF文書を準備
+            // $pdf = new PDF_Japanese('P', 'mm', 'A4');
+            $pdf = new Fpdi('P', 'mm', 'A4');
+
+            $pdf->setPrintHeader(false);
+            $pdf->setPrintFooter(false);
+
+            
+
+            $pdf_tmp_omote_path = resource_path('test/template.pdf');
+
+            // $pdf_tmp_omote_path = asset('public/storage/test/template.pdf');
+
+
+
+            
+            // $pdf->AddSJISFont(); //←japanese.php不使用
+
+            //表面テンプレートをセット
+            // $pdf->setSourceFile($pdf_tmp_omote_path);
+            $pdf->setSourceFile('template.pdf');
+
+            $importPage = $pdf->importPage(1);
+
+            // ヘッダーの出力.
+            $pdf->setPrintHeader(false);
+            // フッターの出力.
+            $pdf->setPrintFooter(false);
+
+            //表面テンプレートを頁に追加
+            $pdf->addPage();
+
+            //テンプレートをページに適用
+            $pdf->useTemplate($importPage, 0, 0);
+
+            //１ページ目の自動改ページ設定
+            $pdf->SetAutoPageBreak(false);
+
+            //↓ここからテンプレートにコンテンツを描画
+
+            // フォント
+            $font = new TCPDF_FONTS();
+            
+            // フォント：源真ゴシック（下記パスにttfフォントファイルを置いて呼び出せば使用可能）
+            // $font_1 = $font->addTTFfont( public_path('eachproject/fsi/fonts/ipaexg.ttf') );
+            $pdf->setFont('kozminproregular', '', 10); // ←FPDFの標準日本語フォントはこれだけしかない
+
+            //お客様氏名
+            $password = 9999;
+            $pdf->setXY(100, 100);
+            $pdf->write(0, $password); 
+        
+            
+            $content = $pdf->Output('create.pdf', 'S');
+
+            Storage::put('create.pdf', $content, 'private');
+    }
 
 
 
@@ -274,7 +349,7 @@ class headquarters_controller extends Controller
 
 
 
-
+    
 
     //今後共通クラスに移動し実装予定
     function DataBase_BackUp()

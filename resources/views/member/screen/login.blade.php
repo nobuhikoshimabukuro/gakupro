@@ -13,7 +13,7 @@
 <div id="main" class="mt-3 text-center container">
     
     
-    <form action="{{ route('member.login_password_check') }}" id='ApproveForm' method="post" enctype="multipart/form-data">
+    <form action="{{ route('member.login_password_check') }}" id='approve_form' method="post" enctype="multipart/form-data">
         @csrf
         <div class="row">                    
 
@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="col-4 text-start">
-                    <button type="button" id='ApproveButton' class="btn btn-secondary">GO</button>
+                    <button type="button" id='approve_button' class="btn btn-secondary">GO</button>
                 </div>      
             </div>   
             
@@ -60,11 +60,6 @@
 
         </div>      
 
-        {{-- @php phpinfo() @endphp --}}
-        
-        
-
-
     </form>
     
 </div>
@@ -83,11 +78,11 @@ $(function(){
     });
 
     
-    $("#ApproveForm").keypress(function(e) {
+    $("#approve_form").keypress(function(e) {
 
         if(e.which == 13) {            
             // 判定
-            if( document.getElementById("ApproveButton") == document.activeElement ){
+            if( document.getElementById("approve_button") == document.activeElement ){
                 
                 LoginProcess();
             
@@ -98,7 +93,7 @@ $(function(){
 
             }else if( document.getElementById("password") == document.activeElement ){
 
-                $('#ApproveButton').focus();
+                $('#approve_button').focus();
                 return false;
 
             }else{
@@ -107,7 +102,7 @@ $(function(){
         }
     });    
     
-    $('#ApproveButton').click(function () {        
+    $('#approve_button').click(function () {        
         LoginProcess();
     });
 
@@ -147,7 +142,7 @@ $(function(){
         $(this).prop("disabled", true);
 
         // 確認画面へ画面遷移
-        $('#ApproveForm').submit(); 
+        $('#approve_form').submit(); 
 
     }
 

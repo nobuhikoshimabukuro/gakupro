@@ -35,6 +35,10 @@ Route::get('/', [hp_controller::class, 'index'])->name('hp.index');
 
 Route::get('headquarters/test', [headquarters_controller::class, 'test'])->name('headquarters.test');
 Route::get('headquarters/test1', [headquarters_controller::class, 'test1'])->name('headquarters.test1');
+Route::get('headquarters/test2', [headquarters_controller::class, 'test2'])->name('headquarters.test2');
+
+
+Route::post('headquarters/pdf_test', [headquarters_controller::class, 'pdf_test'])->name('headquarters.pdf_test');
 
 
 //本部  Start

@@ -1,7 +1,7 @@
 @extends('photo_project.common.layouts_customer')
 
 @section('pagehead')
-@section('title', 'お待ちください')  
+@section('title', 'check the photo')  
 @endsection
 @section('content')
 
@@ -12,7 +12,7 @@
 
 
 
-<form action="{{ route('photo_project.photo_confirmation') }}" id='ApproveForm' method="post" enctype="multipart/form-data">
+<form action="{{ route('photo_project.photo_confirmation') }}" id='approve_form' method="post" enctype="multipart/form-data">
     @csrf                
     <input type="hidden" name="key_code" id="" value="{{$key_code}}" class="form-control">
     <input type="hidden" name="cipher" id="" value="{{$cipher}}" class="form-control">
@@ -34,7 +34,7 @@ $(function(){
     $(document).ready( function(){               
 
         // 確認画面へ画面遷移
-        $('#ApproveForm').submit(); 
+        $('#approve_form').submit(); 
 
     });
 
