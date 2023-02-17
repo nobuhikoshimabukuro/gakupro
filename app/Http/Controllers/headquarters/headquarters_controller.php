@@ -305,7 +305,8 @@ class headquarters_controller extends Controller
             //表面テンプレートをセット
             // $pdf->setSourceFile($pdf_tmp_omote_path);
             
-            $pdf->setSourceFile('storage/photo_project/ticket_template/template.pdf');
+            // $pdf->setSourceFile('storage/photo_project/ticket_template/template.pdf');
+            $pdf->setSourceFile('template.pdf');
 
             $importPage = $pdf->importPage(1);
 
