@@ -74,7 +74,8 @@ class photo_project_controller extends Controller
             //日付を暗号文に
             $date_encryption = common::encryption(str_replace('-', '', $date));
 
-            $qr_ticket_full_path = "storage/photo_project/" . str_replace('-', '', $date) . "/" . $date_encryption . "/ticket_create/create.pdf";
+            // $qr_ticket_full_path = "storage/photo_project/" . str_replace('-', '', $date) . "/" . $date_encryption . "/ticket_create/create.pdf";
+            $qr_ticket_full_path = "storage/photo_project/" . str_replace('-', '', $date) . "/ticket_create/create.pdf";
 
             $qr_ticket_full_path =  asset($qr_ticket_full_path);
             
@@ -399,7 +400,8 @@ class photo_project_controller extends Controller
         $date_encryption = common::encryption($date);
         
 
-        $create_ticket_path = "public/photo_project/" . $date . "/" . $date_encryption ."/ticket_create";
+        // $create_ticket_path = "public/photo_project/" . $date . "/" . $date_encryption ."/ticket_create";
+        $create_ticket_path = "public/photo_project/" . $date . "/ticket_create";
         $create_ticket_name = "create.pdf";
         
         $create_ticket_full_path = $create_ticket_path . "/" . $create_ticket_name;
