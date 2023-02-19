@@ -44,6 +44,20 @@
         width: 100%;
     }
 
+
+    #select_qr_code_display_area{     
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+
+
+    #select_qr_code_display{       
+        padding: 1vh;    
+        width: 70%;    
+        height: auto;
+        object-fit: contain;        
+    }
 </style>
 
 
@@ -110,7 +124,7 @@
             <div id=""class="row m-0 p-0">  
 
                 
-                <div class="col-12 p-0" align="right">
+                {{-- <div class="col-12 p-0" align="right">
                     <button type="button" id="" class="DisplayChangeButton btn btn-secondary" data-mode="1"><i class="fas fa-qrcode"></i> Qr表示</button>  
                     <button type="button" id="" class="DisplayChangeButton btn btn-secondary d-none" data-mode="2"><i class="fas fa-database"></i> データ表示</button>            
                 </div>
@@ -124,7 +138,7 @@
                     <div class="col-8 p-0" align="right">
                         <button type="button" id="selectDownloadButton" class="btn btn-secondary d-none">選択DL <i class="fas fa-download"></i></button>
                         <button type="button" id="AllDownloadButton" class="btn btn-secondary">一括DL <i class="fas fa-download"></i></button> 
-                        {{-- <button type="button" id="AllselectButton" class="btn btn-secondary" data-mode="1"><span id='ChangeButtonInfo1'>全選択</span></button> --}}
+                        <button type="button" id="AllselectButton" class="btn btn-secondary" data-mode="1"><span id='ChangeButtonInfo1'>全選択</span></button>
                         
                     </div>
 
@@ -133,16 +147,16 @@
                         <div class="col-6 col-md-4 col-xl-3 p-0" style="margin-top: 10px;">
 
                             <div id="select_area{{$Index}}" class="select_area"
-                            {{-- data-download_path="{{$info->QrTicketSaved_Path}}"   --}}
+                            data-download_path="{{$info->QrTicketSaved_Path}}"  
                             data-ticket_name="{{$info->name2}}"  >            
 
                                 <div class="row">
                                     <div class="code_area">{{$info->code}}</div>
                                 </div>
                             
-                                {{-- <button type="button" id="QrTicketButton{{$Index}}" data-target="{{$Index}}" class="selectButton QrTicketButton">
+                                <button type="button" id="QrTicketButton{{$Index}}" data-target="{{$Index}}" class="selectButton QrTicketButton">
                                     <img src="{{$info->QrTicketSaved_Path}}" class="qr_code_image" alt="">
-                                </button> --}}
+                                </button>
 
                                 <button type="button" id="QrCodeButton{{$Index}}" data-target="{{$Index}}" class="selectButton QrCodeButton d-none" style="margin-bottom: 15px;">
                                     <img src="{{$info->QrCodeSaved_Path}}" class="qr_code_image" alt="">
@@ -155,7 +169,7 @@
                     @endforeach
 
                     
-                </div> 
+                </div>  --}}
 
                 
                 <div id="data_display_area" class="table_wrap m-0 p-0">
@@ -186,8 +200,13 @@
                                 <td>{{$info->display_date}}</td>
                                 <td>
                                     {{$info->code}}
-                                    <button type="button" id="" class="btn btn-secondary display_switching" data-bs-toggle='modal' data-bs-target='#qr_display_modal'>
-                                        表示
+                                    <button type="button" id="" class="btn btn-secondary display_switching" 
+                                    data-bs-toggle='modal' data-bs-target='#qr_code_display_modal'
+                                    data-date="{{$info->date}}" 
+                                    data-code="{{$info->code}}" 
+                                    data-qrcodefullpath="{{$info->qr_code_full_path}}" 
+                                    >
+                                    <i class="fas fa-qrcode"></i>
                                     </button>
                                 </td>
                                 <td>{{$info->display_password}}</td>                        
@@ -244,7 +263,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title" id="create_modal_Label"><span id="create_modal_Title"></span></h5>
+                <h5 class="modal-title" id="create_modal_Label"><span id="create_modal_title"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -318,12 +337,12 @@
 
 
 {{-- 作成用モーダル --}}
-<div class="modal fade" id="qr_display_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="qr_display_modal_Label" aria-hidden="true">
+<div class="modal fade" id="qr_code_display_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="qr_code_display_modal_Label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title" id="qr_display_modal_Label">qr</h5>
+                <h5 class="modal-title" id="qr_code_display_modal_Label"><span id="qr_code_display_modal_title"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -331,6 +350,9 @@
             </div>
             
                 <div class="modal-body">  
+
+                    <div id="select_qr_code_display_area">
+                    </div>
 
                    
 
@@ -369,6 +391,33 @@ $(function(){
 
         $('#Modal_Display_date').html(selectdate);
        
+
+    });
+
+    //qr_codeモーダル表示時
+    $('#qr_code_display_modal').on('show.bs.modal', function(e) {
+
+        // イベント発生元
+        let evCon = $(e.relatedTarget);
+
+        var date = evCon.data('date');
+        var code = evCon.data('code');
+
+        var qr_code_full_path = evCon.data('qrcodefullpath');
+
+     
+        var Element = "";
+
+        Element +="<img id='select_qr_code_display' src='" + qr_code_full_path + "' alt=''>";
+
+
+        $('#select_qr_code_display_area').html("");
+        $('#select_qr_code_display_area').append(Element);
+
+
+        var title = date + "-" + code;
+        $('#qr_code_display_modal_title').html(title);
+        
 
     });
 

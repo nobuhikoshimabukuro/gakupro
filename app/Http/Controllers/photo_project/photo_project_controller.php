@@ -66,6 +66,7 @@ class photo_project_controller extends Controller
 
         $Saved_Path_Info = $this->get_path_info(str_replace('-', '', $date));            
                 
+        $StoragePath_QrCode = $Saved_Path_Info["StoragePath_QrCode"];
         
         foreach($photoget_t_info as $info){
 
@@ -85,8 +86,9 @@ class photo_project_controller extends Controller
 
             $info->display_date = $display_date;
 
-            
+            $qr_code_full_path = asset($StoragePath_QrCode . $info->qr_code_name);            
 
+            $info->qr_code_full_path = $qr_code_full_path;
         }
 
         return view('photo_project/screen/create_qrcode', compact('date','photoget_t_info','qr_ticket_full_path'));
