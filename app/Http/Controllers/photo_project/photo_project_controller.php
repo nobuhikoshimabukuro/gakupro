@@ -23,6 +23,8 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\DB;
 
 use STS\ZipStream\ZipStreamFacade AS Zip;
+use setasign\Fpdi\Tcpdf\Fpdi;
+use TCPDF_FONTS;
 
 class photo_project_controller extends Controller
 {
@@ -46,6 +48,7 @@ class photo_project_controller extends Controller
     function create_qrcode(Request $request)
     {       
 
+        $qr_ticket_full_path = "";
         $Qrcode_InfoArray = array();
                 
         $date = $request->date;
@@ -62,14 +65,18 @@ class photo_project_controller extends Controller
         ->get();            
 
         $Saved_Path_Info = $this->get_path_info(str_replace('-', '', $date));            
-        $StoragePath_QrCode = $Saved_Path_Info["StoragePath_QrCode"];
-        $StoragePath_QrTicket = $Saved_Path_Info["StoragePath_QrTicket"];
-            
+                
         
         foreach($photoget_t_info as $info){
 
-            $QrCodeSaved_Path = asset($StoragePath_QrCode . $info->name1);
-            $QrTicketSaved_Path = asset($StoragePath_QrTicket . $info->name2);                       
+
+            //日付を暗号文に
+            $date_encryption = common::encryption(str_replace('-', '', $date));
+
+            $qr_ticket_full_path = "storage/photo_project/" . str_replace('-', '', $date) . "/" . $date_encryption . "/ticket_create/create.pdf";
+
+            $qr_ticket_full_path =  asset($qr_ticket_full_path);
+            
 
             $display_date = substr($info->date, 0, 4) .'/'. substr($info->date, 4, 2) .'/'. substr($info->date, 6, 2);
             
@@ -78,12 +85,11 @@ class photo_project_controller extends Controller
 
             $info->display_date = $display_date;
 
-            $info->QrCodeSaved_Path = $QrCodeSaved_Path;
-            $info->QrTicketSaved_Path = $QrTicketSaved_Path;         
+            
 
         }
 
-        return view('photo_project/screen/create_qrcode', compact('date','photoget_t_info'));
+        return view('photo_project/screen/create_qrcode', compact('date','photoget_t_info','qr_ticket_full_path'));
         
     }
 
@@ -196,8 +202,7 @@ class photo_project_controller extends Controller
                         ,"password" => $encryption_password
                         ,"with_password_flg" => $with_password_flg
                         ,"saved_folder" => $saved_folder
-                        ,"name1" => $Qr_ImageName
-                        ,"name2" => $Qr_TicketName
+                        ,"qr_code_name" => $Qr_ImageName                        
                         ,"url" => $url
                         ,"cipher" => $cipher
                     ]
@@ -263,6 +268,8 @@ class photo_project_controller extends Controller
 
             }
 
+            $this->create_ticket($date);
+
             $ResultArray = array(
                 "Result" => 'success'          
             );
@@ -284,6 +291,121 @@ class photo_project_controller extends Controller
         }
 
         return response()->json(['ResultArray' => $ResultArray]);   
+    }
+
+    function create_ticket($date)
+    {
+        
+
+        // PDF印字位置設定
+        $print_position = array(
+            'contents'       => array('x' => 100,    'y' => 10  )
+            ,'password'    => array('x' => 100,    'y' => 20 )           
+            ,'qr_code'       => array('x' => 10,    'y' => 10  )
+
+        );
+
+        
+        // 横A4サイズのPDF文書を準備
+        
+        $pdf = new Fpdi('L', 'mm', 'A4');
+
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+
+        //画像挿入
+        // https://erabikata.info/tfpdf-fpdi-pdf-template-image-text.html
+        
+        $pdf->setSourceFile('storage/photo_project/ticket_template/template.pdf');
+    
+        $importPage = $pdf->importPage(1);
+
+        // ヘッダーの出力.
+        $pdf->setPrintHeader(false);
+        // フッターの出力.
+        $pdf->setPrintFooter(false);
+
+        //表面テンプレートを頁に追加
+        $pdf->addPage();
+
+        //テンプレートをページに適用
+        $pdf->useTemplate($importPage, 0, 0);
+
+        //１ページ目の自動改ページ設定
+        $pdf->SetAutoPageBreak(false);
+
+        //↓ここからテンプレートにコンテンツを描画
+
+        // フォント
+        $font = new TCPDF_FONTS();
+        
+        // フォント：源真ゴシック（下記パスにttfフォントファイルを置いて呼び出せば使用可能）
+        // $font_1 = $font->addTTFfont( public_path('eachproject/fsi/fonts/ipaexg.ttf') );
+        $pdf->setFont('kozminproregular', '', 10); // ←FPDFの標準日本語フォントはこれだけしかない
+
+        $photoget_t_info = photoget_t_model::withTrashed()
+        ->where('date', '=', $date)                    
+        ->get();
+
+        $qr_code_path = "storage/photo_project/" . $date . "/QrCode";
+
+        $loop_count = 1;
+        $difference_x = 150;
+        $difference_y = 45;
+
+        foreach($photoget_t_info as $info){
+
+            if($loop_count > 4){
+                $position_y = ($loop_count - 5) * $difference_y;
+                $position_x = $difference_x * 1;
+            }else{
+                $position_y = ($loop_count - 1) * $difference_y;
+                $position_x = $difference_x * 0;                
+            }
+            
+
+            $qr_code_name = $info->qr_code_name;
+            //暗号文を平文に            
+            $password = common::decryption( $info->password);
+            
+            $contents = "password";
+            $pdf->setXY($print_position["contents"]["x"] + $position_x, $print_position["contents"]["y"] + $position_y);
+            $pdf->write(0, $contents); 
+
+            
+            $pdf->setXY($print_position["password"]["x"] + $position_x, $print_position["password"]["y"] + $position_y);
+            $pdf->write(0, $password); 
+                
+            $qr_code_full_path = $qr_code_path . "/" . $qr_code_name;
+
+              
+            //ファイルパスとx, y, w, h, フォーマットを指定しています。
+            $pdf->Image($qr_code_full_path , 
+                        $print_position["qr_code"]["x"] + $position_x,
+                        $print_position["qr_code"]["y"] + $position_y,
+                        20, 20, 'PNG');
+
+            if($loop_count == 8){
+                $loop_count = 1;
+            }else{
+                $loop_count++;
+            }
+            
+        }
+
+        //暗号文を平文に            
+        $date_encryption = common::encryption($date);
+        
+
+        $create_ticket_path = "public/photo_project/" . $date . "/" . $date_encryption ."/ticket_create";
+        $create_ticket_name = "create.pdf";
+        
+        $create_ticket_full_path = $create_ticket_path . "/" . $create_ticket_name;
+
+        $content = $pdf->Output($create_ticket_full_path, 'S');
+
+        Storage::put($create_ticket_full_path, $content, 'private');
+
     }
 
 

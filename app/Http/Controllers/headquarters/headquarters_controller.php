@@ -251,7 +251,7 @@ class headquarters_controller extends Controller
 
         $picturebook_info = array();
 
-        $Saved_Path = "storage/picturebookproject/1/";           
+        $Saved_Path = "storage/picture_book_project/";           
  
         $Files = glob(public_path($Saved_Path.'*.*'));
        

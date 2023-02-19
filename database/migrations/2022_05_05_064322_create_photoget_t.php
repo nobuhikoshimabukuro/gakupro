@@ -51,15 +51,11 @@ return new class extends Migration
                 ->comment('写真保存フォルダ名:code + ランダム文字列');
 
             $table
-                ->string('name1', 100)
+                ->string('qr_code_name', 100)
                 ->nullable()
                 ->comment('QRコードのファイル名');
 
-            $table
-                ->string('name2', 100)
-                ->nullable()
-                ->comment('QRチケットファイル名');
-
+         
             $table
                 ->string('url', 100)
                 ->nullable()

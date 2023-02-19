@@ -80,11 +80,21 @@
 
                 </div>
 
-                <div class="col-3 m-0 p-0" align="right">              
+                <div class="col-3 m-0 p-0" align="right">  
+                    
+                    @if($CreatedFLG)
+                        {{-- <button type="button" id="" class="original_button close_modal_button">
+                            <a href="{{$qr_ticket_full_path}}" target="_blank" rel="noopener noreferrer">チケット</a>
+                        </button> --}}
+
+                        <a href="{{$qr_ticket_full_path}}" target="_blank" rel="noopener noreferrer">チケット</a>
+                    @endif
+
                     <button type="button" id="" class="btn btn-secondary display_switching" data-bs-toggle='modal' data-bs-target='#create_modal'>
                         <i class="fas fa-folder-plus"></i>作成
                     </button>
 
+                 
                 </div>
             </div>
         
@@ -123,16 +133,16 @@
                         <div class="col-6 col-md-4 col-xl-3 p-0" style="margin-top: 10px;">
 
                             <div id="select_area{{$Index}}" class="select_area"
-                            data-download_path="{{$info->QrTicketSaved_Path}}"  
+                            {{-- data-download_path="{{$info->QrTicketSaved_Path}}"   --}}
                             data-ticket_name="{{$info->name2}}"  >            
 
                                 <div class="row">
                                     <div class="code_area">{{$info->code}}</div>
                                 </div>
                             
-                                <button type="button" id="QrTicketButton{{$Index}}" data-target="{{$Index}}" class="selectButton QrTicketButton">
+                                {{-- <button type="button" id="QrTicketButton{{$Index}}" data-target="{{$Index}}" class="selectButton QrTicketButton">
                                     <img src="{{$info->QrTicketSaved_Path}}" class="qr_code_image" alt="">
-                                </button>
+                                </button> --}}
 
                                 <button type="button" id="QrCodeButton{{$Index}}" data-target="{{$Index}}" class="selectButton QrCodeButton d-none" style="margin-bottom: 15px;">
                                     <img src="{{$info->QrCodeSaved_Path}}" class="qr_code_image" alt="">
@@ -158,8 +168,8 @@
                             <th>日付</th>            
                             <th>コード</th>
                             <th>パスワード</th>
-                            <th>UP or DL</th>
-                            <th>パスワード入力必要</th>
+                            <th>UP or DL</th>                            
+                            <th>パスワード入力切替</th>
                             
                             {{-- <th>QrCode名</th>
                             <th>チケット名</th>                     --}}
@@ -174,7 +184,12 @@
                             <tr>
                                 <td>{{$info->id}}</td>
                                 <td>{{$info->display_date}}</td>
-                                <td>{{$info->code}}</td>
+                                <td>
+                                    {{$info->code}}
+                                    <button type="button" id="" class="btn btn-secondary display_switching" data-bs-toggle='modal' data-bs-target='#qr_display_modal'>
+                                        表示
+                                    </button>
+                                </td>
                                 <td>{{$info->display_password}}</td>                        
                                 <td>
 
@@ -186,6 +201,8 @@
                                     <button type='button' onclick="window.open('{{$Download_Url}}')"><i class="fas fa-download"></i></i></button>
                                     
                                 </td>
+                                
+
                                 <td>
                                     @if($info->with_password_flg == 1)
                                         必要
@@ -300,6 +317,34 @@
 
 
 
+{{-- 作成用モーダル --}}
+<div class="modal fade" id="qr_display_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="qr_display_modal_Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="qr_display_modal_Label">qr</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="ajax-msg2 m-2">                    
+            </div>
+            
+                <div class="modal-body">  
+
+                   
+
+                </div>
+
+            <div class="modal-footer">               
+                
+                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+            </div>
+            
+
+        </div>
+    </div>
+</div>
 
 
 
