@@ -408,7 +408,7 @@ class photo_project_controller extends Controller
 
         $content = $pdf->Output($create_ticket_full_path, 'S');
 
-        Storage::put($create_ticket_full_path, $content, 'private');
+        Storage::put($create_ticket_full_path, $content, 'public');
 
     }
 
