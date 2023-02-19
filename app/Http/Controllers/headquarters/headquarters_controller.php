@@ -283,65 +283,74 @@ class headquarters_controller extends Controller
 
     function pdf_test()
     {
+        $date = "";
 
-          // 縦A4サイズのPDF文書を準備
-            // $pdf = new PDF_Japanese('P', 'mm', 'A4');
-            $pdf = new Fpdi('P', 'mm', 'A4');
-
-            $pdf->setPrintHeader(false);
-            $pdf->setPrintFooter(false);
-
-            
-
-            $pdf_tmp_omote_path = resource_path('test/template.pdf');
-
-            // $pdf_tmp_omote_path = asset('public/storage/test/template.pdf');
-
-
-
-            
-            // $pdf->AddSJISFont(); //←japanese.php不使用
-
-            //表面テンプレートをセット
-            // $pdf->setSourceFile($pdf_tmp_omote_path);
-            
-            $pdf->setSourceFile('storage/photo_project/ticket_template/template.pdf');
-            // $pdf->setSourceFile('template.pdf');
-
-            $importPage = $pdf->importPage(1);
-
-            // ヘッダーの出力.
-            $pdf->setPrintHeader(false);
-            // フッターの出力.
-            $pdf->setPrintFooter(false);
-
-            //表面テンプレートを頁に追加
-            $pdf->addPage();
-
-            //テンプレートをページに適用
-            $pdf->useTemplate($importPage, 0, 0);
-
-            //１ページ目の自動改ページ設定
-            $pdf->SetAutoPageBreak(false);
-
-            //↓ここからテンプレートにコンテンツを描画
-
-            // フォント
-            $font = new TCPDF_FONTS();
-            
-            // フォント：源真ゴシック（下記パスにttfフォントファイルを置いて呼び出せば使用可能）
-            // $font_1 = $font->addTTFfont( public_path('eachproject/fsi/fonts/ipaexg.ttf') );
-            $pdf->setFont('kozminproregular', '', 10); // ←FPDFの標準日本語フォントはこれだけしかない
-
-            //お客様氏名
-            $password = 9999;
-            $pdf->setXY(100, 100);
-            $pdf->write(0, $password); 
+        // 横A4サイズのPDF文書を準備
         
-            
-            $content = $pdf->Output('public/photo_project/ticket_create/create.pdf', 'S');
+        $pdf = new Fpdi('L', 'mm', 'A4');
 
-            Storage::put('public/photo_project/ticket_create/create.pdf', $content, 'private');
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+
+        //画像挿入
+        // https://erabikata.info/tfpdf-fpdi-pdf-template-image-text.html
+        
+        $pdf->setSourceFile('storage/photo_project/ticket_template/template.pdf');
+    
+        $importPage = $pdf->importPage(1);
+
+        // ヘッダーの出力.
+        $pdf->setPrintHeader(false);
+        // フッターの出力.
+        $pdf->setPrintFooter(false);
+
+        //表面テンプレートを頁に追加
+        $pdf->addPage();
+
+        //テンプレートをページに適用
+        $pdf->useTemplate($importPage, 0, 0);
+
+        //１ページ目の自動改ページ設定
+        $pdf->SetAutoPageBreak(false);
+
+        //↓ここからテンプレートにコンテンツを描画
+
+        // フォント
+        $font = new TCPDF_FONTS();
+        
+        // フォント：源真ゴシック（下記パスにttfフォントファイルを置いて呼び出せば使用可能）
+        // $font_1 = $font->addTTFfont( public_path('eachproject/fsi/fonts/ipaexg.ttf') );
+        $pdf->setFont('kozminproregular', '', 10); // ←FPDFの標準日本語フォントはこれだけしかない
+
+        
+        $contents = "password";
+        $pdf->setXY(100, 10);
+        $pdf->write(0, $contents); 
+
+        $password = 9999;
+        $pdf->setXY(100, 20);
+        $pdf->write(0, $password); 
+
+        $date = "20230218";
+
+        $qr_code_path = 'storage/photo_project/20230218/QrCode';
+        $qr_code_name = "QrCode_20230218001.png";
+        $qr_code_full_path = $qr_code_path . "/" . $qr_code_name;
+
+        
+        //ファイルパスとx, y, w, h, フォーマットを指定しています。
+        $pdf->Image($qr_code_full_path , 10, 10, 20, 20, 'PNG');
+        
+
+        $create_ticket_path = "public/photo_project/" . $date . "/ticket_create";
+        $create_ticket_name = "create.pdf";
+        
+        $create_ticket_full_path = $create_ticket_path . "/" . $create_ticket_name;
+
+        $content = $pdf->Output($create_ticket_full_path, 'S');
+
+        Storage::put($create_ticket_full_path, $content, 'private');
+
     }
 
 

@@ -215,6 +215,8 @@ class photo_project_controller extends Controller
 
             //Qrコード作成から保存  Start
               
+                //QRの余白設定の参照サイト
+                //https://morioh.com/p/5fc0fdacfdc4
                 //設定したUrlでQrコード作成
                 $Create_Qr_Image = QrCode::size(150)->format('png')->generate($url);
               
@@ -846,24 +848,7 @@ class photo_project_controller extends Controller
         return $ReturnArray;
     }
 
-    //各種名前設定
-    function get_various_names(){
-
-        $QrCodeName = "";
-        $QrTicketName = "";
-        $PhotoZipName = "";
-        $QrTicketZipName = "";
-              
-       
-        $ReturnArray = [
-            'QrCodeName' => $QrCodeName,
-            'QrTicketName' => $QrTicketName,
-            'PhotoZipName' => $PhotoZipName,
-            'QrTicketZipName' => $QrTicketZipName
-        ];
-
-        return $ReturnArray;
-    }
+    
 
     //写真のアップロード状況確認用処理
     function get_upload_info($date = 0 , $Saved_Folder = 0){
