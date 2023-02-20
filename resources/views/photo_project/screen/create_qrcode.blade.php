@@ -86,30 +86,36 @@
 
             <div id="operation_area" class="row m-0 p-0">            
                     
-                <div class="col-9 m-0 p-0" align="left">
+                
 
+                <div class="col-9 m-0 p-0" align="left">
                     <label for="date" class="">開催日</label>
                     <input type="date" id="date" name="date"  value="{{$date}}">                        
-                    <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i>検索</button>             
-
+                    <button type="submit" class="original_button default_button"><i class="fas fa-search"></i>検索</button>             
                 </div>
 
-                <div class="col-3 m-0 p-0" align="right">  
-                    
-                    @if($CreatedFLG)
-                        {{-- <button type="button" id="" class="original_button close_modal_button">
-                            <a href="{{$qr_ticket_full_path}}" target="_blank" rel="noopener noreferrer">チケット</a>
-                        </button> --}}
-
-                        <a href="{{$qr_ticket_full_path}}" target="_blank" rel="noopener noreferrer">チケット</a>
-                    @endif
-
-                    <button type="button" id="" class="btn btn-secondary display_switching" data-bs-toggle='modal' data-bs-target='#create_modal'>
+                <div class="col-3 m-0 p-0" align="right">
+                    <button type="button" id="" class="original_button default_button display_switching" data-bs-toggle='modal' data-bs-target='#create_modal'>
                         <i class="fas fa-folder-plus"></i>作成
-                    </button>
-
-                 
+                    </button>    
                 </div>
+
+                
+
+                @if($CreatedFLG)
+                    <div class="col-6 m-0 p-0" align="left">
+                        <button type="button" id="" class="original_button default_button">
+                            <a href="{{$qr_ticket_full_path}}" target="_blank" rel="noopener noreferrer">チケット確認</a>
+                        </button>
+                    </div>
+
+                    <div class="col-6 m-0 p-0" align="right">
+                        <button type="button" id="" class="original_button default_button">
+                            <a href="{{$qr_ticket_full_path}}" download>チケットDL</a>
+                        </button>   
+                    </div>
+                @endif
+
             </div>
         
         </form>
@@ -122,55 +128,6 @@
         @if($CreatedFLG)
 
             <div id=""class="row m-0 p-0">  
-
-                
-                {{-- <div class="col-12 p-0" align="right">
-                    <button type="button" id="" class="DisplayChangeButton btn btn-secondary" data-mode="1"><i class="fas fa-qrcode"></i> Qr表示</button>  
-                    <button type="button" id="" class="DisplayChangeButton btn btn-secondary d-none" data-mode="2"><i class="fas fa-database"></i> データ表示</button>            
-                </div>
-                
-                <div id="image_display_area"class="row p-0 m-0 d-none">
-                    
-                    <div class="col-4 p-0" align="left">                    
-                        <button type="button" id="display_switching_button" class="btn btn-secondary display_switching" data-mode="1"><span id='ChangeButtonInfo2'>Qr表示</span></button>                    
-                    </div>
-
-                    <div class="col-8 p-0" align="right">
-                        <button type="button" id="selectDownloadButton" class="btn btn-secondary d-none">選択DL <i class="fas fa-download"></i></button>
-                        <button type="button" id="AllDownloadButton" class="btn btn-secondary">一括DL <i class="fas fa-download"></i></button> 
-                        <button type="button" id="AllselectButton" class="btn btn-secondary" data-mode="1"><span id='ChangeButtonInfo1'>全選択</span></button>
-                        
-                    </div>
-
-                    @foreach ($photoget_t_info as $Index =>  $info)
-                        
-                        <div class="col-6 col-md-4 col-xl-3 p-0" style="margin-top: 10px;">
-
-                            <div id="select_area{{$Index}}" class="select_area"
-                            data-download_path="{{$info->QrTicketSaved_Path}}"  
-                            data-ticket_name="{{$info->name2}}"  >            
-
-                                <div class="row">
-                                    <div class="code_area">{{$info->code}}</div>
-                                </div>
-                            
-                                <button type="button" id="QrTicketButton{{$Index}}" data-target="{{$Index}}" class="selectButton QrTicketButton">
-                                    <img src="{{$info->QrTicketSaved_Path}}" class="qr_code_image" alt="">
-                                </button>
-
-                                <button type="button" id="QrCodeButton{{$Index}}" data-target="{{$Index}}" class="selectButton QrCodeButton d-none" style="margin-bottom: 15px;">
-                                    <img src="{{$info->QrCodeSaved_Path}}" class="qr_code_image" alt="">
-                                </button>
-
-                            </div>     
-                            
-                        </div>
-
-                    @endforeach
-
-                    
-                </div>  --}}
-
                 
                 <div id="data_display_area" class="table_wrap m-0 p-0">
 
@@ -200,7 +157,7 @@
                                 <td>{{$info->display_date}}</td>
                                 <td>
                                     {{$info->code}}
-                                    <button type="button" id="" class="btn btn-secondary display_switching" 
+                                    <button type="button" id="" class="original_button default_button display_switching" 
                                     data-bs-toggle='modal' data-bs-target='#qr_code_display_modal'
                                     data-date="{{$info->date}}" 
                                     data-code="{{$info->code}}" 
@@ -212,7 +169,7 @@
                                 <td>{{$info->display_password}}</td>                        
                                 <td>
 
-                                    <button type='button' class="btn btn-secondary copy_button" 
+                                    <button type='button' class="original_button default_button copy_button" 
                                     data-uploadurl="{{$Upload_Url}}" 
                                     data-downloadurl="{{$Download_Url}}">Url Copy</button>
                                     
@@ -228,7 +185,7 @@
                                     @else
                                         不要
                                     @endif                                    
-                                    <button type='button' class="btn btn-secondary with_password_flg_change_button"
+                                    <button type='button' class="original_button default_button with_password_flg_change_button"
                                         data-id="{{$info->id}}"
                                         data-passwordflg="{{$info->with_password_flg}}"
                                     >変更</button>
@@ -325,7 +282,7 @@
                 </div>
 
             <div class="modal-footer">               
-                <button type="button" id="CreateButton" class="btn btn-secondary">作成</button>
+                <button type="button" id="create_button" class="original_button default_button">作成</button>
                 <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
             </div>
             
@@ -351,10 +308,8 @@
             
                 <div class="modal-body">  
 
-                    <div id="select_qr_code_display_area">
-                    </div>
-
-                   
+                    <div id="select_qr_code_display_area" class="text-center">
+                    </div>                   
 
                 </div>
 
@@ -746,7 +701,7 @@ $(function(){
 
 
 
-    $('#CreateButton').click(function () {
+    $('#create_button').click(function () {
 
         //{{-- メッセージクリア --}}
         $('.ajax-msg1').html('');
@@ -787,6 +742,17 @@ $(function(){
 
 
    
+        $('.ajax-msg2').html("");
+        var errorsHtml = '<div class="alert alert-danger text-start">';
+        var massage1 = "チケット作成中です。";
+        errorsHtml += '<li>' + massage1 + '</li>';
+        var massage2 = "暫くお待ちください。";
+        errorsHtml += '<li>' + massage2 + '</li>';
+        errorsHtml += '</div>';
+
+        //{{-- アラート --}}    
+        $('.ajax-msg2').html(errorsHtml);
+
 
 
         let f = $('#approve_form');  
@@ -817,7 +783,8 @@ $(function(){
 
                 }else{
 
-        
+                    $('.ajax-msg2').html("");
+
                     var errorsHtml = '<div class="alert alert-danger text-start">';
                     var massage1 = "Qrチケット作成処理でエラーが発生しました。";
                     var massage2 = "管理に報告をお願い致します。";

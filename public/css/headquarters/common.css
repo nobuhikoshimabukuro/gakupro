@@ -144,6 +144,25 @@
   background-color: #5f4e3c;
 }
 
+/* default_button */
+.default_button{
+  margin: 3px;
+  padding: 1px;
+  color: #fff;
+  background-color: #383634;
+  border-radius: 100vh;
+}
+
+.default_button:hover{
+  color: #fff;
+  background-color: #5f4e3c;
+}
+
+.default_button a{  
+  text-decoration:none;
+  color: #fff;
+}
+
 
 /* save_button */
 .save_button{

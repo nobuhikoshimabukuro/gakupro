@@ -209,7 +209,7 @@ class photo_project_controller extends Controller
                         ,"url" => $url
                         ,"cipher" => $cipher
                     ]
-                );            
+               );            
 
                 //get_path_info関数で各階層情報を取得
                 $Saved_Path_Info = $this->get_path_info($date,$saved_folder);
@@ -225,8 +225,16 @@ class photo_project_controller extends Controller
               
                 //QRの余白設定の参照サイト
                 //https://morioh.com/p/5fc0fdacfdc4
+                //https://www.simplesoftware.io/#/docs/simple-qrcode
                 //設定したUrlでQrコード作成
-                $Create_Qr_Image = QrCode::size(150)->format('png')->generate($url);
+                
+                $Create_Qr_Image = QrCode::size(300)
+                ->margin(2)
+                ->color(77,21,21, 100)
+                ->backgroundColor(152,251,152, 75)
+                // ->eyeColor(0, 255, 255, 255, 0, 0, 0)
+                ->format('png')
+                ->generate($url);
               
                 //作成したQrコード画像を指定階層に保存
                 $PublicPath_QrCode = $Saved_Path_Info["PublicPath_QrCode"];
@@ -236,46 +244,54 @@ class photo_project_controller extends Controller
             //Qrコード作成から保存  End
 
 
-            //Qrチケット作成から保存  Start
+                // //Qrチケット作成から保存  Start
 
-                //QrTicket保存場所
-                $StoragePath_QrTicket = $Saved_Path_Info["StoragePath_QrTicket"];              
+                //     //QrTicket保存場所
+                //     $StoragePath_QrTicket = $Saved_Path_Info["StoragePath_QrTicket"];              
+                    
+                //     //QrTicket_Templateを取得            
+                //     $Create_QrTicket = Image::make($Saved_Path_Info["StoragePath_QrTicket_Template"]);
+
+                //     //Qrコードの画像を取得            
+                //     $QrImage = Image::make($Saved_Path_Info["StoragePath_QrCode"] . $Qr_ImageName);
+
+                //     $Position = 'center';
+                //     $Position_X = 0;
+                //     $Position_Y = -40;
+
+                //     $Create_QrTicket->insert($QrImage , $Position , $Position_X , $Position_Y); 
+                                    
+                //     //表示するパスワードは平文
+                //     $word = 'Pass:' . $password;
+                //     $Create_QrTicket->text($word, 10, 10, function($font){
+                //         $font->size(40);
+                //         $font->color('#f00');
+                //         // $font->align('center');
+                //         // $font->valign('top');
+                //         // $font->angle(45);
+                //     });
                 
-                //QrTicket_Templateを取得            
-                $Create_QrTicket = Image::make($Saved_Path_Info["StoragePath_QrTicket_Template"]);
+                //     $Create_QrTicket->save($StoragePath_QrTicket . $Qr_TicketName);
 
-                //Qrコードの画像を取得            
-                $QrImage = Image::make($Saved_Path_Info["StoragePath_QrCode"] . $Qr_ImageName);
-
-
-
-                $Position = 'center';
-                $Position_X = 0;
-                $Position_Y = -40;
-
-                $Create_QrTicket->insert($QrImage , $Position , $Position_X , $Position_Y); 
-                                
-                //表示するパスワードは平文
-                $word = 'Pass:' . $password;
-                $Create_QrTicket->text($word, 10, 10, function($font){
-                    $font->size(40);
-                    $font->color('#f00');
-                    // $font->align('center');
-                    // $font->valign('top');
-                    // $font->angle(45);
-                });
-              
-                $Create_QrTicket->save($StoragePath_QrTicket . $Qr_TicketName);
-
-            //Qrチケット作成から保存  End
+                // //Qrチケット作成から保存  End
 
             }
 
-            $this->create_ticket($date);
+
+            //qr_ticket作成処理
+            if(!$this->create_ticket($date)){
+
+                $ResultArray = array(
+                    "Result" => "qr_ticket_error",
+                    "Message" => '',
+               );    
+
+            }
+            
 
             $ResultArray = array(
                 "Result" => 'success'          
-            );
+           );
 
             DB::connection('mysql')->commit();
 
@@ -290,7 +306,7 @@ class photo_project_controller extends Controller
             $ResultArray = array(
                 "Result" => "error",
                 "Message" => '',
-            );            
+           );            
         }
 
         return response()->json(['ResultArray' => $ResultArray]);   
@@ -298,118 +314,155 @@ class photo_project_controller extends Controller
 
     function create_ticket($date)
     {
-        
 
-        // PDF印字位置設定
-        $print_position = array(
-            'contents'       => array('x' => 100,    'y' => 10  )
-            ,'password'    => array('x' => 100,    'y' => 20 )           
-            ,'qr_code'       => array('x' => 10,    'y' => 10  )
+        $Judge = true;        
 
-        );
-
-        
-        // 横A4サイズのPDF文書を準備
-        
-        $pdf = new Fpdi('L', 'mm', 'A4');
-
-        $pdf->setPrintHeader(false);
-        $pdf->setPrintFooter(false);
-
-        //画像挿入
-        // https://erabikata.info/tfpdf-fpdi-pdf-template-image-text.html
-        
-        $pdf->setSourceFile('storage/photo_project/ticket_template/template.pdf');
-    
-        $importPage = $pdf->importPage(1);
-
-        // ヘッダーの出力.
-        $pdf->setPrintHeader(false);
-        // フッターの出力.
-        $pdf->setPrintFooter(false);
-
-        //表面テンプレートを頁に追加
-        $pdf->addPage();
-
-        //テンプレートをページに適用
-        $pdf->useTemplate($importPage, 0, 0);
-
-        //１ページ目の自動改ページ設定
-        $pdf->SetAutoPageBreak(false);
-
-        //↓ここからテンプレートにコンテンツを描画
-
-        // フォント
-        $font = new TCPDF_FONTS();
-        
-        // フォント：源真ゴシック（下記パスにttfフォントファイルを置いて呼び出せば使用可能）
-        // $font_1 = $font->addTTFfont( public_path('eachproject/fsi/fonts/ipaexg.ttf') );
-        $pdf->setFont('kozminproregular', '', 10); // ←FPDFの標準日本語フォントはこれだけしかない
-
-        $photoget_t_info = photoget_t_model::withTrashed()
-        ->where('date', '=', $date)                    
-        ->get();
-
-        $qr_code_path = "storage/photo_project/" . $date . "/QrCode";
-
-        $loop_count = 1;
-        $difference_x = 150;
-        $difference_y = 45;
-
-        foreach($photoget_t_info as $info){
-
-            if($loop_count > 4){
-                $position_y = ($loop_count - 5) * $difference_y;
-                $position_x = $difference_x * 1;
-            }else{
-                $position_y = ($loop_count - 1) * $difference_y;
-                $position_x = $difference_x * 0;                
-            }
+        try{
             
-
-            $qr_code_name = $info->qr_code_name;
-            //暗号文を平文に            
-            $password = common::decryption( $info->password);
-            
-            $contents = "password";
-            $pdf->setXY($print_position["contents"]["x"] + $position_x, $print_position["contents"]["y"] + $position_y);
-            $pdf->write(0, $contents); 
+            // PDF印字位置設定
+            $print_position = array(
+                'qr_code' => array('x' => 3, 'y' => 3 ,'w' => 37, 'h' => 37)
+                ,'key_code' => array('x' => 2, 'y' => 41 )
+                ,'important_points' => array('x' => 46, 'y' => 3 )
+                ,'password_title'=> array('x' => 110, 'y' => 2 )
+                ,'password' => array('x' => 110, 'y' => 10 )            
+            );
 
             
-            $pdf->setXY($print_position["password"]["x"] + $position_x, $print_position["password"]["y"] + $position_y);
-            $pdf->write(0, $password); 
+            // 横A4サイズのPDF文書を準備
+            
+            $pdf = new Fpdi('L', 'mm', 'A4');
+
+            $pdf->setPrintHeader(false);
+            $pdf->setPrintFooter(false);
+
+            //画像挿入
+            // https://erabikata.info/tfpdf-fpdi-pdf-template-image-text.html
+            
+            $pdf->setSourceFile('storage/photo_project/ticket_template/template.pdf');
+        
+            $importPage = $pdf->importPage(1);
+
+            // ヘッダーの出力.
+            $pdf->setPrintHeader(false);
+            // フッターの出力.
+            $pdf->setPrintFooter(false);
+
+            // //表面テンプレートを頁に追加
+            // $pdf->addPage();
+            // //テンプレートをページに適用
+            // $pdf->useTemplate($importPage, 0, 0);
+
+            //１ページ目の自動改ページ設定
+            $pdf->SetAutoPageBreak(false);
+
+            //↓ここからテンプレートにコンテンツを描画
+
+            // フォント
+            $font = new TCPDF_FONTS();
+            
+            // フォント：源真ゴシック（下記パスにttfフォントファイルを置いて呼び出せば使用可能）
+            // $font_1 = $font->addTTFfont( public_path('eachproject/fsi/fonts/ipaexg.ttf') );
+            $pdf->setFont('kozminproregular', '', 10); // ←FPDFの標準日本語フォントはこれだけしかない
+
+            $photoget_t_info = photoget_t_model::withTrashed()
+            ->where('date', '=', $date)                    
+            ->get();
+
+            $qr_code_path = "storage/photo_project/" . $date . "/QrCode";
+
+            $loop_count = 1;
+            $difference_x = 149;
+            $difference_y = 53;
+
+            foreach($photoget_t_info as $info){
+
+                if($loop_count == 1){                
+                    //表面テンプレートを頁に追加
+                    $pdf->addPage();
+                    //テンプレートをページに適用
+                    $pdf->useTemplate($importPage, 0, 0);
+                }
+
+                if($loop_count > 4){
+                    $position_y = ($loop_count - 5) * $difference_y;
+                    $position_x = $difference_x * 1;
+                }else{
+                    $position_y = ($loop_count - 1) * $difference_y;
+                    $position_x = $difference_x * 0;                
+                }
                 
-            $qr_code_full_path = $qr_code_path . "/" . $qr_code_name;
+                $key_code = $info->date . "-" . $info->code;
+                $qr_code_name = $info->qr_code_name;
+                //暗号文を平文に            
+                $password = common::decryption( $info->password);
+                
 
-              
-            //ファイルパスとx, y, w, h, フォーマットを指定しています。
-            $pdf->Image($qr_code_full_path , 
-                        $print_position["qr_code"]["x"] + $position_x,
-                        $print_position["qr_code"]["y"] + $position_y,
-                        20, 20, 'PNG');
+                $pdf->SetFontSize(15);
+                $pdf->setXY($print_position["key_code"]["x"] + $position_x, $print_position["key_code"]["y"] + $position_y);
+                $pdf->write(0, $key_code); 
+                            
 
-            if($loop_count == 8){
-                $loop_count = 1;
-            }else{
-                $loop_count++;
+                $pdf->SetFontSize(16);
+                $password_title = "Password";            
+                $pdf->setXY($print_position["password_title"]["x"] + $position_x, $print_position["password_title"]["y"] + $position_y);
+                $pdf->write(0, $password_title); 
+
+                $pdf->SetFontSize(18);
+                $pdf->setXY($print_position["password"]["x"] + $position_x, $print_position["password"]["y"] + $position_y);
+                $pdf->write(0, $password); 
+
+
+                $pdf->SetFontSize(11);
+                $important_points = "説明書き記載予定";            
+                $pdf->setXY($print_position["important_points"]["x"] + $position_x, $print_position["important_points"]["y"] + $position_y);
+                $pdf->write(0, $important_points); 
+                    
+                $qr_code_full_path = $qr_code_path . "/" . $qr_code_name;
+
+                
+                //ファイルパスとx, y, w, h, フォーマットを指定しています。
+                $pdf->Image($qr_code_full_path , 
+                            $print_position["qr_code"]["x"] + $position_x,
+                            $print_position["qr_code"]["y"] + $position_y,
+                            $print_position["qr_code"]["w"],
+                            $print_position["qr_code"]["h"],                            
+                            'PNG');
+
+                if($loop_count == 8){
+                    $loop_count = 1;              
+                }else{
+                    $loop_count++;
+                }
+                
             }
+
+            //暗号文を平文に            
+            $date_encryption = common::encryption($date);
             
+
+            // $create_ticket_path = "public/photo_project/" . $date . "/" . $date_encryption ."/ticket_create";
+            $create_ticket_path = "public/photo_project/" . $date ;
+            $create_ticket_name = "create.pdf";
+            
+            $create_ticket_full_path = $create_ticket_path . "/" . $create_ticket_name;
+
+            $content = $pdf->Output($create_ticket_full_path, 'S');
+
+            Storage::put($create_ticket_full_path, $content, 'public');
+
+        
+
+        } catch (Exception $e) {
+
+            $m =  $e->getMessage();
+
+            Log::channel('error_log')->info("【QRチケット作成エラー】" . $m);
+            
+            $Judge = false;
         }
 
-        //暗号文を平文に            
-        $date_encryption = common::encryption($date);
-        
-
-        // $create_ticket_path = "public/photo_project/" . $date . "/" . $date_encryption ."/ticket_create";
-        $create_ticket_path = "public/photo_project/" . $date ;
-        $create_ticket_name = "create.pdf";
-        
-        $create_ticket_full_path = $create_ticket_path . "/" . $create_ticket_name;
-
-        $content = $pdf->Output($create_ticket_full_path, 'S');
-
-        Storage::put($create_ticket_full_path, $content, 'public');
-
+        return $Judge;
     }
 
 
@@ -446,7 +499,7 @@ class photo_project_controller extends Controller
                 "Result" => "success",
                 "ZipDownloadPath" => $ZipDownloadPath,
                 "ZipName" => $ZipName,
-            );
+           );
 
         } catch (Exception $e) {
 
@@ -454,7 +507,7 @@ class photo_project_controller extends Controller
             $ResultArray = array(
                 "Result" => "error",
                 "Message" => '',
-            );
+           );
 
         }   
         
@@ -488,7 +541,7 @@ class photo_project_controller extends Controller
                     'with_password_flg' => $with_password_flg,                        
                     'updated_by' => $operator,            
                 ]
-            );
+           );
             
         } catch (Exception $e) {
 
@@ -504,7 +557,7 @@ class photo_project_controller extends Controller
             $ResultArray = array(
                 "Result" => "error",
                 "Message" => $error_title,
-            );
+           );
             
 
             return response()->json(['ResultArray' => $ResultArray]);
@@ -514,7 +567,7 @@ class photo_project_controller extends Controller
         $ResultArray = array(
             "Result" => "success",
             "Message" => '',
-        );
+       );
 
         return response()->json(['ResultArray' => $ResultArray]);
     }
@@ -741,7 +794,7 @@ class photo_project_controller extends Controller
                 // 暗号文と不一致   不正な処理
                 $ResultArray = array(
                 "Result" => "error"                   
-                );
+               );
                 return response()->json(['ResultArray' => $ResultArray]);    
             }
 
@@ -774,7 +827,7 @@ class photo_project_controller extends Controller
                 "Result" => "success",
                 "ZipDownloadPath" => $ZipDownloadPath,
                 "ZipName" => $ZipName,
-            );
+           );
 
         } catch (Exception $e) {
 
@@ -782,7 +835,7 @@ class photo_project_controller extends Controller
             $ResultArray = array(
                 "Result" => "error",
                 "Message" => '',
-            );
+           );
 
         }   
         
@@ -885,7 +938,7 @@ class photo_project_controller extends Controller
 
             $ResultArray = array(
                 "Result" => 'success',           
-            );
+           );
             
 
         } catch (Exception $e) {
@@ -897,7 +950,7 @@ class photo_project_controller extends Controller
             $ResultArray = array(
                 "Result" => "error",
                 "Message" => '',
-            );
+           );
         }
         return response()->json(['ResultArray' => $ResultArray]);        
     }
