@@ -74,7 +74,7 @@ class photo_project_controller extends Controller
             //日付を暗号文に
             $date_encryption = common::encryption(str_replace('-', '', $date));
 
-            $qr_ticket_full_path = "storage/photo_project/" . str_replace('-', '', $date) . "/create.pdf";
+            $qr_ticket_full_path = "storage/photo_project/" . str_replace('-', '', $date) . "/ticket.pdf";
 
             $qr_ticket_full_path =  asset($qr_ticket_full_path);
             
