@@ -74,12 +74,7 @@ class photo_project_controller extends Controller
             //日付を暗号文に
             $date_encryption = common::encryption(str_replace('-', '', $date));
 
-
-            
-
-            // $qr_ticket_full_path = "storage/photo_project/" . str_replace('-', '', $date) . "/" . $date_encryption . "/ticket_create/create.pdf";
-            $qr_ticket_full_path = "storage/photo_project/" . str_replace('-', '', $date) . "/ticket/". $date_encryption . "/ticket.pdf";
-            // $qr_ticket_full_path = "storage/photo_project/" . str_replace('-', '', $date) . "/create.pdf";
+            $qr_ticket_full_path = "storage/photo_project/" . str_replace('-', '', $date) . "/create.pdf";
 
             $qr_ticket_full_path =  asset($qr_ticket_full_path);
             
@@ -378,22 +373,6 @@ class photo_project_controller extends Controller
             $difference_x = 149;
             $difference_y = 53;
 
-
-            //get_path_info関数で各階層情報を取得
-            $Saved_Path_Info = $this->get_path_info($date);
-
-            //暗号文を平文に            
-            $date_encryption = common::encryption($date);
-
-
-            $create_ticket_path = $Saved_Path_Info["CreatePath_QrTicket"] . $date_encryption;   
-
-            $create_ticket_path = "public/photo_project/" . $date . "/ticket/" . $date_encryption;    
-            //Qrチケットの保存場所            
-            Storage::makeDirectory($create_ticket_path, 'public');
-            
-
-
             foreach($photoget_t_info as $info){
 
                 if($loop_count == 1){                
@@ -461,16 +440,14 @@ class photo_project_controller extends Controller
             
 
             // $create_ticket_path = "public/photo_project/" . $date . "/ticket/" . $date_encryption;            
-            // $create_ticket_path = "public/photo_project/" . $date;     
+            $create_ticket_path = "public/photo_project/" . $date;     
             $create_ticket_name = "ticket.pdf";
             
             $create_ticket_full_path = $create_ticket_path . "/" . $create_ticket_name;
 
             $content = $pdf->Output($create_ticket_full_path, 'S');
 
-            Storage::put($create_ticket_full_path, $content, 'public');
-
-        
+            Storage::put($create_ticket_full_path, $content, 'public');        
 
         } catch (Exception $e) {
 
