@@ -567,7 +567,7 @@ class DatabaseSeeder extends Seeder
 
         ]);     
 
-        DB::table('member_password_t')->insert([
+        DB::table('photoget_t')->insert([
             
             [                
                 'date' => '20230101',
