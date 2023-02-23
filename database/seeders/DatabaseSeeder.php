@@ -567,6 +567,36 @@ class DatabaseSeeder extends Seeder
 
         ]);     
 
+        DB::table('member_password_t')->insert([
+            
+            [                
+                'date' => '20230101',
+                'code' => '001',
+                'password' => common::encryption("4483"),        
+                'with_password_flg' => 1,
+                'saved_folder' => '001_U3K5K5ia0u',
+                'qr_code_name' => 'QrCode_20230101001.png',
+                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101001&cipher=f9aTzbYxbS',
+                'cipher' => 'f9aTzbYxbS',
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'date' => '20230101',
+                'code' => '002',
+                'password' => common::encryption("4672"),        
+                'with_password_flg' => 1,
+                'saved_folder' => '002_pziOIxfuQ0',
+                'qr_code_name' => 'QrCode_20230101002.png',
+                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101002&cipher=nueP3NU5qz',
+                'cipher' => 'nueP3NU5qz',
+                'created_by' => '9999',
+                
+            ],
+           
+        ]);     
+
 
     }
 }
