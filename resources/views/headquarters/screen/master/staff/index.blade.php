@@ -71,12 +71,16 @@
             @foreach ($staff_list as $item)
             <tr>
                 <td>{{$item->staff_id}}</td>
+           
                 <td>
-                    <ruby>{{$item->staff_last_name}}　{{$item->staff_first_name}}
-                        <rt>{{$item->staff_last_name_yomi}}　{{$item->staff_first_name_yomi}}</rt>
+                    <ruby>{{$item->staff_last_name . "　" . $item->staff_first_name}}
+                        <rt>
+                            {{$item->staff_last_name_yomi . "　".$item->staff_first_name_yomi}}
+                        </rt>
                       </ruby>
                     
                 </td>
+
                 <td>{{$item->tel}}</td>
                 <td>{{$item->authority_name}}</td>
 
