@@ -219,8 +219,7 @@ class photo_project_controller extends Controller
                 $Saved_Path_Info = $this->get_path_info($date,$saved_folder);
 
                 //QrCodeとQrチケットの保存場所
-                Storage::disk('photo_project_public_path')->makeDirectory($Saved_Path_Info["CreatePath_QrCode"]);
-                Storage::disk('photo_project_public_path')->makeDirectory($Saved_Path_Info["CreatePath_QrTicket"]);
+                Storage::disk('photo_project_public_path')->makeDirectory($Saved_Path_Info["CreatePath_QrCode"]);                
                 Storage::disk('photo_project_public_path')->makeDirectory($Saved_Path_Info["CreatePath_Saved_Folder"]);
            
            
@@ -379,6 +378,20 @@ class photo_project_controller extends Controller
             $difference_x = 149;
             $difference_y = 53;
 
+
+            //get_path_info関数で各階層情報を取得
+            $Saved_Path_Info = $this->get_path_info($date);
+
+            //暗号文を平文に            
+            $date_encryption = common::encryption($date);
+
+            $create_ticket_path = $Saved_Path_Info["CreatePath_QrTicket"] . $date_encryption;   
+
+            //Qrチケットの保存場所            
+            Storage::disk('photo_project_public_path')->makeDirectory($create_ticket_path);
+            
+
+
             foreach($photoget_t_info as $info){
 
                 if($loop_count == 1){                
@@ -445,7 +458,8 @@ class photo_project_controller extends Controller
             $date_encryption = common::encryption($date);
             
 
-            $create_ticket_path = "public/photo_project/" . $date . "/ticket/" . $date_encryption;            
+            // $create_ticket_path = "public/photo_project/" . $date . "/ticket/" . $date_encryption;            
+            // $create_ticket_path = "public/photo_project/" . $date;     
             $create_ticket_name = "ticket.pdf";
             
             $create_ticket_full_path = $create_ticket_path . "/" . $create_ticket_name;
