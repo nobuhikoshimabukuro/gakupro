@@ -607,6 +607,71 @@ class DatabaseSeeder extends Seeder
                 'created_by' => '9999',
                 
             ],
+
+            [                
+                'date' => '20230101',
+                'code' => '004',
+                'password' => common::encryption("4039"),        
+                'with_password_flg' => 1,
+                'saved_folder' => '004_5JwBsIe0nM',
+                'qr_code_name' => 'QrCode_20230101004.png',
+                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101004&cipher=KTmzVEwbJK',
+                'cipher' => 'KTmzVEwbJK',
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'date' => '20230101',
+                'code' => '005',
+                'password' => common::encryption("8294"),        
+                'with_password_flg' => 1,
+                'saved_folder' => '005_YZNGdzFKO3',
+                'qr_code_name' => 'QrCode_20230101005.png',
+                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101005&cipher=FwRSK6fRN9',
+                'cipher' => 'FwRSK6fRN9',
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'date' => '20230101',
+                'code' => '006',
+                'password' => common::encryption("2133"),        
+                'with_password_flg' => 1,
+                'saved_folder' => '006_UYflcQeRS7',
+                'qr_code_name' => 'QrCode_20230101006.png',
+                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101006&cipher=ywxPzN9acK',
+                'cipher' => 'ywxPzN9acK',
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'date' => '20230101',
+                'code' => '007',
+                'password' => common::encryption("7515"),        
+                'with_password_flg' => 1,
+                'saved_folder' => '007_tS9KBVa1ka',
+                'qr_code_name' => 'QrCode_20230101007.png',
+                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101007&cipher=btVJtWF9dJ',
+                'cipher' => 'btVJtWF9dJ',
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'date' => '20230101',
+                'code' => '008',
+                'password' => common::encryption("6646"),        
+                'with_password_flg' => 1,
+                'saved_folder' => '008_INVkmYsrpa',
+                'qr_code_name' => 'QrCode_20230101008.png',
+                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101008&cipher=tytUrzfySw',
+                'cipher' => 'tytUrzfySw',
+                'created_by' => '9999',
+                
+            ],
            
         ]);     
 
