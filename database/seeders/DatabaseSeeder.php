@@ -594,6 +594,19 @@ class DatabaseSeeder extends Seeder
                 'created_by' => '9999',
                 
             ],
+
+            [                
+                'date' => '20230101',
+                'code' => '003',
+                'password' => common::encryption("3465"),        
+                'with_password_flg' => 1,
+                'saved_folder' => '003_pg1yvctpLd',
+                'qr_code_name' => 'QrCode_20230101003.png',
+                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101003&cipher=rapMR45zeH',
+                'cipher' => 'rapMR45zeH',
+                'created_by' => '9999',
+                
+            ],
            
         ]);     
 
