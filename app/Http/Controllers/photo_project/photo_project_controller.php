@@ -385,10 +385,12 @@ class photo_project_controller extends Controller
             //暗号文を平文に            
             $date_encryption = common::encryption($date);
 
+
             $create_ticket_path = $Saved_Path_Info["CreatePath_QrTicket"] . $date_encryption;   
 
+            $create_ticket_path = "public/photo_project/" . $date . "/ticket/" . $date_encryption;    
             //Qrチケットの保存場所            
-            Storage::disk('photo_project_public_path')->makeDirectory($create_ticket_path);
+            Storage::makeDirectory($create_ticket_path);
             
 
 
