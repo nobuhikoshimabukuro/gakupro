@@ -390,7 +390,7 @@ class photo_project_controller extends Controller
 
             $create_ticket_path = "public/photo_project/" . $date . "/ticket/" . $date_encryption;    
             //Qrチケットの保存場所            
-            Storage::makeDirectory($create_ticket_path);
+            Storage::makeDirectory($create_ticket_path, 'public');
             
 
 
