@@ -96,7 +96,7 @@ class member_m_controller extends Controller
             'member_m.deleted_at as deleted_at',
 
             'member_password_t.id as password_id',
-            'member_password_t.login_id as login_id',
+            'member_password_t.mailaddress as mailaddress',
             'member_password_t.password as encrypted_password',
         )
         ->leftJoin('subcategory_m as genderinfo', function ($join) {
@@ -322,37 +322,26 @@ class member_m_controller extends Controller
     // ログイン情報重複確認処理
     function login_info_check(request $request){
 
-        $member_id = $request->member_id;
-        $login_id = $request->login_id;
+        $member_id = $request->member_id;        
+        $logininfo_mailaddress = $request->logininfo_mailaddress;     
         //画面で入力した平文パスワードを暗号化
         $password = common::encryption($request->password);
                 
         try {
-
-            $login_id_duplication = "";
+           
             $password_duplication = "";
-
-            //ログインIDでデータ重複チェック
-            $login_id_check = member_password_t_model::
-            where('login_id', $login_id)   
-            ->where('member_id', '<>', $member_id)              
-            ->first();
-
-            if(!is_null($login_id_check)){
-                $login_id_duplication = "ログインID重複エラー";
-            }
 
             //パスワード（暗号文）でデータ重複チェック
             $login_id_check = member_password_t_model::
             where('password', $password)  
-            ->where('member_id', '<>', $member_id)                    
+            ->where('mailaddress', '<>', $logininfo_mailaddress)                    
             ->first();
 
             if(!is_null($login_id_check)){
                 $password_duplication = "パスワード重複エラー";
             }
 
-            if($login_id_duplication == "" && $password_duplication == ""){
+            if($password_duplication == ""){
                       
                 $ResultArray = array(
                     "Result" => "success",
@@ -362,8 +351,7 @@ class member_m_controller extends Controller
             }else{
 
                 $ResultArray = array(
-                    "Result" => "duplication_error",
-                    "login_id_duplication" => $login_id_duplication,
+                    "Result" => "duplication_error",                    
                     "password_duplication" => $password_duplication,
                 );
 
@@ -393,7 +381,7 @@ class member_m_controller extends Controller
         
         $id = intval($request->logininfo_password_id);
         $member_id = intval($request->logininfo_member_id);
-        $login_id = $request->login_id;
+        $mailaddress = $request->logininfo_mailaddress;
         //画面で入力した平文パスワードを暗号化
         $password = common::encryption($request->password);
         $operator = session()->get('member_id');
@@ -411,7 +399,7 @@ class member_m_controller extends Controller
             member_password_t_model::create(
                 [
                     'member_id' => $member_id,                        
-                    'login_id' => $login_id,     
+                    'mailaddress' => $mailaddress,     
                     'password' => $password,               
                     'created_by' => $operator,                        
                 ]

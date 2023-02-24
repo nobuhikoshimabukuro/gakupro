@@ -91,7 +91,8 @@
                     <input type="tel" name="tel" id="tel" value="" class="form-control col-md-3">
 
                     <label for="mailaddress" class="col-md-6 col-form-label original-label">メールアドレス</label>
-                    <input type="text" name="mailaddress" id="mailaddress" value="{{$mailaddress}}" class="form-control col-md-3" readonly>
+                    <p class="text-start"style="text-decoration: none; border-bottom: 0.5px solid rgb(131, 126, 126); padding-bottom: 2px;">{{$mailaddress}}</p>
+                    <input type="hidden" name="mailaddress" id="mailaddress" value="{{$mailaddress}}" class="form-control col-md-3" readonly>
 
                     <label for="school_cd" class="col-md-6 col-form-label original-label">学校選択</label>
                     <select id='school_cd' name='school_cd' class='form-control input-sm'>									

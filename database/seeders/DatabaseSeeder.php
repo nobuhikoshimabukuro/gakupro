@@ -480,7 +480,7 @@ class DatabaseSeeder extends Seeder
                 'gender' => '1',
                 'birthday' => '2005/02/09',
                 'tel' => '080-1234-5678',
-                'mailaddress' => 'test@test.com',
+                'mailaddress' => 'test1@test.com',
                 'school_cd' => '1',
                 'majorsubject_cd' => '1',
                 'admission_yearmonth' => '2022-04',
@@ -502,7 +502,7 @@ class DatabaseSeeder extends Seeder
                 'gender' => '2',
                 'birthday' => '2005/02/09',
                 'tel' => '080-1234-5678',
-                'mailaddress' => 'test@test.com',
+                'mailaddress' => 'test2@test.com',
                 'school_cd' => '2',
                 'majorsubject_cd' => '1',
                 'admission_yearmonth' => '2022-04',
@@ -524,7 +524,7 @@ class DatabaseSeeder extends Seeder
                 'gender' => '1',
                 'birthday' => '2005/02/09',
                 'tel' => '080-1234-5678',
-                'mailaddress' => 'test@test.com',
+                'mailaddress' => 'test3@test.com',
                 'school_cd' => '3',
                 'majorsubject_cd' => '1',
                 'admission_yearmonth' => '2022-04',
@@ -543,7 +543,7 @@ class DatabaseSeeder extends Seeder
             
             [                
                 'member_id' => '1',
-                'login_id' => '1',
+                'mailaddress' => 'test1@test.com',
                 'password' => common::encryption("1"),        
                 'created_by' => '9999',
                 
@@ -551,7 +551,7 @@ class DatabaseSeeder extends Seeder
 
             [                
                 'member_id' => '2',
-                'login_id' => '2',
+                'mailaddress' => 'test2@test.com',
                 'password' => common::encryption("2"),        
                 'created_by' => '9999',
                 
@@ -559,7 +559,7 @@ class DatabaseSeeder extends Seeder
 
             [                
                 'member_id' => '3',
-                'login_id' => '3',
+                'mailaddress' => 'test3@test.com',
                 'password' => common::encryption("3"),                  
                 'created_by' => '9999',
                 

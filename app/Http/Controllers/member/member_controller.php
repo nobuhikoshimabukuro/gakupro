@@ -50,18 +50,18 @@ class member_controller extends Controller
             return redirect(route('member.top'));
         }
 
-        return view('member/screen/member_login');
+        return view('member/screen/login');
     }
 
     //ログイン画面にてログインIDとパスワード入力後のチェック処理
     function login_password_check(Request $request)
     {       
 
-        $login_id = $request->login_id;
+        $mailaddress = $request->mailaddress;
         $password = $request->password;
 
         $member_password_t_model = member_password_t_model::
-        where('login_id', '=', $login_id)          
+        where('mailaddress', '=', $mailaddress)          
         ->get();
 
         $GetCount = count($member_password_t_model);
@@ -101,7 +101,7 @@ class member_controller extends Controller
                     session()->put('member_id', $member_info->member_id);
                     session()->put('member_name', $member_info->member_last_name . "　" . $member_info->member_first_name);
                     session()->put('member_name_yomi', $member_info->member_last_name_yomi . "　" . $member_info->member_first_name_yomi);                    
-                    session()->put('login_flg', 1);
+                    session()->put('member_login_flg', 1);
         
                     return redirect(route('member.top'));
                 }

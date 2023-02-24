@@ -68,9 +68,9 @@ class common
         $Judge = false;
 
         // 指定キーがセッションに存在するかを調べる
-        if ((session()->exists('login_flg'))) {
+        if ((session()->exists('member_login_flg'))) {
 
-            $login_flg = session()->get('login_flg');
+            $login_flg = session()->get('member_login_flg');
 
             $member_id = session()->get('member_id');
             $member_name = session()->get('member_name');            
@@ -84,7 +84,7 @@ class common
                 session()->put('member_name', $member_name);
                 session()->put('member_name_yomi', $member_name_yomi);
                 //ログイン状況をtrueで設定
-                session()->put('login_flg', 1);
+                session()->put('member_login_flg', 1);
 
                 $Judge = true;
             }
@@ -99,7 +99,7 @@ class common
         session()->remove('member_id');
         session()->remove('member_name');
         session()->remove('member_name_yomi');        
-        session()->remove('login_flg');
+        session()->remove('member_login_flg');
         
         return true;
     }

@@ -19,10 +19,10 @@
 
             <div class="row">                    
                 <div class="col-4 text-end">
-                    <label for="" class="col-form-label original-label">ログインID</label>
+                    <label for="" class="col-form-label original-label">メールアドレス</label>
                 </div>
                 <div class="col-4">                    
-                    <input type="text" name="login_id" id="login_id" value="" class="form-control text-end">
+                    <input type="text" name="mailaddress" id="mailaddress" value="" class="form-control text-end">
                 </div>
 
                 <div class="col-4 text-start">                    
@@ -74,7 +74,7 @@ $(function(){
 
     
     $(document).ready(function () {        
-        $('#login_id').focus();
+        $('#mailaddress').focus();
     });
 
     
@@ -86,7 +86,7 @@ $(function(){
                 
                 LoginProcess();
             
-            }else if( document.getElementById("login_id") == document.activeElement ){
+            }else if( document.getElementById("mailaddress") == document.activeElement ){
 
                 $('#password').focus();
                 return false;
@@ -113,7 +113,7 @@ $(function(){
        $('.ajax-msg').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        var login_id = $("#login_id").val();
+        var mailaddress = $("#mailaddress").val();
         var password = $("#password").val();
         var Judge = true;
 
@@ -123,10 +123,10 @@ $(function(){
             $("#password").addClass("is-invalid");            
         }
 
-        if(login_id == ""){
-            $('#login_id').focus();
+        if(mailaddress == ""){
+            $('#mailaddress').focus();
             Judge = false;
-            $("#login_id").addClass("is-invalid");                              
+            $("#mailaddress").addClass("is-invalid");                              
         }
 
 

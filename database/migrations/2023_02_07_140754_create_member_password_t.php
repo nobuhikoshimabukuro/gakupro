@@ -29,8 +29,8 @@ return new class extends Migration
                 ->comment('メンバーID');
 
             $table
-                ->string('login_id', 100)
-                ->comment('ログインID');
+                ->string('mailaddress', 100)
+                ->comment('メールアドレス');
 
             $table
                 ->string('password', 1000)

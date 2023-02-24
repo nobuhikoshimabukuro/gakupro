@@ -19,7 +19,7 @@ class member_password_t_model extends Model
 
     protected $fillable = [        
         'member_id',
-        'login_id',
+        'mailaddress',
         'password',
         'created_by',
         'updated_by',

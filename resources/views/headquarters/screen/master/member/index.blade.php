@@ -153,7 +153,7 @@
                 <td>
                     <button class='modal_button' data-bs-toggle='modal' data-bs-target='#login_info_modal'                        
                         data-memberid='{{$item->member_id}}'
-                        data-loginid='{{$item->login_id}}'
+                        data-mailaddress='{{$item->mailaddress}}'
                         data-password='{{$item->password}}'
                         > 
                         <i class="fas fa-info"></i>
@@ -471,11 +471,10 @@
                             
                             <input type="hidden" name="logininfo_member_id" id="logininfo_member_id" value="">
                             <input type="hidden" name="logininfo_password_id" id="logininfo_password_id" value="">
+                            <input type="hidden" name="logininfo_mailaddress" id="logininfo_mailaddress" value="">
                             
                             <div class="form-group row">
-    
-                                <label for="login_id" class="col-md-6 col-form-label original-label">ログインID</label>
-                                <input type="text" name="login_id" id="login_id" value="" class="form-control col-md-3">
+                                   
     
                                 <label for="password" class="col-md-6 col-form-label original-label">パスワード</label>
                                 <input type="text" name="password" id="password" value="" class="form-control col-md-3">
@@ -1148,12 +1147,12 @@ $(function(){
         
         var password_id = evCon.data('passwordid');
         var member_id = evCon.data('memberid');
-        var login_id = evCon.data('loginid');    
+        var mailaddress = evCon.data('mailaddress');    
         var password = evCon.data('password');
 
         $('#logininfo_password_id').val(password_id);
         $('#logininfo_member_id').val(member_id);
-        $('#login_id').val(login_id);  
+        $('#logininfo_mailaddress').val(mailaddress);  
         $('#password').val(password);  
 
     });
@@ -1170,8 +1169,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        var member_id = $("#logininfo_member_id").val();
-        var login_id = $("#login_id").val();
+        var logininfo_mailaddress = $("#logininfo_mailaddress").val();        
         var password = $("#password").val();
         var Judge = true;
 
@@ -1179,12 +1177,6 @@ $(function(){
             $('#password').focus();
             Judge = false;
             $("#password").addClass("is-invalid");            
-        }
-
-        if(login_id == ""){
-            $('#login_id').focus();
-            Judge = false;
-            $("#login_id").addClass("is-invalid");                              
         }
 
         if(!Judge){
@@ -1208,7 +1200,7 @@ $(function(){
             url: Url, // 送信先
             type: 'get',
             dataType: 'json',
-            data: {member_id : member_id , login_id : login_id , password : password},
+            data: {member_id : member_id , logininfo_mailaddress : logininfo_mailaddress , password : password},
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 
         })
@@ -1226,17 +1218,14 @@ $(function(){
 
                 }else if(Result=='duplication_error'){
 
-                    var login_id_duplication = ResultArray["login_id_duplication"];
+                    
                     var password_duplication = ResultArray["password_duplication"];
 
                     //{{-- アラートメッセージ表示 --}}
                     var errorsHtml = '';
                     errorsHtml = '<div class="alert alert-danger text-start">';
 
-                    if(login_id_duplication != ""){                                                
-                        $("#login_id").addClass("is-invalid");      
-                        errorsHtml += '<li class="text-start">' + login_id_duplication + '</li>';
-                    }
+                    
 
                     if(password_duplication != ""){
                         $("#password").addClass("is-invalid");      
@@ -1502,7 +1491,7 @@ $(function(){
         $('.is-invalid').removeClass('is-invalid');
 
         var member_id = $("#logininfo_member_id").val();
-        var login_id = $("#login_id").val();
+        var logininfo_mailaddress = $("#logininfo_mailaddress").val();
         var password = $("#password").val();
         var Judge = true;
 
@@ -1511,12 +1500,7 @@ $(function(){
             Judge = false;
             $("#password").addClass("is-invalid");            
         }
-
-        if(login_id == ""){
-            $('#login_id').focus();
-            Judge = false;
-            $("#login_id").addClass("is-invalid");                              
-        }
+       
 
         if(!Judge){
             return false;
@@ -1539,7 +1523,7 @@ $(function(){
             url: Url, // 送信先
             type: 'get',
             dataType: 'json',
-            data: {member_id : member_id , login_id : login_id , password : password},
+            data: {member_id : member_id , logininfo_mailaddress : logininfo_mailaddress , password : password},
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 
         })
@@ -1556,18 +1540,13 @@ $(function(){
                     $('#login_info_form').submit();
 
                 }else if(Result=='duplication_error'){
-
-                    var login_id_duplication = ResultArray["login_id_duplication"];
+                    
                     var password_duplication = ResultArray["password_duplication"];
 
                     //{{-- アラートメッセージ表示 --}}
                     var errorsHtml = '';
                     errorsHtml = '<div class="alert alert-danger text-start">';
 
-                    if(login_id_duplication != ""){                                                
-                        $("#login_id").addClass("is-invalid");      
-                        errorsHtml += '<li class="text-start">' + login_id_duplication + '</li>';
-                    }
 
                     if(password_duplication != ""){
                         $("#password").addClass("is-invalid");      
