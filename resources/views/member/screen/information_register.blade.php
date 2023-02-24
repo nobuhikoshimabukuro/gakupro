@@ -45,9 +45,9 @@
 
             <div class="col-xl-6 col-sm-12">  
 
-                <p>
-                    ここに説明書き
-                </p>
+                <div class="pdf" style="width: 100%; height:100%">  
+                    <embed src="{{ asset('pdf/privacypolicy.pdf')}}" type="application/pdf" style="width: 100%; height:100%">
+                </div>
 
             </div>
             

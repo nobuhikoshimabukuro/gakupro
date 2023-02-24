@@ -468,19 +468,8 @@ class member_controller extends Controller
         session()->flash('message-type', 'success');
         return response()->json(['ResultArray' => $ResultArray]);
 
-    
-
-
-
-
-
-
-
-
-
    }
 
    
-
 
 }

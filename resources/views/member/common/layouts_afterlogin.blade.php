@@ -32,9 +32,8 @@
                 
                 <!-- ドロップメニューの設定 -->
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="nav-link dropdown-item" href="{{ route('recruit_project.top') }}">Top</a>           
-                    <a class="nav-link dropdown-item" href="{{ route('recruit_project.information_confirmation') }}">雇用者情報</a>
-                    <a class="nav-link dropdown-item" href="{{ route('recruit_project.job_information_confirmation') }}">求人情報</a>       
+                    <a class="nav-link dropdown-item" href="{{ route('member.top') }}">Top</a>           
+                    
                     
                 </div>
 
@@ -43,13 +42,13 @@
             
             <div class="">
                 <h3>
-                    {{session()->get('employer_name')}} 様
+                    {{session()->get('member_name')}} 様
                 </h3>
                 
             </div>
 
             <div class="">
-                <a class="nav-link dropdown-item" href="{{ route('recruit_project.logout') }}">ログアウト</a>                       
+                <a class="nav-link dropdown-item" href="{{ route('member.logout') }}">ログアウト</a>                       
             </div>
 
         </div>

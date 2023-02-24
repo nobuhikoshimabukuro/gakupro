@@ -122,16 +122,7 @@ class headquarters_controller extends Controller
         return redirect(route('headquarters.login'));
     }
 
-    //ログイン情報を破棄
-    function headquarters_session_remove() {
-
-        session()->remove('staff_id');
-        session()->remove('staff_name');
-        session()->remove('staff_name_yomi');
-        session()->remove('authority');
-        session()->remove('login_flg');
-        
-    }
+   
 
     function index()
     {        

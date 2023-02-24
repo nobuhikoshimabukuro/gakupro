@@ -24,9 +24,7 @@
 
                 <div class="col-xl-6 col-sm-12">  
 
-                    <p>
-                        ここに説明書き
-                    </p>
+                    ここに説明書き                        
 
                 </div>
                 

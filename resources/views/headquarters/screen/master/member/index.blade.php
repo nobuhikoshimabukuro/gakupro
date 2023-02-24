@@ -55,10 +55,10 @@
             
             <tr>
                 <th>メンバーID</th>
+                <th>氏名</th>
                 <th>学校区分</th>
                 <th>学校名</th>
-                <th>専攻名</th>
-                <th>氏名</th>
+                <th>専攻名</th>                
                 <th>入学年月</th>
                 <th>卒業予定年月</th>                
                 <th>件数【<span id='total_count'>{{count($member_list)}}</span>件】</th>
@@ -69,6 +69,15 @@
             @foreach ($member_list as $item)
             <tr>
                 <td>{{$item->member_id}}</td>
+                <td>
+                    <ruby>{{$item->member_last_name . "　" . $item->member_first_name}}
+                        <rt>
+                            {{$item->member_last_name_yomi . "　".$item->member_first_name_yomi}}
+                        </rt>
+                      </ruby>
+                    
+                </td>
+                
                 <td>{{$item->school_division_name}}</td>
 
                 <td class="text-start">
@@ -85,14 +94,7 @@
                     >{{$item->majorsubject_name}}
                     </button>
                 </td> 
-                <td>
-                    <ruby>{{$item->member_last_name . "　" . $item->member_first_name}}
-                        <rt>
-                            {{$item->member_last_name_yomi . "　".$item->member_first_name_yomi}}
-                        </rt>
-                      </ruby>
-                    
-                </td>
+               
 
                 <td>{{$item->admission_yearmonth}}</td>
                 <td>{{$item->graduation_yearmonth}}</td>
@@ -1159,135 +1161,7 @@ $(function(){
 
 
 
-    // 「ログイン情報変更」ボタンがクリックされたら
-    $('#login_info_change_button').click(function () {
-     
-        //{{-- メッセージクリア --}}
-        $('.ajax-msg').html('');
-        $('.login-info-msg').html('');
-        
-        $('.invalid-feedback').html('');
-        $('.is-invalid').removeClass('is-invalid');
-
-        var logininfo_mailaddress = $("#logininfo_mailaddress").val();        
-        var password = $("#password").val();
-        var Judge = true;
-
-        if(password == ""){
-            $('#password').focus();
-            Judge = false;
-            $("#password").addClass("is-invalid");            
-        }
-
-        if(!Judge){
-            return false;
-        }
-
-        // ２重送信防止
-        // 保存tを押したらdisabled, 10秒後にenable
-        $(this).prop("disabled", true);
-
-        setTimeout(function () {
-            $('#login_info_change_button').prop("disabled", false);
-        }, 3000);
-
-        var Url = "{{ route('master.member.login_info_check')}}"
-
-        //マウスカーソルを砂時計に
-        document.body.style.cursor = 'wait';
-
-        $.ajax({
-            url: Url, // 送信先
-            type: 'get',
-            dataType: 'json',
-            data: {member_id : member_id , logininfo_mailaddress : logininfo_mailaddress , password : password},
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-
-        })
-            // 送信成功
-            .done(function (data, textStatus, jqXHR) {
-                
-                var ResultArray = data.ResultArray;
-
-                var Result = ResultArray["Result"];
-
-                if(Result=='success'){
-
-                    // ログイン情報変更処理開始
-                    $('#login_info_form').submit();
-
-                }else if(Result=='duplication_error'){
-
-                    
-                    var password_duplication = ResultArray["password_duplication"];
-
-                    //{{-- アラートメッセージ表示 --}}
-                    var errorsHtml = '';
-                    errorsHtml = '<div class="alert alert-danger text-start">';
-
-                    
-
-                    if(password_duplication != ""){
-                        $("#password").addClass("is-invalid");      
-                        errorsHtml += '<li class="text-start">' + password_duplication + '</li>';
-                    }
-
-                    
-                    errorsHtml += '</div>';
-
-                        //{{-- アラート --}}
-                    $('.login-info-msg').html(errorsHtml);
-                 
-                    //{{-- ボタン有効 --}}
-                    $('#login_info_change_button').prop("disabled", false);
-                    //{{-- マウスカーソルを通常に --}}                    
-                    document.body.style.cursor = 'auto';
-
-
-                }else{
-
-                    //{{-- アラートメッセージ表示 --}}
-                    var errorsHtml = '';
-                    errorsHtml = '<div class="alert alert-danger text-start">';
-                    errorsHtml += '<li class="text-start">ログイン情報重複エラー</li>';
-                    
-                    errorsHtml += '</div>';
-
-                        //{{-- アラート --}}
-                    $('.login-info-msg').html(errorsHtml);
-                 
-                    //{{-- ボタン有効 --}}
-                    $('#login_info_change_button').prop("disabled", false);
-                    //{{-- マウスカーソルを通常に --}}                    
-                    document.body.style.cursor = 'auto';
-
-                    
-
-                }
-
-            
-            })
-            // 送信失敗
-            .fail(function (data, textStatus, errorThrown) {
-                
-                //{{-- アラートメッセージ表示 --}}
-                var errorsHtml = '';
-                errorsHtml = '<div class="alert alert-danger text-start">';
-                errorsHtml += '<li class="text-start">ログイン情報重複エラー</li>';
-                
-                errorsHtml += '</div>';
-
-                    //{{-- アラート --}}
-                $('.login-info-msg').html(errorsHtml);
-                
-                //{{-- ボタン有効 --}}
-                $('#login_info_change_button').prop("disabled", false);
-                //{{-- マウスカーソルを通常に --}}                    
-                document.body.style.cursor = 'auto';                
-
-            });
-
-    });
+   
 
 
     //学校情報確認モーダル表示時
@@ -1480,149 +1354,140 @@ $(function(){
 
 
 
+
+
+
    // 「ログイン情報変更」ボタンがクリックされたら
    $('#login_info_change_button').click(function () {
      
-        //{{-- メッセージクリア --}}
-        $('.ajax-msg').html('');
-        $('.login-info-msg').html('');
-        
-        $('.invalid-feedback').html('');
-        $('.is-invalid').removeClass('is-invalid');
+     //{{-- メッセージクリア --}}
+     $('.ajax-msg').html('');
+     $('.login-info-msg').html('');
+     
+     $('.invalid-feedback').html('');
+     $('.is-invalid').removeClass('is-invalid');
 
-        var member_id = $("#logininfo_member_id").val();
-        var logininfo_mailaddress = $("#logininfo_mailaddress").val();
-        var password = $("#password").val();
-        var Judge = true;
+     var member_id = $("#logininfo_member_id").val();
+     var logininfo_mailaddress = $("#logininfo_mailaddress").val();
+     var password = $("#password").val();
+     var Judge = true;
 
-        if(password == ""){
-            $('#password').focus();
-            Judge = false;
-            $("#password").addClass("is-invalid");            
-        }
-       
+     if(password == ""){
+         $('#password').focus();
+         Judge = false;
+         $("#password").addClass("is-invalid");            
+     }
 
-        if(!Judge){
-            return false;
-        }
+ 
+     if(!Judge){
+         return false;
+     }
 
-        // ２重送信防止
-        // 保存tを押したらdisabled, 10秒後にenable
-        $(this).prop("disabled", true);
+     // ２重送信防止
+     // 保存tを押したらdisabled, 10秒後にenable
+     $(this).prop("disabled", true);
 
-        setTimeout(function () {
-            $('#login_info_change_button').prop("disabled", false);
-        }, 3000);
+     setTimeout(function () {
+         $('#login_info_change_button').prop("disabled", false);
+     }, 3000);
 
-        var Url = "{{ route('master.member.login_info_check')}}"
+     var Url = "{{ route('master.member.login_info_check')}}"
 
-        //マウスカーソルを砂時計に
-        document.body.style.cursor = 'wait';
+     //マウスカーソルを砂時計に
+     document.body.style.cursor = 'wait';
 
-        $.ajax({
-            url: Url, // 送信先
-            type: 'get',
-            dataType: 'json',
-            data: {member_id : member_id , logininfo_mailaddress : logininfo_mailaddress , password : password},
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+     $.ajax({
+         url: Url, // 送信先
+         type: 'get',
+         dataType: 'json',
+         data: {member_id : member_id , logininfo_mailaddress : logininfo_mailaddress , password : password},
+         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 
-        })
-            // 送信成功
-            .done(function (data, textStatus, jqXHR) {
-                
-                var ResultArray = data.ResultArray;
+     })
+         // 送信成功
+         .done(function (data, textStatus, jqXHR) {
+             
+             var ResultArray = data.ResultArray;
 
-                var Result = ResultArray["Result"];
+             var Result = ResultArray["Result"];
 
-                if(Result=='success'){
+             if(Result=='success'){
 
-                    // ログイン情報変更処理開始
-                    $('#login_info_form').submit();
+                 // ログイン情報変更処理開始
+                 $('#login_info_form').submit();
 
-                }else if(Result=='duplication_error'){
-                    
-                    var password_duplication = ResultArray["password_duplication"];
+             }else if(Result=='duplication_error'){
 
-                    //{{-- アラートメッセージ表示 --}}
-                    var errorsHtml = '';
-                    errorsHtml = '<div class="alert alert-danger text-start">';
+                 
+                 var password_duplication = ResultArray["password_duplication"];
 
+                 //{{-- アラートメッセージ表示 --}}
+                 var errorsHtml = '';
+                 errorsHtml = '<div class="alert alert-danger text-start">';
+                 
 
-                    if(password_duplication != ""){
-                        $("#password").addClass("is-invalid");      
-                        errorsHtml += '<li class="text-start">' + password_duplication + '</li>';
-                    }
+                 if(password_duplication != ""){
+                     $("#password").addClass("is-invalid");      
+                     errorsHtml += '<li class="text-start">' + password_duplication + '</li>';
+                 }
 
-                    
-                    errorsHtml += '</div>';
+                 
+                 errorsHtml += '</div>';
 
-                        //{{-- アラート --}}
-                    $('.login-info-msg').html(errorsHtml);
-                
-                    //{{-- ボタン有効 --}}
-                    $('#login_info_change_button').prop("disabled", false);
-                    //{{-- マウスカーソルを通常に --}}                    
-                    document.body.style.cursor = 'auto';
-
-
-                }else{
-
-                    //{{-- アラートメッセージ表示 --}}
-                    var errorsHtml = '';
-                    errorsHtml = '<div class="alert alert-danger text-start">';
-                    errorsHtml += '<li class="text-start">ログイン情報重複エラー</li>';
-                    
-                    errorsHtml += '</div>';
-
-                        //{{-- アラート --}}
-                    $('.login-info-msg').html(errorsHtml);
-                
-                    //{{-- ボタン有効 --}}
-                    $('#login_info_change_button').prop("disabled", false);
-                    //{{-- マウスカーソルを通常に --}}                    
-                    document.body.style.cursor = 'auto';
-
-                    
-
-                }
-
-            
-            })
-            // 送信失敗
-            .fail(function (data, textStatus, errorThrown) {
-                
-                //{{-- アラートメッセージ表示 --}}
-                var errorsHtml = '';
-                errorsHtml = '<div class="alert alert-danger text-start">';
-                errorsHtml += '<li class="text-start">ログイン情報重複エラー</li>';
-                
-                errorsHtml += '</div>';
-
-                    //{{-- アラート --}}
-                $('.login-info-msg').html(errorsHtml);
-                
-                //{{-- ボタン有効 --}}
-                $('#login_info_change_button').prop("disabled", false);
-                //{{-- マウスカーソルを通常に --}}                    
-                document.body.style.cursor = 'auto';                
-
-            });
-
-    });
+                     //{{-- アラート --}}
+                 $('.login-info-msg').html(errorsHtml);
+              
+                 //{{-- ボタン有効 --}}
+                 $('#login_info_change_button').prop("disabled", false);
+                 //{{-- マウスカーソルを通常に --}}                    
+                 document.body.style.cursor = 'auto';
 
 
+             }else{
 
+                 //{{-- アラートメッセージ表示 --}}
+                 var errorsHtml = '';
+                 errorsHtml = '<div class="alert alert-danger text-start">';
+                 errorsHtml += '<li class="text-start">ログイン情報重複エラー</li>';
+                 
+                 errorsHtml += '</div>';
 
+                     //{{-- アラート --}}
+                 $('.login-info-msg').html(errorsHtml);
+              
+                 //{{-- ボタン有効 --}}
+                 $('#login_info_change_button').prop("disabled", false);
+                 //{{-- マウスカーソルを通常に --}}                    
+                 document.body.style.cursor = 'auto';
 
+                 
 
+             }
 
+         
+         })
+         // 送信失敗
+         .fail(function (data, textStatus, errorThrown) {
+             
+             //{{-- アラートメッセージ表示 --}}
+             var errorsHtml = '';
+             errorsHtml = '<div class="alert alert-danger text-start">';
+             errorsHtml += '<li class="text-start">ログイン情報重複エラー</li>';
+             
+             errorsHtml += '</div>';
 
+                 //{{-- アラート --}}
+             $('.login-info-msg').html(errorsHtml);
+             
+             //{{-- ボタン有効 --}}
+             $('#login_info_change_button').prop("disabled", false);
+             //{{-- マウスカーソルを通常に --}}                    
+             document.body.style.cursor = 'auto';                
 
+         });
 
-
-
-
-
+ });
+ 
 
 
 
