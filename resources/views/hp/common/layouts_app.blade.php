@@ -8,6 +8,11 @@
     <link href="{{ asset('css/hp/common.css') }}" rel="stylesheet">          
     
     <link href="{{ asset('css/hp/style.css') }}" rel="stylesheet">
+
+    <link rel="shortcut icon" href="{{ asset('img/logo/ssp_logo.ico')}}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ asset('img/logo/ssp_logo.png')}}" sizes="180x180">
+    <link rel="icon" type="image/png" href="{{ asset('img/logo/ssp_logo.png')}}" sizes="192x192">
+    
     <meta name="csrf-token" content="{{ csrf_token() }}">  {{-- CSRFトークン --}}
     @yield('pagehead')
     <title>@yield('title')</title>
