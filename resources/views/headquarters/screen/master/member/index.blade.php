@@ -453,12 +453,12 @@
 
 
         {{-- パスワード変更モーダル --}}
-        <div class="modal fade" id="login_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="login_info_modal_Label" aria-hidden="true">
+        <div class="modal fade" id="login_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="login_info_modal_label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="login_info_modal_Label"><span id="login_info_modal_Title"></span></h5>
+                        <h5 class="modal-title" id="login_info_modal_label"><span id="login_info_modal_title"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -472,7 +472,7 @@
                                                        
                             
                             <input type="hidden" name="logininfo_member_id" id="logininfo_member_id" value="">
-                            <input type="hidden" name="logininfo_password_id" id="logininfo_password_id" value="">
+                            <input type="hidden" name="login_info_password_id" id="login_info_password_id" value="">
                             <input type="hidden" name="logininfo_mailaddress" id="logininfo_mailaddress" value="">
                             
                             <div class="form-group row">
@@ -1152,7 +1152,7 @@ $(function(){
         var mailaddress = evCon.data('mailaddress');    
         var password = evCon.data('password');
 
-        $('#logininfo_password_id').val(password_id);
+        $('#login_info_password_id').val(password_id);
         $('#logininfo_member_id').val(member_id);
         $('#logininfo_mailaddress').val(mailaddress);  
         $('#password').val(password);  

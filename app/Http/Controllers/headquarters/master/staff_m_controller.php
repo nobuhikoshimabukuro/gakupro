@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\staff_m_model;
 use App\Models\staff_password_t_model;
 use App\Models\subcategory_m_model;
+use App\Models\project_m_model;
+use App\Models\staff_with_project_t_model;
 
 use App\Http\Requests\staff_m_request;
 
@@ -32,6 +34,8 @@ class staff_m_controller extends Controller
         $authority_list = create_list::authority_list();      
 
         $operator_authority = session()->get('authority');
+
+        $project_list = project_m_model::get();
 
         $staff_list = staff_m_model::select(
 
@@ -103,7 +107,7 @@ class staff_m_controller extends Controller
             $info->password = $password;            
         }
         
-        return view('headquarters/screen/master/staff/index', compact('staff_list','search_element_array','gender_list','authority_list'));
+        return view('headquarters/screen/master/staff/index', compact('staff_list','search_element_array','gender_list','authority_list','project_list'));
     }
 
 
@@ -313,8 +317,8 @@ class staff_m_controller extends Controller
     function login_info_update(request $request)
     {
         
-        $id = intval($request->logininfo_password_id);
-        $staff_id = intval($request->logininfo_staff_id);
+        $id = intval($request->login_info_password_id);
+        $staff_id = intval($request->login_info_staff_id);
         $login_id = $request->login_id;
         //画面で入力した平文パスワードを暗号化
         $password = common::encryption($request->password);
@@ -356,6 +360,128 @@ class staff_m_controller extends Controller
         }  
 
         return back();
+
+    }
+
+
+
+
+    // プロジェクト情報取得処理
+    function project_info_get(request $request)
+    {
+    
+        try {
+
+            $staff_id = intval($request->staff_id);
+
+            $staff_with_project_list = staff_with_project_t_model::where('staff_with_project_t.staff_id', '=', $staff_id)->get();
+            
+            if(is_null($staff_with_project_list)){
+
+                $message = "学校別専攻情報なし";
+                $ResultArray = array(
+                    "status" => "nodata",
+                    "message" => $message
+                );
+
+            }else{
+        
+
+                $ResultArray = array(
+                    "status" => "success",
+                    "staff_with_project_list" =>  $staff_with_project_list
+                );
+
+
+            }
+
+
+        } catch (Exception $e) {
+
+            $ErrorMessage = '【スタッフ別プロジェクト情報データ取得エラー】' . $e->getMessage();            
+
+            Log::channel('error_log')->info($ErrorMessage);
+
+            $message = "データ取得エラー";
+            $ResultArray = array(
+                "status" => "error",
+                "message" => $message
+            );
+
+        }
+        
+
+        return response()->json(['ResultArray' => $ResultArray]);
+
+    }
+    
+    
+
+    // プロジェクト情報更新処理
+    function project_info_update(request $request)
+    {
+        
+        
+        $staff_id = intval($request->project_info_staff_id);
+        $project_list = project_m_model::get();        
+
+        $operator = 9999;
+        
+        try {
+            
+            DB::connection('mysql')->beginTransaction();
+            //table:staff_with_projectの該当するデータを物理削除削除する（staff_idで制限）
+            staff_with_project_t_model::where('staff_id', '=', $staff_id)->forceDelete();           
+
+            foreach($project_list as $info){
+
+                $project_id = $info->project_id;
+
+                $target_name = "project_id_" . $project_id;
+
+                $target_value = $request->$target_name;
+
+                if($target_value == 1){
+
+                     //新規登録処理                
+                    staff_with_project_t_model::create(
+                        [
+                            'staff_id' => $staff_id,
+                            'project_id' => $project_id,                        
+                            'created_by' => $operator,                        
+                        ]
+                    );         
+
+                }                       
+            }
+
+            DB::connection('mysql')->commit();
+    
+        } catch (Exception $e) {            
+            
+            DB::connection('mysql')->rollBack();
+            
+            $ErrorMessage = '【スタッフ毎プロジェクト管理テーブル更新エラー】' . $e->getMessage();            
+
+            Log::channel('error_log')->info($ErrorMessage);
+
+            $ResultArray = array(
+                "Result" => "error",
+                "Message" => $ErrorMessage,
+            );
+
+            return response()->json(['ResultArray' => $ResultArray]);
+                                
+        }
+
+        $ResultArray = array(
+            "Result" => "success",
+            "Message" => '',
+        );
+
+        session()->flash('success', 'データを更新しました。');
+        session()->flash('message-type', 'success');
+        return response()->json(['ResultArray' => $ResultArray]);
 
     }
 

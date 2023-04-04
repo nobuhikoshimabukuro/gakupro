@@ -77,6 +77,9 @@ Route::post('headquarters/master/staff/delete_or_restore', [staff_m_controller::
 Route::get('headquarters/master/staff/login_info_check', [staff_m_controller::class, 'login_info_check'])->name('master.staff.login_info_check');
 Route::post('headquarters/master/staff/login_info_update', [staff_m_controller::class, 'login_info_update'])->name('master.staff.login_info_update');
 
+Route::get('headquarters/master/staff/project_info_get', [staff_m_controller::class, 'project_info_get'])->name('master.staff.project_info_get');
+Route::post('headquarters/master/staff/project_info_update', [staff_m_controller::class, 'project_info_update'])->name('master.staff.project_info_update');
+
 Route::get('headquarters/master/staff/staff_with_project', [staff_with_project_t_controller::class, 'index'])->name('master.staff_with_project');
 Route::post('headquarters/master/staff/staff_with_project/save', [staff_with_project_t_controller::class, 'save'])->name('master.staff_with_project.save');
 

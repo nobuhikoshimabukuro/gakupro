@@ -215,12 +215,12 @@
 
 
 {{-- 作成用モーダル --}}
-<div class="modal fade" id="create_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="create_modal_Label" aria-hidden="true">
+<div class="modal fade" id="create_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="create_modal_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title" id="create_modal_Label"><span id="create_modal_title"></span></h5>
+                <h5 class="modal-title" id="create_modal_label"><span id="create_modal_title"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -294,12 +294,12 @@
 
 
 {{-- 作成用モーダル --}}
-<div class="modal fade" id="qr_code_display_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="qr_code_display_modal_Label" aria-hidden="true">
+<div class="modal fade" id="qr_code_display_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="qr_code_display_modal_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title" id="qr_code_display_modal_Label"><span id="qr_code_display_modal_title"></span></h5>
+                <h5 class="modal-title" id="qr_code_display_modal_label"><span id="qr_code_display_modal_title"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 

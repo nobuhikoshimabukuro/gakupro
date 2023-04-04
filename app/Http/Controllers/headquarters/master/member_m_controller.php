@@ -379,7 +379,7 @@ class member_m_controller extends Controller
     function login_info_update(request $request)
     {
         
-        $id = intval($request->logininfo_password_id);
+        $id = intval($request->login_info_password_id);
         $member_id = intval($request->logininfo_member_id);
         $mailaddress = $request->logininfo_mailaddress;
         //画面で入力した平文パスワードを暗号化

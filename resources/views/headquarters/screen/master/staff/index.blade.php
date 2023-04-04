@@ -62,9 +62,10 @@
                 @if(session()->get('authority') > 1)
                     <th>件数【<span id='total_count'>{{count($staff_list)}}</span>件】</th>
                     <th>ログイン情報</th>                    
+                    <th>プロジェクト情報</th>  
                 @endif
 
-                <th></th>
+                
                 
             </tr>
 
@@ -186,13 +187,18 @@
                             <i class="fas fa-info"></i>
                         </button>
                     </td>
+
+
+                    <td>
+                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#project_info_modal'                            
+                            data-staffid='{{$item->staff_id}}'                            
+                            > 
+                            <i class="fas fa-info"></i>
+                        </button>
+                    </td>
                 @endif
 
-                <td>
-                    <button class='original_button modal_screen_move_button'>
-                        <a href='{{ route('master.staff_with_project' ,['staff_id' => $item->staff_id]) }}' target='_blank' rel='noopener noreferrer'>プロジェクト管理</a>
-                    </button>
-                </td>
+             
             </tr>
 
             @endforeach
@@ -435,12 +441,12 @@
 
 
         {{-- パスワード変更モーダル --}}
-        <div class="modal fade" id="login_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="login_info_modal_Label" aria-hidden="true">
+        <div class="modal fade" id="login_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="login_info_modal_label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="login_info_modal_Label"><span id="login_info_modal_Title"></span></h5>
+                        <h5 class="modal-title" id="login_info_modal_label">ログイン情報変更</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -453,8 +459,8 @@
                         <div class="modal-body">  
                                                        
                             
-                            <input type="hidden" name="logininfo_staff_id" id="logininfo_staff_id" value="">
-                            <input type="hidden" name="logininfo_password_id" id="logininfo_password_id" value="">
+                            <input type="hidden" name="login_info_staff_id" id="login_info_staff_id" value="">
+                            <input type="hidden" name="login_info_password_id" id="login_info_password_id" value="">
                             
                             <div class="form-group row">
     
@@ -482,6 +488,71 @@
                 </div>
             </div>
         </div>
+
+
+        {{-- プロジェクト変更モーダル --}}
+        <div class="modal fade" id="project_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="project_info_modal_label" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="project_info_modal_label">プロジェクト変更</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="ajax-msg project_info_msg m-2">
+                        
+                    </div>
+                    
+                    <form id="project_info_form" method="post" action="{{ route('master.staff.project_info_update') }}">                    
+                        @csrf
+                        <div class="modal-body">  
+                                                       
+                            
+                            <input type="hidden" name="project_info_staff_id" id="project_info_staff_id" value="">                            
+                            
+                            <div class="form-group row">
+    
+                                <table>
+                                    @foreach($project_list as $item)
+                                
+                                    <tr>
+                                        <td class="text-start">
+                                            <label for="project_id_{{$item->project_id}}">{{$item->project_name}}</label>
+                                        </td>
+
+                                        <td>
+                                            <input type="checkbox" id='project_id_{{$item->project_id}}' class="project_info_check_box" name="project_id_{{$item->project_id}}" value='1'>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </table>                               
+
+                            </div>                                                 
+                            
+                        </div>
+
+                        <div class="modal-footer row">                            
+                            <div class="col-8 m-0 p-0 text-start">                                
+                                <button type="button" id="project_info_change_button" class="original_button login_info_change_button">プロジェクト情報変更</button>
+                            </div>
+
+                            <div class="col-4 m-0 p-0 text-end">
+                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                            </div>                            
+                        </div> 
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
 
 
       
@@ -625,13 +696,90 @@ $(function(){
         var login_id = evCon.data('loginid');    
         var password = evCon.data('password');
 
-        $('#logininfo_password_id').val(password_id);
-        $('#logininfo_staff_id').val(staff_id);
+        $('#login_info_password_id').val(password_id);
+        $('#login_info_staff_id').val(staff_id);
         $('#login_id').val(login_id);  
         $('#password').val(password);  
 
     });
 
+
+    //プロジェクトモーダル
+    $('#project_info_modal').on('show.bs.modal',function(e){
+        // イベント発生元
+        let evCon = $(e.relatedTarget);
+
+        var staff_id = evCon.data('staffid');
+
+        $('#project_info_staff_id').val(staff_id);
+
+        project_info_get();
+
+    });
+
+
+    function project_info_get(){
+       
+        var staff_id = $('#project_info_staff_id').val();
+       
+        $(".project_info_check_box").removeAttr("checked").prop("checked", false).change();
+
+        //マウスカーソルを砂時計に
+        document.body.style.cursor = 'wait';       
+
+        var Url = "{{ route('master.staff.project_info_get')}}"
+
+        $.ajax({
+            url: Url, // 送信先
+            type: 'get',
+            dataType: 'json',
+            data: {staff_id : staff_id},
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+
+        })
+            .done(function (data, textStatus, jqXHR) {
+                // テーブルに通信できた場合
+                var ResultArray = data.ResultArray;
+
+                var status = ResultArray["status"];
+
+                //テーブルに通信時、データを検索できたか判定
+                if (status == 'success') {             
+
+
+                var staff_with_project_list = ResultArray["staff_with_project_list"];
+
+                $.each(staff_with_project_list, function(index, info) {
+
+                    var project_id = info["project_id"];
+
+                    var element_id = "#project_id_" + project_id;
+
+                    $(element_id).attr("checked", true).prop("checked", true).change();
+
+                })           
+
+
+                }else{                            
+
+
+                }
+
+                //マウスカーソルを通常に
+                document.body.style.cursor = 'auto';
+
+
+            })
+                .fail(function (data, textStatus, errorThrown) {
+
+                    //マウスカーソルを通常に
+                    document.body.style.cursor = 'auto';
+
+
+                });
+
+
+    } 
 
 
     // 「ログイン情報変更」ボタンがクリックされたら
@@ -644,7 +792,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        var staff_id = $("#logininfo_staff_id").val();
+        var staff_id = $("#login_info_staff_id").val();
         var login_id = $("#login_id").val();
         var password = $("#password").val();
         var Judge = true;
@@ -775,6 +923,98 @@ $(function(){
     });
 
 
+    // 「プロジェクト情報変更」ボタンがクリックされたら
+    $('#project_info_change_button').click(function () {
+     
+        // ２重送信防止
+        // 保存tを押したらdisabled, 10秒後にenable
+        $(this).prop("disabled", true);
+
+        setTimeout(function () {
+            $('#project_info_change_button').prop("disabled", false);
+        }, 3000);
+
+        //{{-- メッセージクリア --}}
+        $('.project_info_msg').html('');
+        $('.invalid-feedback').html('');
+        $('.is-invalid').removeClass('is-invalid');
+
+        let f = $('#project_info_form');
+
+        var Url = "{{ route('master.staff.project_info_update')}}"
+
+        //マウスカーソルを砂時計に
+        document.body.style.cursor = 'wait';
+
+        $.ajax({
+            url:Url, // 送信先
+            type: f.prop('method'),
+            dataType: 'json',
+            data: f.serialize(),
+        })
+         // 送信成功
+         .done(function (data, textStatus, jqXHR) {
+             
+             var ResultArray = data.ResultArray;
+
+             var Result = ResultArray["Result"];
+
+             if(Result=='success'){
+
+                 location.reload();
+
+             }else{
+
+                var ErrorMessage = ResultArray["Message"];
+
+                //{{-- アラートメッセージ表示 --}}
+                var errorsHtml = '';
+                errorsHtml = '<div class="alert alert-danger text-start">';
+                errorsHtml += '<li class="text-start">' + ErrorMessage + '</li>';
+                errorsHtml += '</div>';
+
+                //{{-- アラート --}}
+                $('.project_info_msg').html(errorsHtml);
+                //{{-- 画面上部へ --}}
+                $("html,body").animate({
+                    scrollTop: 0
+                }, "300");
+                //{{-- ボタン有効 --}}
+                $('#project_info_change_button').prop("disabled", false);
+                //{{-- マウスカーソルを通常に --}}                    
+                document.body.style.cursor = 'auto';
+
+             }
+
+         
+         })
+
+         // 送信失敗
+         .fail(function (data, textStatus, errorThrown) {
+             
+            //{{-- アラートメッセージ表示 --}}
+            var errorsHtml = '';
+            errorsHtml = '<div class="alert alert-danger text-start">';
+            errorsHtml += '<li class="text-start">更新失敗</li>';
+            errorsHtml += '</div>';
+
+            //{{-- アラート --}}
+            $('.project_info_msg').html(errorsHtml);
+            //{{-- 画面上部へ --}}
+            $("html,body").animate({
+                scrollTop: 0
+            }, "300");
+            //{{-- ボタン有効 --}}
+            $('#project_info_change_button').prop("disabled", false);
+            //{{-- マウスカーソルを通常に --}}                    
+            document.body.style.cursor = 'auto';
+
+         });
+
+    });
+
+
+    
 
     // 「保存」ボタンがクリックされたら
     $('#save_button').click(function () {
@@ -879,9 +1119,9 @@ $(function(){
 
             });
 
-    });
+        });
 
-});
+    });
 
 </script>
 @endsection

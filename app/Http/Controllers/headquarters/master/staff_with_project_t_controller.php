@@ -88,7 +88,7 @@ class staff_with_project_t_controller extends Controller
 
         
         
-        return view('headquarters/screen/master/staff/staff_with_project', compact('project_list','staff_with_project_list','staff_info'));
+        return view('headquarters/screen/master/staff/staff_with_project', compact('project_list','staff_with_project_list','staff_info','project_list'));
     }
 
 
@@ -274,8 +274,8 @@ class staff_with_project_t_controller extends Controller
     function login_info_update(request $request)
     {
         
-        $id = intval($request->logininfo_password_id);
-        $staff_id = intval($request->logininfo_staff_id);
+        $id = intval($request->login_info_password_id);
+        $staff_id = intval($request->login_info_staff_id);
         $login_id = $request->login_id;
         //画面で入力した平文パスワードを暗号化
         $password = common::encryption($request->password);
