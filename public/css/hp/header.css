@@ -1,0 +1,165 @@
+
+/* 
+header
+参考URL
+https://hakenblog.com/hamburger-menu/
+ */
+ header {
+  height: 60px;
+  width: 100%;
+  padding: 0px 15px;
+  /* background-color: rgba(34, 49, 52, 0.9); */
+  background-color:rgb(243, 253, 215, 0.8);    
+  /* background-color: rgba(233, 247, 112, 0.9); */
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  display: flex;
+}
+
+header .gakupro_logo {
+  height: 59px;    
+}
+
+
+
+header nav {
+  margin: 0 0 0 auto;
+}
+
+header ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+header a {
+  color: #270e04;
+  text-decoration: none;
+  font-weight: 600;
+  display: block;
+  line-height: 60px;
+  padding: 0 10px;
+}
+
+header .sm {
+  display: none;
+}
+
+
+/**********************************　
+以下、ハンバーガーメニューの設定　
+************************************/
+
+@media (max-width: 768px) {
+
+  header .pc {
+    display: none;
+  }   
+    
+
+  header #a {
+      background-color: transparent;
+      position: relative;
+      cursor: pointer;
+      margin: 0 60px 0 0;
+      height: 60px;
+      width: 60px;
+    }
+
+
+  header #hamburger {
+    background-color: transparent;
+    /* old */
+    /* position: relative; */
+    /* margin: 0 0 0 auto; */
+
+    /* new */      
+    position: absolute;
+    right: 0;
+
+
+    cursor: pointer;
+    
+    height: 60px;
+    width: 60px;
+  }
+
+  header .icon span {
+    position: absolute;
+    left: 15px;
+    width: 30px;
+    height: 4px;      
+    background-color:#270e04;
+    /* background-color: white; */
+    border-radius: 8px;
+    transition: ease 0.75s;
+  }
+
+  header .icon span:nth-of-type(1) {
+    top: 16px;
+  }
+  header .icon span:nth-of-type(2) {
+    top: 28px;
+  }
+  header .icon span:nth-of-type(3) {
+    bottom: 16px;
+  }
+
+  header .close span:nth-of-type(1) {
+    transform: rotate(45deg);
+    top: 28px;
+  }
+
+  header .close span:nth-of-type(2) {
+    opacity: 0;
+  }
+
+  header .close span:nth-of-type(3) {
+      transform: rotate(-45deg);
+      top: 28px;
+  }
+
+  
+  header .sm {
+      top: 60px;
+      left: 0px;
+      position: absolute;
+      z-index: 10;
+      width: 100%;
+      background-color: rgba(34, 49, 52, 0.9);
+  }
+
+  header ul {
+    flex-direction: column;
+  }
+
+  header li {
+      border-top: solid 0.5px rgba(255, 255, 255, 0.6);
+  }
+
+  header a {
+    /* text-align: center;  */      
+    text-align: left; 
+    margin-left: 20%;
+    font-weight: 400;
+    color: azure;
+    /* border-top: solid 0.5px rgba(255, 255, 255, 0.6); */
+  }
+
+  header .navi_logo {
+      padding: 2px;
+      height: 58px;
+      width: 58px;
+      
+  }   
+
+  
+  
+}
+
+
+#empty_space{
+  height: 60px;
+}

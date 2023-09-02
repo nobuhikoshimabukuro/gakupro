@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">  
-    <link href="{{ asset('css/hp/common.css') }}" rel="stylesheet">          
+    <link href="{{ asset('css/hp/common.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/hp/header.css') }}" rel="stylesheet">          
     
     <link href="{{ asset('css/hp/style.css') }}" rel="stylesheet">
 
@@ -18,45 +19,176 @@
     <title>@yield('title')</title>
 </head>
 
+
+
+<style>
+
+
+    .pagetop {
+        display: none;/* 非表示 */
+        height: 50px;
+        width: 50px;
+        position: fixed;
+        right: 1vh;
+        bottom: 1vh;
+        background-color:rgb(89,240, 250) ;
+        opacity: 0.6;
+        /* border: solid 1px #000;
+        border-radius: 50%; */
+        /* display: flex; */
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+    }
+    
+    
+    /* activeクラスが付与されたとき */
+    .pagetop.active {
+        display: flex;
+    }
+    
+    
+    .pagetop__arrow {
+        height: 10px;
+        width: 10px;
+        border-top: 3px solid #f5f7f9;
+        border-right: 3px solid#f5f7f9;
+        transform: translateY(20%) rotate(-45deg);
+    }
+    </style>
+
+
 <body>
 
-    {{-- <nav id="header" class="navbar navbar-expand-md shadow-sm small">
 
-        <div class="container" style="background-color: transparent">
+    {{-- PC --}}
+    <div class="d-none d-md-block w-100">
 
-            <div class="dropdown">
+        <!--ヘッダー-->
+        <header class="m-0 p-0">
 
-                <!-- 切替ボタンの設定 -->
-                <a class="btn dropdown-toggle d-none d-md-block"role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    メニュー
-                </a>
-                <a class="btn d-block d-sm-block d-md-none" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    メニュー
-                </a>
-                
-                <!-- ドロップメニューの設定 -->
-                <!-- クリックしても閉じないようにkeep-open-on-click付与 -->                
-                <div class="dropdown-menu keep-open-on-click" aria-labelledby="dropdownMenuLink">
-
-                    <div class="dropdown-submenu">
-                        <label for="target1">未実装</label>
-                        <input type="checkbox" id="target1" class="switch1" />
-                        <!-- ↓↓最初隠したいコンテンツ↓↓ -->
-                        <div class="content">
-                            <a class="nav-link dropdown-item" href="">未実装</a>
-                            <a class="nav-link dropdown-item" href="">未実装</a>                          
-                        </div>
-                        <!-- ↑↑最初隠したいコンテンツ ↑↑-->
-                    </div>                    
-
-                </div>
-
-            </div>            
             
-      
+            <!--▽▽ヘッダーロゴ▽▽-->
+                <div class="">
+                    <a class="" href="{{ route('hp.index') }}">
+                        <img id="" src="{{ asset('img/hp/ssp_logo.png') }}" class="gakupro_logo" alt="gakupro_logo">
+                    </a>
+                </div>
+            
+            <!--△△ヘッダーロゴ△△-->
 
-        </div>
-    </nav> --}}
+
+            
+                <h3 class="m-0 p-0" style="line-height: 60px;">
+                    学生応援プロジェクト
+                </h3>              
+    
+
+
+            <!--▽▽ヘッダーリスト▽▽-->
+            
+                <nav class="pc">  <!--pcクラスを追記-->
+                    <ul>
+                        <li>
+                            <a href="{{ route('headquarters.login') }}">
+                                管理者
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="">
+                                ページ1
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="">
+                                ページ2
+                            </a>
+                        </li>
+    
+                          
+
+
+                    </ul>
+                </nav>
+            
+            <!--△△ヘッダーリスト△△-->
+            
+        </header>
+
+    </div>
+
+
+    {{-- スマホ --}}
+    <div class="d-block d-md-none w-100">
+
+        <header class="p-0 m-0">
+
+             <!--▽▽ヘッダーロゴ▽▽-->
+             <div class="">
+                <a class="p-0 m-0" href="{{ route('hp.index') }}">                    
+                    <img id="" src="{{ asset('img/hp/ssp_logo.png') }}" class="gakupro_logo" alt="gakupro_logo">
+                </a>
+            </div>
+            <!--△△ヘッダーロゴ△△-->
+    
+         
+            
+            <!--▽▽ハンバーガーメニュー▽▽-->
+            <div id="hamburger">                       
+                <div class="icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <!--△△ハンバーガーメニュー△△-->
+    
+    
+            <!--▽▽ハンバーガーメニューのリスト▽▽-->
+            <nav class="sm">
+                <ul>
+                    <li>
+                        <a href="{{ route('headquarters.login') }}">
+                            <img id="" src="{{ asset('img/hp/ssp_logo.png') }}" class="navi_logo" alt="">
+                            管理者
+                        </a>
+                    </li>                    
+
+                    <li>
+                        <a href="{{ route('headquarters.login') }}">
+                            <img id="" src="{{ asset('img/hp/1.png') }}" class="navi_logo" alt="">
+                            ページ1
+                        </a>
+                    </li>                    
+
+                </ul>
+            </nav>
+            <!--△△ハンバーガーメニューのリスト△△-->
+
+        </header>
+        
+    </div>
+
+        
+    
+
+    <div id="empty_space" class="row p-0 m-0">
+
+      
+        
+    </div>
+
+
+    
+
+
+
+    <!-- ページトップへ戻るボタン -->
+    {{-- <div id="page_top"><a href="#"></a></div> --}}
+    <a class="pagetop" href="#"><div class="pagetop__arrow"></div></a>
+    {{-- </div> --}}
 
 @yield('content')
 
@@ -70,6 +202,26 @@
 <script src="{{ asset('js/hp/main.js') }}"></script>
 <script src="{{ asset('js/hp/slick.js') }}"></script>
 
+
+<!--▽▽jQuery▽▽-->
+<script>
+
+
+    $('#hamburger').on('click', function(){
+      $('.icon').toggleClass('close');
+      $('.sm').slideToggle();
+    });
+  
+    $(window).on('scroll', function() {//スクロールしたとき、
+      if ($(this).scrollTop() > 100) { //スクロール量が500px以上なら、
+          $('.pagetop').addClass('active');    //activeクラスを付与し、
+      } else {                         //500px未満なら、
+          $('.pagetop').removeClass('active'); //activeクラスを外します。
+      }
+    });
+  
+  </script>
+  <!--△△jQuery△△-->
 
 @yield('pagejs')
 
