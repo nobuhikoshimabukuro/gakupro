@@ -86,7 +86,7 @@
                 {{-- PCは二分割、モバイルは縦に分割 --}}
                 {{-- 写真エリア --}}
                 <div id="" class="col-12 col-md-5 m-0 p-0 job-image-area item-center">                    
-                    <img src="{{ asset('storage/job_image/1.jpg')}}" class="job-image" alt="">       
+                    <img src="{{ asset('storage/job_image/1/1.png')}}" class="job-image" alt="">       
                 </div>
 
                 {{-- 求人情報エリア --}}
