@@ -39,6 +39,8 @@ class hp_controller extends Controller
 
     function message_to_students(Request $request)
     {        
+
+        Log::info("info ログ!");
         Log::channel('emergency_log')->info("emergency_log");
         return view('hp/screen/message_to_students');
     }
