@@ -1,14 +1,18 @@
+@php 
+    $VERSION = "?" . env('VERSION');
+@endphp
+
 <!doctype html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="{{ asset('css/all.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet">  
-    <link href="{{ asset('css/hp/common.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/hp/header.css') }}" rel="stylesheet">          
-    
-    <link href="{{ asset('css/hp/style.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('css/all.css') . $VERSION}}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.css') . $VERSION}}" rel="stylesheet">
+    <link href="{{ asset('css/hp/common.css') . $VERSION}}" rel="stylesheet">
+    <link href="{{ asset('css/hp/header.css') . $VERSION}}" rel="stylesheet">
+    <link href="{{ asset('css/hp/style.css') . $VERSION}}" rel="stylesheet">    
 
     <link rel="shortcut icon" href="{{ asset('img/logo/ssp_logo.ico')}}" type="image/x-icon">
     <link rel="apple-touch-icon" href="{{ asset('img/logo/ssp_logo.png')}}" sizes="180x180">
@@ -96,14 +100,20 @@
                         </li>
 
                         <li>
-                            <a href="">
-                                ページ1
+                            <a class="" href="{{ route('hp.job_information') }}">
+                                求人情報
                             </a>
                         </li>
 
                         <li>
-                            <a href="">
-                                ページ2
+                            <a class="" href="{{ route('hp.message_to_employers') }}">
+                                雇用者様へ
+                            </a>
+                        </li>
+    
+                        <li>
+                            <a class="" href="{{ route('hp.message_to_students') }}">
+                                学生の皆様へ
                             </a>
                         </li>
     
@@ -157,11 +167,24 @@
                     </li>                    
 
                     <li>
-                        <a href="{{ route('headquarters.login') }}">
-                            <img id="" src="{{ asset('img/hp/1.png') }}" class="navi_logo" alt="">
-                            ページ1
+                        <a class="" href="{{ route('hp.job_information') }}">
+                            求人情報
                         </a>
-                    </li>                    
+                    </li>
+                    
+                    <li>
+                        <a class="" href="{{ route('hp.message_to_employers') }}">
+                            雇用者様へ
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="" href="{{ route('hp.message_to_students') }}">
+                            学生の皆様へ
+                        </a>
+                    </li>
+                 
+
 
                 </ul>
             </nav>

@@ -32,4 +32,19 @@ class hp_controller extends Controller
         return view('hp/screen/index');
     }
 
+    function job_information(Request $request)
+    {        
+        return view('hp/screen/job_information');
+    }
+
+    function message_to_students(Request $request)
+    {        
+        return view('hp/screen/message_to_students');
+    }
+
+    function message_to_employers(Request $request)
+    {        
+        return view('hp/screen/message_to_employers');
+    }
+
 }
