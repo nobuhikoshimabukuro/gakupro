@@ -18,7 +18,6 @@
         padding: 1vw;
         /* height: 60vh; */
         /* background-color: rgb(235, 235, 245); */
-
         
         border:1px solid #e1e1e1;
         border-bottom: 1px solid #e1e1e1;

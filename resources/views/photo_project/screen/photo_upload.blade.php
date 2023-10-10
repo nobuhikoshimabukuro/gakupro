@@ -39,7 +39,7 @@ body{
 
 }
 
-.UploadButtonArea{
+.upload_button_area{
     margin-top: 1vh;
     margin-bottom: 1vh;
 }
@@ -64,7 +64,7 @@ body{
 
             <div class="ajax-msg"></div>
 
-            <form action="{{ route('photo_project.photo_upload_execution') }}" id='UploadForm'method="post" enctype="multipart/form-data">
+            <form action="{{ route('photo_project.photo_upload_execution') }}" id='upload_form'method="post" enctype="multipart/form-data">
                 @csrf
 
 
@@ -93,10 +93,10 @@ body{
                             <input type="file" id='file_input'name="file[]" lang="ja" accept="" multiple>
                         </div>
 
-                        <div class="UploadButtonArea d-none">
+                        <div class="upload_button_area d-none">
                             <div align="left">                        
                                 <button type="button" class="ResetButton btn btn-secondary">リセット <i class="fas fa-minus-square"></i></button>
-                                <button type="button" class="UploadButton btn btn-secondary">アップロード <i class="fas fa-cloud-upload-alt"></i></button>
+                                <button type="button" class="upload_button btn btn-secondary">アップロード <i class="fas fa-cloud-upload-alt"></i></button>
                             </div>
                         </div>
 
@@ -106,10 +106,10 @@ body{
                         <div id="PreviewArea" class="row">
                         </div>
                             
-                        <div class="UploadButtonArea d-none">
+                        <div class="upload_button_area d-none">
                             <div align="right">                        
                                 <button type="button" class="ResetButton btn btn-secondary">リセット <i class="fas fa-minus-square"></i></button>
-                                <button type="button" class="UploadButton btn btn-secondary">アップロード <i class="fas fa-cloud-upload-alt"></i></button>
+                                <button type="button" class="upload_button btn btn-secondary">アップロード <i class="fas fa-cloud-upload-alt"></i></button>
                             </div>
                         </div>
 
@@ -238,7 +238,7 @@ $(function(){
 		for (var i = 0; i < files.length; i++) {
 
 			PreviewFile(this.files[i],i);
-            $('.UploadButtonArea').removeClass('d-none');
+            $('.upload_button_area').removeClass('d-none');
 		}
 
     });    
@@ -260,7 +260,7 @@ $(function(){
 
 			PreviewFile(files[i],i);
           
-            $('.UploadButtonArea').removeClass('d-none');
+            $('.upload_button_area').removeClass('d-none');
 		}
         
 	});
@@ -314,7 +314,7 @@ $(function(){
 
         // プレビュー内で表示している画像を一旦全削除
         $("#PreviewArea").empty();
-		$('.UploadButtonArea').addClass('d-none');
+		$('.upload_button_area').addClass('d-none');
 		$('.ResetButton').blur();
         
         
@@ -328,17 +328,17 @@ $(function(){
     })
 
 
-    // UploadButton押下時
-    $('.UploadButton').on("click", function () {
+    // upload_button押下時
+    $('.upload_button').on("click", function () {
 
        
         phpProcessingStart();
 
         UploaderStart();
 
-        let f = $('#UploadForm');
+        let f = $('#upload_form');
 
-        var formData = new FormData($('#UploadForm').get(0));
+        var formData = new FormData($('#upload_form').get(0));
 
         $.ajax({		
             url: f.prop('action'), //送信先
@@ -405,7 +405,7 @@ $(function(){
                     //マウスカーソルを通常に
                     document.body.style.cursor = 'auto';
                     //{{-- ボタン有効 --}}
-                    $('.UploadButton').prop("disabled", false);
+                    $('.upload_button').prop("disabled", false);
 
                     //{{-- 画面上部へ --}}
                     $("html,body").animate({

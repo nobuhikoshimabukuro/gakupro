@@ -33,6 +33,8 @@ Route::get('job_information', [hp_controller::class, 'job_information'])->name('
 Route::get('message_to_employers', [hp_controller::class, 'message_to_employers'])->name('hp.message_to_employers');
 Route::get('message_to_students', [hp_controller::class, 'message_to_students'])->name('hp.message_to_students');
 
+Route::post('pseudo_job_information', [hp_controller::class, 'pseudo_job_information'])->name('hp.pseudo_job_information');
+
 
 
 //本部  End
