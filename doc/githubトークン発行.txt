@@ -1,0 +1,47 @@
+GitHubがパスワード認証を廃止するとのことで、git clone等でアクセストークンが必要みたいなので、その手順を記載します。
+
+手順:
+
+- GitHubにて右上のプロフィールアイコンをクリック、「Settings」を選択
+- プロフィールの左側、サイドメニューの一番下「Developer settings」を選択
+- サイドメニューから「Personal access tokens」を選択
+- 「Generate new token」を選択
+- トークン作成ページに遷移するので、必要事項を入力します。
+　・Noteはトークンの名前になります。
+　・「Select options」の項目は「repo」は必ずチェックを入れるように。
+　　これにチェックがついていないとクローン等でエラーが出ます。
+　・「Expiration」はトークンの有効期限です。選択すると警告が出ますが「NoExpiration（有効期限なし）」も選択できます。
+
+- 入力が完了すると「Generate token」を押下。
+- トークンが発行されるので、発行されたトークンをコピペ。
+　この際の注意点ですが、トークンは発行されたときにしか表示されません。テキストに張り付けるなり保存しておいてください。
+
+■Git clone時
+「https：//github.com～」の「https：//」と「github」の間に「発行したトークン+@」を挿入してください。
+例）https：//【発行したトークン】@github.com/〇〇〇/△△△.git
+
+
+■参考サイト
+https://howpon.com/5308
+
+---------------------------
+■GitHub
+https://github.com/fsi-company/nms_web
+
+
+
+
+
+トークン
+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
+
+
+
+
+
+https://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@github.com/nobuhikoshimabukuro/gakupro.git
+
+https://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@github.com/nobuhikoshimabukuro/gakupro.git
+
+
+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
