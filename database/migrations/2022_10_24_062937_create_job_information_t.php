@@ -27,7 +27,7 @@ return new class extends Migration
 
             $table
                 ->integer('employer_id')
-                ->comment('会社ID');
+                ->comment('雇用者ID');
 
             $table
                 ->integer('job_id')
@@ -37,6 +37,31 @@ return new class extends Migration
                 ->string('title', 200)
                 ->nullable()
                 ->comment('求人情報名目');
+
+            $table
+                ->string('work_location', 200)
+                ->nullable()
+                ->comment('勤務地');
+
+            $table
+                ->string('employment_status', 200)
+                ->nullable()
+                ->comment('雇用形態');
+
+            $table
+                ->string('working_time', 200)
+                ->nullable()
+                ->comment('就労時間');
+
+            $table
+                ->string('salary', 200)
+                ->nullable()
+                ->comment('給与');
+
+            $table
+                ->string('holiday', 200)
+                ->nullable()
+                ->comment('休日');
 
             $table
                 ->string('manager_name', 200)

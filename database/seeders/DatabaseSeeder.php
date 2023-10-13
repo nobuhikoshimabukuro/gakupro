@@ -324,6 +324,30 @@ class DatabaseSeeder extends Seeder
 
         ]);   
 
+        DB::table('job_information_t')->insert([
+            
+            [   
+                'id' => '1',             
+                'employer_id' => '1',
+                'job_id' => '1',
+                'title' => 'キッチンスタッフ',
+                'work_location' => '沖縄県浦添市',
+                'employment_status' => 'アルバイト',
+                'working_time' => '17：00～23：00',
+                'salary' => '時給1000円',
+                'holiday' => '週休2日、相談してください。',
+                'manager_name' => '島袋',
+                'tel' => '',
+                'fax' => '',
+                'hp_url' => '',
+                'mailaddress' => '',
+                'remarks' => '調理技術向上を目指しながら働いてみませんか？',
+                'created_by' => '9999',
+                
+            ],          
+
+        ]); 
+
 
 
 

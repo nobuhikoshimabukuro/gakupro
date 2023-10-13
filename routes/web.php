@@ -26,9 +26,10 @@ use App\Http\Controllers\member\member_controller;
 
 
 
-//本部  Start
+//website  Start
 
 Route::get('/', [hp_controller::class, 'index'])->name('hp.index');
+Route::get('job_information_detail', [hp_controller::class, 'job_information_detail'])->name('hp.job_information_detail');
 Route::get('job_information', [hp_controller::class, 'job_information'])->name('hp.job_information');
 Route::get('message_to_employers', [hp_controller::class, 'message_to_employers'])->name('hp.message_to_employers');
 Route::get('message_to_students', [hp_controller::class, 'message_to_students'])->name('hp.message_to_students');
@@ -37,7 +38,7 @@ Route::post('pseudo_job_information', [hp_controller::class, 'pseudo_job_informa
 
 
 
-//本部  End
+//website  End
 
 
 

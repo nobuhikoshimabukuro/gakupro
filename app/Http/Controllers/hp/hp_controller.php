@@ -6,23 +6,14 @@ use App\Http\Controllers\Controller;
 use Exception;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
-
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
-
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Original\common;
 
-use App\Models\photoget_t_model;
-
-use Illuminate\Http\Request;
-
-use Intervention\Image\Facades\Image;
-
-use Illuminate\Support\Facades\DB;
-
-use STS\ZipStream\ZipStreamFacade AS Zip;
+use App\Models\job_information_t_model;
 
 class hp_controller extends Controller
 {
@@ -34,7 +25,36 @@ class hp_controller extends Controller
 
     function job_information(Request $request)
     {        
-        return view('hp/screen/job_information');
+        
+
+
+         //請求先情報取得
+         $job_information = job_information_t_model::select(
+            'job_information_t.id as id',
+            'job_information_t.employer_id as employer_id',
+            'employer_m.employer_name as employer_name',
+            'job_information_t.job_id as job_id',
+            'job_information_t.title as title',
+            'job_information_t.work_location as work_location',
+            'job_information_t.working_time as working_time',
+            'job_information_t.employment_status as employment_status',
+            'job_information_t.salary as salary',
+            'job_information_t.holiday as holiday'
+        )
+        ->leftJoin('employer_m', 'job_information_t.employer_id', '=', 'employer_m.employer_id')
+        ->get()
+        ;
+
+
+
+        // return view('hp/screen/job_information', compact('job_information_t_model' , 'display_year_array'));
+        return view('hp/screen/job_information', compact('job_information'));        
+    }
+
+    function job_information_detail(Request $request)
+    {        
+        $job_number = $request->job_number;
+        return view('hp/screen/job_information_detail');
     }
 
     function message_to_students(Request $request)

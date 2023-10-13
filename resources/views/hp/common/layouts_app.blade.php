@@ -59,7 +59,21 @@
         border-right: 3px solid#f5f7f9;
         transform: translateY(20%) rotate(-45deg);
     }
-    </style>
+
+    
+.warning-statement{ 
+    color: red;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index:10000;
+    font-size: 3em;
+    font-weight: bold;
+    pointer-events:none;    
+    opacity: 0.6;
+}
+
+</style>
 
 
 <body>
@@ -205,6 +219,9 @@
 
 
     
+    <div class="warning-statement">
+        リリース前:Web開発中
+    </div>  
 
 
 
