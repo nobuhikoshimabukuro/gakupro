@@ -25,6 +25,8 @@ use App\Rules\NumbersWithCommasValidation;
 //※引数を第一引数のみにすると、第一引数の数値と値の桁数の一致確認処理を行います
 use App\Rules\WordCountValidation;
 
+use App\Rules\PostalCodeValidation;
+
 use App\Models\employer_m_model;
 
 
@@ -51,8 +53,8 @@ class employer_m_request extends FormRequest
         return [
 
             'employer_name' => [ 'required',new WordCountValidation(1,150)],            
-            'employer_name_kana' => ['required',new KatakanaValidation(2) ,new WordCountValidation(1,150)],
-            'post_code' => ['nullable',new WordCountValidation(0,8)],
+            'employer_name_kana' => ['required',new KatakanaValidation(2) ,new WordCountValidation(1,150)],                 
+            'post_code' =>  [ 'nullable',new PostalCodeValidation()],   
             'address1' => ['nullable',new WordCountValidation(0,150)],
             'address2' => ['nullable',new WordCountValidation(0,150)],
             'tel' => ['required',new WordCountValidation(0,20)],

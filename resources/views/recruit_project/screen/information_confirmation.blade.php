@@ -129,9 +129,9 @@ table td{
 
     </div>   
       
-    <div id="ButtonArea" class="row m-0 p-0">        
-      <div class="col-12 m-0 p-0" align="right">              
-        <button type="button" id="" class="btn btn-primary" onclick="location.href='{{ route('recruit_project.information_register') }}'">雇用者情報編集画面　<i class="fas fa-user-edit"></i></button>
+    <div id="button_area" class="row m-0 p-0">        
+      <div class="col-12 p-0 mt-1" align="right">              
+        <button type="button" id="" class="btn btn-primary" onclick="location.href='{{ route('recruit_project.information_register') }}'">編集　<i class="fas fa-user-edit"></i></button>
       </div>        
     </div>   
     

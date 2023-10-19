@@ -161,8 +161,8 @@ $(function(){
 
     window.addEventListener("beforeunload", function(e) {
 
-        var LoginFlg = $('#LoginFlg').val();
-        if(LoginFlg == 0){
+        var login_flg = $('#login_flg').val();
+        if(login_flg == 0){
             var confirmationMessage = "入力内容を破棄します。";
             e.returnValue = confirmationMessage;
             return confirmationMessage;

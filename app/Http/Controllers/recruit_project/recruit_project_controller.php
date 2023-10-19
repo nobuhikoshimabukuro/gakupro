@@ -254,9 +254,10 @@ class recruit_project_controller extends Controller
         //mailaddress 取得時は新規登録の雇用者様
         //mailaddress null時は既存の雇用者様
         if(!is_null($mailaddress)){
-            $LoginFlg = 0;
+            $login_flg = 0;
         }else{
 
+            $login_flg = 1;
             if (!$this->LoginStatusCheck()) {
                 //セッション切れ
                 session()->flash('employer_loginerror', 'セッション切れ');            
@@ -269,12 +270,12 @@ class recruit_project_controller extends Controller
             where('employer_id', '=', $employer_id)          
             ->first();
 
-            $LoginFlg = 1;
+            $login_flg = 1;
         }
 
         $employer_division_list = create_list::employer_division_list();   
 
-        return view('recruit_project/screen/information_register', compact('mailaddress','employer_info','LoginFlg','employer_division_list'));   
+        return view('recruit_project/screen/information_register', compact('mailaddress','employer_info','login_flg','employer_division_list'));   
 
     }    
   
@@ -288,7 +289,7 @@ class recruit_project_controller extends Controller
 
             $employer_name = $request->employer_name;
             $employer_name_kana = $request->employer_name_kana;
-            $post_code = $request->post_code;
+            $post_code = $request->post_code;            
             $tel = $request->tel;
             $fax = $request->fax;            
             $mailaddress = $request->mailaddress;
@@ -321,6 +322,7 @@ class recruit_project_controller extends Controller
                 $employer_id = $employer_id + 1;
                 
             }
+          
 
             employer_m_model::create(
                 [

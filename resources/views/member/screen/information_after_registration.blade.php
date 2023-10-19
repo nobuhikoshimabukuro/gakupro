@@ -7,7 +7,7 @@
 
 <style>
     
-    #ApprovaCheckBox {
+    #approva_check_box {
         transform: scale(2);	
         margin: 15px;
     }
@@ -49,7 +49,7 @@
         </h2>
 
         <div id="" class="">    
-            ログイン情報を控えました<input type="checkbox" id="ApprovaCheckBox" name="">
+            ログイン情報を控えました<input type="checkbox" id="approva_check_box" name="">
         </div>
 
         
@@ -95,7 +95,7 @@ $(function(){
     });
 
     //承認チェックボックスの変更時
-    $('#ApprovaCheckBox').change(function(){
+    $('#approva_check_box').change(function(){
 
         $("#ScreenTransition").removeClass("d-none");
 

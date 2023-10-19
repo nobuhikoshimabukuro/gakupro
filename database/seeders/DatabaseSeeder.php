@@ -298,7 +298,7 @@ class DatabaseSeeder extends Seeder
                 'employer_division' => '3',
                 'employer_name' => '遊遊craft',
                 'employer_name_kana' => 'ユウユウクラフト',
-                'post_code' => '9040000',
+                'post_code' => '904-0000',
                 'address1' => '沖縄県西原町1111',
                 'address2' => 'ユウユウビル　102',
                 'tel' => '098-000-0000',

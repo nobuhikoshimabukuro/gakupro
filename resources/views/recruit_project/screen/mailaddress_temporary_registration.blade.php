@@ -165,8 +165,6 @@ $(function(){
 
         let f = $('#send_mail_form');
 
-        phpProcessingStart();
-
         $.ajax({
             url: f.prop('action'), // 送信先
             type: f.prop('method'),
@@ -182,8 +180,6 @@ $(function(){
                 var ResultArray = data.ResultArray;
 
                 var Result = ResultArray["Result"];
-
-                phpProcessingEnd();
 
                 if(Result=='success'){
                     
