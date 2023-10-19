@@ -54,6 +54,7 @@ button {
   box-shadow: none;
   outline: none;
   border: none;
+  font-weight: 600;
 }
 
 
@@ -66,7 +67,7 @@ select
   outline: none;
   border: none;
 
-  background: #e9f5fb;
+  background: #ebf4f8;
   /* display: block; */
   display: inline;
   font-size: 16px;
@@ -74,13 +75,14 @@ select
   transition: 0.8s;
   margin: 0;
   border-radius: 6px;
+  font-weight: 600;
 }
 
 
 input[type="text"]
 ,input[type="tel"]
 {
-  background: #e9f5fb;
+    background: #ebf4f8;
   /* display: block; */
   display: inline;
   font-size: 16px;
@@ -100,9 +102,11 @@ input[type="text"]:placeholder-shown
 
 input[type="text"]:focus
 ,input[type="tel"]:focus
+,select:focus
 {
-  background: #e9f5fb;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  /* background: #e9f5fb; */
+  background: #f7f7f6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 
@@ -193,6 +197,10 @@ input::placeholder{
     border-radius: 7px; /* ボックスの四つ角を丸くする */
     padding: 0 3px 0 3px;
     
+}
+
+.error-border{
+    border: solid red ;
 }
 
 .hyphen{
@@ -550,8 +558,7 @@ $(function(){
     // address_search_button押下イベント
 	$('#address_search_button').on('click', function() {
 
-        $('.ajax-msg').html("");
-        $("[name='post_code']").removeClass('is-invalid');
+        $('.ajax-msg').html("");        
 
         var post_code1 = $('#post_code1').val();
         var post_code1_judge = true;
@@ -569,7 +576,7 @@ $(function(){
 		}
 
 
-        if(post_code1_judge == false || !post_code2_judge == false){
+        if(post_code1_judge == false || post_code2_judge == false){
 
             let errorsHtml = '<div class="alert alert-danger text-start">';
 			errorsHtml += '<li>郵便番号は数字で入力してください</li>';
@@ -687,9 +694,10 @@ $(function(){
 
 			} else {
 			//送信失敗、または他のエラー時
-				var ErrorMessage = ReturnValue.message;
+
+                var ErrorMessage = '住所情報所得なし';
 				//プレースホルダーを設定する
-				$('input[name="Addr1"]').attr('placeholder', ErrorMessage);
+				$('input[name="address1"]').attr('placeholder', ErrorMessage);
 
 				//マウスカーソルを通常に
 				document.body.style.cursor = 'auto';
@@ -818,10 +826,10 @@ $(function(){
 
                         if(key == "post_code"){
 
-                            $("[name='post_code1']").addClass('is-invalid');
-                            $("[name='post_code2']").addClass('is-invalid');                            
+                            $("[name='post_code1']").addClass('error-border');
+                            $("[name='post_code2']").addClass('error-border');                            
                         }else{
-                            $("[name='" + key + "']").addClass('is-invalid');                            
+                            $("[name='" + key + "']").addClass('error-border');                            
                         }
                         
                     });

@@ -55,12 +55,13 @@ table td{
 <div id="main" class="mt-3 text-center container">
     
  
+  <div class="row p-0 d-flex justify-content-center">
 
-    <div id="" class="row m-0 p-0">
+    <div class="col-11 col-md-9 mt-3">    
 
       @include('recruit_project.common.alert')
 
-      <table>
+      <table class="">
         
         <tr>
           <th>雇用者名</th>
@@ -127,14 +128,17 @@ table td{
         
       </table>
 
+      <div id="button_area" class="row m-0 p-0">        
+        <div class="col-12 p-0 mt-1" align="right">              
+          <button type="button" id="" class="btn btn-primary" onclick="location.href='{{ route('recruit_project.information_register') }}'">編集　<i class="fas fa-user-edit"></i></button>
+        </div>        
+      </div>   
     </div>   
       
-    <div id="button_area" class="row m-0 p-0">        
-      <div class="col-12 p-0 mt-1" align="right">              
-        <button type="button" id="" class="btn btn-primary" onclick="location.href='{{ route('recruit_project.information_register') }}'">編集　<i class="fas fa-user-edit"></i></button>
-      </div>        
-    </div>   
-    
+   
+
+  </div>
+
 </div>
 @endsection
 

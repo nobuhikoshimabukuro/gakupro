@@ -10,8 +10,7 @@
 
     <link href="{{ asset('css/all.css') . $VERSION}}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.css') . $VERSION}}" rel="stylesheet">
-    <link href="{{ asset('css/hp/common.css') . $VERSION}}" rel="stylesheet">
-    <link href="{{ asset('css/hp/header.css') . $VERSION}}" rel="stylesheet">
+    <link href="{{ asset('css/hp/common.css') . $VERSION}}" rel="stylesheet">    
     <link href="{{ asset('css/hp/style.css') . $VERSION}}" rel="stylesheet">    
 
     <link rel="shortcut icon" href="{{ asset('img/logo/ssp_logo.ico')}}" type="image/x-icon">

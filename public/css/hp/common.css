@@ -1,320 +1,178 @@
-.dropdown-submenu {
-  margin: 0;
-  padding: 0;
-}
-
-.dropdown-submenu label {
-  display: block;
-  padding : 8px;
-  color: rgb(41, 20, 20);
-  font-weight: bold;  
-  cursor: pointer;
-}
-
-.dropdown-submenu input[type="checkbox"] {
-  display: none;
-}
-
-.dropdown-submenu .content {
-  height: 0;
-  padding: 0;
-  overflow: hidden;    
-}
-
-.switch1:checked + .content {
-  height: auto;  
-}
-.switch2:checked + .content {
-  height: auto;  
-}
-.switch3:checked + .content {
-  height: auto;  
-}
-
-
-
-
-#header{
-  background-image:
-    radial-gradient(#0ff, transparent),
-    radial-gradient(rgb(65, 38, 216), transparent);
-  background-attachment: fixed;
-  min-height: 5vh;
+body{
+  background-color: #dddee721;
 }
 
 #main{
 
-  background-color: #dddee721;
+  background-color:  #fff;
   min-height: 86vh;
 }
 
-#footer {
-  color: #fff;
-  font-size: 15px;
-  background: linear-gradient(45deg, rgb(145,236,255) 0%, rgb(167,205,250) 100%), center center no-repeat;
-  background-size: cover;  
-  padding: 5px;
-  width: 100%;;
+/* header  Start */
 
-  /*絶対位置*/
-  /* position: absolute; */
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-  /* bottom: 0; */
-  margin-top: 1vh;
-  min-height: 5vh;
-}
-
-/* 操作不可能 */
-.impossible {
-	pointer-events: none;
-	opacity: 0.9;
-}
-
-
-button{  
-  border: none;  /* 枠線を消す */
-  outline: none; /* クリックしたときに表示される枠線を消す */
-  background: transparent; /* 背景の灰色を消す */
-}
-
-.original-label{
-    padding: 0;
-    margin: 2% 0 0 1%;    
-    text-align: left;
-    font-weight: 600;
-}
-
-.new_addition_button{
-  text-align: right;  
-  margin-bottom: 5px;
-}
-/* マスタ画面のtable設定 Start */
-
-.table_wrap {
-  overflow-x: scroll;
-}
-
-.data_info_table{  
+/* 
+header
+参考URL
+https://hakenblog.com/hamburger-menu/
+ */
+ header {
+  height: 60px;
   width: 100%;
-
-  border-collapse:separate;
-  border-spacing: 0;    
-  white-space: nowrap;
-
+  padding: 0px 15px;
+  /* background-color: rgba(34, 49, 52, 0.9); */
+  background-color:rgb(243, 253, 215, 0.8);    
+  /* background-color: rgba(233, 247, 112, 0.9); */
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  display: flex;
 }
 
-.data_info_table th:first-child{
-  border-radius: 5px 0 0 0;
-}
-
-.data_info_table th:last-child{
-  border-radius: 0 5px 0 0;
-  border-right: 1px solid #3c6690;
-}
-
-.data_info_table th{
-  text-align: center;
-  color:white;
-  background: linear-gradient(#829ebc,#225588);
-  border-left: 1px solid #3c6690;
-  border-top: 1px solid #3c6690;
-  border-bottom: 1px solid #3c6690;
-  box-shadow: 0px 1px 1px rgba(255,255,255,0.3) inset;
-  /* min-width: 80px; */
-  padding: 5px 0;
-}
-
-.data_info_table td{
-  text-align: center;
-  border-left: 1px solid #a8b7c5;
-  border-bottom: 1px solid #a8b7c5;
-  border-top:none;
-  box-shadow: 0px -3px 5px 1px #eee inset;  
-  /* min-width: 80px; */
-  padding: 5px 10px;
-}
-
-.data_info_table td:last-child{
-  border-right: 1px solid #a8b7c5;
-}
-
-.data_info_table tr:last-child td:first-child {
-  border-radius: 0 0 0 5px;
-}
-
-.data_info_table tr:last-child td:last-child {
-  border-radius: 0 0 5px 0;
-} 
-
-/* マスタ画面のtable設定 End
-
-
-/* モーダル内のボタン設定 Start */
-.modal_button{  
-  border: none;
-  outline: none; /* クリックしたときに表示される枠線を消す */
-  background: transparent; /* 背景の灰色を消す */
-}
-
-.modal_button:hover {
-  background-color: #cdf06d;
-  cursor: pointer;
-}
-.modal_button.active {
-  background-color: #cdf06d;
-}
-
-.modal_button.focus {
-  background-color: #cdf06d;
-}
-/* モーダル内のボタン設定 End */
-
-
-/* モーダル内のアイコン設定 Start */
-
-.modal .fa-edit{
-  color: green;
-  margin: 0px 5px 0px 5px;
-  font-size:1.5em; /*1.5倍にする*/
-}
-
-.modal .fa-thumbs-down{
-  color: red;
-  margin: 0px 5px 0px 5px;
-  font-size:1.5em; /*1.5倍にする*/
-}
-
-.modal .fa-thumbs-up{
-  color: blue;
-  margin: 0px 5px 0px 5px;
-  font-size:1.5em; /*1.5倍にする*/
-}
-
-.modal .fa-school{
-  color:brown;
-  margin: 0px 5px 0px 5px;
-  font-size:1.5em; /*1.5倍にする*/
-}
-
-/* モーダル内のアイコン設定 End */
-
-
-/* マスタ画面の新規登録ボタン設定 Start */
-a.btn--red.btn--cubic {
-  background-color: rgb(206, 247, 204);
-  border-bottom: 5px solid #37e640;  
-}
-
-a.btn--red.btn--cubic:hover {
-  margin-top: 3px;
-  border-bottom: 2px solid #37e640;  
-}
-
-a.btn--radius {
-  border-radius: 100vh;
-}
-
-.fa-position-right {
-  position: absolute;
-  top: calc(50% - .5em);
-  right: 1rem;
-}
-/* マスタ画面の新規登録ボタン設定 End */
-
-
-
-
-
-.inoperable{
-  pointer-events: none;
-  opacity:0.1;
-}
-
-/* loader.blade.php ↓ */
-
-#loading_area{
-  position: absolute;
-  top: 50%;
-  left: 50%;
+header .gakupro_logo {
+  height: 59px;    
 }
 
 
 
-#loading_area ul{
-  position: absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  margin:0;
-  padding:0;
-  display:flex}
-
-#loading_area ul li{
-  list-style:none;
-  color:#484848;
-  font-family:arial;
-  font-size:5em;
-  animation:animate 1.4s linear infinite}
-
-@keyframes animate 
-{
-  0%{color:#484848;text-shadow:none}
-  90%{color:#484848;text-shadow:none}
-  100%{color:#fff900;text-shadow:0 0 7px #fff900 ,0 0 50px #fff900}
+header nav {
+  margin: 0 0 0 auto;
 }
 
-#loading_area ul li:nth-child(1){animation-delay:0.2s}
-#loading_area ul li:nth-child(2){animation-delay:0.4s}
-#loading_area ul li:nth-child(3){animation-delay:0.6s}
-#loading_area ul li:nth-child(4){animation-delay:0.8s}
-#loading_area ul li:nth-child(5){animation-delay:1s}
-#loading_area ul li:nth-child(6){animation-delay:1.2s}
-#loading_area ul li:last-child{animation-delay:1.4s}
-
-/* loader.blade.php ↑ */
-
-
-
-
-#uploading_area{
-  position: absolute;
-  top: 50%;
-  left: 50%;
+header ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-#uploading_area ul{
-  position: absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  margin:0;
-  padding:0;
-  display:flex}
-
-#uploading_area ul li{
-  list-style:none;
-  color:#484848;
-  font-family:arial;
-  font-size:5em;
-  animation:animate 1.8s linear infinite}
-
-@keyframes animate 
-{
-  0%{color:#484848;text-shadow:none}
-  90%{color:#484848;text-shadow:none}
-  100%{color:#fff900;text-shadow:0 0 7px #fff900 ,0 0 50px #fff900}
+header a {
+  color: #270e04;
+  text-decoration: none;
+  font-weight: 600;
+  display: block;
+  line-height: 60px;
+  padding: 0 10px;
 }
 
-#uploading_area ul li:nth-child(1){animation-delay:0.2s}
-#uploading_area ul li:nth-child(2){animation-delay:0.4s}
-#uploading_area ul li:nth-child(3){animation-delay:0.6s}
-#uploading_area ul li:nth-child(4){animation-delay:0.8s}
-#uploading_area ul li:nth-child(5){animation-delay:1s}
-#uploading_area ul li:nth-child(6){animation-delay:1.2s}
-#uploading_area ul li:nth-child(7){animation-delay:1.4s}
-#uploading_area ul li:nth-child(8){animation-delay:1.6s}
-#uploading_area ul li:last-child{animation-delay:1.8s}
+header .sm {
+  display: none;
+}
+
+
+/**********************************　
+以下、ハンバーガーメニューの設定　
+************************************/
+
+@media (max-width: 768px) {
+
+  header .pc {
+    display: none;
+  }   
+    
+
+  header #a {
+      background-color: transparent;
+      position: relative;
+      cursor: pointer;
+      margin: 0 60px 0 0;
+      height: 60px;
+      width: 60px;
+    }
+
+
+  header #hamburger {
+    background-color: transparent;
+    /* old */
+    /* position: relative; */
+    /* margin: 0 0 0 auto; */
+
+    /* new */      
+    position: absolute;
+    right: 0;
+
+
+    cursor: pointer;
+    
+    height: 60px;
+    width: 60px;
+  }
+
+  header .icon span {
+    position: absolute;
+    left: 15px;
+    width: 30px;
+    height: 4px;      
+    background-color:#270e04;
+    /* background-color: white; */
+    border-radius: 8px;
+    transition: ease 0.75s;
+  }
+
+  header .icon span:nth-of-type(1) {
+    top: 16px;
+  }
+  header .icon span:nth-of-type(2) {
+    top: 28px;
+  }
+  header .icon span:nth-of-type(3) {
+    bottom: 16px;
+  }
+
+  header .close span:nth-of-type(1) {
+    transform: rotate(45deg);
+    top: 28px;
+  }
+
+  header .close span:nth-of-type(2) {
+    opacity: 0;
+  }
+
+  header .close span:nth-of-type(3) {
+      transform: rotate(-45deg);
+      top: 28px;
+  }
+
+  
+  header .sm {
+      top: 60px;
+      left: 0px;
+      position: absolute;
+      z-index: 10;
+      width: 100%;
+      background-color: rgba(34, 49, 52, 0.9);
+  }
+
+  header ul {
+    flex-direction: column;
+  }
+
+  header li {
+      border-top: solid 0.5px rgba(255, 255, 255, 0.6);
+  }
+
+  header a {
+    /* text-align: center;  */      
+    text-align: left; 
+    margin-left: 20%;
+    font-weight: 400;
+    color: azure;
+    /* border-top: solid 0.5px rgba(255, 255, 255, 0.6); */
+  }
+
+  header .navi_logo {
+      padding: 2px;
+      height: 58px;
+      width: 58px;
+      
+  }   
+
+  
+  
+}
+
+
+#empty_space{
+  height: 60px;
+}
+
+/* header  End */
