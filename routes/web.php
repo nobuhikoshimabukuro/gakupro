@@ -193,7 +193,9 @@ Route::get('recruit_project/top', [recruit_project_controller::class, 'top'])->n
 
 Route::get('recruit_project/information_confirmation', [recruit_project_controller::class, 'information_confirmation'])->name('recruit_project.information_confirmation');
 
-Route::get('recruit_project/information_register', [recruit_project_controller::class, 'information_register'])->name('recruit_project.information_register');
+Route::get('recruit_project/information_register_insert', [recruit_project_controller::class, 'information_register_insert'])->name('recruit_project.information_register_insert');
+Route::get('recruit_project/information_register_update', [recruit_project_controller::class, 'information_register_update'])->name('recruit_project.information_register_update');
+
 Route::post('recruit_project/information_save', [recruit_project_controller::class, 'information_save'])->name('recruit_project.information_save');
 Route::post('recruit_project/information_update', [recruit_project_controller::class, 'information_update'])->name('recruit_project.information_update');
 

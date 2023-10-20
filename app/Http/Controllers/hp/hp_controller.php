@@ -1,5 +1,12 @@
 <?php
 
+// Log::channel('info_log')->info($process_title . "");
+// Log::channel('send_mail_log')->info($process_title . "");
+// Log::channel('important_log')->info($process_title . "");
+// Log::channel('error_log')->info($process_title . "");
+// Log::channel('emergency_log')->info($process_title . "");
+// Log::channel('database_backup_log')->info($process_title . "");
+
 namespace App\Http\Controllers\hp;
 use App\Http\Controllers\Controller;
 
@@ -20,6 +27,14 @@ class hp_controller extends Controller
     
     function index(Request $request)
     {        
+
+        Log::channel('info_log')->info("info_log");
+        Log::channel('send_mail_log')->info("send_mail_log");
+        Log::channel('important_log')->info("important_log");
+        Log::channel('error_log')->info("error_log");
+        Log::channel('emergency_log')->info("emergency_log");
+        Log::channel('database_backup_log')->info("database_backup_log");
+
         return view('hp/screen/index');
     }
 

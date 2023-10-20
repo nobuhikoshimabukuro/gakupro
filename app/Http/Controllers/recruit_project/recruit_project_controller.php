@@ -1,6 +1,14 @@
 <?php
 
 namespace App\Http\Controllers\recruit_project;
+
+// Log::channel('info_log')->info($process_title . "");
+// Log::channel('send_mail_log')->info($process_title . "");
+// Log::channel('important_log')->info($process_title . "");
+// Log::channel('error_log')->info($process_title . "");
+// Log::channel('emergency_log')->info($process_title . "");
+// Log::channel('database_backup_log')->info($process_title . "");
+
 use App\Http\Controllers\Controller;
 
 use Exception;
@@ -49,6 +57,7 @@ class recruit_project_controller extends Controller
     function mailaddress_temporary_registration_process(Request $request)
     {
                 
+        $process_title = "【雇用者メールアドレス仮登録処理】";
         try {
 
             $mailaddress = $request->mailaddress;
@@ -116,11 +125,14 @@ class recruit_project_controller extends Controller
             $url = route('recruit_project.mailaddress_approval') . '?key_code=' . $key_code . '&cipher=' .$cipher; 
             $subject = "学生応援プロジェクト（確認メール）";
 
+            Log::channel('send_mail_log')->info($process_title . "destination_name[" . $destination_name ."]mailaddress[" . $mailaddress . "]【Start】");
             Mail::to($mailaddress)->send(new SendMailAddressConfirmation($subject , $destination_name , $url , $password));
-
+            Log::channel('send_mail_log')->info($process_title . "destination_name[" . $destination_name ."]mailaddress[" . $mailaddress . "]【End】");
         } catch (Exception $e) {
 
-            
+            $error_message = $e->getMessage();
+            Log::channel('error_log')->info($process_title . "destination_name[" . $destination_name ."]mailaddress[" . $mailaddress . "]error_message【" . $error_message ."】");
+
             $ErrorMessage = 'メール送信処理でエラーが発生しました。';
 
             $ResultArray = array(
@@ -143,6 +155,8 @@ class recruit_project_controller extends Controller
     function mailaddress_approval(Request $request)
     {
 
+        $process_title = "【メールアドレス確認用パスワード入力画面遷移】";
+
         $key_code = $request->key_code;       
         $cipher = $request->cipher;      
         
@@ -155,6 +169,8 @@ class recruit_project_controller extends Controller
         //key_codeと暗号文でデータが存在すればOK
 
         if(is_null($mailaddresscheck_t_info)){
+
+            Log::channel('emergency_log')->info($process_title . "key_code[" . $key_code ."]cipher[" . $cipher . "]【データ異常】");
 
             // 暗号文と不一致   不正な処理           
             session()->flash('infomessage', 'お送りしたメールのURLから再度遷移してください。');
@@ -170,9 +186,12 @@ class recruit_project_controller extends Controller
     function mailaddress_approval_check(Request $request)
     {
 
+        $process_title = "【メールアドレス確認用パスワード認証処理】";
+
         $key_code = $request->key_code;        
         $cipher = $request->cipher;            
-        $encryption_password = common::encryption($request->password);
+        $password = $request->password;
+        $encryption_password = common::encryption($password);
 
         //mailaddresscheck_tからデータを取得
         $mailaddresscheck_t_info = mailaddresscheck_t_model::withTrashed()                   
@@ -202,11 +221,13 @@ class recruit_project_controller extends Controller
                 //ログインIDとパスワードで1件のみ取得::OK
 
                 $mailaddress = $mailaddresscheck_t[0]->mailaddress;
-                session()->flash('certification_mailaddress', $mailaddress);          
-                return redirect()->route('recruit_project.information_register');
+                session()->flash('certification_mailaddress', $mailaddress); 
+                //雇用者情報編集画面遷移         
+                return redirect()->route('recruit_project.information_register_insert');
 
-            }elseif($GetCount > 1){
-                //ログインIDとパスワードで1件以上取得::CriticalError
+            }elseif($GetCount > 1){                
+
+                Log::channel('emergency_log')->info($process_title . "key_code[" . $key_code ."]cipher[" . $cipher . "]password[" . $password . "]【件数異常】");
 
             }
 
@@ -244,33 +265,18 @@ class recruit_project_controller extends Controller
     }  
     
 
-    //雇用者新規登録画面遷移
-    function information_register(Request $request)
+    //雇用者情報新規登録画面遷移
+    function information_register_insert(Request $request)
     {
+        $process_title = "【雇用者情報新規登録画面遷移】";
+
         $employer_info = array();        
 
+        //仮登録のメールアドレスを取得しメールアドレスがあれば仮登録
         $mailaddress = session()->get('certification_mailaddress');
-
-        //mailaddress 取得時は新規登録の雇用者様
-        //mailaddress null時は既存の雇用者様
+        
         if(!is_null($mailaddress)){
-            $login_flg = 0;
-        }else{
-
-            $login_flg = 1;
-            if (!$this->LoginStatusCheck()) {
-                //セッション切れ
-                session()->flash('employer_loginerror', 'セッション切れ');            
-                return redirect()->route('recruit_project.login');
-            }
-
-            $employer_id = session()->get('employer_id');
-
-            $employer_info = employer_m_model::
-            where('employer_id', '=', $employer_id)          
-            ->first();
-
-            $login_flg = 1;
+            $login_flg = 0;       
         }
 
         $employer_division_list = create_list::employer_division_list();   
@@ -279,12 +285,40 @@ class recruit_project_controller extends Controller
 
     }    
   
+    //雇用者情報更新画面遷移
+    function information_register_update(Request $request)
+    {
+        $process_title = "【雇用者情報更新画面遷移】";
+
+        $employer_info = array();       
+           
+        if (!$this->LoginStatusCheck()) {
+            //セッション切れ
+            session()->flash('employer_loginerror', 'セッション切れ');            
+            return redirect()->route('recruit_project.login');
+        }
+
+        $employer_id = session()->get('employer_id');
+
+        $employer_info = employer_m_model::
+        where('employer_id', '=', $employer_id)          
+        ->first();
+
+        $login_flg = 1;     
+
+        $employer_division_list = create_list::employer_division_list();   
+
+        return view('recruit_project/screen/information_register', compact('mailaddress','employer_info','login_flg','employer_division_list'));   
+
+    }
 
     //雇用者新規登録処理
     function information_save(employer_m_request $request){
         
         try {                       
-                            
+        
+            $process_title = "【雇用者情報新規登録処理】";
+
             DB::connection('mysql')->beginTransaction();
 
             $employer_name = $request->employer_name;
@@ -405,6 +439,9 @@ class recruit_project_controller extends Controller
 
         } catch (Exception $e) {
 
+            $error_message = $e->getMessage();
+            Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
+
             DB::connection('mysql')->rollBack();
 
             $ErrorMessage = 'データ登録時にエラーが発生しました。';
@@ -423,6 +460,8 @@ class recruit_project_controller extends Controller
     //雇用者新規登録後の確認画面
     function information_after_registration(Request $request)
     {       
+
+        $process_title = "【雇用者情報新規登録処理後確認画面遷移】";
 
         $employer_id = session()->get('employer_id');
 
@@ -454,6 +493,8 @@ class recruit_project_controller extends Controller
 
         
         try {
+
+            $process_title = "【雇用者情報更新処理】";
 
             $employer_id = session()->get('employer_id');
             
@@ -505,6 +546,9 @@ class recruit_project_controller extends Controller
 
         } catch (Exception $e) {
 
+            $error_message = $e->getMessage();
+            Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
+
             $ErrorMessage = 'データ更新時にエラーが発生しました。';
 
             $ResultArray = array(
@@ -549,48 +593,64 @@ class recruit_project_controller extends Controller
     function login_password_check(Request $request)
     {       
 
-        $login_id = $request->login_id;
-        
-        //平文を暗号文に
-        $password = common::encryption($request->password);
+        try {
 
-        $employer_password_t_model = employer_password_t_model::
-        where('login_id', '=', $login_id)  
-        ->where('password', '=', $password)
-        ->get();
+            $process_title = "【雇用者ログイン認証処理】";
 
-        $GetCount = count($employer_password_t_model);
-        
-        if($GetCount == 0){
-            //ログインIDとパスワードで取得できず::NG            
-
-            common::headquarters_session_remove();
+            $login_id = $request->login_id;
             
+            //平文を暗号文に
+            $password = common::encryption($request->password);
+
+            $employer_password_t_model = employer_password_t_model::
+            where('login_id', '=', $login_id)  
+            ->where('password', '=', $password)
+            ->get();
+
+            $GetCount = count($employer_password_t_model);
+            
+            if($GetCount == 0){
+                //ログインIDとパスワードで取得できず::NG            
+
+                common::headquarters_session_remove();
+                
+                // 認証失敗
+                session()->flash('employer_loginerror', '認証失敗');
+                return back();
+
+            }elseif($GetCount == 1){
+                //ログインIDとパスワードで1件のみ取得::OK
+
+
+                $employer_info = employer_m_model::
+                where('employer_id', '=', $employer_password_t_model[0]->employer_id)          
+                ->first();
+
+                common::headquarters_session_remove();
+
+                session()->put('employer_id', $employer_info->employer_id);
+                session()->put('employer_name', $employer_info->employer_name);
+                session()->put('login_flg', 1);
+
+                return redirect()->route('recruit_project.top');
+
+            }elseif($GetCount > 1){
+                //ログインIDとパスワードで1件以上取得::CriticalError
+
+                Log::channel('emergency_log')->info($process_title . "【件数異常】");
+                
+            }
+            
+        } catch (Exception $e) {
+
+            $error_message = $e->getMessage();
+            Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
+
             // 認証失敗
             session()->flash('employer_loginerror', '認証失敗');
             return back();
-
-        }elseif($GetCount == 1){
-            //ログインIDとパスワードで1件のみ取得::OK
-
-
-            $employer_info = employer_m_model::
-            where('employer_id', '=', $employer_password_t_model[0]->employer_id)          
-            ->first();
-
-            common::headquarters_session_remove();
-
-            session()->put('employer_id', $employer_info->employer_id);
-            session()->put('employer_name', $employer_info->employer_name);
-            session()->put('login_flg', 1);
-
-            return redirect()->route('recruit_project.top');
-
-        }elseif($GetCount > 1){
-            //ログインIDとパスワードで1件以上取得::CriticalError
-
+            
         }
-        
         
     }
 

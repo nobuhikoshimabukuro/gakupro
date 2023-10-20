@@ -65,15 +65,13 @@ return [
 
         'single' => [
             'driver' => 'single',
-            // 'path' => storage_path('logs/laravel.log'),
-            'path' => storage_path('logs/1/laravel.log'),
+            'path' => storage_path('logs/laravel.log'),            
             'level' => env('LOG_LEVEL', 'debug'),
         ],
 
         'daily' => [
             'driver' => 'daily',
-            // 'path' => storage_path('logs/laravel.log'),
-            'path' => storage_path('logs/2/laravel.log'),
+            'path' => storage_path('logs/laravel.log'),            
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 14,
         ],
@@ -127,38 +125,50 @@ return [
         ],
 
         // 追加ログ
-        'normal_log' => [
-            'driver' => 'custom',
-            'via' => App\config\normal_log::class,
-            'path' => storage_path('logs/normal_log/normal.log'),
-            'level' => 'debug',
+        'info_log' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/info_log/normal.log'),
+            'days' => 60,
+            'permission' => 0777,
+        ],
+
+        // 追加ログ
+        'send_mail_log' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/send_mail_log/send_mail.log'),
+            'days' => 300,
+            'permission' => 0777,
+        ],
+
+        // 追加ログ
+        'important_log' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/important_log/important.log'),
+            'days' => 90,
             'permission' => 0777,
         ],
 
         // 追加ログ
         'error_log' => [
-            'driver' => 'custom',
-            'via' => App\config\error_log::class,
+            'driver' => 'daily',
             'path' => storage_path('logs/error_log/error.log'),
-            'level' => 'debug',
+            'days' => 90,
             'permission' => 0777,
         ],
 
         // 追加ログ
         'emergency_log' => [
-            'driver' => 'custom',
-            'via' => App\config\emergency_log::class,
+            'driver' => 'daily',
             'path' => storage_path('logs/emergency_log/emergency.log'),
-            'level' => 'debug',
+            'days' => 90,
             'permission' => 0777,
         ],
 
         // 追加ログ
         'database_backup_log' => [
-            'driver' => 'custom',
-            'via' => App\config\database_backup_log::class,
-            'path' => storage_path('logs/database_backup_log/info.log'),
-            'level' => 'debug',
+            'driver' => 'daily',
+            'path' => storage_path('logs/database_backup_log/database_backup.log'),
+            'days' => 60,
             'permission' => 0777,
         ],
 

@@ -357,7 +357,9 @@ class headquarters_controller extends Controller
     function DataBase_BackUp()
     {        
 
-         // Log::channel('normal_log')->info("normal_log");
+        // Log::channel('info_log')->info("info_log");
+        // Log::channel('send_mail_log')->info("send_mail_log");
+        // Log::channel('important_log')->info("important_log");
         // Log::channel('error_log')->info("error_log");
         // Log::channel('emergency_log')->info("emergency_log");
         // Log::channel('database_backup_log')->info("database_backup_log");
