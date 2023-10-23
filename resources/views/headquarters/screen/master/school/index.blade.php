@@ -588,9 +588,9 @@ $(function(){
         })
         .done(function (data, textStatus, jqXHR) {
            // テーブルに通信できた場合
-           var ResultArray = data.ResultArray;
+           var result_array = data.result_array;
 
-           var status = ResultArray["status"];
+           var status = result_array["status"];
 
            //テーブルに通信時、データを検索できたか判定
            if (status == 'success') {
@@ -598,7 +598,7 @@ $(function(){
                 append_text = "<tr><th class='text-start'>専攻一覧</th></tr>";
                 $("#majorsubject_list_modal_table").append(append_text);
 
-                var majorsubject_list = ResultArray["majorsubject_list"];
+                var majorsubject_list = result_array["majorsubject_list"];
                 
                 $.each(majorsubject_list, function(index, info) {
 
@@ -688,9 +688,9 @@ $(function(){
             // 送信成功
             .done(function (data, textStatus, jqXHR) {
                 
-                var ResultArray = data.ResultArray;
+                var result_array = data.result_array;
 
-                var Result = ResultArray["Result"];
+                var Result = result_array["Result"];
 
                 if(Result=='success'){
 
@@ -698,7 +698,7 @@ $(function(){
 
                 }else{
 
-                    var ErrorMessage = ResultArray["Message"];
+                    var ErrorMessage = result_array["Message"];
 
                     //{{-- アラートメッセージ表示 --}}
                     var errorsHtml = '';

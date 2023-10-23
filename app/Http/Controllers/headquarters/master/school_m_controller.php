@@ -157,23 +157,23 @@ class school_m_controller extends Controller
             
             $ErrorMessage = '学校マスタ登録エラー';
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "error",
                 "Message" => $ErrorMessage,
             );
 
-            return response()->json(['ResultArray' => $ResultArray]);
+            return response()->json(['result_array' => $result_array]);
                                 
         }
 
-        $ResultArray = array(
+        $result_array = array(
             "Result" => "success",
             "Message" => '',
         );
 
         session()->flash('success', 'データを登録しました。');
         session()->flash('message-type', 'success');
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
     }
 
     //  論理削除処理

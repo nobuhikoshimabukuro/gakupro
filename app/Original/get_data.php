@@ -42,7 +42,7 @@ class get_data
         if(count($search_school_list) == 0){
 
             $message = "学校情報なし";
-            $ResultArray = array(
+            $result_array = array(
                 "status" => "nodata",
                 "message" => $message
             );
@@ -64,7 +64,7 @@ class get_data
 
             }
 
-            $ResultArray = array(
+            $result_array = array(
                 "status" => "success",
                 "school_list" =>  $school_list
             );
@@ -72,7 +72,7 @@ class get_data
 
         }
 
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
 
     }
 
@@ -104,7 +104,7 @@ class get_data
         if(count($search_majorsubject_list) == 0){
 
             $message = "専攻情報なし";
-            $ResultArray = array(
+            $result_array = array(
                 "status" => "nodata",
                 "message" => $message
             );
@@ -127,7 +127,7 @@ class get_data
 
             }
 
-            $ResultArray = array(
+            $result_array = array(
                 "status" => "success",
                 "majorsubject_list" =>  $majorsubject_list
             );
@@ -135,7 +135,7 @@ class get_data
 
         }
 
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
 
     }
 
@@ -175,7 +175,7 @@ class get_data
             if(is_null($get_school_info)){
 
                 $message = "学校情報なし";
-                $ResultArray = array(
+                $result_array = array(
                     "status" => "nodata",
                     "message" => $message
                 );
@@ -196,7 +196,7 @@ class get_data
                     "remarks" => $get_school_info->remarks
                 );
 
-                $ResultArray = array(
+                $result_array = array(
                     "status" => "success",
                     "school_info" =>  $school_info
                 );
@@ -211,7 +211,7 @@ class get_data
             Log::channel('error_log')->info($ErrorMessage);
 
             $message = "データ取得エラー";
-            $ResultArray = array(
+            $result_array = array(
                 "status" => "error",
                 "message" => $message
             );
@@ -219,7 +219,7 @@ class get_data
         }
         
 
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
 
     }
     
@@ -257,7 +257,7 @@ class get_data
             if(is_null($get_majorsubject_info)){
 
                 $message = "学校別専攻情報なし";
-                $ResultArray = array(
+                $result_array = array(
                     "status" => "nodata",
                     "message" => $message
                 );
@@ -273,7 +273,7 @@ class get_data
                     "remarks" => $get_majorsubject_info->remarks
                 );
 
-                $ResultArray = array(
+                $result_array = array(
                     "status" => "success",
                     "majorsubject_info" =>  $majorsubject_info
                 );
@@ -289,7 +289,7 @@ class get_data
             Log::channel('error_log')->info($ErrorMessage);
 
             $message = "データ取得エラー";
-            $ResultArray = array(
+            $result_array = array(
                 "status" => "error",
                 "message" => $message
             );
@@ -297,7 +297,7 @@ class get_data
         }
         
 
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
 
     }
  

@@ -83,24 +83,24 @@ class project_m_controller extends Controller
             $log_error_message = $error_title .'::' .$ErrorMessage;
             Log::channel('error_log')->info($log_error_message);
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "error",
                 "Message" => $error_title,
             );
             
 
-            return response()->json(['ResultArray' => $ResultArray]);
+            return response()->json(['result_array' => $result_array]);
                                 
         }
 
-        $ResultArray = array(
+        $result_array = array(
             "Result" => "success",
             "Message" => '',
         );
 
         session()->flash('success', 'データを登録しました。');
         session()->flash('message-type', 'success');
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
     }
 
    

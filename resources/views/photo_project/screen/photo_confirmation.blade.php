@@ -646,14 +646,14 @@ $(function(){
             // 送信成功
             .done(function (data, textStatus, jqXHR) {
                 
-                var ResultArray = data.ResultArray;
+                var result_array = data.result_array;
 
-                var Result = ResultArray["Result"];
+                var Result = result_array["Result"];
 
                 if(Result=='success'){
 
-                    var ZipName = ResultArray["ZipName"];
-                    var ZipDownloadPath = ResultArray["ZipDownloadPath"];
+                    var ZipName = result_array["ZipName"];
+                    var ZipDownloadPath = result_array["ZipDownloadPath"];
 
                     var a = document.createElement('a');
                     a.download = ZipName;

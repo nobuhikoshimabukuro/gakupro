@@ -473,15 +473,15 @@ $(function(){
                 document.body.style.cursor = 'auto';
 
 
-                var ResultArray = data.ResultArray;
+                var result_array = data.result_array;
 
-                var Result = ResultArray["Result"];
+                var Result = result_array["Result"];
 
                 if(Result=='success'){
 
                     //画面遷移時のメッセージ表示抑制の為(addEventListener)
                     $('#login_flg').val("1");
-                    var Url = ResultArray["Url"];
+                    var Url = result_array["Url"];
                     
                     //※新規登録処理成功時と更新処理成功時の画面遷移先は別
 
@@ -491,7 +491,7 @@ $(function(){
 
                 }else{
 
-                    var ErrorMessage = ResultArray["Message"];
+                    var ErrorMessage = result_array["Message"];
 
                     //{{-- アラートメッセージ表示 --}}
                     var errorsHtml = '';

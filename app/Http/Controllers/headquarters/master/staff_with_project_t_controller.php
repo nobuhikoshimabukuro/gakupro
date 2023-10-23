@@ -139,23 +139,23 @@ class staff_with_project_t_controller extends Controller
 
             Log::channel('error_log')->info($ErrorMessage);
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "error",
                 "Message" => $ErrorMessage,
             );
 
-            return response()->json(['ResultArray' => $ResultArray]);
+            return response()->json(['result_array' => $result_array]);
                                 
         }
 
-        $ResultArray = array(
+        $result_array = array(
             "Result" => "success",
             "Message" => '',
         );
 
         session()->flash('success', 'データを更新しました。');
         session()->flash('message-type', 'success');
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
     }
 
     //  論理削除処理
@@ -237,14 +237,14 @@ class staff_with_project_t_controller extends Controller
 
             if($login_id_duplication == "" && $password_duplication == ""){
                       
-                $ResultArray = array(
+                $result_array = array(
                     "Result" => "success",
                     "Message" => '',
                 );
 
             }else{
 
-                $ResultArray = array(
+                $result_array = array(
                     "Result" => "duplication_error",
                     "login_id_duplication" => $login_id_duplication,
                     "password_duplication" => $password_duplication,
@@ -259,14 +259,14 @@ class staff_with_project_t_controller extends Controller
 
             Log::channel('error_log')->info($ErrorMessage);
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "error",
                 "Message" => $ErrorMessage,
             );           
          
         }  
 
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
 
     }
 

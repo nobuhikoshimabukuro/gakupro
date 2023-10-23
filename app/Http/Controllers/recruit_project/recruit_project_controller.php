@@ -135,19 +135,19 @@ class recruit_project_controller extends Controller
 
             $ErrorMessage = 'メール送信処理でエラーが発生しました。';
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "error",
                 "Message" => $ErrorMessage,
             );        
-            return response()->json(['ResultArray' => $ResultArray]);
+            return response()->json(['result_array' => $result_array]);
         }
 
-        $ResultArray = array(
+        $result_array = array(
             "Result" => "success",
             "Message" => '',
         );
 
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
 
     }  
 
@@ -433,7 +433,7 @@ class recruit_project_controller extends Controller
             session()->put('login_flg', 1);
             
             $Url = route('recruit_project.information_after_registration');
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "success",
                 "Message" => '',
                 "Url" => $Url ,                
@@ -448,7 +448,7 @@ class recruit_project_controller extends Controller
 
             $ErrorMessage = 'データ登録時にエラーが発生しました。';
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "error",
                 "Message" => $ErrorMessage,
             );
@@ -456,7 +456,7 @@ class recruit_project_controller extends Controller
         
         }
 
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
     }
 
     //雇用者新規登録後の確認画面
@@ -503,7 +503,7 @@ class recruit_project_controller extends Controller
             //セッションから取得した$employer_idと画面に隠されている$employer_idを比較する
             if($employer_id != $request->employer_id){
 
-                $ResultArray = array(
+                $result_array = array(
                     "Result" => "error",
                     "Message" => "",
                 );                
@@ -540,7 +540,7 @@ class recruit_project_controller extends Controller
 
             session()->flash('success', 'データを更新しました。');
             $Url = route('recruit_project.information_confirmation');
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "success",
                 "Message" => '',
                 "Url" => $Url ,                
@@ -553,13 +553,13 @@ class recruit_project_controller extends Controller
 
             $ErrorMessage = 'データ更新時にエラーが発生しました。';
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "error",
                 "Message" => $ErrorMessage,
             );        
         }
 
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
     }
 
 

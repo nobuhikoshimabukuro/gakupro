@@ -277,7 +277,7 @@ class photo_project_controller extends Controller
             //qr_ticket作成処理
             if(!$this->create_ticket($date)){
 
-                $ResultArray = array(
+                $result_array = array(
                     "Result" => "qr_ticket_error",
                     "Message" => '',
                );    
@@ -285,7 +285,7 @@ class photo_project_controller extends Controller
             }
             
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => 'success'          
            );
 
@@ -299,13 +299,13 @@ class photo_project_controller extends Controller
 
             Log::channel('error_log')->info("【QRコード作成エラー】" . $m);
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "error",
                 "Message" => '',
            );            
         }
 
-        return response()->json(['ResultArray' => $ResultArray]);   
+        return response()->json(['result_array' => $result_array]);   
     }
 
     function create_ticket($date)
@@ -489,7 +489,7 @@ class photo_project_controller extends Controller
             $ZipDownloadPath = asset($Saved_Path . "zip/" .  $ZipName);           
             
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "success",
                 "ZipDownloadPath" => $ZipDownloadPath,
                 "ZipName" => $ZipName,
@@ -498,14 +498,14 @@ class photo_project_controller extends Controller
         } catch (Exception $e) {
 
             $ErrorMessage = $e->getMessage();
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "error",
                 "Message" => '',
            );
 
         }   
         
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
 
 
         
@@ -548,22 +548,22 @@ class photo_project_controller extends Controller
             $log_error_message = $error_title .'::' .$ErrorMessage;
             Log::channel('error_log')->info($log_error_message);
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "error",
                 "Message" => $error_title,
            );
             
 
-            return response()->json(['ResultArray' => $ResultArray]);
+            return response()->json(['result_array' => $result_array]);
                                 
         }
 
-        $ResultArray = array(
+        $result_array = array(
             "Result" => "success",
             "Message" => '',
        );
 
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
     }
     
     //写真取得画面のURLを直接読み込んだ場合_1
@@ -786,10 +786,10 @@ class photo_project_controller extends Controller
 
             if(is_null($photoget_t_info)){                
                 // 暗号文と不一致   不正な処理
-                $ResultArray = array(
+                $result_array = array(
                 "Result" => "error"                   
                );
-                return response()->json(['ResultArray' => $ResultArray]);    
+                return response()->json(['result_array' => $result_array]);    
             }
 
             $Saved_Folder = $photoget_t_info->saved_folder;        
@@ -817,7 +817,7 @@ class photo_project_controller extends Controller
             $ZipDownloadPath = asset($Saved_Path . "zip/" .  $ZipName);           
             
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "success",
                 "ZipDownloadPath" => $ZipDownloadPath,
                 "ZipName" => $ZipName,
@@ -826,14 +826,14 @@ class photo_project_controller extends Controller
         } catch (Exception $e) {
 
             $ErrorMessage = $e->getMessage();
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "error",
                 "Message" => '',
            );
 
         }   
         
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
 
     }
 
@@ -930,7 +930,7 @@ class photo_project_controller extends Controller
             
             }            
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => 'success',           
            );
             
@@ -941,12 +941,12 @@ class photo_project_controller extends Controller
 
             Log::channel('error_log')->info("画像アップロードエラー【key_code:" . $key_code ."】" . $error_message);
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "error",
                 "Message" => '',
            );
         }
-        return response()->json(['ResultArray' => $ResultArray]);        
+        return response()->json(['result_array' => $result_array]);        
     }
 
 

@@ -182,23 +182,23 @@ class staff_m_controller extends Controller
 
             Log::channel('error_log')->info($ErrorMessage);
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "error",
                 "Message" => $ErrorMessage,
             );
 
-            return response()->json(['ResultArray' => $ResultArray]);
+            return response()->json(['result_array' => $result_array]);
                                 
         }
 
-        $ResultArray = array(
+        $result_array = array(
             "Result" => "success",
             "Message" => '',
         );
 
         session()->flash('success', 'データを登録しました。');
         session()->flash('message-type', 'success');
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
     }
 
     //  論理削除処理
@@ -280,14 +280,14 @@ class staff_m_controller extends Controller
 
             if($login_id_duplication == "" && $password_duplication == ""){
                       
-                $ResultArray = array(
+                $result_array = array(
                     "Result" => "success",
                     "Message" => '',
                 );
 
             }else{
 
-                $ResultArray = array(
+                $result_array = array(
                     "Result" => "duplication_error",
                     "login_id_duplication" => $login_id_duplication,
                     "password_duplication" => $password_duplication,
@@ -302,14 +302,14 @@ class staff_m_controller extends Controller
 
             Log::channel('error_log')->info($ErrorMessage);
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "error",
                 "Message" => $ErrorMessage,
             );           
          
         }  
 
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
 
     }
 
@@ -379,7 +379,7 @@ class staff_m_controller extends Controller
             if(is_null($staff_with_project_list)){
 
                 $message = "学校別専攻情報なし";
-                $ResultArray = array(
+                $result_array = array(
                     "status" => "nodata",
                     "message" => $message
                 );
@@ -387,7 +387,7 @@ class staff_m_controller extends Controller
             }else{
         
 
-                $ResultArray = array(
+                $result_array = array(
                     "status" => "success",
                     "staff_with_project_list" =>  $staff_with_project_list
                 );
@@ -403,7 +403,7 @@ class staff_m_controller extends Controller
             Log::channel('error_log')->info($ErrorMessage);
 
             $message = "データ取得エラー";
-            $ResultArray = array(
+            $result_array = array(
                 "status" => "error",
                 "message" => $message
             );
@@ -411,7 +411,7 @@ class staff_m_controller extends Controller
         }
         
 
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
 
     }
     
@@ -465,23 +465,23 @@ class staff_m_controller extends Controller
 
             Log::channel('error_log')->info($ErrorMessage);
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "error",
                 "Message" => $ErrorMessage,
             );
 
-            return response()->json(['ResultArray' => $ResultArray]);
+            return response()->json(['result_array' => $result_array]);
                                 
         }
 
-        $ResultArray = array(
+        $result_array = array(
             "Result" => "success",
             "Message" => '',
         );
 
         session()->flash('success', 'データを更新しました。');
         session()->flash('message-type', 'success');
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
 
     }
 

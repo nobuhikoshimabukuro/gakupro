@@ -88,11 +88,11 @@ class subcategory_m_controller extends Controller
                 
                 if($existence_check){
 
-                    $ResultArray = array(
+                    $result_array = array(
                         "Result" => "error",
                         "Message" => '選択した大分類で同じ中分類名が存在します。',
                     );    
-                    return response()->json(['ResultArray' => $ResultArray]);
+                    return response()->json(['result_array' => $result_array]);
                 }
                 
                 //新規登録処理
@@ -131,11 +131,11 @@ class subcategory_m_controller extends Controller
 
                 if($existence_check){
 
-                    $ResultArray = array(
+                    $result_array = array(
                         "Result" => "error",
                         "Message" => '選択した大分類で同じ中分類名が存在します。',
                     );    
-                    return response()->json(['ResultArray' => $ResultArray]);
+                    return response()->json(['result_array' => $result_array]);
                 }
 
                 //更新処理
@@ -157,23 +157,23 @@ class subcategory_m_controller extends Controller
 
             Log::channel('error_log')->info($ErrorMessage);
 
-            $ResultArray = array(
+            $result_array = array(
                 "Result" => "error",
                 "Message" => $ErrorMessage,
             );
 
-            return response()->json(['ResultArray' => $ResultArray]);
+            return response()->json(['result_array' => $result_array]);
                                 
         }
 
-        $ResultArray = array(
+        $result_array = array(
             "Result" => "success",
             "Message" => '',
         );
 
         session()->flash('success', 'データを登録しました。');
         session()->flash('message-type', 'success');
-        return response()->json(['ResultArray' => $ResultArray]);
+        return response()->json(['result_array' => $result_array]);
     }
 
     //  論理削除処理

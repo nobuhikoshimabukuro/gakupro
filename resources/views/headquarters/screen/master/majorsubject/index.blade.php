@@ -607,14 +607,14 @@ $(function(){
        })
        .done(function (data, textStatus, jqXHR) {
            // テーブルに通信できた場合
-           var ResultArray = data.ResultArray;
+           var result_array = data.result_array;
 
-           var status = ResultArray["status"];
+           var status = result_array["status"];
 
            //テーブルに通信時、データを検索できたか判定
            if (status == 'success') {
 
-                var school_list = ResultArray["school_list"];
+                var school_list = result_array["school_list"];
 
                 $(target_element_id).append($("<option>").val("").text("------"));
                 $.each(school_list, function(index, info) {
@@ -809,15 +809,15 @@ $(function(){
         })
         .done(function (data, textStatus, jqXHR) {
             // テーブルに通信できた場合
-            var ResultArray = data.ResultArray;
+            var result_array = data.result_array;
 
-            var status = ResultArray["status"];
+            var status = result_array["status"];
 
             //テーブルに通信時、データを検索できたか判定
             if (status == 'success') {
 
                 var append_text = "";
-                var school_info = ResultArray["school_info"];
+                var school_info = result_array["school_info"];
 
                 $('#school_info_modal_school_division_name').html(school_info["school_division_name"]);
                 $('#school_info_modal_school_name').html(school_info["school_name"]);
@@ -914,9 +914,9 @@ $(function(){
             // 送信成功
             .done(function (data, textStatus, jqXHR) {
                 
-                var ResultArray = data.ResultArray;
+                var result_array = data.result_array;
 
-                var Result = ResultArray["Result"];
+                var Result = result_array["Result"];
 
                 if(Result=='success'){
 
@@ -924,7 +924,7 @@ $(function(){
 
                 }else{
 
-                    var ErrorMessage = ResultArray["Message"];
+                    var ErrorMessage = result_array["Message"];
 
                     //{{-- アラートメッセージ表示 --}}
                     var errorsHtml = '';

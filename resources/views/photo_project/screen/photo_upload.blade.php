@@ -360,9 +360,9 @@ $(function(){
 
              
 
-                var ResultArray = data.ResultArray;
+                var result_array = data.result_array;
 
-                var Result = ResultArray["Result"];
+                var Result = result_array["Result"];
 
 
                 if(Result == 'success'){

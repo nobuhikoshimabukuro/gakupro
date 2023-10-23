@@ -639,14 +639,14 @@ $(function(){
                 
                 phpProcessingEnd();
 
-                var ResultArray = data.ResultArray;
+                var result_array = data.result_array;
 
-                var Result = ResultArray["Result"];
+                var Result = result_array["Result"];
 
                 if(Result=='success'){
 
-                    var ZipName = ResultArray["ZipName"];
-                    var ZipDownloadPath = ResultArray["ZipDownloadPath"];
+                    var ZipName = result_array["ZipName"];
+                    var ZipDownloadPath = result_array["ZipDownloadPath"];
 
                     var a = document.createElement('a');
                     a.download = ZipName;
@@ -771,9 +771,9 @@ $(function(){
 
                
 
-                var ResultArray = data.ResultArray;
+                var result_array = data.result_array;
 
-                var Result = ResultArray["Result"];
+                var Result = result_array["Result"];
 
 
                 if(Result == 'success'){
@@ -869,9 +869,9 @@ $(function(){
 
             
 
-                var ResultArray = data.ResultArray;
+                var result_array = data.result_array;
 
-                var Result = ResultArray["Result"];
+                var Result = result_array["Result"];
 
 
                 if(Result == 'success'){

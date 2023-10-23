@@ -739,15 +739,15 @@ $(function(){
         })
             .done(function (data, textStatus, jqXHR) {
                 // テーブルに通信できた場合
-                var ResultArray = data.ResultArray;
+                var result_array = data.result_array;
 
-                var status = ResultArray["status"];
+                var status = result_array["status"];
 
                 //テーブルに通信時、データを検索できたか判定
                 if (status == 'success') {             
 
 
-                var staff_with_project_list = ResultArray["staff_with_project_list"];
+                var staff_with_project_list = result_array["staff_with_project_list"];
 
                 $.each(staff_with_project_list, function(index, info) {
 
@@ -837,9 +837,9 @@ $(function(){
             // 送信成功
             .done(function (data, textStatus, jqXHR) {
                 
-                var ResultArray = data.ResultArray;
+                var result_array = data.result_array;
 
-                var Result = ResultArray["Result"];
+                var Result = result_array["Result"];
 
                 if(Result=='success'){
 
@@ -848,8 +848,8 @@ $(function(){
 
                 }else if(Result=='duplication_error'){
 
-                    var login_id_duplication = ResultArray["login_id_duplication"];
-                    var password_duplication = ResultArray["password_duplication"];
+                    var login_id_duplication = result_array["login_id_duplication"];
+                    var password_duplication = result_array["password_duplication"];
 
                     //{{-- アラートメッセージ表示 --}}
                     var errorsHtml = '';
@@ -955,9 +955,9 @@ $(function(){
          // 送信成功
          .done(function (data, textStatus, jqXHR) {
              
-             var ResultArray = data.ResultArray;
+             var result_array = data.result_array;
 
-             var Result = ResultArray["Result"];
+             var Result = result_array["Result"];
 
              if(Result=='success'){
 
@@ -965,7 +965,7 @@ $(function(){
 
              }else{
 
-                var ErrorMessage = ResultArray["Message"];
+                var ErrorMessage = result_array["Message"];
 
                 //{{-- アラートメッセージ表示 --}}
                 var errorsHtml = '';
@@ -1046,9 +1046,9 @@ $(function(){
             // 送信成功
             .done(function (data, textStatus, jqXHR) {
                 
-                var ResultArray = data.ResultArray;
+                var result_array = data.result_array;
 
-                var Result = ResultArray["Result"];
+                var Result = result_array["Result"];
 
                 if(Result=='success'){
 
@@ -1056,7 +1056,7 @@ $(function(){
 
                 }else{
 
-                    var ErrorMessage = ResultArray["Message"];
+                    var ErrorMessage = result_array["Message"];
 
                     //{{-- アラートメッセージ表示 --}}
                     var errorsHtml = '';

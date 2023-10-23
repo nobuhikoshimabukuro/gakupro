@@ -264,9 +264,9 @@ $(function(){
                 //{{-- ボタン有効 --}}
                 $('#send_mail_button').prop("disabled", false);
                 
-                var ResultArray = data.ResultArray;
+                var result_array = data.result_array;
 
-                var Result = ResultArray["Result"];
+                var Result = result_array["Result"];
 
                 if(Result=='success'){
                     
@@ -283,7 +283,7 @@ $(function(){
 
                 }else{
 
-                    var ErrorMessage = ResultArray["Message"];
+                    var ErrorMessage = result_array["Message"];
 
                     
                     
