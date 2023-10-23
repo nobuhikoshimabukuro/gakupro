@@ -300,7 +300,8 @@ input::placeholder{
 
                             <select id='employer_division' name='employer_division' class=''>                             
                                 @foreach($employer_division_list as $item)
-                                    <option value="{{$item->employer_category_cd}}" @if(($login_flg == 1) && ($item->employer_division == $employer_info->employer_division)) selected @endif>
+                                    <option value="{{$item->employer_division_cd}}" 
+                                        @if(($login_flg == 1) && ($item->employer_division_cd == $employer_info->employer_division)) selected @endif>
                                         {{$item->employer_division_name}}
                                     </option>
                                 @endforeach

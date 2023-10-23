@@ -52,6 +52,7 @@ class employer_m_request extends FormRequest
     {
         return [
 
+            'employer_division' => ['required'],         
             'employer_name' => [ 'required',new WordCountValidation(1,150)],            
             'employer_name_kana' => ['required',new KatakanaValidation(2) ,new WordCountValidation(1,150)],                 
             'post_code' =>  [ 'nullable',new PostalCodeValidation()],   
@@ -73,6 +74,7 @@ class employer_m_request extends FormRequest
     {
         return [
 
+            'employer_division' => '雇用区分',
             'employer_name' => '雇用者名',
             'employer_name_kana' => '雇用者名カナ',
             'post_code' => '郵便番号',

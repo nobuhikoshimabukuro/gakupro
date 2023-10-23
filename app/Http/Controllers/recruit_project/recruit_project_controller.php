@@ -321,7 +321,8 @@ class recruit_project_controller extends Controller
 
             DB::connection('mysql')->beginTransaction();
 
-            $employer_name = $request->employer_name;
+            $employer_division = $request->employer_division;
+            $employer_name = $request->employer_name;            
             $employer_name_kana = $request->employer_name_kana;
             $post_code = $request->post_code;            
             $tel = $request->tel;
@@ -360,7 +361,8 @@ class recruit_project_controller extends Controller
 
             employer_m_model::create(
                 [
-                    "employer_id" => $employer_id
+                    "employer_division" => $employer_division
+                    ,"employer_id" => $employer_id
                     ,"employer_name" => $employer_name
                     ,"employer_name_kana" => $employer_name_kana
                     ,"post_code" => $post_code
