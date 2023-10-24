@@ -87,10 +87,16 @@ return new class extends Migration
                 ->string('mailaddress', 200)
                 ->nullable()
                 ->comment('メールアドレス');         
+
             $table
                 ->text('remarks')
                 ->nullable()
                 ->comment('備考');
+
+            $table
+                ->text('application_requirements')
+                ->nullable()
+                ->comment('応募資格');
 
             $table
                 ->dateTime('created_at')

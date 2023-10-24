@@ -132,33 +132,7 @@ class headquarters_controller extends Controller
             return redirect(route('headquarters.login'));            
         }
 
-        // $staff_id = session()->get('staff_id');
-
-        // $project_list = project_m_model::get();
-
-        // $available_list = array();
-        
-        // foreach($project_list as $info){
-
-        //     $project_id = $info->project_id;
-        //     $project_name = $info->project_name;
-
-        //     $staff_with_project_list = staff_with_project_t_model::
-        //     where('staff_with_project_t.staff_id', '=', $staff_id)
-        //     ->where('staff_with_project_t.project_id', '=', $project_id)
-        //     ->first();
-
-        //     $judge = 0;
-        //     if(!is_null($staff_with_project_list)){
-        //         $judge = 1;
-        //     }
-
-        //     $available_info = array($project_name => $judge);
-
-        //     array_push($available_list, $available_info);
-
-        // }        
-
+      
         return view('headquarters/screen/top');
     }     
 
@@ -228,9 +202,7 @@ class headquarters_controller extends Controller
     function test()
     {
 
-        $picturebook_info = array();
-
-   
+          
         return view('headquarters/screen/test/index');
 
         

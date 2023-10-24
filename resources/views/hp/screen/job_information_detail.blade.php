@@ -14,9 +14,7 @@
 
     <div id="" class="row item-center">
 
-        
-        
-        
+        {{$job_information->application_requirements}}        
 
     </div>
     
