@@ -112,6 +112,8 @@ input[type="text"]:focus
 
 input::placeholder{
   color: white;
+  font-size: 14px;
+  opacity: 0.9;
 }
 
 
@@ -131,11 +133,13 @@ input::placeholder{
     border-bottom: 1px solid #d7d7d7;
     border-right: 1px solid #d7d7d7;
     /* background: #ffecea;   */
-    background: linear-gradient(-225deg, #e7e7e5 0%, #e8e8e6 56%, #e9e9e9 100%);
-
+    background: linear-gradient(-225deg, #eaf3f1 0%, #ececd7 56%, #ebeedf 100%);
+    font-size: 20px;
     position: relative;
     text-align: left;
-    padding: 1vw;
+    padding: 2px 0 2px 5px;
+
+    
 }
 
 
@@ -172,13 +176,13 @@ input::placeholder{
 ,#tel
 ,#fax
 {
-    width: 130px;
+    width: 140px;
 }
 
 #post_code1
 {
     text-align: center;
-    width: 45px;
+    width: 50px;
 }
 
 #post_code2
@@ -319,7 +323,7 @@ input::placeholder{
                         </th>
                         <td>
 
-                            <input type="text" name="employer_name" id="employer_name" class="" placeholder="例：株式会社崎原商事"
+                            <input type="text" name="employer_name" id="employer_name" class="" placeholder="株式会社崎原商事"
                             value="@if($login_flg == 1){{$employer_info->employer_name}}@endif">
                             <span class="required non-mobile">必須</span>
 
@@ -333,7 +337,7 @@ input::placeholder{
                             雇用者名カナ<span class="required mobile">必須</span>
                         </th>
                         <td>
-                            <input type="text" name="employer_name_kana" id="employer_name_kana" class="" placeholder="例：カブシキガイシャサキハラショウジ"
+                            <input type="text" name="employer_name_kana" id="employer_name_kana" class="" placeholder="カブシキガイシャサキハラショウジ"
                             value="@if($login_flg == 1){{$employer_info->employer_name_kana}}@endif">
                             <span class="required non-mobile">必須</span>
                         </td>
@@ -342,11 +346,12 @@ input::placeholder{
 
                     <tr class="tel-tr">
                         <th>
-                            TEL
+                            TEL<span class="required mobile">必須</span>
                         </th>
                         <td>
-                            <input type="tel" name="tel" id="tel" class="" placeholder="例：098-123-1234"
+                            <input type="tel" name="tel" id="tel" class="" placeholder="098-123-1234" maxlength="15"
                             value="@if($login_flg == 1){{$employer_info->tel}}@endif">
+                            <span class="required non-mobile">必須</span>
                         </td>
 
                     </tr>
@@ -356,8 +361,8 @@ input::placeholder{
                             FAX
                         </th>
                         <td>
-                            <input type="tel" name="fax" id="fax" class="" placeholder="例：098-987-6543"
-                            value="@if($login_flg == 1){{$employer_info->tel}}@endif">
+                            <input type="tel" name="fax" id="fax" class="" placeholder="098-987-6543" maxlength="15"
+                            value="@if($login_flg == 1){{$employer_info->fax}}@endif">
                         </td>
 
                     </tr>
@@ -403,9 +408,9 @@ input::placeholder{
 
                             @endphp
 
-                            <input type="text" name="post_code1" id="post_code1" value="{{$post_code1}}" placeholder="例：904">
+                            <input type="tel" name="post_code1" id="post_code1" value="{{$post_code1}}" placeholder="904" maxlength="3">
                             <span class="hyphen">-</span>
-                            <input type="text" name="post_code2" id="post_code2" value="{{$post_code2}}" placeholder="例：0002">
+                            <input type="tel" name="post_code2" id="post_code2" value="{{$post_code2}}" placeholder="0002" maxlength="4">
 
                             <input type="hidden" name="post_code" id="post_code" placeholder="" value="">
 
@@ -420,7 +425,7 @@ input::placeholder{
                             住所1
                         </th>
                         <td>
-                            <input type="text" name="address1" id="address1" class="" placeholder="例：沖縄県沖縄市安慶田0-0-0"
+                            <input type="text" name="address1" id="address1" class="" placeholder="沖縄県沖縄市安慶田0-0-0"
                             value="@if($login_flg == 1){{$employer_info->address1}}@endif">
                         </td>
 
@@ -431,7 +436,7 @@ input::placeholder{
                             住所2
                         </th>
                         <td>
-                            <input type="text" name="address2" id="address2" class="" placeholder="例：崎原ビル101"
+                            <input type="text" name="address2" id="address2" class="" placeholder="崎原ビル101"
                             value="@if($login_flg == 1){{$employer_info->address2}}@endif">
                         </td>
 
@@ -442,15 +447,13 @@ input::placeholder{
                             HP_URL
                         </th>
                         <td>
-                            <input type="text" name="hp_url" id="hp_url" class="" placeholder="例：https://www.example.com/"
+                            <input type="text" name="hp_url" id="hp_url" class="" placeholder="https://www.example.com/"
                             value="@if($login_flg == 1){{$employer_info->hp_url}}@endif">
                         </td>
                     </tr>
 
-
-
-
                 </tbody>
+                
             </table>
 
             <div class="row text-end">

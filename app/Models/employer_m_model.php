@@ -18,6 +18,7 @@ class employer_m_model extends Model
 
     protected $fillable = [
         'employer_id',
+        'employer_division',
         'employer_name',
         'employer_name_kana',
         'post_code',

@@ -308,7 +308,7 @@ class recruit_project_controller extends Controller
 
         $employer_division_list = create_list::employer_division_list();   
 
-        return view('recruit_project/screen/information_register', compact('mailaddress','employer_info','login_flg','employer_division_list'));   
+        return view('recruit_project/screen/information_register', compact('employer_info','login_flg','employer_division_list'));   
 
     }
 
@@ -361,8 +361,8 @@ class recruit_project_controller extends Controller
 
             employer_m_model::create(
                 [
-                    "employer_division" => $employer_division
-                    ,"employer_id" => $employer_id
+                    "employer_id" => $employer_id
+                    ,"employer_division" => $employer_division                    
                     ,"employer_name" => $employer_name
                     ,"employer_name_kana" => $employer_name_kana
                     ,"post_code" => $post_code
@@ -509,6 +509,7 @@ class recruit_project_controller extends Controller
                 );                
             }
                     
+            $employer_division = $request->employer_division;
             $employer_name = $request->employer_name;
             $employer_name_kana = $request->employer_name_kana;
             $post_code = $request->post_code;
@@ -525,7 +526,8 @@ class recruit_project_controller extends Controller
             ->update(
                 [
                     
-                    "employer_name" => $employer_name
+                    "employer_division" => $employer_division
+                    ,"employer_name" => $employer_name
                     ,"employer_name_kana" => $employer_name_kana
                     ,"post_code" => $post_code
                     ,"address1" => $address1
