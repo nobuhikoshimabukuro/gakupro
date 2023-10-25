@@ -178,7 +178,7 @@
                                 最新の住所データCSVをダウンロードしてください。
                                 
                                     <a href="https://postaladdress.jp/municipality/download" target="_blank">
-                                        <button class="btn btn-secondary">郵政ダウンロードページ</button>
+                                        <button type="button" class="btn btn-secondary">郵政ダウンロードページ</button>
                                     </a>
                                 ダウンロードページでは下記の項目にチェックを必ず入れてダウンロードしてください。
                                 <ul>
