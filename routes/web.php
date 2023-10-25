@@ -14,6 +14,7 @@ use App\Http\Controllers\headquarters\master\staff_with_project_t_controller;
 use App\Http\Controllers\headquarters\master\school_m_controller;
 use App\Http\Controllers\headquarters\master\majorsubject_m_controller;
 use App\Http\Controllers\headquarters\master\member_m_controller;
+use App\Http\Controllers\headquarters\master\address_m_controller;
 
 use App\Http\Controllers\hp\hp_controller;
 
@@ -64,6 +65,11 @@ Route::get('headquarters/master', [headquarters_controller::class, 'master_index
 Route::get('headquarters/recruit_project', [headquarters_controller::class, 'recruit_project_index'])->name('recruit_project.index');
 Route::get('headquarters/photo_project', [headquarters_controller::class, 'photo_project_index'])->name('photo_project.index');
 Route::get('headquarters/member', [headquarters_controller::class, 'member_index'])->name('member.index');
+
+
+Route::get('headquarters/master/address/', [address_m_controller::class, 'index'])->name('master.address');
+Route::post('headquarters/master/address/save', [address_m_controller::class, 'save'])->name('master.address.save');
+
 
 Route::get('headquarters/master/project/', [project_m_controller::class, 'index'])->name('master.project');
 Route::post('headquarters/master/project/save', [project_m_controller::class, 'save'])->name('master.project.save');

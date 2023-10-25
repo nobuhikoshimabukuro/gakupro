@@ -82,6 +82,15 @@
             </a>
         </div>
 
+        <div class="col-6 col-md-4 col-xl-3 p-3">
+            <a href="{{ route('master.address') }}">
+                <div class="bg-dark rounded-lg text-light p-2 ">                    
+                    <i class="far fa-id-card fa-3x mb-1"></i>
+                    <h6>住所マスタ</h6>
+                </div>
+            </a>
+        </div>
+
         {{-- <div class="col-6 col-md-4 col-xl-3 p-3 ">
             <a href="{{ route('master.employer') }}">
                 <div class="bg-dark rounded-lg text-light p-2 ">

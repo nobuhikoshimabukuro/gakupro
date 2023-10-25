@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers\headquarters\master;
 use App\Http\Controllers\Controller;
-use App\Models\maincategory_m_model;
-use App\Models\subcategory_m_model;
-
-
 use Carbon\Carbon;
-
 use Exception;
 use Illuminate\Support\Facades\Log;
-
 use Illuminate\Http\Request;
+
 use App\Http\Requests\subcategory_m_request;
 
+use App\Models\maincategory_m_model;
+use App\Models\subcategory_m_model;
 
 
 class subcategory_m_controller extends Controller

@@ -14,7 +14,9 @@
 
     <div id="" class="row item-center">
 
-        {{$job_information->application_requirements}}        
+        <textarea id=""  class ="application_requirements" name="Content"> 
+        {{$job_information->application_requirements}}   
+        </textarea>     
 
     </div>
     
