@@ -147,7 +147,7 @@ class member_m_controller extends Controller
         } 
 
 
-        $member_list = $member_list->paginate(env('paginate_count'));
+        $member_list = $member_list->paginate(env('Paginate_Count'));
 
 
         foreach($member_list as $info){

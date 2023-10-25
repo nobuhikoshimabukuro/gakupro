@@ -174,7 +174,26 @@
                         @csrf
                         <div class="modal-body">  
                             
-                            <input type="hidden" name="project_id" id="project_id">
+                            <div class="form-group row">
+                                最新の住所データCSVをダウンロードしてください。
+                                
+                                    <a href="https://postaladdress.jp/municipality/download" target="_blank">
+                                        <button class="btn btn-secondary">郵政ダウンロードページ</button>
+                                    </a>
+                                ダウンロードページでは下記の項目にチェックを必ず入れてダウンロードしてください。
+                                <ul>
+                                    <li>市区町村コード</li>
+                                    <li>市区町村名</li>
+                                    <li>市区町村名カナ</li>
+                                    <li>都道府県コード</li>
+                                    <li>都道府県名</li>
+                                    <li>都道府県名カナ</li>
+                                </ul>
+                                
+                                
+
+                            </div>   
+                            
                             
                             <div class="form-group row">
                                 <input type="file" name="csv_file" accept=".csv">
@@ -319,26 +338,8 @@ $(function(){
             .fail(function (data, textStatus, errorThrown) {
                 
                 //{{-- アラートメッセージ表示 --}}
-                let errorsHtml = '<div class="alert alert-danger text-start">';
-
-                if (data.status == '422') {
-                    //{{-- vlidationエラー --}}
-                    $.each(data.responseJSON.errors, function (key, value) {
-                        //{{-- responsからerrorsを取得しメッセージと赤枠を設定 --}}
-                        errorsHtml += '<li  class="text-start">' + value[0] + '</li>';
-                    
-                        $("[name='" + key + "']").addClass('is-invalid');
-                        
-                        $("[name='" + key + "']").next('.invalid-feedback').text(value);
-                    });
-
-                } else {
-
-                    //{{-- その他のエラー --}}
-                    errorsHtml += '<li class="text-start">登録処理エラー</li>';
-
-                }
-
+                let errorsHtml = '<div class="alert alert-danger text-start">';                
+                errorsHtml += '<li class="text-start">登録処理エラー</li>';
                 errorsHtml += '</div>';
                 
                 //{{-- アラート --}}

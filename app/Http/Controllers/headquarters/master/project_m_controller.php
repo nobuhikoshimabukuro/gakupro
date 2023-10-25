@@ -31,7 +31,7 @@ class project_m_controller extends Controller
             $project_m_list = $project_m_list->where('project_m.project_name', 'like', '%' . $search_element_array['search_project_name'] . '%');
         }
 
-        $project_m_list = $project_m_list->paginate(env('paginate_count'));
+        $project_m_list = $project_m_list->paginate(env('Paginate_Count'));
 
         return view('headquarters/screen/master/project/index', compact('search_element_array','project_m_list'));
     }

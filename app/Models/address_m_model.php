@@ -14,7 +14,7 @@ class address_m_model extends Model
     //コネクション名を指定
     protected $connection = 'mysql';
     protected $table = 'address_m';
-    protected $primaryKey = ["prefectural_cd" , "prefectural_name"];
+    protected $primaryKey = ["prefectural_cd" , "municipality_cd"];
 
     protected $fillable = [
         'prefectural_cd',
@@ -24,4 +24,7 @@ class address_m_model extends Model
         'municipality_name',
         'municipality_name_kana',     
     ];
+
+    // increment無効化    
+    public $incrementing = false;
 }

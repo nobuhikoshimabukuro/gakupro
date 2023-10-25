@@ -292,7 +292,7 @@ class photo_project_controller extends Controller
             DB::connection('mysql')->commit();
 
         } catch (Exception $e) {
-
+            
             DB::connection('mysql')->rollBack();
 
             $m =  $e->getMessage();
