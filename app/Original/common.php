@@ -278,6 +278,21 @@ class common
 
     }   
 
+    //ランダム文字列作成処理    引数で桁数を指定する
+    public static function is_hiragana_or_katakana($str)
+    {           
+        // ひらがなまたはカタカナの正規表現
+        $pattern = '/^[\p{Hiragana}\p{Katakana}ー]+$/u';
+
+        // マッチングを行う
+        if (preg_match($pattern, $str)) {
+            return true; // ひらがなまたはカタカナのみ
+        } else {
+            return false; // それ以外の文字が含まれている
+        }
+
+    }   
+
 
     //※※※※※※※※※※※※※※※※※※※※※※※※※※※※※※
     //※本番稼働後は暗号化キーは絶対に変更してはダメ

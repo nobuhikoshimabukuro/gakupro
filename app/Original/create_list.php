@@ -3,6 +3,7 @@
 namespace App\Original;
 use Exception;
 use App\Models\subcategory_m_model;
+use App\Models\address_m_model;
 
 
 class create_list
@@ -49,6 +50,29 @@ class create_list
     //雇用者区分コンボボックス
     public static function employer_division_list()
     {      
+        $employer_division_list = subcategory_m_model::select(
+            'subcategory_cd as employer_division_cd',
+            'subcategory_name as employer_division_name',
+        )->where('maincategory_cd', env('employer_division_subcategory_cd'))
+        ->orderBy('display_order', 'asc')
+        ->get();
+
+        return $employer_division_list;
+    }
+
+
+    //都道府県市区町村コンボボックス
+    public static function address_list($process_branch)
+    {      
+
+        
+        if($process_branch == 1){
+            //都道府県リスト
+
+        }else{
+            //市区町村リスト
+
+        }
         $employer_division_list = subcategory_m_model::select(
             'subcategory_cd as employer_division_cd',
             'subcategory_name as employer_division_name',

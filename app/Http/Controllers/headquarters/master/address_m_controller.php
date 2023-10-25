@@ -7,10 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use Carbon\Carbon;
+use App\Original\common;
+use App\Original\create_list;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use League\Csv\Reader;
-
 
 use App\Models\address_m_model;
 
@@ -39,11 +40,25 @@ class address_m_controller extends Controller
      
             $search_prefectural_name = $search_element_array["search_prefectural_name"];
 
-            $address_m_list = $address_m_list->where(function ($query) use ($search_prefectural_name) {
-                $query->where('prefectural_name', 'LIKE', "%$search_prefectural_name%")
-                    ->orWhere('prefectural_name_kana', 'LIKE', "%$search_prefectural_name%");
-            });
+            if(common::is_hiragana_or_katakana($search_prefectural_name)){                
 
+                //全文字がひらなが、またはカタカナ
+                //全文字全角カタカナに変換
+                $search_prefectural_name_kana = mb_convert_kana($search_prefectural_name, 'KHC');
+
+                $address_m_list = $address_m_list->where(function ($query) use ($search_prefectural_name,$search_prefectural_name_kana) {
+                    $query->where('prefectural_name', 'LIKE', "%$search_prefectural_name%")
+                        ->orWhere('prefectural_name_kana', 'LIKE', "%$search_prefectural_name_kana%");
+                });
+                                
+            }else{
+
+                $address_m_list = $address_m_list->where(function ($query) use ($search_prefectural_name) {
+                    $query->where('prefectural_name', 'LIKE', "%$search_prefectural_name%")
+                        ->orWhere('prefectural_name_kana', 'LIKE', "%$search_prefectural_name%");
+                });
+
+            }
         }
 
         if(!is_null($search_element_array['search_municipality_cd'])){
@@ -53,14 +68,32 @@ class address_m_controller extends Controller
         if(!is_null($search_element_array['search_municipality_name'])){
      
             $search_municipality_name = $search_element_array["search_municipality_name"];
+            
+            if(common::is_hiragana_or_katakana($search_municipality_name)){
+                //全文字がひらなが、またはカタカナ
 
-            $address_m_list = $address_m_list->where(function ($query) use ($search_municipality_name) {
-                $query->where('municipality_name', 'LIKE', "%$search_municipality_name%")
-                    ->orWhere('municipality_name_kana', 'LIKE', "%$search_municipality_name%");
-            });
+                //全文字全角カタカナに変換
+                $search_municipality_name_kana = mb_convert_kana($search_municipality_name, 'KHC');
+
+                $address_m_list = $address_m_list->where(function ($query) use ($search_municipality_name,$search_municipality_name_kana) {                   
+
+                    $query->where('municipality_name', 'LIKE', "%$search_municipality_name%")
+                        ->orWhere('municipality_name_kana', 'LIKE', "%$search_municipality_name_kana%");
+
+                });
+
+            }else{
+
+                $address_m_list = $address_m_list->where(function ($query) use ($search_municipality_name) {
+                    $query->where('municipality_name', 'LIKE', "%$search_municipality_name%")
+                        ->orWhere('municipality_name_kana', 'LIKE', "%$search_municipality_name%");
+                });
+
+            }
 
         }
 
+        $gender_list = create_list::gender_list(1);
 
         $address_m_list = $address_m_list->paginate(30);
 
@@ -68,6 +101,7 @@ class address_m_controller extends Controller
         
     }
 
+   
     //  更新処理
     function save(Request $request)
     {
