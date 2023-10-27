@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use App\Original\common;
+use App\Original\create_list;
 
 use App\Models\job_information_t_model;
 
@@ -42,6 +43,14 @@ class hp_controller extends Controller
     {        
         
 
+        //検索項目格納用配列
+        $search_element_array = [
+            'search_prefectural_cd' => $request->search_prefectural_cd,
+            'search_prefectural_name' => $request->search_prefectural_name,
+            'search_municipality_cd' => $request->search_municipality_cd,
+            'search_municipality_name' => $request->search_municipality_name,
+        ];
+
 
         //請求先情報取得
         $job_information = job_information_t_model::select(
@@ -59,10 +68,15 @@ class hp_controller extends Controller
         ->leftJoin('employer_m', 'job_information_t.employer_id', '=', 'employer_m.employer_id')
         ->get();
 
+        $prefectural_list = create_list::prefectural_list();
 
 
         // return view('hp/screen/job_information', compact('job_information_t_model' , 'display_year_array'));
-        return view('hp/screen/job_information', compact('job_information'));
+        return view('hp/screen/job_information', 
+                compact('job_information' 
+                , 'search_element_array'
+                , 'prefectural_list'
+            ));
     }
 
     function job_information_detail(Request $request)

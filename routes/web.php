@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 use App\Original\get_data;
+use App\Original\create_list;
 
 use App\Http\Controllers\headquarters\master\project_m_controller;
 use App\Http\Controllers\headquarters\master\maincategory_m_controller;
@@ -122,6 +123,8 @@ Route::get('headquarters/get_data/majorsubject_list_get', [get_data::class, 'maj
 Route::get('headquarters/get_data/school_info_get', [get_data::class, 'school_info_get'])->name('get_data.school_info_get');
 Route::get('headquarters/get_data/majorsubject_info_get', [get_data::class, 'majorsubject_info_get'])->name('get_data.majorsubject_info_get');
 
+
+Route::get('create_list/municipality_list_ajax', [create_list::class, 'municipality_list_ajax'])->name('create_list.municipality_list_ajax');
 //本部  End
 
 

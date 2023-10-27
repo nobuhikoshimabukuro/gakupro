@@ -2,6 +2,10 @@
 
 namespace App\Original;
 use Exception;
+use Illuminate\Http\Request;
+
+use App\Original\common;
+
 use App\Models\subcategory_m_model;
 use App\Models\address_m_model;
 
@@ -61,26 +65,119 @@ class create_list
     }
 
 
-    //都道府県市区町村コンボボックス
-    public static function address_list($process_branch)
+    //都道府県コンボボックス
+    public static function prefectural_list()
     {      
-
-        
-        if($process_branch == 1){
-            //都道府県リスト
-
-        }else{
-            //市区町村リスト
-
-        }
-        $employer_division_list = subcategory_m_model::select(
-            'subcategory_cd as employer_division_cd',
-            'subcategory_name as employer_division_name',
-        )->where('maincategory_cd', env('employer_division_subcategory_cd'))
-        ->orderBy('display_order', 'asc')
+      
+        $prefectural_list = address_m_model::select(
+            'prefectural_cd as prefectural_cd',
+            'prefectural_name as prefectural_name',
+            'prefectural_name_kana as prefectural_name_kana',
+        )
+        ->orderBy('prefectural_cd', 'asc')
+        ->groupBy(
+            'prefectural_cd',
+            'prefectural_name',
+            'prefectural_name_kana',
+        )
         ->get();
 
-        return $employer_division_list;
+        return $prefectural_list;
+    }
+
+    //都道府県コンボボックス
+    public static function prefectural_list_ajax(Request $request)
+    {      
+      
+        $prefectural_list = array();      
+        $prefectural_name = $request->prefectural_name;
+
+        $address_m_model = address_m_model::select(
+            'prefectural_cd as prefectural_cd',
+            'prefectural_name as prefectural_name',
+            'prefectural_name_kana as prefectural_name_kana',
+        )
+        ->orderBy('prefectural_cd', 'asc')
+        ->groupBy(
+            'prefectural_cd',
+            'prefectural_name',
+            'prefectural_name_kana',
+        )
+        ->where('prefectural_name', 'LIKE', "%$prefectural_name%")
+        ->get();
+
+        if(count($address_m_model) > 0) {
+
+            foreach($address_m_model as $info){
+
+                $municipality_list[] = array(
+                    'prefectural_cd' => $info->prefectural_cd,
+                    'prefectural_name' => $info->prefectural_name,
+                    'prefectural_name_kana' => $info->prefectural_name_kana            
+                );
+            }
+
+        }
+
+        return response()->json(['prefectural_list' => $prefectural_list]);      
+    }
+
+
+    //市区町村コンボボックス
+    //ajaxからget処理のみで呼ばれる処理
+    public static function municipality_list_ajax(Request $request)
+    {      
+      
+        $municipality_list = array();        
+        $prefectural_cd = $request->prefectural_cd;
+        $municipality_name = $request->municipality_name;
+
+        $address_m_model = address_m_model::select(
+            'municipality_cd as municipality_cd',
+            'municipality_name as municipality_name',
+            'municipality_name_kana as municipality_name_kana',
+        )
+        ->orderBy('municipality_cd', 'asc')
+        ->where('prefectural_cd', '=', $prefectural_cd);        
+
+        if($municipality_name != ""){
+
+            if(common::is_hiragana_or_katakana($municipality_name)){                
+
+                //全文字がひらなが、またはカタカナ
+                //全文字全角カタカナに変換
+                $municipality_name_kana = mb_convert_kana($municipality_name, 'KHC');
+
+                $address_m_model = $address_m_model->where(function ($query) use ($municipality_name,$municipality_name_kana) {
+                    $query->where('municipality_name', 'LIKE', "%$municipality_name%")
+                        ->orWhere('municipality_name_kana', 'LIKE', "%$municipality_name_kana%");
+                });
+                                
+            }else{
+
+                $address_m_model = $address_m_model->where(function ($query) use ($municipality_name) {
+                    $query->where('prefectural_name', 'LIKE', "%$municipality_name%")
+                        ->orWhere('prefectural_name_kana', 'LIKE', "%$municipality_name%");
+                });
+            }
+        }
+
+        $address_m_model = $address_m_model->get();
+
+        if(count($address_m_model) > 0) {
+
+            foreach($address_m_model as $info){
+
+                $municipality_list[] = array(
+                    'municipality_cd' => $info->municipality_cd,
+                    'municipality_name' => $info->municipality_name,
+                    'municipality_name_kana' => $info->municipality_name_kana            
+                );
+            }
+
+        }
+
+        return response()->json(['municipality_list' => $municipality_list]);        
     }
  
 
