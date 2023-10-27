@@ -18,9 +18,7 @@
     height: 100vh;
 	background:#eee9e9;
     /*動き*/
-	transition: all 0.6s;
-
-    
+	transition: all 0.6s;    
 }
 
 /*アクティブクラスがついたら位置を0に*/
@@ -31,9 +29,9 @@
 
 
 
-.area {
+.search-board-inner-area {
   width: 100%;
-  margin: auto;
+  margin: 0;
   flex-wrap: wrap;
   display: flex;
 }
@@ -60,9 +58,10 @@ input:checked + .tab_class {
 }
  
 .content_class {
-  display: none;
-  width: 100%;
-  overflow-y: scroll;
+    display: none;
+    width: 100%;   
+
+    
 }
  
 input:checked + .tab_class + .content_class {
@@ -72,7 +71,11 @@ input:checked + .tab_class + .content_class {
 
 
 
-
+.municipality-check-area{
+    overflow-y: auto;
+    max-height: 100vh; /* 適切な高さを設定 */
+    -webkit-overflow-scrolling: touch;   // 慣性スクロールを追加
+}
 
 
 
@@ -151,9 +154,24 @@ input:checked + .tab_class + .content_class {
 
 
 
-    .check_lb {
-  display:block;
+/* PC用 */
+@media (min-width:769px) {  /*画面幅が769px以上の場合とする*/
+   .search-board{     
+        width:50%;
+    }
 }
+
+
+
+/* スマホ用 */
+@media (max-width:768px) {  /*画面幅が768px以下の場合とする*/
+
+    .search-board{     
+        width:100%;
+    }
+}
+
+
 </style>
 
 
@@ -204,7 +222,7 @@ input:checked + .tab_class + .content_class {
         </div>
     </div>
 
-    <div class="area row">
+    <div class="search-board-inner-area row">
         
         <input type="radio" name="tab_name" id="tab1" checked>
         <label class="tab_class" for="tab1">勤務地<i class="fas fa-map-marker-alt"></i></label>
@@ -238,46 +256,13 @@ input:checked + .tab_class + .content_class {
 
             <div class="municipality-check-area row">
                 
-                {{-- Demo --}}
-                <div id="" class="col-4 mt-2 p-0">
-                <label for="municipality_cd_" class="d-block">
-                <input type="checkbox" id="municipality_cd_"
-                    name="municipality_cd_"
-                    >municipality_name                    
-                </label>
-                </div>
-                {{-- Demo --}}
-
-
-                {{-- Demo --}}
-                <div id="" class="col-4 mt-2 p-0">
-                    <label for="municipality_cd_" class="d-block">                    
-                        municipality_name                    
-                    </label>
-                    <input type="checkbox" id="municipality_cd_"
-                        name="municipality_cd_"
-                        >
-                </div>
-                {{-- Demo --}}
-
-                {{-- Demo --}}
-                <div id="" class="col-4 mt-2 p-0">
-                    <input type="checkbox" id="municipality_cd_"
-                        name="municipality_cd_"
-                        >
-                    <label for="municipality_cd_" class="d-block">                    
-                        municipality_name                    
-                    </label>
-                    
-                </div>
-                {{-- Demo --}}
-
+                
             </div>
 
 
                 
                
-            </div>
+            
 
 
             
