@@ -26,41 +26,62 @@
     right: 0;
 }
 
-.search-board-tab-table {
-    width: 100%;
-}
 
-.search-board-tab-table th{
-    width: 25%;
-    margin: 0;
-    padding: 1px;;
 
-}
 
-.search-board-tab-table button{
-    width: 100%;
-    background-color: aqua;
-}
-
+.search-board-inner-area {
+  width: 100%;
  
-.search-board-contents {    
-    max-height: calc(90vh - 30px);    
+  margin: 0;
+  flex-wrap: wrap;
+  display: flex;
+}
+ 
+.search-tab {
+  width: calc(100%/5);
+  height: 50px;
+  background-color: darkgrey;
+  line-height: 50px;
+  font-size: 15px;
+  text-align: center;
+  display: block;
+  float: left;
+  order: -1;
+}
+ 
+input[name="tab-name"] {
+  display: none;
+}
+ 
+input:checked + .search-tab {
+  background-color: cadetblue;
+  color: aliceblue;
+}
+ 
+.search-content {
+    display: none;
+    width: 100%;   
+    max-height: calc(100vh - 30px);
     overflow-y: auto;
     
 }
  
+input:checked + .search-tab + .search-content {
+  display: block;
+}
 
 
-.search-board-footer{        
-    position:absolute;        
-	bottom:0;     
-    right: 0; 
+.search-board-footer{    
+    position:fixed;    
+	bottom:0;  
+    height: 30px;      	  
+    width: 100%; 
 }
 
 
 
 .municipality-check-area{
-    padding-left: 15px;
+    
 }
 
 
@@ -165,111 +186,102 @@
 
 <div class="search-board">
 
-    <div class="row">
+    <div class="search-board-inner-area row">
+        
+        <input type="radio" name="tab-name" id="tab1" checked>
+        <label class="search-tab" for="tab1">勤務地<i class="fas fa-map-marker-alt"></i></label>
+        <div class="search-content">
+          
+            <table class="row">
 
-        <div class="search-board-header col-12 ">
-
-            
-            
-                <table class="search-board-tab-table">
+                <tr>
                     <th>
-                        <button class="btn search-board-tab-button" data-target="1">
-                            勤務地<i class="fas fa-map-marker-alt"></i>
-                        </button>
+                        都道府県を選択してください
                     </th>
 
-                    <th>
-                        <button class="btn search-board-tab-button" data-target="2">
-                            タブ2
-                        </button>
-                    </th>
+                    <td>
+                        <select id='search_prefectural_cd' name='search_prefectural_cd' class='form-control input-sm'>
+                            <option value=''>未選択</option>
+                                @foreach($prefectural_list as $prefectural_info)
+                                    <option value="{{$prefectural_info->prefectural_cd}}"
+                                        @if($search_element_array['search_prefectural_cd'] == $prefectural_info->prefectural_cd) selected @endif
+                                        title= "{{$prefectural_info->prefectural_name_kana}}"
+                                    >
+                                        {{$prefectural_info->prefectural_name}}
+                                    </option>
+                                @endforeach
+                        </select>
+                    </td>
+                </tr>
 
-                    <th>
-                        <button class="btn search-board-tab-button" data-target="3">
-                            タブ3
-                        </button>
-                    </th>
 
-                    <th>
-                        <button class="btn search-board-tab-button" data-target="4">
-                            タブ4
-                        </button>
-                    </th>               
+            </table>
 
-                </table>
-
-            
-        </div>
-    </div>
-
-    <div class="search-board-contents-area row">
-
-        <div class="search-board-contents contents-1 col-12 ">
-
-            <div class="d-block">
-                <label for="search_prefectural_cd" class="">
-                    都道府県を選択してください
-                </label>
-
-                <select id='search_prefectural_cd' name='search_prefectural_cd' class='input-sm'>
-                    <option value=''>未選択</option>
-                        @foreach($prefectural_list as $prefectural_info)
-                            <option value="{{$prefectural_info->prefectural_cd}}"
-                                @if($search_element_array['search_prefectural_cd'] == $prefectural_info->prefectural_cd) selected @endif
-                                title= "{{$prefectural_info->prefectural_name_kana}}"
-                            >
-                            {{$prefectural_info->prefectural_name}}
-                            </option>
-                        @endforeach
-                </select>
-            </div>
 
             <div class="municipality-check-area row">
                 
                 
             </div>
 
+
+                
+               
+            
+
+
             
 
         </div>
 
-        <div class="search-board-contents contents-2 col-12 d-none">
 
-            タブ2
-            
-
+        <input type="radio" name="tab-name" id="tab2" >
+        <label class="search-tab" for="tab2">タブ2</label>
+        <div class="search-content">
+          <p>タブ2のコンテンツを表示します</p>
         </div>
 
-        <div class="search-board-contents contents-3 col-12 d-none">
 
-            
-            タブ3
-
+        <input type="radio" name="tab-name" id="tab3" >
+        <label class="search-tab" for="tab3">タブ3</label>
+        <div class="search-content">
+          <p>タブ3のコンテンツを表示します</p>
         </div>
 
-        <div class="search-board-contents contents-4 col-12 d-none">
 
-            タブ4
-            
-
+        <input type="radio" name="tab-name" id="tab4" >
+        <label class="search-tab" for="tab4">タブ4</label>
+        <div class="search-content">
+          <p>タブ4のコンテンツを表示します</p>
         </div>
 
-    </div>
-
-    <div class="search-board-footer w-100">
-
-        <div class="row p-3">
+        <input type="radio" name="tab-name" id="tab5" >
+        <label class="search-tab" for="tab5">タブ5</label>
+        <div class="search-content">
+          <p>タブ5のコンテンツを表示します</p>
+        </div>
         
-            <div class="col-6">            
-                <button type="button" class="btn btn-secondary w-100 search-board-close-button">閉じる</button>
-            </div>
+        
 
-            <div class="col-6">            
-                <button type="button" class="btn btn-primary w-100 search-button">検索</button>
+
+
+
+        <div class="search-board-footer row">
+        
+            <div class="col-3">
+                <button type="button" class="btn btn-success search-button">
+                    検索
+                </button>
+            
             </div>
+            <div class="col-3">
+                <button type="button" class="btn-close search-board-close-button" ></button>
+            </div>
+        
         </div>
-
+        
     </div>
+
+
 
 </div>
 
@@ -411,97 +423,17 @@
 <script type="text/javascript">
 
 $(function(){
-   
 
-    //検索ボードオープンボタン
+    
+
     $(document).on("click", ".search-board-open-button", function (e) {
         $(".search-board").addClass('search-board-active');
     });
 
-    //検索ボードクローズボタン
     $(document).on("click", ".search-board-close-button", function (e) {
         $(".search-board").removeClass('search-board-active');
     });
 
-    //検索ボードタブボタン
-    $(document).on("click", ".search-board-tab-button", function (e) {
-
-        var target = $(this).data('target');
-
-        $(".search-board-contents").removeClass('d-none');
-
-        $(".search-board-contents").addClass('d-none');
-
-        $(".search-board-contents-area .contents-" + target).removeClass('d-none');
-    });
-
-
-    //検索ボタン
-    $(document).on("click", ".search-button", function (e) {
-        
-        
-        var url = "{{ route('hp.job_information') }}";
-
-
-        document.body.style.cursor = 'wait';
-
-        $.ajax({
-            url: url, // 送信先
-            type: 'get',
-            dataType: 'json',
-            data: {prefectural_cd : "1"},
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-        })
-        .done(function (data, textStatus, jqXHR) {
-            // テーブルに通信できた場合
-            // var municipality_list = data.municipality_list;
-
-            
-
-        })
-        .fail(function (data, textStatus, errorThrown) {
-        
-
-        
-            //マウスカーソルを通常に
-            document.body.style.cursor = 'auto';
-
-        });
-
-
-
-
-
-
-    });
-
-
-    function set_address(){
-
-        var prefectural_cd = $("#search_prefectural_cd").val();
-
-        
-
-        
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
     
     $('.job-detail').click(function () {
         
@@ -580,8 +512,6 @@ $(function(){
                     add_html += '<div id="" class="col-4 mt-2 p-0">';
                     add_html += '<label for="municipality_cd_'+  municipality_cd + '" class="d-block">';
                     add_html += '<input type="checkbox" id="municipality_cd_'+  municipality_cd + '" ';
-                    add_html += 'class="municipality_cd"';                
-                    add_html += 'value="' + municipality_cd + '"';
                     add_html += 'name="municipality_cd_'+  municipality_cd + '"';
                     add_html += '>'+  municipality_name;
                     add_html += '</label>';                

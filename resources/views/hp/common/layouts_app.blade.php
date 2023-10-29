@@ -239,7 +239,7 @@
 <script src="{{ asset('js/hp/common.js') }}"></script>
 
 <script src="{{ asset('js/hp/main.js') }}"></script>
-<script src="{{ asset('js/hp/slick.js') }}"></script>
+
 
 
 <!--▽▽jQuery▽▽-->
