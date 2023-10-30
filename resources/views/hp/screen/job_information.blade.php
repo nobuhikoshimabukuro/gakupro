@@ -55,23 +55,12 @@
     
     .search-board-contents {    
         max-height: calc(85vh - 10px);    
-        overflow-y: auto;
-        
+        overflow-y: auto;        
     }
     
-
-
-
     .municipality-check-area{
         padding: 0 0 15px 15px;
     }
-
-
-
-
-
-
-
 
     .item-center{
         display: flex;
