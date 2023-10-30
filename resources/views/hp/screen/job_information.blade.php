@@ -44,19 +44,11 @@
 
  
 .search-board-contents {    
-    max-height: calc(90vh - 50px);    
+    max-height: calc(85vh - 10px);    
     overflow-y: auto;
     
 }
  
-
-
-.search-board-footer{        
-    position:absolute;        
-	bottom:0;     
-    right: 0; 
-    padding-bottom: 100px;
-}
 
 
 
@@ -174,6 +166,20 @@
         <div class="search-board-header col-12 ">
 
             
+
+                <div class="row p-1">
+                
+                    <div class="col-6">            
+                        <button type="button" class="btn btn-secondary w-100 search-board-close-button">閉じる</button>
+                    </div>
+        
+                    <div class="col-6">            
+                        <button type="button" class="btn btn-primary w-100 search-button">検索</button>
+                    </div>
+                </div>
+        
+            
+            
             
                 <table class="search-board-tab-table">
                     <th>
@@ -284,20 +290,7 @@
 
     </div>
 
-    <div class="search-board-footer w-100">
-
-        <div class="row p-3">
-        
-            <div class="col-6">            
-                <button type="button" class="btn btn-secondary w-100 search-board-close-button">閉じる</button>
-            </div>
-
-            <div class="col-6">            
-                <button type="button" class="btn btn-primary w-100 search-button">検索</button>
-            </div>
-        </div>
-
-    </div>
+   
 
 </div>
 
