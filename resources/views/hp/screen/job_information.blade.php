@@ -55,7 +55,7 @@
     position:absolute;        
 	bottom:0;     
     right: 0; 
-    padding-bottom: 30px;
+    padding-bottom: 100px;
 }
 
 
