@@ -6,7 +6,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no viewport-fit=cover">    
     <link href="{{ asset('css/all.css') . $update_now}}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.css') . $update_now }}" rel="stylesheet">  
     <link href="{{ asset('css/recruit_project/common.css') . $update_now }}" rel="stylesheet">          
