@@ -8,53 +8,63 @@
 <style>
 
 
-.search-board{    
-    position:fixed;
-    padding: 3px;
-    z-index: 999;    
-	top:0;
-    right: -120%;
-	width:50%;
-    height: 100vh;
-	background:#eee9e9;
-    /*動き*/
-	transition: all 0.6s;    
-}
+    .search-board{    
+        position:fixed;
+        padding: 3px;
+        z-index: 999;    
+        top:0;
+        right: -120%;
+        width:50%;
+        height: 100vh;
+        background:#eee9e9;
+        /*動き*/
+        transition: all 0.6s;    
+    }
 
-/*アクティブクラスがついたら位置を0に*/
-.search-board-active{
-    right: 0;
-}
+    /*アクティブクラスがついたら位置を0に*/
+    .search-board-active{
+        right: 0;
+    }
 
-.search-board-tab-table {
-    width: 100%;
-}
+    .search-board-tab-table {
+        width: 100%;
+    }
 
-.search-board-tab-table th{
-    width: 25%;
-    margin: 0;
-    padding: 1px;;
+    .search-board-tab-table th{
+        width: 25%;
+        margin: 0;
+        padding: 1px;;
 
-}
+    }
 
-.search-board-tab-table button{
-    width: 100%;
-    background-color: aqua;
-}
+    .search-board-tab-button{
+        font-weight: 600;        
+        width: 100%;
+        color: white;
+        background-color: rgb(13, 107, 107);
+    }
 
- 
-.search-board-contents {    
-    max-height: calc(85vh - 10px);    
-    overflow-y: auto;
     
-}
- 
+    .after-button{
+        font-weight: 700;        
+        width: 100%;
+        color: white;
+        background-color: rgb(9, 53, 53);
+    }
+
+    
+    .search-board-contents {    
+        max-height: calc(85vh - 10px);    
+        overflow-y: auto;
+        
+    }
+    
 
 
 
-.municipality-check-area{
-    padding: 0 0 15px 15px;
-}
+    .municipality-check-area{
+        padding: 0 0 15px 15px;
+    }
 
 
 
@@ -176,37 +186,42 @@
                     <div class="col-6">            
                         <button type="button" class="btn btn-primary w-100 search-button">検索</button>
                     </div>
+
                 </div>
         
             
             
+                <div class="row p-1">
             
-                <table class="search-board-tab-table">
-                    <th>
-                        <button class="btn search-board-tab-button" data-target="1">
-                            勤務地<i class="fas fa-map-marker-alt"></i>
-                        </button>
-                    </th>
+                    <div class="col-12">   
+                    <table class="search-board-tab-table">
+                        <th>
+                            <button class="btn search-board-tab-button" data-target="1">
+                                勤務地<i class="fas fa-map-marker-alt"></i>
+                            </button>
+                        </th>
 
-                    <th>
-                        <button class="btn search-board-tab-button" data-target="2">
-                            タブ2
-                        </button>
-                    </th>
+                        <th>
+                            <button class="btn search-board-tab-button" data-target="2">
+                                タブ2
+                            </button>
+                        </th>
 
-                    <th>
-                        <button class="btn search-board-tab-button" data-target="3">
-                            タブ3
-                        </button>
-                    </th>
+                        <th>
+                            <button class="btn search-board-tab-button" data-target="3">
+                                タブ3
+                            </button>
+                        </th>
 
-                    <th>
-                        <button class="btn search-board-tab-button" data-target="4">
-                            タブ4
-                        </button>
-                    </th>               
+                        <th>
+                            <button class="btn search-board-tab-button" data-target="4">
+                                タブ4
+                            </button>
+                        </th>               
 
-                </table>
+                    </table>
+                </div>
+                </div>
 
             
         </div>
@@ -465,6 +480,10 @@ $(function(){
     $(document).on("click", ".search-board-tab-button", function (e) {
 
         var target = $(this).data('target');
+
+        $(".after-button").removeClass('after-button');
+        $(this).addClass('after-button');
+
 
         $(".search-board-contents").removeClass('d-none');
 

@@ -178,14 +178,19 @@ class hp_controller extends Controller
         $id = $request->job_number;
 
 
-         //請求先情報取得
-         $job_information = job_information_t_model::select(
+        //請求先情報取得
+        $job_information = job_information_t_model::select(
             'job_information_t.id as id',
             'job_information_t.employer_id as employer_id',
             'employer_m.employer_name as employer_name',
             'job_information_t.job_id as job_id',
             'job_information_t.title as title',
-            'job_information_t.work_location as work_location',
+            DB::raw("
+                CASE
+                    WHEN municipality_address_m.prefectural_name IS NOT NULL THEN CONCAT(municipality_address_m.prefectural_name, '　', municipality_address_m.municipality_name)  
+                    ELSE prefectural_address_m.prefectural_name
+                END as work_location
+            "),
             'job_information_t.working_time as working_time',
             'job_information_t.employment_status as employment_status',
             'job_information_t.salary as salary',
@@ -193,6 +198,13 @@ class hp_controller extends Controller
             'job_information_t.application_requirements as application_requirements'
         )
         ->leftJoin('employer_m', 'job_information_t.employer_id', '=', 'employer_m.employer_id')
+        ->leftJoin(DB::raw('(SELECT prefectural_cd , prefectural_name FROM address_m GROUP BY prefectural_cd ,prefectural_name) as prefectural_address_m'), function ($join) {
+            $join->on('job_information_t.work_location_prefectural_cd', '=', 'prefectural_address_m.prefectural_cd');
+        });  
+        $job_information = $job_information->leftJoin('address_m as municipality_address_m', function ($join) {
+            $join->on('job_information_t.work_location_prefectural_cd', '=', 'municipality_address_m.prefectural_cd')
+                ->on('job_information_t.work_location_municipality_cd', '=', 'municipality_address_m.municipality_cd');                         
+        })
         ->where('id', '=', $id)           
         ->first();
 
