@@ -60,7 +60,7 @@
 
 
 .municipality-check-area{
-    padding-left: 15px;
+    padding: 0 0 15px 15px;
 }
 
 
@@ -157,6 +157,9 @@
     }
 }
 
+.red{
+    background-color: red;
+}
 
 </style>
 
@@ -204,24 +207,26 @@
 
     <div class="search-board-contents-area row">
 
-        <div class="search-board-contents contents-1 col-12 ">
+        <div class="search-board-contents contents-1 col-12">
 
-            <div class="d-block">
-                <label for="search_prefectural_cd" class="">
-                    都道府県を選択してください
-                </label>
+            <div class="w-100 item-center mt-3">
+                <div class="d-block ">
+                    <label for="search_prefectural_cd" class="">
+                        都道府県を選択してください
+                    </label>
 
-                <select id='search_prefectural_cd' name='search_prefectural_cd' class='input-sm'>
-                    <option value=''>未選択</option>
-                        @foreach($prefectural_list as $prefectural_info)
-                            <option value="{{$prefectural_info->prefectural_cd}}"
-                                @if($search_element_array['search_prefectural_cd'] == $prefectural_info->prefectural_cd) selected @endif
-                                title= "{{$prefectural_info->prefectural_name_kana}}"
-                            >
-                            {{$prefectural_info->prefectural_name}}
-                            </option>
-                        @endforeach
-                </select>
+                    <select id='search_prefectural_cd' name='search_prefectural_cd' class='input-sm'>
+                        <option value=''>未選択</option>
+                            @foreach($prefectural_list as $prefectural_info)
+                                <option value="{{$prefectural_info->prefectural_cd}}"
+                                    @if($search_element_array['search_prefectural_cd'] == $prefectural_info->prefectural_cd) selected @endif
+                                    title= "{{$prefectural_info->prefectural_name_kana}}"
+                                >
+                                {{$prefectural_info->prefectural_name}}
+                                </option>
+                            @endforeach
+                    </select>
+                </div>
             </div>
 
             <div class="municipality-check-area row">
@@ -235,8 +240,30 @@
 
         <div class="search-board-contents contents-2 col-12 d-none">
 
-            タブ2
-            
+            <div class="row">
+
+                <div id="" class="col-4 mt-2">
+                    <label id="label1" for="test1" class="w-100">
+                        test1
+                    </label>
+                    <input type="checkbox" id="test1" class="test d-none" value="1" data-target="1">
+                </div>
+
+                <div id="" class="col-4 mt-2">
+                    <label id="label2" for="test2" class="w-100">
+                        test2
+                    </label>
+                    <input type="checkbox" id="test2" class="test d-none" value="2" data-target="2">
+                </div>
+
+                <div id="" class="col-4 mt-2">
+                    <label id="label3" for="test3" class="w-100">
+                        test3
+                    </label>
+                    <input type="checkbox" id="test3" class="test d-none" value="2" data-target="3">
+                </div>
+
+            </div>
 
         </div>
 
@@ -275,127 +302,124 @@
 
 <div id="main" class="mt-3 text-center container">
 
-
-
-
     <button type="button" class="btn btn-success search-board-open-button">
         条件検索
     </button>
 
-
-
-
-
     <div id="" class="row item-center">
 
         
-        
-        @foreach ($job_information as $index => $info)
-        
+        @if(count($job_information) > 0)
 
-            <div class="job-board col-11 col-md-9">
+            @foreach ($job_information as $index => $info)            
 
-                <div id="" class="row m-0 p-0 job-board-inner-area">                    
-                    
-                    <div id="" class="col-12 m-0 p-0 job-name">
-                        {{$info->title}}
-                    </div>
+                <div class="job-board col-11 col-md-9">
 
-                    <div id="" class="col-12 m-0 p-0 employer-name">
-                        {{$info->employer_name}}              
-                    </div>
-
-                    {{-- PCは二分割、モバイルは縦に分割 --}}
-                    {{-- 写真エリア --}}
-                    <div id="" class="col-12 col-md-5 m-0 p-0 job-image-outer-area item-center">   
-
-                        <div class="job-image-inner-area item-center">
-                            <img src="{{ asset('storage/job_image/1/1.png')}}" class="job-image" alt="">       
+                    <div id="" class="row m-0 p-0 job-board-inner-area">                    
+                        
+                        <div id="" class="col-12 m-0 p-0 job-name">
+                            {{$info->title}}
                         </div>
 
+                        <div id="" class="col-12 m-0 p-0 employer-name">
+                            {{$info->employer_name}}              
+                        </div>
+
+                        {{-- PCは二分割、モバイルは縦に分割 --}}
+                        {{-- 写真エリア --}}
+                        <div id="" class="col-12 col-md-5 m-0 p-0 job-image-outer-area item-center">   
+
+                            <div class="job-image-inner-area item-center">
+                                <img src="{{ asset('storage/job_image/1/1.png')}}" class="job-image" alt="">       
+                            </div>
+
+                        </div>
+
+                        {{-- 求人情報エリア --}}
+                        <div id="" class="col-12 col-md-7 m-0 p-0 job-info-area">
+
+                            <table class="job-info-table">
+                                <tr>
+                                    <th>
+                                        勤務地
+                                    </th>
+                                    <td>
+                                        {{$info->work_location}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        雇用形態
+                                    </th>
+                                    <td>
+                                        {{$info->employment_status}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        就労時間
+                                    </th>
+                                    <td>
+                                        {{$info->working_time}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        給与
+                                    </th>
+                                    <td>
+                                        {{$info->salary}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>
+                                        休日
+                                    </th>
+                                    <td>
+                                        {{$info->holiday}}
+                                    </td>
+                                </tr>
+
+                            </table>                    
+                        </div>
+
+
+                        <div id="" class="col-6 m-0 p-0">
+
+                            <button id="" class="w-75 m-0 p-0 job-detail btn btn-outline-success" data-jobnumber="{{$info->id}}">
+                                求人明細を見る
+                            </button>
+
+                        </div>
+
+                        
+
+                        <div id="" class="col-6 m-0 p-0">
+
+                            <button id="" class="w-75 m-0 p-0 employer-detail btn btn-outline-success" data-employerid="{{$info->employer_id}}">
+                                雇用者情報を見る
+                            </button>
+
+                        </div>                    
+
                     </div>
-
-                    {{-- 求人情報エリア --}}
-                    <div id="" class="col-12 col-md-7 m-0 p-0 job-info-area">
-
-                        <table class="job-info-table">
-                            <tr>
-                                <th>
-                                    勤務地
-                                </th>
-                                <td>
-                                    {{$info->work_location}}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th>
-                                    雇用形態
-                                </th>
-                                <td>
-                                    {{$info->employment_status}}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th>
-                                    就労時間
-                                </th>
-                                <td>
-                                    {{$info->working_time}}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th>
-                                    給与
-                                </th>
-                                <td>
-                                    {{$info->salary}}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <th>
-                                    休日
-                                </th>
-                                <td>
-                                    {{$info->holiday}}
-                                </td>
-                            </tr>
-
-                        </table>                    
-                    </div>
-
-
-                    <div id="" class="col-6 m-0 p-0">
-
-                        <button id="" class="w-75 m-0 p-0 job-detail btn btn-outline-success" data-jobnumber="{{$info->id}}">
-                            求人明細を見る
-                        </button>
-
-                    </div>
-
-                    
-
-                    <div id="" class="col-6 m-0 p-0">
-
-                        <button id="" class="w-75 m-0 p-0 employer-detail btn btn-outline-success" data-employerid="{{$info->employer_id}}">
-                            雇用者情報を見る
-                        </button>
-
-                    </div>
-                
 
                 </div>
 
+            @endforeach
 
-            </div>
-        @endforeach
-            
+        @else
+
+                
+
+
+        @endif            
         
-    </div>
-    
+    </div>   
 
 </div>
     
@@ -412,6 +436,26 @@
 
 $(function(){
    
+
+    
+    $(document).on("change", ".test", function (e) {
+
+        var target = $(this).data('target');
+
+
+        $("#label" + target).removeClass('red');
+        if($(this).prop('checked') ){
+            $("#label" + target).addClass('red');            
+        }        
+
+    });
+
+    
+    //画面読込時処理
+    $(document).ready(function() {
+        search_prefectural(1);        
+    });
+    
 
     //検索ボードオープンボタン
     $(document).on("click", ".search-board-open-button", function (e) {
@@ -440,21 +484,34 @@ $(function(){
     $(document).on("click", ".search-button", function (e) {
         
         
-        var url = "{{ route('hp.job_information') }}";
+        var url = "{{ route('hp.job_information_set_search_value') }}";
 
+        var address_search_value_array = set_address_search_value();
 
-        document.body.style.cursor = 'wait';
+        var all_job_search_value_array = {address_search_value_array:address_search_value_array
+            //  , municipality_cd_array:municipality_cd_array
+            };
+        
 
         $.ajax({
             url: url, // 送信先
             type: 'get',
             dataType: 'json',
-            data: {prefectural_cd : "1"},
+            data: {all_job_search_value_array : all_job_search_value_array},
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function (data, textStatus, jqXHR) {
             // テーブルに通信できた場合
-            // var municipality_list = data.municipality_list;
+            var result = data.result;
+            
+            if(result == "success"){
+
+                location.reload();
+
+            }else{
+
+
+            }
 
             
 
@@ -463,8 +520,7 @@ $(function(){
         
 
         
-            //マウスカーソルを通常に
-            document.body.style.cursor = 'auto';
+            
 
         });
 
@@ -476,33 +532,44 @@ $(function(){
     });
 
 
-    function set_address(){
+    //勤務地関連検索値セット処理
+    function set_address_search_value(){
 
         var prefectural_cd = $("#search_prefectural_cd").val();
-
+       
+        var address_search_value_array = [];
+        
         
 
-        
+        if(prefectural_cd != ""){
+
+            var municipality_cd_array = [];
+
+            var municipality_cd_checkboxs = document.querySelectorAll('.municipality_cd');
+
+		    if(municipality_cd_checkboxs.length > 0){
+                    
+                // チェックされている要素のvalueを取得
+                municipality_cd_checkboxs.forEach(function(municipality_cd_checkbox) {
+                    if (municipality_cd_checkbox.checked) {                    
+                        municipality_cd_array.push(municipality_cd_checkbox.value); 
+                    }
+                });
+            }
+    
+            address_search_value_array = {prefectural_cd:prefectural_cd , municipality_cd_array:municipality_cd_array};
+        }
+
+        return address_search_value_array;
+
     }
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     
-    
+    //求人明細ボードクリック処理
     $('.job-detail').click(function () {
         
         var job_number = $(this).data('jobnumber');
@@ -512,32 +579,26 @@ $(function(){
     });
 
 
-    //取引先検索処理
+    //都道府県プルダウン変更時
     $(document).on("change", "#search_prefectural_cd", function (e) {
 
         search_prefectural();
 
     });
 
-    $(document).on("blur", "#search_municipality_name", function (e) {
-
-        search_prefectural();        
-
-    });
-
-
-
-    function search_prefectural(){
+    
+    //都道府県毎、市区町村検索処理
+    function search_prefectural(process_branch = 0){
 
         var prefectural_cd = $("#search_prefectural_cd").val();        
-        // var municipality_name = $("#search_municipality_name").val();
+        
         var municipality_name = "";
         var target_select = "#search_municipality_cd";
         var url = "{{ route('create_list.municipality_list_ajax') }}";
 
 
-        //プルダウン内の設定初期化
-        // $("select" + target_select + " option").remove();
+        //対象エリアの表示初期化
+        $('.municipality-check-area').html("");
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
@@ -551,9 +612,7 @@ $(function(){
         })
         .done(function (data, textStatus, jqXHR) {
             // テーブルに通信できた場合
-            var municipality_list = data.municipality_list;
-
-            
+            var municipality_list = data.municipality_list;            
 
             //テーブルに通信時、データを検索できたか判定
             if (municipality_list.length > 0) {                
@@ -567,16 +626,7 @@ $(function(){
                     var municipality_name = municipality_info["municipality_name"];
                     var municipality_name_kana = municipality_info["municipality_name_kana"];
 
-                    // // オプション要素を作成し、valueとtext属性を設定
-                    // var option = $("<option>").val(municipality_cd).text(municipality_name);
-
-                    // // title属性を追加
-                    // option.attr("title", municipality_name_kana);
-                    
-                    // // セレクトボックスにオプションを追加
-                    // $(target_select).append(option);
-                    
-
+              
                     add_html += '<div id="" class="col-4 mt-2 p-0">';
                     add_html += '<label for="municipality_cd_'+  municipality_cd + '" class="d-block">';
                     add_html += '<input type="checkbox" id="municipality_cd_'+  municipality_cd + '" ';
@@ -591,6 +641,10 @@ $(function(){
 
                 $('.municipality-check-area').html(add_html);
 
+                if(process_branch == 1){
+                    //画面読み込み時に市区町村チェックボックス、チェック付与処理
+                    set_municipality_cd();
+                }
 
             }else{
 
@@ -612,6 +666,29 @@ $(function(){
 
         });
 
+    }
+
+    //画面読み込み時に市区町村チェックボックス、チェック付与処理
+    function set_municipality_cd(){
+
+        var search_municipality_cd_array = @json($search_element_array["search_municipality_cd_array"]);
+
+        if(search_municipality_cd_array.length > 0){
+
+            var municipality_cd_checkboxs = document.querySelectorAll('.municipality_cd');
+
+            if(municipality_cd_checkboxs.length > 0){
+                    
+                search_municipality_cd_array.forEach(function (value) {
+                    var matchingCheckbox = document.querySelector('.municipality_cd[value="' + value + '"]');
+                    if (matchingCheckbox) {
+                        matchingCheckbox.checked = true;                        
+                    }
+                });
+
+            }
+
+        }
     }
 
 

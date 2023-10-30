@@ -34,14 +34,18 @@ return new class extends Migration
                 ->comment('求人情報ID:会社IDと求人情報IDで複合キー');
 
             $table
-                ->string('title', 200)
-                ->nullable()
+                ->string('title', 200)                
                 ->comment('求人情報名目');
 
             $table
-                ->string('work_location', 200)
+                ->string('work_location_prefectural_cd', 2)                
                 ->nullable()
-                ->comment('勤務地');
+                ->comment('勤務地_都道府県CD');
+
+            $table
+                ->string('work_location_municipality_cd', 10)                
+                ->nullable()
+                ->comment('勤務地_市区町村CD');
 
             $table
                 ->string('employment_status', 200)

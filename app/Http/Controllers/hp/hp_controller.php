@@ -41,42 +41,136 @@ class hp_controller extends Controller
 
     function job_information(Request $request)
     {        
+
+        $prefectural_cd = "";
+        $municipality_cd_array = [];
+
+        if (session()->has('all_job_search_value_array')) {   
+
+            $all_job_search_value_array = session()->get('all_job_search_value_array');
+            
+            $job_information = $this->search_job_information($all_job_search_value_array);     
+
+            $all_job_search_value_array = session()->remove('all_job_search_value_array');
+
+
+            //勤務地を取得
+            $address_search_value_array = $all_job_search_value_array["address_search_value_array"];            
+            $prefectural_cd = $address_search_value_array["prefectural_cd"];            
+
+            //市区町村CD配列を取得
+            if (isset($address_search_value_array["municipality_cd_array"]) && !empty($address_search_value_array["municipality_cd_array"])) {
+                $municipality_cd_array = $address_search_value_array["municipality_cd_array"];                
+            }else{
+                $municipality_cd_array = [];
+            }
+
+
+        } else {
+
+            $job_information = [];
+            
+        }
+
         
 
         //検索項目格納用配列
         $search_element_array = [
-            'search_prefectural_cd' => $request->search_prefectural_cd,
-            'search_prefectural_name' => $request->search_prefectural_name,
+            'search_prefectural_cd' => $prefectural_cd,
+            'search_municipality_cd_array' => $municipality_cd_array,
             'search_municipality_cd' => $request->search_municipality_cd,
             'search_municipality_name' => $request->search_municipality_name,
         ];
 
+        
 
-        //請求先情報取得
+        //都道府県ブルダウン作成用
+        $prefectural_list = create_list::prefectural_list();
+
+        return view('hp/screen/job_information', 
+                compact('job_information' 
+                , 'search_element_array'
+                , 'prefectural_list'
+        ));
+
+    }
+
+    //求人情報検索処理
+    function search_job_information($all_job_search_value_array)
+    {
+       
         $job_information = job_information_t_model::select(
             'job_information_t.id as id',
             'job_information_t.employer_id as employer_id',
             'employer_m.employer_name as employer_name',
             'job_information_t.job_id as job_id',
             'job_information_t.title as title',
-            'job_information_t.work_location as work_location',
+            'job_information_t.work_location_prefectural_cd as work_location_prefectural_cd',
+            'job_information_t.work_location_municipality_cd as work_location_municipality_cd',
+
+            DB::raw("
+                CASE
+                    WHEN municipality_address_m.prefectural_name IS NOT NULL THEN CONCAT(municipality_address_m.prefectural_name, '　', municipality_address_m.municipality_name)  
+                    ELSE prefectural_address_m.prefectural_name
+                END as work_location
+            "),
+            'prefectural_address_m.prefectural_name as prefectural_name1',
+            'municipality_address_m.prefectural_name as prefectural_name2',
+            'municipality_address_m.municipality_name as municipality_name2',
             'job_information_t.working_time as working_time',
             'job_information_t.employment_status as employment_status',
             'job_information_t.salary as salary',
             'job_information_t.holiday as holiday'
         )
         ->leftJoin('employer_m', 'job_information_t.employer_id', '=', 'employer_m.employer_id')
-        ->get();
+        
+        ->leftJoin(DB::raw('(SELECT prefectural_cd , prefectural_name FROM address_m GROUP BY prefectural_cd ,prefectural_name) as prefectural_address_m'), function ($join) {
+            $join->on('job_information_t.work_location_prefectural_cd', '=', 'prefectural_address_m.prefectural_cd');
+        });  
+        $job_information = $job_information->leftJoin('address_m as municipality_address_m', function ($join) {
+            $join->on('job_information_t.work_location_prefectural_cd', '=', 'municipality_address_m.prefectural_cd')
+                ->on('job_information_t.work_location_municipality_cd', '=', 'municipality_address_m.municipality_cd');                         
+        });
+        
+        //住所検索値を取得
+        $address_search_value_array = $all_job_search_value_array["address_search_value_array"];
 
-        $prefectural_list = create_list::prefectural_list();
+        //都道府県CDを取得
+        $prefectural_cd = $address_search_value_array["prefectural_cd"];
+
+        if($prefectural_cd != ""){
+            $job_information = $job_information->where('job_information_t.work_location_prefectural_cd', '=', $prefectural_cd);
+        }
+        
+
+        //市区町村CD配列を取得
+        if (isset($address_search_value_array["municipality_cd_array"]) && !empty($address_search_value_array["municipality_cd_array"])) {
+            $municipality_cd_array = $address_search_value_array["municipality_cd_array"];    
+            $job_information = $job_information->wherein('job_information_t.work_location_municipality_cd', $municipality_cd_array);        
+        }
+
+        
+
+        
 
 
-        // return view('hp/screen/job_information', compact('job_information_t_model' , 'display_year_array'));
-        return view('hp/screen/job_information', 
-                compact('job_information' 
-                , 'search_element_array'
-                , 'prefectural_list'
-            ));
+        $job_information = $job_information->get();
+
+
+        return $job_information;
+
+    }
+
+    //求人情報検索値セット処理
+    function job_information_set_search_value(Request $request)
+    {
+        //全ての検索条件を取得
+        $all_job_search_value_array = $request->all_job_search_value_array;
+
+        session()->put('all_job_search_value_array', $all_job_search_value_array);
+
+        return response()->json(['result' => 'success']);
+
     }
 
     function job_information_detail(Request $request)

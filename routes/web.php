@@ -33,6 +33,7 @@ use App\Http\Controllers\member\member_controller;
 Route::get('/', [hp_controller::class, 'index'])->name('hp.index');
 Route::get('job_information_detail', [hp_controller::class, 'job_information_detail'])->name('hp.job_information_detail');
 Route::get('job_information', [hp_controller::class, 'job_information'])->name('hp.job_information');
+Route::get('job_information_set_search_value', [hp_controller::class, 'job_information_set_search_value'])->name('hp.job_information_set_search_value');
 Route::get('message_to_employers', [hp_controller::class, 'message_to_employers'])->name('hp.message_to_employers');
 Route::get('message_to_students', [hp_controller::class, 'message_to_students'])->name('hp.message_to_students');
 
