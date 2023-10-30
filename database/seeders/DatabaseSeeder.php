@@ -348,7 +348,7 @@ class DatabaseSeeder extends Seeder
             ],          
 
             [   
-                'id' => '1',             
+                'id' => '2',             
                 'employer_id' => '1',
                 'job_id' => '2',
                 'title' => 'ガソリンスタンドスタッフ',
@@ -369,7 +369,7 @@ class DatabaseSeeder extends Seeder
             ],          
 
             [   
-                'id' => '1',             
+                'id' => '3',             
                 'employer_id' => '1',
                 'job_id' => '3',
                 'title' => 'コールセンタースタッフ',
@@ -390,7 +390,7 @@ class DatabaseSeeder extends Seeder
             ],          
 
             [   
-                'id' => '1',             
+                'id' => '4',             
                 'employer_id' => '1',
                 'job_id' => '4',
                 'title' => '遊技場スタッフ',
