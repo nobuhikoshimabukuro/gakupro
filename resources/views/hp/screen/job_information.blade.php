@@ -44,7 +44,7 @@
 
  
 .search-board-contents {    
-    max-height: calc(90vh - 30px);    
+    max-height: calc(90vh - 50px);    
     overflow-y: auto;
     
 }
@@ -55,6 +55,7 @@
     position:absolute;        
 	bottom:0;     
     right: 0; 
+    padding-bottom: 30px;
 }
 
 
