@@ -44,10 +44,14 @@
         background-color: rgb(13, 107, 107);
     }
 
+    .search-board-tab-button:active{
+        font-weight: 700;                
+        color: white;
+        background-color: rgb(9, 53, 53);
+    }
     
     .after-button{
-        font-weight: 700;        
-        width: 100%;
+        font-weight: 700;                
         color: white;
         background-color: rgb(9, 53, 53);
     }
