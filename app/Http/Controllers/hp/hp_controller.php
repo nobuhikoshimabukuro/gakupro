@@ -45,11 +45,13 @@ class hp_controller extends Controller
     function job_information(Request $request)
     {        
 
-        $prefectural_cd = "";
-        $municipality_cd_array = [];
-        $job_supplement_search_value_array = [];
+        
 
-        if (session()->has('all_job_search_value_array')) {   
+        $search_prefectural_cd = "";
+        $search_municipality_cd_array = [];
+        $search_job_supplement_array = [];
+
+        if(session()->has('all_job_search_value_array')) {   
 
             $all_job_search_value_array = session()->get('all_job_search_value_array');
             
@@ -58,20 +60,23 @@ class hp_controller extends Controller
             $all_job_search_value_array = session()->remove('all_job_search_value_array');
 
 
-            //勤務地を取得
-            $address_search_value_array = $all_job_search_value_array["address_search_value_array"];            
-            $prefectural_cd = $address_search_value_array["prefectural_cd"];
+            
+            $prefectural_cd_search_value_array = $all_job_search_value_array["prefectural_cd_search_value_array"];
+            $municipality_cd_search_value_array = $all_job_search_value_array["municipality_cd_search_value_array"];
+            $job_supplement_search_value_array = $all_job_search_value_array["job_supplement_search_value_array"];
+            
 
-            //市区町村CD配列を取得
-            if (isset($address_search_value_array["municipality_cd_array"]) && !empty($address_search_value_array["municipality_cd_array"])) {
-                $municipality_cd_array = $address_search_value_array["municipality_cd_array"];                
-            }else{
-                $municipality_cd_array = [];
+            if($prefectural_cd_search_value_array["existence_data"] == 1) {
+                $search_prefectural_cd = $prefectural_cd_search_value_array["prefectural_cd"];                            
             }
 
+            if($municipality_cd_search_value_array["existence_data"] == 1) {
+                $search_municipality_cd_array = $municipality_cd_search_value_array["value_array"];
+            }
 
-            //求人補足
-            $job_supplement_search_value_array = $address_search_value_array["job_supplement_search_value_array"];
+            if($job_supplement_search_value_array["existence_data"] == 1) {
+                $search_job_supplement_array = $job_supplement_search_value_array["value_array"];                            
+            }
 
 
         } else {
@@ -84,10 +89,9 @@ class hp_controller extends Controller
 
         //検索項目格納用配列
         $search_element_array = [
-            'search_prefectural_cd' => $prefectural_cd,
-            'search_municipality_cd_array' => $municipality_cd_array,
-            'job_supplement_search_value_array' => $job_supplement_search_value_array,
-            'search_municipality_name' => $request->search_municipality_name,
+            'search_prefectural_cd' => $search_prefectural_cd,
+            'search_municipality_cd_array' => $search_municipality_cd_array,
+            'search_job_supplement_array' => $search_job_supplement_array,            
         ];
 
         
@@ -124,6 +128,8 @@ class hp_controller extends Controller
     function search_job_information($all_job_search_value_array)
     {
         //求人補足を取得
+        $prefectural_cd_search_value_array = $all_job_search_value_array["prefectural_cd_search_value_array"];
+        $municipality_cd_search_value_array = $all_job_search_value_array["municipality_cd_search_value_array"];
         $job_supplement_search_value_array = $all_job_search_value_array["job_supplement_search_value_array"];
 
 
@@ -162,27 +168,22 @@ class hp_controller extends Controller
                 ->on('job_information_t.work_location_municipality_cd', '=', 'municipality_address_m.municipality_cd');                         
         });
         
-        //住所検索値を取得
-        $address_search_value_array = $all_job_search_value_array["address_search_value_array"];
-
         //都道府県CDを取得
-        $prefectural_cd = $address_search_value_array["prefectural_cd"];
-
-        if($prefectural_cd != ""){
-            $job_information = $job_information->where('job_information_t.work_location_prefectural_cd', '=', $prefectural_cd);
-        }
-        
-
-        //市区町村CD配列を取得
-        if (isset($address_search_value_array["municipality_cd_array"]) && !empty($address_search_value_array["municipality_cd_array"])) {
-            $municipality_cd_array = $address_search_value_array["municipality_cd_array"];    
-            $job_information = $job_information->wherein('job_information_t.work_location_municipality_cd', $municipality_cd_array);        
+        if($prefectural_cd_search_value_array["existence_data"] == 1) {
+            $prefectural_cd = $prefectural_cd_search_value_array["prefectural_cd"]; 
+            $job_information = $job_information->where('job_information_t.work_location_prefectural_cd', '=', $prefectural_cd);                           
         }
 
-        
+        //市区町村CDを取得
+        if($municipality_cd_search_value_array["existence_data"] == 1) {
+            $municipality_cd_array = $municipality_cd_search_value_array["value_array"];
+            $job_information = $job_information->wherein('job_information_t.work_location_municipality_cd', $municipality_cd_array);
+        }
 
-        
-
+        if($job_supplement_search_value_array["existence_data"] == 1) {
+            $job_supplement_search_value_array = $job_supplement_search_value_array["value_array"];                            
+        }
+      
 
         $job_information = $job_information->get();
 

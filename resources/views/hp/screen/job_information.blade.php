@@ -40,20 +40,27 @@
     .search-board-tab-button{
         font-weight: 600;        
         width: 100%;
-        color: white;
-        background-color: rgb(13, 107, 107);
+        color: rgb(54, 49, 49);
+        background-color: rgb(95, 226, 226);
     }
 
+    .search-board-tab-button:hover{
+        font-weight: 700;                
+        color: white;
+        background-color: rgb(30, 90, 90);
+    }
     .search-board-tab-button:active{
         font-weight: 700;                
         color: white;
-        background-color: rgb(9, 53, 53);
+        background-color: rgb(30, 90, 90);
     }
+    
+   
     
     .after-button{
         font-weight: 700;                
         color: white;
-        background-color: rgb(9, 53, 53);
+        background-color: rgb(30, 90, 90);
     }
 
     
@@ -278,7 +285,7 @@
                         $check_status = "";
                         $job_supplement_subcategory_cd = $job_supplement_info->job_supplement_subcategory_cd;
                         $job_supplement_subcategory_name = $job_supplement_info->job_supplement_subcategory_name;                        
-                        if(in_array($job_supplement_subcategory_cd , $search_element_array['job_supplement_search_value_array'])){
+                        if(in_array($job_supplement_subcategory_cd , $search_element_array['search_job_supplement_array'])){
                             $add_class = "job-supplement-select";                            
                             $check_status = "checked";
                         }
@@ -519,11 +526,13 @@ $(function(){
         
         var url = "{{ route('hp.job_information_set_search_value') }}";
 
-        var address_search_value_array = set_address_search_value();
-
+        var prefectural_cd_search_value_array = set_prefectural_cd_search_value();
+        var municipality_cd_search_value_array = set_municipality_cd_array_search_value();
         var job_supplement_search_value_array = set_job_supplement_search_value();
 
-        var all_job_search_value_array = {address_search_value_array:address_search_value_array
+        var all_job_search_value_array = {
+            prefectural_cd_search_value_array:prefectural_cd_search_value_array
+            , municipality_cd_search_value_array:municipality_cd_search_value_array
             , job_supplement_search_value_array:job_supplement_search_value_array
             };
         
@@ -568,21 +577,41 @@ $(function(){
 
 
     //勤務地関連検索値セット処理
-    function set_address_search_value(){
+    function set_prefectural_cd_search_value(){
+
+        var existence_data = 0;
 
         var prefectural_cd = $("#search_prefectural_cd").val();
        
-        var address_search_value_array = [];
-        
-        
+        var prefectural_cd_search_value_array = [];
 
         if(prefectural_cd != ""){
+            existence_data = 1;        
+        }
 
-            var municipality_cd_array = [];
+        prefectural_cd_search_value_array = {existence_data:existence_data
+                                    , prefectural_cd:prefectural_cd                                         
+                                    };
+                                    
+        return prefectural_cd_search_value_array;
+
+    }
+
+    //勤務地関連検索値セット処理
+    function set_municipality_cd_array_search_value(){
+
+        var existence_data = 0;
+
+        var prefectural_cd = $("#search_prefectural_cd").val();
+
+        var municipality_cd_array = [];
+        var value_array = [];        
+
+        if(prefectural_cd != ""){            
 
             var municipality_cd_checkboxs = document.querySelectorAll('.municipality_cd');
 
-		    if(municipality_cd_checkboxs.length > 0){
+            if(municipality_cd_checkboxs.length > 0){
                     
                 // チェックされている要素のvalueを取得
                 municipality_cd_checkboxs.forEach(function(municipality_cd_checkbox) {
@@ -591,19 +620,28 @@ $(function(){
                     }
                 });
             }
-    
-            address_search_value_array = {prefectural_cd:prefectural_cd , municipality_cd_array:municipality_cd_array};
+
+            
         }
 
-        return address_search_value_array;
+        if(value_array.length > 0){
+            existence_data = 1;
+        }
+
+        municipality_cd_array = {existence_data:existence_data , value_array:value_array };
+
+        return municipality_cd_array;
 
     }
+
 
     //求人補足検索値セット処理
     function set_job_supplement_search_value(){
 
+        var existence_data = 0;
         var job_supplement_search_value_array = [];       
-
+        var value_array = [];
+        
         var job_supplement_checkboxs = document.querySelectorAll('.job-supplement-checkbox');
 
         if(job_supplement_checkboxs.length > 0){
@@ -611,10 +649,18 @@ $(function(){
             // チェックされている要素のvalueを取得
             job_supplement_checkboxs.forEach(function(job_supplement_checkbox) {
                 if (job_supplement_checkbox.checked) {                    
-                    job_supplement_search_value_array.push(job_supplement_checkbox.value); 
+                    value_array.push(job_supplement_checkbox.value); 
                 }
             });
         }
+
+        if(value_array.length > 0){
+            existence_data = 1;
+        }
+
+        job_supplement_search_value_array = {existence_data:existence_data
+                                        , value_array:value_array                                         
+                                        };
 
         return job_supplement_search_value_array;
 
