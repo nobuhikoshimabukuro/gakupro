@@ -63,6 +63,21 @@
         padding: 0 0 15px 15px;
     }
 
+
+    .job-supplement-label{
+        height: 20px;
+        border-radius: 1px;     
+        background-color: rgb(49, 49, 105);
+        padding: 2px;
+        color: white;
+    }
+
+    .job-supplement-select{
+        background-color: red;
+        color: white;
+    }
+
+
     .item-center{
         display: flex;
         justify-content: center; /*左右中央揃え*/
@@ -150,17 +165,7 @@
     }
 }
 
-.job-supplement-label{
-    height: 20px;
-    border-radius: 1px;     
-    background-color: rgb(49, 49, 105);
-    color: white;
-}
 
-.job-supplement-select{
-    background-color: red;
-    color: white;
-}
 
 </style>
 
