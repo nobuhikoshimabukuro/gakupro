@@ -74,12 +74,19 @@
         padding: 0 0 15px 15px;
     }
 
-    .job-supplement-label{
-        height: 30px;
-        border-radius: 3px;     
-        background-color: rgb(49, 49, 105);
+    .job-supplement-area{
+        height: 40px;
+        
         padding: 1px;
         color: white;
+        padding: 3px;
+    }
+    .job-supplement-label{
+        height: 100%;
+        width: 100%;
+        border-radius: 3px;     
+        background-color: rgb(49, 49, 105);
+        
     }
 
     .job-supplement-select{
@@ -275,7 +282,7 @@
 
         <div class="search-board-contents contents-2 col-12 d-none">
 
-            <div class="row">
+            <div class="row  p-1">
 
                 @foreach($job_supplement_list as $job_supplement_info)
 
@@ -292,10 +299,11 @@
 
                     @endphp
 
-                    <div id="" class="col-6 col-md-4 mt-2 p-1">
+                    <div id="job-supplement-area{{$job_supplement_subcategory_cd}}" 
+                    class="col-6 col-lg-4 col-xl-3 mt-2 job-supplement-area item-center">
                         <label id="job-supplement-label{{$job_supplement_subcategory_cd}}" 
                             for="job-supplement-checkbox{{$job_supplement_subcategory_cd}}" 
-                            class="job-supplement-label {{$add_class}}"
+                            class="job-supplement-label {{$add_class}} text-center"
                         >{{$job_supplement_subcategory_name}}
                         </label>
 
@@ -476,11 +484,11 @@ $(function(){
 
         var job_supplement_subcategory_cd = $(this).data('target');
 
-        $("#job-supplement-label" + job_supplement_subcategory_cd).removeClass('job-supplement-select');
+        $("#job-supplement-area" + job_supplement_subcategory_cd).removeClass('job-supplement-select');
 
         if($("#job-supplement-checkbox" + job_supplement_subcategory_cd).prop('checked')){
 
-            $("#job-supplement-label" + job_supplement_subcategory_cd).addClass('job-supplement-select');
+            $("#job-supplement-area" + job_supplement_subcategory_cd).addClass('job-supplement-select');
             
         }        
 
