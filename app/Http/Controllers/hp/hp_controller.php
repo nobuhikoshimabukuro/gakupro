@@ -22,6 +22,9 @@ use App\Original\common;
 use App\Original\create_list;
 
 use App\Models\job_information_t_model;
+use App\Models\job_supplement_maincategory_m_model;
+use App\Models\job_supplement_subcategory_m_model;
+use App\Models\job_supplement_connection_t_model;
 
 class hp_controller extends Controller
 {
@@ -44,6 +47,7 @@ class hp_controller extends Controller
 
         $prefectural_cd = "";
         $municipality_cd_array = [];
+        $job_supplement_search_value_array = [];
 
         if (session()->has('all_job_search_value_array')) {   
 
@@ -56,7 +60,7 @@ class hp_controller extends Controller
 
             //勤務地を取得
             $address_search_value_array = $all_job_search_value_array["address_search_value_array"];            
-            $prefectural_cd = $address_search_value_array["prefectural_cd"];            
+            $prefectural_cd = $address_search_value_array["prefectural_cd"];
 
             //市区町村CD配列を取得
             if (isset($address_search_value_array["municipality_cd_array"]) && !empty($address_search_value_array["municipality_cd_array"])) {
@@ -66,8 +70,12 @@ class hp_controller extends Controller
             }
 
 
-        } else {
+            //求人補足
+            $job_supplement_search_value_array = $address_search_value_array["job_supplement_search_value_array"];
 
+
+        } else {
+            
             $job_information = [];
             
         }
@@ -78,7 +86,7 @@ class hp_controller extends Controller
         $search_element_array = [
             'search_prefectural_cd' => $prefectural_cd,
             'search_municipality_cd_array' => $municipality_cd_array,
-            'search_municipality_cd' => $request->search_municipality_cd,
+            'job_supplement_search_value_array' => $job_supplement_search_value_array,
             'search_municipality_name' => $request->search_municipality_name,
         ];
 
@@ -87,10 +95,27 @@ class hp_controller extends Controller
         //都道府県ブルダウン作成用
         $prefectural_list = create_list::prefectural_list();
 
+        //求人補足情報取得
+        $job_supplement_list = job_supplement_subcategory_m_model::select(
+            'job_supplement_subcategory_m.job_supplement_maincategory_cd as job_supplement_maincategory_cd',
+            'job_supplement_maincategory_m.job_supplement_maincategory_name as job_supplement_maincategory_name',
+            'job_supplement_maincategory_m.display_order as maincategory_display_order',
+
+            'job_supplement_subcategory_m.job_supplement_subcategory_cd as job_supplement_subcategory_cd',
+            'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',
+            'job_supplement_subcategory_m.display_order as subcategory_display_order'
+        )
+        ->leftJoin('job_supplement_maincategory_m', 'job_supplement_subcategory_m.job_supplement_maincategory_cd', '=', 'job_supplement_maincategory_m.job_supplement_maincategory_cd')               
+        ->whereNull('job_supplement_maincategory_m.deleted_at')
+        ->whereNull('job_supplement_subcategory_m.deleted_at')
+        ->get();
+
+
         return view('hp/screen/job_information', 
                 compact('job_information' 
                 , 'search_element_array'
                 , 'prefectural_list'
+                , 'job_supplement_list'
         ));
 
     }
@@ -98,7 +123,12 @@ class hp_controller extends Controller
     //求人情報検索処理
     function search_job_information($all_job_search_value_array)
     {
-       
+        //求人補足を取得
+        $job_supplement_search_value_array = $all_job_search_value_array["job_supplement_search_value_array"];
+
+
+
+
         $job_information = job_information_t_model::select(
             'job_information_t.id as id',
             'job_information_t.employer_id as employer_id',
@@ -176,9 +206,7 @@ class hp_controller extends Controller
     function job_information_detail(Request $request)
     {        
         $id = $request->job_number;
-
-
-        //請求先情報取得
+        
         $job_information = job_information_t_model::select(
             'job_information_t.id as id',
             'job_information_t.employer_id as employer_id',

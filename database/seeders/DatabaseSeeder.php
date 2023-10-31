@@ -763,6 +763,649 @@ class DatabaseSeeder extends Seeder
            
         ]);     
 
+        
+        // 求人補足大分類マスタ
+        $index = 0;
+        DB::table('job_supplement_maincategory_m')->insert([
+            
+            [                
+                'job_supplement_maincategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_name' => '働く期間',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            
+
+            [                
+                'job_supplement_maincategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_name' => 'シフトや休日',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_maincategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_name' => '会社の特徴',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_maincategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_name' => '求める人材',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_maincategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_name' => '待遇',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_maincategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_name' => '応募・面接',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],          
+
+        ]);
+
+
+        // 求人補足大分類マスタ
+        $index = 0;
+        DB::table('job_supplement_subcategory_m')->insert([
+            
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 1,
+                'job_supplement_subcategory_name' => '超短期(1~7日',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 1,
+                'job_supplement_subcategory_name' => '短期(1ヶ月以内)',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 1,
+                'job_supplement_subcategory_name' => '短期(3ヶ月以内)',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 1,
+                'job_supplement_subcategory_name' => '短期(6ヶ月以内)',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 1,
+                'job_supplement_subcategory_name' => '季節限定',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 2,
+                'job_supplement_subcategory_name' => '短時間(1日4h以内)',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 2,
+                'job_supplement_subcategory_name' => '夜21時以降スタート',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 2,
+                'job_supplement_subcategory_name' => '完全週休2日制',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 2,
+                'job_supplement_subcategory_name' => '土日休み',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 2,
+                'job_supplement_subcategory_name' => '年間休日120日以上',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 2,
+                'job_supplement_subcategory_name' => 'フレックスタイム制',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 2,
+                'job_supplement_subcategory_name' => '週1、2日~OK',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 2,
+                'job_supplement_subcategory_name' => 'シフト自由・相談OK',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 2,
+                'job_supplement_subcategory_name' => '土日のみ勤務',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 2,
+                'job_supplement_subcategory_name' => '残業ほぼなし(月10時間以下)',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 3,
+                'job_supplement_subcategory_name' => '子育てママ活躍中',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 3,
+                'job_supplement_subcategory_name' => 'ミドル(40代・50代)活躍中',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 3,
+                'job_supplement_subcategory_name' => 'シニア(60代以上)活躍中',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 3,
+                'job_supplement_subcategory_name' => '副業・WワークOK',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 3,
+                'job_supplement_subcategory_name' => '在宅・テレワーク',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 3,
+                'job_supplement_subcategory_name' => '学生10名以上勤務',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 3,
+                'job_supplement_subcategory_name' => '社員100名以上',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 3,
+                'job_supplement_subcategory_name' => '女性管理職20%以上',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 3,
+                'job_supplement_subcategory_name' => '創業20年以上',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 3,
+                'job_supplement_subcategory_name' => 'ベンチャー企業',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 3,
+                'job_supplement_subcategory_name' => '駅徒歩5分以内',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 3,
+                'job_supplement_subcategory_name' => '転勤無し',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 4,
+                'job_supplement_subcategory_name' => '未経験歓迎',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 4,
+                'job_supplement_subcategory_name' => 'ブランクOK',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 4,
+                'job_supplement_subcategory_name' => '高校生OK',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 4,
+                'job_supplement_subcategory_name' => '専門・大学生OK',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 4,
+                'job_supplement_subcategory_name' => '新卒歓迎(3月卒予定)',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 4,
+                'job_supplement_subcategory_name' => '第二新卒歓迎(卒後3年以内)',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 4,
+                'job_supplement_subcategory_name' => 'I・Uターン者歓迎',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 4,
+                'job_supplement_subcategory_name' => '扶養控除内OK',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 4,
+                'job_supplement_subcategory_name' => 'マネジメント経験',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 4,
+                'job_supplement_subcategory_name' => '経験者・キャリア募集',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 4,
+                'job_supplement_subcategory_name' => '資格が活かせる',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 4,
+                'job_supplement_subcategory_name' => '語学力が活かせる・身につく',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '交通費支給',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '駐車場有',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '送迎有',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '髪型・ピアス・ネイルOK',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '私服OK',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '制服有',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '社宅・寮有',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '食事(手当)有',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '産休・育休',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '介護休',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '託児所有・託児所近く',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '社員登用制度有',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '資格取得支援制度有',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '賞与有',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '日払いor週払い有',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '赴任旅費支給',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 5,
+                'job_supplement_subcategory_name' => '受動喫煙防止策有',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 6,
+                'job_supplement_subcategory_name' => '入社祝い金あり',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 6,
+                'job_supplement_subcategory_name' => '友達同士の応募OK',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 6,
+                'job_supplement_subcategory_name' => '募集人数30人以上',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 6,
+                'job_supplement_subcategory_name' => '履歴書不要',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 6,
+                'job_supplement_subcategory_name' => '出張面接可能',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 6,
+                'job_supplement_subcategory_name' => 'WEB・電話面接OK',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 6,
+                'job_supplement_subcategory_name' => 'オープニングスタッフ募集',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_supplement_subcategory_cd' => $index = $index + 1,
+                'job_supplement_maincategory_cd' => 6,
+                'job_supplement_subcategory_name' => '職場見学OK',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+            
+
+               
+
+        ]);
+
 
     }
 }

@@ -55,7 +55,8 @@
     
     .search-board-contents {    
         max-height: calc(85vh - 10px);    
-        overflow-y: auto;        
+        overflow-y: auto;
+        z-index: 10000;
     }
     
     .municipality-check-area{
@@ -149,8 +150,16 @@
     }
 }
 
-.red{
+.job-supplement-label{
+    height: 20px;
+    border-radius: 1px;     
+    background-color: rgb(49, 49, 105);
+    color: white;
+}
+
+.job-supplement-select{
     background-color: red;
+    color: white;
 }
 
 </style>
@@ -192,7 +201,7 @@
 
                         <th>
                             <button class="btn search-board-tab-button" data-target="2">
-                                タブ2
+                                条件
                             </button>
                         </th>
 
@@ -253,26 +262,38 @@
 
             <div class="row">
 
-                <div id="" class="col-4 mt-2">
-                    <label id="label1" for="test1" class="w-100">
-                        test1
-                    </label>
-                    <input type="checkbox" id="test1" class="test d-none" value="1" data-target="1">
-                </div>
+                @foreach($job_supplement_list as $job_supplement_info)
 
-                <div id="" class="col-4 mt-2">
-                    <label id="label2" for="test2" class="w-100">
-                        test2
-                    </label>
-                    <input type="checkbox" id="test2" class="test d-none" value="2" data-target="2">
-                </div>
+                    @php
 
-                <div id="" class="col-4 mt-2">
-                    <label id="label3" for="test3" class="w-100">
-                        test3
-                    </label>
-                    <input type="checkbox" id="test3" class="test d-none" value="2" data-target="3">
-                </div>
+                        $add_class = "";
+                        $check_status = "";
+                        $job_supplement_subcategory_cd = $job_supplement_info->job_supplement_subcategory_cd;
+                        $job_supplement_subcategory_name = $job_supplement_info->job_supplement_subcategory_name;                        
+                        if(in_array($job_supplement_subcategory_cd , $search_element_array['job_supplement_search_value_array'])){
+                            $add_class = "job-supplement-select";                            
+                            $check_status = "checked";
+                        }
+
+                    @endphp
+
+                    <div id="" class="col-4 mt-2 p-1">
+                        <label id="job-supplement-label{{$job_supplement_subcategory_cd}}" 
+                            for="job-supplement-checkbox{{$job_supplement_subcategory_cd}}" 
+                            class="job-supplement-label {{$add_class}}"
+                        >{{$job_supplement_subcategory_name}}
+                        </label>
+
+                        <input type="checkbox" 
+                        id="job-supplement-checkbox{{$job_supplement_subcategory_cd}}"
+                        value="{{$job_supplement_subcategory_cd}}"                        
+                        data-target="{{$job_supplement_subcategory_cd}}"
+                        class="job-supplement-checkbox d-none" 
+                        {{$check_status}}
+                        >
+                    </div>
+
+                @endforeach
 
             </div>
 
@@ -436,14 +457,16 @@ $(function(){
    
 
     
-    $(document).on("change", ".test", function (e) {
+    $(document).on("change", ".job-supplement-checkbox", function (e) {
 
-        var target = $(this).data('target');
+        var job_supplement_subcategory_cd = $(this).data('target');
 
+        $("#job-supplement-label" + job_supplement_subcategory_cd).removeClass('job-supplement-select');
 
-        $("#label" + target).removeClass('red');
-        if($(this).prop('checked') ){
-            $("#label" + target).addClass('red');            
+        if($("#job-supplement-checkbox" + job_supplement_subcategory_cd).prop('checked')){
+
+            $("#job-supplement-label" + job_supplement_subcategory_cd).addClass('job-supplement-select');
+            
         }        
 
     });
@@ -490,8 +513,10 @@ $(function(){
 
         var address_search_value_array = set_address_search_value();
 
+        var job_supplement_search_value_array = set_job_supplement_search_value();
+
         var all_job_search_value_array = {address_search_value_array:address_search_value_array
-            //  , municipality_cd_array:municipality_cd_array
+            , job_supplement_search_value_array:job_supplement_search_value_array
             };
         
 
@@ -563,6 +588,27 @@ $(function(){
         }
 
         return address_search_value_array;
+
+    }
+
+    //求人補足検索値セット処理
+    function set_job_supplement_search_value(){
+
+        var job_supplement_search_value_array = [];       
+
+        var job_supplement_checkboxs = document.querySelectorAll('.job-supplement-checkbox');
+
+        if(job_supplement_checkboxs.length > 0){
+                
+            // チェックされている要素のvalueを取得
+            job_supplement_checkboxs.forEach(function(job_supplement_checkbox) {
+                if (job_supplement_checkbox.checked) {                    
+                    job_supplement_search_value_array.push(job_supplement_checkbox.value); 
+                }
+            });
+        }
+
+        return job_supplement_search_value_array;
 
     }
 
