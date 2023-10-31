@@ -282,7 +282,7 @@
 
                     @endphp
 
-                    <div id="" class="col-4 mt-2 p-1">
+                    <div id="" class="col-6 col-md-4 mt-2 p-1">
                         <label id="job-supplement-label{{$job_supplement_subcategory_cd}}" 
                             for="job-supplement-checkbox{{$job_supplement_subcategory_cd}}" 
                             class="job-supplement-label {{$add_class}}"
