@@ -67,12 +67,11 @@
         padding: 0 0 15px 15px;
     }
 
-
     .job-supplement-label{
-        height: 20px;
-        border-radius: 1px;     
+        height: 30px;
+        border-radius: 3px;     
         background-color: rgb(49, 49, 105);
-        padding: 2px;
+        padding: 1px;
         color: white;
     }
 
