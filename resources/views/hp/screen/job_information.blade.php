@@ -75,26 +75,23 @@
     }
 
     .job-supplement-area{
-        height: 50px;        
-        padding: 1px;
-        color: white;
+        height: 50px;
         padding: 3px;
     }
 
     .job-supplement-label{
         height: 100%;
-        width: 100%;
-        /* display: flex;
-        align-items: center; 
-        text-align: center;        */
+        width: 100%; 
+        color: rgb(53, 7, 7);       
         border-radius: 3px;     
-        background-color: rgb(49, 49, 105);
+        background-color: rgb(208, 208, 241);
         
     }
 
     .job-supplement-select{
-        background-color: red;
+        background-color: rgb(49, 49, 105);
         color: white;
+        border: solid 1px rgb(208, 208, 241);
     }
 
 
@@ -519,11 +516,11 @@ $(function(){
 
         var job_supplement_subcategory_cd = $(this).data('target');
 
-        $("#job-supplement-area" + job_supplement_subcategory_cd).removeClass('job-supplement-select');
+        $("#job-supplement-label" + job_supplement_subcategory_cd).removeClass('job-supplement-select');
 
         if($("#job-supplement-checkbox" + job_supplement_subcategory_cd).prop('checked')){
 
-            $("#job-supplement-area" + job_supplement_subcategory_cd).addClass('job-supplement-select');
+            $("#job-supplement-label" + job_supplement_subcategory_cd).addClass('job-supplement-select');
             
         }        
 
