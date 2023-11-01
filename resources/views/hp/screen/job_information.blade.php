@@ -84,9 +84,9 @@
     .job-supplement-label{
         height: 100%;
         width: 100%;
-        /* display: flex; */
+        /* display: flex;
         align-items: center; 
-        text-align: center;       
+        text-align: center;        */
         border-radius: 3px;     
         background-color: rgb(49, 49, 105);
         
@@ -336,7 +336,7 @@
                             class="col-6 col-lg-4 col-xl-3 mt-2 job-supplement-area">
                                 <label id="job-supplement-label{{$job_supplement_subcategory_cd}}" 
                                     for="job-supplement-checkbox{{$job_supplement_subcategory_cd}}" 
-                                    class="job-supplement-label {{$add_class}}"
+                                    class="job-supplement-label {{$add_class}} item-center"
                                 >{{$job_supplement_subcategory_name}}
                                 </label>
 
