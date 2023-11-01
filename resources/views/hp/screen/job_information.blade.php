@@ -292,60 +292,64 @@
 
                 <div class="col-11">
 
-                    @php
-                        $check_job_supplement_maincategory_name = "";
-                    @endphp
+                    <div class="row m-0 p-0">
 
-                    @foreach($job_supplement_list as $job_supplement_info)
-
-                        @php                            
-                            
-                            $job_supplement_maincategory_cd = $job_supplement_info->job_supplement_maincategory_cd;
-                            $job_supplement_maincategory_name = $job_supplement_info->job_supplement_maincategory_name;
-
-                            $job_supplement_subcategory_cd = $job_supplement_info->job_supplement_subcategory_cd;
-                            $job_supplement_subcategory_name = $job_supplement_info->job_supplement_subcategory_name;
-
-                            $add_class = "";
-                            $check_status = "";
-                            if(in_array($job_supplement_subcategory_cd , $search_element_array['search_job_supplement_array'])){
-                                $add_class = "job-supplement-select";                            
-                                $check_status = "checked";
-                            }
-
+                        @php
+                            $check_job_supplement_maincategory_name = "";
                         @endphp
 
-                        @if($check_job_supplement_maincategory_name != $job_supplement_maincategory_name)
+                        @foreach($job_supplement_list as $job_supplement_info)
 
-                            <div class="col-12 text-center">
-                                {{$job_supplement_maincategory_name}}
-                            </div>                            
-                            
-                            @php
-                                $check_job_supplement_maincategory_name = $job_supplement_maincategory_name;
+                            @php                            
+                                
+                                $job_supplement_maincategory_cd = $job_supplement_info->job_supplement_maincategory_cd;
+                                $job_supplement_maincategory_name = $job_supplement_info->job_supplement_maincategory_name;
+
+                                $job_supplement_subcategory_cd = $job_supplement_info->job_supplement_subcategory_cd;
+                                $job_supplement_subcategory_name = $job_supplement_info->job_supplement_subcategory_name;
+
+                                $add_class = "";
+                                $check_status = "";
+                                if(in_array($job_supplement_subcategory_cd , $search_element_array['search_job_supplement_array'])){
+                                    $add_class = "job-supplement-select";                            
+                                    $check_status = "checked";
+                                }
+
                             @endphp
 
-                        @endif
+                            @if($check_job_supplement_maincategory_name != $job_supplement_maincategory_name)
 
-                        <div id="job-supplement-area{{$job_supplement_subcategory_cd}}" 
-                        class="col-6 col-lg-4 col-xl-3 mt-2 job-supplement-area item-center">
-                            <label id="job-supplement-label{{$job_supplement_subcategory_cd}}" 
-                                for="job-supplement-checkbox{{$job_supplement_subcategory_cd}}" 
-                                class="job-supplement-label {{$add_class}} text-center"
-                            >{{$job_supplement_subcategory_name}}
-                            </label>
+                                <div class="col-12 text-center">
+                                    {{$job_supplement_maincategory_name}}
+                                </div>                            
+                                
+                                @php
+                                    $check_job_supplement_maincategory_name = $job_supplement_maincategory_name;
+                                @endphp
 
-                            <input type="checkbox" 
-                            id="job-supplement-checkbox{{$job_supplement_subcategory_cd}}"
-                            value="{{$job_supplement_subcategory_cd}}"                        
-                            data-target="{{$job_supplement_subcategory_cd}}"
-                            class="job-supplement-checkbox d-none" 
-                            {{$check_status}}
-                            >
-                        </div>
+                            @endif
 
-                    @endforeach
+                            <div id="job-supplement-area{{$job_supplement_subcategory_cd}}" 
+                            class="col-6 col-lg-4 col-xl-3 mt-2 job-supplement-area item-center">
+                                <label id="job-supplement-label{{$job_supplement_subcategory_cd}}" 
+                                    for="job-supplement-checkbox{{$job_supplement_subcategory_cd}}" 
+                                    class="job-supplement-label {{$add_class}} text-center"
+                                >{{$job_supplement_subcategory_name}}
+                                </label>
 
+                                <input type="checkbox" 
+                                id="job-supplement-checkbox{{$job_supplement_subcategory_cd}}"
+                                value="{{$job_supplement_subcategory_cd}}"                        
+                                data-target="{{$job_supplement_subcategory_cd}}"
+                                class="job-supplement-checkbox d-none" 
+                                {{$check_status}}
+                                >
+                            </div>
+
+                        @endforeach
+
+                    </div>
+                    
                 </div>
 
             </div>
