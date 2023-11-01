@@ -77,7 +77,7 @@
     .job-supplement-maincategory-area{
         height: 50px;
         background-color: rgb(245, 179, 81);
-        color:  rgb(208, 208, 241);
+        color:rgb(239, 239, 247);
         font-size: 19px;
         font-weight: bold;
         display: flex;

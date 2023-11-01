@@ -25,6 +25,7 @@ use App\Models\job_information_t_model;
 use App\Models\job_supplement_maincategory_m_model;
 use App\Models\job_supplement_subcategory_m_model;
 use App\Models\job_supplement_connection_t_model;
+use App\Models\job_search_history_t_model;
 
 class hp_controller extends Controller
 {
@@ -183,7 +184,7 @@ class hp_controller extends Controller
         }
 
         if($job_supplement_search_value_array["existence_data"] == 1) {
-            $job_supplement_search_value_array = $job_supplement_search_value_array["value_array"];                            
+            $search_job_supplement_array = $job_supplement_search_value_array["value_array"];                            
         }
       
 
@@ -199,6 +200,30 @@ class hp_controller extends Controller
     {
         //全ての検索条件を取得
         $all_job_search_value_array = $request->all_job_search_value_array;
+
+        $job_supplement_search_value_array = $all_job_search_value_array["job_supplement_search_value_array"];
+
+        if($job_supplement_search_value_array["existence_data"] == 1) {
+
+            $search_job_supplement_array = $job_supplement_search_value_array["value_array"];            
+            // 日付を取得
+            $now = Carbon::now();
+
+            $search_date = $now->format('Y/m/d');
+            foreach($search_job_supplement_array as $index => $job_supplement_subcategory_cd){ 
+                //photoget_tにデータ作成
+                job_search_history_t_model::create(
+                    [
+                        "job_supplement_subcategory_cd" => $job_supplement_subcategory_cd
+                        ,"search_date" => $search_date                   
+                    ]
+               );
+                
+            }
+            
+        }
+
+        
 
         session()->put('all_job_search_value_array', $all_job_search_value_array);
 
