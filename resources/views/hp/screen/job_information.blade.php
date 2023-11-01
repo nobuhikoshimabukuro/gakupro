@@ -333,10 +333,10 @@
                             @endif
 
                             <div id="job-supplement-area{{$job_supplement_subcategory_cd}}" 
-                            class="col-6 col-lg-4 col-xl-3 mt-2 job-supplement-area item-center">
+                            class="col-6 col-lg-4 col-xl-3 mt-2 job-supplement-area">
                                 <label id="job-supplement-label{{$job_supplement_subcategory_cd}}" 
                                     for="job-supplement-checkbox{{$job_supplement_subcategory_cd}}" 
-                                    class="job-supplement-label {{$add_class}} text-center"
+                                    class="job-supplement-label {{$add_class}}"
                                 >{{$job_supplement_subcategory_name}}
                                 </label>
 
