@@ -1,0 +1,18 @@
+SELECT
+job_supplement_maincategory_m.job_supplement_maincategory_cd
+,job_supplement_maincategory_m.job_supplement_maincategory_name
+,job_supplement_subcategory_m.job_supplement_subcategory_cd
+,job_supplement_subcategory_m.job_supplement_subcategory_name
+,job_search_history_t.search_date
+FROM
+job_search_history_t
+
+LEFT JOIN
+job_supplement_subcategory_m
+ON
+job_search_history_t.job_supplement_subcategory_cd = job_supplement_subcategory_m.job_supplement_subcategory_cd
+
+LEFT JOIN
+job_supplement_maincategory_m
+ON
+job_supplement_subcategory_m.job_supplement_maincategory_cd = job_supplement_maincategory_m.job_supplement_maincategory_cd
