@@ -219,7 +219,7 @@
 
     
     <div class="warning-statement">
-        リリース前:Web開発中
+        web開発中
     </div>  
 
 

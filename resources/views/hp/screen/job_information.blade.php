@@ -11,7 +11,7 @@
     .search-board{    
         position:fixed;
         padding: 3px;
-        z-index: 999;    
+        z-index: 100;    
         top:0;
         right: -120%;
         width:50%;
@@ -21,8 +21,25 @@
         transition: all 0.6s;    
     }
 
+    .search-alert-area{
+        position: absolute;
+        top: 50%;
+        right: -120%;
+        height: 40px;        
+        width: 100%;
+        background-color: rgb(221, 20, 20);
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        display: flex;
+        justify-content: center; /*左右中央揃え*/
+        align-items: center;     /*上下中央揃え*/
+        opacity: 0.8;
+        z-index: 102;
+        transition: all 0.6s;
+    }
     /*アクティブクラスがついたら位置を0に*/
-    .search-board-active{
+    .search-board-active , .search-alert-area-active{
         right: 0;
     }
 
@@ -67,7 +84,7 @@
     .search-board-contents {    
         max-height: calc(85vh - 10px);    
         overflow-y: auto;
-        z-index: 10000;
+        z-index: 101;
     }
     
     .municipality-check-area{
@@ -202,6 +219,9 @@
 
 <div class="search-board">
 
+    <div class="search-alert-area">
+        検索項目を1つ以上選択してください。
+    </div>
     <div class="row">
 
         <div class="search-board-header col-12 ">            
@@ -571,6 +591,11 @@ $(function(){
     });
 
 
+    //
+    $(document).on("click", ".search-alert-area", function (e) {
+        $(".search-alert-area").removeClass('search-alert-area-active');
+    });
+
     //検索ボタン
     $(document).on("click", ".search-button", function (e) {
         
@@ -588,6 +613,23 @@ $(function(){
             };
         
 
+        var judge = false;
+        Object.values(all_job_search_value_array).forEach(function(array) {
+            if (array["existence_data"] == 1) {
+                judge = true;
+            }
+        });
+
+        if(!judge){
+
+            $(".search-alert-area").addClass('search-alert-area-active');
+
+            return false;
+        }
+
+        //マウスカーソルを砂時計に
+        document.body.style.cursor = 'wait';
+
         $.ajax({
             url: url, // 送信先
             type: 'get',
@@ -596,6 +638,11 @@ $(function(){
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
         })
         .done(function (data, textStatus, jqXHR) {
+
+            
+            //マウスカーソルを通常に
+            document.body.style.cursor = 'auto';
+
             // テーブルに通信できた場合
             var result = data.result;
             
@@ -614,6 +661,9 @@ $(function(){
         .fail(function (data, textStatus, errorThrown) {
         
 
+            
+            //マウスカーソルを通常に
+            document.body.style.cursor = 'auto';
         
             
 
