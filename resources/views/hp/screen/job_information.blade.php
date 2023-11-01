@@ -74,6 +74,17 @@
         padding: 0 0 15px 15px;
     }
 
+    .job-supplement-maincategory-area{
+        height: 50px;
+        background-color: rgb(208, 208, 241);
+        color: rgb(53, 7, 7);
+        font-size: 19px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center; /*左右中央揃え*/
+        align-items: center;     /*上下中央揃え*/
+    }
+
     .job-supplement-area{
         height: 50px;
         padding: 3px;
@@ -319,7 +330,7 @@
 
                             @if($check_job_supplement_maincategory_name != $job_supplement_maincategory_name)
 
-                                <div class="col-12 text-center">
+                                <div class="col-12 job-supplement-maincategory-area">
                                     {{$job_supplement_maincategory_name}}
                                 </div>                            
                                 
