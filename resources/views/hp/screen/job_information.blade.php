@@ -84,7 +84,7 @@
     .job-supplement-label{
         height: 100%;
         width: 100%;
-        display: flex;
+        /* display: flex; */
         align-items: center; 
         text-align: center;       
         border-radius: 3px;     
