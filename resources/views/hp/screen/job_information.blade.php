@@ -85,7 +85,8 @@
         height: 100%;
         width: 100%;
         display: flex;
-        align-items: center;        
+        align-items: center; 
+        text-align: center;       
         border-radius: 3px;     
         background-color: rgb(49, 49, 105);
         
