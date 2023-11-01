@@ -6,7 +6,9 @@
 @section('content')
 
 <style>
-
+body{
+    z-index: 1;
+}
 
     .search-board{    
         position:fixed;
