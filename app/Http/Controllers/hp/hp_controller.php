@@ -112,6 +112,8 @@ class hp_controller extends Controller
         ->leftJoin('job_supplement_maincategory_m', 'job_supplement_subcategory_m.job_supplement_maincategory_cd', '=', 'job_supplement_maincategory_m.job_supplement_maincategory_cd')               
         ->whereNull('job_supplement_maincategory_m.deleted_at')
         ->whereNull('job_supplement_subcategory_m.deleted_at')
+        ->orderBy('job_supplement_maincategory_m.display_order')
+        ->orderBy('job_supplement_subcategory_m.display_order')
         ->get();
 
 

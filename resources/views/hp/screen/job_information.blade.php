@@ -193,27 +193,26 @@
 
     <div class="row">
 
-        <div class="search-board-header col-12 ">
+        <div class="search-board-header col-12 ">            
 
+            <div class="row p-1">
             
-
-                <div class="row p-1">
-                
-                    <div class="col-6">            
-                        <button type="button" class="btn btn-secondary w-100 search-board-close-button">閉じる</button>
-                    </div>
-        
-                    <div class="col-6">            
-                        <button type="button" class="btn btn-primary w-100 search-button">検索</button>
-                    </div>
-
+                <div class="col-6">            
+                    <button type="button" class="btn btn-secondary w-100 search-board-close-button">閉じる</button>
                 </div>
+    
+                <div class="col-6">            
+                    <button type="button" class="btn btn-primary w-100 search-button">検索</button>
+                </div>
+
+            </div>
+    
         
-            
-            
-                <div class="row p-1">
-            
-                    <div class="col-12">   
+        
+            <div class="row p-1">
+        
+                <div class="col-12"> 
+
                     <table class="search-board-tab-table">
                         <th>
                             <button class="btn search-board-tab-button" data-target="1">
@@ -240,83 +239,114 @@
                         </th>               
 
                     </table>
-                </div>
-                </div>
 
-            
+                </div>
+                
+            </div>
+
         </div>
+
     </div>
 
     <div class="search-board-contents-area row">
 
         <div class="search-board-contents contents-1 col-12">
 
-            <div class="w-100 item-center mt-3">
-                <div class="d-block ">
-                    <label for="search_prefectural_cd" class="">
-                        都道府県を選択してください
-                    </label>
+            <div class="row m-0 p-0 item-center">
 
-                    <select id='search_prefectural_cd' name='search_prefectural_cd' class='input-sm'>
-                        <option value=''>未選択</option>
-                            @foreach($prefectural_list as $prefectural_info)
-                                <option value="{{$prefectural_info->prefectural_cd}}"
-                                    @if($search_element_array['search_prefectural_cd'] == $prefectural_info->prefectural_cd) selected @endif
-                                    title= "{{$prefectural_info->prefectural_name_kana}}"
-                                >
-                                {{$prefectural_info->prefectural_name}}
-                                </option>
-                            @endforeach
-                    </select>
+                <div class="col-11">
+
+                    <div class="w-100 item-center mt-3">
+                        <div class="d-block ">
+                            <label for="search_prefectural_cd" class="">
+                                都道府県を選択してください
+                            </label>
+
+                            <select id='search_prefectural_cd' name='search_prefectural_cd' class='input-sm'>
+                                <option value=''>未選択</option>
+                                    @foreach($prefectural_list as $prefectural_info)
+                                        <option value="{{$prefectural_info->prefectural_cd}}"
+                                            @if($search_element_array['search_prefectural_cd'] == $prefectural_info->prefectural_cd) selected @endif
+                                            title= "{{$prefectural_info->prefectural_name_kana}}"
+                                        >
+                                        {{$prefectural_info->prefectural_name}}
+                                        </option>
+                                    @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="municipality-check-area row">                       
+                        
+                    </div>
+
                 </div>
-            </div>
 
-            <div class="municipality-check-area row">
-                
-                
-            </div>
-
-            
+            </div>            
 
         </div>
 
         <div class="search-board-contents contents-2 col-12 d-none">
 
-            <div class="row  p-1">
+            <div class="row m-0 p-0 item-center">
 
-                @foreach($job_supplement_list as $job_supplement_info)
+                <div class="col-11">
 
                     @php
-
-                        $add_class = "";
-                        $check_status = "";
-                        $job_supplement_subcategory_cd = $job_supplement_info->job_supplement_subcategory_cd;
-                        $job_supplement_subcategory_name = $job_supplement_info->job_supplement_subcategory_name;                        
-                        if(in_array($job_supplement_subcategory_cd , $search_element_array['search_job_supplement_array'])){
-                            $add_class = "job-supplement-select";                            
-                            $check_status = "checked";
-                        }
-
+                        $check_job_supplement_maincategory_name = "";
                     @endphp
 
-                    <div id="job-supplement-area{{$job_supplement_subcategory_cd}}" 
-                    class="col-6 col-lg-4 col-xl-3 mt-2 job-supplement-area item-center">
-                        <label id="job-supplement-label{{$job_supplement_subcategory_cd}}" 
-                            for="job-supplement-checkbox{{$job_supplement_subcategory_cd}}" 
-                            class="job-supplement-label {{$add_class}} text-center"
-                        >{{$job_supplement_subcategory_name}}
-                        </label>
+                    @foreach($job_supplement_list as $job_supplement_info)
 
-                        <input type="checkbox" 
-                        id="job-supplement-checkbox{{$job_supplement_subcategory_cd}}"
-                        value="{{$job_supplement_subcategory_cd}}"                        
-                        data-target="{{$job_supplement_subcategory_cd}}"
-                        class="job-supplement-checkbox d-none" 
-                        {{$check_status}}
-                        >
-                    </div>
+                        @php                            
+                            
+                            $job_supplement_maincategory_cd = $job_supplement_info->job_supplement_maincategory_cd;
+                            $job_supplement_maincategory_name = $job_supplement_info->job_supplement_maincategory_name;
 
-                @endforeach
+                            $job_supplement_subcategory_cd = $job_supplement_info->job_supplement_subcategory_cd;
+                            $job_supplement_subcategory_name = $job_supplement_info->job_supplement_subcategory_name;
+
+                            $add_class = "";
+                            $check_status = "";
+                            if(in_array($job_supplement_subcategory_cd , $search_element_array['search_job_supplement_array'])){
+                                $add_class = "job-supplement-select";                            
+                                $check_status = "checked";
+                            }
+
+                        @endphp
+
+                        @if($check_job_supplement_maincategory_name != $job_supplement_maincategory_name)
+
+                            <div class="col-12 text-center">
+                                {{$job_supplement_maincategory_name}}
+                            </div>                            
+                            
+                            @php
+                                $check_job_supplement_maincategory_name = $job_supplement_maincategory_name;
+                            @endphp
+
+                        @endif
+
+                        <div id="job-supplement-area{{$job_supplement_subcategory_cd}}" 
+                        class="col-6 col-lg-4 col-xl-3 mt-2 job-supplement-area item-center">
+                            <label id="job-supplement-label{{$job_supplement_subcategory_cd}}" 
+                                for="job-supplement-checkbox{{$job_supplement_subcategory_cd}}" 
+                                class="job-supplement-label {{$add_class}} text-center"
+                            >{{$job_supplement_subcategory_name}}
+                            </label>
+
+                            <input type="checkbox" 
+                            id="job-supplement-checkbox{{$job_supplement_subcategory_cd}}"
+                            value="{{$job_supplement_subcategory_cd}}"                        
+                            data-target="{{$job_supplement_subcategory_cd}}"
+                            class="job-supplement-checkbox d-none" 
+                            {{$check_status}}
+                            >
+                        </div>
+
+                    @endforeach
+
+                </div>
 
             </div>
 
@@ -324,15 +354,13 @@
 
         <div class="search-board-contents contents-3 col-12 d-none">
 
-            
             タブ3
 
         </div>
 
         <div class="search-board-contents contents-4 col-12 d-none">
 
-            タブ4
-            
+            タブ4            
 
         </div>
 
@@ -783,7 +811,7 @@ $(function(){
 
         var search_municipality_cd_array = @json($search_element_array["search_municipality_cd_array"]);
 
-        if(search_municipality_cd_array.length > 0){
+          if(search_municipality_cd_array.length > 0){
 
             var municipality_cd_checkboxs = document.querySelectorAll('.municipality_cd');
 
