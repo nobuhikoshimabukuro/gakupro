@@ -75,15 +75,17 @@
     }
 
     .job-supplement-area{
-        height: 40px;
-        
+        height: 50px;        
         padding: 1px;
         color: white;
         padding: 3px;
     }
+
     .job-supplement-label{
         height: 100%;
         width: 100%;
+        display: flex;
+        align-items: center;        
         border-radius: 3px;     
         background-color: rgb(49, 49, 105);
         
@@ -349,7 +351,7 @@
                         @endforeach
 
                     </div>
-                    
+
                 </div>
 
             </div>
