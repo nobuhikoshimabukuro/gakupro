@@ -76,8 +76,8 @@
 
     .job-supplement-maincategory-area{
         height: 50px;
-        background-color: rgb(208, 208, 241);
-        color: rgb(53, 7, 7);
+        background-color: rgb(245, 179, 81);
+        color:  rgb(208, 208, 241);
         font-size: 19px;
         font-weight: bold;
         display: flex;
@@ -330,7 +330,7 @@
 
                             @if($check_job_supplement_maincategory_name != $job_supplement_maincategory_name)
 
-                                <div class="col-12 job-supplement-maincategory-area">
+                                <div class="col-12 job-supplement-maincategory-area mt-2">
                                     {{$job_supplement_maincategory_name}}
                                 </div>                            
                                 
