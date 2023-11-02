@@ -409,13 +409,14 @@ body{
 
 <div id="main" class="mt-3 text-center container">
 
-    <button type="button" class="btn btn-success search-board-open-button">
-        条件検索
-    </button>
-
+    
     <div id="" class="row item-center">
 
-        
+        <div class="col-11 col-md-9 mt-3 text-end">
+            <button type="button" class="btn btn-success search-board-open-button">
+                求人条件検索
+            </button>    
+        </div>
         @if(count($job_information) > 0)
 
             @foreach ($job_information as $index => $info)            
@@ -434,10 +435,19 @@ body{
 
                         {{-- PCは二分割、モバイルは縦に分割 --}}
                         {{-- 写真エリア --}}
+                        @php
+                            $asset_path_array = $info->asset_path_array;
+                        @endphp
                         <div id="" class="col-12 col-md-5 m-0 p-0 job-image-outer-area item-center">   
 
                             <div class="job-image-inner-area item-center">
-                                <img src="{{ asset('storage/job_image/1/1.png')}}" class="job-image" alt="">       
+                                @foreach ($asset_path_array as $job_image_index => $asset_full_path)
+                                    @if($job_image_index == 0)
+                                        <img src="{{$asset_full_path}}" class="job-image" alt="">
+                                    @else
+                                        <img src="{{$asset_full_path}}" class="job-image d-none" alt="">
+                                    @endif
+                                @endforeach
                             </div>
 
                         </div>
@@ -495,7 +505,7 @@ body{
                         </div>
 
 
-                        <div id="" class="col-6 m-0 p-0">
+                        <div id="" class="col-6 m-0 p-0 mt-3">
 
                             <button id="" class="w-75 m-0 p-0 job-detail btn btn-outline-success" data-jobnumber="{{$info->id}}">
                                 求人明細を見る
@@ -505,7 +515,7 @@ body{
 
                         
 
-                        <div id="" class="col-6 m-0 p-0">
+                        <div id="" class="col-6 m-0 p-0 mt-3">
 
                             <button id="" class="w-75 m-0 p-0 employer-detail btn btn-outline-success" data-employerid="{{$info->employer_id}}">
                                 雇用者情報を見る
@@ -719,7 +729,7 @@ $(function(){
                 // チェックされている要素のvalueを取得
                 municipality_cd_checkboxs.forEach(function(municipality_cd_checkbox) {
                     if (municipality_cd_checkbox.checked) {                    
-                        municipality_cd_array.push(municipality_cd_checkbox.value); 
+                        value_array.push(municipality_cd_checkbox.value); 
                     }
                 });
             }

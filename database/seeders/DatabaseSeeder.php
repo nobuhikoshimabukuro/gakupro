@@ -341,8 +341,12 @@ class DatabaseSeeder extends Seeder
                 'tel' => '',
                 'fax' => '',
                 'hp_url' => '',
+                'job_image_folder_name' => 'aaa',
                 'mailaddress' => '',
                 'remarks' => '調理技術向上を目指しながら働いてみませんか？',
+                'application_requirements' => '',
+                'publish_start_date' => '2023-11-01',
+                'publish_end_date' => '2024-01-30',
                 'created_by' => '9999',
                 
             ],          
@@ -362,8 +366,12 @@ class DatabaseSeeder extends Seeder
                 'tel' => '',
                 'fax' => '',
                 'hp_url' => '',
+                'job_image_folder_name' => 'bbb',
                 'mailaddress' => '',
                 'remarks' => '車の事を勉強しながらお金を稼いでみませんか？',
+                'application_requirements' => '',
+                'publish_start_date' => '2023-11-01',
+                'publish_end_date' => '2024-01-30',
                 'created_by' => '9999',
                 
             ],          
@@ -383,8 +391,12 @@ class DatabaseSeeder extends Seeder
                 'tel' => '',
                 'fax' => '',
                 'hp_url' => '',
+                'job_image_folder_name' => 'ccc',
                 'mailaddress' => '',
                 'remarks' => '家電に関するサポート窓口',
+                'application_requirements' => '',
+                'publish_start_date' => '2023-11-01',
+                'publish_end_date' => '2024-01-30',
                 'created_by' => '9999',
                 
             ],          
@@ -404,8 +416,12 @@ class DatabaseSeeder extends Seeder
                 'tel' => '',
                 'fax' => '',
                 'hp_url' => '',
+                'job_image_folder_name' => 'ddd',
                 'mailaddress' => '',
                 'remarks' => '遊技場のスタッフ',
+                'application_requirements' => '',
+                'publish_start_date' => '2023-11-01',
+                'publish_end_date' => '2024-01-30',
                 'created_by' => '9999',
                 
             ],          
@@ -1406,6 +1422,49 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
+        if(env('APP_DEBUG')){
+
+            DB::table('job_supplement_connection_t')->insert([
+                
+                [                
+                    'employer_id' => '1',
+                    'job_id' => '1',
+                    'job_supplement_subcategory_cd' => '1',                
+                ],
+
+                [                
+                    'employer_id' => '1',
+                    'job_id' => '1',
+                    'job_supplement_subcategory_cd' => '25',                
+                ],
+
+                [                
+                    'employer_id' => '1',
+                    'job_id' => '1',
+                    'job_supplement_subcategory_cd' => '29',                
+                ],
+
+
+                [                
+                    'employer_id' => '1',
+                    'job_id' => '2',
+                    'job_supplement_subcategory_cd' => '2',
+                ],
+
+                [                
+                    'employer_id' => '1',
+                    'job_id' => '2',
+                    'job_supplement_subcategory_cd' => '26',
+                ],
+
+                [                
+                    'employer_id' => '1',
+                    'job_id' => '1',
+                    'job_supplement_subcategory_cd' => '30',                
+                ],
+
+            ]);    
+        }
 
     }
 }

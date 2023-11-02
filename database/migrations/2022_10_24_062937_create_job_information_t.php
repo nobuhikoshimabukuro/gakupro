@@ -88,9 +88,14 @@ return new class extends Migration
                 ->comment('HP_URL');
 
             $table
+                ->string('job_image_folder_name', 200)
+                ->nullable()
+                ->comment('求人掲載用画像格納フォルダ名');
+
+            $table
                 ->string('mailaddress', 200)
                 ->nullable()
-                ->comment('メールアドレス');         
+                ->comment('メールアドレス');
 
             $table
                 ->text('remarks')
@@ -101,11 +106,17 @@ return new class extends Migration
                 ->text('application_requirements')
                 ->nullable()
                 ->comment('応募資格');
+            
 
             $table
-                ->dateTime('created_at')
-                ->default(DB::raw('CURRENT_TIMESTAMP'))
-                ->comment('作成日時:自動生成');
+                ->date('publish_start_date')
+                ->nullable()
+                ->comment('掲載開始日');
+
+            $table
+                ->date('publish_end_date')
+                ->nullable()
+                ->comment('掲載終了日');
 
             $table
                 ->integer('created_by')

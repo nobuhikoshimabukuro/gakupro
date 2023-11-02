@@ -16,3 +16,40 @@ LEFT JOIN
 job_supplement_maincategory_m
 ON
 job_supplement_subcategory_m.job_supplement_maincategory_cd = job_supplement_maincategory_m.job_supplement_maincategory_cd
+
+
+
+
+
+
+WITH
+  all_job_supplement_subcategory_m AS (
+SELECT
+  employer_id,
+  job_id,
+  CONCAT('[', GROUP_CONCAT(job_supplement_subcategory_cd ORDER BY job_supplement_subcategory_cd SEPARATOR ']['), ']') AS job_supplement_subcategory_cds
+FROM
+  job_supplement_connection_t
+GROUP BY
+  employer_id, job_id
+)
+
+SELECT
+    job_information_t.id
+,   all_job_supplement_subcategory_m.employer_id
+,   all_job_supplement_subcategory_m.job_id
+,   all_job_supplement_subcategory_m.job_supplement_subcategory_cds
+
+FROM
+    all_job_supplement_subcategory_m
+LEFT JOIN
+    job_information_t
+ON
+    all_job_supplement_subcategory_m.employer_id = job_information_t.employer_id
+AND
+    all_job_supplement_subcategory_m.job_id = job_information_t.job_id
+
+WHERE
+    all_job_supplement_subcategory_m.job_supplement_subcategory_cds LIKE '%[1]%'
+AND
+    all_job_supplement_subcategory_m.job_supplement_subcategory_cds LIKE '%[25]%'
