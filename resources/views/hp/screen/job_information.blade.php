@@ -230,12 +230,16 @@ body{
 
             <div class="row p-1">
             
-                <div class="col-6">            
+                <div class="col-4">            
                     <button type="button" class="btn btn-secondary w-100 search-board-close-button">閉じる</button>
                 </div>
     
-                <div class="col-6">            
-                    <button type="button" class="btn btn-primary w-100 search-button">検索</button>
+                <div class="col-4">            
+                    <button type="button" class="btn btn-primary w-100 search-value-clear-button">クリア</button>
+                </div>
+
+                <div class="col-4">            
+                    <button type="button" class="btn btn-success w-100 search-button">検索</button>
                 </div>
 
             </div>
@@ -248,25 +252,25 @@ body{
 
                     <table class="search-board-tab-table">
                         <th>
-                            <button class="btn search-board-tab-button" data-target="1">
+                            <button id="search-board-tab-button1" class="btn search-board-tab-button" data-target="1">
                                 勤務地<i class="fas fa-map-marker-alt"></i>
                             </button>
                         </th>
 
                         <th>
-                            <button class="btn search-board-tab-button" data-target="2">
+                            <button id="search-board-tab-button2" class="btn search-board-tab-button" data-target="2">
                                 条件
                             </button>
                         </th>
 
                         <th>
-                            <button class="btn search-board-tab-button" data-target="3">
+                            <button id="search-board-tab-button3" class="btn search-board-tab-button" data-target="3">
                                 タブ3
                             </button>
                         </th>
 
                         <th>
-                            <button class="btn search-board-tab-button" data-target="4">
+                            <button id="search-board-tab-button4" class="btn search-board-tab-button" data-target="4">
                                 タブ4
                             </button>
                         </th>               
@@ -573,6 +577,8 @@ $(function(){
     //画面読込時処理
     $(document).ready(function() {
         search_prefectural(1);        
+        search_board_tab_change(1);
+        $('#confirm-close').trigger("click");
     });
     
 
@@ -581,6 +587,23 @@ $(function(){
         $(".search-board").addClass('search-board-active');
     });
 
+
+    //検索ボードクリアボタン
+    $(document).on("click", ".search-value-clear-button", function (e) {
+        // クリア処理
+        $("#search_prefectural_cd").val("");
+        search_prefectural();
+        search_board_tab_change(1);
+
+        
+        $(".job-supplement-checkbox").prop("checked", false);
+        $(".job-supplement-select").removeClass('job-supplement-select');
+        $(".search-alert-area").removeClass('search-alert-area-active');
+        
+
+    });
+
+    
     //検索ボードクローズボタン
     $(document).on("click", ".search-board-close-button", function (e) {
         $(".search-board").removeClass('search-board-active');
@@ -591,8 +614,14 @@ $(function(){
 
         var target = $(this).data('target');
 
+        search_board_tab_change(target);
+       
+    });
+
+    function search_board_tab_change(target){
+
         $(".after-button").removeClass('after-button');
-        $(this).addClass('after-button');
+        $("#search-board-tab-button" + target).addClass('after-button');
 
 
         $(".search-board-contents").removeClass('d-none');
@@ -600,8 +629,8 @@ $(function(){
         $(".search-board-contents").addClass('d-none');
 
         $(".search-board-contents-area .contents-" + target).removeClass('d-none');
-    });
 
+    }
 
     //
     $(document).on("click", ".search-alert-area", function (e) {
