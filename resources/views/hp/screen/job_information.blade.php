@@ -18,7 +18,7 @@ body{
         right: -120%;
         width:50%;
         /* height: 100vh; */
-        height: 100%;
+        height: calc(100% - 5px); /* セーフエリアに対応 */
         background:#eee9e9;
         /*動き*/
         transition: all 0.6s;    
