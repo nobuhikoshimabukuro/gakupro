@@ -427,7 +427,7 @@ body{
 
         <div class="search-board-footer">
 
-            <div class="row p-1">
+            <div class="row p-1 item-center">
                 
                 <div class="col-4">            
                     <button type="button" class="btn w-100 btn-secondary search-board-close-button">閉じる</button>
