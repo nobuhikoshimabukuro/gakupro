@@ -85,13 +85,15 @@ body{
     
     .search-board-contents {    
         /* max-height: calc(85vh - 10px);     */
-        max-height: 100%;    
+        /* max-height: 100%;     */
         overflow-y: auto;
         z-index: 101;
     }
 
     .search-board-contents-area{
+        height: calc(90% - 5vh);    
         padding-bottom: 5vh;
+        overflow-y: auto;
     }
     
     .municipality-check-area{
@@ -235,7 +237,7 @@ body{
 
         <div class="search-board-header col-12 ">            
 
-            <div class="row p-1">
+            {{-- <div class="row p-1">
             
                 <div class="col-4">            
                     <button type="button" class="btn btn-secondary w-100 search-board-close-button">閉じる</button>
@@ -249,7 +251,7 @@ body{
                     <button type="button" class="btn btn-success w-100 search-button">検索</button>
                 </div>
 
-            </div>
+            </div> --}}
     
         
         
@@ -410,6 +412,23 @@ body{
 
             タブ4            
 
+        </div>
+
+    </div>
+
+
+    <div class="row p-1">
+            
+        <div class="col-4">            
+            <button type="button" class="btn btn-secondary w-100 search-board-close-button">閉じる</button>
+        </div>
+
+        <div class="col-4">            
+            <button type="button" class="btn btn-primary w-100 search-value-clear-button">クリア</button>
+        </div>
+
+        <div class="col-4">            
+            <button type="button" class="btn btn-success w-100 search-button">検索</button>
         </div>
 
     </div>
