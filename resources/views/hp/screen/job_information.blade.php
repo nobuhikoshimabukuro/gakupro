@@ -31,7 +31,7 @@ body{
         bottom: 0;
         left: 0;
         width: 100%;        
-        padding-bottom: 1vh;
+        padding-bottom: 1vh 0 ;
         background:#dfd7d7;
     }   
 
@@ -427,7 +427,7 @@ body{
 
         <div class="search-board-footer">
 
-            <div class="row p-1 item-center">
+            <div class="row p-1">
                 
                 <div class="col-4">            
                     <button type="button" class="btn w-100 btn-secondary search-board-close-button">閉じる</button>
