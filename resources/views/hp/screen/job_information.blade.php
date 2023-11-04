@@ -88,6 +88,10 @@ body{
         overflow-y: auto;
         z-index: 101;
     }
+
+    .search-board-contents-area{
+        padding-bottom: 5vh;
+    }
     
     .municipality-check-area{
         padding: 0 0 15px 15px;
