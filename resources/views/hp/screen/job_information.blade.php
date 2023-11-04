@@ -167,12 +167,14 @@ body{
     }
 
     .job-image-inner-area{
-        /* width: 100%;
-        height: 40vh; */
+        width: 100%;
+        height: 35vh;
     }
 
     .job-image{        
-        width: 90%;        
+        width: 100%;    
+        height:  100%;
+        object-fit: contain; 
     }
 
     .job-info-area{        
