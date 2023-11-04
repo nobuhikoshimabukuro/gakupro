@@ -97,18 +97,11 @@ body{
         background-color: rgb(30, 90, 90);
     }
 
-    
-    .search-board-contents {    
-        /* max-height: calc(85vh - 10px);     */
-        /* max-height: 100%;     */
-        overflow-y: auto;
-        z-index: 101;
-    }
-
     .search-board-contents-area{
-        height: calc(90% - 5vh);    
+        height: calc(95% - 5vh);    
         padding-bottom: 5vh;
         overflow-y: auto;
+        z-index: 101;
     }
     
   
