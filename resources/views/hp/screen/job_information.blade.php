@@ -24,18 +24,14 @@ body{
         transition: all 0.6s;    
     }
 
-    .search-board-inner-area{
-        position: relative;
-        width: 100%;
-        height: 100%;
-    }
-
+   
     .search-board-footer{
         position: absolute;
         z-index: 99999;
         bottom: 0;
         left: 0;
-        width: 100%;
+        width: 100%;        
+        padding-bottom: 1vh;
     }   
 
     .search-alert-area{
@@ -94,11 +90,11 @@ body{
     .after-button{
         font-weight: 700;                
         color: white;
-        background-color: rgb(30, 90, 90);
+        background-color: rgb(1, 3, 3);
     }
 
     .search-board-contents-area{
-        height: calc(95% - 5vh);    
+        height: calc(95% - 5vh);                  
         padding-bottom: 5vh;
         overflow-y: auto;
         z-index: 101;
