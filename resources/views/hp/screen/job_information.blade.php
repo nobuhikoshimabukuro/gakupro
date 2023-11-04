@@ -32,6 +32,7 @@ body{
         left: 0;
         width: 100%;        
         padding-bottom: 1vh;
+        background:#dfd7d7;
     }   
 
     .search-alert-area{
