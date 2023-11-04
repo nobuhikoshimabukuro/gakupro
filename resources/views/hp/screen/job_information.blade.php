@@ -84,7 +84,8 @@ body{
 
     
     .search-board-contents {    
-        max-height: calc(85vh - 10px);    
+        /* max-height: calc(85vh - 10px);     */
+        max-height: 100%;    
         overflow-y: auto;
         z-index: 101;
     }
