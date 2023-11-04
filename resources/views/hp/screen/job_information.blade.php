@@ -23,6 +23,20 @@ body{
         transition: all 0.6s;    
     }
 
+    .search-board-inner-area{
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .search-board-footer{
+        position: absolute;
+        z-index: 99999;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }   
+
     .search-alert-area{
         position: absolute;
         top: 50%;
@@ -96,12 +110,7 @@ body{
         overflow-y: auto;
     }
     
-    .search-board-footer{
-        position: fixed;
-    z-index: 99999;
-    bottom: 0;
-    width: 100%;
-    }   
+  
     .municipality-check-area{
         padding: 0 0 15px 15px;
     }
@@ -236,169 +245,173 @@ body{
 
 <div class="search-board">
 
-    <div class="search-alert-area">
-        検索項目を1つ以上選択してください。
-    </div>
-    <div class="row">
+    {{-- <div class="search-board-inner-area"> --}}
 
-        <div class="search-board-header col-12 ">            
+        <div class="search-alert-area">
+            検索項目を1つ以上選択してください。
+        </div>
+        <div class="row">
 
-            {{-- <div class="row p-1">
-            
-                <div class="col-4">            
-                    <button type="button" class="btn btn-secondary w-100 search-board-close-button">閉じる</button>
-                </div>
-    
-                <div class="col-4">            
-                    <button type="button" class="btn btn-primary w-100 search-value-clear-button">クリア</button>
-                </div>
+            <div class="search-board-header col-12 ">            
 
-                <div class="col-4">            
-                    <button type="button" class="btn btn-success w-100 search-button">検索</button>
-                </div>
-
-            </div> --}}
-    
-        
-        
-            <div class="row p-1">
-        
-                <div class="col-12"> 
-
-                    <table class="search-board-tab-table">
-                        <th>
-                            <button id="search-board-tab-button1" class="btn search-board-tab-button" data-target="1">
-                                勤務地<i class="fas fa-map-marker-alt"></i>
-                            </button>
-                        </th>
-
-                        <th>
-                            <button id="search-board-tab-button2" class="btn search-board-tab-button" data-target="2">
-                                条件
-                            </button>
-                        </th>
-
-                        <th>
-                            <button id="search-board-tab-button3" class="btn search-board-tab-button" data-target="3">
-                                タブ3
-                            </button>
-                        </th>
-
-                        <th>
-                            <button id="search-board-tab-button4" class="btn search-board-tab-button" data-target="4">
-                                タブ4
-                            </button>
-                        </th>               
-
-                    </table>
-
-                </div>
+                {{-- <div class="row p-1">
                 
+                    <div class="col-4">            
+                        <button type="button" class="btn btn-secondary w-100 search-board-close-button">閉じる</button>
+                    </div>
+        
+                    <div class="col-4">            
+                        <button type="button" class="btn btn-primary w-100 search-value-clear-button">クリア</button>
+                    </div>
+
+                    <div class="col-4">            
+                        <button type="button" class="btn btn-success w-100 search-button">検索</button>
+                    </div>
+
+                </div> --}}
+        
+            
+            
+                <div class="row p-1">
+            
+                    <div class="col-12"> 
+
+                        <table class="search-board-tab-table">
+                            <th>
+                                <button id="search-board-tab-button1" class="btn search-board-tab-button" data-target="1">
+                                    勤務地<i class="fas fa-map-marker-alt"></i>
+                                </button>
+                            </th>
+
+                            <th>
+                                <button id="search-board-tab-button2" class="btn search-board-tab-button" data-target="2">
+                                    条件
+                                </button>
+                            </th>
+
+                            <th>
+                                <button id="search-board-tab-button3" class="btn search-board-tab-button" data-target="3">
+                                    タブ3
+                                </button>
+                            </th>
+
+                            <th>
+                                <button id="search-board-tab-button4" class="btn search-board-tab-button" data-target="4">
+                                    タブ4
+                                </button>
+                            </th>               
+
+                        </table>
+
+                    </div>
+                    
+                </div>
+
             </div>
 
         </div>
 
-    </div>
+        <div class="search-board-contents-area row">
 
-    <div class="search-board-contents-area row">
+            <div class="search-board-contents contents-1 col-12">
 
-        <div class="search-board-contents contents-1 col-12">
+                <div class="row m-0 p-0 item-center">
 
-            <div class="row m-0 p-0 item-center">
+                    <div class="col-11">
 
-                <div class="col-11">
-
-                    <div class="w-100 item-center mt-3">
-                        <div class="d-block ">
-                            <label for="search_prefectural_cd" class="">
-                                都道府県を選択してください
-                            </label>
-
-                            <select id='search_prefectural_cd' name='search_prefectural_cd' class='input-sm'>
-                                <option value=''>未選択</option>
-                                    @foreach($prefectural_list as $prefectural_info)
-                                        <option value="{{$prefectural_info->prefectural_cd}}"
-                                            @if($search_element_array['search_prefectural_cd'] == $prefectural_info->prefectural_cd) selected @endif
-                                            title= "{{$prefectural_info->prefectural_name_kana}}"
-                                        >
-                                        {{$prefectural_info->prefectural_name}}
-                                        </option>
-                                    @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="municipality-check-area row">                       
-                        
-                    </div>
-
-                </div>
-
-            </div>            
-
-        </div>
-
-        <div class="search-board-contents contents-2 col-12 d-none">
-
-            <div class="row m-0 p-0 item-center">
-
-                <div class="col-11">
-
-                    <div class="row m-0 p-0">
-
-                        @php
-                            $check_job_supplement_maincategory_name = "";
-                        @endphp
-
-                        @foreach($job_supplement_list as $job_supplement_info)
-
-                            @php                            
-                                
-                                $job_supplement_maincategory_cd = $job_supplement_info->job_supplement_maincategory_cd;
-                                $job_supplement_maincategory_name = $job_supplement_info->job_supplement_maincategory_name;
-
-                                $job_supplement_subcategory_cd = $job_supplement_info->job_supplement_subcategory_cd;
-                                $job_supplement_subcategory_name = $job_supplement_info->job_supplement_subcategory_name;
-
-                                $add_class = "";
-                                $check_status = "";
-                                if(in_array($job_supplement_subcategory_cd , $search_element_array['search_job_supplement_array'])){
-                                    $add_class = "job-supplement-select";                            
-                                    $check_status = "checked";
-                                }
-
-                            @endphp
-
-                            @if($check_job_supplement_maincategory_name != $job_supplement_maincategory_name)
-
-                                <div class="col-12 job-supplement-maincategory-area mt-2">
-                                    {{$job_supplement_maincategory_name}}
-                                </div>                            
-                                
-                                @php
-                                    $check_job_supplement_maincategory_name = $job_supplement_maincategory_name;
-                                @endphp
-
-                            @endif
-
-                            <div id="job-supplement-area{{$job_supplement_subcategory_cd}}" 
-                            class="col-6 col-lg-4 col-xl-3 mt-2 job-supplement-area">
-                                <label id="job-supplement-label{{$job_supplement_subcategory_cd}}" 
-                                    for="job-supplement-checkbox{{$job_supplement_subcategory_cd}}" 
-                                    class="job-supplement-label {{$add_class}} item-center"
-                                >{{$job_supplement_subcategory_name}}
+                        <div class="w-100 item-center mt-3">
+                            <div class="d-block ">
+                                <label for="search_prefectural_cd" class="">
+                                    都道府県を選択してください
                                 </label>
 
-                                <input type="checkbox" 
-                                id="job-supplement-checkbox{{$job_supplement_subcategory_cd}}"
-                                value="{{$job_supplement_subcategory_cd}}"                        
-                                data-target="{{$job_supplement_subcategory_cd}}"
-                                class="job-supplement-checkbox d-none" 
-                                {{$check_status}}
-                                >
+                                <select id='search_prefectural_cd' name='search_prefectural_cd' class='input-sm'>
+                                    <option value=''>未選択</option>
+                                        @foreach($prefectural_list as $prefectural_info)
+                                            <option value="{{$prefectural_info->prefectural_cd}}"
+                                                @if($search_element_array['search_prefectural_cd'] == $prefectural_info->prefectural_cd) selected @endif
+                                                title= "{{$prefectural_info->prefectural_name_kana}}"
+                                            >
+                                            {{$prefectural_info->prefectural_name}}
+                                            </option>
+                                        @endforeach
+                                </select>
                             </div>
+                        </div>
 
-                        @endforeach
+                        <div class="municipality-check-area row">                       
+                            
+                        </div>
+
+                    </div>
+
+                </div>            
+
+            </div>
+
+            <div class="search-board-contents contents-2 col-12 d-none">
+
+                <div class="row m-0 p-0 item-center">
+
+                    <div class="col-11">
+
+                        <div class="row m-0 p-0">
+
+                            @php
+                                $check_job_supplement_maincategory_name = "";
+                            @endphp
+
+                            @foreach($job_supplement_list as $job_supplement_info)
+
+                                @php                            
+                                    
+                                    $job_supplement_maincategory_cd = $job_supplement_info->job_supplement_maincategory_cd;
+                                    $job_supplement_maincategory_name = $job_supplement_info->job_supplement_maincategory_name;
+
+                                    $job_supplement_subcategory_cd = $job_supplement_info->job_supplement_subcategory_cd;
+                                    $job_supplement_subcategory_name = $job_supplement_info->job_supplement_subcategory_name;
+
+                                    $add_class = "";
+                                    $check_status = "";
+                                    if(in_array($job_supplement_subcategory_cd , $search_element_array['search_job_supplement_array'])){
+                                        $add_class = "job-supplement-select";                            
+                                        $check_status = "checked";
+                                    }
+
+                                @endphp
+
+                                @if($check_job_supplement_maincategory_name != $job_supplement_maincategory_name)
+
+                                    <div class="col-12 job-supplement-maincategory-area mt-2">
+                                        {{$job_supplement_maincategory_name}}
+                                    </div>                            
+                                    
+                                    @php
+                                        $check_job_supplement_maincategory_name = $job_supplement_maincategory_name;
+                                    @endphp
+
+                                @endif
+
+                                <div id="job-supplement-area{{$job_supplement_subcategory_cd}}" 
+                                class="col-6 col-lg-4 col-xl-3 mt-2 job-supplement-area">
+                                    <label id="job-supplement-label{{$job_supplement_subcategory_cd}}" 
+                                        for="job-supplement-checkbox{{$job_supplement_subcategory_cd}}" 
+                                        class="job-supplement-label {{$add_class}} item-center"
+                                    >{{$job_supplement_subcategory_name}}
+                                    </label>
+
+                                    <input type="checkbox" 
+                                    id="job-supplement-checkbox{{$job_supplement_subcategory_cd}}"
+                                    value="{{$job_supplement_subcategory_cd}}"                        
+                                    data-target="{{$job_supplement_subcategory_cd}}"
+                                    class="job-supplement-checkbox d-none" 
+                                    {{$check_status}}
+                                    >
+                                </div>
+
+                            @endforeach
+
+                        </div>
 
                     </div>
 
@@ -406,38 +419,41 @@ body{
 
             </div>
 
+            <div class="search-board-contents contents-3 col-12 d-none">
+
+                タブ3
+
+            </div>
+
+            <div class="search-board-contents contents-4 col-12 d-none">
+
+                タブ4            
+
+            </div>
+
         </div>
 
-        <div class="search-board-contents contents-3 col-12 d-none">
 
-            タブ3
+        <div class="search-board-footer">
+
+            <div class="row p-1">
+                
+                <div class="col-4">            
+                    <button type="button" class="btn w-100 btn-secondary search-board-close-button">閉じる</button>
+                </div>
+
+                <div class="col-4">            
+                    <button type="button" class="btn w-100 btn-primary search-value-clear-button">クリア</button>
+                </div>
+
+                <div class="col-4">            
+                    <button type="button" class="btn w-100 btn-success search-button">検索</button>
+                </div>
+            </div>
 
         </div>
 
-        <div class="search-board-contents contents-4 col-12 d-none">
-
-            タブ4            
-
-        </div>
-
-    </div>
-
-
-    <div class="search-board-footer p-1">
-            
-        <div class="col-4">            
-            <button type="button" class="btn btn-secondary w-100 search-board-close-button">閉じる</button>
-        </div>
-
-        <div class="col-4">            
-            <button type="button" class="btn btn-primary w-100 search-value-clear-button">クリア</button>
-        </div>
-
-        <div class="col-4">            
-            <button type="button" class="btn btn-success w-100 search-button">検索</button>
-        </div>
-
-    </div>
+    {{-- </div> --}}
 
    
 
