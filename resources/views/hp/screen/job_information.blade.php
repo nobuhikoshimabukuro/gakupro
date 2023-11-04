@@ -96,6 +96,12 @@ body{
         overflow-y: auto;
     }
     
+    .search-board-footer{
+        position: fixed;
+    z-index: 99999;
+    bottom: 0;
+    width: 100%;
+    }   
     .municipality-check-area{
         padding: 0 0 15px 15px;
     }
@@ -417,7 +423,7 @@ body{
     </div>
 
 
-    <div class="row p-1">
+    <div class="search-board-footer p-1">
             
         <div class="col-4">            
             <button type="button" class="btn btn-secondary w-100 search-board-close-button">閉じる</button>
