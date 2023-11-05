@@ -303,7 +303,7 @@ class hp_controller extends Controller
         }
 
 
-        // Log::channel('sql_log')->info($sql);
+        Log::channel('sql_log')->info($sql);
         return $sql;
 
     }
