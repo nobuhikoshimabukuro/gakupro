@@ -50,7 +50,8 @@
 
     </div>
 
-    <div class="m-0 text-start">
+    {{-- <div class="m-0 text-start "> --}}
+    <div class="m-0 text-start table_wrap">
         {{-- ページャー --}}                
         @if(count($address_m_list) > 0)                                
           <div class="m-0">{{ $address_m_list->appends(request()->query())->links() }}</div>

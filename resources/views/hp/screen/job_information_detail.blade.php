@@ -13,10 +13,15 @@
 <div id="main" class="mt-3 text-center container">
 
     <div id="" class="row item-center">
+        
+        <div class="job-detail-board col-11 col-md-9">
 
-        <textarea id=""  class ="application_requirements" name="Content"> 
-        {{$job_information->application_requirements}}   
-        </textarea>     
+
+
+            
+
+        </div>
+  
 
     </div>
     

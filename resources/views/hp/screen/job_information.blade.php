@@ -238,32 +238,12 @@
 
 <div class="search-board">
 
-    {{-- <div class="search-board-inner-area"> --}}
-
         <div class="search-alert-area">
             検索項目を1つ以上選択してください。
         </div>
         <div class="row">
 
-            <div class="search-board-header col-12 ">            
-
-                {{-- <div class="row p-1">
-                
-                    <div class="col-4">            
-                        <button type="button" class="btn btn-secondary w-100 search-board-close-button">閉じる</button>
-                    </div>
-        
-                    <div class="col-4">            
-                        <button type="button" class="btn btn-primary w-100 search-value-clear-button">クリア</button>
-                    </div>
-
-                    <div class="col-4">            
-                        <button type="button" class="btn btn-success w-100 search-button">検索</button>
-                    </div>
-
-                </div> --}}
-        
-            
+            <div class="search-board-header col-12 ">                       
             
                 <div class="row p-1">
             
@@ -307,7 +287,7 @@
         <div class="search-board-contents-area row">
 
             <div class="search-board-contents contents-1 col-12">
-
+                {{-- 勤務地検索タブ --}}
                 <div class="row m-0 p-0 item-center">
 
                     <div class="col-11">
@@ -343,7 +323,7 @@
             </div>
 
             <div class="search-board-contents contents-2 col-12 d-none">
-
+                {{-- 求人補足検索タブ --}}
                 <div class="row m-0 p-0 item-center">
 
                     <div class="col-11">
@@ -374,7 +354,7 @@
                                 @endphp
 
                                 @if($check_job_supplement_maincategory_name != $job_supplement_maincategory_name)
-
+                                {{-- 求人検索補足大分類変換時 --}}
                                     <div class="col-12 job-supplement-maincategory-area mt-2">
                                         {{$job_supplement_maincategory_name}}
                                     </div>                            
@@ -445,9 +425,6 @@
             </div>
 
         </div>
-
-    {{-- </div> --}}
-
    
 
 </div>
