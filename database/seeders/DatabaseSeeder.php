@@ -1422,7 +1422,7 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
-        if(env('APP_DEBUG')){
+        if(env('data_base_insert_flg')){
 
             DB::table('job_supplement_connection_t')->insert([
                 
