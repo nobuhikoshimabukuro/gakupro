@@ -6,19 +6,21 @@
 @section('content')
 
 <style>
-body{
-    z-index: 1;
-}
 
+    body{
+        z-index: 1;
+    }
+    
     .search-board{    
         position:fixed;
         padding: 3px;
         z-index: 100;    
         top:0;
         right: -120%;
-        width:50%;
-        /* height: 100vh; */
-        height: calc(100% - 5px); /* セーフエリアに対応 */
+        width:50%;        
+        height: 100%;
+        /* セーフエリアに対応 */
+        /* height: calc(100% - 5px);  */
         background:#eee9e9;
         /*動き*/
         transition: all 0.6s;    
@@ -27,19 +29,20 @@ body{
    
     .search-board-footer{
         position: absolute;
-        z-index: 99999;
+        z-index: 1000;
         bottom: 0;
         left: 0;
         width: 100%;        
         padding-bottom: 1vh 0 ;
-        background:#dfd7d7;
+        background:#eee9e9;
     }   
 
     .search-alert-area{
         position: absolute;
-        top: 50%;
+        /* top: 50%; */
+        top: calc(50% - 20px);;
         right: -120%;
-        height: 40px;        
+        height: 40px;
         width: 100%;
         background-color: rgb(221, 20, 20);
         font-size: 20px;
@@ -64,8 +67,7 @@ body{
     .search-board-tab-table th{
         width: 25%;
         margin: 0;
-        padding: 1px;;
-
+        padding: 1px;
     }
 
     .search-board-tab-button{
@@ -75,16 +77,19 @@ body{
         background-color: rgb(95, 226, 226);
     }
 
-    .search-board-tab-button:hover{
+    .search-board-tab-button:hover
+    ,.search-board-tab-button:active
+    {
         font-weight: 700;                
         color: white;
         background-color: rgb(30, 90, 90);
     }
-    .search-board-tab-button:active{
+
+    /* .search-board-tab-button:active{
         font-weight: 700;                
         color: white;
         background-color: rgb(30, 90, 90);
-    }
+    } */
     
    
     
