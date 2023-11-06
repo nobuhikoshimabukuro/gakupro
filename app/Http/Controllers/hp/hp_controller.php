@@ -275,6 +275,8 @@ class hp_controller extends Controller
             address_m2.municipality_cd = job_information_t.work_location_municipality_cd
 
         WHERE
+            job_information_t.publish_flg = '1'
+        AND
             job_information_t.publish_start_date <= '" . $today . "'
         AND
             job_information_t.publish_end_date >= '" . $today . "'        
@@ -346,25 +348,45 @@ class hp_controller extends Controller
 
     function job_information_detail(Request $request)
     {
+
+        // 日付を取得
+        $now = Carbon::now();         
+        $today = $now->format('Y-m-d');
+
         $id = $request->job_number;
 
         $job_information = job_information_t_model::select(
             'job_information_t.id as id',
             'job_information_t.employer_id as employer_id',
-            'employer_m.employer_name as employer_name',
+            'employer_m.employer_name as employer_name',            
+            'employer_m.hp_url as employer_hp_url',
+            'employer_m.employer_description as employer_description',
+            'employer_m.remarks as employer_remarks',
             'job_information_t.job_id as job_id',
             'job_information_t.title as title',
+            'job_information_t.sub_title as sub_title',
             DB::raw("
                 CASE
                     WHEN municipality_address_m.prefectural_name IS NOT NULL THEN CONCAT(municipality_address_m.prefectural_name, '　', municipality_address_m.municipality_name)
                     ELSE prefectural_address_m.prefectural_name
                 END as work_location
             "),
-            'job_information_t.working_time as working_time',
             'job_information_t.employment_status as employment_status',
+            'job_information_t.working_time as working_time',            
             'job_information_t.salary as salary',
             'job_information_t.holiday as holiday',
-            'job_information_t.application_requirements as application_requirements'
+            'job_information_t.manager_name as manager_name',
+            'job_information_t.tel as tel',
+            'job_information_t.fax as fax',
+            'job_information_t.hp_url as job_hp_url',
+            'job_information_t.mailaddress as mailaddress',
+            'job_information_t.job_image_folder_name as job_image_folder_name',
+            'job_information_t.application_requirements as application_requirements',
+            'job_information_t.publish_start_date as publish_start_date',
+            'job_information_t.publish_end_date as publish_end_date',
+            'job_information_t.scout_statement as scout_statement',
+            'job_information_t.remarks as job_remarks',
+            
         )
         ->leftJoin('employer_m', 'job_information_t.employer_id', '=', 'employer_m.employer_id')
         ->leftJoin(DB::raw('(SELECT prefectural_cd , prefectural_name FROM address_m GROUP BY prefectural_cd ,prefectural_name) as prefectural_address_m'), function ($join) {
@@ -375,7 +397,49 @@ class hp_controller extends Controller
                 ->on('job_information_t.work_location_municipality_cd', '=', 'municipality_address_m.municipality_cd');
         })
         ->where('id', '=', $id)
+        ->where('job_information_t.publish_flg', '=', '1')
+        ->where('job_information_t.publish_start_date', '<=', $today)
+        ->where('job_information_t.publish_end_date', '>=', $today)
         ->first();
+
+        if(is_null($job_information)){
+
+            return redirect(route('hp.job_information'));
+
+        }else{
+
+            $asset_path_array = [];
+            $job_image_folder_name = $job_information->job_image_folder_name;
+
+            if($job_image_folder_name != ""){
+          
+                $check_job_image_folder_path = "public/job_image/" . $job_image_folder_name;
+                
+                $asset_path = asset('storage/job_image/' .$job_image_folder_name);
+
+                if (Storage::exists($check_job_image_folder_path)){
+
+                    //フォルダの確認が出来たら、フォルダ内のファイル名を全て取得            
+                    $files = Storage::files($check_job_image_folder_path);
+
+                    // 取得したファイル名を表示する例
+                    foreach ($files as $file) {
+
+                        $fileInfo = pathinfo($file);
+                        $file_name = $fileInfo['basename']; // ファイル名のみ取得
+                        $asset_path_array[] = $asset_path ."/". $file_name;
+                        
+                    }
+                    
+                }
+            }
+
+            $job_information->asset_path_array =  $asset_path_array;
+
+        }
+
+
+        $employer_remarks = $job_information->employer_remarks;
 
         return view('hp/screen/job_information_detail', compact('job_information'));
 

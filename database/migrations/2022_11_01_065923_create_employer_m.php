@@ -73,7 +73,12 @@ return new class extends Migration
                 ->nullable()
                 ->comment('メールアドレス');
 
-                
+            
+            $table
+                ->text('employer_description')
+                ->nullable()
+                ->comment('雇用主の説明');
+
             $table
                 ->text('remarks')
                 ->nullable()

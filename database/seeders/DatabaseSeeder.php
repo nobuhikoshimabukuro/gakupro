@@ -305,7 +305,42 @@ class DatabaseSeeder extends Seeder
                 'fax' => '098-111-1111',
                 'hp_url' => 'https://www.yahoo.co.jp/',
                 'mailaddress' => 'test@gmail.com',
-                'remarks' => '業種：生産業（家具作り）やWebシステム構築',
+
+                'employer_description' => '私達は求職者と雇用主とのミスマッチを改善し、
+                より高いクォリティのマッチングができることを目指しております！
+                転職の無料相談や履歴書の作成指導、
+                面接トレーニング、教育研修（ビジネスマナー等）の実施、
+                その他子育て支援、再就職支援など、
+                更なるキャリアアップのための支援アドバイスの実施など、
+                長年培ってきた人材ビジネスのノウハウを活かし、
+                「雇用にかかわるトータルサービス」 を提供しています！
+                
+                ◆【安定した職場環境♪　安心の福利厚生♪　未経験OKでスキルが身に付ける♪　を重視の方】
+                ☆未経験者歓迎！
+                ☆優良企業で安定したお仕事に就きたい、スキルを高めたい方向け♪
+                ☆自分に合う会社なら、後々直接雇用になりたいと考えている方!
+                ☆長期で安定した職に就きたい！　など
+                ◆皆様のご希望にマッチしたお仕事をご紹介いたします！
+                
+                
+                ☆早い者勝ちのおすすめジョブです！
+                ☆綺麗なトイレ、広々とした休憩室など安心の環境設備！
+                ☆県内各地に営業所を持つ企業の本社でのお仕事です！
+                ☆長年培ってきたノウハウがあり安心してスキルを身に付けられます!
+                ☆自分に合う会社なら、後々直接雇用になりたいと考えている方向き！
+                ☆20～30代の男女が活躍中！
+                ☆即日から勤務OKの求人です。
+                ☆お気軽にお声掛けください。',
+
+                'remarks' => '20代～30代男女活躍中！                             
+                県内優良企業です！                
+                「人輝く 企業 未来」を次はあなたが創ります。
+                コム沖縄では人気のお仕事を幅広く取り扱っております！
+                各種社会保険・交通費支給・有給休暇有！の求人など！(条件による）
+                事務系、作業系、ドライバー、医療系、販売、etc･･･
+                あなたの「魅力」「ポテンシャル」「可能性」を引き出し、
+                ピッタリなお仕事をご紹介します！
+                ',
                 'created_by' => '9999',
                 
             ],          
@@ -330,7 +365,8 @@ class DatabaseSeeder extends Seeder
                 'id' => '1',             
                 'employer_id' => '1',
                 'job_id' => '1',
-                'title' => 'キッチンスタッフ',
+                'title' => '事務スタッフ【労務管理に関わる書類作成事務のお仕事】',
+                'sub_title' => '【急募】事務スタッフ！ 高時給1,100円！',
                 'work_location_prefectural_cd' => '47',
                 'work_location_municipality_cd' => '47329',
                 'employment_status' => 'アルバイト',
@@ -343,6 +379,17 @@ class DatabaseSeeder extends Seeder
                 'hp_url' => '',
                 'job_image_folder_name' => 'aaa',
                 'mailaddress' => '',
+                
+                'scout_statement' => '20代～30代男女活躍中！
+                県内優良企業です！
+                
+                「人輝く 企業 未来」を次はあなたが創ります。
+                コム沖縄では人気のお仕事を幅広く取り扱っております！
+                各種社会保険・交通費支給・有給休暇有！の求人など！(条件による）
+                事務系、作業系、ドライバー、医療系、販売、etc･･･
+                あなたの「魅力」「ポテンシャル」「可能性」を引き出し、
+                ピッタリなお仕事をご紹介します！',
+
                 'remarks' => '調理技術向上を目指しながら働いてみませんか？',
                 'application_requirements' => '',
                 'publish_start_date' => '2023-11-01',
@@ -351,80 +398,80 @@ class DatabaseSeeder extends Seeder
                 
             ],          
 
-            [   
-                'id' => '2',             
-                'employer_id' => '1',
-                'job_id' => '2',
-                'title' => 'ガソリンスタンドスタッフ',
-                'work_location_prefectural_cd' => '47',
-                'work_location_municipality_cd' => '47329',
-                'employment_status' => 'アルバイト',
-                'working_time' => '17：00～23：00',
-                'salary' => '時給1000円',
-                'holiday' => '週休2日、相談してください。',
-                'manager_name' => '島袋',
-                'tel' => '',
-                'fax' => '',
-                'hp_url' => '',
-                'job_image_folder_name' => 'bbb',
-                'mailaddress' => '',
-                'remarks' => '車の事を勉強しながらお金を稼いでみませんか？',
-                'application_requirements' => '',
-                'publish_start_date' => '2023-11-01',
-                'publish_end_date' => '2024-01-30',
-                'created_by' => '9999',
+            // [   
+            //     'id' => '2',             
+            //     'employer_id' => '1',
+            //     'job_id' => '2',
+            //     'title' => 'ガソリンスタンドスタッフ',
+            //     'work_location_prefectural_cd' => '47',
+            //     'work_location_municipality_cd' => '47329',
+            //     'employment_status' => 'アルバイト',
+            //     'working_time' => '17：00～23：00',
+            //     'salary' => '時給1000円',
+            //     'holiday' => '週休2日、相談してください。',
+            //     'manager_name' => '島袋',
+            //     'tel' => '',
+            //     'fax' => '',
+            //     'hp_url' => '',
+            //     'job_image_folder_name' => 'bbb',
+            //     'mailaddress' => '',
+            //     'remarks' => '車の事を勉強しながらお金を稼いでみませんか？',
+            //     'application_requirements' => '',
+            //     'publish_start_date' => '2023-11-01',
+            //     'publish_end_date' => '2024-01-30',
+            //     'created_by' => '9999',
                 
-            ],          
+            // ],          
 
-            [   
-                'id' => '3',             
-                'employer_id' => '1',
-                'job_id' => '3',
-                'title' => 'コールセンタースタッフ',
-                'work_location_prefectural_cd' => '47',
-                'work_location_municipality_cd' => '47329',
-                'employment_status' => '正社員',
-                'working_time' => '10：00～23：00　シフト制',
-                'salary' => '時給1000円',
-                'holiday' => '週休2日、相談してください。',
-                'manager_name' => '島袋',
-                'tel' => '',
-                'fax' => '',
-                'hp_url' => '',
-                'job_image_folder_name' => 'ccc',
-                'mailaddress' => '',
-                'remarks' => '家電に関するサポート窓口',
-                'application_requirements' => '',
-                'publish_start_date' => '2023-11-01',
-                'publish_end_date' => '2024-01-30',
-                'created_by' => '9999',
+            // [   
+            //     'id' => '3',             
+            //     'employer_id' => '1',
+            //     'job_id' => '3',
+            //     'title' => 'コールセンタースタッフ',
+            //     'work_location_prefectural_cd' => '47',
+            //     'work_location_municipality_cd' => '47329',
+            //     'employment_status' => '正社員',
+            //     'working_time' => '10：00～23：00　シフト制',
+            //     'salary' => '時給1000円',
+            //     'holiday' => '週休2日、相談してください。',
+            //     'manager_name' => '島袋',
+            //     'tel' => '',
+            //     'fax' => '',
+            //     'hp_url' => '',
+            //     'job_image_folder_name' => 'ccc',
+            //     'mailaddress' => '',
+            //     'remarks' => '家電に関するサポート窓口',
+            //     'application_requirements' => '',
+            //     'publish_start_date' => '2023-11-01',
+            //     'publish_end_date' => '2024-01-30',
+            //     'created_by' => '9999',
                 
-            ],          
+            // ],          
 
-            [   
-                'id' => '4',             
-                'employer_id' => '1',
-                'job_id' => '4',
-                'title' => '遊技場スタッフ',
-                'work_location_prefectural_cd' => '47',
-                'work_location_municipality_cd' => '47329',
-                'employment_status' => '契約社員',
-                'working_time' => '7：00～25：00　シフト制',
-                'salary' => '時給1200円',
-                'holiday' => '週休3日、相談してください。',
-                'manager_name' => '島袋',
-                'tel' => '',
-                'fax' => '',
-                'hp_url' => '',
-                'job_image_folder_name' => 'ddd',
-                'mailaddress' => '',
-                'remarks' => '遊技場のスタッフ',
-                'application_requirements' => '',
-                'publish_start_date' => '2023-11-01',
-                'publish_end_date' => '2024-01-30',
-                'created_by' => '9999',
+            // [   
+            //     'id' => '4',             
+            //     'employer_id' => '1',
+            //     'job_id' => '4',
+            //     'title' => '遊技場スタッフ',
+            //     'work_location_prefectural_cd' => '47',
+            //     'work_location_municipality_cd' => '47329',
+            //     'employment_status' => '契約社員',
+            //     'working_time' => '7：00～25：00　シフト制',
+            //     'salary' => '時給1200円',
+            //     'holiday' => '週休3日、相談してください。',
+            //     'manager_name' => '島袋',
+            //     'tel' => '',
+            //     'fax' => '',
+            //     'hp_url' => '',
+            //     'job_image_folder_name' => 'ddd',
+            //     'mailaddress' => '',
+            //     'remarks' => '遊技場のスタッフ',
+            //     'application_requirements' => '',
+            //     'publish_start_date' => '2023-11-01',
+            //     'publish_end_date' => '2024-01-30',
+            //     'created_by' => '9999',
                 
-            ],          
+            // ],          
 
         ]); 
 

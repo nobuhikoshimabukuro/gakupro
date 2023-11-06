@@ -445,7 +445,7 @@
 
                 <div class="job-board col-11 col-md-9">
 
-                    <div id="" class="row m-0 p-0 job-board-inner-area">                    
+                    <div id="" class="row m-0 p-0 job-board-inner-area">
                         
                         <div id="" class="col-12 m-0 p-0 job-name">
                             {{$info->title}}

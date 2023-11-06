@@ -34,8 +34,17 @@ return new class extends Migration
                 ->comment('求人情報ID:会社IDと求人情報IDで複合キー');
 
             $table
+                ->integer('publish_flg')
+                ->default(1)
+                ->comment('掲載フラグ:0 = 掲載しない、1 = 掲載する');
+
+            $table
                 ->string('title', 200)                
-                ->comment('求人情報名目');
+                ->comment('求人情報タイトル');
+
+            $table
+                ->string('sub_title', 200)                
+                ->comment('求人情報名目サブタイトル');
 
             $table
                 ->string('work_location_prefectural_cd', 2)                
@@ -52,18 +61,18 @@ return new class extends Migration
                 ->nullable()
                 ->comment('雇用形態');
 
-            $table
-                ->string('working_time', 200)
+            $table                
+                ->text('working_time')
                 ->nullable()
                 ->comment('就労時間');
 
-            $table
-                ->string('salary', 200)
+            $table                
+                ->text('salary')
                 ->nullable()
                 ->comment('給与');
 
-            $table
-                ->string('holiday', 200)
+            $table                
+                ->text('holiday')
                 ->nullable()
                 ->comment('休日');
 
@@ -95,19 +104,15 @@ return new class extends Migration
             $table
                 ->string('mailaddress', 200)
                 ->nullable()
-                ->comment('メールアドレス');
-
-            $table
-                ->text('remarks')
-                ->nullable()
-                ->comment('備考');
+                ->comment('メールアドレス');           
 
             $table
                 ->text('application_requirements')
                 ->nullable()
                 ->comment('応募資格');
-            
+                           
 
+        
             $table
                 ->date('publish_start_date')
                 ->nullable()
@@ -117,6 +122,16 @@ return new class extends Migration
                 ->date('publish_end_date')
                 ->nullable()
                 ->comment('掲載終了日');
+
+            $table
+                ->text('scout_statement')
+                ->nullable()
+                ->comment('求人スカウト文');
+
+            $table
+                ->text('remarks')
+                ->nullable()
+                ->comment('備考');
 
             $table
                 ->integer('created_by')
