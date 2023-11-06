@@ -10,7 +10,7 @@
     body{
         z-index: 1;
     }
-    
+
     .search-board{    
         position:fixed;
         padding: 3px;
@@ -77,26 +77,23 @@
         background-color: rgb(95, 226, 226);
     }
 
-    .search-board-tab-button:hover
-    ,.search-board-tab-button:active
-    {
+    
+    .search-board-tab-button:active{
         font-weight: 700;                
         color: white;
         background-color: rgb(30, 90, 90);
     }
 
-    /* .search-board-tab-button:active{
+    .search-board-tab-button:hover{
         font-weight: 700;                
         color: white;
         background-color: rgb(30, 90, 90);
-    } */
-    
-   
+    }   
     
     .after-button{
         font-weight: 700;                
         color: white;
-        background-color: rgb(1, 3, 3);
+        background-color: rgb(2, 26, 26);
     }
 
     .search-board-contents-area{
