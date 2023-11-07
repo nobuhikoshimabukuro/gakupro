@@ -22,6 +22,7 @@ use App\Original\common;
 use App\Original\create_list;
 
 use App\Models\job_information_t_model;
+use App\Models\job_subcategory_m_model;
 use App\Models\job_supplement_maincategory_m_model;
 use App\Models\job_supplement_subcategory_m_model;
 use App\Models\job_supplement_connection_t_model;
@@ -53,17 +54,15 @@ class hp_controller extends Controller
 
         $search_prefectural_cd = "";
         $search_municipality_cd_array = [];
+        $search_job_category_array = [];
         $search_job_supplement_array = [];
+        
 
         if(session()->has('all_job_search_value_array')) {
 
             $all_job_search_value_array = session()->get('all_job_search_value_array');
             session()->remove('all_job_search_value_array');
             $job_information = $this->search_job_information($all_job_search_value_array);
-
-            
-
-
 
             $prefectural_cd_search_value_array = $all_job_search_value_array["prefectural_cd_search_value_array"];
             $municipality_cd_search_value_array = $all_job_search_value_array["municipality_cd_search_value_array"];
@@ -95,6 +94,7 @@ class hp_controller extends Controller
         $search_element_array = [
             'search_prefectural_cd' => $search_prefectural_cd,
             'search_municipality_cd_array' => $search_municipality_cd_array,
+            'search_job_category_array' => $search_job_category_array,
             'search_job_supplement_array' => $search_job_supplement_array,
         ];
 
@@ -103,15 +103,28 @@ class hp_controller extends Controller
         //都道府県ブルダウン作成用
         $prefectural_list = create_list::prefectural_list();
 
+        //職種情報取得
+        $job_category_list = job_subcategory_m_model::select(
+            'job_subcategory_m.job_maincategory_cd as job_maincategory_cd',
+            'job_maincategory_m.job_maincategory_name as job_maincategory_name',
+            'job_subcategory_m.job_subcategory_name as job_subcategory_name',
+            'job_subcategory_m.display_order as maincategory_display_order',            
+        )
+        ->leftJoin('job_maincategory_m', 'job_maincategory_m.job_maincategory_cd', '=', 'job_subcategory_m.job_maincategory_cd')
+        ->whereNull('job_maincategory_m.deleted_at')
+        ->whereNull('job_subcategory_m.deleted_at')
+        ->orderBy('job_maincategory_m.display_order')
+        ->orderBy('job_subcategory_m.display_order')
+        ->get();
+
+
         //求人補足情報取得
         $job_supplement_list = job_supplement_subcategory_m_model::select(
             'job_supplement_subcategory_m.job_supplement_maincategory_cd as job_supplement_maincategory_cd',
-            'job_supplement_maincategory_m.job_supplement_maincategory_name as job_supplement_maincategory_name',
-            'job_supplement_maincategory_m.display_order as maincategory_display_order',
+            'job_supplement_maincategory_m.job_supplement_maincategory_name as job_supplement_maincategory_name',            
 
             'job_supplement_subcategory_m.job_supplement_subcategory_cd as job_supplement_subcategory_cd',
-            'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',
-            'job_supplement_subcategory_m.display_order as subcategory_display_order'
+            'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',            
         )
         ->leftJoin('job_supplement_maincategory_m', 'job_supplement_subcategory_m.job_supplement_maincategory_cd', '=', 'job_supplement_maincategory_m.job_supplement_maincategory_cd')
         ->whereNull('job_supplement_maincategory_m.deleted_at')
@@ -125,6 +138,7 @@ class hp_controller extends Controller
                 compact('job_information'
                 , 'search_element_array'
                 , 'prefectural_list'
+                , 'job_category_list'
                 , 'job_supplement_list'
         ));
 

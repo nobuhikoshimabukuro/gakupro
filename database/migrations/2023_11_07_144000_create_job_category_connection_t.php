@@ -14,12 +14,12 @@ return new class extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable('job_supplement_connection_t')) {
+        if (Schema::hasTable('job_category_connection_t')) {
             // テーブルが存在していればリターン
             return;
         }
 
-        Schema::create('job_supplement_connection_t', function (Blueprint $table) {
+        Schema::create('job_category_connection_t', function (Blueprint $table) {
 
             $table
                 ->integer('employer_id')
@@ -30,9 +30,9 @@ return new class extends Migration
                 ->comment('求人情報ID:会社IDと求人情報IDで複合キー');
 
             $table
-                ->integer('job_supplement_subcategory_cd')
+                ->integer('job_subcategory_cd')
                 ->nullable()
-                ->comment('求人補足中分類コード');            
+                ->comment('職種中分類コード');            
 
             $table
                 ->dateTime('created_at')
@@ -64,12 +64,12 @@ return new class extends Migration
                 ->nullable()
                 ->comment('削除者');
 
-            $table->primary(['employer_id','job_id','job_supplement_subcategory_cd'], 'job_supplement_connection_t');
+            $table->primary(['employer_id','job_id','job_subcategory_cd'], 'job_category_connection_t');
 
         });
 
         // ALTER 文を実行しテーブルにコメントを設定
-        DB::statement("ALTER TABLE job_supplement_connection_t COMMENT '求人補足連結テーブル'");
+        DB::statement("ALTER TABLE job_category_connection_t COMMENT '求人職種連結テーブル'");
     }
 
     /**
@@ -79,6 +79,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('job_supplement_connection_t');
+        Schema::dropIfExists('job_category_connection_t');
     }
 };

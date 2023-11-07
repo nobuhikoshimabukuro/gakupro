@@ -256,9 +256,11 @@
                                 </button>
                             </th>
 
+                          
+
                             <th>
                                 <button id="search-board-tab-button2" class="btn search-board-tab-button" data-target="2">
-                                    条件
+                                    タブ2
                                 </button>
                             </th>
 
@@ -266,13 +268,14 @@
                                 <button id="search-board-tab-button3" class="btn search-board-tab-button" data-target="3">
                                     タブ3
                                 </button>
-                            </th>
-
+                            </th>        
+                            
+                            
                             <th>
                                 <button id="search-board-tab-button4" class="btn search-board-tab-button" data-target="4">
-                                    タブ4
+                                    条件<i class="far fa-check-square"></i>
                                 </button>
-                            </th>               
+                            </th>
 
                         </table>
 
@@ -322,7 +325,85 @@
 
             </div>
 
+
             <div class="search-board-contents contents-2 col-12 d-none">
+
+                {{-- 職種検索タブ --}}
+                <div class="row m-0 p-0 item-center">
+
+                    <div class="col-11">
+
+                        <div class="row m-0 p-0">
+
+                            @php
+                                $check_job_maincategory_name = "";
+                                $job_maincategory_change_flg = false;
+                            @endphp
+
+                            @foreach($job_category_list as $job_category_info)
+
+                           
+                                @php
+                                    $job_maincategory_cd = $job_category_info->job_maincategory_cd;
+                                    $job_maincategory_name = $job_category_info->job_maincategory_name;
+                                    $job_subcategory_cd = $job_category_info->job_subcategory_cd;
+                                    $job_subcategory_name = $job_category_info->job_subcategory_name;
+
+                                    if($check_job_maincategory_name == $job_maincategory_name){
+                                        $job_maincategory_change_flg = false;
+                                    }else{
+                                        $job_maincategory_change_flg = true;
+                                    }
+
+                                    $check_job_maincategory_name = $job_maincategory_name;
+                                @endphp
+
+
+                                @if($job_maincategory_change_flg)
+                                {{-- 職種大分類変換時 --}}
+                                    <div id="job-maincategory-area{{$job_maincategory_cd}}" 
+                                    class="col-12 job-maincategory-area mt-2"
+                                    data-target="{{$job_maincategory_cd}}"
+                                    >
+                                        {{$job_maincategory_name}}
+                                    </div>                            
+                                @endif
+
+                                <div id="job-subcategory-area{{$job_subcategory_cd}}" 
+                                class="col-6 col-lg-4 col-xl-3 mt-2 job-category-area">
+                                    <label id="job-category-label{{$job_subcategory_cd}}" 
+                                        for="job-category-checkbox{{$job_subcategory_cd}}" 
+                                        class="job-category-label item-center"
+                                    >{{$job_subcategory_name}}
+                                    </label>
+
+                                    <input type="checkbox" 
+                                    id="job-category-checkbox{{$job_subcategory_cd}}"
+                                    value="{{$job_subcategory_cd}}"                        
+                                    data-target="{{$job_subcategory_cd}}"
+                                    class="job-category-checkbox d-none"                                 
+                                    >
+                                </div>
+
+                            @endforeach
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="search-board-contents contents-3 col-12 d-none">
+
+                タブ3
+
+            </div>
+
+
+            <div class="search-board-contents contents-4 col-12 d-none">
+
                 {{-- 求人補足検索タブ --}}
                 <div class="row m-0 p-0 item-center">
 
@@ -392,17 +473,7 @@
 
             </div>
 
-            <div class="search-board-contents contents-3 col-12 d-none">
-
-                タブ3
-
-            </div>
-
-            <div class="search-board-contents contents-4 col-12 d-none">
-
-                タブ4            
-
-            </div>
+            
 
         </div>
 
