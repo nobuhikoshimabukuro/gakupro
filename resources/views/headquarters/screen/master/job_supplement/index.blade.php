@@ -344,7 +344,7 @@
 
                         <div class="modal-footer row">                                                                                      
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="submit" id='job_supplement_maincategory_dlete_modal_runbutton' class="original_button job_supplement_maincategory_dlete_modal_runbutton"><span class="job_supplement_maincategory_dlete_modal_wording"></span></button>
+                                <button type="submit" id='job_supplement_maincategory_dlete_modal_runbutton' class="original_button dlete_modal_runbutton job_supplement_maincategory_dlete_modal_runbutton"><span class="job_supplement_maincategory_dlete_modal_wording"></span></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
@@ -475,7 +475,7 @@
 
                         <div class="modal-footer row">                                                                                      
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="submit" id='job_supplement_subcategory_dlete_modal_runbutton' class="original_button job_supplement_subcategory_dlete_modal_runbutton"><span class="job_supplement_subcategory_dlete_modal_wording"></span></button>
+                                <button type="submit" id='job_supplement_subcategory_dlete_modal_runbutton' class="original_button dlete_modal_runbutton job_supplement_subcategory_dlete_modal_runbutton"><span class="job_supplement_subcategory_dlete_modal_wording"></span></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">

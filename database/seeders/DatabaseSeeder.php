@@ -827,6 +827,124 @@ class DatabaseSeeder extends Seeder
         ]);     
 
         
+        // 職種大分類マスタ
+        $index = 0;
+        DB::table('job_maincategory_m')->insert([
+            
+            [                
+                'job_maincategory_cd' => $index = $index + 1,
+                'job_maincategory_name' => 'IT関連',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_maincategory_cd' => $index = $index + 1,
+                'job_maincategory_name' => 'コールセンター',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_maincategory_cd' => $index = $index + 1,
+                'job_maincategory_name' => '飲食店',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],             
+
+        ]);
+
+         // 職種中分類マスタ
+         $index = 0;
+         DB::table('job_subcategory_m')->insert([
+             
+            [                
+                'job_subcategory_cd' => $index = $index + 1,
+                'job_maincategory_cd' => 1,
+                'job_subcategory_name' => 'プログラマー',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_subcategory_cd' => $index = $index + 1,
+                'job_maincategory_cd' => 1,
+                'job_subcategory_name' => 'SE',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_subcategory_cd' => $index = $index + 1,
+                'job_maincategory_cd' => 1,
+                'job_subcategory_name' => 'Webデザイナー',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_subcategory_cd' => $index = $index + 1,
+                'job_maincategory_cd' => 2,
+                'job_subcategory_name' => '受信のみ',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_subcategory_cd' => $index = $index + 1,
+                'job_maincategory_cd' => 2,
+                'job_subcategory_name' => '受信・発信',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_subcategory_cd' => $index = $index + 1,
+                'job_maincategory_cd' => 2,
+                'job_subcategory_name' => '電話営業',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_subcategory_cd' => $index = $index + 1,
+                'job_maincategory_cd' => 3,
+                'job_subcategory_name' => 'キッチン',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_subcategory_cd' => $index = $index + 1,
+                'job_maincategory_cd' => 3,
+                'job_subcategory_name' => 'ホール',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+
+            [                
+                'job_subcategory_cd' => $index = $index + 1,
+                'job_maincategory_cd' => 3,
+                'job_subcategory_name' => '店長候補',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],
+      
+ 
+         ]);
+
         // 求人補足大分類マスタ
         $index = 0;
         DB::table('job_supplement_maincategory_m')->insert([

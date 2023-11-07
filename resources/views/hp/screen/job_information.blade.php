@@ -142,7 +142,7 @@
 
     @keyframes arrowrotate {
         100% {
-            transform: rotate(10deg);
+            transform: rotate(6deg);
         }
     }
 

@@ -38,7 +38,7 @@
         <div class="col-6 text-end">
             <button type="button" id="" class="original_button add_data_button"
                 data-bs-toggle='modal' data-bs-target='#job_maincategory_save_modal'            
-                data-process_flg='0'>
+                data-process_flg='0'><span class="add_data_button_name"></span>
             </button>
         </div>      
 
@@ -125,7 +125,7 @@
         <div class="col-6 text-end">
             <button type="button" id="" class="original_button add_data_button"
                 data-bs-toggle='modal' data-bs-target='#job_subcategory_save_modal'            
-                data-process_flg='0'>
+                data-process_flg='0'><span class="add_data_button_name"></span>
             </button>
         </div>      
 
@@ -159,7 +159,7 @@
                     <td>{{$item->job_maincategory_cd}}:{{$item->job_maincategory_name}}</td>                    
                     <td>{{$item->job_subcategory_cd}}</td>
                     <td>{{$item->job_subcategory_name}}</td>   
-                    <td>大[{{$item->job_maincategory_m_display_order}}]中[{{$item->job_subcategory_m_display_order}}]</td> 
+                    <td>大[{{$item->job_maincategory_display_order}}]中[{{$item->job_subcategory_display_order}}]</td> 
                     <td>
                         <button class='modal_button' data-bs-toggle='modal' data-bs-target='#job_subcategory_save_modal'
                             data-jobmaincategorycd='{{$item->job_maincategory_cd}}'
@@ -226,8 +226,8 @@
                                 <label for="search_job_maincategory_name" class="col-12 col-form-label original-label">職種大分類名（あいまい）</label>
                                 <input type="text" id="search_job_maincategory_name" name="search_job_maincategory_name" value="{{$search_element_array['search_job_maincategory_name']}}" class="form-control">
 
-                                <label for="search_job_sub_name" class="col-12 col-form-label original-label">職種中分類名（あいまい）</label>
-                                <input type="text" id="search_job_sub_name" name="search_job_sub_name" value="{{$search_element_array['search_job_sub_name']}}" class="form-control">
+                                <label for="search_job_subcategory_name" class="col-12 col-form-label original-label">職種中分類名（あいまい）</label>
+                                <input type="text" id="search_job_subcategory_name" name="search_job_subcategory_name" value="{{$search_element_array['search_job_subcategory_name']}}" class="form-control">
                                                         
                             </div>     
                             
@@ -284,11 +284,11 @@
 
                         <div class="modal-footer row">                            
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="button" id='job_maincategory_save_button' class="original_button job_maincategory_save_button"><span id='job_maincategory_save_modal_button_display'></span></button>
+                                <button type="button" id='job_maincategory_save_button' class="btn btn-success job_maincategory_save_button"><span id='job_maincategory_save_modal_button_display'></span></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                                <button type="button" id="" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
                             </div>                            
                         </div> 
                         
@@ -343,11 +343,11 @@
 
                         <div class="modal-footer row">                                                                                      
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="submit" id='job_maincategory_dlete_modal_runbutton' class="original_button job_maincategory_dlete_modal_runbutton"><span class="job_maincategory_dlete_modal_wording"></span></button>
+                                <button type="submit" id='job_maincategory_dlete_modal_runbutton' class="btn btn-warning"><span class="job_maincategory_dlete_modal_wording"></span></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>      
+                                <button type="button" id="" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>      
                             </div>                            
                         </div>    
                     </form>
@@ -404,11 +404,11 @@
 
                         <div class="modal-footer row">                            
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="button" id='job_subcategory_save_button' class="original_button job_subcategory_save_button"><span id='job_subcategory_save_modal_button_display'></span></button>
+                                <button type="button" id='job_subcategory_save_button' class="btn btn-success"><span id='job_subcategory_save_modal_button_display'></span></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                                <button type="button" id="" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
                             </div>                            
                         </div> 
                         
@@ -474,11 +474,11 @@
 
                         <div class="modal-footer row">                                                                                      
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="submit" id='job_subcategory_dlete_modal_runbutton' class="original_button job_subcategory_dlete_modal_runbutton"><span class="job_subcategory_dlete_modal_wording"></span></button>
+                                <button type="submit" id='job_subcategory_dlete_modal_runbutton' class="btn btn-warning"><span class="job_subcategory_dlete_modal_wording"></span></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>      
+                                <button type="button" id="" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>      
                             </div>                            
                         </div>    
                     </form>
@@ -605,9 +605,9 @@ $(function(){
         //登録処理か更新処理か判断
         var process_flg = evCon.data('process_flg');
         if(process_flg == '0'){
-            $('#job_maincategory_save_modal_title').html('新規登録処理');                        
-            $('#job_maincategory_cd').val(0);
-            $('#job_maincategory_save_modal_button_display').html('登録');
+            $('#job_subcategory_save_modal_title').html('新規登録処理');                        
+            $('#job_subcategory_cd').val(0);
+            $('#job_subcategory_save_modal_button_display').html('登録');
         }else{
             $('#job_maincategory_save_modal_title').html('更新処理（職種中分類CD：' + job_subcategory_cd+'）');            
             $('#job_maincategory_cd').val(job_maincategory_cd);
@@ -690,7 +690,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#save_form');
+        let f = $('#job_maincategory_save_form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
@@ -797,7 +797,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#save_form');
+        let f = $('#job_subcategory_save_form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
