@@ -91,9 +91,7 @@ class address_m_controller extends Controller
 
             }
 
-        }
-
-        $gender_list = create_list::gender_list(1);
+        }       
 
         $address_m_list = $address_m_list->paginate(30);
 

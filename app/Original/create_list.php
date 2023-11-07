@@ -8,7 +8,9 @@ use App\Original\common;
 
 use App\Models\subcategory_m_model;
 use App\Models\address_m_model;
-
+use App\Models\job_maincategory_m_model;
+use App\Models\job_supplement_maincategory_m_model;
+use App\Models\job_supplement_subcategory_m_model;
 
 class create_list
 {      
@@ -83,6 +85,37 @@ class create_list
         ->get();
 
         return $prefectural_list;
+    }
+
+    //求人補足大分類コンボボックス
+    public static function job_supplement_maincategory_list()
+    {   
+
+        $job_supplement_maincategory_list = job_supplement_maincategory_m_model::select(
+            'job_supplement_maincategory_cd as job_supplement_maincategory_cd',
+            'job_supplement_maincategory_name as job_supplement_maincategory_name',
+        )
+        ->orderBy('display_order', 'asc')
+        ->get();
+
+        return $job_supplement_maincategory_list;
+
+        
+    }
+
+
+    //職種大分類コンボボックス
+    public static function job_maincategory_list()
+    {   
+
+        $job_maincategory_list = job_maincategory_m_model::select(
+            'job_maincategory_cd as job_maincategory_cd',
+            'job_maincategory_name as job_maincategory_name',
+        )
+        ->orderBy('display_order', 'asc')
+        ->get();
+
+        return $job_maincategory_list;        
     }
 
     //都道府県コンボボックス

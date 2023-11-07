@@ -16,9 +16,10 @@ use App\Http\Controllers\headquarters\master\school_m_controller;
 use App\Http\Controllers\headquarters\master\majorsubject_m_controller;
 use App\Http\Controllers\headquarters\master\member_m_controller;
 use App\Http\Controllers\headquarters\master\address_m_controller;
+use App\Http\Controllers\headquarters\master\job_category_m_controller;
+use App\Http\Controllers\headquarters\master\job_supplement_m_controller;
 
 use App\Http\Controllers\hp\hp_controller;
-
 
 use App\Http\Controllers\headquarters\headquarters_controller;
 use App\Http\Controllers\photo_project\photo_project_controller;
@@ -71,6 +72,20 @@ Route::get('headquarters/member', [headquarters_controller::class, 'member_index
 
 Route::get('headquarters/master/address/', [address_m_controller::class, 'index'])->name('master.address');
 Route::post('headquarters/master/address/save', [address_m_controller::class, 'save'])->name('master.address.save');
+
+
+Route::get('headquarters/master/job_supplement/', [job_supplement_m_controller::class, 'index'])->name('master.job_supplement');
+Route::post('headquarters/master/job_supplement/job_supplement_maincategory_save', [job_supplement_m_controller::class, 'job_supplement_maincategory_save'])->name('master.job_supplement_maincategory.save');
+Route::post('headquarters/master/job_supplement/job_supplement_maincategory_delete_or_restore', [job_supplement_m_controller::class, 'job_supplement_maincategory_delete_or_restore'])->name('master.job_supplement_maincategory.delete_or_restore');
+Route::post('headquarters/master/job_supplement/job_supplement_subcategory_save', [job_supplement_m_controller::class, 'job_supplement_subcategory_save'])->name('master.job_supplement_subcategory.save');
+Route::post('headquarters/master/job_supplement/job_supplement_subcategory_delete_or_restore', [job_supplement_m_controller::class, 'job_supplement_subcategory_delete_or_restore'])->name('master.job_supplement_subcategory.delete_or_restore');
+
+Route::get('headquarters/master/job_category/', [job_category_m_controller::class, 'index'])->name('master.job_category');
+Route::post('headquarters/master/job_category/job_maincategory_save', [job_category_m_controller::class, 'job_maincategory_save'])->name('master.job_maincategory.save');
+Route::post('headquarters/master/job_category/job_maincategory_delete_or_restore', [job_category_m_controller::class, 'job_maincategory_delete_or_restore'])->name('master.job_maincategory.delete_or_restore');
+Route::post('headquarters/master/job_category/job_subcategory_save', [job_category_m_controller::class, 'job_subcategory_save'])->name('master.job_subcategory.save');
+Route::post('headquarters/master/job_category/job_subcategory_delete_or_restore', [job_category_m_controller::class, 'job_subcategory_delete_or_restore'])->name('master.job_subcategory.delete_or_restore');
+
 
 
 Route::get('headquarters/master/project/', [project_m_controller::class, 'index'])->name('master.project');

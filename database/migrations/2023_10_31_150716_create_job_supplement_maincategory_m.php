@@ -27,7 +27,7 @@ return new class extends Migration
 
             $table
                 ->string('job_supplement_maincategory_name', 100)
-                ->comment('大分類名');
+                ->comment('求人補足大分類名');
 
             $table
                 ->integer('display_order')

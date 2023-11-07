@@ -14,25 +14,25 @@ return new class extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable('job_supplement_subcategory_m')) {
+        if (Schema::hasTable('job_subcategory_m')) {
             // テーブルが存在していればリターン
             return;
         }
 
-        Schema::create('job_supplement_subcategory_m', function (Blueprint $table) {
+        Schema::create('job_subcategory_m', function (Blueprint $table) {
 
             $table
-                ->increments('job_supplement_subcategory_cd')
-                ->comment('求人補足中分類コード:連番');
+                ->increments('job_subcategory_cd')
+                ->comment('職種中分類コード:連番');
 
             $table
-                ->integer('job_supplement_maincategory_cd')
+                ->integer('job_maincategory_cd')
                 ->nullable()
-                ->comment('求人補足大分類コード');
+                ->comment('職種大分類コード');
 
             $table
-                ->string('job_supplement_subcategory_name', 100)
-                ->comment('求人補足中分類名');
+                ->string('job_subcategory_name', 100)
+                ->comment('職種中分類名');
                 
             $table
                 ->integer('display_order')
@@ -71,7 +71,7 @@ return new class extends Migration
         });
 
         // ALTER 文を実行しテーブルにコメントを設定
-        DB::statement("ALTER TABLE job_supplement_subcategory_m COMMENT '求人補足中分類マスタ'");
+        DB::statement("ALTER TABLE job_subcategory_m COMMENT '職種中分類マスタ'");
     }
 
     /**
@@ -81,6 +81,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('job_supplement_subcategory_m');
+        Schema::dropIfExists('job_subcategory_m');
     }
 };
