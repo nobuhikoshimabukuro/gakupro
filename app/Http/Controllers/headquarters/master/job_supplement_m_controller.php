@@ -44,7 +44,7 @@ class job_supplement_m_controller extends Controller
             $search_job_supplement_maincategory_name = $search_element_array["search_job_supplement_maincategory_name"];
      
             $job_supplement_maincategory_m_list = $job_supplement_maincategory_m_list
-            ->where('job_supplement_maincategory_m.search_job_supplement_maincategory_name', 'LIKE', "%$search_job_supplement_maincategory_name%");
+            ->where('job_supplement_maincategory_m.job_supplement_maincategory_name', 'LIKE', "%$search_job_supplement_maincategory_name%");
         }        
 
         $job_supplement_maincategory_m_list = $job_supplement_maincategory_m_list->paginate(30);
@@ -58,10 +58,11 @@ class job_supplement_m_controller extends Controller
             
             'job_supplement_maincategory_m.job_supplement_maincategory_cd as job_supplement_maincategory_cd',
             'job_supplement_maincategory_m.job_supplement_maincategory_name as job_supplement_maincategory_name',
+            'job_supplement_maincategory_m.display_order as job_supplement_maincategory_display_order',
             
             'job_supplement_subcategory_m.job_supplement_subcategory_cd as job_supplement_subcategory_cd',                        
             'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',
-            'job_supplement_subcategory_m.display_order as display_order',            
+            'job_supplement_subcategory_m.display_order as job_supplement_subcategory_display_order',            
             'job_supplement_subcategory_m.deleted_at as deleted_at',
         )
         ->leftJoin('job_supplement_maincategory_m', function ($join) {
@@ -78,8 +79,8 @@ class job_supplement_m_controller extends Controller
             ->whereIn('job_supplement_maincategory_m.job_supplement_maincategory_cd', $job_supplement_maincategory_cd_array);
         }       
 
-        if(!is_null($search_element_array['search_job_supplement_maincategory_name'])){
-            $search_job_supplement_subcategory_name = $search_element_array["search_job_supplement_maincategory_name"];     
+        if(!is_null($search_element_array['search_job_supplement_subcategory_name'])){
+            $search_job_supplement_subcategory_name = $search_element_array["search_job_supplement_subcategory_name"];     
             $job_supplement_subcategory_m_list = $job_supplement_subcategory_m_list
             ->where('job_supplement_subcategory_m.job_supplement_subcategory_name', 'LIKE', "%$search_job_supplement_subcategory_name%");
         }       

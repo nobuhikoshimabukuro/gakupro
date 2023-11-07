@@ -891,7 +891,7 @@ class DatabaseSeeder extends Seeder
             [                
                 'job_supplement_subcategory_cd' => $index = $index + 1,
                 'job_supplement_maincategory_cd' => 1,
-                'job_supplement_subcategory_name' => '超短期(1~7日',
+                'job_supplement_subcategory_name' => '超短期(1~7日)',
                 'display_order' => $index,
                 'created_by' => '9999',
                 
