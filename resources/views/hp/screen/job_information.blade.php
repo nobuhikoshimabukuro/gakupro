@@ -137,6 +137,13 @@
         background-color: rgb(49, 49, 105);
         color: white;
         border: solid 1px rgb(208, 208, 241);
+        animation: arrowrotate .1s;
+    }
+
+    @keyframes arrowrotate {
+        100% {
+            transform: rotate(10deg);
+        }
     }
 
 
