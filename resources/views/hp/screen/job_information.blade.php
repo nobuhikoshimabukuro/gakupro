@@ -336,37 +336,49 @@
                         <div class="row m-0 p-0">
 
                             @php
-                                $check_job_maincategory_name = "";
-                                $job_maincategory_change_flg = false;
+                                $start_index_array = [];
+                                $end_index_array = [];
+                                $check_job_maincategory_name = "";                                
+
+                                foreach($job_category_list as $job_category_index => $job_category_info){
+
+                                    $job_maincategory_name = $job_category_info->job_maincategory_name;
+
+                                    if($check_job_maincategory_name != $job_maincategory_name){
+                                        $start_index_array[] = $job_category_index;
+                                        $end_index_array[] = $job_category_index - 1;
+
+                                        $check_job_maincategory_name = $job_maincategory_name;
+                                    }   
+
+                                }
+
+                                $end_index_array[] = count($job_category_list) - 1;
+
                             @endphp
 
-                            @foreach($job_category_list as $job_category_info)
-
+                            @foreach($job_category_list as $job_category_index => $job_category_info)
                            
                                 @php
                                     $job_maincategory_cd = $job_category_info->job_maincategory_cd;
                                     $job_maincategory_name = $job_category_info->job_maincategory_name;
                                     $job_subcategory_cd = $job_category_info->job_subcategory_cd;
                                     $job_subcategory_name = $job_category_info->job_subcategory_name;
-
-                                    if($check_job_maincategory_name == $job_maincategory_name){
-                                        $job_maincategory_change_flg = false;
-                                    }else{
-                                        $job_maincategory_change_flg = true;
-                                    }
-
-                                    $check_job_maincategory_name = $job_maincategory_name;
                                 @endphp
 
 
-                                @if($job_maincategory_change_flg)
-                                {{-- 職種大分類変換時 --}}
-                                    <div id="job-maincategory-area{{$job_maincategory_cd}}" 
+                                @if(in_array($job_category_index, $start_index_array))
+                                                                 
+                                    <div 
                                     class="col-12 job-maincategory-area mt-2"
                                     data-target="{{$job_maincategory_cd}}"
-                                    >
-                                        {{$job_maincategory_name}}
-                                    </div>                            
+                                    >{{$job_maincategory_name}}
+                                    </div>
+
+                                    <div id="job-maincategory-hidden-area{{$job_maincategory_cd}}" 
+                                    class="row job-maincategory-hidden-area mt-1 d-none"
+                                    data-target="{{$job_maincategory_cd}}">                                   
+
                                 @endif
 
                                 <div id="job-subcategory-area{{$job_subcategory_cd}}" 
@@ -384,6 +396,11 @@
                                     class="job-category-checkbox d-none"                                 
                                     >
                                 </div>
+
+
+                               @if(in_array($job_category_index, $end_index_array))                                    
+                                    </div>                                                                        
+                                @endif
 
                             @endforeach
 
@@ -692,6 +709,22 @@ $(function(){
 
     });
 
+
+    //職種大分類エリアクリック時
+    $(document).on("click", ".job-maincategory-area", function (e) {        
+
+        var target = $(this).data('target');
+
+		var target_id = "#job-maincategory-hidden-area" + target;
+			
+        if($(target_id).hasClass('d-none')) {
+            $(target_id).removeClass('d-none');            
+        }else{
+            $(target_id).addClass('d-none');			            
+        }
+    });
+
+    
     
     //検索ボードクローズボタン
     $(document).on("click", ".search-board-close-button", function (e) {
