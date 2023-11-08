@@ -108,7 +108,9 @@
         padding: 0 0 15px 15px;
     }
 
-    .job-supplement-maincategory-area{
+
+    .job-supplement-maincategory-area
+    ,.job-maincategory-title-area{
         height: 50px;
         background-color: rgb(245, 179, 81);
         color:rgb(239, 239, 247);
@@ -119,12 +121,14 @@
         align-items: center;     /*上下中央揃え*/
     }
 
-    .job-supplement-area{
+    .job-supplement-area
+    ,.job-category-area{
         height: 50px;
         padding: 3px;
     }
 
-    .job-supplement-label{
+    .job-supplement-label
+    ,.job-category-label{
         height: 100%;
         width: 100%; 
         color: rgb(53, 7, 7);       
@@ -133,10 +137,12 @@
         
     }
 
-    .job-supplement-select{
+    .job-supplement-select
+    ,.job-category-select{
         background-color: rgb(49, 49, 105);
         color: white;
         border: solid 1px rgb(208, 208, 241);
+        font-weight: bold;
         animation: arrowrotate .1s;
     }
 
@@ -267,7 +273,7 @@
 
                             <th>
                                 <button id="search-board-tab-button2" class="btn search-board-tab-button" data-target="2">
-                                    タブ2
+                                    職種<i class="fas fa-sitemap"></i>
                                 </button>
                             </th>
 
@@ -371,13 +377,21 @@
                                     $job_maincategory_name = $job_category_info->job_maincategory_name;
                                     $job_subcategory_cd = $job_category_info->job_subcategory_cd;
                                     $job_subcategory_name = $job_category_info->job_subcategory_name;
+
+                                    $add_class = "";
+                                    $check_status = "";
+                                    if(in_array($job_subcategory_cd , $search_element_array['search_job_category_array'])){
+                                        $add_class = "job-category-select";                            
+                                        $check_status = "checked";
+                                    }
+
                                 @endphp
 
 
                                 @if(in_array($job_category_index, $start_index_array))
                                                                  
                                     <div 
-                                    class="col-12 job-maincategory-area mt-2"
+                                    class="col-12 job-maincategory-title-area mt-2"
                                     data-target="{{$job_maincategory_cd}}"
                                     >{{$job_maincategory_name}}
                                     </div>
@@ -392,7 +406,7 @@
                                 class="col-6 col-lg-4 col-xl-3 mt-2 job-category-area">
                                     <label id="job-category-label{{$job_subcategory_cd}}" 
                                         for="job-category-checkbox{{$job_subcategory_cd}}" 
-                                        class="job-category-label item-center"
+                                        class="job-category-label item-center {{$add_class}}"                                        
                                     >{{$job_subcategory_name}}
                                     </label>
 
@@ -400,7 +414,8 @@
                                     id="job-category-checkbox{{$job_subcategory_cd}}"
                                     value="{{$job_subcategory_cd}}"                        
                                     data-target="{{$job_subcategory_cd}}"
-                                    class="job-category-checkbox d-none"                                 
+                                    class="job-category-checkbox d-none"   
+                                    {{$check_status}}                              
                                     >
                                 </div>
 
@@ -482,7 +497,7 @@
                                     id="job-supplement-checkbox{{$job_supplement_subcategory_cd}}"
                                     value="{{$job_supplement_subcategory_cd}}"                        
                                     data-target="{{$job_supplement_subcategory_cd}}"
-                                    class="job-supplement-checkbox d-none" 
+                                    class="job-supplement-checkbox d-none"                                     
                                     {{$check_status}}
                                     >
                                 </div>
@@ -504,18 +519,18 @@
 
         <div class="search-board-footer">
 
-            <div class="row p-1">
+            <div class="row p-1">               
                 
                 <div class="col-4">            
-                    <button type="button" class="btn w-100 btn-secondary search-board-close-button">閉じる</button>
+                    <button type="button" class="w-100 btn btn-secondary search-board-close-button"></button>
                 </div>
 
                 <div class="col-4">            
-                    <button type="button" class="btn w-100 btn-primary search-value-clear-button"></button>
+                    <button type="button" class="w-100 btn btn-dark search-value-clear-button"></button>
                 </div>
 
                 <div class="col-4">            
-                    <button type="button" class="btn w-100 btn-success search-button">検索</button>
+                    <button type="button" class="w-100 btn btn-success search-button"></button>
                 </div>
             </div>
 
@@ -672,26 +687,12 @@ $(function(){
    
 
     
-    $(document).on("change", ".job-supplement-checkbox", function (e) {
-
-        var job_supplement_subcategory_cd = $(this).data('target');
-
-        $("#job-supplement-label" + job_supplement_subcategory_cd).removeClass('job-supplement-select');
-
-        if($("#job-supplement-checkbox" + job_supplement_subcategory_cd).prop('checked')){
-
-            $("#job-supplement-label" + job_supplement_subcategory_cd).addClass('job-supplement-select');
-            
-        }        
-
-    });
-
     
     //画面読込時処理
     $(document).ready(function() {
         search_prefectural(1);        
         search_board_tab_change(1);
-        $('#confirm-close').trigger("click");
+        // $('#confirm-close').trigger("click");
     });
     
 
@@ -709,8 +710,14 @@ $(function(){
         search_board_tab_change(1);
 
         
+        $(".job-maincategory-hidden-area").removeClass('d-none');
+        $(".job-maincategory-hidden-area").addClass('d-none');
+        $(".job-category-checkbox").prop("checked", false);
+        $(".job-category-select").removeClass('job-category-select');
+
         $(".job-supplement-checkbox").prop("checked", false);
         $(".job-supplement-select").removeClass('job-supplement-select');
+
         $(".search-alert-area").removeClass('search-alert-area-active');
         
 
@@ -718,7 +725,7 @@ $(function(){
 
 
     //職種大分類エリアクリック時
-    $(document).on("click", ".job-maincategory-area", function (e) {        
+    $(document).on("click", ".job-maincategory-title-area", function (e) {        
 
         var target = $(this).data('target');
 
@@ -731,7 +738,38 @@ $(function(){
         }
     });
 
-    
+    //職種中分類選択値変更時
+    $(document).on("change", ".job-category-checkbox", function (e) {
+
+        var job_subcategory_cd = $(this).data('target');
+        
+        $("#job-category-label" + job_subcategory_cd).removeClass('job-category-select');
+
+        if($("#job-category-checkbox" + job_subcategory_cd).prop('checked')){
+
+            $("#job-category-label" + job_subcategory_cd).addClass('job-category-select');
+            
+        }        
+
+    });
+
+
+
+    //求人補足選択値変更時
+    $(document).on("change", ".job-supplement-checkbox", function (e) {
+
+        var job_supplement_subcategory_cd = $(this).data('target');
+
+        $("#job-supplement-label" + job_supplement_subcategory_cd).removeClass('job-supplement-select');
+
+        if($("#job-supplement-checkbox" + job_supplement_subcategory_cd).prop('checked')){
+
+            $("#job-supplement-label" + job_supplement_subcategory_cd).addClass('job-supplement-select');
+            
+        }        
+
+    });
+
     
     //検索ボードクローズボタン
     $(document).on("click", ".search-board-close-button", function (e) {
@@ -774,11 +812,13 @@ $(function(){
 
         var prefectural_cd_search_value_array = set_prefectural_cd_search_value();
         var municipality_cd_search_value_array = set_municipality_cd_array_search_value();
+        var job_category_search_value_array = set_job_category_search_value();
         var job_supplement_search_value_array = set_job_supplement_search_value();
 
         var all_job_search_value_array = {
             prefectural_cd_search_value_array:prefectural_cd_search_value_array
             , municipality_cd_search_value_array:municipality_cd_search_value_array
+            , job_category_search_value_array:job_category_search_value_array
             , job_supplement_search_value_array:job_supplement_search_value_array
             };
         
@@ -902,6 +942,38 @@ $(function(){
         municipality_cd_array = {existence_data:existence_data , value_array:value_array };
 
         return municipality_cd_array;
+
+    }
+
+
+    //求人補足検索値セット処理
+    function set_job_category_search_value(){
+
+        var existence_data = 0;
+        var job_category_search_value_array = [];       
+        var value_array = [];
+
+        var job_category_checkboxs = document.querySelectorAll('.job-category-checkbox');
+
+        if(job_category_checkboxs.length > 0){
+                
+            // チェックされている要素のvalueを取得
+            job_category_checkboxs.forEach(function(job_category_checkbox) {
+                if (job_category_checkbox.checked) {                    
+                    value_array.push(job_category_checkbox.value); 
+                }
+            });
+        }
+
+        if(value_array.length > 0){
+            existence_data = 1;
+        }
+
+        job_category_search_value_array = {existence_data:existence_data
+                                        , value_array:value_array                                         
+                                        };
+
+        return job_category_search_value_array;
 
     }
 

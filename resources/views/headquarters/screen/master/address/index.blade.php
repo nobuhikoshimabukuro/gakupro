@@ -32,13 +32,13 @@
         </div>
 
         <div class="col-6 text-start">
-            <button type="button" class='btn btn-success search-moda-button' data-bs-toggle='modal' data-bs-target='#search-modal'>検索する</button>
+            <button type="button" class='btn btn-success search-modal-button' data-bs-toggle='modal' data-bs-target='#search-modal'></button>
         </div>
 
         <div class="col-6 text-end">
             <button type="button" id="" class="btn btn-primary add-data-button"
                 data-bs-toggle='modal' data-bs-target='#save-modal'            
-                data-process_flg='0'>
+                data-processflg='0'>
             </button>
         </div>      
 
@@ -139,16 +139,16 @@
                             
                         </div>
 
-                        <div class="modal-footer row">         
+                        <div class="modal-footer">         
 
                             <div class="col-6 m-0 p-0 text-start">
                                 
-                                <button type="button" id="" class="btn btn-light clear-button"></button>
-                                <button type="submit" id="" class="btn btn-success" onclick="return search_form_check();">検索 <i class="fas fa-search"></i></button>
+                                <button type="button" id="" class="btn btn-dark clear-button"></button>
+                                <button type="submit" id="" class="btn btn-success search-button"  onclick="return search_form_check();"><i class="fas fa-search"></i></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
+                                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div>
                     </form>
@@ -204,13 +204,13 @@
                             
                         </div>
 
-                        <div class="modal-footer row">                            
+                        <div class="modal-footer">                            
                             <div class="col-6 m-0 p-0 text-start">
                                 <button type="button" id='save-button' class="btn btn-primary save-button">アップロード後登録</button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
+                                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div> 
                         

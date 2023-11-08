@@ -146,14 +146,14 @@
 
                         </div>
 
-                        <div class="modal-footer row">            
+                        <div class="modal-footer">            
 
                             <div id="staff_info_modal_screen_move" class="col-8 m-0 p-0 text-start">
                                 
                             </div>
 
                             <div class="col-4 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>      
+                                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>      
                             </div>                            
                         </div> 
 
@@ -177,7 +177,7 @@
                     </div>
 
                     <div class="modal-footer">               
-                        <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
+                        <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
                     </div>
                 </div>
             </div>

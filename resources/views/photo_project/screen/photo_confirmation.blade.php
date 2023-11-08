@@ -370,7 +370,7 @@ table {
               
 
                 <div class="modal-footer">                                   
-                    <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
+                    <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
                 </div>  
             </div>
         </div>

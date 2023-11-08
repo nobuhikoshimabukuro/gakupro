@@ -1,4 +1,4 @@
-
+/* Header Start */
 .dropdown-submenu {
   margin: 0;
   padding: 0;
@@ -32,21 +32,17 @@
   height: auto;  
 }
 
-
-
-
 #header{
   background-image:
     radial-gradient(#0ff, transparent),
     radial-gradient(rgb(65, 38, 216), transparent);
   background-attachment: fixed;
-  min-height: 5vh;
-
-  
+  min-height: 5vh;  
 }
 
-#main{
+/* Header End */
 
+#main{
   background-color: #dddee721;
   min-height: 86vh;
 }
@@ -72,28 +68,46 @@
 }
 
 /* 新規登録ボタン */
-
-.add-data-button:before{
+.add-data-button::after{
   content:"新規登録";
 }
 
+/* .save-button::after{
+ 
+} */
+
+.insert-button::after{
+  content:"新規登録";
+}
+
+.update-button::after{
+  content:"更新";
+}
+
+.delete-button::after{
+  content:"削除";
+}
+.restore-button:after{
+  content:"削除取消";
+}
 
 /* 検索モーダル表示ボタン */
-.search-moda-button:before{
+.search-modal-button::after{
   content:"検索画面";
 }
 
+
 /* 検索項目クリアボタン */
-.clear-button:before{
+.clear-button::after{
   content:"クリア";
 }
 
 /* 検索ボタン */
-.search-button:before{
-  content:"検索";
+.search-button::after{
+  content:" 検索";
 }
 
-.close-modal-button:before{
+.modal-close-button::after{
   content:"閉じる";
 }
 
@@ -118,18 +132,6 @@
 }
 
 
-/* save-button */
-.save-button{
-  margin: 3px;
-  color: #fff;
-  background-color: #0b21e9;
-  border-radius: 100vh;
-}
-
-.save-button:hover{
-  color: #fff;
-  background-color: #2735b4;
-}
 
 /* delete-modal-execution-button */
 /* 画面の動きで背景色が変更される */
@@ -178,7 +180,7 @@
 
 
 #school_info_modal th , #majorsubject_info_modal th , #majorsubject_list_modal th{
-  background-color: #fdb0fd;
+  background-color: #c0dda4;
 }
 
 #school_info_modal td , #majorsubject_info_modal td , #majorsubject_list_modal td{
@@ -231,44 +233,13 @@ button{
   overflow-x: scroll;
 }
 
-.search_info_table{  
-  width: 100%;
-
-  border-collapse:separate;
-  border-spacing: 0;    
-  white-space: nowrap;
-
+.scroll-wrap-y {
+  overflow-y: scroll;
 }
-
-.search_info_table th{
-  text-align: center;
-  color:rgb(20, 4, 4);  
-  min-width: 80px;
-  min-height: 30px;
-  padding:0;
-  
-}
-
-.search_info_table td{
-  text-align: center; 
-  min-width: 80px;
-  padding: 5px;  
-}
-
-.search_info_table th:last-child{
-  text-align: right;
-  padding-right: 5px;  
-}
-
-.search_info_table td:last-child{
-  text-align: right;
-  padding-right: 5px;  
-}
-
 
 .data-info-table{  
   width: 100%;
-
+  margin: 5px 0 5px 0;
   border-collapse:separate;
   border-spacing: 0;    
   white-space: nowrap;
@@ -370,31 +341,12 @@ button{
 /* モーダル内のアイコン設定 End */
 
 /* マスタ画面の削除モーダル設定 start */
-.delete_button{
-  background-color: rgb(243, 50, 50);
-  border-color: rgb(243, 50, 50);
-}
 
-.delete_button:hover{
-  background-color:red;
-  border-color: red;
-}
-
-
-.restore_button{
-  background-color: rgb(47, 47, 231);
-  border-color: rgb(47, 47, 231);
-}
-
-.restore_button:hover{
-  background-color: blue;
-  border-color: blue;
-}
 
 
 /* マスタ画面の削除モーダル設定 End */
 
-.last_name_class{
+.last-name-class{
   margin: 0 5px 0 0;
 }
 

@@ -66,6 +66,7 @@ class hp_controller extends Controller
 
             $prefectural_cd_search_value_array = $all_job_search_value_array["prefectural_cd_search_value_array"];
             $municipality_cd_search_value_array = $all_job_search_value_array["municipality_cd_search_value_array"];
+            $job_category_search_value_array = $all_job_search_value_array["job_category_search_value_array"];
             $job_supplement_search_value_array = $all_job_search_value_array["job_supplement_search_value_array"];
 
 
@@ -75,6 +76,10 @@ class hp_controller extends Controller
 
             if($municipality_cd_search_value_array["existence_data"] == 1) {
                 $search_municipality_cd_array = $municipality_cd_search_value_array["value_array"];
+            }
+
+            if($job_category_search_value_array["existence_data"] == 1) {
+                $search_job_category_array = $job_category_search_value_array["value_array"];
             }
 
             if($job_supplement_search_value_array["existence_data"] == 1) {
@@ -107,6 +112,7 @@ class hp_controller extends Controller
         $job_category_list = job_subcategory_m_model::select(
             'job_subcategory_m.job_maincategory_cd as job_maincategory_cd',
             'job_maincategory_m.job_maincategory_name as job_maincategory_name',
+            'job_subcategory_m.job_subcategory_cd as job_subcategory_cd',
             'job_subcategory_m.job_subcategory_name as job_subcategory_name',
             'job_subcategory_m.display_order as maincategory_display_order',            
         )
@@ -198,6 +204,9 @@ class hp_controller extends Controller
         $prefectural_cd_search_value_array = $all_job_search_value_array["prefectural_cd_search_value_array"];
         //市区町村CDを取得
         $municipality_cd_search_value_array = $all_job_search_value_array["municipality_cd_search_value_array"];
+        //職種を取得
+        $job_category_search_value_array = $all_job_search_value_array["job_category_search_value_array"];
+
         //求人補足を取得
         $job_supplement_search_value_array = $all_job_search_value_array["job_supplement_search_value_array"];
 

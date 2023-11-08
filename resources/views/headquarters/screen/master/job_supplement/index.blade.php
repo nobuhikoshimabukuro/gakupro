@@ -15,7 +15,7 @@
 
     @include('headquarters.common.alert')
 
-    <div class="row">        
+    <div class="row m-0 p-0">        
 
         <div class="col-6 text-start">
             <h4 class="master-title">
@@ -32,13 +32,13 @@
         </div>
 
         <div class="col-6 text-start">
-            <button type="button" class='btn btn-success search-moda-button' data-bs-toggle='modal' data-bs-target='#search-modal'>検索する</button>
+            <button type="button" class='btn btn-success search-modal-button' data-bs-toggle='modal' data-bs-target='#search-modal'></button>
         </div>
 
         <div class="col-6 text-end">
             <button type="button" id="" class="btn btn-primary add-data-button"
-                data-bs-toggle='modal' data-bs-target='#job_supplement_maincategory_save-modal'            
-                data-process_flg='0'>
+                data-bs-toggle='modal' data-bs-target='#job-supplement-maincategory-save-modal'            
+                data-processflg='0'>
             </button>
         </div>      
 
@@ -72,11 +72,11 @@
                     <td>{{$item->job_supplement_maincategory_name}}</td>
                     <td>{{$item->display_order}}</td>
                     <td>
-                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#job_supplement_maincategory_save-modal'
+                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#job-supplement-maincategory-save-modal'
                             data-jobsupplementmaincategorycd='{{$item->job_supplement_maincategory_cd}}'
                             data-jobsupplementmaincategoryname='{{$item->job_supplement_maincategory_name}}'
                             data-displayorder='{{$item->display_order}}'
-                            data-process_flg='1'> 
+                            data-processflg='1'> 
                             <i class='far fa-edit'></i>
                         </button>
 
@@ -102,7 +102,7 @@
 
 
 
-    <div class="row">        
+    <div class="row m-0 p-0">        
 
         <div class="col-6 text-start">
             <h4 class="master-title">
@@ -119,13 +119,13 @@
         </div>
 
         <div class="col-6 text-start">
-            <button type="button" class='btn btn-success search-moda-button' data-bs-toggle='modal' data-bs-target='#search-modal'>検索する</button>
+            <button type="button" class='btn btn-success search-modal-button' data-bs-toggle='modal' data-bs-target='#search-modal'></button>
         </div>
 
         <div class="col-6 text-end">
             <button type="button" id="" class="btn btn-primary add-data-button"
-                data-bs-toggle='modal' data-bs-target='#job_supplement_subcategory_save-modal'            
-                data-process_flg='0'>
+                data-bs-toggle='modal' data-bs-target='#job-supplement-subcategory-save-modal'            
+                data-processflg='0'>
             </button>
         </div>      
 
@@ -161,17 +161,17 @@
                     <td>{{$item->job_supplement_subcategory_name}}</td>   
                     <td>大[{{$item->job_supplement_maincategory_display_order}}]中[{{$item->job_supplement_subcategory_display_order}}]</td> 
                     <td>
-                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#job_supplement_subcategory_save-modal'
+                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#job-supplement-subcategory-save-modal'
                             data-jobsupplementmaincategorycd='{{$item->job_supplement_maincategory_cd}}'
                             data-jobsupplementmaincategoryname='{{$item->job_supplement_maincategory_name}}'
                             data-jobsupplementsubcategorycd='{{$item->job_supplement_subcategory_cd}}'
                             data-jobsupplementsubcategoryname='{{$item->job_supplement_subcategory_name}}'
                             data-jobsupplementsubcategorydisplayorder='{{$item->job_supplement_subcategory_display_order}}'
-                            data-process_flg='1'> 
+                            data-processflg='1'> 
                             <i class='far fa-edit'></i>
                         </button>
 
-                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#job_supplement_subcategory_delete-modal'
+                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#job-supplement-subcategory-delete-modal'
                             data-jobsupplementmaincategorycd='{{$item->job_supplement_maincategory_cd}}'
                             data-jobsupplementmaincategoryname='{{$item->job_supplement_maincategory_name}}'
                             data-jobsupplementsubcategorycd='{{$item->job_supplement_subcategory_cd}}'
@@ -234,16 +234,16 @@
                             
                         </div>
 
-                        <div class="modal-footer row">         
+                        <div class="modal-footer">         
 
-                            <div class="col-6 m-0 p-0 text-start">
+                            <div class="col-6 m-0 text-start">
                                 
-                                <button type="button" id="" class="btn btn-light clear-button"></button>
-                                <button type="submit" id="" class="btn btn-success" onclick="return search_form_check();">検索 <i class="fas fa-search"></i></button>
+                                <button type="button" id="" class="btn btn-dark clear-button"></button>
+                                <button type="submit" id="" class="btn btn-success search-button"  onclick="return search_form_check();"><i class="fas fa-search"></i></button>
                             </div>
 
-                            <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
+                            <div class="col-6 m-0 text-end">
+                                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div>
                     </form>
@@ -254,12 +254,12 @@
 
 
         {{-- 求人補足大分類登録/更新用モーダル --}}
-        <div class="modal fade" id="job_supplement_maincategory_save-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job_supplement_maincategory_save-modal-label" aria-hidden="true">
+        <div class="modal fade" id="job-supplement-maincategory-save-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job-supplement-maincategory-save-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="job_supplement_maincategory_save-modal-label"><span id="job_supplement_maincategory_save-modal-title"></span></h5>
+                        <h5 class="modal-title" id="job-supplement-maincategory-save-modal-label"><span id="job-supplement-maincategory-save-modal-title"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -267,7 +267,7 @@
                         
                     </div>
                     
-                    <form id="job_supplement_maincategory_save-form" method="post" action="{{ route('master.job_supplement_maincategory.save') }}">                    
+                    <form id="job-supplement-maincategory-save-form" method="post" action="{{ route('master.job_supplement_maincategory.save') }}">                    
                         @csrf
                         <div class="modal-body">  
                             
@@ -283,13 +283,13 @@
                             
                         </div>
 
-                        <div class="modal-footer row">                            
-                            <div class="col-6 m-0 p-0 text-start">
-                                <button type="button" id='job_supplement_maincategory_save-button' class="btn btn-primary save-button job_supplement_maincategory_save-button"><span id='job_supplement_maincategory_save-modal-button_display'></span></button>
+                        <div class="modal-footer">                            
+                            <div class="col-6 m-0 text-start">
+                                <button type="button" id='job-supplement-maincategory-save-button' class="btn btn-primary"></button>
                             </div>
 
-                            <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
+                            <div class="col-6 m-0 text-end">
+                                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div> 
                         
@@ -313,7 +313,7 @@
                     <form id="job_supplement_maincategory_delete-form" method="post" action="{{ route('master.job_supplement_maincategory.delete_or_restore') }}">                           
                         @csrf
                         <div class="modal-body">  
-                            <input type="hidden" id="delete_job_supplement_maincategory_flg" name="delete_job_supplement_maincategory_flg" value="">
+                            <input type="hidden" id="job_supplement_maincategory_delete_flg" name="job_supplement_maincategory_delete_flg" value="">
                             <input type="hidden" id="delete_job_supplement_maincategory_cd" name="delete_job_supplement_maincategory_cd" value="">
                             <input type="hidden" id="delete_job_supplement_maincategory_name" name="delete_job_supplement_maincategory_name" value="">
             
@@ -342,13 +342,13 @@
 
                         </div>
 
-                        <div class="modal-footer row">                                                                                      
-                            <div class="col-6 m-0 p-0 text-start">
-                                <button type="submit" id='job_supplement_maincategory_delete-modal-execution-button' class="original-button delete-modal-execution-button job_supplement_maincategory_delete-modal-execution-button"><span class="job_supplement_maincategory_delete-modal_wording"></span></button>
+                        <div class="modal-footer">                                                                                      
+                            <div class="col-6 m-0 text-start">
+                                <button type="submit" id='job-supplement-maincategory-delete-execution-button' class="btn"></button>
                             </div>
 
-                            <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>      
+                            <div class="col-6 m-0 text-end">
+                                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>      
                             </div>                            
                         </div>    
                     </form>
@@ -362,12 +362,12 @@
 
 
         {{-- 求人補足中分類類登録/更新用モーダル --}}
-        <div class="modal fade" id="job_supplement_subcategory_save-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job_supplement_subcategory_save-modal-label" aria-hidden="true">
+        <div class="modal fade" id="job-supplement-subcategory-save-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job-supplement-subcategory-save-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="job_supplement_subcategory_save-modal-label"><span id="job_supplement_subcategory_save-modal-title"></span></h5>
+                        <h5 class="modal-title" id="job-supplement-subcategory-save-modal-label"><span id="job-supplement-subcategory-save-modal-title"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -375,7 +375,7 @@
                         
                     </div>
                     
-                    <form id="job_supplement_subcategory_save-form" method="post" action="{{ route('master.job_supplement_subcategory.save') }}">                    
+                    <form id="job-supplement-subcategory-save-form" method="post" action="{{ route('master.job_supplement_subcategory.save') }}">                    
                         @csrf
                         <div class="modal-body">  
                             
@@ -388,7 +388,7 @@
 									<option value=''>
 										@foreach($job_supplement_maincategory_list as $item)
 										<option value="{{$item->job_supplement_maincategory_cd}}">
-                                            {{$item->job_supplement_maincategory_cd}}
+                                            {{$item->job_supplement_maincategory_name}}
                                         </option>
 										@endforeach
                                 </select>
@@ -403,13 +403,13 @@
                             
                         </div>
 
-                        <div class="modal-footer row">                            
-                            <div class="col-6 m-0 p-0 text-start">
-                                <button type="button" id='job_supplement_subcategory_save-button' class="btn btn-primary save-button job_supplement_subcategory_save-button"><span id='job_supplement_subcategory_save-modal-button_display'></span></button>
+                        <div class="modal-footer">                            
+                            <div class="col-6 m-0 text-start">
+                                <button type="button" id='job-supplement-subcategory-save-button' class="btn btn-primary"></button>
                             </div>
 
-                            <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
+                            <div class="col-6 m-0 text-end">
+                                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div> 
                         
@@ -422,19 +422,19 @@
 
 
         {{-- 求人補足中分類削除用モーダル --}}
-        <div class="modal fade" id="job_supplement_subcategory_delete-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job_supplement_subcategory_delete-modal-label" aria-hidden="true">
+        <div class="modal fade" id="job-supplement-subcategory-delete-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job-supplement-subcategory-delete-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="job_supplement_subcategory_delete-modal-label">操作確認</h5>
+                        <h5 class="modal-title" id="job-supplement-subcategory-delete-modal-label">操作確認</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <form id="job_supplement_subcategory_delete-form" method="post" action="{{ route('master.job_supplement_subcategory.delete_or_restore') }}">                           
+                    <form id="job-supplement-subcategory-delete-form" method="post" action="{{ route('master.job_supplement_subcategory.delete_or_restore') }}">                           
                         @csrf
                         <div class="modal-body">  
-                            <input type="hidden" id="delete_job_supplement_subcategory_flg" name="delete_job_supplement_subcategory_flg" value="">
+                            <input type="hidden" id="job_supplement_subcategory_delete_flg" name="job_supplement_subcategory_delete_flg" value="">
                             <input type="hidden" id="delete_job_supplement_subcategory_cd" name="delete_job_supplement_subcategory_cd" value="">
                             <input type="hidden" id="delete_job_supplement_subcategory_name" name="delete_job_supplement_subcategory_name" value="">
             
@@ -473,13 +473,13 @@
 
                         </div>
 
-                        <div class="modal-footer row">                                                                                      
-                            <div class="col-6 m-0 p-0 text-start">
-                                <button type="submit" id='job_supplement_subcategory_delete-modal-execution-button' class="original-button delete-modal-execution-button job_supplement_subcategory_delete-modal-execution-button"><span class="job_supplement_subcategory_delete-modal_wording"></span></button>
+                        <div class="modal-footer">                                                                                      
+                            <div class="col-6 m-0 text-start">
+                                <button type="submit" id='job-supplement-subcategory-delete-execution-button' class="btn"></button>                                
                             </div>
 
-                            <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>      
+                            <div class="col-6 m-0 text-end">
+                                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>      
                             </div>                            
                         </div>    
                     </form>
@@ -507,14 +507,14 @@
 $(function(){
 
     //求人補足大分類登録、更新用モーダル表示時
-    $('#job_supplement_maincategory_save-modal').on('show.bs.modal', function(e) {
+    $('#job-supplement-maincategory-save-modal').on('show.bs.modal', function(e) {
 
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        var FormData = $("#job_supplement_maincategory_save-form").serializeArray();        
+        var FormData = $("#job-supplement-maincategory-save-form").serializeArray();        
 
         $.each(FormData, function(i, element) {		
             $("[name='"+ element.name +"']").val("");          
@@ -527,20 +527,25 @@ $(function(){
         var job_supplement_maincategory_name = evCon.data('jobsupplementmaincategoryname');
         var display_order = evCon.data('displayorder');         
 
+        $('.insert-button').removeClass('insert-button');
+        $('.update-button').removeClass('update-button');
+
+        var title = "";
 
         //登録処理か更新処理か判断
-        var process_flg = evCon.data('process_flg');
-        if(process_flg == '0'){
-            $('#job_supplement_maincategory_save-modal-title').html('新規登録処理');                        
-            $('#job_supplement_maincategory_cd').val(0);
-            $('#job_supplement_maincategory_save-modal-button_display').html('登録');
+        var processflg = evCon.data('processflg');
+        if(processflg == '0'){
+            title = "新規登録処理";
+            $('#job-supplement-maincategory-save-button').addClass('insert-button');
+            $('#job_supplement_maincategory_cd').val(0);            
         }else{
-            $('#job_supplement_maincategory_save-modal-title').html('更新処理（求人補足大分類CD：' + job_supplement_maincategory_cd+'）');            
-            $('#job_supplement_maincategory_cd').val(job_supplement_maincategory_cd);
-            $('#job_supplement_maincategory_save-modal-button_display').html('更新');
+            title = '更新処理（求人補足大分類CD：' + job_supplement_maincategory_cd+'）';
+            $('#job-supplement-maincategory-save-button').addClass('update-button');
+            $('#job_supplement_maincategory_cd').val(job_supplement_maincategory_cd);            
         }
 
-        
+
+        $('#job-supplement-maincategory-save-modal-title').html(title);                
         $('#job_supplement_maincategory_name').val(job_supplement_maincategory_name);
         $('#job_supplement_maincategory_display_order').val(display_order);
         
@@ -554,29 +559,28 @@ $(function(){
 
         var job_supplement_maincategory_cd = evCon.data('jobsupplementmaincategorycd');
         var job_supplement_maincategory_name = evCon.data('jobsupplementmaincategoryname');    
-        var delete_job_supplement_maincategory_flg = evCon.data('deleteflg');        
+        var deleteflg = evCon.data('deleteflg');        
 
-        $('#job_supplement_maincategory_delete-modal-execution-button').removeClass('delete_button');
-        $('#job_supplement_maincategory_delete-modal-execution-button').removeClass('restore_button');        
+        $('.delete-button').removeClass('delete-button');
+        $('.restore-button').removeClass('restore-button');
+        $('#job-supplement-maincategory-delete-execution-button').removeClass('btn-outline-danger');
+        $('#job-supplement-maincategory-delete-execution-button').removeClass('btn-outline-primary');       
+              
 
-        if (delete_job_supplement_maincategory_flg == 0) {            
-            var wording = "利用不可にする";                 
-            $('#job_supplement_maincategory_delete-modal-execution-button').addClass('delete_button');  
-
-        } else {
+        if (deleteflg == 0) {                               
+            $('#job-supplement-maincategory-delete-execution-button').addClass('btn-outline-danger');
+            $('#job-supplement-maincategory-delete-execution-button').addClass('delete-button');
             
-            var wording = "利用可能にする";
-            $('#job_supplement_maincategory_delete-modal-execution-button').addClass('restore_button');  
+        } else {                        
+            $('#job-supplement-maincategory-delete-execution-button').addClass('btn-outline-primary');
+            $('#job-supplement-maincategory-delete-execution-button').addClass('restore-button');
         }
 
        
     
         $('#display_job_supplement_maincategory_cd').html(job_supplement_maincategory_cd);    
-        $('#display_job_supplement_maincategory_name').html(job_supplement_maincategory_name);    
-        $('.job_supplement_maincategory_delete-modal_wording').html(wording);
-
-
-        $('#delete_job_supplement_maincategory_flg').val(delete_job_supplement_maincategory_flg);
+        $('#display_job_supplement_maincategory_name').html(job_supplement_maincategory_name);            
+        $('#job_supplement_maincategory_delete_flg').val(deleteflg);
         $('#delete_job_supplement_maincategory_cd').val(job_supplement_maincategory_cd);
         $('#delete_job_supplement_maincategory_name').val(job_supplement_maincategory_name);  
 
@@ -586,14 +590,14 @@ $(function(){
 
 
     //求人補足中分類登録、更新用モーダル表示時
-    $('#job_supplement_subcategory_save-modal').on('show.bs.modal', function(e) {
+    $('#job-supplement-subcategory-save-modal').on('show.bs.modal', function(e) {
 
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        var FormData = $("#job_supplement_subcategory_save-form").serializeArray();        
+        var FormData = $("#job-supplement-subcategory-save-form").serializeArray();        
 
         $.each(FormData, function(i, element) {		
             $("[name='"+ element.name +"']").val("");          
@@ -607,21 +611,25 @@ $(function(){
         var job_supplement_subcategory_name = evCon.data('jobsupplementsubcategoryname');
         var display_order = evCon.data('jobsupplementsubcategorydisplayorder');
 
+        var title = "";
         
+        $('.insert-button').removeClass('insert-button');
+        $('.update-button').removeClass('update-button');
 
 
         //登録処理か更新処理か判断
-        var process_flg = evCon.data('process_flg');
-        if(process_flg == '0'){
-            $('#job_supplement_subcategory_save-modal-title').html('新規登録処理');                        
-            $('#job_supplement_subcategory_cd').val(0);
-            $('#job_supplement_subcategory_save-modal-button_display').html('登録');
+        var processflg = evCon.data('processflg');
+        if(processflg == '0'){
+            title = "新規登録処理";            
+            $('#job-supplement-subcategory-save-button').addClass('insert-button');
+            $('#job_supplement_subcategory_cd').val(0);            
         }else{
-            $('#job_supplement_subcategory_save-modal-title').html('更新処理（求人補足中分類CD：' + job_supplement_subcategory_cd+'）');            
-            $('#job_supplement_subcategory_cd').val(job_supplement_maincategory_cd);
-            $('#job_supplement_subcategory_save-modal-button_display').html('更新');
+            title = '更新処理（求人補足中分類CD：' + job_supplement_subcategory_cd+'）';       
+            $('#job-supplement-subcategory-save-button').addClass('update-button');     
+            $('#job_supplement_subcategory_cd').val(job_supplement_maincategory_cd);            
         }
 
+        $('#job-supplement-subcategory-save-modal-title').html(title);                        
 
         $('#job_supplement_maincategory_cd_for_sub').val(job_supplement_maincategory_cd);        
         $('#job_supplement_subcategory_cd').val(job_supplement_subcategory_cd);
@@ -633,7 +641,7 @@ $(function(){
 
 
     //求人補足中分類削除モーダル表示時
-    $('#job_supplement_subcategory_delete-modal').on('show.bs.modal', function(e) {
+    $('#job-supplement-subcategory-delete-modal').on('show.bs.modal', function(e) {
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
@@ -642,29 +650,30 @@ $(function(){
         var job_supplement_subcategory_name = evCon.data('jobsupplementsubcategoryname');        
         
 
-        var delete_job_supplement_subcategory_flg = evCon.data('deleteflg');        
+        var deleteflg = evCon.data('deleteflg');        
 
-        $('#job_supplement_subcategory_delete-modal-execution-button').removeClass('delete_button');
-        $('#job_supplement_subcategory_delete-modal-execution-button').removeClass('restore_button');        
+        $('.delete-button').removeClass('delete-button');
+        $('.restore-button').removeClass('restore-button');
+        $('#job-supplement-subcategory-delete-execution-button').removeClass('btn-outline-danger');
+        $('#job-supplement-subcategory-delete-execution-button').removeClass('btn-outline-primary');       
+              
 
-        if (delete_job_supplement_subcategory_flg == 0) {            
-            var wording = "利用不可にする";                 
-            $('#job_supplement_subcategory_delete-modal-execution-button').addClass('delete_button');  
-
-        } else {
+        if (deleteflg == 0) {                               
+            $('#job-supplement-subcategory-delete-execution-button').addClass('btn-outline-danger');
+            $('#job-supplement-subcategory-delete-execution-button').addClass('delete-button');
             
-            var wording = "利用可能にする";
-            $('#job_supplement_subcategory_delete-modal-execution-button').addClass('restore_button');  
+        } else {                        
+            $('#job-supplement-subcategory-delete-execution-button').addClass('btn-outline-primary');
+            $('#job-supplement-subcategory-delete-execution-button').addClass('restore-button');
         }
 
        
     
         $('#display_job_supplement_maincategory_name_for_sub').html(job_supplement_maincategory_name);    
-        $('#display_job_supplement_subcategory_cd').html(job_supplement_subcategory_cd);    
-        $('.job_supplement_subcategory_delete-modal_wording').html(wording);
+        $('#display_job_supplement_subcategory_cd').html(job_supplement_subcategory_cd);           
 
 
-        $('#delete_job_supplement_subcategory_flg').val(delete_job_supplement_subcategory_flg);
+        $('#job_supplement_subcategory_delete_flg').val(deleteflg);
         $('#delete_job_supplement_subcategory_cd').val(job_supplement_subcategory_cd);
         $('#delete_job_supplement_subcategory_name').val(job_supplement_subcategory_name);  
 
@@ -683,14 +692,14 @@ $(function(){
 
 
     // 求人補足大分類「保存」ボタンがクリックされたら
-    $('#job_supplement_maincategory_save-button').click(function () {
+    $('#job-supplement-maincategory-save-button').click(function () {
      
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
         $(this).prop("disabled", true);
 
         setTimeout(function () {
-            $('#job_supplement_maincategory_save-button').prop("disabled", false);
+            $('#job-supplement-maincategory-save-button').prop("disabled", false);
         }, 3000);
 
         //{{-- メッセージクリア --}}
@@ -698,7 +707,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#job_supplement_maincategory_save-form');
+        let f = $('#job-supplement-maincategory-save-form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
@@ -737,7 +746,7 @@ $(function(){
                         scrollTop: 0
                     }, "300");
                     //{{-- ボタン有効 --}}
-                    $('#job_supplement_maincategory_save-button').prop("disabled", false);
+                    $('#job-supplement-maincategory-save-button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -779,7 +788,7 @@ $(function(){
                     scrollTop: 0
                 }, "300");
                 //{{-- ボタン有効 --}}
-                $('#job_supplement_maincategory_save-button').prop("disabled", false);
+                $('#job-supplement-maincategory-save-button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 
@@ -790,14 +799,14 @@ $(function(){
 
 
     // 求人補足中分類「保存」ボタンがクリックされたら
-    $('#job_supplement_subcategory_save-button').click(function () {
+    $('#job-supplement-subcategory-save-button').click(function () {
      
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
         $(this).prop("disabled", true);
 
         setTimeout(function () {
-            $('#job_supplement_subcategory_save-button').prop("disabled", false);
+            $('#job-supplement-subcategory-save-button').prop("disabled", false);
         }, 3000);
 
         //{{-- メッセージクリア --}}
@@ -805,7 +814,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#job_supplement_subcategory_save-form');
+        let f = $('#job-supplement-subcategory-save-form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
@@ -844,7 +853,7 @@ $(function(){
                         scrollTop: 0
                     }, "300");
                     //{{-- ボタン有効 --}}
-                    $('#job_supplement_subcategory_save-button').prop("disabled", false);
+                    $('#job-supplement-subcategory-save-button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -886,7 +895,7 @@ $(function(){
                     scrollTop: 0
                 }, "300");
                 //{{-- ボタン有効 --}}
-                $('#job_supplement_subcategory_save-button').prop("disabled", false);
+                $('#job-supplement-subcategory-save-button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 

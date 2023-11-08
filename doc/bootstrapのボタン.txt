@@ -1,0 +1,15 @@
+ブートストラップボタン種類
+https://getbootstrap.jp/docs/5.3/components/buttons/
+
+クリアボタン
+btn btn-light
+
+検索ボタン
+btn btn-success
+
+閉じるボタン
+btn btn-secondary
+
+
+登録更新
+btn btn-primary

@@ -177,3 +177,19 @@ header .sm {
 }
 
 /* header  End */
+
+
+/* 検索項目クリアボタン */
+.search-value-clear-button::after{
+  content:"クリア";
+}
+
+/* 検索ボタン */
+.search-button::after{
+  content:" 検索";
+}
+
+.search-board-close-button::after{
+  content:"閉じる";
+}
+

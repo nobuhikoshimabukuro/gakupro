@@ -72,7 +72,7 @@ button{
 
 .data-info-table{  
   width: 100%;
-
+  margin: 5px 0 5px 0;
   border-collapse:separate;
   border-spacing: 0;    
   white-space: nowrap;

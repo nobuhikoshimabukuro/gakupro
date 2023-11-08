@@ -27,13 +27,13 @@
             </div>
 
             <div class="col-6 text-start">
-                <button type="button" class='btn btn-success search-moda-button' data-bs-toggle='modal' data-bs-target='#search-modal'>検索する</button>
+                <button type="button" class='btn btn-success search-modal-button' data-bs-toggle='modal' data-bs-target='#search-modal'></button>
             </div>
 
             <div class="col-6 text-end">
                 <button type="button" id="" class="btn btn-primary add-data-button"
                     data-bs-toggle='modal' data-bs-target='#save-modal'            
-                    data-process_flg='0'>
+                    data-processflg='0'>
                 </button>
             </div>      
 
@@ -150,7 +150,7 @@
                             data-authority='{{$item->authority}}' 
                             data-remarks='{{$item->remarks}}' 
                                                    
-                            data-process_flg='1'> 
+                            data-processflg='1'> 
                             <i class='far fa-edit'></i>
                         </button>
 
@@ -245,16 +245,16 @@
 
                         </div>
 
-                        <div class="modal-footer row">         
+                        <div class="modal-footer">         
 
                             <div class="col-6 m-0 p-0 text-start">
                                 
-                                <button type="button" id="" class="btn btn-light clear-button"></button>
-                                <button type="submit" id="" class="btn btn-success" onclick="return search_form_check();">検索 <i class="fas fa-search"></i></button>
+                                <button type="button" id="" class="btn btn-dark clear-button"></button>
+                                <button type="submit" id="" class="btn btn-success search-button"  onclick="return search_form_check();"><i class="fas fa-search"></i></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
+                                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div>
                     </form>
@@ -284,7 +284,7 @@
                         <div class="modal-body">  
                                                         
                             <input type="hidden" name="staff_id" id="staff_id" value="">
-                            <input type="hidden" name="process_flg" id="process_flg" value="">
+                            <input type="hidden" name="processflg" id="processflg" value="">
                                                         
                            
                             <div class="form-group row">
@@ -292,7 +292,7 @@
 
                                 <label for="staff_last_name" class="col-12 col-form-label original-label">氏名</label>
                                 
-                                <div class="col-5 p-0 last_name_class">
+                                <div class="col-5 p-0 last-name-class">
                                     <input type="text" name="staff_last_name" id="staff_last_name" value="" class="form-control col-md-3">
                                 </div>
                               
@@ -303,7 +303,7 @@
 
                                 <label for="staff_last_name_yomi" class="col-12 col-form-label original-label">シメイ</label>
                                 
-                                <div class="col-5 p-0 last_name_class">
+                                <div class="col-5 p-0 last-name-class">
                                     <input type="text" name="staff_last_name_yomi" id="staff_last_name_yomi" value="" class="form-control col-md-3 last_name">
                                 </div>
                                 <div class="col-5 m-0 p-0">
@@ -345,13 +345,13 @@
                             
                         </div>
 
-                        <div class="modal-footer row">                            
+                        <div class="modal-footer">                            
                             <div class="col-6 m-0 p-0 text-start">
                                 <button type="button" id='save-button' class="btn btn-primary save-button"></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
+                                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div> 
 
@@ -403,13 +403,13 @@
 
                         </div>
 
-                        <div class="modal-footer row">                                                                                      
+                        <div class="modal-footer">                                                                                      
                             <div class="col-6 m-0 p-0 text-start">
                                 <button type="submit" id='delete-modal-execution-button' class="original-button delete-modal-execution-button"><span class="delete-modal_wording"></span></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>      
+                                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>      
                             </div>                            
                         </div>    
                     </form>
@@ -433,7 +433,7 @@
                     </div>
 
                     <div class="modal-footer">               
-                        <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
+                        <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
                     </div>
                 </div>
             </div>
@@ -473,13 +473,13 @@
                             
                         </div>
 
-                        <div class="modal-footer row">                            
+                        <div class="modal-footer">                            
                             <div class="col-8 m-0 p-0 text-start">                                
                                 <button type="button" id="login_info_change_button" class="original-button login_info_change_button">ログイン情報変更</button>
                             </div>
 
                             <div class="col-4 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
+                                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div> 
 
@@ -532,13 +532,13 @@
                             
                         </div>
 
-                        <div class="modal-footer row">                            
+                        <div class="modal-footer">                            
                             <div class="col-8 m-0 p-0 text-start">                                
                                 <button type="button" id="project_info_change_button" class="original-button login_info_change_button">プロジェクト情報変更</button>
                             </div>
 
                             <div class="col-4 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
+                                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div> 
 
@@ -624,8 +624,8 @@ $(function(){
 
         
         //登録処理か更新処理か判断
-        var process_flg = evCon.data('process_flg');
-        if(process_flg == '0'){
+        var processflg = evCon.data('processflg');
+        if(processflg == '0'){
             $('#save-modal-title').html('登録処理');                          
             
             staff_id = 0;
@@ -634,7 +634,7 @@ $(function(){
             
         }
         
-        $('#process_flg').val(process_flg);    
+        $('#processflg').val(processflg);    
         $('#staff_id').val(staff_id);
         $('#staff_last_name').val(staff_last_name);
         $('#staff_first_name').val(staff_first_name);
@@ -659,17 +659,17 @@ $(function(){
         var staff_name = evCon.data('stafflastname') + "　" + evCon.data('stafffirstname');
         var delete_flg = evCon.data('deleteflg');
 
-        $('#delete-modal-execution-button').removeClass('delete_button');
-        $('#delete-modal-execution-button').removeClass('restore_button');        
+        $('#delete-modal-execution-button').removeClass('delete-button');
+        $('#delete-modal-execution-button').removeClass('restore-button');        
 
         if (delete_flg == 0) {            
             var wording = "利用不可にする";                 
-            $('#delete-modal-execution-button').addClass('delete_button');  
+            $('#delete-modal-execution-button').addClass('delete-button');  
 
         } else {
             
             var wording = "利用可能にする";
-            $('#delete-modal-execution-button').addClass('restore_button');  
+            $('#delete-modal-execution-button').addClass('restore-button');  
         }
     
         

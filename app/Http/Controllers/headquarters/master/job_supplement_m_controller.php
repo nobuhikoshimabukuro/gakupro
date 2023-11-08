@@ -85,7 +85,7 @@ class job_supplement_m_controller extends Controller
             ->where('job_supplement_subcategory_m.job_supplement_subcategory_name', 'LIKE', "%$search_job_supplement_subcategory_name%");
         }       
 
-        $job_supplement_subcategory_m_list = $job_supplement_subcategory_m_list->paginate(30);
+        $job_supplement_subcategory_m_list = $job_supplement_subcategory_m_list->paginate(100);
 
         $job_supplement_maincategory_list = create_list::job_supplement_maincategory_list();
 
@@ -159,7 +159,7 @@ class job_supplement_m_controller extends Controller
 
     function job_supplement_maincategory_delete_or_restore(Request $request)
     {        
-        $delete_flg = intval($request->delete_job_supplement_maincategory_flg);
+        $delete_flg = intval($request->job_supplement_maincategory_delete_flg);
         $job_supplement_maincategory_cd = intval($request->delete_job_supplement_maincategory_cd);
         $job_supplement_maincategory_name = $request->delete_job_supplement_maincategory_name;
 
@@ -272,7 +272,7 @@ class job_supplement_m_controller extends Controller
     function job_supplement_subcategory_delete_or_restore(Request $request)
     {
 
-        $delete_flg = intval($request->delete_job_supplement_subcategory_flg);
+        $delete_flg = intval($request->job_supplement_subcategory_delete_flg);
         $job_supplement_subcategory_cd = intval($request->delete_job_supplement_subcategory_cd);
         $job_supplement_subcategory_name = $request->delete_job_supplement_subcategory_name;
 

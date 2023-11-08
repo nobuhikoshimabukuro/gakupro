@@ -27,13 +27,13 @@
         </div>
 
         <div class="col-6 text-start">
-            <button type="button" class='btn btn-success search-moda-button' data-bs-toggle='modal' data-bs-target='#search-modal'>検索する</button>
+            <button type="button" class='btn btn-success search-modal-button' data-bs-toggle='modal' data-bs-target='#search-modal'></button>
         </div>
 
         <div class="col-6 text-end">
             <button type="button" id="" class="btn btn-primary add-data-button"
                 data-bs-toggle='modal' data-bs-target='#save-modal'            
-                data-process_flg='0'>
+                data-processflg='0'>
             </button>
         </div>      
 
@@ -67,7 +67,7 @@
                         data-subcategorycd='{{$item->subcategory_cd}}'                        
                         data-displayorder='{{$item->display_order}}'
                         data-subcategoryname='{{$item->subcategory_name}}'
-                        data-process_flg='1'> 
+                        data-processflg='1'> 
                         <i class='far fa-edit'></i>
                     </button>
 
@@ -128,16 +128,16 @@
 
                         </div>
 
-                        <div class="modal-footer row">         
+                        <div class="modal-footer">         
 
                             <div class="col-6 m-0 p-0 text-start">
                                 
-                                <button type="button" id="" class="btn btn-light clear-button"></button>
-                                <button type="submit" id="" class="btn btn-success" onclick="return search_form_check();">検索 <i class="fas fa-search"></i></button>
+                                <button type="button" id="" class="btn btn-dark clear-button"></button>
+                                <button type="submit" id="" class="btn btn-success search-button"  onclick="return search_form_check();"><i class="fas fa-search"></i></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
+                                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div>
                     </form>
@@ -165,7 +165,7 @@
                         <div class="modal-body">  
                             
                             <input type="hidden" name="subcategory_cd" id="subcategory_cd" value="">
-                            <input type="hidden" name="process_flg" id="process_flg" value="">                            
+                            <input type="hidden" name="processflg" id="processflg" value="">                            
                                                         
                             <div class="form-group row">
                                 <label for="maincategory_name" class="col-md-6 col-form-label original-label">大分類名</label>
@@ -189,13 +189,13 @@
                             
                         </div>
 
-                        <div class="modal-footer row">                            
+                        <div class="modal-footer">                            
                             <div class="col-6 m-0 p-0 text-start">
                                 <button type="button" id='save-button' class="btn btn-primary save-button"></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
+                                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div> 
 
@@ -248,13 +248,13 @@
                            
                         </div>
 
-                        <div class="modal-footer row">                                                                                      
+                        <div class="modal-footer">                                                                                      
                             <div class="col-6 m-0 p-0 text-start">
                                 <button type="submit" id='delete-modal-execution-button' class="original-button delete-modal-execution-button"><span class="delete-modal_wording"></span></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>      
+                                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>      
                             </div>                            
                         </div>      
                     </form>
@@ -300,12 +300,12 @@ $(function(){
         var display_order = evCon.data('displayorder');
 
         //登録処理か更新処理か判断
-        var process_flg = evCon.data('process_flg');
+        var processflg = evCon.data('processflg');
 
 
         $('#maincategory_cd').removeClass("impossible");
 
-        if(process_flg == '0'){
+        if(processflg == '0'){
             $('#save-modal-title').html('登録処理');         
             $('#subcategory_cd').val(0);            
                         
@@ -318,7 +318,7 @@ $(function(){
             $('#maincategory_cd').addClass("impossible");
         }
         
-        $('#process_flg').val(process_flg); 
+        $('#processflg').val(processflg); 
         $('#maincategory_cd').val(maincategory_cd); 
 
         $('#subcategory_name').val(subcategory_name);
@@ -340,17 +340,17 @@ $(function(){
 
         var delete_flg = evCon.data('deleteflg');
 
-        $('#delete-modal-execution-button').removeClass('delete_button');
-        $('#delete-modal-execution-button').removeClass('restore_button');        
+        $('#delete-modal-execution-button').removeClass('delete-button');
+        $('#delete-modal-execution-button').removeClass('restore-button');        
 
         if (delete_flg == 0) {            
             var wording = "利用不可にする";                 
-            $('#delete-modal-execution-button').addClass('delete_button');  
+            $('#delete-modal-execution-button').addClass('delete-button');  
 
         } else {
             
             var wording = "利用可能にする";
-            $('#delete-modal-execution-button').addClass('restore_button');  
+            $('#delete-modal-execution-button').addClass('restore-button');  
         }
                
         $('#display_maincategory_name').html(maincategory_name);    

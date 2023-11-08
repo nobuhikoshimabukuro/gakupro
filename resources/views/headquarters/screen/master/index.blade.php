@@ -7,15 +7,19 @@
 
 <style>
      
-    
+    .partition-area{
+        width: 100%;
+        background-color: rgb(190, 196, 196);
+        color: rgb(51, 6, 6);
+        font-size: 25px;
+        font-weight: bold;        
+    }
     
 </style>
 
 <div id="main"class="mt-3 text-center container">
-    <div class="row">
-       
-      
 
+    <div class="row">
        
         <div class="col-6 col-md-4 col-xl-3 p-3 ">
             <a href="{{ route('master.maincategory') }}">
@@ -91,11 +95,33 @@
             </a>
         </div>
 
+        <div class="col-12 m-0 p-0">
+
+            <div class="row m-0 p-0">
+
+                <div class="partition-area">
+                    求人関連
+                </div>
+            
+            </div>
+            
+        </div>
+
+
+        <div class="col-6 col-md-4 col-xl-3 p-3">
+            <a href="">
+                <div class="bg-dark rounded-lg text-light p-2 ">                    
+                    <i class="fas fa-user-secret fa-3x mb-1"></i>
+                    <h6>雇用者マスタ</h6>
+                </div>
+            </a>
+        </div>
+
 
         <div class="col-6 col-md-4 col-xl-3 p-3">
             <a href="{{ route('master.job_category') }}">
                 <div class="bg-dark rounded-lg text-light p-2 ">                    
-                    <i class="fas fa-street-view fa-3x mb-1"></i>
+                    <i class="fas fa-sitemap fa-3x mb-1"></i>
                     <h6>職種マスタ</h6>
                 </div>
             </a>
@@ -104,25 +130,14 @@
         <div class="col-6 col-md-4 col-xl-3 p-3">
             <a href="{{ route('master.job_supplement') }}">
                 <div class="bg-dark rounded-lg text-light p-2 ">                    
-                    <i class="fas fa-street-view fa-3x mb-1"></i>
-                    <h6>求人補足マスタ</h6>
+                    <i class="far fa-check-square fa-3x mb-1"></i>
+                    <h6>求人条件マスタ</h6>
                 </div>
             </a>
         </div>
 
 
-
-        {{-- <div class="col-6 col-md-4 col-xl-3 p-3 ">
-            <a href="{{ route('master.employer') }}">
-                <div class="bg-dark rounded-lg text-light p-2 ">
-                    <i class="fas fa-school fa-3x mb-1"></i>
-                    <h6>会社マスタ</h6>
-                </div>
-            </a>
-        </div> --}}
        
-       
-        
         
         </div>
     </div>

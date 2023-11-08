@@ -56,7 +56,7 @@
                 <div class="form-group row">
 
                     <label for="member_last_name" class="col-12 col-form-label original-label">氏名</label>                                
-                    <div class="col-5 p-0 last_name_class">
+                    <div class="col-5 p-0 last-name-class">
                         <input type="text" name="member_last_name" id="member_last_name" value="" class="form-control col-md-3">
                     </div>
                   
@@ -67,7 +67,7 @@
 
                     <label for="member_last_name_yomi" class="col-12 col-form-label original-label">シメイ</label>
                     
-                    <div class="col-5 p-0 last_name_class">
+                    <div class="col-5 p-0 last-name-class">
                         <input type="text" name="member_last_name_yomi" id="member_last_name_yomi" value="" class="form-control col-md-3 last_name">
                     </div>
                     <div class="col-5 m-0 p-0">

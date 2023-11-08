@@ -124,11 +124,11 @@
                             </a>
                         </li>
     
-                        <li>
+                        {{-- <li>
                             <a class="" href="{{ route('hp.message_to_students') }}">
                                 学生の皆様へ
                             </a>
-                        </li>
+                        </li> --}}
     
                           
 
@@ -191,11 +191,11 @@
                         </a>
                     </li>
 
-                    <li>
+                    {{-- <li>
                         <a class="" href="{{ route('hp.message_to_students') }}">
                             学生の皆様へ
                         </a>
-                    </li>
+                    </li> --}}
                  
 
 

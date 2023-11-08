@@ -114,7 +114,7 @@ class staff_m_controller extends Controller
     //  更新処理
     function save(staff_m_request $request)
     {
-        $process_flg = intval($request->process_flg);
+        $processflg = intval($request->processflg);
         $staff_id = intval($request->staff_id);
 
         
@@ -134,7 +134,7 @@ class staff_m_controller extends Controller
         
         try {
 
-            if($process_flg == 0){
+            if($processflg == 0){
                                
                 //新規登録処理                
                 staff_m_model::create(

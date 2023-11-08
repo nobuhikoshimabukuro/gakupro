@@ -283,7 +283,7 @@
 
             <div class="modal-footer">               
                 <button type="button" id="create_button" class="original-button default_button">作成</button>
-                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
+                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
             </div>
             
 
@@ -315,7 +315,7 @@
 
             <div class="modal-footer">               
                 
-                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
+                <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
             </div>
             
 

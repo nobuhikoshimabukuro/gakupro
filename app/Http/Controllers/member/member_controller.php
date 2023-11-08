@@ -367,9 +367,9 @@ class member_controller extends Controller
 
    function information_save(member_m_request $request){
 
-        //$process_flg = intval($request->process_flg);
+        //$processflg = intval($request->processflg);
         
-        $process_flg = 0;
+        $processflg = 0;
 
         $member_id = intval($request->member_id);
         $member_last_name = $request->member_last_name;
@@ -393,7 +393,7 @@ class member_controller extends Controller
         
         try {
 
-            if($process_flg == 0){
+            if($processflg == 0){
 
                               
                 member_m_model::create(
