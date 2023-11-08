@@ -153,7 +153,7 @@ textarea::placeholder {
         <div class="ajax-msg m-2">            
         </div>
 
-        <form id="save_form" method="post" action="{{ $action }}">
+        <form id="save-form" method="post" action="{{ $action }}">
         @csrf
 
         <table class="form-table">
@@ -400,21 +400,21 @@ $(function(){
 
         
     // 処理実行ボタンがクリックされたら
-    $('#save_button').click(function () {
+    $('#save-button').click(function () {
      
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
-        $('#save_button').prop("disabled", true);
+        $('#save-button').prop("disabled", true);
 
         setTimeout(function () {
-            $('#save_button').prop("disabled", false);
+            $('#save-button').prop("disabled", false);
         }, 3000);
 
         
         $('.ajax-msg').html('');        
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#save_form');
+        let f = $('#save-form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
@@ -429,7 +429,7 @@ $(function(){
             .done(function (data, textStatus, jqXHR) {
                 
                 //{{-- ボタン有効 --}}
-                $('#save_button').prop("disabled", false);
+                $('#save-button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 
@@ -477,7 +477,7 @@ $(function(){
             .fail(function (data, textStatus, errorThrown) {
                 
                 //{{-- ボタン有効 --}}
-                $('#save_button').prop("disabled", false);
+                $('#save-button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 

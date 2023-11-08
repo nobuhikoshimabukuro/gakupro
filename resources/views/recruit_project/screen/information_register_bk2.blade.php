@@ -77,7 +77,7 @@
         <div class="ajax-msg m-2">            
         </div>
 
-        <form id="save_form" method="post" action="{{ $action }}">
+        <form id="save-form" method="post" action="{{ $action }}">
         @csrf
 
             <input type="hidden" name="login_flg" id="login_flg" class="form-control" value="{{$login_flg}}">
@@ -215,7 +215,7 @@
 
             <div id="Buttonarea" class="row div-area m-0 p-0">        
                 <div class="col-12" align="right">              
-                    <button type="button" id="save_button" class="btn btn-primary" >{{$process_button}}</button>
+                    <button type="button" id="save-button" class="btn btn-primary" >{{$process_button}}</button>
                 </div>        
             </div> 
 
@@ -443,21 +443,21 @@ $(function(){
 
         
     // 処理実行ボタンがクリックされたら
-    $('#save_button').click(function () {
+    $('#save-button').click(function () {
      
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
-        $('#save_button').prop("disabled", true);
+        $('#save-button').prop("disabled", true);
 
         setTimeout(function () {
-            $('#save_button').prop("disabled", false);
+            $('#save-button').prop("disabled", false);
         }, 3000);
 
         
         $('.ajax-msg').html('');        
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#save_form');
+        let f = $('#save-form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
@@ -472,7 +472,7 @@ $(function(){
             .done(function (data, textStatus, jqXHR) {
                 
                 //{{-- ボタン有効 --}}
-                $('#save_button').prop("disabled", false);
+                $('#save-button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 
@@ -520,7 +520,7 @@ $(function(){
             .fail(function (data, textStatus, errorThrown) {
                 
                 //{{-- ボタン有効 --}}
-                $('#save_button').prop("disabled", false);
+                $('#save-button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 

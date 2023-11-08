@@ -511,7 +511,7 @@
                 </div>
 
                 <div class="col-4">            
-                    <button type="button" class="btn w-100 btn-primary search-value-clear-button">クリア</button>
+                    <button type="button" class="btn w-100 btn-primary search-value-clear-button"></button>
                 </div>
 
                 <div class="col-4">            

@@ -33,14 +33,14 @@
 }
 
 /* クリアボタン */
-.clear_button{
+.clear-button{
   margin: 3px;
   color: #fff;
   background-color: #eb6100;
   border-radius: 100vh;
 }
 
-.clear_button:hover{
+.clear-button:hover{
   color: #fff;
   background: #f56500;
 }
@@ -66,11 +66,11 @@ button{
 }
 /* マスタ画面のtable設定 Start */
 
-.table_wrap {
+.scroll-wrap-x {
   overflow-x: scroll;
 }
 
-.data_info_table{  
+.data-info-table{  
   width: 100%;
 
   border-collapse:separate;
@@ -79,16 +79,16 @@ button{
 
 }
 
-.data_info_table th:first-child{
+.data-info-table th:first-child{
   border-radius: 5px 0 0 0;
 }
 
-.data_info_table th:last-child{
+.data-info-table th:last-child{
   border-radius: 0 5px 0 0;
   border-right: 1px solid #3c6690;
 }
 
-.data_info_table th{
+.data-info-table th{
   text-align: center;
   color:white;
   background: linear-gradient(#829ebc,#225588);
@@ -100,7 +100,7 @@ button{
   padding: 5px 0;
 }
 
-.data_info_table td{
+.data-info-table td{
   text-align: center;
   border-left: 1px solid #a8b7c5;
   border-bottom: 1px solid #a8b7c5;
@@ -110,15 +110,15 @@ button{
   padding: 5px 10px;
 }
 
-.data_info_table td:last-child{
+.data-info-table td:last-child{
   border-right: 1px solid #a8b7c5;
 }
 
-.data_info_table tr:last-child td:first-child {
+.data-info-table tr:last-child td:first-child {
   border-radius: 0 0 0 5px;
 }
 
-.data_info_table tr:last-child td:last-child {
+.data-info-table tr:last-child td:last-child {
   border-radius: 0 0 5px 0;
 } 
 
@@ -126,21 +126,21 @@ button{
 
 
 /* モーダル内のボタン設定 Start */
-.modal_button{  
+.modal-button{  
   border: none;
   outline: none; /* クリックしたときに表示される枠線を消す */
   background: transparent; /* 背景の灰色を消す */
 }
 
-.modal_button:hover {
+.modal-button:hover {
   background-color: #cdf06d;
   cursor: pointer;
 }
-.modal_button.active {
+.modal-button.active {
   background-color: #cdf06d;
 }
 
-.modal_button.focus {
+.modal-button.focus {
   background-color: #cdf06d;
 }
 /* モーダル内のボタン設定 End */

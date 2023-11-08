@@ -12,7 +12,7 @@
 <div id="main" class="mt-3 text-center container">
     
  
-    <form id="save_form" method="post" action="{{ route('recruit_project.information_save') }}">
+    <form id="save-form" method="post" action="{{ route('recruit_project.information_save') }}">
         @csrf
 
     
@@ -22,7 +22,7 @@
         </div>
     
 
-        <button type="button" id="save_button" class="btn btn-primary" >登録TEST</button>
+        <button type="button" id="save-button" class="btn btn-primary" >登録TEST</button>
     
     </form>
     
@@ -45,18 +45,18 @@ $(function(){
 
 
     // 処理実行ボタンがクリックされたら
-    $('#save_button').click(function () {
+    $('#save-button').click(function () {
 
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
-        $('#save_button').prop("disabled", true);
+        $('#save-button').prop("disabled", true);
 
         setTimeout(function () {
-            $('#save_button').prop("disabled", false);
+            $('#save-button').prop("disabled", false);
         }, 3000);
 
         
-        let f = $('#save_form');
+        let f = $('#save-form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
@@ -71,7 +71,7 @@ $(function(){
             .done(function (data, textStatus, jqXHR) {
 
                 //{{-- ボタン有効 --}}
-                $('#save_button').prop("disabled", false);
+                $('#save-button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}
                 document.body.style.cursor = 'auto';
 
@@ -119,7 +119,7 @@ $(function(){
             .fail(function (data, textStatus, errorThrown) {
 
                 //{{-- ボタン有効 --}}
-                $('#save_button').prop("disabled", false);
+                $('#save-button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}
                 document.body.style.cursor = 'auto';
 

@@ -19,7 +19,7 @@
 
 <style>
 
-#data_display_area{
+#data-display-area{
 
     min-width: 100vw;
     max-width: 100vw;
@@ -28,7 +28,7 @@
     max-height: 100vh;
 }
 
-.data_info_table{
+.data-info-table{
     min-width: 100vw;
     max-width: 100vw;
 
@@ -58,9 +58,9 @@
 
 <body>
     <a href="{{$picturebook_info[0]['PublicPath']}}">pdfを表示</a>
-    <div id="data_display_area" class="table_wrap m-0">
+    <div id="data-display-area" class="scroll-wrap-x m-0">
 
-        <table id='' class='data_info_table'>
+        <table id='' class='data-info-table'>
             
             
             

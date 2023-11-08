@@ -257,12 +257,12 @@ table {
 
 
     {{-- インフォメーションモーダル --}}
-    <div class="modal fade" id="information_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="Create_Modal_Label" aria-hidden="true">
+    <div class="modal fade" id="information_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="Create_modal-label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 class="modal-title" id="Create_Modal_Label"><span id="Create_Modal_Title"></span></h5>
+                    <h5 class="modal-title" id="Create_modal-label"><span id="Create_Modal_Title"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -370,7 +370,7 @@ table {
               
 
                 <div class="modal-footer">                                   
-                    <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                    <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
                 </div>  
             </div>
         </div>

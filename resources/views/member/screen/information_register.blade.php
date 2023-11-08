@@ -36,7 +36,7 @@
         <div class="ajax-msg m-2">            
         </div>
 
-        <form id="save_form" method="post" action="{{ route('member.information_save') }}">
+        <form id="save-form" method="post" action="{{ route('member.information_save') }}">
         @csrf
 
             
@@ -127,7 +127,7 @@
                     <input type="text" name="emergencycontact_tel" id="emergencycontact_tel" value="" class="form-control col-md-3">
                                                  
                 
-                    <button type="button" id='save_button' class="original_button save_button">登録</button>
+                    <button type="button" id='save-button' class="btn btn-primary save-button">登録</button>
                 </div>           
                 
             </div>
@@ -265,12 +265,12 @@ $(function(){
        
         if(branch == 1){
 
-            target_form_id = "#search_form";
+            target_form_id = "#search-form";
             search_school_division = $('#search_school_division').val();
             target_element_id = "#search_school_cd";
         }else if(branch == 2){
 
-            target_form_id = "#save_form";
+            target_form_id = "#save-form";
             search_school_division = $('#school_division').val();
             target_element_id = "#school_cd";
         }
@@ -358,12 +358,12 @@ $(function(){
         
         if(branch == 1){
 
-            target_form_id = "#search_form";
+            target_form_id = "#search-form";
             search_school_cd = $('#search_school_cd').val();
             target_element_id = "#search_majorsubject_cd";
         }else if(branch == 2){
 
-            target_form_id = "#save_form";
+            target_form_id = "#save-form";
             search_school_cd = $('#school_cd').val();
             target_element_id = "#majorsubject_cd";
         }
@@ -450,14 +450,14 @@ $(function(){
     
 
     // 「保存」ボタンがクリックされたら
-    $('#save_button').click(function () {
+    $('#save-button').click(function () {
         
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
         $(this).prop("disabled", true);
 
         setTimeout(function () {
-            $('#save_button').prop("disabled", false);
+            $('#save-button').prop("disabled", false);
         }, 3000);
 
         //{{-- メッセージクリア --}}
@@ -465,7 +465,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#save_form');
+        let f = $('#save-form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
@@ -498,7 +498,7 @@ $(function(){
                         scrollTop: 0
                     }, "300");
                     //{{-- ボタン有効 --}}
-                    $('#save_button').prop("disabled", false);
+                    $('#save-button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -519,7 +519,7 @@ $(function(){
                         scrollTop: 0
                     }, "300");
                     //{{-- ボタン有効 --}}
-                    $('#save_button').prop("disabled", false);
+                    $('#save-button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -561,7 +561,7 @@ $(function(){
                     scrollTop: 0
                 }, "300");
                 //{{-- ボタン有効 --}}
-                $('#save_button').prop("disabled", false);
+                $('#save-button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 

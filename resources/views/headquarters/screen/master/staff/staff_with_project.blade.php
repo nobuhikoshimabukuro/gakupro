@@ -13,14 +13,14 @@
         <div class="row">        
 
             <div class="col-6 text-start">
-                <h4 class="master_title">
+                <h4 class="master-title">
                     プロジェクト管理
                 </h4>                
             </div>    
 
             <div class="col-6 text-end">
 
-                <button type="button" class='original_button'>
+                <button type="button" class='original-button'>
                     <a href="{{ route('master.staff') }}">スタッフマスタへ</a>
                 </button>
                 
@@ -49,7 +49,7 @@
                         </td>
 
                         <td class="text-end">
-                            <button type="button" id='save_button' class="original_button save_button">更新</button>
+                            <button type="button" id='save-button' class="btn btn-primary save-button">更新</button>
                         </td>
 
                     </tr>
@@ -64,7 +64,7 @@
 
         </div>
         
-        <form id="save_form" method="post" action="{{ route('master.staff_with_project.save') }}"> 
+        <form id="save-form" method="post" action="{{ route('master.staff_with_project.save') }}"> 
             @csrf
 
             <input type="hidden" name="staff_id" id="staff_id" value="{{$staff_info->staff_id}}">
@@ -101,12 +101,12 @@
         </form>
 
         {{-- スタッフ情報モーダル --}}
-        <div class="modal fade" id="staff_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staff_info_modal_label" aria-hidden="true">
+        <div class="modal fade" id="staff_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staff_info_modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staff_info_modal_label">専攻情報</h5>
+                        <h5 class="modal-title" id="staff_info_modal-label">専攻情報</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -153,7 +153,7 @@
                             </div>
 
                             <div class="col-4 m-0 p-0 text-end">
-                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>      
+                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>      
                             </div>                            
                         </div> 
 
@@ -163,7 +163,7 @@
 
             
         {{-- 備考確認用モーダル --}}
-        <div class="modal fade" id="remarks_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="remarks_modal_label" aria-hidden="true">
+        <div class="modal fade" id="remarks_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="remarks_modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
@@ -177,7 +177,7 @@
                     </div>
 
                     <div class="modal-footer">               
-                        <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                        <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
                     </div>
                 </div>
             </div>
@@ -195,14 +195,14 @@ $(function(){
     
     
     // 「保存」ボタンがクリックされたら
-    $('#save_button').click(function () {
+    $('#save-button').click(function () {
      
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
         $(this).prop("disabled", true);
 
         setTimeout(function () {
-            $('#save_button').prop("disabled", false);
+            $('#save-button').prop("disabled", false);
         }, 3000);
 
         //{{-- メッセージクリア --}}
@@ -210,7 +210,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#save_form');
+        let f = $('#save-form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
@@ -249,7 +249,7 @@ $(function(){
                         scrollTop: 0
                     }, "300");
                     //{{-- ボタン有効 --}}
-                    $('#save_button').prop("disabled", false);
+                    $('#save-button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -274,7 +274,7 @@ $(function(){
                     scrollTop: 0
                 }, "300");
                 //{{-- ボタン有効 --}}
-                $('#save_button').prop("disabled", false);
+                $('#save-button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 

@@ -40,7 +40,7 @@
         margin: 10px 0 10px 0;
     }
      
-    #data_info_table{
+    #data-info-table{
         width: 100%;
     }
 
@@ -91,11 +91,11 @@
                 <div class="col-9 m-0 p-0" align="left">
                     <label for="date" class="">開催日</label>
                     <input type="date" id="date" name="date"  value="{{$date}}">                        
-                    <button type="submit" class="original_button default_button"><i class="fas fa-search"></i>検索</button>             
+                    <button type="submit" class="original-button default_button"><i class="fas fa-search"></i>検索</button>             
                 </div>
 
                 <div class="col-3 m-0 p-0" align="right">
-                    <button type="button" id="" class="original_button default_button display_switching" data-bs-toggle='modal' data-bs-target='#create_modal'>
+                    <button type="button" id="" class="original-button default_button display_switching" data-bs-toggle='modal' data-bs-target='#create_modal'>
                         <i class="fas fa-folder-plus"></i>作成
                     </button>    
                 </div>
@@ -104,13 +104,13 @@
 
                 @if($CreatedFLG)
                     <div class="col-6 m-0 p-0" align="left">
-                        <button type="button" id="" class="original_button default_button">
+                        <button type="button" id="" class="original-button default_button">
                             <a href="{{$qr_ticket_full_path}}" target="_blank" rel="noopener noreferrer">チケット確認</a>
                         </button>
                     </div>
 
                     <div class="col-6 m-0 p-0" align="right">
-                        <button type="button" id="" class="original_button default_button">
+                        <button type="button" id="" class="original-button default_button">
                             <a href="{{$qr_ticket_full_path}}" download>チケットDL</a>
                         </button>   
                     </div>
@@ -129,10 +129,10 @@
 
             <div id=""class="row m-0 p-0">  
                 
-                <div id="data_display_area" class="table_wrap m-0 p-0">
+                <div id="data-display-area" class="scroll-wrap-x m-0 p-0">
 
-                    {{-- <table id='data_info_table' class='data_info_table'> --}}
-                        <table id='' class='data_info_table m-0 p-0'>
+                    {{-- <table id='data-info-table' class='data-info-table'> --}}
+                        <table id='' class='data-info-table m-0 p-0'>
                         
                         <tr>
                             <th>ID</th>
@@ -157,7 +157,7 @@
                                 <td>{{$info->display_date}}</td>
                                 <td>
                                     {{$info->code}}
-                                    <button type="button" id="" class="original_button default_button display_switching" 
+                                    <button type="button" id="" class="original-button default_button display_switching" 
                                     data-bs-toggle='modal' data-bs-target='#qr_code_display_modal'
                                     data-date="{{$info->date}}" 
                                     data-code="{{$info->code}}" 
@@ -169,7 +169,7 @@
                                 <td>{{$info->display_password}}</td>                        
                                 <td>
 
-                                    <button type='button' class="original_button default_button copy_button" 
+                                    <button type='button' class="original-button default_button copy_button" 
                                     data-uploadurl="{{$Upload_Url}}" 
                                     data-downloadurl="{{$Download_Url}}">Url Copy</button>
                                     
@@ -185,7 +185,7 @@
                                     @else
                                         不要
                                     @endif                                    
-                                    <button type='button' class="original_button default_button with_password_flg_change_button"
+                                    <button type='button' class="original-button default_button with_password_flg_change_button"
                                         data-id="{{$info->id}}"
                                         data-passwordflg="{{$info->with_password_flg}}"
                                     >変更</button>
@@ -215,12 +215,12 @@
 
 
 {{-- 作成用モーダル --}}
-<div class="modal fade" id="create_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="create_modal_label" aria-hidden="true">
+<div class="modal fade" id="create_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="create_modal-label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title" id="create_modal_label"><span id="create_modal_title"></span></h5>
+                <h5 class="modal-title" id="create_modal-label"><span id="create_modal_title"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -282,8 +282,8 @@
                 </div>
 
             <div class="modal-footer">               
-                <button type="button" id="create_button" class="original_button default_button">作成</button>
-                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                <button type="button" id="create_button" class="original-button default_button">作成</button>
+                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
             </div>
             
 
@@ -294,12 +294,12 @@
 
 
 {{-- 作成用モーダル --}}
-<div class="modal fade" id="qr_code_display_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="qr_code_display_modal_label" aria-hidden="true">
+<div class="modal fade" id="qr_code_display_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="qr_code_display_modal-label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title" id="qr_code_display_modal_label"><span id="qr_code_display_modal_title"></span></h5>
+                <h5 class="modal-title" id="qr_code_display_modal-label"><span id="qr_code_display_modal_title"></span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
@@ -315,7 +315,7 @@
 
             <div class="modal-footer">               
                 
-                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
             </div>
             
 
@@ -381,13 +381,13 @@ $(function(){
 
         var mode = $(this).data('mode');
 
-        $("#data_display_area").removeClass('d-none');
+        $("#data-display-area").removeClass('d-none');
         $("#image_display_area").removeClass('d-none');
 
         $(".DisplayChangeButton").removeClass('d-none');
         
         if(mode == 1){
-            $("#data_display_area").addClass('d-none');           
+            $("#data-display-area").addClass('d-none');           
         }else{
             $("#image_display_area").addClass('d-none');           
         }

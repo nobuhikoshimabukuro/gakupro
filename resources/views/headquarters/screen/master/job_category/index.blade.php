@@ -18,27 +18,27 @@
     <div class="row">        
 
         <div class="col-6 text-start">
-            <h4 class="master_title">
+            <h4 class="master-title">
                 職種大分類マスタ
             </h4>
         </div>    
 
         <div class="col-6 text-end">
 
-            <button type="button" class='original_button'>
+            <button type="button" class='original-button'>
                 <a href="{{ route('master.index') }}">マスタ一覧へ</a>
             </button>
             
         </div>
 
         <div class="col-6 text-start">
-            <button type="button" class='original_button search_modal_button' data-bs-toggle='modal' data-bs-target='#search_modal'>検索する</button>
+            <button type="button" class='btn btn-success search-moda-button' data-bs-toggle='modal' data-bs-target='#search-modal'>検索する</button>
         </div>
 
         <div class="col-6 text-end">
-            <button type="button" id="" class="original_button add_data_button"
-                data-bs-toggle='modal' data-bs-target='#job_maincategory_save_modal'            
-                data-process_flg='0'><span class="add_data_button_name"></span>
+            <button type="button" id="" class="btn btn-primary add-data-button"
+                data-bs-toggle='modal' data-bs-target='#job_maincategory_save-modal'            
+                data-process_flg='0'>
             </button>
         </div>      
 
@@ -53,17 +53,17 @@
     </div>
   
 
-    <div id="data_display_area" class="table_wrap m-0">
+    <div id="data-display-area" class="scroll-wrap-x m-0">
 
        
        
-        <table id='' class='data_info_table'>
+        <table id='' class='data-info-table'>
             
             <tr>
                 <th>職種大分類CD</th>
                 <th>職種大分類名</th>   
                 <th>表示順</th>         
-                <th>件数【<span id='total_count'>{{count($job_maincategory_m_list)}}</span>件】</th>
+                <th>件数【<span id='data-total-count'>{{count($job_maincategory_m_list)}}</span>件】</th>
             </tr>
 
             @foreach ($job_maincategory_m_list as $item)
@@ -72,7 +72,7 @@
                     <td>{{$item->job_maincategory_name}}</td>
                     <td>{{$item->display_order}}</td>
                     <td>
-                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#job_maincategory_save_modal'
+                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#job_maincategory_save-modal'
                             data-jobmaincategorycd='{{$item->job_maincategory_cd}}'
                             data-jobmaincategoryname='{{$item->job_maincategory_name}}'
                             data-displayorder='{{$item->display_order}}'
@@ -80,7 +80,7 @@
                             <i class='far fa-edit'></i>
                         </button>
 
-                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#job_maincategory_dlete_modal'
+                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#job_maincategory_delete-modal'
                             data-jobmaincategorycd='{{$item->job_maincategory_cd}}'
                             data-jobmaincategoryname='{{$item->job_maincategory_name}}'
                             data-displayorder='{{$item->display_order}}'
@@ -105,27 +105,27 @@
     <div class="row">        
 
         <div class="col-6 text-start">
-            <h4 class="master_title">
+            <h4 class="master-title">
                 職種中分類マスタ
             </h4>
         </div>    
 
         <div class="col-6 text-end">
 
-            <button type="button" class='original_button'>
+            <button type="button" class='original-button'>
                 <a href="{{ route('master.index') }}">マスタ一覧へ</a>
             </button>
             
         </div>
 
         <div class="col-6 text-start">
-            <button type="button" class='original_button search_modal_button' data-bs-toggle='modal' data-bs-target='#search_modal'>検索する</button>
+            <button type="button" class='btn btn-success search-moda-button' data-bs-toggle='modal' data-bs-target='#search-modal'>検索する</button>
         </div>
 
         <div class="col-6 text-end">
-            <button type="button" id="" class="original_button add_data_button"
-                data-bs-toggle='modal' data-bs-target='#job_subcategory_save_modal'            
-                data-process_flg='0'><span class="add_data_button_name"></span>
+            <button type="button" id="" class="btn btn-primary add-data-button"
+                data-bs-toggle='modal' data-bs-target='#job-subcategory-save-modal'            
+                data-process_flg='0'>
             </button>
         </div>      
 
@@ -140,18 +140,18 @@
     </div>
   
 
-    <div id="data_display_area" class="table_wrap m-0">
+    <div id="data-display-area" class="scroll-wrap-x m-0">
 
        
        
-        <table id='' class='data_info_table'>
+        <table id='' class='data-info-table'>
             
             <tr>
                 <th>職種大分類</th>                
                 <th>職種中分類CD</th>
                 <th>職種中分類名</th>
                 <th>表示順</th>
-                <th>件数【<span id='total_count'>{{count($job_subcategory_m_list)}}</span>件】</th>
+                <th>件数【<span id='data-total-count'>{{count($job_subcategory_m_list)}}</span>件】</th>
             </tr>
 
             @foreach ($job_subcategory_m_list as $item)
@@ -161,7 +161,7 @@
                     <td>{{$item->job_subcategory_name}}</td>   
                     <td>大[{{$item->job_maincategory_display_order}}]中[{{$item->job_subcategory_display_order}}]</td> 
                     <td>
-                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#job_subcategory_save_modal'
+                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#job-subcategory-save-modal'
                             data-jobmaincategorycd='{{$item->job_maincategory_cd}}'
                             data-jobmaincategoryname='{{$item->job_maincategory_name}}'
                             data-jobsubcategorycd='{{$item->job_subcategory_cd}}'
@@ -170,7 +170,7 @@
                             <i class='far fa-edit'></i>
                         </button>
 
-                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#job_subcategory_dlete_modal'
+                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#job_subcategory_delete-modal'
                             data-jobmaincategorycd='{{$item->job_maincategory_cd}}'
                             data-jobmaincategoryname='{{$item->job_maincategory_name}}'
                             data-jobsubcategorycd='{{$item->job_subcategory_cd}}'
@@ -194,17 +194,17 @@
 
    
         {{-- 検索モーダル --}}
-        <div class="modal fade" id="search_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="search_modal_label" aria-hidden="true">
+        <div class="modal fade" id="search-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="search-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="search_modal_label">検索</h5>
+                        <h5 class="modal-title" id="search-modal-label">検索</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
                     
-                    <form id="search_form" class="" action="" method="get">
+                    <form id="search-form" class="" action="" method="get">
                         <div class="modal-body">                     
             
                             <div class="form-group row">                                
@@ -237,12 +237,12 @@
 
                             <div class="col-6 m-0 p-0 text-start">
                                 
-                                <button type="button" id="" class="original_button clear_button">クリア</button>
-                                <button type="submit" id="" class="original_button search_button" onclick="return search_formCheck();">検索 <i class="fas fa-search"></i></button>
+                                <button type="button" id="" class="btn btn-light clear-button"></button>
+                                <button type="submit" id="" class="btn btn-success" onclick="return search_form_check();">検索 <i class="fas fa-search"></i></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div>
                     </form>
@@ -253,12 +253,12 @@
 
 
         {{-- 職種大分類登録/更新用モーダル --}}
-        <div class="modal fade" id="job_maincategory_save_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job_maincategory_save_modal_label" aria-hidden="true">
+        <div class="modal fade" id="job_maincategory_save-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job_maincategory_save-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="job_maincategory_save_modal_label"><span id="job_maincategory_save_modal_title"></span></h5>
+                        <h5 class="modal-title" id="job_maincategory_save-modal-label"><span id="job_maincategory_save-modal-title"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -266,7 +266,7 @@
                         
                     </div>
                     
-                    <form id="job_maincategory_save_form" method="post" action="{{ route('master.job_maincategory.save') }}">                    
+                    <form id="job_maincategory_save-form" method="post" action="{{ route('master.job_maincategory.save') }}">                    
                         @csrf
                         <div class="modal-body">  
                             
@@ -284,11 +284,11 @@
 
                         <div class="modal-footer row">                            
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="button" id='job_maincategory_save_button' class="btn btn-success job_maincategory_save_button"><span id='job_maincategory_save_modal_button_display'></span></button>
+                                <button type="button" id='job_maincategory_save-button' class="btn btn-success"></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div> 
                         
@@ -300,16 +300,16 @@
 
 
         {{-- 職種大分類削除用モーダル --}}
-        <div class="modal fade" id="job_maincategory_dlete_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job_maincategory_dlete_modal_label" aria-hidden="true">
+        <div class="modal fade" id="job_maincategory_delete-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job_maincategory_delete-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="job_maincategory_dlete_modal_label">操作確認</h5>
+                        <h5 class="modal-title" id="job_maincategory_delete-modal-label">操作確認</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <form id="job_maincategory_delete_form" method="post" action="{{ route('master.job_maincategory.delete_or_restore') }}">                           
+                    <form id="job_maincategory_delete-form" method="post" action="{{ route('master.job_maincategory.delete_or_restore') }}">                           
                         @csrf
                         <div class="modal-body">  
                             <input type="hidden" id="delete_job_maincategory_flg" name="delete_job_maincategory_flg" value="">
@@ -343,11 +343,11 @@
 
                         <div class="modal-footer row">                                                                                      
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="submit" id='job_maincategory_dlete_modal_runbutton' class="btn btn-warning"><span class="job_maincategory_dlete_modal_wording"></span></button>
+                                <button type="submit" id='job_maincategory_delete-modal-execution-button' class="btn btn-warning"></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>      
+                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>      
                             </div>                            
                         </div>    
                     </form>
@@ -361,12 +361,12 @@
 
 
         {{-- 職種中分類類登録/更新用モーダル --}}
-        <div class="modal fade" id="job_subcategory_save_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job_subcategory_save_modal_label" aria-hidden="true">
+        <div class="modal fade" id="job-subcategory-save-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job-subcategory-save-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="job_subcategory_save_modal_label"><span id="job_subcategory_save_modal_title"></span></h5>
+                        <h5 class="modal-title" id="job-subcategory-save-modal-label"><span id="job-subcategory-save-modal-title"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -374,7 +374,7 @@
                         
                     </div>
                     
-                    <form id="job_subcategory_save_form" method="post" action="{{ route('master.job_subcategory.save') }}">                    
+                    <form id="job-subcategory-save-form" method="post" action="{{ route('master.job_subcategory.save') }}">                    
                         @csrf
                         <div class="modal-body">  
                             
@@ -404,11 +404,11 @@
 
                         <div class="modal-footer row">                            
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="button" id='job_subcategory_save_button' class="btn btn-success"><span id='job_subcategory_save_modal_button_display'></span></button>
+                                <button type="button" id='job_subcategory_save-button' class="btn btn-success"><span id='job-subcategory-save-modal-button_display'></span></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div> 
                         
@@ -421,16 +421,16 @@
 
 
         {{-- 職種中分類削除用モーダル --}}
-        <div class="modal fade" id="job_subcategory_dlete_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job_subcategory_dlete_modal_label" aria-hidden="true">
+        <div class="modal fade" id="job_subcategory_delete-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job_subcategory_delete-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="job_subcategory_dlete_modal_label">操作確認</h5>
+                        <h5 class="modal-title" id="job_subcategory_delete-modal-label">操作確認</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <form id="job_subcategory_delete_form" method="post" action="{{ route('master.job_subcategory.delete_or_restore') }}">                           
+                    <form id="job_subcategory_delete-form" method="post" action="{{ route('master.job_subcategory.delete_or_restore') }}">                           
                         @csrf
                         <div class="modal-body">  
                             <input type="hidden" id="delete_job_subcategory_flg" name="delete_job_subcategory_flg" value="">
@@ -474,11 +474,11 @@
 
                         <div class="modal-footer row">                                                                                      
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="submit" id='job_subcategory_dlete_modal_runbutton' class="btn btn-warning"><span class="job_subcategory_dlete_modal_wording"></span></button>
+                                <button type="submit" id='job_subcategory_delete-modal-execution-button' class="btn btn-warning"><span class="job_subcategory_delete-modal_wording"></span></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>      
+                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>      
                             </div>                            
                         </div>    
                     </form>
@@ -499,14 +499,14 @@
 $(function(){
 
     //職種大分類登録、更新用モーダル表示時
-    $('#job_maincategory_save_modal').on('show.bs.modal', function(e) {
+    $('#job_maincategory_save-modal').on('show.bs.modal', function(e) {
 
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        var FormData = $("#job_maincategory_save_form").serializeArray();        
+        var FormData = $("#job_maincategory_save-form").serializeArray();        
 
         $.each(FormData, function(i, element) {		
             $("[name='"+ element.name +"']").val("");          
@@ -523,13 +523,13 @@ $(function(){
         //登録処理か更新処理か判断
         var process_flg = evCon.data('process_flg');
         if(process_flg == '0'){
-            $('#job_maincategory_save_modal_title').html('新規登録処理');                        
+            $('#job_maincategory_save-modal-title').html('新規登録処理');                        
             $('#job_maincategory_cd').val(0);
-            $('#job_maincategory_save_modal_button_display').html('登録');
+            $('#job_maincategory_save-modal-button_display').html('登録');
         }else{
-            $('#job_maincategory_save_modal_title').html('更新処理（職種大分類CD：' + job_maincategory_cd+'）');            
+            $('#job_maincategory_save-modal-title').html('更新処理（職種大分類CD：' + job_maincategory_cd+'）');            
             $('#job_maincategory_cd').val(job_maincategory_cd);
-            $('#job_maincategory_save_modal_button_display').html('更新');
+            $('#job_maincategory_save-modal-button_display').html('更新');
         }
 
         
@@ -540,7 +540,7 @@ $(function(){
 
 
     //職種大分類削除モーダル表示時
-    $('#job_maincategory_dlete_modal').on('show.bs.modal', function(e) {
+    $('#job_maincategory_delete-modal').on('show.bs.modal', function(e) {
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
@@ -548,24 +548,24 @@ $(function(){
         var job_maincategory_name = evCon.data('jobmaincategoryname');    
         var delete_job_maincategory_flg = evCon.data('deleteflg');        
 
-        $('#job_maincategory_dlete_modal_runbutton').removeClass('delete_button');
-        $('#job_maincategory_dlete_modal_runbutton').removeClass('restore_button');        
+        $('#job_maincategory_delete-modal-execution-button').removeClass('delete_button');
+        $('#job_maincategory_delete-modal-execution-button').removeClass('restore_button');        
 
         if (delete_job_maincategory_flg == 0) {            
             var wording = "利用不可にする";                 
-            $('#job_maincategory_dlete_modal_runbutton').addClass('delete_button');  
+            $('#job_maincategory_delete-modal-execution-button').addClass('delete_button');  
 
         } else {
             
             var wording = "利用可能にする";
-            $('#job_maincategory_dlete_modal_runbutton').addClass('restore_button');  
+            $('#job_maincategory_delete-modal-execution-button').addClass('restore_button');  
         }
 
        
     
         $('#display_job_maincategory_cd').html(job_maincategory_cd);    
         $('#display_job_maincategory_name').html(job_maincategory_name);    
-        $('.job_maincategory_dlete_modal_wording').html(wording);
+        $('.job_maincategory_delete-modal_wording').html(wording);
 
 
         $('#delete_job_maincategory_flg').val(delete_job_maincategory_flg);
@@ -578,14 +578,14 @@ $(function(){
 
 
     //職種中分類登録、更新用モーダル表示時
-    $('#job_subcategory_save_modal').on('show.bs.modal', function(e) {
+    $('#job-subcategory-save-modal').on('show.bs.modal', function(e) {
 
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        var FormData = $("#job_subcategory_save_form").serializeArray();        
+        var FormData = $("#job-subcategory-save-form").serializeArray();        
 
         $.each(FormData, function(i, element) {		
             $("[name='"+ element.name +"']").val("");          
@@ -605,13 +605,13 @@ $(function(){
         //登録処理か更新処理か判断
         var process_flg = evCon.data('process_flg');
         if(process_flg == '0'){
-            $('#job_subcategory_save_modal_title').html('新規登録処理');                        
+            $('#job-subcategory-save-modal-title').html('新規登録処理');                        
             $('#job_subcategory_cd').val(0);
-            $('#job_subcategory_save_modal_button_display').html('登録');
+            $('#job-subcategory-save-modal-button_display').html('登録');
         }else{
-            $('#job_maincategory_save_modal_title').html('更新処理（職種中分類CD：' + job_subcategory_cd+'）');            
+            $('#job_maincategory_save-modal-title').html('更新処理（職種中分類CD：' + job_subcategory_cd+'）');            
             $('#job_maincategory_cd').val(job_maincategory_cd);
-            $('#job_maincategory_save_modal_button_display').html('更新');
+            $('#job_maincategory_save-modal-button_display').html('更新');
         }
 
 
@@ -625,7 +625,7 @@ $(function(){
 
 
     //職種中分類削除モーダル表示時
-    $('#job_subcategory_dlete_modal').on('show.bs.modal', function(e) {
+    $('#job_subcategory_delete-modal').on('show.bs.modal', function(e) {
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
@@ -636,24 +636,24 @@ $(function(){
 
         var delete_job_subcategory_flg = evCon.data('deleteflg');        
 
-        $('#job_subcategory_dlete_modal_runbutton').removeClass('delete_button');
-        $('#job_subcategory_dlete_modal_runbutton').removeClass('restore_button');        
+        $('#job_subcategory_delete-modal-execution-button').removeClass('delete_button');
+        $('#job_subcategory_delete-modal-execution-button').removeClass('restore_button');        
 
         if (delete_job_subcategory_flg == 0) {            
             var wording = "利用不可にする";                 
-            $('#job_subcategory_dlete_modal_runbutton').addClass('delete_button');  
+            $('#job_subcategory_delete-modal-execution-button').addClass('delete_button');  
 
         } else {
             
             var wording = "利用可能にする";
-            $('#job_subcategory_dlete_modal_runbutton').addClass('restore_button');  
+            $('#job_subcategory_delete-modal-execution-button').addClass('restore_button');  
         }
 
        
     
         $('#display_job_maincategory_name_for_sub').html(job_maincategory_name);    
         $('#display_job_subcategory_cd').html(job_subcategory_cd);    
-        $('.job_subcategory_dlete_modal_wording').html(wording);
+        $('.job_subcategory_delete-modal_wording').html(wording);
 
 
         $('#delete_job_subcategory_flg').val(delete_job_maincategory_flg);
@@ -664,9 +664,9 @@ $(function(){
 
 
     // 「クリア」ボタンがクリックされたら
-    $('.clear_button').click(function () {
+    $('.clear-button').click(function () {
 
-        var FormData = $("#search_form").serializeArray();        
+        var FormData = $("#search-form").serializeArray();        
 
         $.each(FormData, function(i, element) {		
             $("[name='"+ element.name +"']").val("");          
@@ -675,14 +675,14 @@ $(function(){
 
 
     // 職種大分類「保存」ボタンがクリックされたら
-    $('#job_maincategory_save_button').click(function () {
+    $('#job_maincategory_save-button').click(function () {
      
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
         $(this).prop("disabled", true);
 
         setTimeout(function () {
-            $('#job_maincategory_save_button').prop("disabled", false);
+            $('#job_maincategory_save-button').prop("disabled", false);
         }, 3000);
 
         //{{-- メッセージクリア --}}
@@ -690,7 +690,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#job_maincategory_save_form');
+        let f = $('#job_maincategory_save-form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
@@ -729,7 +729,7 @@ $(function(){
                         scrollTop: 0
                     }, "300");
                     //{{-- ボタン有効 --}}
-                    $('#job_maincategory_save_button').prop("disabled", false);
+                    $('#job_maincategory_save-button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -771,7 +771,7 @@ $(function(){
                     scrollTop: 0
                 }, "300");
                 //{{-- ボタン有効 --}}
-                $('#job_maincategory_save_button').prop("disabled", false);
+                $('#job_maincategory_save-button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 
@@ -782,14 +782,14 @@ $(function(){
 
 
     // 職種中分類「保存」ボタンがクリックされたら
-    $('#job_subcategory_save_button').click(function () {
+    $('#job_subcategory_save-button').click(function () {
      
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
         $(this).prop("disabled", true);
 
         setTimeout(function () {
-            $('#job_subcategory_save_button').prop("disabled", false);
+            $('#job_subcategory_save-button').prop("disabled", false);
         }, 3000);
 
         //{{-- メッセージクリア --}}
@@ -797,7 +797,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#job_subcategory_save_form');
+        let f = $('#job-subcategory-save-form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
@@ -836,7 +836,7 @@ $(function(){
                         scrollTop: 0
                     }, "300");
                     //{{-- ボタン有効 --}}
-                    $('#job_subcategory_save_button').prop("disabled", false);
+                    $('#job_subcategory_save-button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -878,7 +878,7 @@ $(function(){
                     scrollTop: 0
                 }, "300");
                 //{{-- ボタン有効 --}}
-                $('#job_subcategory_save_button').prop("disabled", false);
+                $('#job_subcategory_save-button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 

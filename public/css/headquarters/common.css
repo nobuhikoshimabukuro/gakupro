@@ -73,76 +73,30 @@
 
 /* 新規登録ボタン */
 
-.add_data_button{
-  margin: 3px;
-  color: #fff;
-  background-color: #5bb14a;
-  border-radius: 100vh;
-}
-
-
-.add_data_button:hover{
-  color: #fff;
-  background: #49863c;
-}
-
-/* 新規追加ボタンのボタン文字設定 */
-.add_data_button_name:before{
+.add-data-button:before{
   content:"新規登録";
 }
 
-/* 検索モーダル表示ボタン */
-.search_modal_button{
-  margin: 3px;
-  color: #fff;
-  background-color: #b0c214;
-  border-radius: 100vh;
-}
 
-.search_modal_button:hover{
-  color: #a86f6f;
-  background: #596d24;
+/* 検索モーダル表示ボタン */
+.search-moda-button:before{
+  content:"検索画面";
 }
 
 /* 検索項目クリアボタン */
-.clear_button{
-  margin: 3px;
-  color: #fff;
-  background-color: #eb6100;
-  border-radius: 100vh;
-}
-
-.clear_button:hover{
-  color: #fff;
-  background: #98e719;
+.clear-button:before{
+  content:"クリア";
 }
 
 /* 検索ボタン */
-.search_button{
-  margin: 3px;
-  color: #fff;
-  background-color: #055fe6;
-  border-radius: 100vh;
+.search-button:before{
+  content:"検索";
 }
 
-.search_button:hover{
-  color: #fff;
-  background: #5c59ee;
+.close-modal-button:before{
+  content:"閉じる";
 }
 
-
-/* close_modal_button */
-.close_modal_button{
-  margin: 3px;
-  color: #fff;
-  background-color: #383634;
-  border-radius: 100vh;
-}
-
-.close_modal_button:hover{
-  color: #fff;
-  background-color: #5f4e3c;
-}
 
 /* default_button */
 .default_button{
@@ -164,28 +118,28 @@
 }
 
 
-/* save_button */
-.save_button{
+/* save-button */
+.save-button{
   margin: 3px;
   color: #fff;
   background-color: #0b21e9;
   border-radius: 100vh;
 }
 
-.save_button:hover{
+.save-button:hover{
   color: #fff;
   background-color: #2735b4;
 }
 
-/* dlete_modal_runbutton */
+/* delete-modal-execution-button */
 /* 画面の動きで背景色が変更される */
-.dlete_modal_runbutton{
+.delete-modal-execution-button{
   margin: 3px;  
   color: #fff;    
   border-radius: 100vh;
 }
 
-.dlete_modal_runbutton:hover{
+.delete-modal-execution-button:hover{
   /* 画面の動きで背景色が変更される */  
   color: #fff;    
 }
@@ -250,7 +204,7 @@ button{
     font-weight: 600;
 }
 
-.original_button{
+.original-button{
   display: inline-block;
   font-weight: 400;
   line-height: 1.5;
@@ -273,7 +227,7 @@ button{
 
 /* マスタ画面のtable設定 Start */
 
-.table_wrap {
+.scroll-wrap-x {
   overflow-x: scroll;
 }
 
@@ -312,7 +266,7 @@ button{
 }
 
 
-.data_info_table{  
+.data-info-table{  
   width: 100%;
 
   border-collapse:separate;
@@ -321,16 +275,16 @@ button{
 
 }
 
-.data_info_table th:first-child{
+.data-info-table th:first-child{
   border-radius: 5px 0 0 0;
 }
 
-.data_info_table th:last-child{
+.data-info-table th:last-child{
   border-radius: 0 5px 0 0;
   border-right: 1px solid #3c6690;
 }
 
-.data_info_table th{
+.data-info-table th{
   text-align: center;
   color:white;
   background: linear-gradient(#829ebc,#225588);
@@ -342,7 +296,7 @@ button{
   padding: 5px 0;
 }
 
-.data_info_table td{
+.data-info-table td{
   text-align: center;
   border-left: 1px solid #a8b7c5;
   border-bottom: 1px solid #a8b7c5;
@@ -352,41 +306,41 @@ button{
   padding: 5px 10px;
 }
 
-.data_info_table td:last-child{
+.data-info-table td:last-child{
   border-right: 1px solid #a8b7c5;
 }
 
-.data_info_table tr:last-child td:first-child {
+.data-info-table tr:last-child td:first-child {
   border-radius: 0 0 0 5px;
 }
 
-.data_info_table tr:last-child td:last-child {
+.data-info-table tr:last-child td:last-child {
   border-radius: 0 0 5px 0;
 } 
 
 /* マスタ画面のtable設定 End*/
 
 
-#save_form{
+#save-form{
   overflow-x: hidden;
   overflow-y: auto;
 }
 /* モーダル内のボタン設定 Start */
-.modal_button{  
+.modal-button{  
   border: none;
   outline: none; /* クリックしたときに表示される枠線を消す */
   background: transparent; /* 背景の灰色を消す */
 }
 
-.modal_button:hover {
+.modal-button:hover {
   background-color: #cdf06d;
   cursor: pointer;
 }
-.modal_button.active {
+.modal-button.active {
   background-color: #cdf06d;
 }
 
-.modal_button.focus {
+.modal-button.focus {
   background-color: #cdf06d;
 }
 /* モーダル内のボタン設定 End */

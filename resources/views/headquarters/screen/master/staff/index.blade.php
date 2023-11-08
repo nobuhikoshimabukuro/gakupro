@@ -13,27 +13,27 @@
     <div class="row">        
 
             <div class="col-6 text-start">
-                <h4 class="master_title">
+                <h4 class="master-title">
                     スタッフマスタ
                 </h4>
             </div>    
 
             <div class="col-6 text-end">
 
-                <button type="button" class='original_button'>
+                <button type="button" class='original-button'>
                     <a href="{{ route('master.index') }}">マスタ一覧へ</a>
                 </button>
                 
             </div>
 
             <div class="col-6 text-start">
-                <button type="button" class='original_button search_modal_button' data-bs-toggle='modal' data-bs-target='#search_modal'>検索する</button>
+                <button type="button" class='btn btn-success search-moda-button' data-bs-toggle='modal' data-bs-target='#search-modal'>検索する</button>
             </div>
 
             <div class="col-6 text-end">
-                <button type="button" id="" class="original_button add_data_button"
-                    data-bs-toggle='modal' data-bs-target='#save_modal'            
-                    data-process_flg='0'><span class="add_data_button_name"></span>
+                <button type="button" id="" class="btn btn-primary add-data-button"
+                    data-bs-toggle='modal' data-bs-target='#save-modal'            
+                    data-process_flg='0'>
                 </button>
             </div>      
 
@@ -48,8 +48,8 @@
     </div>
   
 
-    <div id="data_display_area" class="table_wrap m-0">
-        <table id='' class='data_info_table'>
+    <div id="data-display-area" class="scroll-wrap-x m-0">
+        <table id='' class='data-info-table'>
             
             <tr>
                 <th>スタッフID</th>
@@ -60,7 +60,7 @@
                
 
                 @if(session()->get('authority') > 1)
-                    <th>件数【<span id='total_count'>{{count($staff_list)}}</span>件】</th>
+                    <th>件数【<span id='data-total-count'>{{count($staff_list)}}</span>件】</th>
                     <th>ログイン情報</th>                    
                     <th>プロジェクト情報</th>  
                 @endif
@@ -121,7 +121,7 @@
                     <td>
                         @if($remarks_button_flg)  
                             
-                            <button class='modal_button' data-bs-toggle='modal' data-bs-target='#remarks_modal'
+                            <button class='modal-button' data-bs-toggle='modal' data-bs-target='#remarks_modal'
                             data-staffid="{{$item->staff_id}}"
                             data-stafflastname='{{$item->staff_last_name}}'
                             data-stafffirstname='{{$item->staff_first_name}}'
@@ -138,7 +138,7 @@
                 @if(session()->get('authority') > 1)
 
                     <td>
-                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#save_modal'
+                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#save-modal'
                             data-staffid='{{$item->staff_id}}'
                             data-stafflastname='{{$item->staff_last_name}}'
                             data-stafffirstname='{{$item->staff_first_name}}'
@@ -154,7 +154,7 @@
                             <i class='far fa-edit'></i>
                         </button>
 
-                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#dlete_modal'
+                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#delete-modal'
                             data-staffid='{{$item->staff_id}}'
                             data-stafflastname='{{$item->staff_last_name}}'
                             data-stafffirstname='{{$item->staff_first_name}}'
@@ -178,7 +178,7 @@
 
                 
                     <td>
-                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#login_info_modal'
+                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#login_info_modal'
                             data-passwordid='{{$item->password_id}}'
                             data-staffid='{{$item->staff_id}}'
                             data-loginid='{{$item->login_id}}'
@@ -190,7 +190,7 @@
 
 
                     <td>
-                        <button class='modal_button' data-bs-toggle='modal' data-bs-target='#project_info_modal'                            
+                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#project_info_modal'                            
                             data-staffid='{{$item->staff_id}}'                            
                             > 
                             <i class="fas fa-info"></i>
@@ -207,17 +207,17 @@
 
 
         {{-- 検索モーダル --}}
-        <div class="modal fade" id="search_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="search_modal_label" aria-hidden="true">
+        <div class="modal fade" id="search-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="search-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="search_modal_label">検索</h5>
+                        <h5 class="modal-title" id="search-modal-label">検索</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
                     
-                    <form id="search_form" class="" action="" method="get">
+                    <form id="search-form" class="" action="" method="get">
                         <div class="modal-body">                     
             
                             <div class="form-group row">
@@ -249,12 +249,12 @@
 
                             <div class="col-6 m-0 p-0 text-start">
                                 
-                                <button type="button" id="" class="original_button clear_button">クリア</button>
-                                <button type="submit" id="" class="original_button search_button" onclick="return search_formCheck();">検索 <i class="fas fa-search"></i></button>
+                                <button type="button" id="" class="btn btn-light clear-button"></button>
+                                <button type="submit" id="" class="btn btn-success" onclick="return search_form_check();">検索 <i class="fas fa-search"></i></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div>
                     </form>
@@ -265,12 +265,12 @@
 
 
         {{-- 登録/更新用モーダル --}}
-        <div class="modal fade" id="save_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="save_modal_label" aria-hidden="true">
+        <div class="modal fade" id="save-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="save-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="save_modal_label"><span id="save_modal_title"></span></h5>
+                        <h5 class="modal-title" id="save-modal-label"><span id="save-modal-title"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -279,7 +279,7 @@
                     </div>
                     
                     
-                    <form id="save_form" method="post" action="{{ route('master.staff.save') }}">                           
+                    <form id="save-form" method="post" action="{{ route('master.staff.save') }}">                           
                         @csrf
                         <div class="modal-body">  
                                                         
@@ -347,11 +347,11 @@
 
                         <div class="modal-footer row">                            
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="button" id='save_button' class="original_button save_button"><span id='save_modal_button_display'></span></button>
+                                <button type="button" id='save-button' class="btn btn-primary save-button"></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div> 
 
@@ -363,17 +363,17 @@
 
 
         {{-- 削除用モーダル --}}
-        <div class="modal fade" id="dlete_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="dlete_modal_label" aria-hidden="true">
+        <div class="modal fade" id="delete-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="delete-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="dlete_modal_label">操作確認</h5>
+                        <h5 class="modal-title" id="delete-modal-label">操作確認</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
                     
-                    <form id="delete_form" method="post" action="{{ route('master.staff.delete_or_restore') }}">       
+                    <form id="delete-form" method="post" action="{{ route('master.staff.delete_or_restore') }}">       
                         @csrf
                         <div class="modal-body">
 
@@ -405,11 +405,11 @@
 
                         <div class="modal-footer row">                                                                                      
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="submit" id='dlete_modal_runbutton' class="original_button dlete_modal_runbutton"><span class="dlete_modal_wording"></span></button>
+                                <button type="submit" id='delete-modal-execution-button' class="original-button delete-modal-execution-button"><span class="delete-modal_wording"></span></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
-                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>      
+                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>      
                             </div>                            
                         </div>    
                     </form>
@@ -419,7 +419,7 @@
         </div>
 
         {{-- 備考確認用モーダル --}}
-        <div class="modal fade" id="remarks_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="remarks_modal_label" aria-hidden="true">
+        <div class="modal fade" id="remarks_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="remarks_modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
@@ -433,7 +433,7 @@
                     </div>
 
                     <div class="modal-footer">               
-                        <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                        <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
                     </div>
                 </div>
             </div>
@@ -441,12 +441,12 @@
 
 
         {{-- パスワード変更モーダル --}}
-        <div class="modal fade" id="login_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="login_info_modal_label" aria-hidden="true">
+        <div class="modal fade" id="login_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="login_info_modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="login_info_modal_label">ログイン情報変更</h5>
+                        <h5 class="modal-title" id="login_info_modal-label">ログイン情報変更</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -475,11 +475,11 @@
 
                         <div class="modal-footer row">                            
                             <div class="col-8 m-0 p-0 text-start">                                
-                                <button type="button" id="login_info_change_button" class="original_button login_info_change_button">ログイン情報変更</button>
+                                <button type="button" id="login_info_change_button" class="original-button login_info_change_button">ログイン情報変更</button>
                             </div>
 
                             <div class="col-4 m-0 p-0 text-end">
-                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div> 
 
@@ -491,12 +491,12 @@
 
 
         {{-- プロジェクト変更モーダル --}}
-        <div class="modal fade" id="project_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="project_info_modal_label" aria-hidden="true">
+        <div class="modal fade" id="project_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="project_info_modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="project_info_modal_label">プロジェクト変更</h5>
+                        <h5 class="modal-title" id="project_info_modal-label">プロジェクト変更</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -534,11 +534,11 @@
 
                         <div class="modal-footer row">                            
                             <div class="col-8 m-0 p-0 text-start">                                
-                                <button type="button" id="project_info_change_button" class="original_button login_info_change_button">プロジェクト情報変更</button>
+                                <button type="button" id="project_info_change_button" class="original-button login_info_change_button">プロジェクト情報変更</button>
                             </div>
 
                             <div class="col-4 m-0 p-0 text-end">
-                                <button type="button" id="" class="original_button close_modal_button" data-bs-dismiss="modal">閉じる</button>
+                                <button type="button" id="" class="btn btn-secondary close-modal-button" data-bs-dismiss="modal"></button>
                             </div>                            
                         </div> 
 
@@ -568,9 +568,9 @@
 $(function(){
     
     // 「クリア」ボタンがクリックされたら
-    $('.clear_button').click(function () {
+    $('.clear-button').click(function () {
 
-        var FormData = $("#search_form").serializeArray();        
+        var FormData = $("#search-form").serializeArray();        
 
         $.each(FormData, function(i, element) {		
             $("[name='"+ element.name +"']").val("");          
@@ -594,14 +594,14 @@ $(function(){
 
 
     //登録、更新用モーダル表示時
-    $('#save_modal').on('show.bs.modal', function(e) {
+    $('#save-modal').on('show.bs.modal', function(e) {
 
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        var FormData = $("#save_form").serializeArray();        
+        var FormData = $("#save-form").serializeArray();        
 
         $.each(FormData, function(i, element) {		
             $("[name='"+ element.name +"']").val("");          
@@ -626,12 +626,12 @@ $(function(){
         //登録処理か更新処理か判断
         var process_flg = evCon.data('process_flg');
         if(process_flg == '0'){
-            $('#save_modal_title').html('登録処理');                          
-            $('#save_modal_button_display').html('登録');
+            $('#save-modal-title').html('登録処理');                          
+            
             staff_id = 0;
         }else{
-            $('#save_modal_title').html('更新処理');
-            $('#save_modal_button_display').html('更新');
+            $('#save-modal-title').html('更新処理');
+            
         }
         
         $('#process_flg').val(process_flg);    
@@ -651,7 +651,7 @@ $(function(){
 
 
     //削除モーダル表示時
-    $('#dlete_modal').on('show.bs.modal', function(e) {
+    $('#delete-modal').on('show.bs.modal', function(e) {
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
@@ -659,24 +659,24 @@ $(function(){
         var staff_name = evCon.data('stafflastname') + "　" + evCon.data('stafffirstname');
         var delete_flg = evCon.data('deleteflg');
 
-        $('#dlete_modal_runbutton').removeClass('delete_button');
-        $('#dlete_modal_runbutton').removeClass('restore_button');        
+        $('#delete-modal-execution-button').removeClass('delete_button');
+        $('#delete-modal-execution-button').removeClass('restore_button');        
 
         if (delete_flg == 0) {            
             var wording = "利用不可にする";                 
-            $('#dlete_modal_runbutton').addClass('delete_button');  
+            $('#delete-modal-execution-button').addClass('delete_button');  
 
         } else {
             
             var wording = "利用可能にする";
-            $('#dlete_modal_runbutton').addClass('restore_button');  
+            $('#delete-modal-execution-button').addClass('restore_button');  
         }
     
         
          
         $('#display_staff_id').html(staff_id);   
         $('#display_staff_name').html(staff_name);   
-        $('.dlete_modal_wording').html(wording);
+        $('.delete-modal_wording').html(wording);
 
         $('#delete_flg').val(delete_flg);
         $('#delete_staff_id').val(staff_id);        
@@ -1017,14 +1017,14 @@ $(function(){
     
 
     // 「保存」ボタンがクリックされたら
-    $('#save_button').click(function () {
+    $('#save-button').click(function () {
      
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
         $(this).prop("disabled", true);
 
         setTimeout(function () {
-            $('#save_button').prop("disabled", false);
+            $('#save-button').prop("disabled", false);
         }, 3000);
 
         //{{-- メッセージクリア --}}
@@ -1032,7 +1032,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#save_form');
+        let f = $('#save-form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
@@ -1071,7 +1071,7 @@ $(function(){
                         scrollTop: 0
                     }, "300");
                     //{{-- ボタン有効 --}}
-                    $('#save_button').prop("disabled", false);
+                    $('#save-button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -1113,7 +1113,7 @@ $(function(){
                     scrollTop: 0
                 }, "300");
                 //{{-- ボタン有効 --}}
-                $('#save_button').prop("disabled", false);
+                $('#save-button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 
