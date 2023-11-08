@@ -95,6 +95,7 @@ class address_m_controller extends Controller
 
         $address_m_list = $address_m_list->paginate(30);
 
+       
         return view('headquarters/screen/master/address/index', compact('search_element_array','address_m_list'));
         
     }
