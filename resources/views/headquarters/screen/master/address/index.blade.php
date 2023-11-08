@@ -176,31 +176,25 @@
                         <div class="modal-body">  
                             
                             <div class="form-group row">
-                                最新の住所データCSVをダウンロードしてください。
+                                <p>最新の住所データCSVをダウンロードしてください</p>
                                 
-                                    <a href="https://postaladdress.jp/municipality/download" target="_blank">
-                                        <button type="button" class="btn btn-secondary">郵政ダウンロードページ</button>
-                                    </a>
-                                ダウンロードページでは下記の項目にチェックを必ず入れてダウンロードしてください。
-                                <ul>
-                                    <li>市区町村コード</li>
-                                    <li>市区町村名</li>
-                                    <li>市区町村名カナ</li>
-                                    <li>都道府県コード</li>
-                                    <li>都道府県名</li>
-                                    <li>都道府県名カナ</li>
-                                </ul>
+                                <a href="https://postaladdress.jp/municipality/download" target="_blank">
+                                    <button type="button" class="btn btn-secondary">郵政ダウンロードページ</button>
+                                </a>
+                                <p>ダウンロードページでは下記の項目にチェックを必ず入れてダウンロードしてください</p>
                                 
-                                
-
+                                    <p>・市区町村コード</p>
+                                    <p>・市区町村名</p>
+                                    <p>・市区町村名カナ</p>
+                                    <p>・都道府県コード</p>
+                                    <p>・都道府県名</p>
+                                    <p>・都道府県名カナ</p>
                             </div>   
                             
                             
                             <div class="form-group row">
                                 <input type="file" name="csv_file" accept=".csv">
-
-                            </div>                     
-                     
+                            </div>
                             
                         </div>
 
