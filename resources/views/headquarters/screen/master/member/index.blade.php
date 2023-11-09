@@ -153,7 +153,7 @@
 
             
                 <td>
-                    <button class='modal-button' data-bs-toggle='modal' data-bs-target='#login_info_modal'                        
+                    <button class='modal-button' data-bs-toggle='modal' data-bs-target='#login-info-modal'                        
                         data-memberid='{{$item->member_id}}'
                         data-mailaddress='{{$item->mailaddress}}'
                         data-password='{{$item->password}}'
@@ -438,7 +438,7 @@
 
                         <div class="modal-footer">                                                                                      
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="submit" id='delete-modal-execution-button' class="original-button delete-modal-execution-button"><span class="delete-modal_wording"></span></button>
+                                <button type="submit" id='delete-modal-execution-button' class="btn"></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
@@ -453,12 +453,12 @@
 
 
         {{-- パスワード変更モーダル --}}
-        <div class="modal fade" id="login_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="login_info_modal-label" aria-hidden="true">
+        <div class="modal fade" id="login-info-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="login-info-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="login_info_modal-label"><span id="login_info_modal_title"></span></h5>
+                        <h5 class="modal-title" id="login-info-modal-label"><span id="login-info-modal_title"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -486,7 +486,7 @@
 
                         <div class="modal-footer">                            
                             <div class="col-8 m-0 p-0 text-start">
-                                <button type="button" id="login_info_change_button" class="original-button login_info_change_button">ログイン情報変更</button>
+                                <button type="button" id="login_info_change_button" class="btn btn-outline-primary">ログイン情報変更</button>
                             </div>
 
                             <div class="col-4 m-0 p-0 text-end">
@@ -1040,6 +1040,8 @@ $(function(){
     //登録、更新用モーダル表示時
     $('#save-modal').on('show.bs.modal', function(e) {
 
+        var button_id = "#save-button";
+
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
         $('.invalid-feedback').html('');
@@ -1075,14 +1077,20 @@ $(function(){
         //登録処理か更新処理か判断
         var processflg = evCon.data('processflg');
 
+        var title ="";        
+
+        $(button_id).removeClass('insert-button');
+        $(button_id).removeClass('update-button');        
+
         if(processflg == '0'){
-            $('#save-modal-title').html('登録処理');                     
-            
-            member_id = 0;        
-        }else{            
-            $('#save-modal-title').html('更新処理');
-                        
+            title = "新規登録処理";
+            $(button_id).addClass('insert-button');
+        }else{
+            title = '更新処理（学校CD：' + school_cd+'）';
+            $(button_id).addClass('update-button');                              
         }
+
+        $('#save-modal-title').html(title);    
              
         $('#processflg').val(processflg);    
         $('#member_id').val(member_id);           
@@ -1108,6 +1116,9 @@ $(function(){
 
     //削除モーダル表示時
     $('#delete-modal').on('show.bs.modal', function(e) {
+
+        var button_id = "#delete-modal-execution-button";
+
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
@@ -1115,24 +1126,25 @@ $(function(){
         let member_name = evCon.data('memberlastname') + '　' + evCon.data('memberfirstname');
         var delete_flg = evCon.data('deleteflg');
 
-        $('#delete-modal-execution-button').removeClass('delete-button');
-        $('#delete-modal-execution-button').removeClass('restore-button');        
+        var delete_flg = evCon.data('deleteflg');
 
-        if (delete_flg == 0) {            
-            var wording = "利用不可にする";                 
-            $('#delete-modal-execution-button').addClass('delete-button');  
+        $(button_id).removeClass('delete-button');
+        $(button_id).removeClass('restore-button');
+        $(button_id).removeClass('btn-outline-primary');
+        $(button_id).removeClass('btn-outline-danger');
 
-        } else {
+        if (delete_flg == 0) {                               
+            $(button_id).addClass('btn-outline-danger');
+            $(button_id).addClass('delete-button');
             
-            var wording = "利用可能にする";
-            $('#delete-modal-execution-button').addClass('restore-button');  
+        } else {                        
+            $(button_id).addClass('btn-outline-primary');
+            $(button_id).addClass('restore-button');
         }
-    
-        
-         
+     
         $('#display_member_id').html(member_id);   
         $('#display_member_name').html(member_name);   
-        $('.delete-modal_wording').html(wording);
+        
 
         $('#delete_flg').val(delete_flg);
         $('#delete_member_id').val(member_id);        
@@ -1143,7 +1155,7 @@ $(function(){
 
 
     //ログイン情報変更モーダル表示時
-    $('#login_info_modal').on('show.bs.modal', function(e) {
+    $('#login-info-modal').on('show.bs.modal', function(e) {
         // イベント発生元
         let evCon = $(e.relatedTarget);
         

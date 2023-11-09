@@ -318,6 +318,130 @@ class common
         return $plain_text;
     }
 
+
+    // 給与マスタ作成時のデータ生成
+    public static function create_salary_data()
+    {
+        $salary_data = [];
+        $comprehensive_index = 1;
+        
+        
+        //時給start        
+        $salary_maincategory_cd = 1;
+        for($i = 700; $i <= 2000; $i = $i + 100) {
+
+            $salary_data[] = [                
+                'salary_subcategory_cd' => $comprehensive_index,
+                'salary_maincategory_cd' => $salary_maincategory_cd,
+                'salary' => $i,
+                'display_order' => $comprehensive_index,
+                'created_by' => '9999',
+                
+            ];
+
+            $comprehensive_index++;
+        }
+
+        for($i = 2500; $i <= 5000; $i = $i + 500) {
+
+            $salary_data[] = [                
+                'salary_subcategory_cd' => $comprehensive_index,
+                'salary_maincategory_cd' => $salary_maincategory_cd,
+                'salary' => $i,
+                'display_order' => $comprehensive_index,
+                'created_by' => '9999',
+                
+            ];
+
+            $comprehensive_index++;
+        }
+
+        //時給End
+
+        //日給start        
+        $salary_maincategory_cd = 2;
+        for($i = 6000; $i <= 14000; $i = $i + 1000) {
+
+            $salary_data[] = [                
+                'salary_subcategory_cd' => $comprehensive_index,
+                'salary_maincategory_cd' => $salary_maincategory_cd,
+                'salary' => $i,
+                'display_order' => $comprehensive_index,
+                'created_by' => '9999',
+                
+            ];
+
+            $comprehensive_index++;
+        }
+
+        for($i = 15000; $i <= 30000; $i = $i + 5000) {
+
+            $salary_data[] = [                
+                'salary_subcategory_cd' => $comprehensive_index,
+                'salary_maincategory_cd' => $salary_maincategory_cd,
+                'salary' => $i,
+                'display_order' => $comprehensive_index,
+                'created_by' => '9999',
+                
+            ];
+
+            $comprehensive_index++;
+        }
+
+        //日給end
+
+        //月給start        
+        $salary_maincategory_cd = 3;
+        for($i = 70000; $i <= 200000; $i = $i + 10000) {
+
+            $salary_data[] = [                
+                'salary_subcategory_cd' => $comprehensive_index,
+                'salary_maincategory_cd' => $salary_maincategory_cd,
+                'salary' => $i,
+                'display_order' => $comprehensive_index,
+                'created_by' => '9999',
+                
+            ];
+
+            $comprehensive_index++;
+        }
+
+        for($i = 250000; $i <= 500000; $i = $i + 50000) {
+
+            $salary_data[] = [                
+                'salary_subcategory_cd' => $comprehensive_index,
+                'salary_maincategory_cd' => $salary_maincategory_cd,
+                'salary' => $i,
+                'display_order' => $comprehensive_index,
+                'created_by' => '9999',
+                
+            ];
+
+            $comprehensive_index++;
+        }
+        //月給end
+
+        //年俸start        
+        $salary_maincategory_cd = 4;
+        for($i = 1000000; $i <= 5000000; $i = $i + 500000) {
+
+            $salary_data[] = [                
+                'salary_subcategory_cd' => $comprehensive_index,
+                'salary_maincategory_cd' => $salary_maincategory_cd,
+                'salary' => $i,
+                'display_order' => $comprehensive_index,
+                'created_by' => '9999',
+                
+            ];
+
+            $comprehensive_index++;
+        }       
+        //年俸end
+
+
+       
+        return $salary_data;
+    }
     
 
 }

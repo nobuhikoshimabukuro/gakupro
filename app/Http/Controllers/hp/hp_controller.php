@@ -33,24 +33,12 @@ class hp_controller extends Controller
 {
 
     function index(Request $request)
-    {
-
-        // Log::channel('info_log')->info("info_log");
-        // Log::channel('send_mail_log')->info("send_mail_log");
-        // Log::channel('important_log')->info("important_log");
-        // Log::channel('error_log')->info("error_log");
-        // Log::channel('emergency_log')->info("emergency_log");
-        // Log::channel('database_backup_log')->info("database_backup_log");
-        // Log::channel('sql_log')->info("database_backup_log");
-
-        
+    {    
         return view('hp/screen/index');
     }
 
     function job_information(Request $request)
     {
-
-
 
         $search_prefectural_cd = "";
         $search_municipality_cd_array = [];
@@ -108,6 +96,9 @@ class hp_controller extends Controller
         //都道府県ブルダウン作成用
         $prefectural_list = create_list::prefectural_list();
 
+        //給与プルダウン作成用
+        $salary_maincategory_list = create_list::salary_maincategory_list();
+
         //職種情報取得
         $job_category_list = job_subcategory_m_model::select(
             'job_subcategory_m.job_maincategory_cd as job_maincategory_cd',
@@ -146,6 +137,7 @@ class hp_controller extends Controller
                 , 'prefectural_list'
                 , 'job_category_list'
                 , 'job_supplement_list'
+                , 'salary_maincategory_list'
         ));
 
     }

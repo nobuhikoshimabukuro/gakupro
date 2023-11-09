@@ -279,14 +279,14 @@
 
                             <th>
                                 <button id="search-board-tab-button3" class="btn search-board-tab-button" data-target="3">
-                                    タブ3
+                                    雇用条件<i class="fas fa-american-sign-language-interpreting"></i>
                                 </button>
                             </th>        
                             
                             
                             <th>
                                 <button id="search-board-tab-button4" class="btn search-board-tab-button" data-target="4">
-                                    条件<i class="far fa-check-square"></i>
+                                    その他の条件<i class="far fa-check-square"></i>
                                 </button>
                             </th>
 
@@ -349,13 +349,21 @@
                         <div class="row m-0 p-0">
 
                             @php
+                                $job_maincategory_cd_array = [];
                                 $start_index_array = [];
                                 $end_index_array = [];
                                 $check_job_maincategory_name = "";                                
 
                                 foreach($job_category_list as $job_category_index => $job_category_info){
 
+                                    $job_maincategory_cd = $job_category_info->job_maincategory_cd;
                                     $job_maincategory_name = $job_category_info->job_maincategory_name;
+                                    $job_subcategory_cd = $job_category_info->job_subcategory_cd;
+
+                                    if(in_array($job_subcategory_cd , $search_element_array['search_job_category_array'])){
+                                        $job_maincategory_cd_array[] = $job_maincategory_cd;
+                                    }
+
 
                                     if($check_job_maincategory_name != $job_maincategory_name){
                                         $start_index_array[] = $job_category_index;
@@ -378,6 +386,7 @@
                                     $job_subcategory_cd = $job_category_info->job_subcategory_cd;
                                     $job_subcategory_name = $job_category_info->job_subcategory_name;
 
+                                    
                                     $add_class = "";
                                     $check_status = "";
                                     if(in_array($job_subcategory_cd , $search_element_array['search_job_category_array'])){
@@ -389,6 +398,13 @@
 
 
                                 @if(in_array($job_category_index, $start_index_array))
+
+                                    @php
+                                        $d_none_class = "d-none";
+                                        if(in_array($job_maincategory_cd, $job_maincategory_cd_array)){
+                                            $d_none_class = "";
+                                        }
+                                    @endphp
                                                                  
                                     <div 
                                     class="col-12 job-maincategory-title-area mt-2"
@@ -397,7 +413,7 @@
                                     </div>
 
                                     <div id="job-maincategory-hidden-area{{$job_maincategory_cd}}" 
-                                    class="row job-maincategory-hidden-area mt-1 d-none"
+                                    class="row job-maincategory-hidden-area mt-1 {{$d_none_class}}"
                                     data-target="{{$job_maincategory_cd}}">                                   
 
                                 @endif
@@ -413,6 +429,7 @@
                                     <input type="checkbox" 
                                     id="job-category-checkbox{{$job_subcategory_cd}}"
                                     value="{{$job_subcategory_cd}}"                        
+                                    data-jobmaincategorycd="{{$job_maincategory_cd}}"
                                     data-target="{{$job_subcategory_cd}}"
                                     class="job-category-checkbox d-none"   
                                     {{$check_status}}                              
@@ -436,7 +453,41 @@
 
             <div class="search-board-contents contents-3 col-12 d-none">
 
-                タブ3
+
+                <div class="row m-0 p-0 item-center">
+
+                    <div class="col-11">
+
+                        <div class="w-100 item-center mt-3">
+
+                            <div class="d-block ">
+
+                                <select id='search_salary_maincategory_cd' name='search_salary_maincategory_cd' class='input-sm'>
+                                    <option value=''>---</option>
+                                    @foreach ($salary_maincategory_list as $salary_maincategory_index => $salary_maincategory_info)
+                                            <option value="{{$salary_maincategory_info->salary_maincategory_cd}}"                                               
+                                            >
+                                            {{$salary_maincategory_info->salary_maincategory_name}}
+                                            </option>
+                                        @endforeach
+                                </select>
+
+                                <select id='' name='' class='input-sm'>
+                                    <option value=''>---</option>
+                                    @foreach ($salary_maincategory_list as $salary_maincategory_index => $salary_maincategory_info)
+                                            <option value="{{$salary_maincategory_info->salary_maincategory_cd}}"                                               
+                                            >
+                                            {{$salary_maincategory_info->salary_maincategory_name}}
+                                            </option>
+                                        @endforeach
+                                </select>
+
+                            </div>
+                        </div>                       
+
+                    </div>
+
+                </div>                
 
             </div>
 
@@ -727,15 +778,41 @@ $(function(){
     //職種大分類エリアクリック時
     $(document).on("click", ".job-maincategory-title-area", function (e) {        
 
+        var close_judge = true;
+
         var target = $(this).data('target');
 
 		var target_id = "#job-maincategory-hidden-area" + target;
 			
+        var job_category_checkboxs = document.querySelectorAll('.job-category-checkbox');
+
+        if(job_category_checkboxs.length > 0){
+                
+            // チェックされている要素のvalueを取得
+            job_category_checkboxs.forEach(function(job_category_checkbox) {
+
+                var job_maincategory_cd = $(job_category_checkbox).data('jobmaincategorycd');
+                
+                if(target == job_maincategory_cd){
+                    
+                    if (job_category_checkbox.checked) {                    
+                        close_judge = false;
+                    }
+                }
+            });
+        }
+
+
         if($(target_id).hasClass('d-none')) {
             $(target_id).removeClass('d-none');            
         }else{
-            $(target_id).addClass('d-none');			            
+
+            if(close_judge){
+                $(target_id).addClass('d-none');
+            }
+            
         }
+
     });
 
     //職種中分類選択値変更時

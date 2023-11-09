@@ -122,6 +122,7 @@
 
                 <td>
                     <button class='modal-button' data-bs-toggle='modal' data-bs-target='#save-modal'
+                        data-schooldivision='{{$item->school_division}}'
                         data-schoolcd='{{$item->school_cd}}'
                         data-majorsubjectcd='{{$item->majorsubject_cd}}'
                         data-majorsubject_name='{{$item->majorsubject_name}}'
@@ -292,7 +293,7 @@
 
                         <div class="modal-footer">                            
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="button" id='save-button' class="btn btn-primary save-button"></button>
+                                <button type="button" id='save-button' class="btn btn-primary"></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
@@ -353,7 +354,7 @@
 
                         <div class="modal-footer">                                                                                      
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="submit" id='delete-modal-execution-button' class="original-button delete-modal-execution-button"><span class="delete-modal_wording"></span></button>
+                                <button type="submit" id='delete-modal-execution-button' class="btn"></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
@@ -672,6 +673,8 @@ $(function(){
     //登録、更新用モーダル表示時
     $('#save-modal').on('show.bs.modal', function(e) {
 
+        var button_id = "#save-button";
+
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
         $('.invalid-feedback').html('');
@@ -686,6 +689,7 @@ $(function(){
 
         // イベント発生元
         let evCon = $(e.relatedTarget);
+        var school_division = evCon.data('schooldivision');
         var school_cd = evCon.data('schoolcd');
         var school_name = evCon.data('schoolname');
         var majorsubject_cd = evCon.data('majorsubjectcd');
@@ -697,17 +701,27 @@ $(function(){
 
         //登録処理か更新処理か判断
         var processflg = evCon.data('processflg');
+
+        var title ="";        
+
+        $(button_id).removeClass('insert-button');
+        $(button_id).removeClass('update-button');        
+
         if(processflg == '0'){
-            $('#save-modal-title').html('登録処理');         
-            majorsubject_cd = 0;            
-            
-            $("select[name='school_cd']").removeAttr("disabled");
+            title = "新規登録処理";
+            $(button_id).addClass('insert-button');
+            $("select[name='school_division']").val("");
+            $("select[name='school_division']").attr("disabled", false);            
+            $("select[name='school_cd']").attr("disabled", false);            
         }else{
-            $('#save-modal-title').html('更新処理');               
-            
-            $("select[name='school_cd']").attr("disabled", true);
+            title = '更新処理';
+            $(button_id).addClass('update-button');
+            $("select[name='school_division']").val(school_division);
+            $("select[name='school_cd']").attr("disabled", true);            
+            $("select[name='school_division']").attr("disabled", true);
         }
-        
+
+        $('#save-modal-title').html(title);        
      
         $('#processflg').val(processflg);  
         $('#school_cd').val(school_cd);
@@ -720,6 +734,9 @@ $(function(){
 
     //削除モーダル表示時
    $('#delete-modal').on('show.bs.modal', function(e) {
+
+        
+    var button_id = "#delete-modal-execution-button";
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
@@ -729,24 +746,23 @@ $(function(){
         var majorsubject_name = evCon.data('majorsubject_name');
         var delete_flg = evCon.data('deleteflg');
     
-        $('#delete-modal-execution-button').removeClass('delete-button');
-        $('#delete-modal-execution-button').removeClass('restore-button');        
+        $(button_id).removeClass('delete-button');
+        $(button_id).removeClass('restore-button');
+        $(button_id).removeClass('btn-outline-primary');
+        $(button_id).removeClass('btn-outline-danger');
 
-        if (delete_flg == 0) {            
-            var wording = "利用不可にする";                 
-            $('#delete-modal-execution-button').addClass('delete-button');  
-
-        } else {
+        if (delete_flg == 0) {                               
+            $(button_id).addClass('btn-outline-danger');
+            $(button_id).addClass('delete-button');
             
-            var wording = "利用可能にする";
-            $('#delete-modal-execution-button').addClass('restore-button');  
+        } else {                        
+            $(button_id).addClass('btn-outline-primary');
+            $(button_id).addClass('restore-button');
         }
 
             
         $('#display_school_name').html(school_name);
         $('#display_majorsubject_name').html(majorsubject_name);
-        $('.delete-modal_wording').html(wording);
-
 
         $('#delete_flg').val(delete_flg);
         $('#delete_school_cd').val(school_cd);
@@ -842,7 +858,7 @@ $(function(){
 
                 var a_tag = "<a href='" + screen_move_url +"' target='_blank' rel='noopener noreferrer'>学校マスタへ</a>";
 
-                append_text = "<button class='original-button modal_screen_move_button'>" + a_tag + "</button>";
+                append_text = "<button class='btn btn-warning'>" + a_tag + "</button>";
 
                 
                 $("#school_info_modal_screen_move").html("");         

@@ -22,25 +22,16 @@
     <div class="row">
        
         <div class="col-6 col-md-4 col-xl-3 p-3 ">
-            <a href="{{ route('master.maincategory') }}">
+            <a href="{{ route('master.category') }}">
               
                 <div class="bg-dark rounded-lg text-light p-2 ">
                     <i class="fas fa-th-list fa-3x mb-1"></i>                    
-                    <h6>大分類マスタ</h6>
+                    <h6>分類マスタ</h6>
                 </div>
             </a>
         </div>
 
-        <div class="col-6 col-md-4 col-xl-3 p-3 ">
-            <a href="{{ route('master.subcategory') }}">
-                <div class="bg-dark rounded-lg text-light p-2 ">
-                    <i class="fas fa-th fa-3x mb-1"></i>                    
-                    <h6>中分類マスタ</h6>
-                </div>
-            </a>
-        </div>
-
-        <div class="col-6 col-md-4 col-xl-3 p-3 ">
+          <div class="col-6 col-md-4 col-xl-3 p-3 ">
             <a href="{{ route('master.project') }}">
               
                 <div class="bg-dark rounded-lg text-light p-2 ">
@@ -113,6 +104,15 @@
                 <div class="bg-dark rounded-lg text-light p-2 ">                    
                     <i class="fas fa-user-secret fa-3x mb-1"></i>
                     <h6>雇用者マスタ</h6>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-6 col-md-4 col-xl-3 p-3">
+            <a href="{{ route('master.salary_category') }}">
+                <div class="bg-dark rounded-lg text-light p-2 ">                    
+                    <i class="far fa-money-bill-alt fa-3x mb-1"></i>
+                    <h6>給与マスタ</h6>
                 </div>
             </a>
         </div>

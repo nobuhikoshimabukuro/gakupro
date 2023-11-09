@@ -32,8 +32,9 @@
 
         <div class="col-6 text-end">
             <button type="button" id="" class="btn btn-primary add-data-button"
-                data-bs-toggle='modal' data-bs-target='#save-modal'            
-                data-processflg='0'>
+                data-bs-toggle='modal' data-bs-target='#save-modal'
+                data-processflg='0'
+                >
             </button>
         </div>      
 
@@ -287,7 +288,7 @@
 
                         <div class="modal-footer">                            
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="button" id='save-button' class="btn btn-primary save-button"></button>
+                                <button type="button" id='save-button' class="btn btn-primary"></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
@@ -342,7 +343,7 @@
 
                     <div class="modal-footer">                                                                                      
                         <div class="col-6 m-0 p-0 text-start">
-                            <button type="submit" id='delete-modal-execution-button' class="original-button delete-modal-execution-button"><span class="delete-modal_wording"></span></button>
+                            <button type="submit" id='delete-modal-execution-button' class="btn"></button>
                         </div>
 
                         <div class="col-6 m-0 p-0 text-end">
@@ -456,6 +457,8 @@ $(function(){
     //登録、更新用モーダル表示時
     $('#save-modal').on('show.bs.modal', function(e) {
 
+        var button_id = "#save-button";
+
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
         $('.invalid-feedback').html('');
@@ -484,15 +487,22 @@ $(function(){
         
         //登録処理か更新処理か判断
         var processflg = evCon.data('processflg');
+
+
+        var title ="";        
+
+        $(button_id).removeClass('insert-button');
+        $(button_id).removeClass('update-button');        
+
         if(processflg == '0'){
-            $('#save-modal-title').html('登録処理');         
-            school_cd = 0;
-            
+            title = "新規登録処理";
+            $(button_id).addClass('insert-button');
         }else{
-            $('#save-modal-title').html('更新処理');                           
-            
+            title = '更新処理（学校CD：' + school_cd+'）';
+            $(button_id).addClass('update-button');                              
         }
-        
+
+        $('#save-modal-title').html(title);    
      
         $('#processflg').val(processflg);
         $('#school_cd').val(school_cd);        
@@ -511,35 +521,36 @@ $(function(){
    
    //削除モーダル表示時
    $('#delete-modal').on('show.bs.modal', function(e) {
+
+        var button_id = "#delete-modal-execution-button";
+
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
         var school_cd = evCon.data('schoolcd');
         var school_name = evCon.data('schoolname');    
-        var deleteflg = evCon.data('deleteflg');
+        
     
         var delete_flg = evCon.data('deleteflg');
 
-        $('#delete-modal-execution-button').removeClass('delete-button');
-        $('#delete-modal-execution-button').removeClass('restore-button');        
+        $(button_id).removeClass('delete-button');
+        $(button_id).removeClass('restore-button');
+        $(button_id).removeClass('btn-outline-primary');
+        $(button_id).removeClass('btn-outline-danger');
 
-        if (delete_flg == 0) {            
-            var wording = "利用不可にする";                 
-            $('#delete-modal-execution-button').addClass('delete-button');  
-
-        } else {
+        if (delete_flg == 0) {                               
+            $(button_id).addClass('btn-outline-danger');
+            $(button_id).addClass('delete-button');
             
-            var wording = "利用可能にする";
-            $('#delete-modal-execution-button').addClass('restore-button');  
+        } else {                        
+            $(button_id).addClass('btn-outline-primary');
+            $(button_id).addClass('restore-button');
         }
 
        
     
         $('#display_school_cd').html(school_cd);    
-        $('#display_school_name').html(school_name);    
-        $('.delete-modal_wording').html(wording);
-
-
+        $('#display_school_name').html(school_name);
         $('#delete_flg').val(delete_flg);
         $('#delete_school_cd').val(school_cd);
         $('#delete_school_name').val(school_name);  
@@ -617,7 +628,7 @@ $(function(){
 
                     var a_tag = "<a href='" + screen_move_url +"' target='_blank' rel='noopener noreferrer'>専攻マスタへ</a>";
 
-                    append_text = "<button class='original-button modal_screen_move_button'>" + a_tag + "</button>";
+                    append_text = "<button class='btn btn-warning'>" + a_tag + "</button>";
 
                     $("#majorsubject_info_modal_screen_move").append(append_text);
                

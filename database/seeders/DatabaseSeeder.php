@@ -35,11 +35,13 @@ class DatabaseSeeder extends Seeder
 
         ]);   
 
+        
         DB::table('maincategory_m')->insert([
             
             [
                 'maincategory_cd' => 1,
                 'maincategory_name' => '性別',
+                'display_order' => 1,
                 'created_by' => '9999',
                 
             ],
@@ -47,6 +49,7 @@ class DatabaseSeeder extends Seeder
             [
                 'maincategory_cd' => 2,
                 'maincategory_name' => '権限',
+                'display_order' => 2,
                 'created_by' => '9999',
                 
             ],
@@ -54,6 +57,7 @@ class DatabaseSeeder extends Seeder
             [
                 'maincategory_cd' => 3,
                 'maincategory_name' => '学校区分',
+                'display_order' => 3,
                 'created_by' => '9999',
                 
             ],
@@ -61,6 +65,7 @@ class DatabaseSeeder extends Seeder
             [
                 'maincategory_cd' => 4,
                 'maincategory_name' => '雇用者区分',
+                'display_order' => 4,
                 'created_by' => '9999',
                 
             ],
@@ -826,6 +831,62 @@ class DatabaseSeeder extends Seeder
            
         ]);     
 
+        // 給与大分類マスタ
+        $index = 0;
+        DB::table('salary_maincategory_m')->insert([
+            
+            [                
+                'salary_maincategory_cd' => $index = $index + 1,
+                'salary_maincategory_name' => '時給',
+                'display_order' => $index,
+                'created_by' => '9999',                
+            ],
+
+            [                
+                'salary_maincategory_cd' => $index = $index + 1,
+                'salary_maincategory_name' => '日給',
+                'display_order' => $index,
+                'created_by' => '9999',                
+            ],
+
+            [                
+                'salary_maincategory_cd' => $index = $index + 1,
+                'salary_maincategory_name' => '月給',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],             
+
+            [                
+                'salary_maincategory_cd' => $index = $index + 1,
+                'salary_maincategory_name' => '年俸',
+                'display_order' => $index,
+                'created_by' => '9999',
+                
+            ],             
+
+        ]);
+
+        // 給与中分類マスタ
+        $salary_data = common::create_salary_data();
+
+        foreach ($salary_data as $index => $info){
+
+            DB::table('salary_subcategory_m')->insert([
+            
+                [                
+                    'salary_subcategory_cd' => $info["salary_subcategory_cd"],
+                    'salary_maincategory_cd' => $info["salary_maincategory_cd"],
+                    'salary' => $info["salary"],
+                    'display_order' => $info["display_order"],
+                    'created_by' => '9999',
+                    
+                ]
+            ]);
+
+        }
+        
+
         
         // 職種大分類マスタ
         $index = 0;
@@ -857,10 +918,10 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
-         // 職種中分類マスタ
-         $index = 0;
-         DB::table('job_subcategory_m')->insert([
-             
+        // 職種中分類マスタ
+        $index = 0;
+        DB::table('job_subcategory_m')->insert([
+            
             [                
                 'job_subcategory_cd' => $index = $index + 1,
                 'job_maincategory_cd' => 1,
@@ -941,10 +1002,11 @@ class DatabaseSeeder extends Seeder
                 'created_by' => '9999',
                 
             ],
-      
- 
-         ]);
+    
 
+        ]);
+
+        
         // 求人補足大分類マスタ
         $index = 0;
         DB::table('job_supplement_maincategory_m')->insert([
@@ -1002,7 +1064,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        // 求人補足大分類マスタ
+        // 求人補足中分類マスタ
         $index = 0;
         DB::table('job_supplement_subcategory_m')->insert([
             

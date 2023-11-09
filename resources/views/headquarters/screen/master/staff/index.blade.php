@@ -178,7 +178,7 @@
 
                 
                     <td>
-                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#login_info_modal'
+                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#login-info-modal'
                             data-passwordid='{{$item->password_id}}'
                             data-staffid='{{$item->staff_id}}'
                             data-loginid='{{$item->login_id}}'
@@ -193,7 +193,7 @@
                         <button class='modal-button' data-bs-toggle='modal' data-bs-target='#project_info_modal'                            
                             data-staffid='{{$item->staff_id}}'                            
                             > 
-                            <i class="fas fa-info"></i>
+                            <i class="fab fa-product-hunt"></i>
                         </button>
                     </td>
                 @endif
@@ -231,14 +231,9 @@
                                         </option>
                                         @endforeach
                                 </select>
-
-
-                                
                                 
                                 <label for="search_staff_name" class="col-12 col-form-label original-label">氏名（あいまい）</label>
                                 <input type="text" id="search_staff_name" name="search_staff_name" value="{{$search_element_array['search_staff_name']}}" class="form-control">
-                            
-                                                                                            
                             
                             </div>     
                                                 
@@ -347,7 +342,7 @@
 
                         <div class="modal-footer">                            
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="button" id='save-button' class="btn btn-primary save-button"></button>
+                                <button type="button" id='save-button' class="btn btn-primary"></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
@@ -405,7 +400,7 @@
 
                         <div class="modal-footer">                                                                                      
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="submit" id='delete-modal-execution-button' class="original-button delete-modal-execution-button"><span class="delete-modal_wording"></span></button>
+                                <button type="submit" id='delete-modal-execution-button' class="btn"></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
@@ -441,12 +436,12 @@
 
 
         {{-- パスワード変更モーダル --}}
-        <div class="modal fade" id="login_info_modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="login_info_modal-label" aria-hidden="true">
+        <div class="modal fade" id="login-info-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="login-info-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="login_info_modal-label">ログイン情報変更</h5>
+                        <h5 class="modal-title" id="login-info-modal-label">ログイン情報変更</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -475,7 +470,7 @@
 
                         <div class="modal-footer">                            
                             <div class="col-8 m-0 p-0 text-start">                                
-                                <button type="button" id="login_info_change_button" class="original-button login_info_change_button">ログイン情報変更</button>
+                                <button type="button" id="login_info_change_button" class="btn btn-outline-primary">ログイン情報変更</button>
                             </div>
 
                             <div class="col-4 m-0 p-0 text-end">
@@ -534,7 +529,7 @@
 
                         <div class="modal-footer">                            
                             <div class="col-8 m-0 p-0 text-start">                                
-                                <button type="button" id="project_info_change_button" class="original-button login_info_change_button">プロジェクト情報変更</button>
+                                <button type="button" id="project_info_change_button" class="btn btn-outline-primary">プロジェクト情報変更</button>
                             </div>
 
                             <div class="col-4 m-0 p-0 text-end">
@@ -596,6 +591,8 @@ $(function(){
     //登録、更新用モーダル表示時
     $('#save-modal').on('show.bs.modal', function(e) {
 
+        var button_id = "#save-button";
+
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
         $('.invalid-feedback').html('');
@@ -621,18 +618,25 @@ $(function(){
         var mailaddress = evCon.data('mailaddress');
         var authority = evCon.data('authority');
         var remarks = evCon.data('remarks');
-
-        
+       
         //登録処理か更新処理か判断
         var processflg = evCon.data('processflg');
+
+        var title ="";        
+
+        $(button_id).removeClass('insert-button');
+        $(button_id).removeClass('update-button');        
+
         if(processflg == '0'){
-            $('#save-modal-title').html('登録処理');                          
-            
-            staff_id = 0;
+            title = "新規登録処理";
+            $(button_id).addClass('insert-button');
         }else{
-            $('#save-modal-title').html('更新処理');
-            
+            title = '更新処理（スタッフID：' + staff_id+'）';
+            $(button_id).addClass('update-button');                              
         }
+
+        $('#save-modal-title').html(title);                          
+
         
         $('#processflg').val(processflg);    
         $('#staff_id').val(staff_id);
@@ -652,6 +656,9 @@ $(function(){
 
     //削除モーダル表示時
     $('#delete-modal').on('show.bs.modal', function(e) {
+
+        var button_id = "#delete-modal-execution-button";
+
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
@@ -659,24 +666,23 @@ $(function(){
         var staff_name = evCon.data('stafflastname') + "　" + evCon.data('stafffirstname');
         var delete_flg = evCon.data('deleteflg');
 
-        $('#delete-modal-execution-button').removeClass('delete-button');
-        $('#delete-modal-execution-button').removeClass('restore-button');        
+        $(button_id).removeClass('delete-button');
+        $(button_id).removeClass('restore-button');
+        $(button_id).removeClass('btn-outline-primary');
+        $(button_id).removeClass('btn-outline-danger');
 
-        if (delete_flg == 0) {            
-            var wording = "利用不可にする";                 
-            $('#delete-modal-execution-button').addClass('delete-button');  
-
-        } else {
+        if (delete_flg == 0) {                               
+            $(button_id).addClass('btn-outline-danger');
+            $(button_id).addClass('delete-button');
             
-            var wording = "利用可能にする";
-            $('#delete-modal-execution-button').addClass('restore-button');  
+        } else {                        
+            $(button_id).addClass('btn-outline-primary');
+            $(button_id).addClass('restore-button');
         }
     
-        
          
         $('#display_staff_id').html(staff_id);   
         $('#display_staff_name').html(staff_name);   
-        $('.delete-modal_wording').html(wording);
 
         $('#delete_flg').val(delete_flg);
         $('#delete_staff_id').val(staff_id);        
@@ -687,7 +693,7 @@ $(function(){
 
 
     //ログイン情報変更モーダル表示時
-    $('#login_info_modal').on('show.bs.modal', function(e) {
+    $('#login-info-modal').on('show.bs.modal', function(e) {
         // イベント発生元
         let evCon = $(e.relatedTarget);
         

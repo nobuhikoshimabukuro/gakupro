@@ -281,7 +281,7 @@
 
                         <div class="modal-footer">                                                                                      
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="submit" id='delete-modal-execution-button' class="original-button delete-modal-execution-button"><span class="delete-modal_wording"></span></button>
+                                <button type="submit" id='delete-modal-execution-button' class="btn"></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
@@ -351,6 +351,8 @@ $(function(){
     //登録、更新用モーダル表示時
     $('#save-modal').on('show.bs.modal', function(e) {
 
+        var button_id = "#save-button";
+
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
         $('.invalid-feedback').html('');
@@ -369,25 +371,27 @@ $(function(){
         var project_id = evCon.data('projectid');
         var project_name = evCon.data('projectname');
         var remarks = evCon.data('remarks');
-
-          
-
-
         //登録処理か更新処理か判断
         var processflg = evCon.data('processflg');
+
+        
+        var title ="";        
+
+        $(button_id).removeClass('insert-button');
+        $(button_id).removeClass('update-button');        
+        
         if(processflg == '0'){
-            $('#save-modal-title').html('新規登録処理');            
-            $('#project_id_display').val(project_id);
+            title = "新規登録処理";
+            $(button_id).addClass('insert-button');            
             $('#project_id').val(0);
             
         }else{
-            $('#save-modal-title').html('更新処理（プロジェクトID：' + project_id+'）');
-            $('#project_id_display').val(project_id);
-            $('#project_id').val(project_id);
-            
+            title = '更新処理（プロジェクトID：' + project_id+'）';
+            $(button_id).addClass('update-button');            
+            $('#project_id').val(project_id);            
         }
 
-        
+        $('#save-modal-title').html(title);        
         $('#project_name').val(project_name); 
         $('#remarks').val(remarks);
         
@@ -396,6 +400,9 @@ $(function(){
 
     //削除モーダル表示時
     $('#delete-modal').on('show.bs.modal', function(e) {
+
+        var button_id = "#delete-modal-execution-button";
+
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
@@ -405,24 +412,24 @@ $(function(){
     
         var delete_flg = evCon.data('deleteflg');
 
-        $('#delete-modal-execution-button').removeClass('delete-button');
-        $('#delete-modal-execution-button').removeClass('restore-button');        
+        $(button_id).removeClass('delete-button');
+        $(button_id).removeClass('restore-button');
+        $(button_id).removeClass('btn-outline-primary');
+        $(button_id).removeClass('btn-outline-danger');
 
-        if (delete_flg == 0) {            
-            var wording = "利用不可にする";                 
-            $('#delete-modal-execution-button').addClass('delete-button');  
-
-        } else {
+        if (delete_flg == 0) {                               
+            $(button_id).addClass('btn-outline-danger');
+            $(button_id).addClass('delete-button');
             
-            var wording = "利用可能にする";
-            $('#delete-modal-execution-button').addClass('restore-button');  
+        } else {                        
+            $(button_id).addClass('btn-outline-primary');
+            $(button_id).addClass('restore-button');
         }
 
        
     
         $('#display_project_id').html(project_id);    
-        $('#display_project_name').html(project_name);    
-        $('.delete-modal_wording').html(wording);
+        $('#display_project_name').html(project_name);           
 
 
         $('#delete_flg').val(delete_flg);

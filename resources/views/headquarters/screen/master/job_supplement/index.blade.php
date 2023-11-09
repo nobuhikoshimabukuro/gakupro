@@ -393,7 +393,7 @@
 										@endforeach
                                 </select>
 
-                                <label for="job_supplement_subcategory_name" class="col-md-6 col-form-label original-label">求人補足中類名</label>
+                                <label for="job_supplement_subcategory_name" class="col-md-6 col-form-label original-label">求人補足中分類名</label>
                                 <input type="text" name="job_supplement_subcategory_name" id="job_supplement_subcategory_name" value="" class="form-control col-md-3">
 
                                 <label for="job_supplement_subcategory_display_order" class="col-md-6 col-form-label original-label">表示順</label>
@@ -509,6 +509,8 @@ $(function(){
     //求人補足大分類登録、更新用モーダル表示時
     $('#job-supplement-maincategory-save-modal').on('show.bs.modal', function(e) {
 
+        var button_id = "#job-supplement-maincategory-save-button";
+
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
         $('.invalid-feedback').html('');
@@ -527,8 +529,8 @@ $(function(){
         var job_supplement_maincategory_name = evCon.data('jobsupplementmaincategoryname');
         var display_order = evCon.data('displayorder');         
 
-        $('.insert-button').removeClass('insert-button');
-        $('.update-button').removeClass('update-button');
+        $(button_id).removeClass('insert-button');
+        $(button_id).removeClass('update-button');
 
         var title = "";
 
@@ -536,11 +538,11 @@ $(function(){
         var processflg = evCon.data('processflg');
         if(processflg == '0'){
             title = "新規登録処理";
-            $('#job-supplement-maincategory-save-button').addClass('insert-button');
+            $(button_id).addClass('insert-button');
             $('#job_supplement_maincategory_cd').val(0);            
         }else{
             title = '更新処理（求人補足大分類CD：' + job_supplement_maincategory_cd+'）';
-            $('#job-supplement-maincategory-save-button').addClass('update-button');
+            $(button_id).addClass('update-button');
             $('#job_supplement_maincategory_cd').val(job_supplement_maincategory_cd);            
         }
 
@@ -554,6 +556,9 @@ $(function(){
 
     //求人補足大分類削除モーダル表示時
     $('#job_supplement_maincategory_delete-modal').on('show.bs.modal', function(e) {
+
+        var button_id = "#job-supplement-maincategory-delete-execution-button";
+
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
@@ -561,19 +566,19 @@ $(function(){
         var job_supplement_maincategory_name = evCon.data('jobsupplementmaincategoryname');    
         var deleteflg = evCon.data('deleteflg');        
 
-        $('.delete-button').removeClass('delete-button');
-        $('.restore-button').removeClass('restore-button');
-        $('#job-supplement-maincategory-delete-execution-button').removeClass('btn-outline-danger');
-        $('#job-supplement-maincategory-delete-execution-button').removeClass('btn-outline-primary');       
+        $(button_id).removeClass('delete-button');
+        $(button_id).removeClass('restore-button');
+        $(button_id).removeClass('btn-outline-danger');
+        $(button_id).removeClass('btn-outline-primary');       
               
 
         if (deleteflg == 0) {                               
-            $('#job-supplement-maincategory-delete-execution-button').addClass('btn-outline-danger');
-            $('#job-supplement-maincategory-delete-execution-button').addClass('delete-button');
+            $(button_id).addClass('btn-outline-danger');
+            $(button_id).addClass('delete-button');
             
         } else {                        
-            $('#job-supplement-maincategory-delete-execution-button').addClass('btn-outline-primary');
-            $('#job-supplement-maincategory-delete-execution-button').addClass('restore-button');
+            $(button_id).addClass('btn-outline-primary');
+            $(button_id).addClass('restore-button');
         }
 
        
@@ -591,6 +596,8 @@ $(function(){
 
     //求人補足中分類登録、更新用モーダル表示時
     $('#job-supplement-subcategory-save-modal').on('show.bs.modal', function(e) {
+
+        var button_id = "#job-supplement-subcategory-save-button";
 
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
@@ -613,19 +620,19 @@ $(function(){
 
         var title = "";
         
-        $('.insert-button').removeClass('insert-button');
-        $('.update-button').removeClass('update-button');
+        $(button_id).removeClass('insert-button');
+        $(button_id).removeClass('update-button');
 
 
         //登録処理か更新処理か判断
         var processflg = evCon.data('processflg');
         if(processflg == '0'){
             title = "新規登録処理";            
-            $('#job-supplement-subcategory-save-button').addClass('insert-button');
+            $(button_id).addClass('insert-button');
             $('#job_supplement_subcategory_cd').val(0);            
         }else{
             title = '更新処理（求人補足中分類CD：' + job_supplement_subcategory_cd+'）';       
-            $('#job-supplement-subcategory-save-button').addClass('update-button');     
+            $(button_id).addClass('update-button');     
             $('#job_supplement_subcategory_cd').val(job_supplement_maincategory_cd);            
         }
 
@@ -642,6 +649,9 @@ $(function(){
 
     //求人補足中分類削除モーダル表示時
     $('#job-supplement-subcategory-delete-modal').on('show.bs.modal', function(e) {
+
+        var button_id = "#job-supplement-subcategory-delete-execution-button";
+
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
@@ -652,19 +662,19 @@ $(function(){
 
         var deleteflg = evCon.data('deleteflg');        
 
-        $('.delete-button').removeClass('delete-button');
-        $('.restore-button').removeClass('restore-button');
-        $('#job-supplement-subcategory-delete-execution-button').removeClass('btn-outline-danger');
-        $('#job-supplement-subcategory-delete-execution-button').removeClass('btn-outline-primary');       
+        $(button_id).removeClass('delete-button');
+        $(button_id).removeClass('restore-button');
+        $(button_id).removeClass('btn-outline-danger');
+        $(button_id).removeClass('btn-outline-primary');       
               
 
         if (deleteflg == 0) {                               
-            $('#job-supplement-subcategory-delete-execution-button').addClass('btn-outline-danger');
-            $('#job-supplement-subcategory-delete-execution-button').addClass('delete-button');
+            $(button_id).addClass('btn-outline-danger');
+            $(button_id).addClass('delete-button');
             
         } else {                        
-            $('#job-supplement-subcategory-delete-execution-button').addClass('btn-outline-primary');
-            $('#job-supplement-subcategory-delete-execution-button').addClass('restore-button');
+            $(button_id).addClass('btn-outline-primary');
+            $(button_id).addClass('restore-button');
         }
 
        

@@ -1,7 +1,7 @@
 @extends('headquarters.common.layouts_afterlogin')
 
 @section('pagehead')
-@section('title', '職種マスタ')  
+@section('title', '給与マスタ')  
 @endsection
 @section('content')
 
@@ -20,7 +20,7 @@
 
         <div class="col-6 text-start">
             <h4 class="master-title">
-                職種大分類マスタ
+                給与大分類マスタ
             </h4>
         </div>    
 
@@ -38,7 +38,7 @@
 
         <div class="col-6 text-end">
             <button type="button" id="" class="btn btn-primary add-data-button"
-                data-bs-toggle='modal' data-bs-target='#job-maincategory-save-modal'            
+                data-bs-toggle='modal' data-bs-target='#salary-maincategory-save-modal'            
                 data-processflg='0'>
             </button>
         </div>      
@@ -48,8 +48,8 @@
 
     <div class="m-0 text-start">
         {{-- ページャー --}}                
-        @if(count($job_maincategory_m_list) > 0)                                
-          <div class="m-0">{{ $job_maincategory_m_list->appends(request()->query())->links() }}</div>
+        @if(count($salary_maincategory_m_list) > 0)                                
+          <div class="m-0">{{ $salary_maincategory_m_list->appends(request()->query())->links() }}</div>
         @endif
     </div>
   
@@ -61,29 +61,29 @@
         <table id='' class='data-info-table'>
             
             <tr>
-                <th>職種大分類CD</th>
-                <th>職種大分類名</th>   
+                <th>給与大分類CD</th>
+                <th>給与大分類名</th>   
                 <th>表示順</th>         
-                <th>件数【<span id='data-total-count'>{{count($job_maincategory_m_list)}}</span>件】</th>
+                <th>件数【<span id='data-total-count'>{{count($salary_maincategory_m_list)}}</span>件】</th>
             </tr>
 
-            @foreach ($job_maincategory_m_list as $item)
+            @foreach ($salary_maincategory_m_list as $item)
                 <tr>
-                    <td>{{$item->job_maincategory_cd}}</td>
-                    <td>{{$item->job_maincategory_name}}</td>
+                    <td>{{$item->salary_maincategory_cd}}</td>
+                    <td>{{$item->salary_maincategory_name}}</td>
                     <td>{{$item->display_order}}</td>
                     <td>
-                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#job-maincategory-save-modal'
-                            data-jobmaincategorycd='{{$item->job_maincategory_cd}}'
-                            data-jobmaincategoryname='{{$item->job_maincategory_name}}'
+                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#salary-maincategory-save-modal'
+                            data-salarymaincategorycd='{{$item->salary_maincategory_cd}}'
+                            data-salarymaincategoryname='{{$item->salary_maincategory_name}}'
                             data-displayorder='{{$item->display_order}}'
                             data-processflg='1'> 
                             <i class='far fa-edit'></i>
                         </button>
 
-                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#job-maincategory-delete-modal'
-                            data-jobmaincategorycd='{{$item->job_maincategory_cd}}'
-                            data-jobmaincategoryname='{{$item->job_maincategory_name}}'
+                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#salary-maincategory-delete-modal'
+                            data-salarymaincategorycd='{{$item->salary_maincategory_cd}}'
+                            data-salarymaincategoryname='{{$item->salary_maincategory_name}}'
                             data-displayorder='{{$item->display_order}}'
                             data-deleteflg=@if($item->deleted_at) 1 @else 0 @endif>
                                         
@@ -107,7 +107,7 @@
 
         <div class="col-6 text-start">
             <h4 class="master-title">
-                職種中分類マスタ
+                給与中分類マスタ
             </h4>
         </div>    
 
@@ -125,7 +125,7 @@
 
         <div class="col-6 text-end">
             <button type="button" id="" class="btn btn-primary add-data-button"
-                data-bs-toggle='modal' data-bs-target='#job-subcategory-save-modal'            
+                data-bs-toggle='modal' data-bs-target='#salary-subcategory-save-modal'            
                 data-processflg='0'>
             </button>
         </div>      
@@ -135,8 +135,8 @@
 
     <div class="m-0 text-start">
         {{-- ページャー --}}                
-        @if(count($job_subcategory_m_list) > 0)                                
-          <div class="m-0">{{ $job_subcategory_m_list->appends(request()->query())->links() }}</div>
+        @if(count($salary_subcategory_m_list) > 0)                                
+          <div class="m-0">{{ $salary_subcategory_m_list->appends(request()->query())->links() }}</div>
         @endif
     </div>
   
@@ -148,35 +148,35 @@
         <table id='' class='data-info-table'>
             
             <tr>
-                <th>職種大分類</th>                
-                <th>職種中分類CD</th>
-                <th>職種中分類名</th>
+                <th>給与大分類</th>                
+                <th>給与中分類CD</th>
+                <th>給与</th>
                 <th>表示順</th>
-                <th>件数【<span id='data-total-count'>{{count($job_subcategory_m_list)}}</span>件】</th>
+                <th>件数【<span id='data-total-count'>{{count($salary_subcategory_m_list)}}</span>件】</th>
             </tr>
 
-            @foreach ($job_subcategory_m_list as $item)
+            @foreach ($salary_subcategory_m_list as $item)
                 <tr>
-                    <td>{{$item->job_maincategory_cd}}:{{$item->job_maincategory_name}}</td>                    
-                    <td>{{$item->job_subcategory_cd}}</td>
-                    <td>{{$item->job_subcategory_name}}</td>   
-                    <td>大[{{$item->job_maincategory_display_order}}]中[{{$item->job_subcategory_display_order}}]</td> 
+                    <td>{{$item->salary_maincategory_cd}}:{{$item->salary_maincategory_name}}</td>                    
+                    <td>{{$item->salary_subcategory_cd}}</td>
+                    <td>{{number_format($item->salary)}}円以上</td>                    
+                    <td>大[{{$item->salary_maincategory_display_order}}]中[{{$item->salary_subcategory_display_order}}]</td> 
                     <td>
-                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#job-subcategory-save-modal'
-                            data-jobmaincategorycd='{{$item->job_maincategory_cd}}'
-                            data-jobmaincategoryname='{{$item->job_maincategory_name}}'
-                            data-jobsubcategorycd='{{$item->job_subcategory_cd}}'
-                            data-jobsubcategoryname='{{$item->job_subcategory_name}}'
-                            data-displayorder='{{$item->job_subcategory_display_order}}'
+                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#salary-subcategory-save-modal'
+                            data-salarymaincategorycd='{{$item->salary_maincategory_cd}}'
+                            data-salarymaincategoryname='{{$item->salary_maincategory_name}}'
+                            data-salarysubcategorycd='{{$item->salary_subcategory_cd}}'
+                            data-salary='{{$item->salary}}'
+                            data-displayorder='{{$item->salary_subcategory_display_order}}'
                             data-processflg='1'> 
                             <i class='far fa-edit'></i>
                         </button>
 
-                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#job_subcategory_delete-modal'
-                            data-jobmaincategorycd='{{$item->job_maincategory_cd}}'
-                            data-jobmaincategoryname='{{$item->job_maincategory_name}}'
-                            data-jobsubcategorycd='{{$item->job_subcategory_cd}}'
-                            data-jobsubcategoryname='{{$item->job_subcategory_name}}'
+                        <button class='modal-button' data-bs-toggle='modal' data-bs-target='#salary_subcategory_delete-modal'
+                            data-salarymaincategorycd='{{$item->salary_maincategory_cd}}'
+                            data-salarymaincategoryname='{{$item->salary_maincategory_name}}'
+                            data-salarysubcategorycd='{{$item->salary_subcategory_cd}}'
+                            data-salary='{{$item->salary}}'
                             data-deleteflg=@if($item->deleted_at) 1 @else 0 @endif>
                                         
                             @if($item->deleted_at)
@@ -211,25 +211,25 @@
             
                             <div class="form-group row">                                
                                 
-                                <label for="search_job_maincategory_name" class="col-12 col-form-label original-label">職種大分類名</label>
-                                <select id='search_job_maincategory_cd' name='search_job_maincategory_cd' class='form-control input-sm'>
+                                <label for="search_salary_maincategory_name" class="col-12 col-form-label original-label">給与大分類名</label>
+                                <select id='search_salary_maincategory_cd' name='search_salary_maincategory_cd' class='form-control input-sm'>
 									<option value=''>
-										@foreach($job_maincategory_list as $item)
-										<option value="{{$item->job_maincategory_cd}}"
-                                        @if($search_element_array['search_job_maincategory_cd'] == $item->job_maincategory_cd)  
+										@foreach($salary_maincategory_list as $item)
+										<option value="{{$item->salary_maincategory_cd}}"
+                                        @if($search_element_array['search_salary_maincategory_cd'] == $item->salary_maincategory_cd)  
                                         selected
                                         @endif  
                                         >
-                                            {{$item->job_maincategory_name}}
+                                            {{$item->salary_maincategory_name}}
                                         </option>
 										@endforeach
                                 </select>
 
-                                <label for="search_job_maincategory_name" class="col-12 col-form-label original-label">職種大分類名（あいまい）</label>
-                                <input type="text" id="search_job_maincategory_name" name="search_job_maincategory_name" value="{{$search_element_array['search_job_maincategory_name']}}" class="form-control">
+                                <label for="search_salary_maincategory_name" class="col-12 col-form-label original-label">給与大分類名（あいまい）</label>
+                                <input type="text" id="search_salary_maincategory_name" name="search_salary_maincategory_name" value="{{$search_element_array['search_salary_maincategory_name']}}" class="form-control">
 
-                                <label for="search_job_subcategory_name" class="col-12 col-form-label original-label">職種中分類名（あいまい）</label>
-                                <input type="text" id="search_job_subcategory_name" name="search_job_subcategory_name" value="{{$search_element_array['search_job_subcategory_name']}}" class="form-control">
+                                <label for="search_salary" class="col-12 col-form-label original-label">給与（以上検索）</label>
+                                <input type="text" id="search_salary" name="search_salary" value="{{$search_element_array['search_salary']}}" class="form-control">
                                                         
                             </div>     
                             
@@ -254,13 +254,13 @@
         </div>
 
 
-        {{-- 職種大分類登録/更新用モーダル --}}
-        <div class="modal fade" id="job-maincategory-save-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job-maincategory-save-modal-label" aria-hidden="true">
+        {{-- 給与大分類登録/更新用モーダル --}}
+        <div class="modal fade" id="salary-maincategory-save-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="salary-maincategory-save-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="job-maincategory-save-modal-label"><span id="job-maincategory-save-modal-title"></span></h5>
+                        <h5 class="modal-title" id="salary-maincategory-save-modal-label"><span id="salary-maincategory-save-modal-title"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -268,25 +268,25 @@
                         
                     </div>
                     
-                    <form id="job-maincategory-save-form" method="post" action="{{ route('master.job_maincategory.save') }}">                    
+                    <form id="salary-maincategory-save-form" method="post" action="{{ route('master.salary_maincategory.save') }}">                    
                         @csrf
                         <div class="modal-body">  
                             
-                            <input type="hidden" name="job_maincategory_cd" id="job_maincategory_cd">
+                            <input type="hidden" name="salary_maincategory_cd" id="salary_maincategory_cd">
                             
                             <div class="form-group row">
-                                <label for="job_maincategory_name" class="col-md-6 col-form-label original-label">職種大分類名</label>
-                                <input type="text" name="job_maincategory_name" id="job_maincategory_name" value="" class="form-control col-md-3">
+                                <label for="salary_maincategory_name" class="col-md-6 col-form-label original-label">給与大分類名</label>
+                                <input type="text" name="salary_maincategory_name" id="salary_maincategory_name" value="" class="form-control col-md-3">
 
-                                <label for="job_maincategory_display_order" class="col-md-6 col-form-label original-label">表示順</label>
-                                <input type="text" name="job_maincategory_display_order" id="job_maincategory_display_order" value="" class="form-control col-md-3">
+                                <label for="salary_maincategory_display_order" class="col-md-6 col-form-label original-label">表示順</label>
+                                <input type="text" name="salary_maincategory_display_order" id="salary_maincategory_display_order" value="" class="form-control col-md-3">
                             </div>                     
                             
                         </div>
 
                         <div class="modal-footer">                            
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="button" id='job-maincategory-save-button' class="btn btn-primary"></button>
+                                <button type="button" id='salary-maincategory-save-button' class="btn btn-primary"></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
@@ -301,40 +301,40 @@
         </div>
 
 
-        {{-- 職種大分類削除用モーダル --}}
-        <div class="modal fade" id="job-maincategory-delete-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job-maincategory-delete-modal-label" aria-hidden="true">
+        {{-- 給与大分類削除用モーダル --}}
+        <div class="modal fade" id="salary-maincategory-delete-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="salary-maincategory-delete-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="job-maincategory-delete-modal-label">操作確認</h5>
+                        <h5 class="modal-title" id="salary-maincategory-delete-modal-label">操作確認</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <form id="job-maincategory-delete-form" method="post" action="{{ route('master.job_maincategory.delete_or_restore') }}">                           
+                    <form id="salary-maincategory-delete-form" method="post" action="{{ route('master.salary_maincategory.delete_or_restore') }}">                           
                         @csrf
                         <div class="modal-body">  
-                            <input type="hidden" id="delete_job_maincategory_flg" name="delete_job_maincategory_flg" value="">
-                            <input type="hidden" id="delete_job_maincategory_cd" name="delete_job_maincategory_cd" value="">
-                            <input type="hidden" id="delete_job_maincategory_name" name="delete_job_maincategory_name" value="">
+                            <input type="hidden" id="delete_salary_maincategory_flg" name="delete_salary_maincategory_flg" value="">
+                            <input type="hidden" id="delete_salary_maincategory_cd" name="delete_salary_maincategory_cd" value="">
+                            <input type="hidden" id="delete_salary_maincategory_name" name="delete_salary_maincategory_name" value="">
             
 
                             <table class="w-100">
 
                                 <tr>
-                                    <td class="text-start">職種大分類CD</td>                                
+                                    <td class="text-start">給与大分類CD</td>                                
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="display_job_maincategory_cd"></span></td>
+                                    <td class="text-start"><span id="display_salary_maincategory_cd"></span></td>
                                 </tr>
                              
                                 <tr>
-                                    <td class="text-start">職種大分類名称</td>                                
+                                    <td class="text-start">給与大分類名称</td>                                
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="display_job_maincategory_name"></span></td>
+                                    <td class="text-start"><span id="display_salary_maincategory_name"></span></td>
                                 </tr>
     
                             </table>           
@@ -345,7 +345,7 @@
 
                         <div class="modal-footer">                                                                                      
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="submit" id='job-maincategory-delete-modal-execution-button' class="btn"></button>                                
+                                <button type="submit" id='salary-maincategory-delete-modal-execution-button' class="btn"></button>                                
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
@@ -362,13 +362,13 @@
 
 
 
-        {{-- 職種中分類類登録/更新用モーダル --}}
-        <div class="modal fade" id="job-subcategory-save-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job-subcategory-save-modal-label" aria-hidden="true">
+        {{-- 給与中分類類登録/更新用モーダル --}}
+        <div class="modal fade" id="salary-subcategory-save-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="salary-subcategory-save-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="job-subcategory-save-modal-label"><span id="job-subcategory-save-modal-title"></span></h5>
+                        <h5 class="modal-title" id="salary-subcategory-save-modal-label"><span id="salary-subcategory-save-modal-title"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
@@ -376,29 +376,29 @@
                         
                     </div>
                     
-                    <form id="job-subcategory-save-form" method="post" action="{{ route('master.job_subcategory.save') }}">                    
+                    <form id="salary-subcategory-save-form" method="post" action="{{ route('master.salary_subcategory.save') }}">                    
                         @csrf
                         <div class="modal-body">  
                             
-                            <input type="hidden" name="job_subcategory_cd" id="job_subcategory_cd">
+                            <input type="hidden" name="salary_subcategory_cd" id="salary_subcategory_cd">
                             
                             <div class="form-group row">
-                                <label for="job_maincategory_cd_for_sub" class="col-md-6 col-form-label original-label">職種大分類名</label>
+                                <label for="salary_maincategory_cd_for_sub" class="col-md-6 col-form-label original-label">給与大分類名</label>
                                
-                                <select id='job_maincategory_cd_for_sub' name='job_maincategory_cd_for_sub' class='form-control input-sm'>
+                                <select id='salary_maincategory_cd_for_sub' name='salary_maincategory_cd_for_sub' class='form-control input-sm'>
 									<option value=''>
-										@foreach($job_maincategory_list as $item)
-										<option value="{{$item->job_maincategory_cd}}">
-                                            {{$item->job_maincategory_name}}
+										@foreach($salary_maincategory_list as $item)
+										<option value="{{$item->salary_maincategory_cd}}">
+                                            {{$item->salary_maincategory_name}}
                                         </option>
 										@endforeach
                                 </select>
 
-                                <label for="job_subcategory_name" class="col-md-6 col-form-label original-label">職種中分類名</label>
-                                <input type="text" name="job_subcategory_name" id="job_subcategory_name" value="" class="form-control col-md-3">
+                                <label for="salary" class="col-md-6 col-form-label original-label">給与</label>
+                                <input type="text" name="salary" id="salary" value="" class="form-control col-md-3">
 
-                                <label for="job_subcategory_display_order" class="col-md-6 col-form-label original-label">表示順</label>
-                                <input type="text" name="job_subcategory_display_order" id="job_subcategory_display_order" value="" class="form-control col-md-3">
+                                <label for="salary_subcategory_display_order" class="col-md-6 col-form-label original-label">表示順</label>
+                                <input type="text" name="salary_subcategory_display_order" id="salary_subcategory_display_order" value="" class="form-control col-md-3">
                             </div>                     
                      
                             
@@ -406,7 +406,7 @@
 
                         <div class="modal-footer">                            
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="button" id='job-subcategory-save-button' class="btn btn-primary"></button>
+                                <button type="button" id='salary-subcategory-save-button' class="btn btn-primary"></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
@@ -422,22 +422,22 @@
 
 
 
-        {{-- 職種中分類削除用モーダル --}}
-        <div class="modal fade" id="job_subcategory_delete-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job_subcategory_delete-modal-label" aria-hidden="true">
+        {{-- 給与中分類削除用モーダル --}}
+        <div class="modal fade" id="salary_subcategory_delete-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="salary_subcategory_delete-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 class="modal-title" id="job_subcategory_delete-modal-label">操作確認</h5>
+                        <h5 class="modal-title" id="salary_subcategory_delete-modal-label">操作確認</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <form id="job_subcategory_delete-form" method="post" action="{{ route('master.job_subcategory.delete_or_restore') }}">                           
+                    <form id="salary_subcategory_delete-form" method="post" action="{{ route('master.salary_subcategory.delete_or_restore') }}">                           
                         @csrf
                         <div class="modal-body">  
-                            <input type="hidden" id="delete_job_subcategory_flg" name="delete_job_subcategory_flg" value="">
-                            <input type="hidden" id="delete_job_subcategory_cd" name="delete_job_subcategory_cd" value="">
-                            <input type="hidden" id="delete_job_subcategory_name" name="delete_job_subcategory_name" value="">
+                            <input type="hidden" id="delete_salary_subcategory_flg" name="delete_salary_subcategory_flg" value="">
+                            <input type="hidden" id="delete_salary_subcategory_cd" name="delete_salary_subcategory_cd" value="">
+                            <input type="hidden" id="delete_salary" name="delete_salary" value="">
             
 
                             <table class="w-100">
@@ -445,27 +445,27 @@
                               
                              
                                 <tr>
-                                    <td class="text-start">職種大分類名称</td>                                
+                                    <td class="text-start">給与大分類名称</td>                                
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="display_job_maincategory_name_for_sub"></span></td>
+                                    <td class="text-start"><span id="display_salary_maincategory_name_for_sub"></span></td>
                                 </tr>
 
                                 <tr>
-                                    <td class="text-start">職種中分類CD</td>                                
+                                    <td class="text-start">給与中分類CD</td>                                
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="display_job_subcategory_cd"></span></td>
+                                    <td class="text-start"><span id="display_salary_subcategory_cd"></span></td>
                                 </tr>
 
                                 <tr>
-                                    <td class="text-start">職種中分類名称</td>                                
+                                    <td class="text-start">給与称</td>                                
                                 </tr>
     
                                 <tr>                                
-                                    <td class="text-start"><span id="display_job_subcategory_name"></span></td>
+                                    <td class="text-start"><span id="display_salary"></span></td>
                                 </tr>
     
                             </table>           
@@ -476,7 +476,7 @@
 
                         <div class="modal-footer">                                                                                      
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="submit" id='job-subcategory-delete-modal-execution-button' class="btn"></button>
+                                <button type="submit" id='salary-subcategory-delete-modal-execution-button' class="btn"></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
@@ -500,17 +500,17 @@
 
 $(function(){
 
-    //職種大分類登録、更新用モーダル表示時
-    $('#job-maincategory-save-modal').on('show.bs.modal', function(e) {
+    //給与大分類登録、更新用モーダル表示時
+    $('#salary-maincategory-save-modal').on('show.bs.modal', function(e) {
 
-        var button_id = "#job-maincategory-save-button";
+        var button_id = "#salary-maincategory-save-button";
 
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        var FormData = $("#job-maincategory-save-form").serializeArray();        
+        var FormData = $("#salary-maincategory-save-form").serializeArray();        
 
         $.each(FormData, function(i, element) {		
             $("[name='"+ element.name +"']").val("");          
@@ -519,8 +519,8 @@ $(function(){
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
-        var job_maincategory_cd = evCon.data('jobmaincategorycd');
-        var job_maincategory_name = evCon.data('jobmaincategoryname');
+        var salary_maincategory_cd = evCon.data('salarymaincategorycd');
+        var salary_maincategory_name = evCon.data('salarymaincategoryname');
         var display_order = evCon.data('displayorder');         
 
         $(button_id).removeClass('insert-button');
@@ -534,33 +534,33 @@ $(function(){
         if(processflg == '0'){
             title = "新規登録処理";
             $(button_id).addClass('insert-button');
-            $('#job_maincategory_cd').val(0);
+            $('#salary_maincategory_cd').val(0);
             
         }else{
-            title = '更新処理（職種大分類CD：' + job_maincategory_cd+'）';            
+            title = '更新処理（給与大分類CD：' + salary_maincategory_cd+'）';            
             $(button_id).addClass('update-button');
-            $('#job_maincategory_cd').val(job_maincategory_cd);
+            $('#salary_maincategory_cd').val(salary_maincategory_cd);
             
         }
         
-        $('#job-maincategory-save-modal-title').html(title);    
+        $('#salary-maincategory-save-modal-title').html(title);    
 
-        $('#job_maincategory_name').val(job_maincategory_name);
-        $('#job_maincategory_display_order').val(display_order);
+        $('#salary_maincategory_name').val(salary_maincategory_name);
+        $('#salary_maincategory_display_order').val(display_order);
         
     });
 
 
-    //職種大分類削除モーダル表示時
-    $('#job-maincategory-delete-modal').on('show.bs.modal', function(e) {
+    //給与大分類削除モーダル表示時
+    $('#salary-maincategory-delete-modal').on('show.bs.modal', function(e) {
         // イベント発生元
 
-        var button_id = "#job-maincategory-delete-modal-execution-button";
+        var button_id = "#salary-maincategory-delete-modal-execution-button";
 
         let evCon = $(e.relatedTarget);
 
-        var job_maincategory_cd = evCon.data('jobmaincategorycd');
-        var job_maincategory_name = evCon.data('jobmaincategoryname');    
+        var salary_maincategory_cd = evCon.data('salarymaincategorycd');
+        var salary_maincategory_name = evCon.data('salarymaincategoryname');    
         var deleteflg = evCon.data('deleteflg');        
 
         $(button_id).removeClass('delete-button');
@@ -579,30 +579,30 @@ $(function(){
 
        
     
-        $('#display_job_maincategory_cd').html(job_maincategory_cd);    
-        $('#display_job_maincategory_name').html(job_maincategory_name);    
+        $('#display_salary_maincategory_cd').html(salary_maincategory_cd);    
+        $('#display_salary_maincategory_name').html(salary_maincategory_name);    
 
-        $('#delete_job_maincategory_flg').val(deleteflg);
-        $('#delete_job_maincategory_cd').val(job_maincategory_cd);
-        $('#delete_job_maincategory_name').val(job_maincategory_name);  
+        $('#delete_salary_maincategory_flg').val(deleteflg);
+        $('#delete_salary_maincategory_cd').val(salary_maincategory_cd);
+        $('#delete_salary_maincategory_name').val(salary_maincategory_name);  
 
     });
 
 
 
 
-    //職種中分類登録、更新用モーダル表示時
-    $('#job-subcategory-save-modal').on('show.bs.modal', function(e) {
+    //給与中分類登録、更新用モーダル表示時
+    $('#salary-subcategory-save-modal').on('show.bs.modal', function(e) {
 
 
-        var button_id = "#job-subcategory-save-button";
+        var button_id = "#salary-subcategory-save-button";
 
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        var FormData = $("#job-subcategory-save-form").serializeArray();        
+        var FormData = $("#salary-subcategory-save-form").serializeArray();        
 
         $.each(FormData, function(i, element) {		
             $("[name='"+ element.name +"']").val("");          
@@ -611,9 +611,9 @@ $(function(){
         // イベント発生元
         let evCon = $(e.relatedTarget);
 
-        var job_maincategory_cd = evCon.data('jobmaincategorycd');        
-        var job_subcategory_cd = evCon.data('jobsubcategorycd');
-        var job_subcategory_name = evCon.data('jobsubcategoryname');
+        var salary_maincategory_cd = evCon.data('salarymaincategorycd');        
+        var salary_subcategory_cd = evCon.data('salarysubcategorycd');
+        var salary = evCon.data('salary');
         var display_order = evCon.data('displayorder');
 
         var title ="";
@@ -626,34 +626,34 @@ $(function(){
         var processflg = evCon.data('processflg');
         if(processflg == '0'){
              title = "新規登録処理";
-            $('#job_subcategory_cd').val(0);
+            $('#salary_subcategory_cd').val(0);
             $(button_id).addClass('insert-button');
         }else{            
-            title = '更新処理（職種中分類CD：' + job_subcategory_cd+'）';
-            $('#job_subcategory_cd').val(job_maincategory_cd);
+            title = '更新処理（給与中分類CD：' + salary_subcategory_cd+'）';
+            $('#salary_subcategory_cd').val(salary_maincategory_cd);
             $(button_id).addClass('update-button');
         }
 
 
-        $('#job-subcategory-save-modal-title').html(title);            
+        $('#salary-subcategory-save-modal-title').html(title);            
 
-        $('#job_maincategory_cd_for_sub').val(job_maincategory_cd);        
-        $('#job_subcategory_name').val(job_subcategory_name);
-        $('#job_subcategory_display_order').val(display_order);
+        $('#salary_maincategory_cd_for_sub').val(salary_maincategory_cd);        
+        $('#salary').val(salary);
+        $('#salary_subcategory_display_order').val(display_order);
 
     });
 
 
-    //職種中分類削除モーダル表示時
-    $('#job_subcategory_delete-modal').on('show.bs.modal', function(e) {
+    //給与中分類削除モーダル表示時
+    $('#salary_subcategory_delete-modal').on('show.bs.modal', function(e) {
         
-        var button_id = "#job-subcategory-delete-modal-execution-button";
+        var button_id = "#salary-subcategory-delete-modal-execution-button";
         // イベント発生元        
         let evCon = $(e.relatedTarget);
 
-        var job_maincategory_name = evCon.data('jobmaincategoryname');
-        var job_subcategory_cd = evCon.data('jobsubcategorycd');
-        var job_subcategory_name = evCon.data('jobsubcategoryname');        
+        var salary_maincategory_name = evCon.data('salarymaincategoryname');
+        var salary_subcategory_cd = evCon.data('salarysubcategorycd');
+        var salary = evCon.data('salary');        
         
 
         var deleteflg = evCon.data('deleteflg');        
@@ -674,13 +674,13 @@ $(function(){
 
        
     
-        $('#display_job_maincategory_name_for_sub').html(job_maincategory_name);    
-        $('#display_job_subcategory_cd').html(job_subcategory_cd);           
+        $('#display_salary_maincategory_name_for_sub').html(salary_maincategory_name);    
+        $('#display_salary_subcategory_cd').html(salary_subcategory_cd);           
 
 
-        $('#delete_job_subcategory_flg').val(deleteflg);
-        $('#delete_job_subcategory_cd').val(job_subcategory_cd);
-        $('#delete_job_subcategory_name').val(job_subcategory_name);  
+        $('#delete_salary_subcategory_flg').val(deleteflg);
+        $('#delete_salary_subcategory_cd').val(salary_subcategory_cd);
+        $('#delete_salary').val(salary);  
 
     });
 
@@ -696,15 +696,15 @@ $(function(){
     });
 
 
-    // 職種大分類「保存」ボタンがクリックされたら
-    $('#job-maincategory-save-button').click(function () {
+    // 給与大分類「保存」ボタンがクリックされたら
+    $('#salary-maincategory-save-button').click(function () {
      
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
         $(this).prop("disabled", true);
 
         setTimeout(function () {
-            $('#job-maincategory-save-button').prop("disabled", false);
+            $('#salary-maincategory-save-button').prop("disabled", false);
         }, 3000);
 
         //{{-- メッセージクリア --}}
@@ -712,7 +712,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#job-maincategory-save-form');
+        let f = $('#salary-maincategory-save-form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
@@ -751,7 +751,7 @@ $(function(){
                         scrollTop: 0
                     }, "300");
                     //{{-- ボタン有効 --}}
-                    $('#job-maincategory-save-button').prop("disabled", false);
+                    $('#salary-maincategory-save-button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -793,7 +793,7 @@ $(function(){
                     scrollTop: 0
                 }, "300");
                 //{{-- ボタン有効 --}}
-                $('#job-maincategory-save-button').prop("disabled", false);
+                $('#salary-maincategory-save-button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 
@@ -803,15 +803,15 @@ $(function(){
 
 
 
-    // 職種中分類「保存」ボタンがクリックされたら
-    $('#job-subcategory-save-button').click(function () {
+    // 給与中分類「保存」ボタンがクリックされたら
+    $('#salary-subcategory-save-button').click(function () {
      
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
         $(this).prop("disabled", true);
 
         setTimeout(function () {
-            $('#job-subcategory-save-button').prop("disabled", false);
+            $('#salary-subcategory-save-button').prop("disabled", false);
         }, 3000);
 
         //{{-- メッセージクリア --}}
@@ -819,7 +819,7 @@ $(function(){
         $('.invalid-feedback').html('');
         $('.is-invalid').removeClass('is-invalid');
 
-        let f = $('#job-subcategory-save-form');
+        let f = $('#salary-subcategory-save-form');
 
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
@@ -858,7 +858,7 @@ $(function(){
                         scrollTop: 0
                     }, "300");
                     //{{-- ボタン有効 --}}
-                    $('#job-subcategory-save-button').prop("disabled", false);
+                    $('#salary-subcategory-save-button').prop("disabled", false);
                     //{{-- マウスカーソルを通常に --}}                    
                     document.body.style.cursor = 'auto';
 
@@ -900,7 +900,7 @@ $(function(){
                     scrollTop: 0
                 }, "300");
                 //{{-- ボタン有効 --}}
-                $('#job-subcategory-save-button').prop("disabled", false);
+                $('#salary-subcategory-save-button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}                    
                 document.body.style.cursor = 'auto';
 

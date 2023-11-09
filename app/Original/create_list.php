@@ -6,14 +6,34 @@ use Illuminate\Http\Request;
 
 use App\Original\common;
 
+use App\Models\maincategory_m_model;
 use App\Models\subcategory_m_model;
 use App\Models\address_m_model;
 use App\Models\job_maincategory_m_model;
+use App\Models\salary_maincategory_m_model;
 use App\Models\job_supplement_maincategory_m_model;
 use App\Models\job_supplement_subcategory_m_model;
 
 class create_list
 {      
+
+
+    //大分類コンボボックス
+    public static function maincategory_list()
+    {      
+        $maincategory_list = maincategory_m_model::select(
+            'maincategory_cd as maincategory_cd',
+            'maincategory_name as maincategory_name',
+        )
+        ->orderBy('display_order', 'asc')
+        ->get();
+
+        return $maincategory_list;
+    }
+
+   
+    
+     
     //性別コンボボックス
     public static function gender_list()
     {      
@@ -101,6 +121,20 @@ class create_list
         return $job_supplement_maincategory_list;
 
         
+    }
+
+
+    //給与大分類コンボボックス
+    public static function salary_maincategory_list()
+    {      
+        $salary_maincategory_list = salary_maincategory_m_model::select(
+            'salary_maincategory_cd as salary_maincategory_cd',
+            'salary_maincategory_name as salary_maincategory_name',
+        )
+        ->orderBy('display_order', 'asc')
+        ->get();
+
+        return $salary_maincategory_list;        
     }
 
 

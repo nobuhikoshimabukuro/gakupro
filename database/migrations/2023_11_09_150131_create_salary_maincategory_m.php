@@ -14,20 +14,20 @@ return new class extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable('maincategory_m')) {
+        if (Schema::hasTable('salary_maincategory_m')) {
             // テーブルが存在していればリターン
             return;
         }
 
-        Schema::create('maincategory_m', function (Blueprint $table) {
+        Schema::create('salary_maincategory_m', function (Blueprint $table) {
 
             $table
-                ->increments('maincategory_cd')
-                ->comment('大分類コード:連番');
+                ->increments('salary_maincategory_cd')
+                ->comment('給与大分類コード:連番');
 
             $table
-                ->string('maincategory_name', 30)
-                ->comment('大分類名');
+                ->string('salary_maincategory_name', 30)
+                ->comment('給与大分類名');
 
             $table
                 ->integer('display_order')
@@ -66,7 +66,7 @@ return new class extends Migration
         });
 
         // ALTER 文を実行しテーブルにコメントを設定
-        DB::statement("ALTER TABLE maincategory_m COMMENT '大分類マスタ'");
+        DB::statement("ALTER TABLE salary_maincategory_m COMMENT '給与大分類マスタ'");
     }
 
     /**
@@ -76,6 +76,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('maincategory_m');
+        Schema::dropIfExists('salary_maincategory_m');
     }
 };
