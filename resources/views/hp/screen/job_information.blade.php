@@ -354,7 +354,7 @@
                                 $end_index_array = [];
                                 $check_job_maincategory_name = "";                                
 
-                                foreach($job_category_list as $job_category_index => $job_category_info){
+                                foreach($job_category_data as $job_category_index => $job_category_info){
 
                                     $job_maincategory_cd = $job_category_info->job_maincategory_cd;
                                     $job_maincategory_name = $job_category_info->job_maincategory_name;
@@ -374,11 +374,11 @@
 
                                 }
 
-                                $end_index_array[] = count($job_category_list) - 1;
+                                $end_index_array[] = count($job_category_data) - 1;
 
                             @endphp
 
-                            @foreach($job_category_list as $job_category_index => $job_category_info)
+                            @foreach($job_category_data as $job_category_index => $job_category_info)
                            
                                 @php
                                     $job_maincategory_cd = $job_category_info->job_maincategory_cd;
@@ -505,7 +505,7 @@
                                 $check_job_supplement_maincategory_name = "";
                             @endphp
 
-                            @foreach($job_supplement_list as $job_supplement_info)
+                            @foreach($job_supplement_data as $job_supplement_info)
 
                                 @php                            
                                     

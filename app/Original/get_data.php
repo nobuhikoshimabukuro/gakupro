@@ -20,8 +20,74 @@ use App\Repositories\gender_list;
 use App\Repositories\authority_list;
 use Illuminate\Support\Facades\DB;
 
+
+
+use App\Models\employer_m_model;
+use App\Models\employer_password_t_model;
+use App\Models\job_information_t_model;
+use App\Models\mailaddresscheck_t_model;
+
+use App\Models\salary_maincategory_m_model;
+use App\Models\salary_subcategory_m_model;
+
+use App\Models\job_maincategory_m_model;
+use App\Models\job_subcategory_m_model;
+use App\Models\job_category_connection_t_model;
+
+use App\Models\job_supplement_maincategory_m_model;
+use App\Models\job_supplement_subcategory_m_model;
+use App\Models\job_supplement_connection_t_model;
+
+use App\Models\job_search_history_t_model;
+
 class get_data
 {      
+
+
+    //職種データ取得
+    public static function job_category_data()
+    {      
+      
+        //職種情報取得
+        $job_category_data = job_subcategory_m_model::select(
+            'job_subcategory_m.job_maincategory_cd as job_maincategory_cd',
+            'job_maincategory_m.job_maincategory_name as job_maincategory_name',
+            'job_subcategory_m.job_subcategory_cd as job_subcategory_cd',
+            'job_subcategory_m.job_subcategory_name as job_subcategory_name',
+            'job_subcategory_m.display_order as maincategory_display_order',            
+        )
+        ->leftJoin('job_maincategory_m', 'job_maincategory_m.job_maincategory_cd', '=', 'job_subcategory_m.job_maincategory_cd')
+        ->whereNull('job_maincategory_m.deleted_at')
+        ->whereNull('job_subcategory_m.deleted_at')
+        ->orderBy('job_maincategory_m.display_order')
+        ->orderBy('job_subcategory_m.display_order')
+        ->get();
+
+        return $job_category_data;
+    }
+
+    //求人補足データ取得
+    public static function job_supplement_data()
+    {      
+      
+        //求人補足情報取得
+        $job_supplement_data = job_supplement_subcategory_m_model::select(
+            'job_supplement_subcategory_m.job_supplement_maincategory_cd as job_supplement_maincategory_cd',
+            'job_supplement_maincategory_m.job_supplement_maincategory_name as job_supplement_maincategory_name',
+            'job_supplement_subcategory_m.job_supplement_subcategory_cd as job_supplement_subcategory_cd',
+            'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',            
+        )
+        ->leftJoin('job_supplement_maincategory_m', 'job_supplement_subcategory_m.job_supplement_maincategory_cd', '=', 'job_supplement_maincategory_m.job_supplement_maincategory_cd')
+        ->whereNull('job_supplement_maincategory_m.deleted_at')
+        ->whereNull('job_supplement_subcategory_m.deleted_at')
+        ->orderBy('job_supplement_maincategory_m.display_order')
+        ->orderBy('job_supplement_subcategory_m.display_order')
+        ->get();
+
+        return $job_supplement_data;
+    }
+
+
     //学校検索処理  学校区分選択時のプルダウン絞り込みのため
     function school_list_get(Request $request)
     {

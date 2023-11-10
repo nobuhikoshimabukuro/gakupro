@@ -23,19 +23,33 @@ use Illuminate\Support\Facades\File;
 
 use App\Original\common;
 use App\Original\create_list;
+use App\Original\get_data;
+
+use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\DB;
+use App\Http\Requests\employer_m_request;
+
 
 use App\Models\employer_m_model;
 use App\Models\employer_password_t_model;
 use App\Models\job_information_t_model;
 use App\Models\mailaddresscheck_t_model;
 
+use App\Models\salary_maincategory_m_model;
+use App\Models\salary_subcategory_m_model;
+
+use App\Models\job_maincategory_m_model;
+use App\Models\job_subcategory_m_model;
+use App\Models\job_category_connection_t_model;
+
+use App\Models\job_supplement_maincategory_m_model;
+use App\Models\job_supplement_subcategory_m_model;
+use App\Models\job_supplement_connection_t_model;
+
+use App\Models\job_search_history_t_model;
 
 
-
-use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
-use Illuminate\Support\Facades\DB;
-use App\Http\Requests\employer_m_request;
 
 class recruit_project_controller extends Controller
 {
@@ -714,16 +728,21 @@ class recruit_project_controller extends Controller
             //セッション切れ
             session()->flash('employer_loginerror', 'セッション切れ');            
             return redirect()->route('recruit_project.login');
-        }
-       
+        }       
 
         $employer_id = session()->get('employer_id');
+
+        $job_info = [];
+        $job_subcategory_connections = [];
+        $job_supplement_subcategory_connections = [];
+        
+
 
         $employer_info = employer_m_model::
         where('employer_id', '=', $employer_id)          
         ->first();
 
-        $job_information_info = "";
+        
 
         //既存の求人情報編集の場合は値が入ってくる
         //新規登録時はnull
@@ -736,102 +755,184 @@ class recruit_project_controller extends Controller
         }else{
 
             //既存の求人情報編集時            
-            $job_information_info = job_information_t_model::
+            $job_info = job_information_t_model::
             where('employer_id', '=', $employer_id)
             ->where('job_id', '=', $job_id)            
             ->first();
         }
 
-        return view('recruit_project/screen/job_information_register', compact('employer_info','job_information_info','job_id'));        
-    }
+        $job_category_connections = job_category_connection_t_model::
+        where('employer_id', '=', $employer_id)
+        ->where('job_id', '=', $job_id)
+        ->get();
 
+        foreach ($job_category_connections as $index => $job_category_connection){            
+            $job_subcategory_connections[] = $job_category_connection->job_subcategory_cd;
+        }
 
-    //求人情報新規登録処理
-    function job_information_save(Request $request)
-    {       
-       
-        $Date = Carbon::now()->format('Ymd');
+        $job_supplement_connections = job_supplement_connection_t_model::
+        where('employer_id', '=', $employer_id)
+        ->where('job_id', '=', $job_id)            
+        ->get();
 
-        $employer_id = session()->get('employer_id');        
-
-        $job_id = $request->job_id;
-
-        //新規登録時
-        if($job_id == 0){       
-
-            $job_id_Check = job_information_t_model::
-            where('employer_id', '=', $employer_id)
-            ->max('job_id');
-
-            if(is_null($job_id_Check)){
-                $job_id = 1;
-            }else{
-                $job_id = $job_id_Check + 1;
-            }
-            
+        foreach ($job_supplement_connections as $index => $job_supplement_connection){            
+            $job_supplement_subcategory_connections[] = $job_supplement_connection->job_supplement_subcategory_cd;
         }
 
 
-        $title = $request->title;
-        $manager_name = $request->manager_name;
-        $tel = $request->tel;
-        $fax = $request->fax;
-        $hp_url = $request->hp_url;
-        $mailaddress = $request->mailaddress;
-        $remarks = $request->remarks;
-
-
-        $job_information_info = job_information_t_model::
-        where('employer_id', '=', $employer_id)
-        ->where('job_id', '=', $job_id)            
-        ->first();
-
+        //都道府県ブルダウン作成用
+        $prefectural_list = create_list::prefectural_list();
+        //給与プルダウン作成用
+        $salary_maincategory_list = create_list::salary_maincategory_list();
+        //職種データ取得
+        $job_category_data = get_data::job_category_data();
+        //求人補足データ取得
+        $job_supplement_data = get_data::job_supplement_data();
 
         
 
-        $PublicPath = "public/recruitroject/". $employer_id."/jobinformation"."/". $job_id."/";
+
+        return view('recruit_project/screen/job_information_register',
+         compact(
+                 'employer_id'
+                ,'employer_info'
+                ,'job_id'
+                ,'job_info'
+
+                ,'prefectural_list'
+                ,'salary_maincategory_list'
+
+                ,'job_category_data'
+                ,'job_subcategory_connections'
+
+                ,'job_supplement_data'
+                ,'job_supplement_subcategory_connections'
+            ));        
+    }
 
 
-        //画面で選択したアップロードファイル
-        $file_input_1 = $request->file('file_1');
+    //求人情報登録処理
+    function job_information_save(Request $request)
+    {       
+        $process_title = "求人情報登録処理";
 
-        foreach($file_input_1 as $Count => $file){      
+        try {
 
-            $Extension = $file->getClientOriginalExtension();
+            //職種データ取得
+            $job_category_data = get_data::job_category_data();
+            //求人補足データ取得
+            $job_supplement_data = get_data::job_supplement_data();
 
-            $FileName = $Count . "." . $Extension;
+            $a = $request->all();
+        
+            $Date = Carbon::now()->format('Ymd');
 
-            $Public_SavePath =  $PublicPath ."area1/";
+            $employer_id = session()->get('employer_id');        
+
+            $job_id = $request->job_id;
+
+            //新規登録時
+            if($job_id == 0){       
+
+                $job_id_Check = job_information_t_model::
+                where('employer_id', '=', $employer_id)
+                ->max('job_id');
+
+                if(is_null($job_id_Check)){
+                    $job_id = 1;
+                }else{
+                    $job_id = $job_id_Check + 1;
+                }
                 
-            //画像ファイルデータ取得
-            $Image = File::get($file);
+            }
 
-            //保存するファイルパス & ファイル名
-            $upload_save_path = $Public_SavePath . $FileName;
-            Storage::put($upload_save_path, $Image);   
+
+            //求人情報と職種データの連結テーブルの処理  start
+            job_category_connection_t_model::where('employer_id', '=', $employer_id)
+            ->where('job_id', '=', $job_id)
+            ->forceDelete();
+
+            foreach ($job_category_data as $index => $job_category_info){       
+
+                $job_subcategory_cd = $job_category_info->job_subcategory_cd;
+
+                $target_name = "job-category-checkbox" . $job_subcategory_cd;
+
+                $data = $request->$target_name;
+
+                if(!is_null($data)){
+
+
+                    job_category_connection_t_model::insert(
+                        [                            
+                            "employer_id" => $employer_id
+                            ,"job_id" => $job_id
+                            ,"job_subcategory_cd" => intval($job_subcategory_cd)                        
+                        ]
+                    );
+
+                }
+
+            }
+            //求人情報と職種データの連結テーブルの処理  end
+
+
+
+            //求人情報と職種データの連結テーブルの処理  start
+            job_supplement_connection_t_model::where('employer_id', '=', $employer_id)
+            ->where('job_id', '=', $job_id)
+            ->forceDelete();
+
+            foreach ($job_supplement_data as $index => $job_supplement_info){       
+
+                $job_supplement_subcategory_cd = $job_supplement_info->job_supplement_subcategory_cd;
+
+                $target_name = "job-supplement-checkbox" . $job_supplement_subcategory_cd;
+
+                $data = $request->$target_name;
+
+                if(!is_null($data)){
+
+
+                    job_supplement_connection_t_model::insert(
+                        [                            
+                            "employer_id" => $employer_id
+                            ,"job_id" => $job_id
+                            ,"job_supplement_subcategory_cd" => intval($job_supplement_subcategory_cd)                        
+                        ]
+                    );
+
+                }
+
+            }
+            //求人情報と職種データの連結テーブルの処理  end
+
+
+
+        } catch (Exception $e) {
+
+            $error_message = $e->getMessage();
+            Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
             
+            $result_array = array(
+                "Result" => "error",
+                "Message" => $process_title."でエラーが発生しました。",
+            );           
+
+            return response()->json(['result_array' => $result_array]);
+                                
         }
 
 
-        $file_input_2 = $request->file('file_2');
 
-        foreach($file_input_2 as $Count => $file){  
-            
-            $Extension = $file->getClientOriginalExtension();
+        $result_array = array(
+            "Result" => "success",
+            "Message" => '',
+        );
 
-            $FileName = $Count . "." . $Extension;
-
-
-            $Public_SavePath =  $PublicPath ."area2/";
-                
-            //画像ファイルデータ取得
-            $Image = File::get($file);
-
-            //保存するファイルパス & ファイル名
-            $upload_save_path = $Public_SavePath . $FileName;
-            Storage::put($upload_save_path, $Image);   
-            
-        }
+        session()->flash('success', 'データを登録しました。');
+        session()->flash('message-type', 'success');
+        return response()->json(['result_array' => $result_array]);       
 
     }
     

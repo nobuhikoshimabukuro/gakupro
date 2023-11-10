@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Original\common;
 use App\Original\create_list;
+use App\Original\get_data;
 
 use App\Models\job_information_t_model;
 use App\Models\job_subcategory_m_model;
@@ -95,48 +96,20 @@ class hp_controller extends Controller
 
         //都道府県ブルダウン作成用
         $prefectural_list = create_list::prefectural_list();
-
         //給与プルダウン作成用
         $salary_maincategory_list = create_list::salary_maincategory_list();
-
-        //職種情報取得
-        $job_category_list = job_subcategory_m_model::select(
-            'job_subcategory_m.job_maincategory_cd as job_maincategory_cd',
-            'job_maincategory_m.job_maincategory_name as job_maincategory_name',
-            'job_subcategory_m.job_subcategory_cd as job_subcategory_cd',
-            'job_subcategory_m.job_subcategory_name as job_subcategory_name',
-            'job_subcategory_m.display_order as maincategory_display_order',            
-        )
-        ->leftJoin('job_maincategory_m', 'job_maincategory_m.job_maincategory_cd', '=', 'job_subcategory_m.job_maincategory_cd')
-        ->whereNull('job_maincategory_m.deleted_at')
-        ->whereNull('job_subcategory_m.deleted_at')
-        ->orderBy('job_maincategory_m.display_order')
-        ->orderBy('job_subcategory_m.display_order')
-        ->get();
-
-
-        //求人補足情報取得
-        $job_supplement_list = job_supplement_subcategory_m_model::select(
-            'job_supplement_subcategory_m.job_supplement_maincategory_cd as job_supplement_maincategory_cd',
-            'job_supplement_maincategory_m.job_supplement_maincategory_name as job_supplement_maincategory_name',            
-
-            'job_supplement_subcategory_m.job_supplement_subcategory_cd as job_supplement_subcategory_cd',
-            'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',            
-        )
-        ->leftJoin('job_supplement_maincategory_m', 'job_supplement_subcategory_m.job_supplement_maincategory_cd', '=', 'job_supplement_maincategory_m.job_supplement_maincategory_cd')
-        ->whereNull('job_supplement_maincategory_m.deleted_at')
-        ->whereNull('job_supplement_subcategory_m.deleted_at')
-        ->orderBy('job_supplement_maincategory_m.display_order')
-        ->orderBy('job_supplement_subcategory_m.display_order')
-        ->get();
+        //職種データ取得
+        $job_category_data = get_data::job_category_data();
+        //求人補足データ取得
+        $job_supplement_data = get_data::job_supplement_data();
 
 
         return view('hp/screen/job_information',
                 compact('job_information'
                 , 'search_element_array'
                 , 'prefectural_list'
-                , 'job_category_list'
-                , 'job_supplement_list'
+                , 'job_category_data'
+                , 'job_supplement_data'
                 , 'salary_maincategory_list'
         ));
 
@@ -207,87 +180,98 @@ class hp_controller extends Controller
         $now = Carbon::now();         
         $today = $now->format('Y-m-d');
 
+        $new_line = "\n";
 
-        $sql = "
-        
-        
-        WITH
-        editing_job_supplement_connection_t AS (
+        $sql = "        
+        WITH editing_job_supplement_connection_t AS ( 
             SELECT
-            employer_id,
-            job_id,
-            CONCAT('[', GROUP_CONCAT(job_supplement_subcategory_cd ORDER BY job_supplement_subcategory_cd SEPARATOR ']['), ']') AS job_supplement_subcategory_cds
+                employer_id
+                , job_id
+                , CONCAT( 
+                    '['
+                    , GROUP_CONCAT( 
+                        job_supplement_subcategory_cd 
+                        ORDER BY
+                            job_supplement_subcategory_cd SEPARATOR ']['
+                    ) 
+                    , ']'
+                ) AS job_supplement_subcategory_cds 
             FROM
-            job_supplement_connection_t
+                job_supplement_connection_t 
             GROUP BY
-            employer_id, job_id
-        ),
-
-        address_m1 AS (
+                employer_id
+                , job_id
+        ) 
+        , editing_job_category_connection_t AS ( 
             SELECT
-            prefectural_cd,
-            prefectural_name  
+                employer_id
+                , job_id
+                , CONCAT( 
+                    '['
+                    , GROUP_CONCAT( 
+                        job_subcategory_cd 
+                        ORDER BY
+                            job_subcategory_cd SEPARATOR ']['
+                    ) 
+                    , ']'
+                ) AS job_subcategory_cds 
             FROM
-            address_m
+                job_category_connection_t 
             GROUP BY
-            prefectural_cd, prefectural_name
-        )
-
+                employer_id
+                , job_id
+        ) 
+        , address_m1 AS ( 
+            SELECT
+                prefectural_cd
+                , prefectural_name 
+            FROM
+                address_m 
+            GROUP BY
+                prefectural_cd
+                , prefectural_name
+        ) 
         SELECT
             job_information_t.id
-        ,   job_information_t.employer_id
-        ,   employer_m.employer_name
-        ,   job_information_t.job_id
-        ,   job_information_t.title
-        ,   job_information_t.work_location_prefectural_cd
-        ,   job_information_t.work_location_municipality_cd
-
-        ,   CASE
-            WHEN 
-                address_m2.prefectural_name IS NOT NULL 
-                THEN 
-                    CONCAT(address_m2.prefectural_name, '　', address_m2.municipality_name)
-                ELSE 
-                    address_m1.prefectural_name
-            END AS work_location
-
-        ,   job_information_t.working_time
-        ,   job_information_t.employment_status
-        ,   job_information_t.salary
-        ,   job_information_t.holiday
-        ,   job_image_folder_name
-
-            
-        ,   job_information_t.publish_start_date
-        ,   job_information_t.publish_end_date
-        ,   editing_job_supplement_connection_t.job_supplement_subcategory_cds
-
+            , job_information_t.employer_id
+            , employer_m.employer_name
+            , job_information_t.job_id
+            , job_information_t.title
+            , job_information_t.work_location_prefectural_cd
+            , job_information_t.work_location_municipality_cd
+            , CASE 
+                WHEN address_m2.prefectural_name IS NOT NULL 
+                    THEN CONCAT( 
+                    address_m2.prefectural_name
+                    , '　'
+                    , address_m2.municipality_name
+                ) 
+                ELSE address_m1.prefectural_name 
+                END AS work_location
+            , job_information_t.working_time
+            , job_information_t.employment_status
+            , job_information_t.salary
+            , job_information_t.holiday
+            , job_image_folder_name
+            , job_information_t.publish_start_date
+            , job_information_t.publish_end_date
+            , editing_job_supplement_connection_t.job_supplement_subcategory_cds 
+            , editing_job_category_connection_t.job_subcategory_cds
         FROM
-            job_information_t    
-            
-        LEFT JOIN
-            employer_m
-        ON
-            employer_m.employer_id = employer_m.employer_id        
-
-        LEFT JOIN
-            editing_job_supplement_connection_t
-        ON
-            editing_job_supplement_connection_t.employer_id = job_information_t.employer_id
-        AND
-            editing_job_supplement_connection_t.job_id = job_information_t.job_id
-            
-        LEFT JOIN
-            address_m1
-        ON
-            address_m1.prefectural_cd = job_information_t.work_location_prefectural_cd
-            
-        LEFT JOIN
-            address_m as address_m2
-        ON
-            address_m2.prefectural_cd = job_information_t.work_location_prefectural_cd
-        AND
-            address_m2.municipality_cd = job_information_t.work_location_municipality_cd
+            job_information_t 
+            LEFT JOIN employer_m 
+                ON employer_m.employer_id = employer_m.employer_id 
+            LEFT JOIN editing_job_supplement_connection_t 
+                ON editing_job_supplement_connection_t.employer_id = job_information_t.employer_id 
+                AND editing_job_supplement_connection_t.job_id = job_information_t.job_id 
+            LEFT JOIN editing_job_category_connection_t 
+                ON editing_job_category_connection_t.employer_id = job_information_t.employer_id 
+                AND editing_job_category_connection_t.job_id = job_information_t.job_id 
+            LEFT JOIN address_m1 
+                ON address_m1.prefectural_cd = job_information_t.work_location_prefectural_cd 
+            LEFT JOIN address_m as address_m2 
+                ON address_m2.prefectural_cd = job_information_t.work_location_prefectural_cd 
+                AND address_m2.municipality_cd = job_information_t.work_location_municipality_cd 
 
         WHERE
             job_information_t.publish_flg = '1'
@@ -300,7 +284,8 @@ class hp_controller extends Controller
         //都道府県CDを取得
         if($prefectural_cd_search_value_array["existence_data"] == 1) {
             $prefectural_cd = $prefectural_cd_search_value_array["prefectural_cd"];
-            $sql = $sql . " and job_information_t.work_location_prefectural_cd = '" . $prefectural_cd . "'";
+            $sql .= $new_line  . 'AND';            
+            $sql .= $new_line  . "job_information_t.work_location_prefectural_cd = '" . $prefectural_cd . "'";
         }
 
         //市区町村CDを取得
@@ -309,13 +294,53 @@ class hp_controller extends Controller
             
             $municipality_cd_list = implode(',', $municipality_cd_array);
         
-            $sql = $sql . " and job_information_t.work_location_municipality_cd IN (" . $municipality_cd_list . ")";        }
+            $sql .= $new_line  . "AND";       
+            $sql .= $new_line  . "job_information_t.work_location_municipality_cd IN (" . $municipality_cd_list . ")";        
 
+        }
+
+        //職種
+        if($job_category_search_value_array["existence_data"] == 1) {
+
+            $search_job_category_array = $job_category_search_value_array["value_array"];
+        
+            foreach ($search_job_category_array as $index => $job_subcategory_cd){
+                
+                if($index == 0){
+                    $sql .= $new_line  . "AND";                      
+                    $sql .= $new_line  . "(";      
+                }else{
+                    $sql .= $new_line  . "OR";
+                }
+                                
+                $sql .= $new_line  . "editing_job_category_connection_t.job_subcategory_cds LIKE '%[" . $job_subcategory_cd . "]%'";                
+
+                if(count($search_job_category_array) - 1 == $index){
+                    $sql .= $new_line  . ")";  
+                }
+
+
+            }
+        }
+
+        //求人情報補足
         if($job_supplement_search_value_array["existence_data"] == 1) {
             $search_job_supplement_array = $job_supplement_search_value_array["value_array"];
 
             foreach ($search_job_supplement_array as $index => $job_supplement_subcategory_cd){
-                $sql = $sql . " and editing_job_supplement_connection_t.job_supplement_subcategory_cds LIKE '%[" . $job_supplement_subcategory_cd . "]%'";                
+
+                if($index == 0){
+                    $sql .= $new_line  . "AND";                      
+                    $sql .= $new_line  . "(";      
+                }else{
+                    $sql .= $new_line  . "OR";
+                }
+
+                $sql .= $new_line  . " editing_job_supplement_connection_t.job_supplement_subcategory_cds LIKE '%[" . $job_supplement_subcategory_cd . "]%'";                
+
+                if(count($search_job_supplement_array) - 1 == $index){
+                    $sql .= $new_line  . ")";  
+                }
             }
         }
 

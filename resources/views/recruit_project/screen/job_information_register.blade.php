@@ -7,25 +7,297 @@
 
 <style>
 
+body{
+        z-index: 1;
+
+        padding-bottom: 5vh;
+    }
+
+   
+   
+    
+
+    .job-supplement-maincategory-area
+    ,.job-maincategory-title-area{
+        height: 50px;
+        background-color: rgb(245, 179, 81);
+        color:rgb(239, 239, 247);
+        font-size: 19px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center; /*左右中央揃え*/
+        align-items: center;     /*上下中央揃え*/
+    }
+
+    .job-supplement-area
+    ,.job-category-area{
+        height: 50px;
+        padding: 3px;
+    }
+
+    .job-supplement-label
+    ,.job-category-label{
+        height: 100%;
+        width: 100%; 
+        color: rgb(53, 7, 7);       
+        border-radius: 3px;     
+        background-color: rgb(208, 208, 241);
+        
+    }
+
+    .job-supplement-select
+    ,.job-category-select{
+        background-color: rgb(49, 49, 105);
+        color: white;
+        border: solid 1px rgb(208, 208, 241);
+        font-weight: bold;
+        animation: arrowrotate .1s;
+    }
+
+    @keyframes arrowrotate {
+        100% {
+            transform: rotate(6deg);
+        }
+    }
+
+
+    .item-center{
+        display: flex;
+        justify-content: center; /*左右中央揃え*/
+        align-items: center;     /*上下中央揃え*/
+    }
+    
+    
+
+
+
+/* PC用 */
+@media (min-width:769px) {  /*画面幅が769px以上の場合とする*/
+  
+}
+
+
+
+/* スマホ用 */
+@media (max-width:768px) {  /*画面幅が768px以下の場合とする*/
+
+}
+
+
 </style>
 
 <div id="main" class="mt-3 text-center container">
     
- 
-    <form id="save-form" method="post" action="{{ route('recruit_project.information_save') }}">
+    
+    
+    <form id="save-form" method="post" action="{{ route('recruit_project.job_information_save') }}">
         @csrf
 
-    
-        
-        <div class="col-12">
-            <textarea id="textarea"class="" name="" value=""  ></textarea>
-        </div>
-    
+        <input type="hidden" name="employer_id" id="employer_id" value="{{$employer_id}}">
+        <input type="hidden" name="job_id" id="job_id" value="{{$job_id}}">
 
-        <button type="button" id="save-button" class="btn btn-primary" >登録TEST</button>
-    
+        <div id="" class="row item-center">
+
+            <button type="button" id="save-button" class="btn btn-primary" >登録TEST</button>
+
+            <div class="col-11 col-md-11 mt-3">
+        
+                <div id="" class="row m-0 p-0">
+
+                    <div class="col-12 col-md-6 mt-3">
+
+                        <div id="" class="row m-0 p-0">
+
+                            @php
+                                $job_maincategory_cd_array = [];
+                                $start_index_array = [];
+                                $end_index_array = [];
+                                $check_job_maincategory_name = "";                                
+
+                                foreach($job_category_data as $job_category_index => $job_category_info){
+
+                                    $job_maincategory_cd = $job_category_info->job_maincategory_cd;
+                                    $job_maincategory_name = $job_category_info->job_maincategory_name;
+                                    $job_subcategory_cd = $job_category_info->job_subcategory_cd;
+
+                                    if(in_array($job_subcategory_cd , $job_subcategory_connections)){
+                                        $job_maincategory_cd_array[] = $job_maincategory_cd;
+                                    }
+
+
+                                    if($check_job_maincategory_name != $job_maincategory_name){
+                                        $start_index_array[] = $job_category_index;
+                                        $end_index_array[] = $job_category_index - 1;
+
+                                        $check_job_maincategory_name = $job_maincategory_name;
+                                    }   
+
+                                }
+
+                                $end_index_array[] = count($job_category_data) - 1;
+
+                            @endphp
+
+                            @foreach($job_category_data as $job_category_index => $job_category_info)
+                            
+                                @php
+                                    $job_maincategory_cd = $job_category_info->job_maincategory_cd;
+                                    $job_maincategory_name = $job_category_info->job_maincategory_name;
+                                    $job_subcategory_cd = $job_category_info->job_subcategory_cd;
+                                    $job_subcategory_name = $job_category_info->job_subcategory_name;
+
+                                    
+                                    $add_class = "";
+                                    $check_status = "";
+                                    if(in_array($job_subcategory_cd , $job_subcategory_connections)){
+                                        $add_class = "job-category-select";                            
+                                        $check_status = "checked";
+                                    }
+
+                                @endphp
+
+
+                                @if(in_array($job_category_index, $start_index_array))
+
+                                    @php
+                                        $d_none_class = "d-none";
+                                        if(in_array($job_maincategory_cd, $job_maincategory_cd_array)){
+                                            $d_none_class = "";
+                                        }
+                                    @endphp
+                                                                    
+                                    <div 
+                                    class="col-12 job-maincategory-title-area mt-2"
+                                    data-target="{{$job_maincategory_cd}}"
+                                    >{{$job_maincategory_name}}
+                                    </div>
+
+                                    <div id="job-maincategory-hidden-area{{$job_maincategory_cd}}" 
+                                    class="row job-maincategory-hidden-area mt-1 {{$d_none_class}}"
+                                    data-target="{{$job_maincategory_cd}}">                                   
+
+                                @endif
+
+                                <div id="job-subcategory-area{{$job_subcategory_cd}}" 
+                                class="col-6 col-lg-4 col-xl-3 mt-2 job-category-area">
+                                    <label id="job-category-label{{$job_subcategory_cd}}" 
+                                        for="job-category-checkbox{{$job_subcategory_cd}}" 
+                                        class="job-category-label item-center {{$add_class}}"                                        
+                                    >{{$job_subcategory_name}}
+                                    </label>
+
+                                    <input type="checkbox" 
+                                    id="job-category-checkbox{{$job_subcategory_cd}}"
+                                    name="job-category-checkbox{{$job_subcategory_cd}}"
+                                    value="{{$job_subcategory_cd}}"                        
+                                    data-jobmaincategorycd="{{$job_maincategory_cd}}"
+                                    data-target="{{$job_subcategory_cd}}"
+                                    class="job-category-checkbox d-none"   
+                                    {{$check_status}}                              
+                                    >
+                                </div>
+
+
+                                @if(in_array($job_category_index, $end_index_array))                                    
+                                    </div>                                                                        
+                                @endif
+
+                            @endforeach
+                
+                    
+                
+                        </div>   
+                    </div>   
+                    
+                    
+
+
+                    <div class="col-12 col-md-6 mt-3">
+
+                        <div id="" class="row m-0 p-0">
+
+                        @php
+                                $check_job_supplement_maincategory_name = "";
+                            @endphp
+
+                            @foreach($job_supplement_data as $job_supplement_info)
+
+                                @php                            
+                                    
+                                    $job_supplement_maincategory_cd = $job_supplement_info->job_supplement_maincategory_cd;
+                                    $job_supplement_maincategory_name = $job_supplement_info->job_supplement_maincategory_name;
+
+                                    $job_supplement_subcategory_cd = $job_supplement_info->job_supplement_subcategory_cd;
+                                    $job_supplement_subcategory_name = $job_supplement_info->job_supplement_subcategory_name;
+
+                                    $add_class = "";
+                                    $check_status = "";
+                                    if(in_array($job_supplement_subcategory_cd , $job_supplement_subcategory_connections)){
+                                        $add_class = "job-supplement-select";                            
+                                        $check_status = "checked";
+                                    }
+
+                                @endphp
+
+                                @if($check_job_supplement_maincategory_name != $job_supplement_maincategory_name)
+                                {{-- 求人検索補足大分類変換時 --}}
+                                    <div class="col-12 job-supplement-maincategory-area mt-2">
+                                        {{$job_supplement_maincategory_name}}
+                                    </div>                            
+                                    
+                                    @php
+                                        $check_job_supplement_maincategory_name = $job_supplement_maincategory_name;
+                                    @endphp
+
+                                @endif
+
+                                <div id="job-supplement-area{{$job_supplement_subcategory_cd}}" 
+                                    class="col-6 col-lg-4 col-xl-3 mt-2 job-supplement-area">
+                                    <label id="job-supplement-label{{$job_supplement_subcategory_cd}}" 
+                                        for="job-supplement-checkbox{{$job_supplement_subcategory_cd}}" 
+                                        class="job-supplement-label {{$add_class}} item-center"
+                                    >{{$job_supplement_subcategory_name}}
+                                    </label>
+
+                                    <input type="checkbox" 
+                                    id="job-supplement-checkbox{{$job_supplement_subcategory_cd}}"
+                                    name="job-supplement-checkbox{{$job_supplement_subcategory_cd}}"
+                                    value="{{$job_supplement_subcategory_cd}}"                        
+                                    data-target="{{$job_supplement_subcategory_cd}}"
+                                    class="job-supplement-checkbox d-none"                                     
+                                    {{$check_status}}
+                                    >
+                                </div>
+
+                            @endforeach
+                
+                    
+                
+                        </div> 
+                    </div> 
+
+
+
+
+
+
+
+
+
+
+
+
+                
+
+            
+                </div>              
+                
+
+            </div>
+
+        </div>
+
     </form>
-    
 </div>
 @endsection
 
@@ -36,6 +308,77 @@
 $(function(){
 
 
+    //職種大分類エリアクリック時
+    $(document).on("click", ".job-maincategory-title-area", function (e) {        
+
+        var close_judge = true;
+
+        var target = $(this).data('target');
+
+        var target_id = "#job-maincategory-hidden-area" + target;
+            
+        var job_category_checkboxs = document.querySelectorAll('.job-category-checkbox');
+
+        if(job_category_checkboxs.length > 0){
+                
+            // チェックされている要素のvalueを取得
+            job_category_checkboxs.forEach(function(job_category_checkbox) {
+
+                var job_maincategory_cd = $(job_category_checkbox).data('jobmaincategorycd');
+                
+                if(target == job_maincategory_cd){
+                    
+                    if (job_category_checkbox.checked) {                    
+                        close_judge = false;
+                    }
+                }
+            });
+        }
+
+
+        if($(target_id).hasClass('d-none')) {
+            $(target_id).removeClass('d-none');            
+        }else{
+
+            if(close_judge){
+                $(target_id).addClass('d-none');
+            }
+            
+        }
+
+    });
+
+    //職種中分類選択値変更時
+    $(document).on("change", ".job-category-checkbox", function (e) {
+
+        var job_subcategory_cd = $(this).data('target');
+
+        $("#job-category-label" + job_subcategory_cd).removeClass('job-category-select');
+
+        if($("#job-category-checkbox" + job_subcategory_cd).prop('checked')){
+
+            $("#job-category-label" + job_subcategory_cd).addClass('job-category-select');
+            
+        }        
+
+    });
+
+
+
+    //求人補足選択値変更時
+    $(document).on("change", ".job-supplement-checkbox", function (e) {
+
+        var job_supplement_subcategory_cd = $(this).data('target');
+
+        $("#job-supplement-label" + job_supplement_subcategory_cd).removeClass('job-supplement-select');
+
+        if($("#job-supplement-checkbox" + job_supplement_subcategory_cd).prop('checked')){
+
+            $("#job-supplement-label" + job_supplement_subcategory_cd).addClass('job-supplement-select');
+            
+        }        
+
+    });
 
 
 
@@ -82,15 +425,7 @@ $(function(){
 
                 if(Result=='success'){
 
-                    //画面遷移時のメッセージ表示抑制の為(addEventListener)
-                    $('#login_flg').val("1");
-                    var Url = result_array["Url"];
-
-                    //※新規登録処理成功時と更新処理成功時の画面遷移先は別
-
-                    //新規登録処理成功時はログインIDとパスワードのお知らせ画面
-                    //更新処理成功時は雇用者情報管理画面
-                    window.location.href = Url;
+                    location.reload();
 
                 }else{
 
