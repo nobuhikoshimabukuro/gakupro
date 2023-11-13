@@ -67,9 +67,9 @@ table tr:last-child td:last-child {
         </div>        
       </div>   
       
-      <div id="" class="row m-0 p-0">
+      <div id="" class="row m-0 p-0 scroll-wrap-x">
 
-        <table id='' class='m-0 p-0'>            
+        <table id='' class='data-info-table m-0 p-0'>            
             <tr>
                 <th>求人ID</th>
                 <th>タイトル</th>            

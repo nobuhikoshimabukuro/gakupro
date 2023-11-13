@@ -137,6 +137,16 @@
         </div>
 
 
+        <div class="col-6 col-md-4 col-xl-3 p-3">
+            <a href="{{ route('master.job_password') }}">
+                <div class="bg-dark rounded-lg text-light p-2 ">                    
+                    <i class="fas fa-passport fa-3x mb-1"></i>
+                    <h6>求人公開パスワード</h6>
+                </div>
+            </a>
+        </div>
+
+
        
         
         </div>

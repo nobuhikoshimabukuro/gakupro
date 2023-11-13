@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class mailaddresscheck_t_model extends Model
+class mailaddress_check_t_model extends Model
 {
     use HasFactory;
     use SoftDeletes;
@@ -16,7 +16,7 @@ class mailaddresscheck_t_model extends Model
 
     //コネクション名を指定
     protected $connection = 'mysql';
-    protected $table = 'mailaddresscheck_t';
+    protected $table = 'mailaddress_check_t';
     protected $primaryKey = 'id';
 
 

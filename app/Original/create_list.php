@@ -11,6 +11,7 @@ use App\Models\subcategory_m_model;
 use App\Models\address_m_model;
 use App\Models\job_maincategory_m_model;
 use App\Models\salary_maincategory_m_model;
+use App\Models\salary_subcategory_m_model;
 use App\Models\job_supplement_maincategory_m_model;
 use App\Models\job_supplement_subcategory_m_model;
 
@@ -248,5 +249,46 @@ class create_list
     }
  
 
+
+
+    //給与中分類コンボボックス
+    //ajaxからget処理のみで呼ばれる処理
+    public static function salary_sabcategory_list_ajax(Request $request)
+    {      
+      
+        $salary_sabcategory_list = array();        
+        $salary_maincategory_cd = $request->salary_maincategory_cd;
+        
+
+        $salary_subcategory_m_model = salary_subcategory_m_model::select(
+            'salary_subcategory_cd as salary_subcategory_cd',
+            'salary_maincategory_cd as salary_maincategory_cd',
+            'display_order as display_order',
+            'salary as salary',
+        )
+        ->orderBy('display_order', 'asc')
+        ->where('salary_maincategory_cd', '=', $salary_maincategory_cd)
+        ->get();
+              
+
+        if(count($salary_subcategory_m_model) > 0) {
+
+            foreach($salary_subcategory_m_model as $info){
+
+                $salary_sabcategory_list[] = array(
+                    'salary_subcategory_cd' => $info->salary_subcategory_cd,
+                    'salary_maincategory_cd' => $info->salary_maincategory_cd,
+                    'salary' => $info->salary,            
+                    'salary_display' => number_format($info->salary) . "円以上",
+                );
+            }
+
+        }
+
+        return response()->json(['salary_sabcategory_list' => $salary_sabcategory_list]);        
+    }
+
+
+    
 }
 

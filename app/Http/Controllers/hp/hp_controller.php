@@ -169,6 +169,10 @@ class hp_controller extends Controller
         $prefectural_cd_search_value_array = $all_job_search_value_array["prefectural_cd_search_value_array"];
         //市区町村CDを取得
         $municipality_cd_search_value_array = $all_job_search_value_array["municipality_cd_search_value_array"];
+
+        //給与を取得
+        $salary_search_value_array = $all_job_search_value_array["salary_search_value_array"];
+
         //職種を取得
         $job_category_search_value_array = $all_job_search_value_array["job_category_search_value_array"];
 
@@ -252,9 +256,7 @@ class hp_controller extends Controller
             , job_information_t.employment_status
             , job_information_t.salary
             , job_information_t.holiday
-            , job_image_folder_name
-            , job_information_t.publish_start_date
-            , job_information_t.publish_end_date
+            , job_image_folder_name            
             , editing_job_supplement_connection_t.job_supplement_subcategory_cds 
             , editing_job_category_connection_t.job_subcategory_cds
         FROM
@@ -274,11 +276,7 @@ class hp_controller extends Controller
                 AND address_m2.municipality_cd = job_information_t.work_location_municipality_cd 
 
         WHERE
-            job_information_t.publish_flg = '1'
-        AND
-            job_information_t.publish_start_date <= '" . $today . "'
-        AND
-            job_information_t.publish_end_date >= '" . $today . "'        
+            job_information_t.publish_flg = '1'    
         ";
 
         //都道府県CDを取得
@@ -296,6 +294,15 @@ class hp_controller extends Controller
         
             $sql .= $new_line  . "AND";       
             $sql .= $new_line  . "job_information_t.work_location_municipality_cd IN (" . $municipality_cd_list . ")";        
+
+        }
+
+        //給与を取得
+        
+        if($salary_search_value_array["existence_data"] == 1) {
+            
+            $salary_maincategory_cd = $salary_search_value_array["salary_maincategory_cd"];
+            $salary = $salary_search_value_array["salary"];            
 
         }
 
@@ -421,9 +428,7 @@ class hp_controller extends Controller
             'job_information_t.hp_url as job_hp_url',
             'job_information_t.mailaddress as mailaddress',
             'job_information_t.job_image_folder_name as job_image_folder_name',
-            'job_information_t.application_requirements as application_requirements',
-            'job_information_t.publish_start_date as publish_start_date',
-            'job_information_t.publish_end_date as publish_end_date',
+            'job_information_t.application_requirements as application_requirements',            
             'job_information_t.scout_statement as scout_statement',
             'job_information_t.remarks as job_remarks',
             
@@ -437,9 +442,7 @@ class hp_controller extends Controller
                 ->on('job_information_t.work_location_municipality_cd', '=', 'municipality_address_m.municipality_cd');
         })
         ->where('id', '=', $id)
-        ->where('job_information_t.publish_flg', '=', '1')
-        ->where('job_information_t.publish_start_date', '<=', $today)
-        ->where('job_information_t.publish_end_date', '>=', $today)
+        ->where('job_information_t.publish_flg', '=', '1')        
         ->first();
 
         if(is_null($job_information)){

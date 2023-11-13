@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\employer_m_model;
 use App\Models\employer_password_t_model;
 use App\Models\job_information_t_model;
-use App\Models\mailaddresscheck_t_model;
+use App\Models\mailaddress_check_t_model;
 
 use App\Models\salary_maincategory_m_model;
 use App\Models\salary_subcategory_m_model;

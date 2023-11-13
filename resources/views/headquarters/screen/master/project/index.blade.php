@@ -25,9 +25,12 @@
 
         <div class="col-6 text-end">
 
-            <button type="button" class='original-button'>
+            <button type="button" class='btn btn-link'>
                 <a href="{{ route('master.index') }}">マスタ一覧へ</a>
             </button>
+
+
+
             
         </div>
 

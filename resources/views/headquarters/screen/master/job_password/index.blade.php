@@ -1,7 +1,7 @@
 @extends('headquarters.common.layouts_afterlogin')
 
 @section('pagehead')
-@section('title', '住所')  
+@section('title', '求人公開用パスワード')  
 @endsection
 @section('content')
 
@@ -19,7 +19,7 @@
 
         <div class="col-6 text-start">
             <h4 class="master-title">
-                住所マスタ
+                求人公開用パスワード
             </h4>
         </div>    
 
@@ -27,11 +27,7 @@
 
             <button type="button" class='btn btn-link'>
                 <a href="{{ route('master.index') }}">マスタ一覧へ</a>
-            </button>
-
-
-
-            
+            </button>            
         </div>
 
         <div class="col-6 text-start">
@@ -48,16 +44,10 @@
     </div>    
 
 
-    <div class="row">
-
-
-    </div>
-
-    {{-- <div class="m-0 text-start "> --}}
-    <div class="m-0 text-start scroll-wrap-x">
+    <div class="m-0 text-start">
         {{-- ページャー --}}                
-        @if(count($address_m_list) > 0)                                
-          <div class="m-0">{{ $address_m_list->appends(request()->query())->links() }}</div>
+        @if(count($job_password_t_list) > 0)                                
+          <div class="m-0">{{ $job_password_t_list->appends(request()->query())->links() }}</div>
         @endif
     </div>
   
@@ -69,39 +59,46 @@
         <table id='' class='data-info-table'>
             
             <tr>
-                <th>都道府県CD</th>
-                <th>都道府県名</th>
-                <th>市区町村CD</th>
-                <th>市区町村名</th>
-                <th>件数【<span id='data-total-count'>{{count($address_m_list)}}</span>件】</th>
+                <th>ID</th>
+                <th>商品の種類</th>
+                <th>パスワード</th>
+                <th>使用状況</th>
+                <th>販売状況</th>
+                <th>表示日数</th>
+                <th>作成者/作成日</th>
+                <th>件数【<span id='data-total-count'>{{count($job_password_t_list)}}</span>件】</th>
             </tr>
 
-            @foreach ($address_m_list as $item)
+            @foreach ($job_password_t_list as $item)
             <tr>
+                <td>{{$item->job_password_id}}</td>
+                <td>{{$item->product_type}}</td>
+                <td>{{$item->password}}</td>
+                <td>{{$item->usage_status}}</td>
+                <td>{{$item->sold_status}}</td>
+                <td>{{$item->date_range}}</td>
                 <td>
-                    {{$item->prefectural_cd}}
-                </td>
-
-                <td>
-                    <ruby>{{$item->prefectural_name}}
-                        <rt>{{$item->prefectural_name_kana}}</rt>
-                    </ruby>                    
-                </td>   
-
-                <td>
-                    {{$item->municipality_cd}}
-                </td>
-
-                <td>
-                    <ruby>{{$item->municipality_name}}
-                        <rt>{{$item->municipality_name_kana}}</rt>
-                    </ruby>                    
-                </td>  
-
-                <td></td>
-               
+                    {{$item->created_by}}:{{$item->created_by_name}}
+                    <br>
+                    {{$item->created_at}}
+                </td>    
                 
+                <td>
 
+                    @if($item->usage_flg == 1)
+                    <button class='modal-button' data-bs-toggle='modal' data-bs-target='#remarks-modal'
+                            data-employerid='{{$item->employer_id}}'
+                            data-employername='{{$item->employer_name}}'
+                            data-jobid='{{$item->job_id}}'
+                            data-title='{{$item->title}}'
+                            data-publishstartdate='{{$item->publish_start_date}}'
+                            data-publishenddate='{{$item->publish_end_date}}'
+                            > 
+                            <i class='far fa-edit'></i>
+                    </button>
+                    @endif
+                
+                </td>    
             </tr>
 
             @endforeach
@@ -126,18 +123,9 @@
             
                             <div class="form-group row">                                
                                 
-                                <label for="search_prefectural_cd" class="col-12 col-form-label original-label">都道府県コード</label>
-                                <input type="text" id="search_prefectural_cd" name="search_prefectural_cd" value="{{$search_element_array['search_prefectural_cd']}}" class="form-control">
-
-                                <label for="search_prefectural_name" class="col-12 col-form-label original-label">都道府県名（あいまい）</label>
-                                <input type="text" id="search_prefectural_name" name="search_prefectural_name" value="{{$search_element_array['search_prefectural_name']}}" class="form-control">
-                                             
-                                <label for="search_municipality_cd" class="col-12 col-form-label original-label">市区町村コード</label>
-                                <input type="text" id="search_municipality_cd" name="search_municipality_cd" value="{{$search_element_array['search_municipality_cd']}}" class="form-control">
-
-                                <label for="search_municipality_name" class="col-12 col-form-label original-label">市区町村名（あいまい）</label>
-                                <input type="text" id="search_municipality_name" name="search_municipality_name" value="{{$search_element_array['search_municipality_name']}}" class="form-control">
-
+                                <label for="search_job_password_name" class="col-12 col-form-label original-label">プロジェクト名（あいまい）</label>
+                                <input type="text" id="search_job_password_name" name="search_job_password_name" value="{{$search_element_array['search_product_type']}}" class="form-control">
+                                                        
                             </div>     
                             
                         </div>
@@ -160,6 +148,7 @@
             </div>
         </div>
 
+
         {{-- 登録/更新用モーダル --}}
         <div class="modal fade" id="save-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="save-modal-label" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -174,36 +163,24 @@
                         
                     </div>
                     
-                    <form id="save-form" method="post" action="{{ route('master.address.save') }}">                    
+                    <form id="save-form" method="post" action="{{ route('master.job_password.save') }}">                    
                         @csrf
                         <div class="modal-body">  
                             
-                            <div class="form-group row">
-                                <p>最新の住所データCSVをダウンロードしてください</p>
-                                
-                                <a href="https://postaladdress.jp/municipality/download" target="_blank">
-                                    <button type="button" class="btn btn-secondary">郵政ダウンロードページ</button>
-                                </a>
-                                <p>ダウンロードページでは下記の項目にチェックを必ず入れてダウンロードしてください</p>
-                                
-                                    <p>・市区町村コード</p>
-                                    <p>・市区町村名</p>
-                                    <p>・市区町村名カナ</p>
-                                    <p>・都道府県コード</p>
-                                    <p>・都道府県名</p>
-                                    <p>・都道府県名カナ</p>
-                            </div>   
-                            
+                            <input type="hidden" name="job_password_id" id="job_password_id">
                             
                             <div class="form-group row">
-                                <input type="file" name="csv_file" accept=".csv">
-                            </div>
+                                <label for="create_password_count" class="col-md-6 col-form-label original-label">作成数</label>
+                                <input type="text" name="create_password_count" id="create_password_count" value="" class="form-control col-md-3">                               
+
+                            </div>                     
+                     
                             
                         </div>
 
                         <div class="modal-footer">                            
                             <div class="col-6 m-0 p-0 text-start">
-                                <button type="button" id='save-button' class="btn btn-primary save-button">アップロード後登録</button>
+                                <button type="button" id='save-button' class="btn btn-primary save-button"></button>
                             </div>
 
                             <div class="col-6 m-0 p-0 text-end">
@@ -216,14 +193,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
-
       
 
     </div>
@@ -236,10 +205,12 @@
 
 $(function(){
 
-  
+    
 
     //登録、更新用モーダル表示時
     $('#save-modal').on('show.bs.modal', function(e) {
+
+        var button_id = "#save-button";
 
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
@@ -247,11 +218,46 @@ $(function(){
         $('.is-invalid').removeClass('is-invalid');
 
 
+        var FormData = $("#save-form").serializeArray();        
+
+        $.each(FormData, function(i, element) {		
+            $("[name='"+ element.name +"']").val("");          
+        });
+
+        // イベント発生元
+        let evCon = $(e.relatedTarget);
+
+        var job_password_id = evCon.data('job_passwordid');
+        var job_password_name = evCon.data('job_passwordname');
+        var remarks = evCon.data('remarks');
+        //登録処理か更新処理か判断
+        var processflg = evCon.data('processflg');
+
         
+        var title ="";        
+
+        $(button_id).removeClass('insert-button');
+        $(button_id).removeClass('update-button');        
+        
+        if(processflg == '0'){
+            title = "新規登録処理";
+            $(button_id).addClass('insert-button');            
+            $('#job_password_id').val(0);
+            
+        }else{
+            title = '更新処理（プロジェクトID：' + job_password_id+'）';
+            $(button_id).addClass('update-button');            
+            $('#job_password_id').val(job_password_id);            
+        }
+
+        $('#save-modal-title').html(title);        
+        $('#job_password_name').val(job_password_name); 
+        $('#remarks').val(remarks);
         
     });
 
 
+    
     // 「クリア」ボタンがクリックされたら
     $('.clear-button').click(function () {
 
@@ -281,9 +287,6 @@ $(function(){
 
         let f = $('#save-form');
 
-        // FormDataオブジェクトを作成
-        let formData = new FormData(f[0]);
-
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
 
@@ -291,9 +294,7 @@ $(function(){
             url: f.prop('action'), // 送信先
             type: f.prop('method'),
             dataType: 'json',
-            data: formData,
-            processData: false, // データをシリアライズせずに送信
-            contentType: false, // デフォルトのContent-Typeヘッダを使わない
+            data: f.serialize(),
         })
             // 送信成功
             .done(function (data, textStatus, jqXHR) {
@@ -336,8 +337,26 @@ $(function(){
             .fail(function (data, textStatus, errorThrown) {
                 
                 //{{-- アラートメッセージ表示 --}}
-                let errorsHtml = '<div class="alert alert-danger text-start">';                
-                errorsHtml += '<li class="text-start">登録処理エラー</li>';
+                let errorsHtml = '<div class="alert alert-danger text-start">';
+
+                if (data.status == '422') {
+                    //{{-- vlidationエラー --}}
+                    $.each(data.responseJSON.errors, function (key, value) {
+                        //{{-- responsからerrorsを取得しメッセージと赤枠を設定 --}}
+                        errorsHtml += '<li  class="text-start">' + value[0] + '</li>';
+                    
+                        $("[name='" + key + "']").addClass('is-invalid');
+                        
+                        $("[name='" + key + "']").next('.invalid-feedback').text(value);
+                    });
+
+                } else {
+
+                    //{{-- その他のエラー --}}
+                    errorsHtml += '<li class="text-start">登録処理エラー</li>';
+
+                }
+
                 errorsHtml += '</div>';
                 
                 //{{-- アラート --}}

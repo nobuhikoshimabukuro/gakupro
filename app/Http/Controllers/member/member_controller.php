@@ -18,7 +18,7 @@ use App\Models\member_m_model;
 use App\Models\member_password_t_model;
 use App\Models\project_m_model;
 use App\Models\member_with_project_t_model;
-use App\Models\mailaddresscheck_t_model;
+use App\Models\mailaddress_check_t_model;
 use App\Models\school_m_model;
 use App\Models\majorsubject_m_model;
 
@@ -162,7 +162,7 @@ class member_controller extends Controller
                 //平文を暗号文に
                 $encryption_password = common::encryption($password);
 
-                $check_password = mailaddresscheck_t_model::withTrashed()
+                $check_password = mailaddress_check_t_model::withTrashed()
                 ->where('password', '=', $encryption_password)                        
                 ->exists();
 
@@ -177,7 +177,7 @@ class member_controller extends Controller
                 //6桁のランダム文字列
                 $key_code =  common::create_random_letters(8);
                 
-                $check_key_code = mailaddresscheck_t_model::withTrashed()
+                $check_key_code = mailaddress_check_t_model::withTrashed()
                 ->where('key_code', '=', $key_code)                        
                 ->exists();
 
@@ -192,7 +192,7 @@ class member_controller extends Controller
                 //6桁のランダム文字列
                 $cipher =  common::create_random_letters(8);
                 
-                $check_cipher = mailaddresscheck_t_model::withTrashed()
+                $check_cipher = mailaddress_check_t_model::withTrashed()
                 ->where('cipher', '=', $cipher)                        
                 ->exists();
 
@@ -202,7 +202,7 @@ class member_controller extends Controller
                 }            
             }
 
-            mailaddresscheck_t_model::create(
+            mailaddress_check_t_model::create(
                 [
                     "password" => $encryption_password
                     ,"key_code" => $key_code
@@ -247,15 +247,15 @@ class member_controller extends Controller
         $key_code = $request->key_code;       
         $cipher = $request->cipher;      
         
-        //mailaddresscheck_tからデータを取得
-        $mailaddresscheck_t_info = mailaddresscheck_t_model::withTrashed()                   
+        //mailaddress_check_tからデータを取得
+        $mailaddress_check_t_info = mailaddress_check_t_model::withTrashed()                   
         ->where('key_code', '=', $key_code)          
         ->where('cipher', '=', $cipher)  
         ->first();   
 
         //key_codeと暗号文でデータが存在すればOK
 
-        if(is_null($mailaddresscheck_t_info)){
+        if(is_null($mailaddress_check_t_info)){
 
             // 暗号文と不一致   不正な処理           
             session()->flash('infomessage', 'お送りしたメールのURLから再度遷移してください。');
@@ -275,22 +275,22 @@ class member_controller extends Controller
         $cipher = $request->cipher;            
         $encryption_password = common::encryption($request->password);
 
-        //mailaddresscheck_tからデータを取得
-        $mailaddresscheck_t_info = mailaddresscheck_t_model::withTrashed()                   
+        //mailaddress_check_tからデータを取得
+        $mailaddress_check_t_info = mailaddress_check_t_model::withTrashed()                   
         ->where('key_code', '=', $key_code)          
         ->where('cipher', '=', $cipher)  
         ->first();   
         
-        if(!is_null($mailaddresscheck_t_info)){
+        if(!is_null($mailaddress_check_t_info)){
 
                         
-            $mailaddresscheck_t = mailaddresscheck_t_model::
+            $mailaddress_check_t = mailaddress_check_t_model::
             where('key_code', '=', $key_code)
             ->where('cipher', '=', $cipher)
             ->where('password', '=', $encryption_password)  
             ->get();
 
-            $GetCount = count($mailaddresscheck_t);
+            $GetCount = count($mailaddress_check_t);
             
             if($GetCount == 0){
                 //ログインIDとパスワードで取得できず::NG            
@@ -302,7 +302,7 @@ class member_controller extends Controller
             }elseif($GetCount == 1){
                 //ログインIDとパスワードで1件のみ取得::OK
 
-                $mailaddress = $mailaddresscheck_t[0]->mailaddress;
+                $mailaddress = $mailaddress_check_t[0]->mailaddress;
                 session()->flash('certification_mailaddress', $mailaddress);          
                 return redirect()->route('member.information_register');
 

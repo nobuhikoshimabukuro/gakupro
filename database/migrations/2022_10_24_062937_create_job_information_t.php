@@ -113,15 +113,7 @@ return new class extends Migration
                            
 
         
-            $table
-                ->date('publish_start_date')
-                ->nullable()
-                ->comment('掲載開始日');
-
-            $table
-                ->date('publish_end_date')
-                ->nullable()
-                ->comment('掲載終了日');
+            
 
             $table
                 ->text('scout_statement')

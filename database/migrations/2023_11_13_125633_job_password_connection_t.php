@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+
 return new class extends Migration
 {
     /**
@@ -13,39 +14,40 @@ return new class extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable('mailaddresscheck_t')) {
+        if (Schema::hasTable('job_password_connection_t')) {
             // テーブルが存在していればリターン
             return;
         }
 
-        Schema::create('mailaddresscheck_t', function (Blueprint $table) {
+        Schema::create('job_password_connection_t', function (Blueprint $table) {
+
+            
 
             $table
-                ->increments('id')
-                ->comment('連番');
-
-            $table                
-                ->string('key_code', 100)
-                ->comment('キーコード');
+                ->integer('employer_id')
+                ->comment('雇用者ID');
 
             $table
-                ->string('cipher', 1000)
+                ->integer('job_id')
+                ->comment('求人情報ID:会社IDと求人情報IDで複合キー');
+
+            $table
+                ->integer('branch_number')
+                ->comment('枝番');
+
+            $table
+                ->integer('job_password_id')
+                ->comment(':job_password_tのid、求人新規登録時は0がセットされる');
+
+            $table
+                ->date('publish_start_date')
                 ->nullable()
-                ->comment('暗号文');
+                ->comment('掲載開始日');
 
-            $table                
-                ->string('password', 1000)
-                ->comment('認証用パスワード');
-                
             $table
-                ->string('mailaddress', 100)
-                ->comment('メールアドレス');
-
-    
-            $table
-                ->integer('check_count')
-                ->default(0)
-                ->comment('認証回数(初期値=0)');
+                ->date('publish_end_date')
+                ->nullable()
+                ->comment('掲載終了日');
 
             $table
                 ->dateTime('created_at')
@@ -76,10 +78,13 @@ return new class extends Migration
                 ->integer('deleted_by')
                 ->nullable()
                 ->comment('削除者');
+
+            $table->primary(['employer_id','job_id','branch_number'], 'job_password_connection_t');
+
         });
 
         // ALTER 文を実行しテーブルにコメントを設定
-        DB::statement("ALTER TABLE mailaddresscheck_t COMMENT 'メールアドレス認証用テーブル'");
+        DB::statement("ALTER TABLE job_password_connection_t COMMENT '求人パスワード連結テーブル'");
     }
 
     /**
@@ -89,6 +94,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mailaddresscheck_t');
+        Schema::dropIfExists('job_password_connection_t');
     }
 };

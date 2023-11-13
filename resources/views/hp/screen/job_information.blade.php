@@ -11,6 +11,7 @@
         z-index: 1;
     }
 
+/* 検索ボード */
     .search-board{    
         position:fixed;
         padding: 3px;
@@ -25,8 +26,7 @@
         /*動き*/
         transition: all 0.6s;    
     }
-
-   
+       
     .search-board-footer{
         position: absolute;
         z-index: 1000;
@@ -55,8 +55,10 @@
         z-index: 102;
         transition: all 0.6s;
     }
+
     /*アクティブクラスがついたら位置を0に*/
-    .search-board-active , .search-alert-area-active{
+    .search-board-active 
+    ,.search-alert-area-active{
         right: 0;
     }
 
@@ -109,8 +111,7 @@
     }
 
 
-    .job-supplement-maincategory-area
-    ,.job-maincategory-title-area{
+    .job-supplement-maincategory-area{
         height: 50px;
         background-color: rgb(245, 179, 81);
         color:rgb(239, 239, 247);
@@ -119,6 +120,46 @@
         display: flex;
         justify-content: center; /*左右中央揃え*/
         align-items: center;     /*上下中央揃え*/
+    }
+
+    .job-maincategory-title-area{
+        height: 50px;        
+        color:rgb(4, 4, 53);
+        font-size: 19px;
+        font-weight: bold;
+
+        border: 2px solid #000000;
+        display: flex;
+        justify-content: center; /*左右中央揃え*/
+        align-items: center;     /*上下中央揃え*/
+    }
+
+    .job-maincategory-hidden-area{
+        border: 2px solid #000000;
+        border-top:none;
+    }
+
+    .arrow-top{
+        font-size: 10px;
+        display: inline-block;
+        border-style: solid;
+        border-width: 0 6px 12px 6px;
+        border-color: transparent transparent #000 transparent;
+    }
+
+/*  
+
+    .job-maincategory-title-area:hover .arrow-top
+    ,.job-maincategory-title-area:hover .arrow-bottom{
+        transform: rotate(180deg);
+    }
+     */
+
+    .arrow-bottom {
+        display: inline-block;
+        border-style: solid;
+        border-width: 12px 6px 0 6px;
+        border-color: #000 transparent transparent transparent;
     }
 
     .job-supplement-area
@@ -281,7 +322,7 @@
                                 <button id="search-board-tab-button3" class="btn search-board-tab-button" data-target="3">
                                     雇用条件<i class="fas fa-american-sign-language-interpreting"></i>
                                 </button>
-                            </th>        
+                            </th>
                             
                             
                             <th>
@@ -407,19 +448,24 @@
                                     @endphp
                                                                  
                                     <div 
+                                    id="job-maincategory-title-area{{$job_maincategory_cd}}"
                                     class="col-12 job-maincategory-title-area mt-2"
                                     data-target="{{$job_maincategory_cd}}"
                                     >{{$job_maincategory_name}}
+                                    <span class="arrow-area arrow-bottom"></span>                                    
                                     </div>
+                                    
 
                                     <div id="job-maincategory-hidden-area{{$job_maincategory_cd}}" 
-                                    class="row job-maincategory-hidden-area mt-1 {{$d_none_class}}"
-                                    data-target="{{$job_maincategory_cd}}">                                   
+                                    class="col-12 job-maincategory-hidden-area {{$d_none_class}}"
+                                    data-target="{{$job_maincategory_cd}}">
+
+                                        <div class="row m-0 p-0">
 
                                 @endif
 
                                 <div id="job-subcategory-area{{$job_subcategory_cd}}" 
-                                class="col-6 col-lg-4 col-xl-3 mt-2 job-category-area">
+                                class="col-6 col-lg-4 col-xl-3 mt-1 mb-1 job-category-area">
                                     <label id="job-category-label{{$job_subcategory_cd}}" 
                                         for="job-category-checkbox{{$job_subcategory_cd}}" 
                                         class="job-category-label item-center {{$add_class}}"                                        
@@ -438,6 +484,7 @@
 
 
                                @if(in_array($job_category_index, $end_index_array))                                    
+                                        </div>                            
                                     </div>                                                                        
                                 @endif
 
@@ -460,11 +507,11 @@
 
                         <div class="w-100 item-center mt-3">
 
-                            <div class="d-block ">
+                            <div class="search-salary-maincategory-area">
 
                                 <select id='search_salary_maincategory_cd' name='search_salary_maincategory_cd' class='input-sm'>
                                     <option value=''>---</option>
-                                    @foreach ($salary_maincategory_list as $salary_maincategory_index => $salary_maincategory_info)
+                                        @foreach ($salary_maincategory_list as $salary_maincategory_index => $salary_maincategory_info)
                                             <option value="{{$salary_maincategory_info->salary_maincategory_cd}}"                                               
                                             >
                                             {{$salary_maincategory_info->salary_maincategory_name}}
@@ -472,17 +519,18 @@
                                         @endforeach
                                 </select>
 
-                                <select id='' name='' class='input-sm'>
-                                    <option value=''>---</option>
-                                    @foreach ($salary_maincategory_list as $salary_maincategory_index => $salary_maincategory_info)
-                                            <option value="{{$salary_maincategory_info->salary_maincategory_cd}}"                                               
-                                            >
-                                            {{$salary_maincategory_info->salary_maincategory_name}}
-                                            </option>
-                                        @endforeach
+                               
+
+                            </div>
+
+                            <div class="search-salary-subcategory-area">
+
+                                <select id='search_salary' name='search_salary' class='input-sm'>
+                                    <option value=''>給与形態を選択してください。</option>
                                 </select>
 
                             </div>
+
                         </div>                       
 
                     </div>
@@ -735,10 +783,7 @@
 <script type="text/javascript">
 
 $(function(){
-   
-
-    
-    
+      
     //画面読込時処理
     $(document).ready(function() {
         search_prefectural(1);        
@@ -753,115 +798,16 @@ $(function(){
     });
 
 
-    //検索ボードクリアボタン
-    $(document).on("click", ".search-value-clear-button", function (e) {
-        // クリア処理
-        $("#search_prefectural_cd").val("");
-        search_prefectural();
-        search_board_tab_change(1);
-
-        
-        $(".job-maincategory-hidden-area").removeClass('d-none');
-        $(".job-maincategory-hidden-area").addClass('d-none');
-        $(".job-category-checkbox").prop("checked", false);
-        $(".job-category-select").removeClass('job-category-select');
-
-        $(".job-supplement-checkbox").prop("checked", false);
-        $(".job-supplement-select").removeClass('job-supplement-select');
-
-        $(".search-alert-area").removeClass('search-alert-area-active');
-        
-
-    });
-
-
-    //職種大分類エリアクリック時
-    $(document).on("click", ".job-maincategory-title-area", function (e) {        
-
-        var close_judge = true;
-
-        var target = $(this).data('target');
-
-		var target_id = "#job-maincategory-hidden-area" + target;
-			
-        var job_category_checkboxs = document.querySelectorAll('.job-category-checkbox');
-
-        if(job_category_checkboxs.length > 0){
-                
-            // チェックされている要素のvalueを取得
-            job_category_checkboxs.forEach(function(job_category_checkbox) {
-
-                var job_maincategory_cd = $(job_category_checkbox).data('jobmaincategorycd');
-                
-                if(target == job_maincategory_cd){
-                    
-                    if (job_category_checkbox.checked) {                    
-                        close_judge = false;
-                    }
-                }
-            });
-        }
-
-
-        if($(target_id).hasClass('d-none')) {
-            $(target_id).removeClass('d-none');            
-        }else{
-
-            if(close_judge){
-                $(target_id).addClass('d-none');
-            }
-            
-        }
-
-    });
-
-    //職種中分類選択値変更時
-    $(document).on("change", ".job-category-checkbox", function (e) {
-
-        var job_subcategory_cd = $(this).data('target');
-        
-        $("#job-category-label" + job_subcategory_cd).removeClass('job-category-select');
-
-        if($("#job-category-checkbox" + job_subcategory_cd).prop('checked')){
-
-            $("#job-category-label" + job_subcategory_cd).addClass('job-category-select');
-            
-        }        
-
-    });
-
-
-
-    //求人補足選択値変更時
-    $(document).on("change", ".job-supplement-checkbox", function (e) {
-
-        var job_supplement_subcategory_cd = $(this).data('target');
-
-        $("#job-supplement-label" + job_supplement_subcategory_cd).removeClass('job-supplement-select');
-
-        if($("#job-supplement-checkbox" + job_supplement_subcategory_cd).prop('checked')){
-
-            $("#job-supplement-label" + job_supplement_subcategory_cd).addClass('job-supplement-select');
-            
-        }        
-
-    });
-
-    
-    //検索ボードクローズボタン
-    $(document).on("click", ".search-board-close-button", function (e) {
-        $(".search-board").removeClass('search-board-active');
-    });
-
     //検索ボードタブボタン
     $(document).on("click", ".search-board-tab-button", function (e) {
 
         var target = $(this).data('target');
 
         search_board_tab_change(target);
-       
+
     });
 
+    //検索ボードタブ変更時
     function search_board_tab_change(target){
 
         $(".after-button").removeClass('after-button');
@@ -876,31 +822,35 @@ $(function(){
 
     }
 
-    //
+    //検索ボードアラートクリック時
     $(document).on("click", ".search-alert-area", function (e) {
         $(".search-alert-area").removeClass('search-alert-area-active');
     });
 
     //検索ボタン
     $(document).on("click", ".search-button", function (e) {
-        
-        
+
+
         var url = "{{ route('hp.job_information_set_search_value') }}";
 
-        var prefectural_cd_search_value_array = set_prefectural_cd_search_value();
+        var prefectural_cd_search_value_array = set_prefectural_cd_search_value();        
         var municipality_cd_search_value_array = set_municipality_cd_array_search_value();
+        
+        var salary_search_value_array = set_salary_search_value();
+
         var job_category_search_value_array = set_job_category_search_value();
         var job_supplement_search_value_array = set_job_supplement_search_value();
 
         var all_job_search_value_array = {
             prefectural_cd_search_value_array:prefectural_cd_search_value_array
             , municipality_cd_search_value_array:municipality_cd_search_value_array
+            , salary_search_value_array:salary_search_value_array
             , job_category_search_value_array:job_category_search_value_array
             , job_supplement_search_value_array:job_supplement_search_value_array
-            };
-        
+        };
 
         var judge = false;
+
         Object.values(all_job_search_value_array).forEach(function(array) {
             if (array["existence_data"] == 1) {
                 judge = true;
@@ -910,7 +860,6 @@ $(function(){
         if(!judge){
 
             $(".search-alert-area").addClass('search-alert-area-active');
-
             return false;
         }
 
@@ -940,31 +889,364 @@ $(function(){
             }else{
 
 
-            }
-
-            
+            }            
 
         })
         .fail(function (data, textStatus, errorThrown) {
-        
-
-            
+           
             //マウスカーソルを通常に
             document.body.style.cursor = 'auto';
-        
-            
 
         });
-
-
-
-
-
 
     });
 
 
-    //勤務地関連検索値セット処理
+    //検索ボードクローズボタン
+    $(document).on("click", ".search-board-close-button", function (e) {
+        $(".search-board").removeClass('search-board-active');
+    });
+
+    //検索ボードクリアボタン
+    $(document).on("click", ".search-value-clear-button", function (e) {
+        
+        // 各クリア処理
+        clear_prefectural();
+        clear_salary_category();
+        clear_job_category();
+        clear_job_supplement_category();
+       
+        search_board_tab_change(1);
+        $(".search-alert-area").removeClass('search-alert-area-active');
+
+    });
+
+    function clear_prefectural(){
+        $("#search_prefectural_cd").val("");
+        search_prefectural();
+    }
+
+    function clear_salary_category(){
+
+     
+
+    }
+
+    function clear_job_category(){
+        
+        $(".job-maincategory-title-area .arrow-area").removeClass('arrow-top');
+        $(".job-maincategory-title-area .arrow-area").removeClass('arrow-bottom');
+        $(".job-maincategory-title-area .arrow-area").addClass('arrow-bottom');   
+
+        $(".job-maincategory-hidden-area").removeClass('d-none');
+        $(".job-maincategory-hidden-area").addClass('d-none');
+
+        $(".job-category-checkbox").prop("checked", false);
+        $(".job-category-select").removeClass('job-category-select');
+
+    }
+
+    function clear_job_supplement_category(){
+     
+
+        $(".job-supplement-checkbox").prop("checked", false);
+        $(".job-supplement-select").removeClass('job-supplement-select');
+
+    }
+
+    
+// {{-- 勤務地タブ関連Start --}}
+
+    //都道府県プルダウン変更時
+    $(document).on("change", "#search_prefectural_cd", function (e) {
+
+        search_prefectural();
+
+    });
+
+
+    //都道府県毎、市区町村検索処理
+    function search_prefectural(process_branch = 0){
+
+        var prefectural_cd = $("#search_prefectural_cd").val();        
+
+        var municipality_name = "";        
+        var url = "{{ route('create_list.municipality_list_ajax') }}";
+
+
+        //対象エリアの表示初期化
+        $('.municipality-check-area').html("");
+
+        //マウスカーソルを砂時計に
+        document.body.style.cursor = 'wait';
+
+        $.ajax({
+            url: url, // 送信先
+            type: 'get',
+            dataType: 'json',
+            data: {prefectural_cd : prefectural_cd , municipality_name : municipality_name},
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+        })
+        .done(function (data, textStatus, jqXHR) {
+            // テーブルに通信できた場合
+            var municipality_list = data.municipality_list;            
+
+            //テーブルに通信時、データを検索できたか判定
+            if (municipality_list.length > 0) {                
+
+                var add_html = '';
+
+                $.each(municipality_list, function(index, municipality_info) {
+
+
+                    var municipality_cd = municipality_info["municipality_cd"];
+                    var municipality_name = municipality_info["municipality_name"];
+                    var municipality_name_kana = municipality_info["municipality_name_kana"];
+
+            
+                    add_html += '<div id="" class="col-4 mt-2 p-0">';
+                    add_html += '<label for="municipality_cd_'+  municipality_cd + '" class="d-block">';
+                    add_html += '<input type="checkbox" id="municipality_cd_'+  municipality_cd + '" ';
+                    add_html += 'class="municipality_cd"';                
+                    add_html += 'value="' + municipality_cd + '"';
+                    add_html += 'name="municipality_cd_'+  municipality_cd + '"';
+                    add_html += '>'+  municipality_name;
+                    add_html += '</label>';                
+                    add_html += '</div>';             
+
+                })
+
+                $('.municipality-check-area').html(add_html);
+
+                if(process_branch == 1){
+                    //画面読み込み時に市区町村チェックボックス、チェック付与処理
+                    set_municipality_cd();
+                }
+
+            }else{
+
+                
+
+
+            }
+
+            //マウスカーソルを通常に
+            document.body.style.cursor = 'auto';
+
+        })
+        .fail(function (data, textStatus, errorThrown) {
+
+
+
+            //マウスカーソルを通常に
+            document.body.style.cursor = 'auto';
+
+        });
+
+    }
+
+    //画面読み込み時に市区町村チェックボックス、チェック付与処理
+    function set_municipality_cd(){
+
+        var search_municipality_cd_array = @json($search_element_array["search_municipality_cd_array"]);
+
+        if(search_municipality_cd_array.length > 0){
+
+            var municipality_cd_checkboxs = document.querySelectorAll('.municipality_cd');
+
+            if(municipality_cd_checkboxs.length > 0){
+                    
+                search_municipality_cd_array.forEach(function (value) {
+                    var matchingCheckbox = document.querySelector('.municipality_cd[value="' + value + '"]');
+                    if (matchingCheckbox) {
+                        matchingCheckbox.checked = true;                        
+                    }
+                });
+            }
+        }
+    }
+
+// {{-- 勤務地タブ関連End --}}
+
+
+// {{-- 職種タブ関連Start --}}
+
+    //職種大分類エリアクリック時
+    $(document).on("click", ".job-maincategory-title-area", function (e) {        
+
+        var close_judge = true;
+
+        var target = $(this).data('target');
+
+        var target_id1 = "#job-maincategory-title-area" + target + " .arrow-area";
+		var target_id2 = "#job-maincategory-hidden-area" + target;
+        
+			
+        var job_category_checkboxs = document.querySelectorAll('.job-category-checkbox');
+
+        if(job_category_checkboxs.length > 0){
+                
+            // チェックされている要素のvalueを取得
+            job_category_checkboxs.forEach(function(job_category_checkbox) {
+
+                var job_maincategory_cd = $(job_category_checkbox).data('jobmaincategorycd');
+                
+                if(target == job_maincategory_cd){
+                    
+                    if (job_category_checkbox.checked) {                    
+                        close_judge = false;
+                    }
+                }
+            });
+        }
+
+        $(target_id1).removeClass('arrow-top');
+        $(target_id1).removeClass('arrow-bottom');
+
+
+        if($(target_id2).hasClass('d-none')) {      
+
+            $(target_id2).removeClass('d-none');
+            $(target_id1).addClass('arrow-top');
+            
+
+        }else{
+
+            if(close_judge){
+                $(target_id2).addClass('d-none');
+                $(target_id1).addClass('arrow-bottom');    
+            }else{
+                $(target_id1).addClass('arrow-top');
+            }
+            
+        }
+
+    });
+
+
+
+
+
+    //職種中分類選択値変更時
+    $(document).on("change", ".job-category-checkbox", function (e) {
+
+        var job_subcategory_cd = $(this).data('target');
+        
+        $("#job-category-label" + job_subcategory_cd).removeClass('job-category-select');
+
+        if($("#job-category-checkbox" + job_subcategory_cd).prop('checked')){
+
+            $("#job-category-label" + job_subcategory_cd).addClass('job-category-select');
+            
+        }        
+
+    });
+
+// {{-- 職種タブ関連End --}}
+
+// {{-- 雇用条件タブ関連Start --}}
+
+    //給与大分類プルダウン変更時
+    $(document).on("change", "#search_salary_maincategory_cd", function (e) {
+
+        search_salary_sabcategory();
+
+    });
+
+    //給与中分類検索＆プルダウン作成    
+    function search_salary_sabcategory(){
+
+        var salary_maincategory_cd = $("#search_salary_maincategory_cd").val();
+
+        var url = "{{ route('create_list.salary_sabcategory_list_ajax') }}";
+
+        var target_area = "#search_salary";
+
+        //プルダウン内の設定初期化
+        $("select" + target_area + " option").remove();        
+
+        //マウスカーソルを砂時計に
+        document.body.style.cursor = 'wait';
+
+        $.ajax({
+            url: url, // 送信先
+            type: 'get',
+            dataType: 'json',
+            data: {salary_maincategory_cd : salary_maincategory_cd},
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+        })
+        .done(function (data, textStatus, jqXHR) {
+
+            // テーブルに通信できた場合
+            var salary_sabcategory_list = data.salary_sabcategory_list;            
+
+            //テーブルに通信時、データを検索できたか判定
+            if (salary_sabcategory_list.length > 0) {                
+
+                
+                $.each(salary_sabcategory_list, function(index, salary_sabcategory_info) {
+
+                    var salary_maincategory_cd = salary_sabcategory_info["salary_maincategory_cd"];
+                    var salary_subcategory_cd = salary_sabcategory_info["salary_subcategory_cd"];                    
+                    var salary = salary_sabcategory_info["salary"];
+                    var salary_display = salary_sabcategory_info["salary_display"];
+            
+                    $(target_area).append($("<option>").val(salary).text(salary_display));
+                })
+
+                
+
+            }else{               
+
+                $(target_area).append($("<option>").val("").text("給与形態を再選択してください。"));
+
+            }
+
+            //マウスカーソルを通常に
+            document.body.style.cursor = 'auto';
+
+        })
+        .fail(function (data, textStatus, errorThrown) {
+                
+            //マウスカーソルを通常に
+            document.body.style.cursor = 'auto';
+            $(target_area).append($("<option>").val("").text("給与形態を再選択してください。"));
+
+        });
+
+    }
+
+
+
+// {{-- 雇用条件タブ関連End --}}
+
+
+
+// {{-- 求人補足タブ関連Start --}}
+
+    //求人補足選択値変更時
+    $(document).on("change", ".job-supplement-checkbox", function (e) {
+
+        var job_supplement_subcategory_cd = $(this).data('target');
+
+        $("#job-supplement-label" + job_supplement_subcategory_cd).removeClass('job-supplement-select');
+
+        if($("#job-supplement-checkbox" + job_supplement_subcategory_cd).prop('checked')){
+
+            $("#job-supplement-label" + job_supplement_subcategory_cd).addClass('job-supplement-select');
+            
+        }        
+
+    });
+
+// {{-- 求人補足タブ関連End --}}
+    
+    
+
+// {{-- 検索前の各値セット処理Start --}}
+    
+
+    //勤務地（都道府県）検索値セット処理
     function set_prefectural_cd_search_value(){
 
         var existence_data = 0;
@@ -985,7 +1267,7 @@ $(function(){
 
     }
 
-    //勤務地関連検索値セット処理
+    //勤務地（市区町村）検索値セット処理
     function set_municipality_cd_array_search_value(){
 
         var existence_data = 0;
@@ -1023,7 +1305,7 @@ $(function(){
     }
 
 
-    //求人補足検索値セット処理
+    //職種検索値セット処理
     function set_job_category_search_value(){
 
         var existence_data = 0;
@@ -1072,6 +1354,8 @@ $(function(){
                     value_array.push(job_supplement_checkbox.value); 
                 }
             });
+
+
         }
 
         if(value_array.length > 0){
@@ -1086,132 +1370,53 @@ $(function(){
 
     }
 
+    //勤務地（都道府県）検索値セット処理
+    function set_salary_search_value(){
+
+        var existence_data = 0;
+
+        var salary_maincategory_cd = $("#search_salary_maincategory_cd").val();
+        var salary = $("#search_salary").val();
+
+        var salary_search_value_array = [];
+
+        if(salary_maincategory_cd != "" && salary != ""){
+            existence_data = 1;        
+        }
+
+        salary_search_value_array = {existence_data:existence_data
+                                    , salary_maincategory_cd:salary_maincategory_cd
+                                    , salary:salary
+                                    };
+                                    
+        return salary_search_value_array;
+
+    }
 
 
+// {{-- 検索前の各値セット処理End --}}
 
 
     
+   
+
+
+    
+
+    
+
+
+
     //求人明細ボードクリック処理
     $('.job-detail').click(function () {
-        
+    
         var job_number = $(this).data('jobnumber');
         var url = '{{ route('hp.job_information_detail') }}' + "?job_number=" + job_number;
         window.open(url, '_blank');
 
     });
 
-
-    //都道府県プルダウン変更時
-    $(document).on("change", "#search_prefectural_cd", function (e) {
-
-        search_prefectural();
-
-    });
-
     
-    //都道府県毎、市区町村検索処理
-    function search_prefectural(process_branch = 0){
-
-        var prefectural_cd = $("#search_prefectural_cd").val();        
-        
-        var municipality_name = "";
-        var target_select = "#search_municipality_cd";
-        var url = "{{ route('create_list.municipality_list_ajax') }}";
-
-
-        //対象エリアの表示初期化
-        $('.municipality-check-area').html("");
-
-        //マウスカーソルを砂時計に
-        document.body.style.cursor = 'wait';
-
-        $.ajax({
-            url: url, // 送信先
-            type: 'get',
-            dataType: 'json',
-            data: {prefectural_cd : prefectural_cd , municipality_name : municipality_name},
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-        })
-        .done(function (data, textStatus, jqXHR) {
-            // テーブルに通信できた場合
-            var municipality_list = data.municipality_list;            
-
-            //テーブルに通信時、データを検索できたか判定
-            if (municipality_list.length > 0) {                
-
-                var add_html = '';
-
-                $.each(municipality_list, function(index, municipality_info) {
-
-
-                    var municipality_cd = municipality_info["municipality_cd"];
-                    var municipality_name = municipality_info["municipality_name"];
-                    var municipality_name_kana = municipality_info["municipality_name_kana"];
-
-              
-                    add_html += '<div id="" class="col-4 mt-2 p-0">';
-                    add_html += '<label for="municipality_cd_'+  municipality_cd + '" class="d-block">';
-                    add_html += '<input type="checkbox" id="municipality_cd_'+  municipality_cd + '" ';
-                    add_html += 'class="municipality_cd"';                
-                    add_html += 'value="' + municipality_cd + '"';
-                    add_html += 'name="municipality_cd_'+  municipality_cd + '"';
-                    add_html += '>'+  municipality_name;
-                    add_html += '</label>';                
-                    add_html += '</div>';             
-
-                })
-
-                $('.municipality-check-area').html(add_html);
-
-                if(process_branch == 1){
-                    //画面読み込み時に市区町村チェックボックス、チェック付与処理
-                    set_municipality_cd();
-                }
-
-            }else{
-
-                
-
-
-            }
-
-            //マウスカーソルを通常に
-            document.body.style.cursor = 'auto';
-
-        })
-        .fail(function (data, textStatus, errorThrown) {
-        
-
-        
-            //マウスカーソルを通常に
-            document.body.style.cursor = 'auto';
-
-        });
-
-    }
-
-    //画面読み込み時に市区町村チェックボックス、チェック付与処理
-    function set_municipality_cd(){
-
-        var search_municipality_cd_array = @json($search_element_array["search_municipality_cd_array"]);
-
-          if(search_municipality_cd_array.length > 0){
-
-            var municipality_cd_checkboxs = document.querySelectorAll('.municipality_cd');
-
-            if(municipality_cd_checkboxs.length > 0){
-                    
-                search_municipality_cd_array.forEach(function (value) {
-                    var matchingCheckbox = document.querySelector('.municipality_cd[value="' + value + '"]');
-                    if (matchingCheckbox) {
-                        matchingCheckbox.checked = true;                        
-                    }
-                });
-
-            }
-
-        }
-    }
 
 
 

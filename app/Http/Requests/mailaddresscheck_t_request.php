@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class mailaddresscheck_t_request extends FormRequest
+class mailaddress_check_t_request extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

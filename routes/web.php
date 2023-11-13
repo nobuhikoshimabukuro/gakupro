@@ -19,6 +19,7 @@ use App\Http\Controllers\headquarters\master\member_m_controller;
 use App\Http\Controllers\headquarters\master\address_m_controller;
 use App\Http\Controllers\headquarters\master\job_category_m_controller;
 use App\Http\Controllers\headquarters\master\job_supplement_m_controller;
+use App\Http\Controllers\headquarters\master\job_password_t_controller;
 use App\Http\Controllers\headquarters\master\salary_category_m_controller;
 
 use App\Http\Controllers\hp\hp_controller;
@@ -58,6 +59,7 @@ Route::post('headquarters/pdf_test', [headquarters_controller::class, 'pdf_test'
 
 
 //本部  Start
+
 Route::get('headquarters/phpinfo', [headquarters_controller::class, 'phpinfo'])->name('headquarters.phpinfo');
 
 Route::get('headquarters/top', [headquarters_controller::class, 'index'])->name('headquarters.index');
@@ -73,68 +75,70 @@ Route::get('headquarters/member', [headquarters_controller::class, 'member_index
 
 
 
+//大分類/中分類マスタ
 Route::get('headquarters/master/category/', [category_m_controller::class, 'index'])->name('master.category');
 Route::post('headquarters/master/category/maincategory_save', [category_m_controller::class, 'maincategory_save'])->name('master.maincategory.save');
 Route::post('headquarters/master/category/maincategory_delete_or_restore', [category_m_controller::class, 'maincategory_delete_or_restore'])->name('master.maincategory.delete_or_restore');
 Route::post('headquarters/master/category/subcategory_save', [category_m_controller::class, 'subcategory_save'])->name('master.subcategory.save');
 Route::post('headquarters/master/category/subcategory_delete_or_restore', [category_m_controller::class, 'subcategory_delete_or_restore'])->name('master.subcategory.delete_or_restore');
 
-
-
-
-
+//住所マスタ
 Route::get('headquarters/master/address/', [address_m_controller::class, 'index'])->name('master.address');
 Route::post('headquarters/master/address/save', [address_m_controller::class, 'save'])->name('master.address.save');
 
-
+//求人補足マスタ
 Route::get('headquarters/master/job_supplement/', [job_supplement_m_controller::class, 'index'])->name('master.job_supplement');
 Route::post('headquarters/master/job_supplement/job_supplement_maincategory_save', [job_supplement_m_controller::class, 'job_supplement_maincategory_save'])->name('master.job_supplement_maincategory.save');
 Route::post('headquarters/master/job_supplement/job_supplement_maincategory_delete_or_restore', [job_supplement_m_controller::class, 'job_supplement_maincategory_delete_or_restore'])->name('master.job_supplement_maincategory.delete_or_restore');
 Route::post('headquarters/master/job_supplement/job_supplement_subcategory_save', [job_supplement_m_controller::class, 'job_supplement_subcategory_save'])->name('master.job_supplement_subcategory.save');
 Route::post('headquarters/master/job_supplement/job_supplement_subcategory_delete_or_restore', [job_supplement_m_controller::class, 'job_supplement_subcategory_delete_or_restore'])->name('master.job_supplement_subcategory.delete_or_restore');
 
+//職種マスタ
 Route::get('headquarters/master/job_category/', [job_category_m_controller::class, 'index'])->name('master.job_category');
 Route::post('headquarters/master/job_category/job_maincategory_save', [job_category_m_controller::class, 'job_maincategory_save'])->name('master.job_maincategory.save');
 Route::post('headquarters/master/job_category/job_maincategory_delete_or_restore', [job_category_m_controller::class, 'job_maincategory_delete_or_restore'])->name('master.job_maincategory.delete_or_restore');
 Route::post('headquarters/master/job_category/job_subcategory_save', [job_category_m_controller::class, 'job_subcategory_save'])->name('master.job_subcategory.save');
 Route::post('headquarters/master/job_category/job_subcategory_delete_or_restore', [job_category_m_controller::class, 'job_subcategory_delete_or_restore'])->name('master.job_subcategory.delete_or_restore');
 
-
+//給与マスタ
 Route::get('headquarters/master/salary_category/', [salary_category_m_controller::class, 'index'])->name('master.salary_category');
 Route::post('headquarters/master/salary_category/salary_maincategory_save', [salary_category_m_controller::class, 'salary_maincategory_save'])->name('master.salary_maincategory.save');
 Route::post('headquarters/master/salary_category/salary_maincategory_delete_or_restore', [salary_category_m_controller::class, 'salary_maincategory_delete_or_restore'])->name('master.salary_maincategory.delete_or_restore');
 Route::post('headquarters/master/salary_category/salary_subcategory_save', [salary_category_m_controller::class, 'salary_subcategory_save'])->name('master.salary_subcategory.save');
 Route::post('headquarters/master/salary_category/salary_subcategory_delete_or_restore', [salary_category_m_controller::class, 'salary_subcategory_delete_or_restore'])->name('master.salary_subcategory.delete_or_restore');
 
+//求人公開パスワードテーブル
+Route::get('headquarters/master/job_password/', [job_password_t_controller::class, 'index'])->name('master.job_password');
+Route::post('headquarters/master/job_password/save', [job_password_t_controller::class, 'save'])->name('master.job_password.save');
 
 
+//プロジェクトマスタ
 Route::get('headquarters/master/project/', [project_m_controller::class, 'index'])->name('master.project');
 Route::post('headquarters/master/project/save', [project_m_controller::class, 'save'])->name('master.project.save');
 Route::post('headquarters/master/project/delete_or_restore', [project_m_controller::class, 'delete_or_restore'])->name('master.project.delete_or_restore');
 
-
+//スタッフマスタ
 Route::get('headquarters/master/staff/', [staff_m_controller::class, 'index'])->name('master.staff');
 Route::post('headquarters/master/staff/save', [staff_m_controller::class, 'save'])->name('master.staff.save');
 Route::post('headquarters/master/staff/delete_or_restore', [staff_m_controller::class, 'delete_or_restore'])->name('master.staff.delete_or_restore');
 Route::get('headquarters/master/staff/login_info_check', [staff_m_controller::class, 'login_info_check'])->name('master.staff.login_info_check');
 Route::post('headquarters/master/staff/login_info_update', [staff_m_controller::class, 'login_info_update'])->name('master.staff.login_info_update');
-
 Route::get('headquarters/master/staff/project_info_get', [staff_m_controller::class, 'project_info_get'])->name('master.staff.project_info_get');
 Route::post('headquarters/master/staff/project_info_update', [staff_m_controller::class, 'project_info_update'])->name('master.staff.project_info_update');
-
 Route::get('headquarters/master/staff/staff_with_project', [staff_with_project_t_controller::class, 'index'])->name('master.staff_with_project');
 Route::post('headquarters/master/staff/staff_with_project/save', [staff_with_project_t_controller::class, 'save'])->name('master.staff_with_project.save');
 
-
+//学校マスタ
 Route::get('headquarters/master/school/', [school_m_controller::class, 'index'])->name('master.school');
 Route::post('headquarters/master/school/save', [school_m_controller::class, 'save'])->name('master.school.save');
 Route::post('headquarters/master/school/delete_or_restore', [school_m_controller::class, 'delete_or_restore'])->name('master.school.delete_or_restore');
 
+//専攻マスタ
 Route::get('headquarters/master/majorsubject/index', [majorsubject_m_controller::class, 'index'])->name('master.majorsubject');
 Route::post('headquarters/master/majorsubject/save', [majorsubject_m_controller::class, 'save'])->name('master.majorsubject.save');
 Route::post('headquarters/master/majorsubject/delete_or_restore', [majorsubject_m_controller::class, 'delete_or_restore'])->name('master.majorsubject.delete_or_restore');
 
-
+//メンバーマスタ
 Route::get('headquarters/master/member/', [member_m_controller::class, 'index'])->name('master.member');
 Route::post('headquarters/master/member/save', [member_m_controller::class, 'save'])->name('master.member.save');
 Route::post('headquarters/master/member/delete_or_restore', [member_m_controller::class, 'delete_or_restore'])->name('master.member.delete_or_restore');
@@ -142,15 +146,15 @@ Route::get('headquarters/master/member/login_info_check', [member_m_controller::
 Route::post('headquarters/master/member/login_info_update', [member_m_controller::class, 'login_info_update'])->name('master.member.login_info_update');
 
 
-
-
-Route::get('headquarters/get_data/school_list_get', [get_data::class, 'school_list_get'])->name('get_data.school_list_get');
-Route::get('headquarters/get_data/majorsubject_list_get', [get_data::class, 'majorsubject_list_get'])->name('get_data.majorsubject_list_get');
-Route::get('headquarters/get_data/school_info_get', [get_data::class, 'school_info_get'])->name('get_data.school_info_get');
-Route::get('headquarters/get_data/majorsubject_info_get', [get_data::class, 'majorsubject_info_get'])->name('get_data.majorsubject_info_get');
-
+//データ取得関連
+Route::get('get_data/school_list_get', [get_data::class, 'school_list_get'])->name('get_data.school_list_get');
+Route::get('get_data/majorsubject_list_get', [get_data::class, 'majorsubject_list_get'])->name('get_data.majorsubject_list_get');
+Route::get('get_data/school_info_get', [get_data::class, 'school_info_get'])->name('get_data.school_info_get');
+Route::get('get_data/majorsubject_info_get', [get_data::class, 'majorsubject_info_get'])->name('get_data.majorsubject_info_get');
 
 Route::get('create_list/municipality_list_ajax', [create_list::class, 'municipality_list_ajax'])->name('create_list.municipality_list_ajax');
+Route::get('create_list/salary_sabcategory_list_ajax', [create_list::class, 'salary_sabcategory_list_ajax'])->name('create_list.salary_sabcategory_list_ajax');
+
 //本部  End
 
 
