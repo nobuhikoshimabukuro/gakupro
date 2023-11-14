@@ -17,35 +17,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
-        DB::table('project_m')->insert([
-            
-            [   
-                'project_id' => '1',             
-                'project_name' => 'PhotoProject',
-                'remarks' => 'フォトプロジェクト',
-                'created_by' => '1',
-            ],          
-
-            [                  
-                'project_id' => '2',             
-                'project_name' => 'RecruitProject',
-                'remarks' => 'リクルートプロジェクト',
-                'created_by' => '1',
-            ],          
-
-
-        ]);   
-
-        
+       
         DB::table('maincategory_m')->insert([
             
             [
                 'maincategory_cd' => 1,
                 'maincategory_name' => '性別',
                 'display_order' => 1,
-                'created_by' => '1',
-                
+                'created_by' => '1',                
             ],
 
             [
@@ -460,355 +439,23 @@ class DatabaseSeeder extends Seeder
         ]);   
 
 
-
-
-        DB::table('school_m')->insert([
+        // 雇用形態マスタ
+        $index = 0;
+        DB::table('employment_status_m')->insert([
             
             [                
-                'school_cd' => '1',
-                'school_division' => '3',
-                'school_name' => 'インターナショナルデザインアカデミー',               
-                'post_code' => '901-2131',
-                'address1' => '沖縄県浦添市牧港1-60-14',
-                'address2' => '',
-                'tel' => '',
-                'fax' => '',
-                'hp_url' => 'https://www.ida.ac.jp/',
-                'mailaddress' => '',               
-                'remarks' => '',
+                'employment_status_id' => $index = $index + 1,
+                'employment_status_name' => 'IT関連',
+                'display_order' => $index,
                 'created_by' => '1',
                 
             ],
 
-            [                
-                'school_cd' => '2',
-                'school_division' => '3',
-                'school_name' => '沖縄写真デザイン工芸学校',               
-                'post_code' => '900-0014',
-                'address1' => '沖縄県那覇市松尾2-1-13',
-                'address2' => '',
-                'tel' => '',
-                'fax' => '',
-                'hp_url' => 'https://www.ryubi-opd.com/',
-                'mailaddress' => '',               
-                'remarks' => '',
-                'created_by' => '1',
-                
-            ],
+                     
 
-            [                
-                'school_cd' => '3',
-                'school_division' => '3',
-                'school_name' => '沖縄ブライダルモード学園',               
-                'post_code' => '904-0102',
-                'address1' => '沖縄県中頭郡北谷町伊平2丁目4番5',
-                'address2' => '',
-                'tel' => '',
-                'fax' => '',
-                'hp_url' => 'https://www.bmg.ac.jp/',
-                'mailaddress' => '',               
-                'remarks' => '',
-                'created_by' => '1',
-                
-            ],
+        ]);
 
-            [                
-                'school_cd' => '4',
-                'school_division' => '3',
-                'school_name' => '沖縄ラフ＆ピース専門学校',               
-                'post_code' => '900-0014',
-                'address1' => '沖縄県那覇市松尾2-1-29',
-                'address2' => '',
-                'tel' => '',
-                'fax' => '',
-                'hp_url' => 'https://laughandpeace.ac.jp/',
-                'mailaddress' => '',               
-                'remarks' => '',
-                'created_by' => '1',
-                
-            ],        
-        ]);     
 
-        DB::table('majorsubject_m')->insert([
-            
-            [                
-                'school_cd' => '1',
-                'majorsubject_cd' => '1',
-                'majorsubject_name' => '総合デザイン科→デジタルデザイン分野（２年次から）',               
-                'studyperiod' => '36',              
-                'remarks' => '１年次はグラフィック、デザイン、マンガ、ファッションの基礎。２年次から自分の適性にあった専門分野を選択。',
-                'created_by' => '1',
-                
-            ],
-
-            [                
-                'school_cd' => '1',
-                'majorsubject_cd' => '2',
-                'majorsubject_name' => 'デザイン専攻科→デジタルデザイン分野',               
-                'studyperiod' => '24',              
-                'remarks' => '入学から専門分野の学習が始まる。',
-                'created_by' => '1',
-                
-            ],
-
-            [                
-                'school_cd' => '1',
-                'majorsubject_cd' => '3',
-                'majorsubject_name' => 'デザインマスターズ科',               
-                'studyperiod' => '12',              
-                'remarks' => '全てのデザイン科目を学習するため、カメラに興味あって学習している生徒がいる可能性あり。',
-                'created_by' => '1',
-                
-            ],
-
-            [                
-                'school_cd' => '2',
-                'majorsubject_cd' => '1',
-                'majorsubject_name' => '写真デザイン科（2年）',               
-                'studyperiod' => '24',              
-                'remarks' => '昼間部（通学制）と「通信部」の2コースがある。HPを見た感じ写真に特化しているのがわかる。',
-                'created_by' => '1',
-                
-            ],
-
-            [                
-                'school_cd' => '2',
-                'majorsubject_cd' => '2',
-                'majorsubject_name' => '写真デザイン科（半年）',               
-                'studyperiod' => '6',              
-                'remarks' => '昼間部（通学制）と「通信部」の2コースがある。HPを見た感じ写真に特化しているのがわかる。',
-                'created_by' => '1',
-                
-            ],
-
-            [                
-                'school_cd' => '3',
-                'majorsubject_cd' => '1',
-                'majorsubject_name' => 'ブライダルリゾート科→フォトグラファー',               
-                'studyperiod' => '24',              
-                'remarks' => 'カメラの専門コースではなく、授業の一環でカメラの基礎を学習すると思われる。目指す職業でフォトグラファーがあるので、カメラマンを目指して入学する生徒もいる可能性あり。',
-                'created_by' => '1',
-                
-            ],
-
-            [                
-                'school_cd' => '4',
-                'majorsubject_cd' => '1',
-                'majorsubject_name' => '映像コース',               
-                'studyperiod' => '36',              
-                'remarks' => '中学卒業後に進学できる学校。カメラも扱うと思うが、主に映像だと思われる。',
-                'created_by' => '1',
-                
-            ],
-
-           
-        ]);     
-
-        DB::table('member_m')->insert([
-            
-            [                
-                'member_id' => '1',
-                'member_last_name' => '学生',
-                'member_first_name' => '太郎',
-                'member_last_name_yomi' => 'ガクセイ',
-                'member_first_name_yomi' => 'タロウ',
-                'gender' => '1',
-                'birthday' => '2005/02/09',
-                'tel' => '080-1234-5678',
-                'mailaddress' => 'test1@test.com',
-                'school_cd' => '1',
-                'majorsubject_cd' => '1',
-                'admission_yearmonth' => '2022-04',
-                'graduation_yearmonth' => '2024-03',
-                'emergencycontact_relations' => '父親',
-                'emergencycontact_tel' => '070-1234-5678',
-                'remarks' => '備考テスト',
-                'registration_status' => '1',
-                'created_by' => '1',
-                
-            ], 
-            
-            [                
-                'member_id' => '2',
-                'member_last_name' => '学',
-                'member_first_name' => '花子',
-                'member_last_name_yomi' => 'ガク',
-                'member_first_name_yomi' => 'ハナコ',
-                'gender' => '2',
-                'birthday' => '2005/02/09',
-                'tel' => '080-1234-5678',
-                'mailaddress' => 'test2@test.com',
-                'school_cd' => '2',
-                'majorsubject_cd' => '1',
-                'admission_yearmonth' => '2022-04',
-                'graduation_yearmonth' => '2024-03',
-                'emergencycontact_relations' => '父親',
-                'emergencycontact_tel' => '070-1234-5678',
-                'remarks' => '備考テスト',
-                'registration_status' => '1',
-                'created_by' => '1',
-                
-            ], 
-
-            [                
-                'member_id' => '3',
-                'member_last_name' => '島袋',
-                'member_first_name' => '青年',
-                'member_last_name_yomi' => 'シマブクロ',
-                'member_first_name_yomi' => 'セイネン',
-                'gender' => '1',
-                'birthday' => '2005/02/09',
-                'tel' => '080-1234-5678',
-                'mailaddress' => 'test3@test.com',
-                'school_cd' => '3',
-                'majorsubject_cd' => '1',
-                'admission_yearmonth' => '2022-04',
-                'graduation_yearmonth' => '2024-03',
-                'emergencycontact_relations' => '父親',
-                'emergencycontact_tel' => '070-1234-5678',
-                'remarks' => '備考テスト',
-                'registration_status' => '1',
-                'created_by' => '1',
-                
-            ], 
-
-        ]);     
-
-        DB::table('member_password_t')->insert([
-            
-            [                
-                'member_id' => '1',
-                'mailaddress' => 'test1@test.com',
-                'password' => common::encryption("1"),        
-                'created_by' => '1',
-                
-            ],
-
-            [                
-                'member_id' => '2',
-                'mailaddress' => 'test2@test.com',
-                'password' => common::encryption("2"),        
-                'created_by' => '1',
-                
-            ],   
-
-            [                
-                'member_id' => '3',
-                'mailaddress' => 'test3@test.com',
-                'password' => common::encryption("3"),  
-                'created_by' => '1',
-                
-            ],   
-
-        ]);     
-
-        DB::table('photoget_t')->insert([
-            
-            [                
-                'date' => '20230101',
-                'code' => '001',
-                'password' => common::encryption("4483"),        
-                'with_password_flg' => 1,
-                'saved_folder' => '001_U3K5K5ia0u',
-                'qr_code_name' => 'QrCode_20230101001.png',
-                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101001&cipher=f9aTzbYxbS',
-                'cipher' => 'f9aTzbYxbS',
-                'created_by' => '1',
-                
-            ],
-
-            [                
-                'date' => '20230101',
-                'code' => '002',
-                'password' => common::encryption("4672"),        
-                'with_password_flg' => 1,
-                'saved_folder' => '002_pziOIxfuQ0',
-                'qr_code_name' => 'QrCode_20230101002.png',
-                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101002&cipher=nueP3NU5qz',
-                'cipher' => 'nueP3NU5qz',
-                'created_by' => '1',
-                
-            ],
-
-            [                
-                'date' => '20230101',
-                'code' => '003',
-                'password' => common::encryption("3465"),        
-                'with_password_flg' => 1,
-                'saved_folder' => '003_pg1yvctpLd',
-                'qr_code_name' => 'QrCode_20230101003.png',
-                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101003&cipher=rapMR45zeH',
-                'cipher' => 'rapMR45zeH',
-                'created_by' => '1',
-                
-            ],
-
-            [                
-                'date' => '20230101',
-                'code' => '004',
-                'password' => common::encryption("4039"),        
-                'with_password_flg' => 1,
-                'saved_folder' => '004_5JwBsIe0nM',
-                'qr_code_name' => 'QrCode_20230101004.png',
-                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101004&cipher=KTmzVEwbJK',
-                'cipher' => 'KTmzVEwbJK',
-                'created_by' => '1',
-                
-            ],
-
-            [                
-                'date' => '20230101',
-                'code' => '005',
-                'password' => common::encryption("8294"),        
-                'with_password_flg' => 1,
-                'saved_folder' => '005_YZNGdzFKO3',
-                'qr_code_name' => 'QrCode_20230101005.png',
-                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101005&cipher=FwRSK6fRN9',
-                'cipher' => 'FwRSK6fRN9',
-                'created_by' => '1',
-                
-            ],
-
-            [                
-                'date' => '20230101',
-                'code' => '006',
-                'password' => common::encryption("2133"),        
-                'with_password_flg' => 1,
-                'saved_folder' => '006_UYflcQeRS7',
-                'qr_code_name' => 'QrCode_20230101006.png',
-                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101006&cipher=ywxPzN9acK',
-                'cipher' => 'ywxPzN9acK',
-                'created_by' => '1',
-                
-            ],
-
-            [                
-                'date' => '20230101',
-                'code' => '007',
-                'password' => common::encryption("7515"),        
-                'with_password_flg' => 1,
-                'saved_folder' => '007_tS9KBVa1ka',
-                'qr_code_name' => 'QrCode_20230101007.png',
-                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101007&cipher=btVJtWF9dJ',
-                'cipher' => 'btVJtWF9dJ',
-                'created_by' => '1',
-                
-            ],
-
-            [                
-                'date' => '20230101',
-                'code' => '008',
-                'password' => common::encryption("6646"),        
-                'with_password_flg' => 1,
-                'saved_folder' => '008_INVkmYsrpa',
-                'qr_code_name' => 'QrCode_20230101008.png',
-                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101008&cipher=tytUrzfySw',
-                'cipher' => 'tytUrzfySw',
-                'created_by' => '1',
-                
-            ],
-           
-        ]);     
 
         // 給与大分類マスタ
         $index = 0;
@@ -1671,6 +1318,377 @@ class DatabaseSeeder extends Seeder
 
             ]);    
         }
+
+        
+
+
+        DB::table('school_m')->insert([
+            
+            [                
+                'school_cd' => '1',
+                'school_division' => '3',
+                'school_name' => 'インターナショナルデザインアカデミー',               
+                'post_code' => '901-2131',
+                'address1' => '沖縄県浦添市牧港1-60-14',
+                'address2' => '',
+                'tel' => '',
+                'fax' => '',
+                'hp_url' => 'https://www.ida.ac.jp/',
+                'mailaddress' => '',               
+                'remarks' => '',
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'school_cd' => '2',
+                'school_division' => '3',
+                'school_name' => '沖縄写真デザイン工芸学校',               
+                'post_code' => '900-0014',
+                'address1' => '沖縄県那覇市松尾2-1-13',
+                'address2' => '',
+                'tel' => '',
+                'fax' => '',
+                'hp_url' => 'https://www.ryubi-opd.com/',
+                'mailaddress' => '',               
+                'remarks' => '',
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'school_cd' => '3',
+                'school_division' => '3',
+                'school_name' => '沖縄ブライダルモード学園',               
+                'post_code' => '904-0102',
+                'address1' => '沖縄県中頭郡北谷町伊平2丁目4番5',
+                'address2' => '',
+                'tel' => '',
+                'fax' => '',
+                'hp_url' => 'https://www.bmg.ac.jp/',
+                'mailaddress' => '',               
+                'remarks' => '',
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'school_cd' => '4',
+                'school_division' => '3',
+                'school_name' => '沖縄ラフ＆ピース専門学校',               
+                'post_code' => '900-0014',
+                'address1' => '沖縄県那覇市松尾2-1-29',
+                'address2' => '',
+                'tel' => '',
+                'fax' => '',
+                'hp_url' => 'https://laughandpeace.ac.jp/',
+                'mailaddress' => '',               
+                'remarks' => '',
+                'created_by' => '1',
+                
+            ],        
+        ]);     
+
+        DB::table('majorsubject_m')->insert([
+            
+            [                
+                'school_cd' => '1',
+                'majorsubject_cd' => '1',
+                'majorsubject_name' => '総合デザイン科→デジタルデザイン分野（２年次から）',               
+                'studyperiod' => '36',              
+                'remarks' => '１年次はグラフィック、デザイン、マンガ、ファッションの基礎。２年次から自分の適性にあった専門分野を選択。',
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'school_cd' => '1',
+                'majorsubject_cd' => '2',
+                'majorsubject_name' => 'デザイン専攻科→デジタルデザイン分野',               
+                'studyperiod' => '24',              
+                'remarks' => '入学から専門分野の学習が始まる。',
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'school_cd' => '1',
+                'majorsubject_cd' => '3',
+                'majorsubject_name' => 'デザインマスターズ科',               
+                'studyperiod' => '12',              
+                'remarks' => '全てのデザイン科目を学習するため、カメラに興味あって学習している生徒がいる可能性あり。',
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'school_cd' => '2',
+                'majorsubject_cd' => '1',
+                'majorsubject_name' => '写真デザイン科（2年）',               
+                'studyperiod' => '24',              
+                'remarks' => '昼間部（通学制）と「通信部」の2コースがある。HPを見た感じ写真に特化しているのがわかる。',
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'school_cd' => '2',
+                'majorsubject_cd' => '2',
+                'majorsubject_name' => '写真デザイン科（半年）',               
+                'studyperiod' => '6',              
+                'remarks' => '昼間部（通学制）と「通信部」の2コースがある。HPを見た感じ写真に特化しているのがわかる。',
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'school_cd' => '3',
+                'majorsubject_cd' => '1',
+                'majorsubject_name' => 'ブライダルリゾート科→フォトグラファー',               
+                'studyperiod' => '24',              
+                'remarks' => 'カメラの専門コースではなく、授業の一環でカメラの基礎を学習すると思われる。目指す職業でフォトグラファーがあるので、カメラマンを目指して入学する生徒もいる可能性あり。',
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'school_cd' => '4',
+                'majorsubject_cd' => '1',
+                'majorsubject_name' => '映像コース',               
+                'studyperiod' => '36',              
+                'remarks' => '中学卒業後に進学できる学校。カメラも扱うと思うが、主に映像だと思われる。',
+                'created_by' => '1',
+                
+            ],
+
+           
+        ]);     
+
+        DB::table('member_m')->insert([
+            
+            [                
+                'member_id' => '1',
+                'member_last_name' => '学生',
+                'member_first_name' => '太郎',
+                'member_last_name_yomi' => 'ガクセイ',
+                'member_first_name_yomi' => 'タロウ',
+                'gender' => '1',
+                'birthday' => '2005/02/09',
+                'tel' => '080-1234-5678',
+                'mailaddress' => 'test1@test.com',
+                'school_cd' => '1',
+                'majorsubject_cd' => '1',
+                'admission_yearmonth' => '2022-04',
+                'graduation_yearmonth' => '2024-03',
+                'emergencycontact_relations' => '父親',
+                'emergencycontact_tel' => '070-1234-5678',
+                'remarks' => '備考テスト',
+                'registration_status' => '1',
+                'created_by' => '1',
+                
+            ], 
+            
+            [                
+                'member_id' => '2',
+                'member_last_name' => '学',
+                'member_first_name' => '花子',
+                'member_last_name_yomi' => 'ガク',
+                'member_first_name_yomi' => 'ハナコ',
+                'gender' => '2',
+                'birthday' => '2005/02/09',
+                'tel' => '080-1234-5678',
+                'mailaddress' => 'test2@test.com',
+                'school_cd' => '2',
+                'majorsubject_cd' => '1',
+                'admission_yearmonth' => '2022-04',
+                'graduation_yearmonth' => '2024-03',
+                'emergencycontact_relations' => '父親',
+                'emergencycontact_tel' => '070-1234-5678',
+                'remarks' => '備考テスト',
+                'registration_status' => '1',
+                'created_by' => '1',
+                
+            ], 
+
+            [                
+                'member_id' => '3',
+                'member_last_name' => '島袋',
+                'member_first_name' => '青年',
+                'member_last_name_yomi' => 'シマブクロ',
+                'member_first_name_yomi' => 'セイネン',
+                'gender' => '1',
+                'birthday' => '2005/02/09',
+                'tel' => '080-1234-5678',
+                'mailaddress' => 'test3@test.com',
+                'school_cd' => '3',
+                'majorsubject_cd' => '1',
+                'admission_yearmonth' => '2022-04',
+                'graduation_yearmonth' => '2024-03',
+                'emergencycontact_relations' => '父親',
+                'emergencycontact_tel' => '070-1234-5678',
+                'remarks' => '備考テスト',
+                'registration_status' => '1',
+                'created_by' => '1',
+                
+            ], 
+
+        ]);     
+
+        DB::table('member_password_t')->insert([
+            
+            [                
+                'member_id' => '1',
+                'mailaddress' => 'test1@test.com',
+                'password' => common::encryption("1"),        
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'member_id' => '2',
+                'mailaddress' => 'test2@test.com',
+                'password' => common::encryption("2"),        
+                'created_by' => '1',
+                
+            ],   
+
+            [                
+                'member_id' => '3',
+                'mailaddress' => 'test3@test.com',
+                'password' => common::encryption("3"),  
+                'created_by' => '1',
+                
+            ],   
+
+        ]);     
+
+        DB::table('photoget_t')->insert([
+            
+            [                
+                'date' => '20230101',
+                'code' => '001',
+                'password' => common::encryption("4483"),        
+                'with_password_flg' => 1,
+                'saved_folder' => '001_U3K5K5ia0u',
+                'qr_code_name' => 'QrCode_20230101001.png',
+                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101001&cipher=f9aTzbYxbS',
+                'cipher' => 'f9aTzbYxbS',
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'date' => '20230101',
+                'code' => '002',
+                'password' => common::encryption("4672"),        
+                'with_password_flg' => 1,
+                'saved_folder' => '002_pziOIxfuQ0',
+                'qr_code_name' => 'QrCode_20230101002.png',
+                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101002&cipher=nueP3NU5qz',
+                'cipher' => 'nueP3NU5qz',
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'date' => '20230101',
+                'code' => '003',
+                'password' => common::encryption("3465"),        
+                'with_password_flg' => 1,
+                'saved_folder' => '003_pg1yvctpLd',
+                'qr_code_name' => 'QrCode_20230101003.png',
+                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101003&cipher=rapMR45zeH',
+                'cipher' => 'rapMR45zeH',
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'date' => '20230101',
+                'code' => '004',
+                'password' => common::encryption("4039"),        
+                'with_password_flg' => 1,
+                'saved_folder' => '004_5JwBsIe0nM',
+                'qr_code_name' => 'QrCode_20230101004.png',
+                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101004&cipher=KTmzVEwbJK',
+                'cipher' => 'KTmzVEwbJK',
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'date' => '20230101',
+                'code' => '005',
+                'password' => common::encryption("8294"),        
+                'with_password_flg' => 1,
+                'saved_folder' => '005_YZNGdzFKO3',
+                'qr_code_name' => 'QrCode_20230101005.png',
+                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101005&cipher=FwRSK6fRN9',
+                'cipher' => 'FwRSK6fRN9',
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'date' => '20230101',
+                'code' => '006',
+                'password' => common::encryption("2133"),        
+                'with_password_flg' => 1,
+                'saved_folder' => '006_UYflcQeRS7',
+                'qr_code_name' => 'QrCode_20230101006.png',
+                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101006&cipher=ywxPzN9acK',
+                'cipher' => 'ywxPzN9acK',
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'date' => '20230101',
+                'code' => '007',
+                'password' => common::encryption("7515"),        
+                'with_password_flg' => 1,
+                'saved_folder' => '007_tS9KBVa1ka',
+                'qr_code_name' => 'QrCode_20230101007.png',
+                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101007&cipher=btVJtWF9dJ',
+                'cipher' => 'btVJtWF9dJ',
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'date' => '20230101',
+                'code' => '008',
+                'password' => common::encryption("6646"),        
+                'with_password_flg' => 1,
+                'saved_folder' => '008_INVkmYsrpa',
+                'qr_code_name' => 'QrCode_20230101008.png',
+                'url' => 'https://yu-yu-craft.com/photo_project/password_entry?key_code=20230101008&cipher=tytUrzfySw',
+                'cipher' => 'tytUrzfySw',
+                'created_by' => '1',
+                
+            ],
+           
+        ]);     
+
+
+        DB::table('project_m')->insert([
+            
+            [   
+                'project_id' => '1',             
+                'project_name' => 'PhotoProject',
+                'remarks' => 'フォトプロジェクト',
+                'created_by' => '1',
+            ],          
+
+            [                  
+                'project_id' => '2',             
+                'project_name' => 'RecruitProject',
+                'remarks' => 'リクルートプロジェクト',
+                'created_by' => '1',
+            ],          
+
+
+        ]);   
 
     }
 }

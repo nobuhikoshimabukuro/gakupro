@@ -41,6 +41,7 @@ class project_m_controller extends Controller
     function save(Request $request)
     {
 
+        $process_title = "プロジェクトマスタ登録処理";
         $project_id = intval($request->project_id);
         $project_name = $request->project_name;
         $remarks = $request->remarks;
@@ -73,19 +74,13 @@ class project_m_controller extends Controller
             }         
     
         } catch (Exception $e) {
-
                         
-            $error_title = '大分類マスタ登録エラー';
-            $ErrorMessage = $e->getMessage();
-                      
-            common::SendErrorMail($error_title,$ErrorMessage);
-
-            $log_error_message = $error_title .'::' .$ErrorMessage;
-            Log::channel('error_log')->info($log_error_message);
-
+            $error_message = $e->getMessage();
+            Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
+            
             $result_array = array(
                 "Result" => "error",
-                "Message" => $error_title,
+                "Message" => $process_title."でエラーが発生しました。",
             );
             
 
@@ -112,6 +107,12 @@ class project_m_controller extends Controller
         $project_id = intval($request->delete_project_id);
         $project_name = $request->delete_project_name;
         
+        if($delete_flg == 0){
+            $process_title = "プロジェクトマスタ削除処理";
+        }else{
+            $process_title = "プロジェクトマスタ削除取消処理";
+        }
+
         $operator = 9999;
 
         try {
@@ -122,7 +123,7 @@ class project_m_controller extends Controller
                 where('project_id', $project_id)                
                 ->delete();
 
-                session()->flash('success', '[大分類名 = ' . $project_name .']データを利用不可状態にしました');                
+                session()->flash('success', '[プロジェクト名 = ' . $project_name .']データを利用不可状態にしました');                
             }else{    
 
                 //論理削除解除
@@ -131,18 +132,17 @@ class project_m_controller extends Controller
                 ->withTrashed()                
                 ->restore();
 
-                session()->flash('success', '[大分類名 = ' . $project_name . ']データを利用可能状態にしました');                                
+                session()->flash('success', '[プロジェクト名 = ' . $project_name . ']データを利用可能状態にしました');                                
             }
 
         } catch (Exception $e) {
 
-            $ErrorMessage = '【大分類マスタ利用状況変更処理時エラー】' . $e->getMessage();            
+            $error_message = $e->getMessage();
+            Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
 
-            Log::channel('error_log')->info($ErrorMessage);
-
-            session()->flash('error', '[大分類名 = ' . $project_name . ']データの利用状況変更処理時エラー'); 
+            session()->flash('error', '[プロジェクト名 = ' . $project_name .']データの利用状況変更処理時エラー'); 
            
-        }       
+        }   
 
         return back();
     }

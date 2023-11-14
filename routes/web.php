@@ -21,6 +21,7 @@ use App\Http\Controllers\headquarters\master\job_category_m_controller;
 use App\Http\Controllers\headquarters\master\job_supplement_m_controller;
 use App\Http\Controllers\headquarters\master\job_password_t_controller;
 use App\Http\Controllers\headquarters\master\salary_category_m_controller;
+use App\Http\Controllers\headquarters\master\employment_status_m_controller;
 
 use App\Http\Controllers\hp\hp_controller;
 
@@ -86,6 +87,11 @@ Route::post('headquarters/master/category/subcategory_delete_or_restore', [categ
 Route::get('headquarters/master/address/', [address_m_controller::class, 'index'])->name('master.address');
 Route::post('headquarters/master/address/save', [address_m_controller::class, 'save'])->name('master.address.save');
 
+//雇用形態マスタ
+Route::get('headquarters/master/employment_status/index', [employment_status_m_controller::class, 'index'])->name('master.employment_status');
+Route::post('headquarters/master/employment_status/save', [employment_status_m_controller::class, 'save'])->name('master.employment_status.save');
+Route::post('headquarters/master/employment_status/delete_or_restore', [employment_status_m_controller::class, 'delete_or_restore'])->name('master.employment_status.delete_or_restore');
+
 //求人補足マスタ
 Route::get('headquarters/master/job_supplement/', [job_supplement_m_controller::class, 'index'])->name('master.job_supplement');
 Route::post('headquarters/master/job_supplement/job_supplement_maincategory_save', [job_supplement_m_controller::class, 'job_supplement_maincategory_save'])->name('master.job_supplement_maincategory.save');
@@ -144,6 +150,7 @@ Route::post('headquarters/master/member/save', [member_m_controller::class, 'sav
 Route::post('headquarters/master/member/delete_or_restore', [member_m_controller::class, 'delete_or_restore'])->name('master.member.delete_or_restore');
 Route::get('headquarters/master/member/login_info_check', [member_m_controller::class, 'login_info_check'])->name('master.member.login_info_check');
 Route::post('headquarters/master/member/login_info_update', [member_m_controller::class, 'login_info_update'])->name('master.member.login_info_update');
+
 
 
 //データ取得関連

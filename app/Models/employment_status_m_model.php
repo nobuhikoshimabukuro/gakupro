@@ -5,21 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-class employer_password_t_model extends Model
+
+class employment_status_m_model extends Model
 {
-    
     use SoftDeletes;
 
     //コネクション名を指定
     protected $connection = 'mysql';
-    protected $table = 'employer_password_t';
-    protected $primaryKey = 'id';
+    protected $table = 'employment_status_m';
+    protected $primaryKey = 'employment_status_id';
 
 
 
     protected $fillable = [
-        'employer_id',
-        'login_id',
-        'password'      
+        'employment_status_name',        
     ];
 }
