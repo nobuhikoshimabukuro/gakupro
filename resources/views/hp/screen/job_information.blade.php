@@ -538,6 +538,7 @@
                         
                         <div class="row m-0 p-0">
 
+
                             @foreach ($employment_status_data as $employment_status_index => $employment_status_info)
 
                             <div id="employment-status-area{{$employment_status_info->employment_status_id}}" 
