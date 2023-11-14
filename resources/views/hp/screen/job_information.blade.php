@@ -531,7 +531,36 @@
 
                             </div>
 
-                        </div>                       
+                       
+                            
+
+                        </div>                
+                        
+                        <div class="row m-0 p-0">
+
+                            @foreach ($employment_status_data as $employment_status_index => $employment_status_info)
+
+                            <div id="employment-status-area{{$employment_status_info->employment_status_id}}" 
+                                class="col-6 col-lg-4 col-xl-3 mt-2 job-supplement-area">
+                                    <label id="employment-status-label{{$employment_status_info->employment_status_id}}" 
+                                        for="employment-status-checkbox{{$employment_status_info->employment_status_id}}" 
+                                        class="employment-status-label item-center"
+                                    >{{$employment_status_info->employment_status_name}}
+                                    </label>
+
+                                    <input type="checkbox" 
+                                    id="employment-status-checkbox{{$employment_status_info->employment_status_id}}"
+                                    value="{{$employment_status_info->employment_status_id}}"
+                                    data-target="{{$employment_status_info->employment_status_id}}"
+                                    class="employment-status-checkbox d-none"
+                                    >
+                            </div>
+
+                        @endforeach
+
+
+
+                        </div>
 
                     </div>
 

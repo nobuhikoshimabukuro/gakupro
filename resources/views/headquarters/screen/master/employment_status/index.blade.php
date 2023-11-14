@@ -15,15 +15,15 @@
 
     @include('headquarters.common.alert')
 
-    <div class="row">        
+    <div class="row m-0">        
 
-        <div class="col-6 text-start">
+        <div class="col-6 text-start m-0 p-0">
             <h4 class="master-title">
                 雇用形態マスタ
             </h4>
         </div>    
 
-        <div class="col-6 text-end">
+        <div class="col-6 text-end m-0 p-0">
 
             <button type="button" class='btn btn-link'>
                 <a href="{{ route('master.index') }}">マスタ一覧へ</a>
@@ -32,11 +32,11 @@
 
         </div>
 
-        <div class="col-6 text-start">
+        <div class="col-6 text-start m-0 p-0">
             <button type="button" class='btn btn-success search-modal-button' data-bs-toggle='modal' data-bs-target='#search-modal'></button>
         </div>
 
-        <div class="col-6 text-end">
+        <div class="col-6 text-end m-0 p-0">
             <button type="button" id="" class="btn btn-primary add-data-button"
                 data-bs-toggle='modal' data-bs-target='#save-modal'            
                 data-processflg='0'>

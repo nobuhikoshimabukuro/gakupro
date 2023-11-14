@@ -445,10 +445,58 @@ class DatabaseSeeder extends Seeder
             
             [                
                 'employment_status_id' => $index = $index + 1,
-                'employment_status_name' => 'IT関連',
+                'employment_status_name' => '正社員',
                 'display_order' => $index,
-                'created_by' => '1',
-                
+                'created_by' => '1',                
+            ],
+
+            [                
+                'employment_status_id' => $index = $index + 1,
+                'employment_status_name' => '契約社員',
+                'display_order' => $index,
+                'created_by' => '1',                
+            ],
+
+            [                
+                'employment_status_id' => $index = $index + 1,
+                'employment_status_name' => 'アルバイト',
+                'display_order' => $index,
+                'created_by' => '1',                
+            ],
+
+            [                
+                'employment_status_id' => $index = $index + 1,
+                'employment_status_name' => 'パート',
+                'display_order' => $index,
+                'created_by' => '1',                
+            ],
+
+            [                
+                'employment_status_id' => $index = $index + 1,
+                'employment_status_name' => '派遣社員',
+                'display_order' => $index,
+                'created_by' => '1',                
+            ],
+
+            [                
+                'employment_status_id' => $index = $index + 1,
+                'employment_status_name' => '紹介予定派遣',
+                'display_order' => $index,
+                'created_by' => '1',                
+            ],
+
+            [                
+                'employment_status_id' => $index = $index + 1,
+                'employment_status_name' => '嘱託社員',
+                'display_order' => $index,
+                'created_by' => '1',                
+            ],
+
+            [                
+                'employment_status_id' => $index = $index + 1,
+                'employment_status_name' => '業務委託',
+                'display_order' => $index,
+                'created_by' => '1',                
             ],
 
                      

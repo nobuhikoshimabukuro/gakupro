@@ -28,6 +28,7 @@ use App\Models\job_supplement_maincategory_m_model;
 use App\Models\job_supplement_subcategory_m_model;
 use App\Models\job_supplement_connection_t_model;
 use App\Models\job_search_history_t_model;
+use App\Models\employment_status_m_model;
 
 
 class hp_controller extends Controller
@@ -96,6 +97,10 @@ class hp_controller extends Controller
 
         //都道府県ブルダウン作成用
         $prefectural_list = create_list::prefectural_list();
+
+
+        $employment_status_data = employment_status_m_model::get();
+
         //給与プルダウン作成用
         $salary_maincategory_list = create_list::salary_maincategory_list();
         //職種データ取得
@@ -104,10 +109,12 @@ class hp_controller extends Controller
         $job_supplement_data = get_data::job_supplement_data();
 
 
+
         return view('hp/screen/job_information',
                 compact('job_information'
                 , 'search_element_array'
                 , 'prefectural_list'
+                , 'employment_status_data'
                 , 'job_category_data'
                 , 'job_supplement_data'
                 , 'salary_maincategory_list'
