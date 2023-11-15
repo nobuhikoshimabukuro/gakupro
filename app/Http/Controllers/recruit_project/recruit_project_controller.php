@@ -43,6 +43,7 @@ use App\Models\employment_status_connection_t_model;
 use App\Models\employment_status_m_model;
 
 
+
 use App\Models\job_maincategory_m_model;
 use App\Models\job_subcategory_m_model;
 use App\Models\job_category_connection_t_model;
@@ -869,7 +870,7 @@ class recruit_project_controller extends Controller
             }
 
             //求人情報と雇用形態データの連結テーブルの処理  start
-            employment_status_m_model::where('employer_id', '=', $employer_id)
+            employment_status_connection_t_model::where('employer_id', '=', $employer_id)
             ->where('job_id', '=', $job_id)
             ->forceDelete();
 
@@ -884,7 +885,7 @@ class recruit_project_controller extends Controller
                 if(!is_null($data)){
 
 
-                    employment_status_m_model::insert(
+                    employment_status_connection_t_model::insert(
                         [                            
                             "employer_id" => $employer_id
                             ,"job_id" => $job_id

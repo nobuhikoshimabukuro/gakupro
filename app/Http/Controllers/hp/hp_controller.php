@@ -30,6 +30,11 @@ use App\Models\job_supplement_connection_t_model;
 use App\Models\job_search_history_t_model;
 use App\Models\employment_status_m_model;
 
+use App\Models\employment_status_connection_t_model;
+use App\Models\job_category_connection_t_model;
+
+
+
 
 class hp_controller extends Controller
 {
@@ -610,7 +615,7 @@ class hp_controller extends Controller
                 'job_supplement_subcategory_m.job_supplement_maincategory_cd as job_supplement_maincategory_cd',
                 'job_supplement_maincategory_m.job_supplement_maincategory_name as job_supplement_maincategory_name',
             )
-            ->leftJoin('job_supplement_subcategory_m', 'job_category_connection_t.job_supplement_subcategory_cd', '=', 'job_supplement_subcategory_m.job_supplement_subcategory_cd')
+            ->leftJoin('job_supplement_subcategory_m', 'job_supplement_connection_t.job_supplement_subcategory_cd', '=', 'job_supplement_subcategory_m.job_supplement_subcategory_cd')
             ->leftJoin('job_supplement_maincategory_m', 'job_supplement_subcategory_m.job_supplement_maincategory_cd', '=', 'job_supplement_maincategory_m.job_supplement_maincategory_cd')            
             ->whereNull('job_supplement_maincategory_m.deleted_at')
             ->whereNull('job_supplement_subcategory_m.deleted_at')
