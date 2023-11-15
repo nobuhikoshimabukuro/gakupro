@@ -56,6 +56,7 @@ class hp_controller extends Controller
 
             $prefectural_cd_search_value_array = $all_job_search_value_array["prefectural_cd_search_value_array"];
             $municipality_cd_search_value_array = $all_job_search_value_array["municipality_cd_search_value_array"];
+            $employment_status_search_value_array = $all_job_search_value_array["employment_status_search_value_array"];
             $job_category_search_value_array = $all_job_search_value_array["job_category_search_value_array"];
             $job_supplement_search_value_array = $all_job_search_value_array["job_supplement_search_value_array"];
 
@@ -93,16 +94,12 @@ class hp_controller extends Controller
             'search_job_supplement_array' => $search_job_supplement_array,
         ];
 
-
-
         //都道府県ブルダウン作成用
         $prefectural_list = create_list::prefectural_list();
-
-
-        $employment_status_data = employment_status_m_model::get();
-
         //給与プルダウン作成用
         $salary_maincategory_list = create_list::salary_maincategory_list();
+        //雇用形態データ取得
+        $employment_status_data = get_data::employment_status_data();
         //職種データ取得
         $job_category_data = get_data::job_category_data();
         //求人補足データ取得
@@ -177,6 +174,9 @@ class hp_controller extends Controller
         //市区町村CDを取得
         $municipality_cd_search_value_array = $all_job_search_value_array["municipality_cd_search_value_array"];
 
+        //雇用形態を取得
+        $employment_status_search_value_array = $all_job_search_value_array["employment_status_search_value_array"];
+
         //給与を取得
         $salary_search_value_array = $all_job_search_value_array["salary_search_value_array"];
 
@@ -194,26 +194,28 @@ class hp_controller extends Controller
         $new_line = "\n";
 
         $sql = "        
-        WITH editing_job_supplement_connection_t AS ( 
+        WITH 
+        editing_employment_status_connection_t AS ( 
             SELECT
                 employer_id
                 , job_id
                 , CONCAT( 
                     '['
                     , GROUP_CONCAT( 
-                        job_supplement_subcategory_cd 
+                        employment_status_id 
                         ORDER BY
-                            job_supplement_subcategory_cd SEPARATOR ']['
+                        employment_status_id SEPARATOR ']['
                     ) 
                     , ']'
-                ) AS job_supplement_subcategory_cds 
+                ) AS employment_status_ids 
             FROM
-                job_supplement_connection_t 
+            employment_status_connection_t 
             GROUP BY
                 employer_id
                 , job_id
         ) 
-        , editing_job_category_connection_t AS ( 
+        , 
+        editing_job_category_connection_t AS ( 
             SELECT
                 employer_id
                 , job_id
@@ -232,7 +234,28 @@ class hp_controller extends Controller
                 employer_id
                 , job_id
         ) 
-        , address_m1 AS ( 
+        , 
+        editing_job_supplement_connection_t AS ( 
+            SELECT
+                employer_id
+                , job_id
+                , CONCAT( 
+                    '['
+                    , GROUP_CONCAT( 
+                        job_supplement_subcategory_cd 
+                        ORDER BY
+                            job_supplement_subcategory_cd SEPARATOR ']['
+                    ) 
+                    , ']'
+                ) AS job_supplement_subcategory_cds 
+            FROM
+                job_supplement_connection_t 
+            GROUP BY
+                employer_id
+                , job_id
+        ) 
+        ,
+        address_m1 AS ( 
             SELECT
                 prefectural_cd
                 , prefectural_name 
@@ -242,6 +265,7 @@ class hp_controller extends Controller
                 prefectural_cd
                 , prefectural_name
         ) 
+
         SELECT
             job_information_t.id
             , job_information_t.employer_id
@@ -264,20 +288,30 @@ class hp_controller extends Controller
             , job_information_t.salary
             , job_information_t.holiday
             , job_image_folder_name            
-            , editing_job_supplement_connection_t.job_supplement_subcategory_cds 
+            , editing_employment_status_connection_t.employment_status_ids            
             , editing_job_category_connection_t.job_subcategory_cds
+            , editing_job_supplement_connection_t.job_supplement_subcategory_cds
         FROM
             job_information_t 
+
             LEFT JOIN employer_m 
                 ON employer_m.employer_id = employer_m.employer_id 
-            LEFT JOIN editing_job_supplement_connection_t 
-                ON editing_job_supplement_connection_t.employer_id = job_information_t.employer_id 
-                AND editing_job_supplement_connection_t.job_id = job_information_t.job_id 
+            
+            LEFT JOIN editing_employment_status_connection_t 
+                ON editing_employment_status_connection_t.employer_id = job_information_t.employer_id 
+                AND editing_employment_status_connection_t.job_id = job_information_t.job_id 
+                
             LEFT JOIN editing_job_category_connection_t 
                 ON editing_job_category_connection_t.employer_id = job_information_t.employer_id 
                 AND editing_job_category_connection_t.job_id = job_information_t.job_id 
+
+            LEFT JOIN editing_job_supplement_connection_t 
+                ON editing_job_supplement_connection_t.employer_id = job_information_t.employer_id 
+                AND editing_job_supplement_connection_t.job_id = job_information_t.job_id            
+
             LEFT JOIN address_m1 
                 ON address_m1.prefectural_cd = job_information_t.work_location_prefectural_cd 
+
             LEFT JOIN address_m as address_m2 
                 ON address_m2.prefectural_cd = job_information_t.work_location_prefectural_cd 
                 AND address_m2.municipality_cd = job_information_t.work_location_municipality_cd 
@@ -304,8 +338,29 @@ class hp_controller extends Controller
 
         }
 
-        //給与を取得
+        //雇用形態
+        if($employment_status_search_value_array["existence_data"] == 1) {
+            
+            $search_employment_status_array = $employment_status_search_value_array["value_array"];
         
+            foreach ($search_employment_status_array as $index => $employment_status_id){
+                
+                if($index == 0){
+                    $sql .= $new_line  . "AND";                      
+                    $sql .= $new_line  . "(";      
+                }else{
+                    $sql .= $new_line  . "OR";
+                }
+                                
+                $sql .= $new_line  . "editing_employment_status_connection_t.employment_status_ids LIKE '%[" . $employment_status_id . "]%'";                
+
+                if(count($search_employment_status_array) - 1 == $index){
+                    $sql .= $new_line  . ")";  
+                }
+            }
+        }
+
+        //給与を取得        
         if($salary_search_value_array["existence_data"] == 1) {
             
             $salary_maincategory_cd = $salary_search_value_array["salary_maincategory_cd"];
@@ -363,6 +418,7 @@ class hp_controller extends Controller
         return $sql;
 
     }
+
     //求人情報検索値セット処理
     function job_information_set_search_value(Request $request)
     {
@@ -387,11 +443,8 @@ class hp_controller extends Controller
                         ,"search_date" => $search_date
                     ]
                );
-
             }
-
         }
-
 
 
         session()->put('all_job_search_value_array', $all_job_search_value_array);
@@ -412,6 +465,7 @@ class hp_controller extends Controller
         $job_information = job_information_t_model::select(
             'job_information_t.id as id',
             'job_information_t.employer_id as employer_id',
+            'job_information_t.job_id as job_id',
             'employer_m.employer_name as employer_name',            
             'employer_m.hp_url as employer_hp_url',
             'employer_m.employer_description as employer_description',
@@ -458,6 +512,9 @@ class hp_controller extends Controller
 
         }else{
 
+            $employer_id = $job_information->employer_id;
+            $job_id = $job_information->job_id;
+
             $asset_path_array = [];
             $job_image_folder_name = $job_information->job_image_folder_name;
 
@@ -486,10 +543,100 @@ class hp_controller extends Controller
 
             $job_information->asset_path_array =  $asset_path_array;
 
-        }
+            $employment_status_datas = [];
+            $job_category_datas = [];
+            $job_supplement_category_datas = [];
 
+            $set_employment_status = employment_status_connection_t_model::select(
+                'employment_status_connection_t.employer_id as employer_id',
+                'employment_status_connection_t.job_id as job_id',
+                'employment_status_connection_t.employment_status_id as employment_status_id',
+                'employment_status_m.employment_status_name as employment_status_name',
+            )
+            ->leftJoin('employment_status_m', 'employment_status_connection_t.employment_status_id', '=', 'employment_status_m.employment_status_id')
+            ->whereNull('employment_status_m.deleted_at')
+            ->where('employment_status_connection_t.employer_id', '=', $employer_id)
+            ->where('employment_status_connection_t.job_id', '=', $job_id)            
+            ->get();
+    
+            foreach ($set_employment_status as $index => $set_employment_status_info){            
+                $employment_status_id = $set_employment_status_info->employment_status_id;
+                $employment_status_name = $set_employment_status_info->employment_status_name;
+                $employment_status_datas[] = ['employment_status_id'=> $employment_status_id , 'employment_status_name'=> $employment_status_name];
+            }
+    
+            $job_information->employment_status_datas =  $employment_status_datas;
 
-        $employer_remarks = $job_information->employer_remarks;
+            $set_job_category = job_category_connection_t_model::select(
+                'job_category_connection_t.employer_id as employer_id',
+                'job_category_connection_t.job_id as job_id',                
+                'job_maincategory_m.job_maincategory_cd as job_maincategory_cd',
+                'job_maincategory_m.job_maincategory_name as job_maincategory_name',
+                'job_category_connection_t.job_subcategory_cd as job_subcategory_cd',
+                'job_subcategory_m.job_subcategory_name as job_subcategory_name',
+            )
+            ->leftJoin('job_subcategory_m', 'job_category_connection_t.job_subcategory_cd', '=', 'job_subcategory_m.job_subcategory_cd')
+            ->leftJoin('job_maincategory_m', 'job_subcategory_m.job_maincategory_cd', '=', 'job_maincategory_m.job_maincategory_cd')            
+            ->whereNull('job_maincategory_m.deleted_at')
+            ->whereNull('job_subcategory_m.deleted_at')
+            ->where('job_category_connection_t.employer_id', '=', $employer_id)
+            ->where('job_category_connection_t.job_id', '=', $job_id)   
+            ->orderBy('job_maincategory_m.display_order')
+            ->orderBy('job_subcategory_m.display_order')         
+            ->get();
+        
+            foreach ($set_job_category as $index => $set_job_category_info){            
+                $job_maincategory_cd = $set_job_category_info->job_maincategory_cd;
+                $job_maincategory_name = $set_job_category_info->job_maincategory_name;
+                $job_subcategory_id = $set_job_category_info->job_subcategory_id;
+                $job_subcategory_name = $set_job_category_info->job_subcategory_name;
+                
+                $job_category_datas[] = [
+                    'job_maincategory_cd'=> $job_maincategory_cd 
+                    , 'job_maincategory_name'=> $job_maincategory_name
+                    , 'job_subcategory_id'=> $job_subcategory_id
+                    , 'job_subcategory_name'=> $job_subcategory_name
+                ];
+            }
+
+            $job_information->job_category_datas =  $job_category_datas;
+    
+
+            $set_job_supplement_category = job_supplement_connection_t_model::select(
+                'job_supplement_connection_t.employer_id as employer_id',
+                'job_supplement_connection_t.job_id as job_id',                
+                'job_supplement_connection_t.job_supplement_subcategory_cd as job_supplement_subcategory_cd',
+                'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',
+                'job_supplement_subcategory_m.job_supplement_maincategory_cd as job_supplement_maincategory_cd',
+                'job_supplement_maincategory_m.job_supplement_maincategory_name as job_supplement_maincategory_name',
+            )
+            ->leftJoin('job_supplement_subcategory_m', 'job_category_connection_t.job_supplement_subcategory_cd', '=', 'job_supplement_subcategory_m.job_supplement_subcategory_cd')
+            ->leftJoin('job_supplement_maincategory_m', 'job_supplement_subcategory_m.job_supplement_maincategory_cd', '=', 'job_supplement_maincategory_m.job_supplement_maincategory_cd')            
+            ->whereNull('job_supplement_maincategory_m.deleted_at')
+            ->whereNull('job_supplement_subcategory_m.deleted_at')
+            ->where('job_supplement_connection_t.employer_id', '=', $employer_id)
+            ->where('job_supplement_connection_t.job_id', '=', $job_id)   
+            ->orderBy('job_supplement_maincategory_m.display_order')
+            ->orderBy('job_supplement_subcategory_m.display_order')         
+            ->get();
+        
+            foreach ($set_job_supplement_category as $index => $set_job_category_info){            
+                $job_supplement_maincategory_cd = $set_job_category_info->job_supplement_maincategory_cd;
+                $job_supplement_maincategory_name = $set_job_category_info->job_supplement_maincategory_name;
+                $job_supplement_subcategory_cd = $set_job_category_info->job_supplement_subcategory_cd;
+                $job_supplement_subcategory_name = $set_job_category_info->job_supplement_subcategory_name;
+                
+                $job_supplement_category_datas[] = [
+                    'job_supplement_maincategory_cd'=> $job_supplement_maincategory_cd 
+                    ,'job_supplement_maincategory_name'=> $job_supplement_maincategory_name
+                    ,'job_supplement_subcategory_cd'=> $job_supplement_subcategory_cd
+                    ,'job_supplement_subcategory_name'=> $job_supplement_subcategory_name
+                ];
+            }
+
+            $job_information->job_supplement_category_datas = $job_supplement_category_datas;
+   
+        }        
 
         return view('hp/screen/job_information_detail', compact('job_information'));
 

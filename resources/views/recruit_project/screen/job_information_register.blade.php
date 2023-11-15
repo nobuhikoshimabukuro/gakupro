@@ -9,13 +9,8 @@
 
 body{
         z-index: 1;
-
         padding-bottom: 5vh;
     }
-
-   
-   
-    
 
     .job-supplement-maincategory-area
     ,.job-maincategory-title-area{
@@ -107,6 +102,53 @@ body{
                     <div class="col-12 col-md-6 mt-3">
 
                         <div id="" class="row m-0 p-0">
+                            
+                            @foreach($employment_status_data as $employment_status_info)
+
+                                @php                            
+                                    
+                                    $employment_status_id = $employment_status_info->employment_status_id;
+                                    $employment_status_name = $employment_status_info->employment_status_name;
+
+                                    $add_class = "";
+                                    $check_status = "";
+                                    if(in_array($employment_status_id , $employment_status_connections)){
+                                        $add_class = "employment-status-select";                            
+                                        $check_status = "checked";
+                                    }
+
+                                @endphp
+
+
+                                <div id="employment-status-area{{$employment_status_id}}" 
+                                    class="col-6 col-lg-4 col-xl-3 mt-2 employment-status-area">
+                                    <label id="job-supplement-label{{$employment_status_id}}" 
+                                        for="job-supplement-checkbox{{$employment_status_id}}" 
+                                        class="job-supplement-label {{$add_class}} item-center"
+                                    >{{$employment_status_name}}
+                                    </label>
+
+                                    <input type="checkbox" 
+                                    id="employment-status-checkbox{{$employment_status_id}}"
+                                    name="employment-status-checkbox{{$employment_status_id}}"
+                                    value="{{$employment_status_id}}"                        
+                                    data-target="{{$employment_status_id}}"
+                                    class="employment-status-checkbox d-none"                                     
+                                    {{$check_status}}
+                                    >
+                                </div>
+                            @endforeach
+
+                        </div>
+
+                    </div> 
+
+
+
+
+                    <div class="col-12 col-md-6 mt-3">
+
+                        <div id="" class="row m-0 p-0">
 
                             @php
                                 $job_maincategory_cd_array = [];
@@ -120,7 +162,7 @@ body{
                                     $job_maincategory_name = $job_category_info->job_maincategory_name;
                                     $job_subcategory_cd = $job_category_info->job_subcategory_cd;
 
-                                    if(in_array($job_subcategory_cd , $job_subcategory_connections)){
+                                    if(in_array($job_subcategory_cd , $job_category_connections)){
                                         $job_maincategory_cd_array[] = $job_maincategory_cd;
                                     }
 
@@ -149,7 +191,7 @@ body{
                                     
                                     $add_class = "";
                                     $check_status = "";
-                                    if(in_array($job_subcategory_cd , $job_subcategory_connections)){
+                                    if(in_array($job_subcategory_cd , $job_category_connections)){
                                         $add_class = "job-category-select";                            
                                         $check_status = "checked";
                                     }
@@ -232,7 +274,7 @@ body{
 
                                     $add_class = "";
                                     $check_status = "";
-                                    if(in_array($job_supplement_subcategory_cd , $job_supplement_subcategory_connections)){
+                                    if(in_array($job_supplement_subcategory_cd , $job_supplement_category_connections)){
                                         $add_class = "job-supplement-select";                            
                                         $check_status = "checked";
                                     }

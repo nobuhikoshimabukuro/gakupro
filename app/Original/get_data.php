@@ -30,6 +30,9 @@ use App\Models\mailaddress_check_t_model;
 use App\Models\salary_maincategory_m_model;
 use App\Models\salary_subcategory_m_model;
 
+use App\Models\employment_status_connection_t_model;
+use App\Models\employment_status_m_model;
+
 use App\Models\job_maincategory_m_model;
 use App\Models\job_subcategory_m_model;
 use App\Models\job_category_connection_t_model;
@@ -42,6 +45,23 @@ use App\Models\job_search_history_t_model;
 
 class get_data
 {      
+
+    //職種データ取得
+    public static function employment_status_data()
+    {      
+      
+        //職種情報取得
+        $employment_status_data = employment_status_m_model::select(
+            'employment_status_m.employment_status_id as employment_status_id',
+            'employment_status_m.employment_status_name as employment_status_name',
+            'employment_status_m.display_order as display_order',                  
+        )        
+        ->whereNull('employment_status_m.deleted_at')        
+        ->orderBy('employment_status_m.display_order')
+        ->get();
+
+        return $employment_status_data;
+    }
 
 
     //職種データ取得

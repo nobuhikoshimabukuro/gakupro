@@ -865,7 +865,10 @@ $(function(){
 
         var prefectural_cd_search_value_array = set_prefectural_cd_search_value();        
         var municipality_cd_search_value_array = set_municipality_cd_array_search_value();
+
+        var employment_status_search_value_array = set_employment_status_search_value();       
         
+
         var salary_search_value_array = set_salary_search_value();
 
         var job_category_search_value_array = set_job_category_search_value();
@@ -874,6 +877,7 @@ $(function(){
         var all_job_search_value_array = {
             prefectural_cd_search_value_array:prefectural_cd_search_value_array
             , municipality_cd_search_value_array:municipality_cd_search_value_array
+            , employment_status_search_value_array:employment_status_search_value_array
             , salary_search_value_array:salary_search_value_array
             , job_category_search_value_array:job_category_search_value_array
             , job_supplement_search_value_array:job_supplement_search_value_array
@@ -1334,6 +1338,36 @@ $(function(){
 
     }
 
+    //雇用形態検索値セット処理
+    function set_employment_status_search_value(){
+
+        var existence_data = 0;
+        var employment_status_search_value_array = [];       
+        var value_array = [];
+
+        var employment_status_checkboxs = document.querySelectorAll('.employment-status-checkbox');
+
+        if(employment_status_checkboxs.length > 0){
+                
+            // チェックされている要素のvalueを取得
+            employment_status_checkboxs.forEach(function(employment_status_checkbox) {
+                if (employment_status_checkbox.checked) {                    
+                    value_array.push(employment_status_checkbox.value); 
+                }
+            });
+        }
+
+        if(value_array.length > 0){
+            existence_data = 1;
+        }
+
+        employment_status_search_value_array = {existence_data:existence_data
+                                        , value_array:value_array                                         
+                                        };
+
+        return employment_status_search_value_array;
+
+    }
 
     //職種検索値セット処理
     function set_job_category_search_value(){

@@ -39,6 +39,10 @@ use App\Models\mailaddress_check_t_model;
 use App\Models\salary_maincategory_m_model;
 use App\Models\salary_subcategory_m_model;
 
+use App\Models\employment_status_connection_t_model;
+use App\Models\employment_status_m_model;
+
+
 use App\Models\job_maincategory_m_model;
 use App\Models\job_subcategory_m_model;
 use App\Models\job_category_connection_t_model;
@@ -733,8 +737,9 @@ class recruit_project_controller extends Controller
         $employer_id = session()->get('employer_id');
 
         $job_info = [];
-        $job_subcategory_connections = [];
-        $job_supplement_subcategory_connections = [];
+        $employment_status_connections = [];
+        $job_category_connections = [];
+        $job_supplement_category_connections = [];
         
 
 
@@ -761,22 +766,32 @@ class recruit_project_controller extends Controller
             ->first();
         }
 
-        $job_category_connections = job_category_connection_t_model::
+        $employment_status_connection_t = employment_status_connection_t_model::
         where('employer_id', '=', $employer_id)
         ->where('job_id', '=', $job_id)
         ->get();
 
-        foreach ($job_category_connections as $index => $job_category_connection){            
-            $job_subcategory_connections[] = $job_category_connection->job_subcategory_cd;
+        foreach ($employment_status_connection_t as $index => $employment_status_connection){            
+            $employment_status_connections[] = $employment_status_connection->employment_status_id;
         }
 
-        $job_supplement_connections = job_supplement_connection_t_model::
+
+        $job_category_connection_t = job_category_connection_t_model::
+        where('employer_id', '=', $employer_id)
+        ->where('job_id', '=', $job_id)
+        ->get();
+
+        foreach ($job_category_connection_t as $index => $job_category_connection){            
+            $job_category_connections[] = $job_category_connection->job_subcategory_cd;
+        }
+
+        $job_supplement_connection_t = job_supplement_connection_t_model::
         where('employer_id', '=', $employer_id)
         ->where('job_id', '=', $job_id)            
         ->get();
 
-        foreach ($job_supplement_connections as $index => $job_supplement_connection){            
-            $job_supplement_subcategory_connections[] = $job_supplement_connection->job_supplement_subcategory_cd;
+        foreach ($job_supplement_connection_t as $index => $job_supplement_connection){            
+            $job_supplement_category_connections[] = $job_supplement_connection->job_supplement_subcategory_cd;
         }
 
 
@@ -784,6 +799,8 @@ class recruit_project_controller extends Controller
         $prefectural_list = create_list::prefectural_list();
         //給与プルダウン作成用
         $salary_maincategory_list = create_list::salary_maincategory_list();
+        //雇用形態データ取得
+        $employment_status_data = get_data::employment_status_data();
         //職種データ取得
         $job_category_data = get_data::job_category_data();
         //求人補足データ取得
@@ -802,11 +819,14 @@ class recruit_project_controller extends Controller
                 ,'prefectural_list'
                 ,'salary_maincategory_list'
 
+                ,'employment_status_data'
+                ,'employment_status_connections'
+
                 ,'job_category_data'
-                ,'job_subcategory_connections'
+                ,'job_category_connections'
 
                 ,'job_supplement_data'
-                ,'job_supplement_subcategory_connections'
+                ,'job_supplement_category_connections'
             ));        
     }
 
@@ -818,6 +838,8 @@ class recruit_project_controller extends Controller
 
         try {
 
+            //雇用形態データ取得
+            $employment_status_data = get_data::employment_status_data();
             //職種データ取得
             $job_category_data = get_data::job_category_data();
             //求人補足データ取得
@@ -845,6 +867,36 @@ class recruit_project_controller extends Controller
                 }
                 
             }
+
+            //求人情報と雇用形態データの連結テーブルの処理  start
+            employment_status_m_model::where('employer_id', '=', $employer_id)
+            ->where('job_id', '=', $job_id)
+            ->forceDelete();
+
+            foreach ($employment_status_data as $index => $employment_status_info){       
+
+                $employment_status_id = $employment_status_info->employment_status_id;
+
+                $target_name = "employment-status-checkbox" . $employment_status_id;
+
+                $data = $request->$target_name;
+
+                if(!is_null($data)){
+
+
+                    employment_status_m_model::insert(
+                        [                            
+                            "employer_id" => $employer_id
+                            ,"job_id" => $job_id
+                            ,"employment_status_id" => intval($employment_status_id)                        
+                        ]
+                    );
+
+                }
+
+            }
+            //求人情報と職種データの連結テーブルの処理  end
+
 
 
             //求人情報と職種データの連結テーブルの処理  start
