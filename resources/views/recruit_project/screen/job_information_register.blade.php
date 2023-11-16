@@ -7,13 +7,14 @@
 
 <style>
 
-body{
+    body{
         z-index: 1;
         padding-bottom: 5vh;
     }
 
     .job-supplement-maincategory-area
-    ,.job-maincategory-title-area{
+    ,.job-maincategory-title-area
+    ,.employment-status-title-area{
         height: 50px;
         background-color: rgb(245, 179, 81);
         color:rgb(239, 239, 247);
@@ -25,13 +26,15 @@ body{
     }
 
     .job-supplement-area
-    ,.job-category-area{
+    ,.job-category-area
+    ,.employment-status-area{
         height: 50px;
         padding: 3px;
     }
 
     .job-supplement-label
-    ,.job-category-label{
+    ,.job-category-label
+    ,.employment-status-label{
         height: 100%;
         width: 100%; 
         color: rgb(53, 7, 7);       
@@ -41,7 +44,8 @@ body{
     }
 
     .job-supplement-select
-    ,.job-category-select{
+    ,.job-category-select
+    ,.employment-status-select{
         background-color: rgb(49, 49, 105);
         color: white;
         border: solid 1px rgb(208, 208, 241);
@@ -103,6 +107,11 @@ body{
 
                         <div id="" class="row m-0 p-0">
                             
+
+                            <div class="col-12 employment-status-title-area mt-2">
+                                雇用形態
+                            </div>
+
                             @foreach($employment_status_data as $employment_status_info)
 
                                 @php                            
@@ -122,9 +131,9 @@ body{
 
                                 <div id="employment-status-area{{$employment_status_id}}" 
                                     class="col-6 col-lg-4 col-xl-3 mt-2 employment-status-area">
-                                    <label id="job-supplement-label{{$employment_status_id}}" 
-                                        for="job-supplement-checkbox{{$employment_status_id}}" 
-                                        class="job-supplement-label {{$add_class}} item-center"
+                                    <label id="employment-status-label{{$employment_status_id}}" 
+                                        for="employment-status-checkbox{{$employment_status_id}}" 
+                                        class="employment-status-label {{$add_class}} item-center"
                                     >{{$employment_status_name}}
                                     </label>
 
@@ -387,6 +396,21 @@ $(function(){
             }
             
         }
+
+    });
+
+    //雇用形態選択値変更時
+    $(document).on("change", ".employment-status-checkbox", function (e) {
+
+        var employment_status_id = $(this).data('target');
+
+        $("#employment-status-label" + employment_status_id).removeClass('employment-status-select');
+
+        if($("#employment-status-checkbox" + employment_status_id).prop('checked')){
+
+            $("#employment-status-label" + employment_status_id).addClass('employment-status-select');
+            
+        }        
 
     });
 

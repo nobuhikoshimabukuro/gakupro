@@ -147,13 +147,6 @@
         border-color: transparent transparent #000 transparent;
     }
 
-/*  
-
-    .job-maincategory-title-area:hover .arrow-top
-    ,.job-maincategory-title-area:hover .arrow-bottom{
-        transform: rotate(180deg);
-    }
-     */
 
     .arrow-bottom {
         display: inline-block;
@@ -177,7 +170,40 @@
         background-color: rgb(208, 208, 241);
         
     }
+   
 
+    
+    .employment-status-area{
+        height: 50px;
+        padding: 3px;
+    }
+
+    .employment-status-label{
+        height: 100%;
+        width: 100%; 
+        color:rgb(79, 79, 228);
+        background-color: white;   
+        font-weight: 600;
+        border: 3px solid;
+        border-top-color: black;
+        border-right-color: red;
+        border-bottom-color: blue;
+        border-left-color: green;
+        border-radius: 3px;             
+    }
+
+    .employment-status-select{        
+        color: rgb(4, 4, 80);
+        background-color: white;   
+        border: 4px solid;
+        border-top-color: green;
+        border-right-color: black;
+        border-bottom-color: red;
+        border-left-color: blue;
+        font-weight: 700;
+        animation: arrowrotate .1s;
+    }
+    
     .job-supplement-select
     ,.job-category-select{
         background-color: rgb(49, 49, 105);
@@ -539,26 +565,71 @@
                         <div class="row m-0 p-0">
 
 
-                            @foreach ($employment_status_data as $employment_status_index => $employment_status_info)
+                            <div class="col-12 employment-status-title-area mt-2">
+                                雇用形態
+                            </div>
 
-                            <div id="employment-status-area{{$employment_status_info->employment_status_id}}" 
-                                class="col-6 col-lg-4 col-xl-3 mt-2 job-supplement-area">
-                                    <label id="employment-status-label{{$employment_status_info->employment_status_id}}" 
-                                        for="employment-status-checkbox{{$employment_status_info->employment_status_id}}" 
-                                        class="employment-status-label item-center"
-                                    >{{$employment_status_info->employment_status_name}}
+                            @foreach($employment_status_data as $employment_status_info)
+
+                                @php                            
+                                    
+                                    $employment_status_id = $employment_status_info->employment_status_id;
+                                    $employment_status_name = $employment_status_info->employment_status_name;
+
+                                    $add_class = "";
+                                    $check_status = "";
+                                    
+                                    if(in_array($employment_status_id , $search_element_array['search_employment_status_array'])){
+                                        $add_class = "employment-status-select";                            
+                                        $check_status = "checked";
+                                    }
+
+                                @endphp
+
+
+                                {{-- <div id="employment-status-area{{$employment_status_id}}" 
+                                    class="col-6 col-lg-4 col-xl-3 mt-2 employment-status-area">
+                                    <label id="employment-status-label{{$employment_status_id}}" 
+                                        for="employment-status-checkbox{{$employment_status_id}}" 
+                                        class="employment-status-label {{$add_class}} item-center"
+                                    >{{$employment_status_name}}
                                     </label>
 
                                     <input type="checkbox" 
-                                    id="employment-status-checkbox{{$employment_status_info->employment_status_id}}"
-                                    value="{{$employment_status_info->employment_status_id}}"
-                                    data-target="{{$employment_status_info->employment_status_id}}"
-                                    class="employment-status-checkbox d-none"
+                                    id="employment-status-checkbox{{$employment_status_id}}"
+                                    name="employment-status-checkbox{{$employment_status_id}}"
+                                    value="{{$employment_status_id}}"                        
+                                    data-target="{{$employment_status_id}}"
+                                    class="employment-status-checkbox d-none"                                    
+                                    {{$check_status}}
                                     >
-                            </div>
+                                </div> --}}
 
-                        @endforeach
 
+
+
+                                <div id="employment-status-area{{$employment_status_id}}" 
+                                    class="col-6 col-lg-4 col-xl-3 mt-2 employment-status-area">
+                                    <label id="employment-status-label{{$employment_status_id}}" 
+                                        for="employment-status-checkbox{{$employment_status_id}}" 
+                                        class="employment-status-label {{$add_class}} item-center"
+                                    >
+                                    <input type="checkbox" 
+                                    id="employment-status-checkbox{{$employment_status_id}}"
+                                    name="employment-status-checkbox{{$employment_status_id}}"
+                                    value="{{$employment_status_id}}"                        
+                                    data-target="{{$employment_status_id}}"
+                                    class="employment-status-checkbox"                                    
+                                    {{$check_status}}
+                                    >
+                                    {{$employment_status_name}}
+                                    </label>
+
+                                   
+                                </div>
+
+
+                            @endforeach
 
 
                         </div>
@@ -947,6 +1018,7 @@ $(function(){
         // 各クリア処理
         clear_prefectural();
         clear_salary_category();
+        clear_employment_status();
         clear_job_category();
         clear_job_supplement_category();
        
@@ -955,17 +1027,28 @@ $(function(){
 
     });
 
+    //勤務地クリア処理
     function clear_prefectural(){
         $("#search_prefectural_cd").val("");
         search_prefectural();
     }
 
+    //給与クリア処理
     function clear_salary_category(){
 
      
 
     }
 
+    //求人補足クリア処理
+    function clear_employment_status(){    
+
+        $(".employment-status-checkbox").prop("checked", false);
+        $(".employment-status-select").removeClass('employment-status-select');
+
+    }
+
+    //職種クリア処理
     function clear_job_category(){
         
         $(".job-maincategory-title-area .arrow-area").removeClass('arrow-top');
@@ -980,6 +1063,7 @@ $(function(){
 
     }
 
+    //求人補足クリア処理
     function clear_job_supplement_category(){
      
 
@@ -1250,6 +1334,20 @@ $(function(){
 
     }
 
+    //雇用形態選択値変更時
+    $(document).on("change", ".employment-status-checkbox", function (e) {
+
+        var employment_status_id = $(this).data('target');
+
+        $("#employment-status-label" + employment_status_id).removeClass('employment-status-select');
+
+        if($("#employment-status-checkbox" + employment_status_id).prop('checked')){
+
+            $("#employment-status-label" + employment_status_id).addClass('employment-status-select');
+            
+        }        
+
+    });
 
 
 // {{-- 雇用条件タブ関連End --}}

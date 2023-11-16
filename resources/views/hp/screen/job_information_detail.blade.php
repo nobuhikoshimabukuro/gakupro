@@ -70,6 +70,9 @@
 
         // 画像格納場所完全path配列
         $asset_path_array = $job_information->asset_path_array;
+        $employment_status_datas = $job_information->employment_status_datas;
+        $job_category_datas = $job_information->job_category_datas;
+        $job_supplement_category_datas = $job_information->job_supplement_category_datas;
 
     @endphp
 
@@ -79,21 +82,13 @@
     <div id="" class="row item-center">
         
         <div class="job-detail-board col-11 col-md-8 mt-3">
-        {{-- <div class="col-11 col-md-8 mt-3"> --}}
-            
-            
+                    
             <div id="" class="row">
 
                 <div class="col-12 text-start">
                     <h3>
                         {{$job_information->title}}
                     </h3>
-                </div>
-
-                <div class="col-12 text-start">
-                    <p>
-                        掲載期間:{{$job_information->publish_start_date}}～{{$job_information->publish_end_date}}                        
-                    </p>
                 </div>
 
                 <div class="col-12 job-image-outer-area item-center">
@@ -137,6 +132,78 @@
                     @endif
                 </div>
 
+                <div class="col-12 text-start">
+                    <h4>
+                        雇用形態
+                    </h4>
+
+                    <div class="row m-0 p-0">
+
+                    @foreach ($employment_status_datas as $employment_status_index => $employment_status_data)
+                    
+                        @php
+                            $employment_status_id = $employment_status_data["employment_status_id"];
+                            $employment_status_name = $employment_status_data["employment_status_name"];                           
+                        @endphp
+
+                        <div class="col-3">
+                            {{$employment_status_name}}
+                        </div>
+                        
+                        
+                    @endforeach
+
+                    </div>
+                </div>
+
+                <div class="col-12 text-start">
+                    <h4>
+                        職種
+                    </h4>
+                    <div class="row m-0 p-0">
+
+                    @foreach ($job_category_datas as $job_category_index => $job_category_data)
+
+                        @php
+                            $job_maincategory_cd = $job_category_data["job_maincategory_cd"];
+                            $job_maincategory_name = $job_category_data["job_maincategory_name"];
+                            $job_subcategory_cd = $job_category_data["job_subcategory_cd"];
+                            $job_subcategory_name = $job_category_data["job_subcategory_name"];
+                        @endphp
+
+                        <div class="col-3">
+                            {{$job_subcategory_name}}
+                        </div>
+                        
+                    @endforeach
+
+                    </div>
+                </div>
+
+                <div class="col-12 text-start">
+                    <h4>
+                        アピール
+                    </h4>
+
+                    <div class="row m-0 p-0">
+
+                    @foreach ($job_supplement_category_datas as $job_supplement_category_index => $job_supplement_category_data)
+
+                        @php
+                            $job_supplement_maincategory_cd  = $job_supplement_category_data["job_supplement_maincategory_cd"];
+                            $job_supplement_maincategory_name = $job_supplement_category_data["job_supplement_maincategory_name"];
+                            $job_supplement_subcategory_cd = $job_supplement_category_data["job_supplement_subcategory_cd"];
+                            $job_supplement_subcategory_name = $job_supplement_category_data["job_supplement_subcategory_name"];
+                        @endphp
+
+                        <div class="col-3">
+                            {{$job_supplement_subcategory_name}}
+                        </div>
+                        
+                    @endforeach
+
+                    </div>
+                </div>
 
 
 

@@ -49,6 +49,8 @@ class hp_controller extends Controller
 
         $search_prefectural_cd = "";
         $search_municipality_cd_array = [];
+        $search_employment_status_array = [];
+        
         $search_job_category_array = [];
         $search_job_supplement_array = [];
         
@@ -74,6 +76,11 @@ class hp_controller extends Controller
                 $search_municipality_cd_array = $municipality_cd_search_value_array["value_array"];
             }
 
+            if($employment_status_search_value_array["existence_data"] == 1) {
+                $search_employment_status_array = $employment_status_search_value_array["value_array"];
+            }
+            
+
             if($job_category_search_value_array["existence_data"] == 1) {
                 $search_job_category_array = $job_category_search_value_array["value_array"];
             }
@@ -95,6 +102,7 @@ class hp_controller extends Controller
         $search_element_array = [
             'search_prefectural_cd' => $search_prefectural_cd,
             'search_municipality_cd_array' => $search_municipality_cd_array,
+            'search_employment_status_array' => $search_employment_status_array,
             'search_job_category_array' => $search_job_category_array,
             'search_job_supplement_array' => $search_job_supplement_array,
         ];
@@ -515,135 +523,151 @@ class hp_controller extends Controller
 
             return redirect(route('hp.job_information'));
 
-        }else{
+        }else{            
 
-            $employer_id = $job_information->employer_id;
-            $job_id = $job_information->job_id;
+            $set_job_information_detail = $this->set_job_information_detail($job_information);
 
-            $asset_path_array = [];
-            $job_image_folder_name = $job_information->job_image_folder_name;
-
-            if($job_image_folder_name != ""){
-          
-                $check_job_image_folder_path = "public/job_image/" . $job_image_folder_name;
-                
-                $asset_path = asset('storage/job_image/' .$job_image_folder_name);
-
-                if (Storage::exists($check_job_image_folder_path)){
-
-                    //フォルダの確認が出来たら、フォルダ内のファイル名を全て取得            
-                    $files = Storage::files($check_job_image_folder_path);
-
-                    // 取得したファイル名を表示する例
-                    foreach ($files as $file) {
-
-                        $fileInfo = pathinfo($file);
-                        $file_name = $fileInfo['basename']; // ファイル名のみ取得
-                        $asset_path_array[] = $asset_path ."/". $file_name;
-                        
-                    }
-                    
-                }
-            }
-
-            $job_information->asset_path_array =  $asset_path_array;
-
-            $employment_status_datas = [];
-            $job_category_datas = [];
-            $job_supplement_category_datas = [];
-
-            $set_employment_status = employment_status_connection_t_model::select(
-                'employment_status_connection_t.employer_id as employer_id',
-                'employment_status_connection_t.job_id as job_id',
-                'employment_status_connection_t.employment_status_id as employment_status_id',
-                'employment_status_m.employment_status_name as employment_status_name',
-            )
-            ->leftJoin('employment_status_m', 'employment_status_connection_t.employment_status_id', '=', 'employment_status_m.employment_status_id')
-            ->whereNull('employment_status_m.deleted_at')
-            ->where('employment_status_connection_t.employer_id', '=', $employer_id)
-            ->where('employment_status_connection_t.job_id', '=', $job_id)            
-            ->get();
-    
-            foreach ($set_employment_status as $index => $set_employment_status_info){            
-                $employment_status_id = $set_employment_status_info->employment_status_id;
-                $employment_status_name = $set_employment_status_info->employment_status_name;
-                $employment_status_datas[] = ['employment_status_id'=> $employment_status_id , 'employment_status_name'=> $employment_status_name];
-            }
-    
-            $job_information->employment_status_datas =  $employment_status_datas;
-
-            $set_job_category = job_category_connection_t_model::select(
-                'job_category_connection_t.employer_id as employer_id',
-                'job_category_connection_t.job_id as job_id',                
-                'job_maincategory_m.job_maincategory_cd as job_maincategory_cd',
-                'job_maincategory_m.job_maincategory_name as job_maincategory_name',
-                'job_category_connection_t.job_subcategory_cd as job_subcategory_cd',
-                'job_subcategory_m.job_subcategory_name as job_subcategory_name',
-            )
-            ->leftJoin('job_subcategory_m', 'job_category_connection_t.job_subcategory_cd', '=', 'job_subcategory_m.job_subcategory_cd')
-            ->leftJoin('job_maincategory_m', 'job_subcategory_m.job_maincategory_cd', '=', 'job_maincategory_m.job_maincategory_cd')            
-            ->whereNull('job_maincategory_m.deleted_at')
-            ->whereNull('job_subcategory_m.deleted_at')
-            ->where('job_category_connection_t.employer_id', '=', $employer_id)
-            ->where('job_category_connection_t.job_id', '=', $job_id)   
-            ->orderBy('job_maincategory_m.display_order')
-            ->orderBy('job_subcategory_m.display_order')         
-            ->get();
-        
-            foreach ($set_job_category as $index => $set_job_category_info){            
-                $job_maincategory_cd = $set_job_category_info->job_maincategory_cd;
-                $job_maincategory_name = $set_job_category_info->job_maincategory_name;
-                $job_subcategory_id = $set_job_category_info->job_subcategory_id;
-                $job_subcategory_name = $set_job_category_info->job_subcategory_name;
-                
-                $job_category_datas[] = [
-                    'job_maincategory_cd'=> $job_maincategory_cd 
-                    , 'job_maincategory_name'=> $job_maincategory_name
-                    , 'job_subcategory_id'=> $job_subcategory_id
-                    , 'job_subcategory_name'=> $job_subcategory_name
-                ];
-            }
-
-            $job_information->job_category_datas =  $job_category_datas;
-    
-
-            $set_job_supplement_category = job_supplement_connection_t_model::select(
-                'job_supplement_connection_t.employer_id as employer_id',
-                'job_supplement_connection_t.job_id as job_id',                
-                'job_supplement_connection_t.job_supplement_subcategory_cd as job_supplement_subcategory_cd',
-                'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',
-                'job_supplement_subcategory_m.job_supplement_maincategory_cd as job_supplement_maincategory_cd',
-                'job_supplement_maincategory_m.job_supplement_maincategory_name as job_supplement_maincategory_name',
-            )
-            ->leftJoin('job_supplement_subcategory_m', 'job_supplement_connection_t.job_supplement_subcategory_cd', '=', 'job_supplement_subcategory_m.job_supplement_subcategory_cd')
-            ->leftJoin('job_supplement_maincategory_m', 'job_supplement_subcategory_m.job_supplement_maincategory_cd', '=', 'job_supplement_maincategory_m.job_supplement_maincategory_cd')            
-            ->whereNull('job_supplement_maincategory_m.deleted_at')
-            ->whereNull('job_supplement_subcategory_m.deleted_at')
-            ->where('job_supplement_connection_t.employer_id', '=', $employer_id)
-            ->where('job_supplement_connection_t.job_id', '=', $job_id)   
-            ->orderBy('job_supplement_maincategory_m.display_order')
-            ->orderBy('job_supplement_subcategory_m.display_order')         
-            ->get();
-        
-            foreach ($set_job_supplement_category as $index => $set_job_category_info){            
-                $job_supplement_maincategory_cd = $set_job_category_info->job_supplement_maincategory_cd;
-                $job_supplement_maincategory_name = $set_job_category_info->job_supplement_maincategory_name;
-                $job_supplement_subcategory_cd = $set_job_category_info->job_supplement_subcategory_cd;
-                $job_supplement_subcategory_name = $set_job_category_info->job_supplement_subcategory_name;
-                
-                $job_supplement_category_datas[] = [
-                    'job_supplement_maincategory_cd'=> $job_supplement_maincategory_cd 
-                    ,'job_supplement_maincategory_name'=> $job_supplement_maincategory_name
-                    ,'job_supplement_subcategory_cd'=> $job_supplement_subcategory_cd
-                    ,'job_supplement_subcategory_name'=> $job_supplement_subcategory_name
-                ];
-            }
-
-            $job_information->job_supplement_category_datas = $job_supplement_category_datas;
-   
+            $job_information->asset_path_array = $set_job_information_detail["asset_path_array"];
+            $job_information->employment_status_datas = $set_job_information_detail["employment_status_datas"];
+            $job_information->job_category_datas = $set_job_information_detail["job_category_datas"];
+            $job_information->job_supplement_category_datas = $set_job_information_detail["job_supplement_category_datas"];   
         }        
 
         return view('hp/screen/job_information_detail', compact('job_information'));
+
+    }
+
+    function set_job_information_detail($job_information)
+    {
+
+        $employer_id = $job_information->employer_id;
+        $job_id = $job_information->job_id;
+        $job_image_folder_name = $job_information->job_image_folder_name;
+
+        $return_array = [];
+
+        $asset_path_array = [];
+        $employment_status_datas = [];
+        $job_category_datas = [];
+        $job_supplement_category_datas = [];
+
+
+        if($job_image_folder_name != ""){
+        
+            $check_job_image_folder_path = "public/job_image/" . $job_image_folder_name;
+            
+            $asset_path = asset('storage/job_image/' .$job_image_folder_name);
+
+            if (Storage::exists($check_job_image_folder_path)){
+
+                //フォルダの確認が出来たら、フォルダ内のファイル名を全て取得            
+                $files = Storage::files($check_job_image_folder_path);
+
+                // 取得したファイル名を表示する例
+                foreach ($files as $file) {
+
+                    $fileInfo = pathinfo($file);
+                    $file_name = $fileInfo['basename']; // ファイル名のみ取得
+                    $asset_path_array[] = $asset_path ."/". $file_name;
+                    
+                }
+                
+            }
+        }       
+
+        $set_employment_status = employment_status_connection_t_model::select(
+            'employment_status_connection_t.employer_id as employer_id',
+            'employment_status_connection_t.job_id as job_id',
+            'employment_status_connection_t.employment_status_id as employment_status_id',
+            'employment_status_m.employment_status_name as employment_status_name',
+        )
+        ->leftJoin('employment_status_m', 'employment_status_connection_t.employment_status_id', '=', 'employment_status_m.employment_status_id')
+        ->whereNull('employment_status_m.deleted_at')
+        ->where('employment_status_connection_t.employer_id', '=', $employer_id)
+        ->where('employment_status_connection_t.job_id', '=', $job_id)            
+        ->get();
+
+        foreach ($set_employment_status as $index => $set_employment_status_info){            
+            $employment_status_id = $set_employment_status_info->employment_status_id;
+            $employment_status_name = $set_employment_status_info->employment_status_name;
+            $employment_status_datas[] = ['employment_status_id'=> $employment_status_id , 'employment_status_name'=> $employment_status_name];
+        }        
+
+        $set_job_category = job_category_connection_t_model::select(
+            'job_category_connection_t.employer_id as employer_id',
+            'job_category_connection_t.job_id as job_id',                
+            'job_maincategory_m.job_maincategory_cd as job_maincategory_cd',
+            'job_maincategory_m.job_maincategory_name as job_maincategory_name',
+            'job_category_connection_t.job_subcategory_cd as job_subcategory_cd',
+            'job_subcategory_m.job_subcategory_name as job_subcategory_name',
+        )
+        ->leftJoin('job_subcategory_m', 'job_category_connection_t.job_subcategory_cd', '=', 'job_subcategory_m.job_subcategory_cd')
+        ->leftJoin('job_maincategory_m', 'job_subcategory_m.job_maincategory_cd', '=', 'job_maincategory_m.job_maincategory_cd')            
+        ->whereNull('job_maincategory_m.deleted_at')
+        ->whereNull('job_subcategory_m.deleted_at')
+        ->where('job_category_connection_t.employer_id', '=', $employer_id)
+        ->where('job_category_connection_t.job_id', '=', $job_id)   
+        ->orderBy('job_maincategory_m.display_order')
+        ->orderBy('job_subcategory_m.display_order')         
+        ->get();
+    
+        foreach ($set_job_category as $index => $set_job_category_info){            
+            $job_maincategory_cd = $set_job_category_info->job_maincategory_cd;
+            $job_maincategory_name = $set_job_category_info->job_maincategory_name;
+            $job_subcategory_cd = $set_job_category_info->job_subcategory_cd;
+            $job_subcategory_name = $set_job_category_info->job_subcategory_name;
+            
+            $job_category_datas[] = [
+                'job_maincategory_cd'=> $job_maincategory_cd 
+                , 'job_maincategory_name'=> $job_maincategory_name
+                , 'job_subcategory_cd'=> $job_subcategory_cd
+                , 'job_subcategory_name'=> $job_subcategory_name
+            ];
+        }
+
+
+        $set_job_supplement_category = job_supplement_connection_t_model::select(
+            'job_supplement_connection_t.employer_id as employer_id',
+            'job_supplement_connection_t.job_id as job_id',                
+            'job_supplement_connection_t.job_supplement_subcategory_cd as job_supplement_subcategory_cd',
+            'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',
+            'job_supplement_subcategory_m.job_supplement_maincategory_cd as job_supplement_maincategory_cd',
+            'job_supplement_maincategory_m.job_supplement_maincategory_name as job_supplement_maincategory_name',
+        )
+        ->leftJoin('job_supplement_subcategory_m', 'job_supplement_connection_t.job_supplement_subcategory_cd', '=', 'job_supplement_subcategory_m.job_supplement_subcategory_cd')
+        ->leftJoin('job_supplement_maincategory_m', 'job_supplement_subcategory_m.job_supplement_maincategory_cd', '=', 'job_supplement_maincategory_m.job_supplement_maincategory_cd')            
+        ->whereNull('job_supplement_maincategory_m.deleted_at')
+        ->whereNull('job_supplement_subcategory_m.deleted_at')
+        ->where('job_supplement_connection_t.employer_id', '=', $employer_id)
+        ->where('job_supplement_connection_t.job_id', '=', $job_id)   
+        ->orderBy('job_supplement_maincategory_m.display_order')
+        ->orderBy('job_supplement_subcategory_m.display_order')         
+        ->get();
+    
+        foreach ($set_job_supplement_category as $index => $set_job_category_info){            
+            $job_supplement_maincategory_cd = $set_job_category_info->job_supplement_maincategory_cd;
+            $job_supplement_maincategory_name = $set_job_category_info->job_supplement_maincategory_name;
+            $job_supplement_subcategory_cd = $set_job_category_info->job_supplement_subcategory_cd;
+            $job_supplement_subcategory_name = $set_job_category_info->job_supplement_subcategory_name;
+            
+            $job_supplement_category_datas[] = [
+                'job_supplement_maincategory_cd'=> $job_supplement_maincategory_cd 
+                ,'job_supplement_maincategory_name'=> $job_supplement_maincategory_name
+                ,'job_supplement_subcategory_cd'=> $job_supplement_subcategory_cd
+                ,'job_supplement_subcategory_name'=> $job_supplement_subcategory_name
+            ];
+        }
+
+
+        
+        $return_array = [
+            "asset_path_array" => $asset_path_array
+            ,"employment_status_datas" => $employment_status_datas
+            ,"job_category_datas" => $job_category_datas
+            ,"job_supplement_category_datas" => $job_supplement_category_datas
+        ];
+
+        return $return_array;
 
     }
 
