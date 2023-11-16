@@ -76,7 +76,7 @@
         font-weight: 600;        
         width: 100%;
         color: rgb(54, 49, 49);
-        background-color: rgb(95, 226, 226);
+        background-color: rgb(95, 226, 226);        
     }
 
     
@@ -321,11 +321,12 @@
         <div class="search-alert-area">
             検索項目を1つ以上選択してください。
         </div>
+        
         <div class="row">
 
-            <div class="search-board-header col-12 ">                       
+            <div class="search-board-header col-12">                       
             
-                <div class="row p-1">
+                <div class="row">
             
                     <div class="col-12"> 
 
