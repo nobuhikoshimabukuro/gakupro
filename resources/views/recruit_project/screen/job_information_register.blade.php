@@ -67,12 +67,26 @@
     }
     
     
+.bggg{
+    width: 100%;
+    overflow-y: auto;
+    background-color: red;
+}
 
+.bg{
+    height: 35vh;
+    padding: 3px;
+    background-color: blue;
+}
 
 
 /* PC用 */
 @media (min-width:769px) {  /*画面幅が769px以上の場合とする*/
-  
+ 
+    .bg{
+        width:33%;
+    }
+
 }
 
 
@@ -80,7 +94,11 @@
 /* スマホ用 */
 @media (max-width:768px) {  /*画面幅が768px以下の場合とする*/
 
+    .bg{
+        width:100%;
+    }
 }
+
 
 
 </style>
@@ -102,6 +120,23 @@
             <div class="col-11 col-md-11 mt-3">
         
                 <div id="" class="row m-0 p-0">
+
+                    <div class="col-12 mt-1 m-0 p-0">
+
+                        <div id="" class="bggg ">
+
+                            <div class="bg">
+                            </div>
+
+                            <div class="bg">
+                            </div>
+
+                            <div class="bg">
+                            </div>
+
+                        </div>
+
+                    </div>
 
                     <div class="col-12 col-md-6 mt-3">
 
