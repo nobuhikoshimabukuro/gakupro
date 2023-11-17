@@ -36,7 +36,69 @@
         object-fit: contain; 
     }
 
+.caption-name {
+    position: relative;
+    color: black;
+    background: #d0ecff;
+    line-height: 1.4;
+    padding: 0.25em 0.5em;
+    margin: 2em 0 0.5em;
+    border-radius: 0 5px 5px 5px;
+}
 
+.caption-name:after {
+  
+  position: absolute;
+  font-family: "Font Awesome 5 Free",'Quicksand','Avenir','Arial',sans-serif;
+  font-weight: 900;
+  content: '\f00c Check';
+  background: #2196F3;
+  color: #fff;
+  left: 0px;
+  bottom: 100%;
+  border-radius: 5px 5px 0 0;
+  padding: 3px 7px 1px;
+  font-size: 0.7em;
+  line-height: 1;
+  letter-spacing: 0.05em
+}
+
+
+.test-name {  
+  color: black;
+  background: #d0ecff;
+  line-height: 1.4;
+  padding: 0.25em 0.5em;  
+  border-radius: 0 5px 5px 5px;
+}
+
+
+
+
+.check:after {
+  
+  
+  font-family: "Font Awesome 5 Free",'Quicksand','Avenir','Arial',sans-serif;
+  font-weight: 900;
+  content: '\f00c Check';
+  background: #2196F3;
+  color: #fff;
+  left: 0px;  
+  border-radius: 5px 5px 0 0;
+  padding: 3px 7px 1px;
+  
+  line-height: 1;
+  letter-spacing: 0.05em
+} 
+
+/* 
+.test{
+
+    border-style: solid;
+    border-radius: 5px 5px 0 0;
+    border-color: #d0ecff;
+} */
+    
 </style>
 
     @php
@@ -120,7 +182,7 @@
 
 
                 <div class="col-12 text-start">
-                    <h4>
+                    <h4 class="caption-name">
                         私たちについて
                     </h4>
                     <p>
@@ -132,78 +194,94 @@
                     @endif
                 </div>
 
-                <div class="col-12 text-start">
-                    <h4>
-                        雇用形態
-                    </h4>
-
-                    <div class="row m-0 p-0">
-
-                    @foreach ($employment_status_datas as $employment_status_index => $employment_status_data)
+                @if(count($employment_status_datas) > 0)
                     
-                        @php
-                            $employment_status_id = $employment_status_data["employment_status_id"];
-                            $employment_status_name = $employment_status_data["employment_status_name"];                           
-                        @endphp
+                    <div class="col-12 text-start">
 
-                        <div class="col-3">
-                            {{$employment_status_name}}
+                        <div class="check">
+                            
                         </div>
+                        <h4 class="test-name">
+                            雇用形態
+                        </h4>
+
+                        <div class="row m-0 p-0">
+
+                            @foreach ($employment_status_datas as $employment_status_index => $employment_status_data)
+                            
+                                @php
+                                    $employment_status_id = $employment_status_data["employment_status_id"];
+                                    $employment_status_name = $employment_status_data["employment_status_name"];                           
+                                @endphp
+
+                                <div class="col-3">
+                                    {{$employment_status_name}}
+                                </div>
+                                
+                                
+                            @endforeach
+
                         
-                        
-                    @endforeach
+                        </div>
 
                     </div>
-                </div>
 
-                <div class="col-12 text-start">
-                    <h4>
-                        職種
-                    </h4>
-                    <div class="row m-0 p-0">
+                @endif
 
-                    @foreach ($job_category_datas as $job_category_index => $job_category_data)
+                @if(count($job_category_datas) > 0)
 
-                        @php
-                            $job_maincategory_cd = $job_category_data["job_maincategory_cd"];
-                            $job_maincategory_name = $job_category_data["job_maincategory_name"];
-                            $job_subcategory_cd = $job_category_data["job_subcategory_cd"];
-                            $job_subcategory_name = $job_category_data["job_subcategory_name"];
-                        @endphp
+                    <div class="col-12 text-start">
+                        <h4 class="caption-name">
+                            職種
+                        </h4>
+                        <div class="row m-0 p-0 test">
 
-                        <div class="col-3">
-                            {{$job_subcategory_name}}
+                        @foreach ($job_category_datas as $job_category_index => $job_category_data)
+
+                            @php
+                                $job_maincategory_cd = $job_category_data["job_maincategory_cd"];
+                                $job_maincategory_name = $job_category_data["job_maincategory_name"];
+                                $job_subcategory_cd = $job_category_data["job_subcategory_cd"];
+                                $job_subcategory_name = $job_category_data["job_subcategory_name"];
+                            @endphp
+
+                            <div class="col-3">
+                                {{$job_subcategory_name}}
+                            </div>
+                            
+                        @endforeach
+
                         </div>
-                        
-                    @endforeach
-
                     </div>
-                </div>
 
-                <div class="col-12 text-start">
-                    <h4>
-                        アピール
-                    </h4>
+                @endif
 
-                    <div class="row m-0 p-0">
+                @if(count($job_supplement_category_datas) > 0)
+                    <div class="col-12 text-start">
+                        <h4 class="caption-name">
+                            その他のポイント
+                        </h4>
 
-                    @foreach ($job_supplement_category_datas as $job_supplement_category_index => $job_supplement_category_data)
+                        <div class="row m-0 p-0">
 
-                        @php
-                            $job_supplement_maincategory_cd  = $job_supplement_category_data["job_supplement_maincategory_cd"];
-                            $job_supplement_maincategory_name = $job_supplement_category_data["job_supplement_maincategory_name"];
-                            $job_supplement_subcategory_cd = $job_supplement_category_data["job_supplement_subcategory_cd"];
-                            $job_supplement_subcategory_name = $job_supplement_category_data["job_supplement_subcategory_name"];
-                        @endphp
+                        @foreach ($job_supplement_category_datas as $job_supplement_category_index => $job_supplement_category_data)
 
-                        <div class="col-3">
-                            {{$job_supplement_subcategory_name}}
+                            @php
+                                $job_supplement_maincategory_cd  = $job_supplement_category_data["job_supplement_maincategory_cd"];
+                                $job_supplement_maincategory_name = $job_supplement_category_data["job_supplement_maincategory_name"];
+                                $job_supplement_subcategory_cd = $job_supplement_category_data["job_supplement_subcategory_cd"];
+                                $job_supplement_subcategory_name = $job_supplement_category_data["job_supplement_subcategory_name"];
+                            @endphp
+
+                            <div class="col-3">
+                                {{$job_supplement_subcategory_name}}
+                            </div>
+                            
+                        @endforeach
+
                         </div>
-                        
-                    @endforeach
-
                     </div>
-                </div>
+                @endif
 
 
 

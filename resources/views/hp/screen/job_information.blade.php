@@ -311,6 +311,16 @@
 
 
 
+
+.inoperable {
+	pointer-events: none;	
+	opacity: 0.7;  
+}
+
+.possible {
+	pointer-events: auto;
+}
+
 </style>
 
 
@@ -535,11 +545,14 @@
                         <div class="w-100 item-center mt-3">
 
                             <div class="search-salary-maincategory-area">
-
+                                
                                 <select id='search_salary_maincategory_cd' name='search_salary_maincategory_cd' class='input-sm'>
                                     <option value=''>---</option>
                                         @foreach ($salary_maincategory_list as $salary_maincategory_index => $salary_maincategory_info)
-                                            <option value="{{$salary_maincategory_info->salary_maincategory_cd}}"                                               
+                                            <option value="{{$salary_maincategory_info->salary_maincategory_cd}}"       
+                                            @if($search_element_array['search_salary_maincategory_cd'] == $salary_maincategory_info->salary_maincategory_cd)  
+                                            selected
+                                            @endif                                                                                      
                                             >
                                             {{$salary_maincategory_info->salary_maincategory_name}}
                                             </option>
@@ -552,7 +565,7 @@
 
                             <div class="search-salary-subcategory-area">
 
-                                <select id='search_salary' name='search_salary' class='input-sm'>
+                                <select id='search_salary_subcategory_cd' name='search_salary_subcategory_cd' class='input-sm'>
                                     <option value=''>給与形態を選択してください。</option>
                                 </select>
 
@@ -890,6 +903,8 @@ $(function(){
     $(document).ready(function() {
         search_prefectural(1);        
         search_board_tab_change(1);
+        var search_salary_subcategory_cd = "{{ $search_element_array['search_salary_subcategory_cd'] }}";
+        search_salary_sabcategory(search_salary_subcategory_cd);
         // $('#confirm-close').trigger("click");
     });
     
@@ -933,15 +948,23 @@ $(function(){
     $(document).on("click", ".search-button", function (e) {
 
 
+        // ２重送信防止
+        // 登録を押したらdisabled, 3秒後にenable
+        $(".search-button").prop("disabled", true);
+
+        setTimeout(function () {
+            $('.search-button').prop("disabled", false);
+        }, 2000);
+
         var url = "{{ route('hp.job_information_set_search_value') }}";
 
         var prefectural_cd_search_value_array = set_prefectural_cd_search_value();        
         var municipality_cd_search_value_array = set_municipality_cd_array_search_value();
 
-        var employment_status_search_value_array = set_employment_status_search_value();       
-        
+        var salary_maincategory_cd_search_value_array = set_salary_maincategory_cd_search_value();
+        var salary_subcategory_cd_search_value_array = set_salary_subcategory_cd_search_value();
 
-        var salary_search_value_array = set_salary_search_value();
+        var employment_status_search_value_array = set_employment_status_search_value();              
 
         var job_category_search_value_array = set_job_category_search_value();
         var job_supplement_search_value_array = set_job_supplement_search_value();
@@ -950,7 +973,8 @@ $(function(){
             prefectural_cd_search_value_array:prefectural_cd_search_value_array
             , municipality_cd_search_value_array:municipality_cd_search_value_array
             , employment_status_search_value_array:employment_status_search_value_array
-            , salary_search_value_array:salary_search_value_array
+            , salary_maincategory_cd_search_value_array:salary_maincategory_cd_search_value_array
+            , salary_subcategory_cd_search_value_array:salary_subcategory_cd_search_value_array            
             , job_category_search_value_array:job_category_search_value_array
             , job_supplement_search_value_array:job_supplement_search_value_array
         };
@@ -1265,21 +1289,23 @@ $(function(){
 
 // {{-- 雇用条件タブ関連Start --}}
 
-    //給与大分類プルダウン変更時
+    //給与プルダウン変更時
     $(document).on("change", "#search_salary_maincategory_cd", function (e) {
 
         search_salary_sabcategory();
 
     });
 
-    //給与中分類検索＆プルダウン作成    
-    function search_salary_sabcategory(){
+    //給与検索＆プルダウン作成    
+    function search_salary_sabcategory(get_search_salary_subcategory_cd = 0){
 
         var salary_maincategory_cd = $("#search_salary_maincategory_cd").val();
 
         var url = "{{ route('create_list.salary_sabcategory_list_ajax') }}";
 
-        var target_area = "#search_salary";
+        var target_area = "#search_salary_subcategory_cd";
+
+        $(target_area).removeClass('inoperable');        
 
         //プルダウン内の設定初期化
         $("select" + target_area + " option").remove();        
@@ -1310,14 +1336,27 @@ $(function(){
                     var salary = salary_sabcategory_info["salary"];
                     var salary_display = salary_sabcategory_info["salary_display"];
             
-                    $(target_area).append($("<option>").val(salary).text(salary_display));
+                     // 新しいoption要素を作成
+                    var option = $("<option>").val(salary_subcategory_cd).text(salary_display);
+
+                    // 特定の条件でselected属性を追加
+                    if (salary_subcategory_cd == get_search_salary_subcategory_cd) {
+                        option.attr("selected", "selected");
+                    }
+
+                    // option要素をselect要素に追加
+                    $(target_area).append(option);
+
                 })
 
+                
                 
 
             }else{               
 
-                $(target_area).append($("<option>").val("").text("給与形態を再選択してください。"));
+                $(target_area).append($("<option>").val("").text("給与形態を選択してください。"));
+
+                    $(target_area).addClass('inoperable');
 
             }
 
@@ -1329,8 +1368,8 @@ $(function(){
                 
             //マウスカーソルを通常に
             document.body.style.cursor = 'auto';
-            $(target_area).append($("<option>").val("").text("給与形態を再選択してください。"));
-
+            $(target_area).append($("<option>").val("").text("給与形態を選択してください。"));
+            $(target_area).addClass('inoperable');
         });
 
     }
@@ -1437,6 +1476,48 @@ $(function(){
 
     }
 
+    //給与大分類検索値セット処理
+    function set_salary_maincategory_cd_search_value(){
+
+        var existence_data = 0;
+
+        var salary_maincategory_cd = $("#search_salary_maincategory_cd").val();
+
+        var salary_maincategory_cd_search_value_array = [];
+
+        if(salary_maincategory_cd != ""){
+            existence_data = 1;        
+        }
+
+        salary_maincategory_cd_search_value_array = {existence_data:existence_data
+                                    , salary_maincategory_cd:salary_maincategory_cd                                         
+                                    };
+                                    
+        return salary_maincategory_cd_search_value_array;
+
+    }
+
+    //給与中分類検索値セット処理
+    function set_salary_subcategory_cd_search_value(){
+
+        var existence_data = 0;
+
+        var salary_subcategory_cd = $("#search_salary_subcategory_cd").val();
+
+        var salary_subcategory_cd_search_value_array = [];
+
+        if(salary_subcategory_cd != ""){
+            existence_data = 1;        
+        }
+
+        salary_subcategory_cd_search_value_array = {existence_data:existence_data
+                                    , salary_subcategory_cd:salary_subcategory_cd                                         
+                                    };
+                                    
+        return salary_subcategory_cd_search_value_array;
+
+    }
+
     //雇用形態検索値セット処理
     function set_employment_status_search_value(){
 
@@ -1533,28 +1614,7 @@ $(function(){
 
     }
 
-    //勤務地（都道府県）検索値セット処理
-    function set_salary_search_value(){
-
-        var existence_data = 0;
-
-        var salary_maincategory_cd = $("#search_salary_maincategory_cd").val();
-        var salary = $("#search_salary").val();
-
-        var salary_search_value_array = [];
-
-        if(salary_maincategory_cd != "" && salary != ""){
-            existence_data = 1;        
-        }
-
-        salary_search_value_array = {existence_data:existence_data
-                                    , salary_maincategory_cd:salary_maincategory_cd
-                                    , salary:salary
-                                    };
-                                    
-        return salary_search_value_array;
-
-    }
+   
 
 
 // {{-- 検索前の各値セット処理End --}}

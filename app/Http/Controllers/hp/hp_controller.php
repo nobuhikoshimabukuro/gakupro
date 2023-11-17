@@ -50,6 +50,9 @@ class hp_controller extends Controller
         $search_prefectural_cd = "";
         $search_municipality_cd_array = [];
         $search_employment_status_array = [];
+
+        $search_salary_maincategory_cd = "";
+        $search_salary_subcategory_cd = "";
         
         $search_job_category_array = [];
         $search_job_supplement_array = [];
@@ -63,17 +66,29 @@ class hp_controller extends Controller
 
             $prefectural_cd_search_value_array = $all_job_search_value_array["prefectural_cd_search_value_array"];
             $municipality_cd_search_value_array = $all_job_search_value_array["municipality_cd_search_value_array"];
+            
+            $salary_maincategory_cd_search_value_array = $all_job_search_value_array["salary_maincategory_cd_search_value_array"];
+            $salary_subcategory_cd_search_value_array = $all_job_search_value_array["salary_subcategory_cd_search_value_array"];
+
             $employment_status_search_value_array = $all_job_search_value_array["employment_status_search_value_array"];
             $job_category_search_value_array = $all_job_search_value_array["job_category_search_value_array"];
             $job_supplement_search_value_array = $all_job_search_value_array["job_supplement_search_value_array"];
 
-
+            
             if($prefectural_cd_search_value_array["existence_data"] == 1) {
                 $search_prefectural_cd = $prefectural_cd_search_value_array["prefectural_cd"];
             }
 
             if($municipality_cd_search_value_array["existence_data"] == 1) {
                 $search_municipality_cd_array = $municipality_cd_search_value_array["value_array"];
+            }
+
+            if($salary_maincategory_cd_search_value_array["existence_data"] == 1) {
+                $search_salary_maincategory_cd = $salary_maincategory_cd_search_value_array["salary_maincategory_cd"];
+            }
+
+            if($salary_subcategory_cd_search_value_array["existence_data"] == 1) {
+                $search_salary_subcategory_cd = $salary_subcategory_cd_search_value_array["salary_subcategory_cd"];
             }
 
             if($employment_status_search_value_array["existence_data"] == 1) {
@@ -103,6 +118,8 @@ class hp_controller extends Controller
             'search_prefectural_cd' => $search_prefectural_cd,
             'search_municipality_cd_array' => $search_municipality_cd_array,
             'search_employment_status_array' => $search_employment_status_array,
+            'search_salary_maincategory_cd' => $search_salary_maincategory_cd,
+            'search_salary_subcategory_cd' => $search_salary_subcategory_cd,
             'search_job_category_array' => $search_job_category_array,
             'search_job_supplement_array' => $search_job_supplement_array,
         ];
@@ -191,7 +208,8 @@ class hp_controller extends Controller
         $employment_status_search_value_array = $all_job_search_value_array["employment_status_search_value_array"];
 
         //給与を取得
-        $salary_search_value_array = $all_job_search_value_array["salary_search_value_array"];
+        $salary_maincategory_cd_search_value_array = $all_job_search_value_array["salary_maincategory_cd_search_value_array"];
+        $salary_subcategory_cd_search_value_array = $all_job_search_value_array["salary_subcategory_cd_search_value_array"];
 
         //職種を取得
         $job_category_search_value_array = $all_job_search_value_array["job_category_search_value_array"];
@@ -374,11 +392,14 @@ class hp_controller extends Controller
         }
 
         //給与を取得        
-        if($salary_search_value_array["existence_data"] == 1) {
+        if($salary_maincategory_cd_search_value_array["existence_data"] == 1) {
             
-            $salary_maincategory_cd = $salary_search_value_array["salary_maincategory_cd"];
-            $salary = $salary_search_value_array["salary"];            
+            $salary_maincategory_cd = $salary_maincategory_cd_search_value_array["salary_maincategory_cd"];                     
 
+        }
+
+        if($salary_subcategory_cd_search_value_array["existence_data"] == 1) {            
+            $salary_subcategory_cd = $salary_subcategory_cd_search_value_array["salary_subcategory_cd"];
         }
 
         //職種
@@ -479,7 +500,7 @@ class hp_controller extends Controller
             'job_information_t.id as id',
             'job_information_t.employer_id as employer_id',
             'job_information_t.job_id as job_id',
-            'employer_m.employer_name as employer_name',            
+            'employer_m.employer_name as employer_name',
             'employer_m.hp_url as employer_hp_url',
             'employer_m.employer_description as employer_description',
             'employer_m.remarks as employer_remarks',
@@ -493,7 +514,7 @@ class hp_controller extends Controller
                 END as work_location
             "),
             'job_information_t.employment_status as employment_status',
-            'job_information_t.working_time as working_time',            
+            'job_information_t.working_time as working_time',
             'job_information_t.salary as salary',
             'job_information_t.holiday as holiday',
             'job_information_t.manager_name as manager_name',
@@ -502,7 +523,7 @@ class hp_controller extends Controller
             'job_information_t.hp_url as job_hp_url',
             'job_information_t.mailaddress as mailaddress',
             'job_information_t.job_image_folder_name as job_image_folder_name',
-            'job_information_t.application_requirements as application_requirements',            
+            'job_information_t.application_requirements as application_requirements',
             'job_information_t.scout_statement as scout_statement',
             'job_information_t.remarks as job_remarks',
             
@@ -595,7 +616,7 @@ class hp_controller extends Controller
 
         $set_job_category = job_category_connection_t_model::select(
             'job_category_connection_t.employer_id as employer_id',
-            'job_category_connection_t.job_id as job_id',                
+            'job_category_connection_t.job_id as job_id',    
             'job_maincategory_m.job_maincategory_cd as job_maincategory_cd',
             'job_maincategory_m.job_maincategory_name as job_maincategory_name',
             'job_category_connection_t.job_subcategory_cd as job_subcategory_cd',
@@ -628,7 +649,7 @@ class hp_controller extends Controller
 
         $set_job_supplement_category = job_supplement_connection_t_model::select(
             'job_supplement_connection_t.employer_id as employer_id',
-            'job_supplement_connection_t.job_id as job_id',                
+            'job_supplement_connection_t.job_id as job_id',    
             'job_supplement_connection_t.job_supplement_subcategory_cd as job_supplement_subcategory_cd',
             'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',
             'job_supplement_subcategory_m.job_supplement_maincategory_cd as job_supplement_maincategory_cd',
