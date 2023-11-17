@@ -71,6 +71,9 @@
     width: 100%;
     overflow-y: auto;
     background-color: red;
+    display: flex;
+    justify-content: center; /*左右中央揃え*/
+    align-items: center;     /*上下中央揃え*/
 }
 
 .bg{
@@ -84,7 +87,8 @@
 @media (min-width:769px) {  /*画面幅が769px以上の場合とする*/
  
     .bg{
-        width:33%;
+        width:30%;
+        margin: 0 3px 0 3px;
     }
 
 }
