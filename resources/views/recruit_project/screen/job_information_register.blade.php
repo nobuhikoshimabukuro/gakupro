@@ -69,7 +69,7 @@
     
 .bggg{
     width: 100%;
-    overflow-y: auto;
+    overflow-x: auto;
     background-color: red;
     display: flex;
     justify-content: center; /*左右中央揃え*/
