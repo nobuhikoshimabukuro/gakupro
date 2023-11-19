@@ -741,7 +741,7 @@ class recruit_project_controller extends Controller
         $employment_status_connections = [];
         $job_category_connections = [];
         $job_supplement_category_connections = [];
-        
+        $asset_path_array = [];
 
 
         $employer_info = employer_m_model::
@@ -765,6 +765,31 @@ class recruit_project_controller extends Controller
             where('employer_id', '=', $employer_id)
             ->where('job_id', '=', $job_id)            
             ->first();
+
+            $job_image_folder_name = $job_info->job_image_folder_name;
+
+            if($job_image_folder_name != ""){
+        
+                $check_job_image_folder_path = "public/job_image/" . $job_image_folder_name;
+                
+                $asset_path = asset('storage/job_image/' .$job_image_folder_name);
+    
+                if (Storage::exists($check_job_image_folder_path)){
+    
+                    //フォルダの確認が出来たら、フォルダ内のファイル名を全て取得            
+                    $files = Storage::files($check_job_image_folder_path);
+    
+                    // 取得したファイル名を表示する例
+                    foreach ($files as $file) {
+    
+                        $fileInfo = pathinfo($file);
+                        $file_name = $fileInfo['basename']; // ファイル名のみ取得
+                        $asset_path_array[] = $asset_path ."/". $file_name;
+                        
+                    }
+                    
+                }
+            }       
         }
 
         $employment_status_connection_t = employment_status_connection_t_model::
@@ -817,6 +842,8 @@ class recruit_project_controller extends Controller
                 ,'job_id'
                 ,'job_info'
 
+                ,'asset_path_array'
+                
                 ,'prefectural_list'
                 ,'salary_maincategory_list'
 
@@ -847,6 +874,10 @@ class recruit_project_controller extends Controller
             $job_supplement_data = get_data::job_supplement_data();
 
             $a = $request->all();
+
+            $b = $request->file('job-image-input1');
+
+            
         
             $Date = Carbon::now()->format('Ymd');
 

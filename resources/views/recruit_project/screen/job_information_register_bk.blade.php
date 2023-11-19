@@ -76,7 +76,7 @@
 }
 
 .job-image-inner-area{
-    border: solid red 1px;
+    border: solid red;
 }
 
 .job-image-area{
@@ -92,8 +92,8 @@
 @media (min-width:769px) {  /*画面幅が769px以上の場合とする*/
  
     .job-image-inner-area{
-        width:30%;
-        margin:3px 0 3px 3px;
+        width:33%;
+        margin: 0 3px 0 3px;
     }
 
 }
@@ -121,8 +121,6 @@
     <form id="save-form" method="post" action="{{ route('recruit_project.job_information_save') }}">
         @csrf
 
-        
-
         <input type="hidden" name="employer_id" id="employer_id" value="{{$employer_id}}">
         <input type="hidden" name="job_id" id="job_id" value="{{$job_id}}">
 
@@ -137,62 +135,52 @@
                     <div class="col-12 mt-1 m-0 p-0">
 
                         <div id="" class="w-100 m-0 p-0">
-                            <button type="button" class="reset-button btn btn-secondary">画像更新</button>
+                                        aaaaaaaaaaaaaaaaaaaaaaaaa
                         </div>
 
-                        <div id="" class="job-image-outer-area item-center">                            
+                        <div id="" class="job-image-outer-area ">                            
 
-                            @php
-                                $job_image_index = 1;
-                            @endphp
+                            {{-- @foreach ($asset_path_array as $job_image_index => $asset_path)
+                            
+                                <div class="job-image-inner-area">
 
-                            @foreach ($asset_path_array as $asset_path_index => $asset_path)
-
-                                @php
-                                    $job_image_index = $job_image_index + $asset_path_index;
-                                @endphp
-
-                                <div id="drop-zone{{$job_image_index}}" class="job-image-inner-area">
-
-                                    <div id="" class="w-100 m-0 p-0">
-                                        画像{{$job_image_index}}
-                                    </div>    
-
-                                    <div id="job-image-area{{$job_image_index}}" class="job-image-area">
+                                    <div class="job-image-area">
                                         <img src="{{$asset_path}}" class="job-image" alt="">                          
                                     </div>
                                     
                                     
                                     <div id="" class="w-100 m-0 p-0">
-                                        <button type="button" class="reset-button btn btn-secondary" data-target="{{$job_image_index}}">リセット <i class="fas fa-minus-square"></i></button>                                        
-                                        <input type="file" id='job-image-input{{$job_image_index}}' name="job-image-input{{$job_image_index}}">
-                                    </div>
-                                    
-                                   
-                                </div>
-
-                            @endforeach
-
-                            {{-- @for($i = $job_image_index; $i <= 3; $i++)
-
-                                <div id="drop-zone{{$i}}" class="job-image-inner-area">
-
-                                    <div id="job-image-area{{$i}}" class="job-image-area">
-                                                                
-                                    </div>                                   
-                                    
-                                    <div id="" class="w-100 m-0 p-0">
-                                        <button type="button" class="reset-button btn btn-secondary" data-target="{{$i}}">リセット <i class="fas fa-minus-square"></i></button>
-                                        <input type="file" id='job-image-input{{$i}}'name="job-image-input{{$i}}" lang="ja" accept=".png, .PNG, .jpg, .JPG, .jpeg,.JPEG" multiple>
+                                        <button type="button" id="" class="btn btn-primary" >test1</button>
+                                        <button type="button" id="" class="btn btn-primary" >test2</button>
                                     </div>
                                         
                                 </div>
-                                
-                            @endfor --}}
+                            @endforeach --}}
+
                             
 
                                 
-                       
+                            <div class="job-image-inner-area">
+
+                                <div id="DropZone" class="job-image-area">
+                                                              
+                                </div>
+
+                                <div id="PreviewArea" class="job-image-area">
+                                                              
+                                </div>
+                                
+                                
+                                {{-- <div id="PreviewArea" class="row">
+
+                                </div> --}}
+
+                                <div id="" class="w-100 m-0 p-0">
+                                    <button type="button" class="ResetButton btn btn-secondary">リセット <i class="fas fa-minus-square"></i></button>
+                                </div>
+                                    
+                                <input type="file" id='file_input'name="file[]" lang="ja" accept="" multiple>
+                            </div>
 
                             
 
@@ -455,90 +443,85 @@
 
 $(function(){
 
-    //FormDataオブジェクトを作成
-    var formData = new FormData();
-
 
     
     // 画像アップロード処理
-    var drop_zone1 = document.getElementById('drop-zone1');        
-    var job_image_input1 = document.getElementById('job-image-input1');
+    var DropZone = document.getElementById('DropZone');    
+    var PreviewArea = document.getElementById('PreviewArea');
+    var fileInput = document.getElementById('file_input');
 
-    var drop_zone2 = document.getElementById('drop-zone2');        
-    var job_image_input2 = document.getElementById('job-image-input2');
-
-    var drop_zone3 = document.getElementById('drop-zone3');        
-    var job_image_input3 = document.getElementById('job-image-input3');
-
-    
+    //FormDataオブジェクトを作成
+    var formData = new FormData();
 
    
-   
 
-    drop_zone1.addEventListener('dragover', function(e) {
+    DropZone.addEventListener('dragover', function(e) {
         e.stopPropagation();
-        e.preventDefault();        
+        e.preventDefault();
+        this.style.background = '#e1e7f0';
     }, false);
 
-    drop_zone1.addEventListener('dragleave', function(e) {
+    DropZone.addEventListener('dragleave', function(e) {
         e.stopPropagation();
-        e.preventDefault();        
+        e.preventDefault();
+        this.style.background = '#ffffff';
     }, false);
 
-    drop_zone1.addEventListener('drop', function(e) {
+    DropZone.addEventListener('drop', function(e) {
         e.stopPropagation();
-        e.preventDefault();        
-        var files = e.dataTransfer.files;
-
-        if(files.length > 1){
-            return false;
-        }
-        
-        job_image_input1.files = files; //inputのvalueをドラッグしたファイルに置き換える。
-
+        e.preventDefault();
+        this.style.background = '#ffffff'; //背景色を白に戻す
+        var files = e.dataTransfer.files; //ドロップしたファイルを取得
+        fileInput.files = files; //inputのvalueをドラッグしたファイルに置き換える。
     }, false);
 
-	job_image_input1.addEventListener('change', function () {
+	fileInput.addEventListener('change', function () {
+
+		// プレビュー内で表示している画像を一旦クリア
+		$("#PreviewArea").empty();
 
 		// 選択したファイルの全情報取得
-		let element = document.getElementById('job-image-input1');
+		let element = document.getElementById('file_input');
 
 		// 選択したファイルをファイル名で格納
 		let files = element.files;
 
-			
+		// 取得したファイル数分、画像をプレビューさせるメソッドを繰り返し呼び出し
+		for (var i = 0; i < files.length; i++) {
 
-		PreviewFile(this.files[0],1);            
-		
+			PreviewFile(this.files[i],i);
+            $('.upload_button_area').removeClass('d-none');
+		}
 
     });    
 
 	
 
 	//ファイルがドロップされたときに呼ばれる
-	$('#drop_zone1').on('drop', function(ev) {
+	$('#DropZone').on('drop', function(ev) {
 
+		// プレビュー内で表示している画像を一旦全削除
+		$("#PreviewArea").empty();
 
 		var files = ev.originalEvent.dataTransfer.files;
 
-        if(files.length > 1){
-            return false;
-        }
-		
-        //FormDataオブジェクトにファイルを追加
-        //名前は'document_files[]'
-        formData.append('document_files[]', files[0]);
+		for (var i = 0; i < files.length; i++) {
+			//FormDataオブジェクトにファイルを追加
+			//名前は'document_files[]'
+			formData.append('document_files[]', files[i]);
 
-        PreviewFile(files[i],1);        
+			PreviewFile(files[i],i);
+          
+            $('.upload_button_area').removeClass('d-none');
+		}
+        
 	});
 
 
-    function PreviewFile(file,target) {
+    function PreviewFile(file,i) {
 
-        
-        
-		// プレビュー内で表示している画像を一旦全削除
-		$("#job_image_area" + target).empty();
+        // プレビュー画像を追加する要素
+        const PreviewArea = document.getElementById('PreviewArea');
 
         // FileReaderオブジェクトを作成
         const reader = new FileReader();
@@ -552,15 +535,23 @@ $(function(){
             // img要素を作成
             // ("embed")...jpeg,img,pingは通常表示、PDFファイルはスクロールバー付きで表示
             const img = document.createElement("embed");
-            img.setAttribute('class', 'job-image');           
+            img.setAttribute('class', 'job-image');
+
+            var PreviewPhotoAreaID = "PreviewPhotoArea" + i;
+
+            // var Element ="<div id='"+ PreviewPhotoAreaID + "' class='col-6 col-md-4 col-xl-3 p-3 PhotoArea'></div>";           
+            var Element ="<div id='"+ PreviewPhotoAreaID + "' class='PhotoArea'></div>";   
+
+            
+            $('#PreviewArea').append(Element);
 
             // URLをimg要素にセット
             img.src = imageUrl;
 
-            const job_image_area = document.getElementById("job-image-area" + target);
+            const PreviewPhotoArea = document.getElementById(PreviewPhotoAreaID);
 
             // #Previewの中に追加
-            job_image_area.appendChild(img);
+            PreviewPhotoArea.appendChild(img);
            
         }
 
@@ -570,22 +561,22 @@ $(function(){
 
 
     // リセットボタン押下イベント
-	$('.reset-button').on('click', function() {
-		
-        var target = $(this).data('target');
+	$('.ResetButton').on('click', function() {
+		//{{-- メッセージクリア --}}
+		$('.ajax-msg').html('');	
 
         // プレビュー内で表示している画像を一旦全削除
-        $("#job-image-area" + target).empty();		
-		$('.reset-button' + target).blur();
+        $("#PreviewArea").empty();
+		$('.upload_button_area').addClass('d-none');
+		$('.ResetButton').blur();
         
         
-        document.getElementById('job-image-input' + target).value = '';
+        document.getElementById('file_input').value = '';
         
     });
 
     const selectedFiles = [];
-
-    $('#job-image-input').on('change', function(event) {
+    $('#file_input').on('change', function(event) {
         selectedFiles.push(event.target.files)
     })
 
@@ -698,29 +689,15 @@ $(function(){
         
         let f = $('#save-form');
 
-        var formData = new FormData($('#save-form').get(0));
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
 
-        $.ajax({		
-            url: f.prop('action'), //送信先
+        $.ajax({
+            url: f.prop('action'), // 送信先
             type: f.prop('method'),
             dataType: 'json',
-            processData: false,
-            method: 'post',
-            contentType: false,
-            data: formData,
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-            
+            data: f.serialize(),
         })
-
-
-        // $.ajax({
-        //     url: f.prop('action'), // 送信先
-        //     type: f.prop('method'),
-        //     dataType: 'json',
-        //     data: f.serialize(),
-        // })
             // 送信成功
             .done(function (data, textStatus, jqXHR) {
 
