@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use App\Original\common;
 use App\Original\create_list;
 use App\Original\get_data;
+use App\Original\job_related;
 
 use App\Models\job_information_t_model;
 use App\Models\job_subcategory_m_model;
@@ -153,7 +154,10 @@ class hp_controller extends Controller
     function search_job_information($all_job_search_value_array)
     {
         
-        $sql = $this->set_job_search_sql($all_job_search_value_array);        
+        $sql = $this->set_job_search_sql($all_job_search_value_array);
+
+
+
         $job_information = DB::connection('mysql')->select($sql);
 
 
@@ -161,33 +165,12 @@ class hp_controller extends Controller
 
         foreach ($job_information as $index => $info){
         
-            $asset_path_array = [];           
+            $employer_id = $info->employer_id;
+            $job_id = $info->job_id;
 
-            $job_image_folder_name = $info->job_image_folder_name;
+            $job_images_path_array = job_related::get_job_images($employer_id,$job_id);            
 
-          
-            $check_job_image_folder_path = "public/job_image/" . $job_image_folder_name;
-
-            // $a = asset('storage/job_image/1/1.png');
-            $asset_path = asset('storage/job_image/' .$job_image_folder_name);
-
-            if (Storage::exists($check_job_image_folder_path)){
-
-                //フォルダの確認が出来たら、フォルダ内のファイル名を全て取得            
-                $files = Storage::files($check_job_image_folder_path);
-
-                // 取得したファイル名を表示する例
-                foreach ($files as $file) {
-
-                    $fileInfo = pathinfo($file);
-                    $file_name = $fileInfo['basename']; // ファイル名のみ取得
-                    $asset_path_array[] = $asset_path ."/". $file_name;
-                    
-                }
-                
-            }
-
-            $info->asset_path_array =  $asset_path_array;
+            $info->job_images_path_array =  $job_images_path_array;
             
         }
 
@@ -314,8 +297,7 @@ class hp_controller extends Controller
                 ) 
                 ELSE address_m1.prefectural_name 
                 END AS work_location
-            , job_information_t.working_time
-            , job_information_t.employment_status
+            , job_information_t.working_time            
             , job_information_t.salary
             , job_information_t.holiday
             , job_image_folder_name            
@@ -512,8 +494,7 @@ class hp_controller extends Controller
                     WHEN municipality_address_m.prefectural_name IS NOT NULL THEN CONCAT(municipality_address_m.prefectural_name, '　', municipality_address_m.municipality_name)
                     ELSE prefectural_address_m.prefectural_name
                 END as work_location
-            "),
-            'job_information_t.employment_status as employment_status',
+            "),            
             'job_information_t.working_time as working_time',
             'job_information_t.salary as salary',
             'job_information_t.holiday as holiday',
@@ -546,12 +527,16 @@ class hp_controller extends Controller
 
         }else{            
 
+            $employer_id = $job_information->employer_id;
+            $job_id = $job_information->job_id;
+            $job_images_path_array = job_related::get_job_images($employer_id,$job_id);
             $set_job_information_detail = $this->set_job_information_detail($job_information);
 
             $job_information->asset_path_array = $set_job_information_detail["asset_path_array"];
             $job_information->employment_status_datas = $set_job_information_detail["employment_status_datas"];
             $job_information->job_category_datas = $set_job_information_detail["job_category_datas"];
             $job_information->job_supplement_category_datas = $set_job_information_detail["job_supplement_category_datas"];   
+            $job_information->job_images_path_array = $job_images_path_array;
         }        
 
         return view('hp/screen/job_information_detail', compact('job_information'));
@@ -573,28 +558,7 @@ class hp_controller extends Controller
         $job_supplement_category_datas = [];
 
 
-        if($job_image_folder_name != ""){
         
-            $check_job_image_folder_path = "public/job_image/" . $job_image_folder_name;
-            
-            $asset_path = asset('storage/job_image/' .$job_image_folder_name);
-
-            if (Storage::exists($check_job_image_folder_path)){
-
-                //フォルダの確認が出来たら、フォルダ内のファイル名を全て取得            
-                $files = Storage::files($check_job_image_folder_path);
-
-                // 取得したファイル名を表示する例
-                foreach ($files as $file) {
-
-                    $fileInfo = pathinfo($file);
-                    $file_name = $fileInfo['basename']; // ファイル名のみ取得
-                    $asset_path_array[] = $asset_path ."/". $file_name;
-                    
-                }
-                
-            }
-        }       
 
         $set_employment_status = employment_status_connection_t_model::select(
             'employment_status_connection_t.employer_id as employer_id',

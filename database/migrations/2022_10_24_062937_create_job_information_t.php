@@ -39,11 +39,13 @@ return new class extends Migration
                 ->comment('掲載フラグ:0 = 掲載しない、1 = 掲載する');
 
             $table
-                ->string('title', 200)                
+                ->string('title', 200)    
+                ->nullable()            
                 ->comment('求人情報タイトル');
 
             $table
-                ->string('sub_title', 200)                
+                ->string('sub_title', 200)    
+                ->nullable()            
                 ->comment('求人情報名目サブタイトル');
 
             $table
@@ -56,10 +58,7 @@ return new class extends Migration
                 ->nullable()
                 ->comment('勤務地_市区町村CD');
 
-            $table
-                ->string('employment_status', 200)
-                ->nullable()
-                ->comment('雇用形態');
+            
 
             $table                
                 ->text('working_time')

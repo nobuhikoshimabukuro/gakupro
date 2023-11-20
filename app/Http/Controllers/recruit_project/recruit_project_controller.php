@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\File;
 use App\Original\common;
 use App\Original\create_list;
 use App\Original\get_data;
+use App\Original\job_related;
 
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
@@ -766,31 +767,10 @@ class recruit_project_controller extends Controller
             ->where('job_id', '=', $job_id)            
             ->first();
 
-            $job_image_folder_name = $job_info->job_image_folder_name;
-
-            if($job_image_folder_name != ""){
-        
-                $check_job_image_folder_path = "public/job_image/" . $job_image_folder_name;
-                
-                $asset_path = asset('storage/job_image/' .$job_image_folder_name);
-    
-                if (Storage::exists($check_job_image_folder_path)){
-    
-                    //フォルダの確認が出来たら、フォルダ内のファイル名を全て取得            
-                    $files = Storage::files($check_job_image_folder_path);
-    
-                    // 取得したファイル名を表示する例
-                    foreach ($files as $file) {
-    
-                        $fileInfo = pathinfo($file);
-                        $file_name = $fileInfo['basename']; // ファイル名のみ取得
-                        $asset_path_array[] = $asset_path ."/". $file_name;
-                        
-                    }
-                    
-                }
-            }       
+         
         }
+
+        $job_images_path_array = job_related::get_job_images($employer_id,$job_id);
 
         $employment_status_connection_t = employment_status_connection_t_model::
         where('employer_id', '=', $employer_id)
@@ -842,7 +822,7 @@ class recruit_project_controller extends Controller
                 ,'job_id'
                 ,'job_info'
 
-                ,'asset_path_array'
+                ,'job_images_path_array'
                 
                 ,'prefectural_list'
                 ,'salary_maincategory_list'
@@ -866,6 +846,9 @@ class recruit_project_controller extends Controller
 
         try {
 
+            DB::connection('mysql')->beginTransaction();
+
+            
             //雇用形態データ取得
             $employment_status_data = get_data::employment_status_data();
             //職種データ取得
@@ -874,12 +857,8 @@ class recruit_project_controller extends Controller
             $job_supplement_data = get_data::job_supplement_data();
 
             $a = $request->all();
-
-            $b = $request->file('job-image-input1');
-
-            
         
-            $Date = Carbon::now()->format('Ymd');
+            
 
             $employer_id = session()->get('employer_id');        
 
@@ -888,6 +867,7 @@ class recruit_project_controller extends Controller
             //新規登録時
             if($job_id == 0){       
 
+                
                 $job_id_Check = job_information_t_model::
                 where('employer_id', '=', $employer_id)
                 ->max('job_id');
@@ -897,8 +877,40 @@ class recruit_project_controller extends Controller
                 }else{
                     $job_id = $job_id_Check + 1;
                 }
+
+                $title = "TEST" . $job_id;
                 
+                $job_image_folder_name = $this->create_job_image_folder_name(10);
+
+                job_information_t_model::insert(
+                    [                            
+                        "employer_id" => $employer_id
+                        ,"job_id" => $job_id
+                        ,"title" => $title
+                        ,"job_image_folder_name" => $job_image_folder_name
+                    ]
+                );
+
+            }else{
+            
+
+                //更新処理
+                job_information_t_model::where('employer_id', $employer_id)
+                ->where('job_id', $job_id)
+                ->update(
+                    [
+                        
+                        "updated_by" => 9999
+                    ]
+                );
+
+
             }
+
+
+
+            
+
 
             //求人情報と雇用形態データの連結テーブルの処理  start
             employment_status_connection_t_model::where('employer_id', '=', $employer_id)
@@ -992,8 +1004,29 @@ class recruit_project_controller extends Controller
             //求人情報と職種データの連結テーブルの処理  end
 
 
+            DB::connection('mysql')->commit();
+
+            $update_job_images_result = job_related::update_job_images($request , $employer_id , $job_id);
+
+            if(!$update_job_images_result){
+
+                $error_message = "求人情報画像更新処理でエラーが発生しました。";
+                Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
+                
+                $result_array = array(
+                    "Result" => "error",
+                    "Message" => $process_title."でエラーが発生しました。",
+                );           
+
+                return response()->json(['result_array' => $result_array]);
+
+            }
+      
+
 
         } catch (Exception $e) {
+
+            DB::connection('mysql')->rollBack();
 
             $error_message = $e->getMessage();
             Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
@@ -1014,12 +1047,44 @@ class recruit_project_controller extends Controller
             "Message" => '',
         );
 
-        session()->flash('success', 'データを登録しました。');
+        session()->flash('success', 'タイトル【' . $title . '】のデータを登録しました。');
         session()->flash('message-type', 'success');
         return response()->json(['result_array' => $result_array]);       
 
     }
+
+    //ランダム文字列作成処理    引数で桁数を指定する
+    function create_job_image_folder_name($length)
+    {           
+                
+        $job_image_folder_name = "";            
+        $chars = 'abcdefhkmnpqrstuvwxyzAEFHJKLMNPRSTUVWXY';
+        $count = mb_strlen($chars);
+
+
+        while(true){         
+            
+            for ($i = 0, $result = ''; $i < $length; $i++) {
+                $index = rand(0, $count - 1);
+                $job_image_folder_name .= mb_substr($chars, $index, 1);
+            }        
+                
+            $job_image_folder_name_check = job_information_t_model::
+                where('job_image_folder_name', '=', $job_image_folder_name)
+                ->exists();
     
+            if(!$job_image_folder_name_check){
+                //繰返しの強制終了
+                break; 
+            }            
+        }
+     
+    
+        return $job_image_folder_name;
+
+    }   
+    
+ 
     //ログイン状況を確認  
     function LoginStatusCheck() {
 

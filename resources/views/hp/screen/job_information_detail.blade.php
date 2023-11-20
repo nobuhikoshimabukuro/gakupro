@@ -153,14 +153,51 @@
                     </h3>
                 </div>
 
-                <div class="col-12 job-image-outer-area item-center">
+                <div class="col-12 mt-1 m-0 p-0">
 
-                    <div class="job-image-inner-area item-center">
-                        @foreach ($asset_path_array as $job_image_index => $asset_full_path)
-                            @if($job_image_index == 0)
-                                <img src="{{$asset_full_path}}" class="job-image" alt="">                          
-                            @endif
-                        @endforeach
+                    <div id="" class="job-image-outer-area">
+
+                        @php                                
+                            $job_image_index = 0;
+                            $no_image_asset_path = $job_images_path_array["no_image_asset_path"];
+                            $job_image_path_array = $job_images_path_array["job_image_path_array"];
+                        @endphp
+
+                        @foreach ($job_image_path_array as $job_image_path_index => $job_image_info)
+                       
+                            @php
+                                $job_image_index = $job_image_index + 1;
+                                $asset_path = $job_image_info["asset_path"];
+                                $image_name = $job_image_info["image_name"];
+                            @endphp
+
+                            @if($asset_path != "")
+
+
+                                <div id="drop-zone{{$job_image_index}}" class="job-image-inner-area">
+
+                                  
+                                    <div id="job-image-area{{$job_image_index}}" class="job-image-area">
+                                        <img src="{{$asset_path}}" class="job-image" alt="{{$image_name}}">                          
+                                    </div>
+
+                                </div>
+
+
+                            @else
+
+
+                                <div id="drop-zone{{$job_image_index}}" class="job-image-inner-area">                         
+
+                                    <div id="job-image-area{{$job_image_index}}" class="job-image-area"> 
+                                        <img src="{{$no_image_asset_path}}" class="job-image" alt="">                                                                                                      
+                                    </div>                                   
+                                
+                                </div>
+                                
+                            @endif                               
+                        @endforeach                                         
+
                     </div>
                     
                 </div>

@@ -58,10 +58,11 @@ table tr:last-child td:last-child {
 
 <div id="main" class="mt-3 text-center container">
     
+    @include('recruit_project.common.alert')
 
     <div id="" class="row m-0 p-0">
 
-      <div id="ButtonArea" class="row m-0 p-0">        
+      <div id="button-area" class="row mb-2 p-0">        
         <div class="col-12 m-0 p-0" align="right">              
           <button type="button" id="" class="btn btn-primary" onclick="location.href='{{ route('recruit_project.job_information_register') }}'">求人情報新規作成　<i class="fas fa-user-edit"></i></button>
         </div>        
@@ -72,9 +73,8 @@ table tr:last-child td:last-child {
         <table id='' class='data-info-table m-0 p-0'>            
             <tr>
                 <th>求人ID</th>
-                <th>タイトル</th>            
-                <th>求人担当者名</th>            
-                <th>備考</th>
+                <th>タイトル</th>
+                <th></th>
                 <th></th>
                 
             </tr>
@@ -82,8 +82,11 @@ table tr:last-child td:last-child {
                 <tr>
                     <td>{{$info->job_id}}</td>
                     <td>{{$info->title}}</td>
-                    <td>{{$info->manager_name}}</td>
-                    <td>{{$info->remarks}}</td>
+                    
+                    <td>                      
+                      <button type="button" id="" class="btn btn-primary" onclick="location.href='{{ route('recruit_project.job_information_register',['job_id' => $info->job_id]) }}'">編集画面　<i class="fas fa-user-edit"></i></button>
+                    </td>
+                    
                     <td>                      
                       <button type="button" id="" class="btn btn-primary" onclick="location.href='{{ route('recruit_project.job_information_register',['job_id' => $info->job_id]) }}'">編集画面　<i class="fas fa-user-edit"></i></button>
                     </td>

@@ -782,18 +782,27 @@
                         {{-- PCは二分割、モバイルは縦に分割 --}}
                         {{-- 写真エリア --}}
                         @php
-                            $asset_path_array = $info->asset_path_array;
+                            
+                            $job_images_path_array = $info->job_images_path_array;
+                            
+                            $job_image_path_array = $job_images_path_array["job_image_path_array"];                            
+                            $asset_path = $job_images_path_array["no_image_asset_path"];
+                            $image_name = "no_image";
+
+                            foreach ($job_image_path_array as $job_images_path_index => $job_image_path_info){
+
+                                if($job_image_path_info["asset_path"] != ""){
+
+                                    $asset_path = $job_image_path_info["asset_path"];
+                                    $image_name = $job_image_path_info["image_name"]; 
+                                    break;
+                                }                                
+                            }                            
                         @endphp
                         <div id="" class="col-12 col-md-5 m-0 p-0 job-image-outer-area item-center">   
 
                             <div class="job-image-inner-area item-center">
-                                @foreach ($asset_path_array as $job_image_index => $asset_full_path)
-                                    @if($job_image_index == 0)
-                                        <img src="{{$asset_full_path}}" class="job-image" alt="">
-                                    @else
-                                        <img src="{{$asset_full_path}}" class="job-image d-none" alt="">
-                                    @endif
-                                @endforeach
+                                <img src="{{$asset_path}}" class="job-image" alt="{{$image_name}}">                                
                             </div>
 
                         </div>
@@ -816,7 +825,7 @@
                                         雇用形態
                                     </th>
                                     <td>
-                                        {{$info->employment_status}}
+                                        
                                     </td>
                                 </tr>
 
