@@ -84,7 +84,7 @@ table tr:last-child td:last-child {
                     <td>{{$info->title}}</td>
                     
                     <td>                      
-                      <button type="button" id="" class="btn btn-primary" onclick="location.href='{{ route('recruit_project.job_information_password',['job_id' => $info->job_id]) }}'">掲載期間確認　<i class="fas fa-user-edit"></i></button>
+                      <button type="button" id="" class="btn btn-primary" onclick="location.href='{{ route('recruit_project.job_publish_info',['job_id' => $info->job_id]) }}'">掲載期間確認　<i class="fas fa-user-edit"></i></button>
                     </td>
                     
                     <td>                      

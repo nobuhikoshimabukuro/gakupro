@@ -37,7 +37,7 @@ return new class extends Migration
 
             $table
                 ->integer('job_password_id')
-                ->comment(':job_password_tのid、求人新規登録時は0がセットされる');
+                ->comment('job_password_tのid:求人新規登録時は0がセットされる');
 
             $table
                 ->date('publish_start_date')

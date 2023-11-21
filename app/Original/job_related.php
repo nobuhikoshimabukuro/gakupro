@@ -143,7 +143,7 @@ class job_related
 
                 $job_image_folder_path = "job_image/id_" . $id . "/" . $job_image_folder_name . "/" . $i;                
 
-                Storage::disk('recruit_project_public_path')->deleteDirectory($job_image_folder_path);
+                Storage::disk('recruit_project_public_path')->deleteDirectory($job_image_folder_path);                
                 Storage::disk('recruit_project_public_path')->makeDirectory($job_image_folder_path);
                 
 

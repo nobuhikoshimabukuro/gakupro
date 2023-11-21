@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Original\common;
 use Carbon\Carbon;
 
@@ -17,6 +18,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+
+        Storage::disk('recruit_project_public_path')->deleteDirectory("job_image");
        
         DB::table('maincategory_m')->insert([
             

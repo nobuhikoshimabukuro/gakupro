@@ -842,8 +842,8 @@ class recruit_project_controller extends Controller
     }
 
 
-    //求人掲載期間登録更新画面遷移
-    function job_information_password(Request $request)
+    //求人掲載期間情報画面遷移
+    function job_publish_info(Request $request)
     {       
 
         if (!$this->LoginStatusCheck()) {
@@ -854,6 +854,25 @@ class recruit_project_controller extends Controller
 
         $employer_id = session()->get('employer_id');
         $job_id = $request->job_id;
+
+
+
+        $job_password_connection_t = job_password_connection_t_model::select(
+            
+            'job_password_connection_t.job_password_id as job_password_id',
+            'job_password_connection_t.branch_number as branch_number',
+            'job_password_connection_t.publish_start_date as publish_start_date',
+            'job_password_connection_t.publish_end_date as publish_end_date',            
+            'job_password_t.product_type as product_type',
+            'job_password_t.date_range as date_range',
+        )
+        ->leftJoin('job_password_t', function ($join) {
+            $join->on('job_password_t.job_password_id', '=', 'job_password_connection_t.job_password_id');
+        })        
+        ->where('job_password_connection_t.employer_id', '=', $employer_id)
+        ->where('job_password_connection_t.job_id', '=', $job_id)
+        ->first();
+
 
 
         $job_password_connection_t = job_password_connection_t_model::
@@ -871,10 +890,13 @@ class recruit_project_controller extends Controller
             ->where('job_id', '=', $job_id)            
             ->first();
         
+        if(is_null($job_info)){
+            return redirect()->route('recruit_project.job_information_confirmation');
+        }
         
 
 
-        return view('recruit_project/screen/job_information_password',
+        return view('recruit_project/screen/job_publish_info',
          compact(
                  'employer_id'
                 ,'employer_info'
@@ -885,6 +907,171 @@ class recruit_project_controller extends Controller
             ));        
     }
 
+    //求人パスワード確認処理
+    function job_password_check(Request $request)
+    {       
+
+        $process_title = "求人パスワード確認処理";
+
+        try {
+
+            // キー配列の作成
+            $messages = [
+                0 => "使用可能なパスワードです。",
+                1 => "パスワードが存在しません。再入力してください。",
+                2 => "使用済みのパスワードです。"
+            ];
+
+            $password = $request->password;
+            
+
+            $result_type = $this->job_password_available_check($password);
+
+            
+            $result_array = array(
+                "Result" => "success",
+                "result_type" => $result_type,
+                "Message" => $messages[$result_type]
+            );       
+
+
+        } catch (Exception $e) {
+
+            
+            $error_message = $e->getMessage();
+            Log::channel('error_log')->info($process_title . "::error_message【" . $error_message ."】");
+            
+            $result_array = array(
+                "Result" => "error",
+                "result_type" => "",
+                "Message" => ""
+            );                        
+                                
+        }
+
+        return response()->json(['result_array' => $result_array]);
+
+    }
+
+    //求人パスワード承認処理
+    function job_password_authentication(Request $request)
+    {       
+
+        $process_title = "求人パスワード承認処理";
+
+        try {
+            
+            DB::connection('mysql')->beginTransaction();
+
+
+            // キー配列の作成
+            $messages = [
+                0 => "使用可能なパスワードです。",
+                1 => "パスワードが存在しません。再入力してください。",
+                2 => "使用済みのパスワードです。"
+            ];
+
+            $password = $request->password;
+            
+
+            $result_type = $this->job_password_available_check($password);
+
+
+
+
+
+
+
+
+
+            DB::connection('mysql')->commit();
+
+            $result_array = array(
+                "Result" => "success",
+                "Message" => ""
+            );       
+
+
+        } catch (Exception $e) {
+
+            DB::connection('mysql')->rollBack();
+
+            $error_message = $e->getMessage();
+            Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
+            
+            $result_array = array(
+                "Result" => "error",
+                "Message" => $process_title."でエラーが発生しました。",
+            );           
+
+            return response()->json(['result_array' => $result_array]);
+                                
+        }
+
+
+
+
+    }
+
+    
+    function job_password_available_check($password)
+    {    
+
+        $result_type = 0;
+
+        $existence_password = job_password_t_model::
+            where('password', '=', $password)                        
+            ->where('sold_flg', '=', 1)
+            ->exists();
+
+            
+        if($existence_password){
+
+            
+            $job_password_t = job_password_t_model::
+            where('password', '=', $password)                            
+            ->where('usage_flg', '=', 0)
+            ->where('sold_flg', '=', 1)                
+            ->first();
+
+            if(is_null($job_password_t)){
+
+                //パスワードは存在するが、利用フラグがたっている、NG                         
+                $result_type = 2;
+
+                
+            }else{
+
+                $job_password_id = $job_password_t->job_password_id;
+
+                //求人データと求人パスワードの紐づけチェック
+                $job_password_connection_t = job_password_connection_t_model::
+                where('job_password_id', '=', $job_password_id)                                  
+                ->first();
+
+                if(is_null($job_password_connection_t)){
+                        
+                    $result_type = 0;
+
+                }else{
+
+                    $result_type = 2;
+
+                }
+
+
+            }
+
+        }else{
+
+            //パスワードが管理マスタに無いため、NG
+            $result_type = 1;
+
+        }
+
+        return $result_type;
+
+    }
 
 
     

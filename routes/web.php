@@ -247,9 +247,10 @@ Route::post('recruit_project/information_update', [recruit_project_controller::c
 
 Route::get('recruit_project/information_after_registration', [recruit_project_controller::class, 'information_after_registration'])->name('recruit_project.information_after_registration');
 
+Route::get('recruit_project/job_publish_info', [recruit_project_controller::class, 'job_publish_info'])->name('recruit_project.job_publish_info');
+Route::post('recruit_project/job_password_check', [recruit_project_controller::class, 'job_password_check'])->name('recruit_project.job_password_check');
 
 Route::get('recruit_project/job_information_confirmation', [recruit_project_controller::class, 'job_information_confirmation'])->name('recruit_project.job_information_confirmation');
-Route::get('recruit_project/job_information_password', [recruit_project_controller::class, 'job_information_password'])->name('recruit_project.job_information_password');
 Route::get('recruit_project/job_information_register', [recruit_project_controller::class, 'job_information_register'])->name('recruit_project.job_information_register');
 
 Route::post('recruit_project/job_information_save', [recruit_project_controller::class, 'job_information_save'])->name('recruit_project.job_information_save');
