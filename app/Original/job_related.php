@@ -72,16 +72,13 @@ class job_related
         }else{
 
             $job_image_folder_name = $job_info->job_image_folder_name;
-            $id = $job_info->id;
-        
-                 
-        
+            $id = $job_info->id;                        
 
             for ($i = 1; $i <= 3; $i++) {
                         
                 $asset_path = "";
                 $image_name = "";
-                $check_job_image_folder_path = "public/recruit_project/job_image/id_" . $id . "/" . $job_image_folder_name . "/index_" . $i;
+                $check_job_image_folder_path = "public/recruit_project/job_image/id_" . $id . "/" . $job_image_folder_name . "/" . $i;
 
                 if (Storage::exists($check_job_image_folder_path)){
 
@@ -92,7 +89,7 @@ class job_related
                         $file = $files[0];
                         $image_info = pathinfo($file);
                         $image_name = $image_info['basename']; // ファイル名のみ取得
-                        $asset_path = asset("storage/recruit_project/job_image/id_" . $id . "/". $job_image_folder_name . "/index_" . $i . "/" . $image_name);                   
+                        $asset_path = asset("storage/recruit_project/job_image/id_" . $id . "/". $job_image_folder_name . "/" . $i . "/" . $image_name);                   
                     }                      
                 }
 
@@ -140,9 +137,7 @@ class job_related
 
             if($job_image_change_flg == 1){
 
-                $job_image_folder_path = "job_image/id_" . $id . "/" . $job_image_folder_name . "/index_" . $i;
-
-                
+                $job_image_folder_path = "job_image/id_" . $id . "/" . $job_image_folder_name . "/" . $i;                
 
                 Storage::disk('recruit_project_public_path')->deleteDirectory($job_image_folder_path);
                 Storage::disk('recruit_project_public_path')->makeDirectory($job_image_folder_path);
