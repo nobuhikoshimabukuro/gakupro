@@ -25,6 +25,13 @@ class job_password_t_controller extends Controller
 {
     function index(Request $request)
     {
+
+        //Session確認処理        
+        if(!common::headquarters_session_confirmation()){
+            //Session確認で戻り値が(true)時は管理のTop画面に遷移
+            return redirect(route('headquarters.login'));            
+        }
+
         //検索項目格納用配列
         $search_element_array = [
             'search_product_type' => $request->search_product_type
@@ -63,7 +70,7 @@ class job_password_t_controller extends Controller
                 CASE
                     WHEN job_password_t.sold_flg = '1' 
                         THEN '販売済'
-                    ELSE '未販売'
+                    ELSE '販売前'
                 END as sold_status
             "),
 
@@ -126,8 +133,18 @@ class job_password_t_controller extends Controller
         $date_range = 14;
         
         
+        $created_by = session()->get('staff_id');
 
-        $operator = 9999;
+        if(is_null($created_by)){
+
+            $result_array = array(
+                "Result" => "non_session",
+                "Message" => $process_title."でエラーが発生しました。",
+            );            
+
+            return response()->json(['result_array' => $result_array]);
+        }
+        
         try {
 
             for ($i = 1; $i <= $create_password_count; $i++) {
@@ -139,6 +156,7 @@ class job_password_t_controller extends Controller
                         'password' => $password,                 
                         'product_type' => $product_type,
                         'date_range' => $date_range,
+                        'created_by' => $created_by,
                     ]
                 );
 

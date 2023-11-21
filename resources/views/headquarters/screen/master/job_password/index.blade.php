@@ -303,9 +303,15 @@ $(function(){
 
                 var Result = result_array["Result"];
 
-                if(Result=='success'){
+                
+                if(Result =='success'){
 
                     location.reload();
+
+                }else if(Result =='non_session'){
+
+                    // 店舗ログイン画面へ
+				    window.location.href = "{{ route('headquarters.login') }}";
 
                 }else{
 

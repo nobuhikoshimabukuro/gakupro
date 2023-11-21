@@ -23,4 +23,15 @@ class job_password_t_model extends Model
     protected $guarded = [
         'job_password_id',
     ];
+
+    protected $fillable = [ 
+        'product_type'
+        ,'password'                   
+        ,'usage_flg'
+        ,'sold_flg'
+        ,'date_range'
+        ,'created_by'
+        ,'updated_by'
+        ,'deleted_by'
+    ];
 }

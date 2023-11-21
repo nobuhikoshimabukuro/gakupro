@@ -25,8 +25,8 @@ class headquarters_controller extends Controller
     function login()
     {        
        
-         //Session確認処理        
-         if(common::headquarters_session_confirmation()){
+        //Session確認処理        
+        if(common::headquarters_session_confirmation()){
             //Session確認で戻り値が(true)時は管理のTop画面に遷移
             return redirect(route('headquarters.index'));            
         }
@@ -78,6 +78,7 @@ class headquarters_controller extends Controller
                     return back();
 
                 }else{
+                
 
                     session()->put('staff_id', $staff_info->staff_id);
                     session()->put('staff_name', $staff_info->staff_last_name . "　" . $staff_info->staff_first_name);
