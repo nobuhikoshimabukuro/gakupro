@@ -547,8 +547,7 @@ class hp_controller extends Controller
     {
 
         $employer_id = $job_information->employer_id;
-        $job_id = $job_information->job_id;
-        $job_image_folder_name = $job_information->job_image_folder_name;
+        $job_id = $job_information->job_id;        
 
         $return_array = [];
 
@@ -556,8 +555,6 @@ class hp_controller extends Controller
         $employment_status_datas = [];
         $job_category_datas = [];
         $job_supplement_category_datas = [];
-
-
         
 
         $set_employment_status = employment_status_connection_t_model::select(

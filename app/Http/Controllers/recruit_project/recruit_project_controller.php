@@ -848,6 +848,7 @@ class recruit_project_controller extends Controller
 
             DB::connection('mysql')->beginTransaction();
 
+            $new_data_flg = false;
             
             //雇用形態データ取得
             $employment_status_data = get_data::employment_status_data();
@@ -866,7 +867,7 @@ class recruit_project_controller extends Controller
 
             //新規登録時
             if($job_id == 0){       
-
+                $new_data_flg = true;
                 
                 $job_id_Check = job_information_t_model::
                 where('employer_id', '=', $employer_id)
@@ -892,7 +893,7 @@ class recruit_project_controller extends Controller
                 );
 
             }else{
-            
+                $new_data_flg = false;
 
                 //更新処理
                 job_information_t_model::where('employer_id', $employer_id)
@@ -908,6 +909,7 @@ class recruit_project_controller extends Controller
             }
 
 
+            
 
             
 
@@ -1047,7 +1049,14 @@ class recruit_project_controller extends Controller
             "Message" => '',
         );
 
-        session()->flash('success', 'タイトル【' . $title . '】のデータを登録しました。');
+
+        if($new_data_flg){
+            $success_message = '求人ID【' . $job_id . '】のデータを登録しました。';
+        }else{
+            $success_message = '求人ID【' . $job_id . '】のデータを更新しました。';
+        }
+
+        session()->flash('success', $success_message);
         session()->flash('message-type', 'success');
         return response()->json(['result_array' => $result_array]);       
 
