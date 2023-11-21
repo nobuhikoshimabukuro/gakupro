@@ -1026,6 +1026,24 @@ class recruit_project_controller extends Controller
       
 
 
+            //全ての処理終了
+            $result_array = array(
+                "Result" => "success",
+                "Message" => '',
+            );
+    
+    
+            if($new_data_flg){
+                $success_message = '求人ID【' . $job_id . '】のデータを登録しました。';
+            }else{
+                $success_message = '求人ID【' . $job_id . '】のデータを更新しました。';
+            }
+    
+            session()->flash('success', $success_message);
+            session()->flash('message-type', 'success');
+            return response()->json(['result_array' => $result_array]);       
+
+
         } catch (Exception $e) {
 
             DB::connection('mysql')->rollBack();
@@ -1044,21 +1062,7 @@ class recruit_project_controller extends Controller
 
 
 
-        $result_array = array(
-            "Result" => "success",
-            "Message" => '',
-        );
-
-
-        if($new_data_flg){
-            $success_message = '求人ID【' . $job_id . '】のデータを登録しました。';
-        }else{
-            $success_message = '求人ID【' . $job_id . '】のデータを更新しました。';
-        }
-
-        session()->flash('success', $success_message);
-        session()->flash('message-type', 'success');
-        return response()->json(['result_array' => $result_array]);       
+       
 
     }
 
