@@ -55,6 +55,9 @@ use App\Models\job_supplement_connection_t_model;
 
 use App\Models\job_search_history_t_model;
 
+use App\Models\job_password_t_model;
+use App\Models\job_password_connection_t_model;
+
 
 
 class recruit_project_controller extends Controller
@@ -838,6 +841,53 @@ class recruit_project_controller extends Controller
             ));        
     }
 
+
+    //求人掲載期間登録更新画面遷移
+    function job_information_password(Request $request)
+    {       
+
+        if (!$this->LoginStatusCheck()) {
+            //セッション切れ
+            session()->flash('employer_loginerror', 'セッション切れ');            
+            return redirect()->route('recruit_project.login');
+        }       
+
+        $employer_id = session()->get('employer_id');
+        $job_id = $request->job_id;
+
+
+        $job_password_connection_t = job_password_connection_t_model::
+        where('employer_id', '=', $employer_id)          
+        ->where('job_id', '=', $job_id)          
+        ->get();
+
+        $employer_info = employer_m_model::
+        where('employer_id', '=', $employer_id)          
+        ->first();
+
+        //既存の求人情報編集時            
+        $job_info = job_information_t_model::
+            where('employer_id', '=', $employer_id)
+            ->where('job_id', '=', $job_id)            
+            ->first();
+        
+        
+
+
+        return view('recruit_project/screen/job_information_password',
+         compact(
+                 'employer_id'
+                ,'employer_info'
+                ,'job_id'
+                ,'job_info'
+                ,'job_password_connection_t'
+
+            ));        
+    }
+
+
+
+    
 
     //求人情報登録処理
     function job_information_save(Request $request)

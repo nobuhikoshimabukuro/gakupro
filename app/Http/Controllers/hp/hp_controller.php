@@ -62,7 +62,7 @@ class hp_controller extends Controller
         if(session()->has('all_job_search_value_array')) {
 
             $all_job_search_value_array = session()->get('all_job_search_value_array');
-            session()->remove('all_job_search_value_array');
+            // session()->remove('all_job_search_value_array');
             $job_information = $this->search_job_information($all_job_search_value_array);
 
             $prefectural_cd_search_value_array = $all_job_search_value_array["prefectural_cd_search_value_array"];
@@ -462,7 +462,9 @@ class hp_controller extends Controller
             }
         }
 
-
+        //セッション（検索値）をリムーブ
+        session()->remove('all_job_search_value_array');
+        //セッション（検索値）を再セット
         session()->put('all_job_search_value_array', $all_job_search_value_array);
 
         return response()->json(['result' => 'success']);
@@ -529,14 +531,14 @@ class hp_controller extends Controller
 
             $employer_id = $job_information->employer_id;
             $job_id = $job_information->job_id;
-            $job_images_path_array = job_related::get_job_images($employer_id,$job_id);
+            
             $set_job_information_detail = $this->set_job_information_detail($job_information);
 
             $job_information->asset_path_array = $set_job_information_detail["asset_path_array"];
             $job_information->employment_status_datas = $set_job_information_detail["employment_status_datas"];
             $job_information->job_category_datas = $set_job_information_detail["job_category_datas"];
             $job_information->job_supplement_category_datas = $set_job_information_detail["job_supplement_category_datas"];   
-            $job_information->job_images_path_array = $job_images_path_array;
+            $job_information->job_images_info_array = job_related::get_job_images($employer_id,$job_id);
         }        
 
         return view('hp/screen/job_information_detail', compact('job_information'));

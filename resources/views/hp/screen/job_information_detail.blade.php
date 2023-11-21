@@ -5,6 +5,7 @@
 @endsection
 @section('content')
 
+
 <style>
     
     .item-center{
@@ -25,16 +26,6 @@
     }
 
 
-    .job-image-inner-area{
-        width: 100%;
-        height: 35vh;
-    }
-
-    .job-image{        
-        width: 100%;    
-        height:  100%;
-        object-fit: contain; 
-    }
 
 .caption-name {
     position: relative;
@@ -64,7 +55,16 @@
 }
 
 
-.test-name {  
+
+.heading-name {  
+  color: black;
+  background: #d0ecff;
+  line-height: 1.4;
+  padding: 0.25em 0.5em;  
+  border-radius: 5px 5px 5px 5px;
+}
+
+.heading-name-check {  
   color: black;
   background: #d0ecff;
   line-height: 1.4;
@@ -85,7 +85,7 @@
   color: #fff;
   left: 0px;  
   border-radius: 5px 5px 0 0;
-  padding: 3px 7px 1px;
+  padding: 4px 7px 4px;
   
   line-height: 1;
   letter-spacing: 0.05em
@@ -99,44 +99,104 @@
     border-color: #d0ecff;
 } */
     
+     
+    
+.job-image-outer-area{
+    width: 100%;
+    overflow-x: auto;
+    /* background-color: rgb(180, 179, 176); */
+    display: flex;    
+    
+}
+
+.job-image-inner-area{    
+    
+}
+
+.job-image-area{
+    aspect-ratio: 16 / 9;
+    
+}
+
+/* アスペクト比（縦横比 */
+
+.job-image{        
+        width: 100%;    
+        height:  100%;
+        object-fit: contain; 
+    }
+
+
+/* PC用 */
+@media (min-width:769px) {  /*画面幅が769px以上の場合とする*/
+ 
+    
+    .o-w-66{
+        width:66%;        
+    }
+
+    .o-w-49{
+        width:49%;
+    }
+
+    .o-w-32{
+        width:66%;        
+    }
+
+}
+
+/* スマホ用 */
+@media (max-width:768px) {  /*画面幅が768px以下の場合とする*/
+
+    .job-image-inner-area{
+        min-width:100%;
+    }
+}
+
+
 </style>
 
-    @php
 
-        $id = $job_information->id;    
-        $employer_id = $job_information->employer_id;
-        $employer_name = $job_information->employer_name;
-        $employer_hp_url = $job_information->employer_hp_url;
-        $employer_description = $job_information->employer_description;
-        
-        $employer_remarks = $job_information->employer_remarks;
-        $job_id = $job_information->job_id;
-        $title = $job_information->title;
-        $sub_title = $job_information->sub_title;
-        $work_location = $job_information->work_location;
-        $employment_status = $job_information->employment_status;
-        $working_time = $job_information->working_time;
-        $salary = $job_information->salary;
-        $holiday = $job_information->holiday;
-        $tel = $job_information->tel;
-        $fax = $job_information->fax;
-        $job_hp_url = $job_information->job_hp_url;
-        $mailaddress = $job_information->mailaddress;
-        $application_requirements = $job_information->application_requirements;
-        $publish_start_date = $job_information->publish_start_date;
-        $publish_end_date = $job_information->publish_end_date;
-        
-        $scout_statement = $job_information->scout_statement;
-        $job_remarks = $job_information->job_remarks;
-        
 
-        // 画像格納場所完全path配列
-        $asset_path_array = $job_information->asset_path_array;
-        $employment_status_datas = $job_information->employment_status_datas;
-        $job_category_datas = $job_information->job_category_datas;
-        $job_supplement_category_datas = $job_information->job_supplement_category_datas;
 
-    @endphp
+@php
+
+    $id = $job_information->id;    
+    $employer_id = $job_information->employer_id;
+    $employer_name = $job_information->employer_name;
+    $employer_hp_url = $job_information->employer_hp_url;
+    $employer_description = $job_information->employer_description;
+    
+    $employer_remarks = $job_information->employer_remarks;
+    $job_id = $job_information->job_id;
+    $title = $job_information->title;
+    $sub_title = $job_information->sub_title;
+    $work_location = $job_information->work_location;
+    $employment_status = $job_information->employment_status;
+    $working_time = $job_information->working_time;
+    $salary = $job_information->salary;
+    $holiday = $job_information->holiday;
+    $tel = $job_information->tel;
+    $fax = $job_information->fax;
+    $job_hp_url = $job_information->job_hp_url;
+    $mailaddress = $job_information->mailaddress;
+    $application_requirements = $job_information->application_requirements;
+    $publish_start_date = $job_information->publish_start_date;
+    $publish_end_date = $job_information->publish_end_date;
+    
+    $scout_statement = $job_information->scout_statement;
+    $job_remarks = $job_information->job_remarks;
+    
+
+    // 画像格納場所完全path配列
+    $asset_path_array = $job_information->asset_path_array;
+    $employment_status_datas = $job_information->employment_status_datas;
+    $job_category_datas = $job_information->job_category_datas;
+    $job_supplement_category_datas = $job_information->job_supplement_category_datas;
+
+    $job_images_info_array = $job_information->job_images_info_array;   
+@endphp
+    
 
 
 <div id="main" class="mt-3 text-center container">
@@ -153,50 +213,63 @@
                     </h3>
                 </div>
 
-                <div class="col-12 mt-1 m-0 p-0">
+                <div class="col-12 mt-1 m-0 p-0 job-image-all-area">
 
                     <div id="" class="job-image-outer-area">
 
-                        @php                                
-                            $job_image_index = 0;
-                            $no_image_asset_path = $job_images_path_array["no_image_asset_path"];
-                            $job_image_path_array = $job_images_path_array["job_image_path_array"];
+                        @php
+                            $job_image_count = $job_images_info_array["job_image_count"];
+                            $no_image_asset_path = $job_images_info_array["no_image_asset_path"];
+                            $job_image_path_array = $job_images_info_array["job_image_path_array"];
+
+
+                            $add_class = "";
+                            if($job_image_count >= 1){
+                                $add_class = "o-w-66";
+                            }elseif($job_image_count == 2){
+                                $add_class = "o-w-49";
+                            }elseif($job_image_count == 3){
+                                $add_class = "o-w-32";
+                            }
                         @endphp
 
-                        @foreach ($job_image_path_array as $job_image_path_index => $job_image_info)
-                       
-                            @php
-                                $job_image_index = $job_image_index + 1;
-                                $asset_path = $job_image_info["asset_path"];
-                                $image_name = $job_image_info["image_name"];
-                            @endphp
 
-                            @if($asset_path != "")
+                        @if($job_image_count == 0)
 
+                            {{-- <div id="" class="job-image-inner-area {{$add_class}}">
+                                        
+                                <div id="" class="job-image-area">
+                                    <img src="{{$no_image_asset_path}}" class="job-image" alt="no_image">                          
+                                </div>
 
-                                <div id="drop-zone{{$job_image_index}}" class="job-image-inner-area">
+                            </div> --}}
 
-                                  
-                                    <div id="job-image-area{{$job_image_index}}" class="job-image-area">
-                                        <img src="{{$asset_path}}" class="job-image" alt="{{$image_name}}">                          
+                        @else
+
+                            @foreach ($job_image_path_array as $job_image_path_index => $job_image_info)
+                        
+                                @php                                
+                                    $asset_path = $job_image_info["asset_path"];
+                                    $image_name = $job_image_info["image_name"];
+                                    
+                                @endphp
+
+                                @if($asset_path != "")
+                                    
+                                    <div id="" class="job-image-inner-area {{$add_class}}">
+                                    
+                                        <div id="" class="job-image-area">
+                                            <img src="{{$asset_path}}" class="job-image" alt="{{$image_name}}">                          
+                                        </div>
+
                                     </div>
+                                @endif        
 
-                                </div>
-
-
-                            @else
+                            @endforeach      
 
 
-                                <div id="drop-zone{{$job_image_index}}" class="job-image-inner-area">                         
-
-                                    <div id="job-image-area{{$job_image_index}}" class="job-image-area"> 
-                                        <img src="{{$no_image_asset_path}}" class="job-image" alt="">                                                                                                      
-                                    </div>                                   
-                                
-                                </div>
-                                
-                            @endif                               
-                        @endforeach                                         
+                        @endif
+                                                           
 
                     </div>
                     
@@ -204,7 +277,7 @@
 
 
 
-                <div class="col-12 text-start">
+                <div class="col-12 mt-1 text-start">
                     <h4>
                         {{$job_information->sub_title}}
                     </h4>
@@ -219,7 +292,7 @@
 
 
                 <div class="col-12 text-start">
-                    <h4 class="caption-name">
+                    <h4 class="heading-name">
                         私たちについて
                     </h4>
                     <p>
@@ -238,7 +311,7 @@
                         <div class="check">
                             
                         </div>
-                        <h4 class="test-name">
+                        <h4 class="heading-name-check">
                             雇用形態
                         </h4>
 
@@ -268,7 +341,7 @@
                 @if(count($job_category_datas) > 0)
 
                     <div class="col-12 text-start">
-                        <h4 class="caption-name">
+                        <h4 class="heading-name">
                             職種
                         </h4>
                         <div class="row m-0 p-0 test">
@@ -295,7 +368,7 @@
 
                 @if(count($job_supplement_category_datas) > 0)
                     <div class="col-12 text-start">
-                        <h4 class="caption-name">
+                        <h4 class="heading-name">
                             その他のポイント
                         </h4>
 

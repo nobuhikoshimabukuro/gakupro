@@ -226,7 +226,7 @@
 
     <!-- ページトップへ戻るボタン -->
     {{-- <div id="page_top"><a href="#"></a></div> --}}
-    <a class="pagetop" href="#"><div class="pagetop__arrow"></div></a>
+    <a class="pagetop" href="#" style="display: flex;"><div class="pagetop__arrow"></div></a>
     {{-- </div> --}}
 
 @yield('content')

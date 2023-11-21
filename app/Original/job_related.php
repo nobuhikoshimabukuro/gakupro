@@ -51,6 +51,8 @@ class job_related
     {      
         $job_images_path_array = [];
         $job_image_path_array = [];       
+
+        $job_image_count = 0;
       
         //既存の求人情報編集時            
         $job_info = job_information_t_model::
@@ -86,6 +88,8 @@ class job_related
                     $files = Storage::files($check_job_image_folder_path);
 
                     if(count($files) > 0){
+
+                        $job_image_count = $job_image_count + 1;
                         $file = $files[0];
                         $image_info = pathinfo($file);
                         $image_name = $image_info['basename']; // ファイル名のみ取得
@@ -102,7 +106,7 @@ class job_related
 
         $no_image_asset_path = asset('img/no_image/no_image.jpeg');
 
-        $job_images_path_array = ["no_image_asset_path" => $no_image_asset_path , "job_image_path_array" => $job_image_path_array];
+        $job_images_path_array = ["job_image_count" => $job_image_count ,"no_image_asset_path" => $no_image_asset_path , "job_image_path_array" => $job_image_path_array];
             
         return $job_images_path_array;
     }

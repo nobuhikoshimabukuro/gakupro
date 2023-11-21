@@ -17,18 +17,6 @@
     
     <div class="col-11">
 
-        <div id="" class="row">  
-            
-            <form action="{{ route('hp.pseudo_job_information') }}" id='upload_form'method="post" enctype="multipart/form-data" target="_blank">
-                @csrf
-
-                <input type="file" id='file_input'name="file[]" lang="ja" accept="png,.jpg,.jpeg" multiple>
-                <button type="submit">Submit</button>
-            </form>
-
-        </div>
-
-
         {{-- 概要説明エリア  Start --}}
         <div id="" class="row">  
 
