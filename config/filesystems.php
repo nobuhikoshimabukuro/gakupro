@@ -102,6 +102,42 @@ return [
             ]
         ],
 
+
+        // 追加
+        'recruit_project_public_path' => [
+            'driver' => 'local',
+            'root' => public_path('storage/recruit_project'),
+            'visibility' => 'public',
+
+            'permissions' => [ // permissions 設定値を追記
+                'dir' => [
+                    'public'  => 0775, // public なディレクトリは775で作成 
+                ],
+                'file' => [
+                    'public' => 0664, // public なファイルは664で作成
+                ],
+            ]
+        ],
+
+
+
+        // 追加
+        'recruit_project_storage_path' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/recruit_project'),
+            'visibility' => 'public',
+            'permissions' => [ // permissions 設定値を追記
+                'dir' => [
+                    'public'  => 0775, // public なディレクトリは775で作成 
+                ],
+                'file' => [
+                    'public' => 0664, // public なファイルは664で作成
+                ],
+            ]
+        ],
+
+       
+
     ],
 
     /*
