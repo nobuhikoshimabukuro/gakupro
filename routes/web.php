@@ -116,6 +116,7 @@ Route::post('headquarters/master/salary_category/salary_subcategory_delete_or_re
 //求人公開パスワードテーブル
 Route::get('headquarters/master/job_password/', [job_password_t_controller::class, 'index'])->name('master.job_password');
 Route::post('headquarters/master/job_password/save', [job_password_t_controller::class, 'save'])->name('master.job_password.save');
+Route::post('headquarters/master/job_password/sale_flg_change', [job_password_t_controller::class, 'sale_flg_change'])->name('master.job_password.sale_flg_change');
 
 
 //プロジェクトマスタ
@@ -246,6 +247,8 @@ Route::post('recruit_project/information_save', [recruit_project_controller::cla
 Route::post('recruit_project/information_update', [recruit_project_controller::class, 'information_update'])->name('recruit_project.information_update');
 
 Route::get('recruit_project/information_after_registration', [recruit_project_controller::class, 'information_after_registration'])->name('recruit_project.information_after_registration');
+
+Route::post('recruit_project/job_information_publish_flg_change', [recruit_project_controller::class, 'job_information_publish_flg_change'])->name('recruit_project.job_information_publish_flg_change');
 
 Route::get('recruit_project/job_publish_info', [recruit_project_controller::class, 'job_publish_info'])->name('recruit_project.job_publish_info');
 Route::post('recruit_project/job_password_check', [recruit_project_controller::class, 'job_password_check'])->name('recruit_project.job_password_check');

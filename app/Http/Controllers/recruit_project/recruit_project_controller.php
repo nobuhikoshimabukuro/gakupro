@@ -274,7 +274,7 @@ class recruit_project_controller extends Controller
     {       
         if (!$this->LoginStatusCheck()) {
             //セッション切れ
-            session()->flash('employer_loginerror', 'セッション切れ');            
+            session()->flash('employer_loginerror', '再度ログインお願い致します。');            
             return redirect()->route('recruit_project.login');
         }
 
@@ -317,7 +317,7 @@ class recruit_project_controller extends Controller
            
         if (!$this->LoginStatusCheck()) {
             //セッション切れ
-            session()->flash('employer_loginerror', 'セッション切れ');            
+            session()->flash('employer_loginerror', '再度ログインお願い致します。');            
             return redirect()->route('recruit_project.login');
         }
 
@@ -685,13 +685,13 @@ class recruit_project_controller extends Controller
     function top(Request $request)
     {       
         
-        if (!$this->LoginStatusCheck()) {
-            //セッション切れ
-            session()->flash('employer_loginerror', 'セッション切れ');            
-            return redirect()->route('recruit_project.login');
-        }
-
         $employer_id = session()->get('employer_id');
+
+        if (!$this->LoginStatusCheck() || is_null($employer_id)) {
+            //セッション切れ
+            session()->flash('employer_loginerror', '再度ログインお願い致します。');            
+            return redirect()->route('recruit_project.login');
+        }       
 
         $employer_info = employer_m_model::
         where('employer_id', '=', $employer_id)          
@@ -707,13 +707,13 @@ class recruit_project_controller extends Controller
     function job_information_confirmation(Request $request)
     {       
         
-        if (!$this->LoginStatusCheck()) {
-            //セッション切れ
-            session()->flash('employer_loginerror', 'セッション切れ');            
-            return redirect()->route('recruit_project.login');
-        }
-
         $employer_id = session()->get('employer_id');
+
+        if (!$this->LoginStatusCheck() || is_null($employer_id)) {
+            //セッション切れ
+            session()->flash('employer_loginerror', '再度ログインお願い致します。');            
+            return redirect()->route('recruit_project.login');
+        }       
 
         $employer_info = employer_m_model::
         where('employer_id', '=', $employer_id)          
@@ -725,6 +725,77 @@ class recruit_project_controller extends Controller
         ->orderBy('job_id', 'asc')
         ->get();
 
+        $today = common::get_date(1);
+
+        foreach ($job_information_list as $index => $job_information_info){
+
+            $publish_data_flg = 0;
+            $publish_data_job_password_id = 0;
+            $employer_id = $job_information_info->employer_id;
+            $job_id = $job_information_info->job_id;
+
+
+            //操作日に掲載可能求人か調べる
+            $publish_data = job_password_connection_t_model::select(
+                
+                'job_password_connection_t.job_password_id as job_password_id',
+                'job_password_connection_t.branch_number as branch_number',
+                'job_password_connection_t.publish_start_date as publish_start_date',
+                'job_password_connection_t.publish_end_date as publish_end_date',            
+                'job_password_t.product_type as product_type',
+                'job_password_t.date_range as date_range',
+            )
+            ->leftJoin('job_password_t', function ($join) {
+                $join->on('job_password_t.job_password_id', '=', 'job_password_connection_t.job_password_id');
+            })        
+            ->where('job_password_connection_t.employer_id', '=', $employer_id)
+            ->where('job_password_connection_t.job_id', '=', $job_id)
+            ->where('job_password_connection_t.publish_start_date', '<=', $today)
+            ->where('job_password_connection_t.publish_end_date', '>=', $today)
+            ->first();
+
+            if(!is_null($publish_data)){
+                $publish_data_flg = 1;
+                $publish_data_job_password_id = $publish_data->job_password_id;
+            }
+
+            //操作日を限定せず、雇用者IDと求人IDのみで取得
+            $job_password_connection_t = job_password_connection_t_model::select(
+                
+                'job_password_connection_t.job_password_id as job_password_id',
+                'job_password_connection_t.branch_number as branch_number',
+                'job_password_connection_t.publish_start_date as publish_start_date',
+                'job_password_connection_t.publish_end_date as publish_end_date',            
+                'job_password_t.product_type as product_type',
+                'job_password_t.date_range as date_range',
+            )
+            ->leftJoin('job_password_t', function ($join) {
+                $join->on('job_password_t.job_password_id', '=', 'job_password_connection_t.job_password_id');
+            })        
+            ->where('job_password_connection_t.employer_id', '=', $employer_id)
+            ->where('job_password_connection_t.job_id', '=', $job_id)            
+            ->get();
+
+
+            
+            //雇用者と求人別で求人パスワード履歴をループして、操作日が
+            foreach ($job_password_connection_t as $job_password_connection_index => $job_password_connection_info){
+
+                if($job_password_connection_info->job_password_id == $publish_data_job_password_id){
+                    $job_password_connection_info->today_publish_flg = 1;
+                }else{
+                    $job_password_connection_info->today_publish_flg = 0;
+                }
+
+            }
+
+
+            $job_information_info->job_password_connection_t = $job_password_connection_t;
+            $job_information_info->publish_data_flg = $publish_data_flg;
+
+
+        }
+
         return view('recruit_project/screen/job_information_confirmation', compact('employer_info','job_information_list'));
     }    
 
@@ -733,13 +804,13 @@ class recruit_project_controller extends Controller
     function job_information_register(Request $request)
     {       
 
-        if (!$this->LoginStatusCheck()) {
+        $employer_id = session()->get('employer_id');
+
+        if (!$this->LoginStatusCheck() || is_null($employer_id)) {
             //セッション切れ
-            session()->flash('employer_loginerror', 'セッション切れ');            
+            session()->flash('employer_loginerror', '再度ログインお願い致します。');            
             return redirect()->route('recruit_project.login');
         }       
-
-        $employer_id = session()->get('employer_id');
 
         $job_info = [];
         $employment_status_connections = [];
@@ -815,9 +886,6 @@ class recruit_project_controller extends Controller
         //求人補足データ取得
         $job_supplement_data = get_data::job_supplement_data();
 
-        
-
-
         return view('recruit_project/screen/job_information_register',
          compact(
                  'employer_id'
@@ -842,20 +910,95 @@ class recruit_project_controller extends Controller
     }
 
 
+    //求人情報公開フラグ更新処理
+    function job_information_publish_flg_change(Request $request)
+    {       
+        $process_title = "求人情報公開フラグ更新処理";
+
+        try {
+            
+            $employer_id = session()->get('employer_id');
+            $job_id = $request->job_id;
+            $publish_flg = $request->publish_flg;
+
+            if(is_null($employer_id)){
+
+                $result_array = array(
+                    "Result" => "non_session",
+                    "Message" => $process_title."でエラーが発生しました。",
+                );            
+
+                //セッション切れ
+                session()->flash('employer_loginerror', '再度ログインお願い致します。');    
+
+                return response()->json(['result_array' => $result_array]);
+            }           
+
+            $new_publish_flg = 0;
+
+            if($publish_flg == 0){
+                
+                $new_publish_flg = 1;
+
+            }elseif($publish_flg == 1){
+
+                $new_publish_flg = 0;
+
+            }
+            
+
+
+            job_information_t_model::
+                where('employer_id', $employer_id)
+                ->where('job_id', $job_id)
+                ->update(
+                    [
+                        'publish_flg' => $new_publish_flg,                        
+                    ]
+                );
+
+
+                
+
+            $result_array = array(
+                "Result" => "success",
+                "Message" => ""
+            );       
+
+
+        } catch (Exception $e) {
+
+            
+
+            $error_message = $e->getMessage();
+            Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
+            
+            $result_array = array(
+                "Result" => "error",
+                "Message" => $process_title."でエラーが発生しました。",
+            );                      
+                                
+        }
+
+        return response()->json(['result_array' => $result_array]);
+
+    }
+
+
     //求人掲載期間情報画面遷移
     function job_publish_info(Request $request)
     {       
 
-        if (!$this->LoginStatusCheck()) {
+        $employer_id = session()->get('employer_id');
+
+        if (!$this->LoginStatusCheck() || is_null($employer_id)) {
             //セッション切れ
-            session()->flash('employer_loginerror', 'セッション切れ');            
+            session()->flash('employer_loginerror', '再度ログインお願い致します。');            
             return redirect()->route('recruit_project.login');
         }       
 
-        $employer_id = session()->get('employer_id');
+        
         $job_id = $request->job_id;
-
-
 
         $job_password_connection_t = job_password_connection_t_model::select(
             
@@ -897,14 +1040,13 @@ class recruit_project_controller extends Controller
 
 
         return view('recruit_project/screen/job_publish_info',
-         compact(
+        compact(
                  'employer_id'
                 ,'employer_info'
                 ,'job_id'
                 ,'job_info'
                 ,'job_password_connection_t'
-
-            ));        
+        ));        
     }
 
     //求人パスワード確認処理
@@ -960,6 +1102,18 @@ class recruit_project_controller extends Controller
         $process_title = "求人パスワード承認処理";
 
         try {
+
+            $employer_id = session()->get('employer_id');
+
+            if(is_null($employer_id)){
+
+                $result_array = array(
+                    "Result" => "non_session",
+                    "Message" => $process_title."でエラーが発生しました。",
+                );            
+    
+                return response()->json(['result_array' => $result_array]);
+            }
             
             DB::connection('mysql')->beginTransaction();
 
@@ -975,13 +1129,6 @@ class recruit_project_controller extends Controller
             
 
             $result_type = $this->job_password_available_check($password);
-
-
-
-
-
-
-
 
 
             DB::connection('mysql')->commit();
@@ -1013,7 +1160,7 @@ class recruit_project_controller extends Controller
 
     }
 
-    
+    //求人パスワードチェック（共通処理）    
     function job_password_available_check($password)
     {    
 
@@ -1021,7 +1168,7 @@ class recruit_project_controller extends Controller
 
         $existence_password = job_password_t_model::
             where('password', '=', $password)                        
-            ->where('sold_flg', '=', 1)
+            ->where('sale_flg', '=', 1)
             ->exists();
 
             
@@ -1031,7 +1178,7 @@ class recruit_project_controller extends Controller
             $job_password_t = job_password_t_model::
             where('password', '=', $password)                            
             ->where('usage_flg', '=', 0)
-            ->where('sold_flg', '=', 1)                
+            ->where('sale_flg', '=', 1)                
             ->first();
 
             if(is_null($job_password_t)){
@@ -1073,6 +1220,7 @@ class recruit_project_controller extends Controller
 
     }
 
+    
 
     
 

@@ -40,9 +40,19 @@ return new class extends Migration
                 ->comment('パスワード利用有無:0 = 未使用、1 = 使用済み');
 
             $table
-                ->integer('sold_flg')
+                ->integer('sale_flg')
                 ->default(0)
-                ->comment('購入フラグ:0 = 売前、1 = 売済');
+                ->comment('販売フラグ:0 = 販売前、1 = 販売済');
+
+            $table
+                ->integer('seller')
+                ->nullable()
+                ->comment('販売者:スタッフID');
+
+            $table
+                ->dateTime('sale_datetime')
+                ->nullable()
+                ->comment('販売日時');
 
             $table
                 ->integer('date_range')

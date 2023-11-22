@@ -356,7 +356,7 @@ class DatabaseSeeder extends Seeder
                 'id' => '1',             
                 'employer_id' => '1',
                 'job_id' => '1',
-                'title' => '事務スタッフ【労務管理に関わる書類作成事務のお仕事】',
+                'title' => '事務スタッフ',
                 'sub_title' => '【急募】事務スタッフ！ 高時給1,100円！',
                 'work_location_prefectural_cd' => '47',
                 'work_location_municipality_cd' => '47329',                
@@ -390,19 +390,19 @@ class DatabaseSeeder extends Seeder
 
         
 
-        DB::table('job_password_t')->insert([
+        // DB::table('job_password_t')->insert([
             
-            [   
-                'job_password_id' => '1',             
-                'product_type' => '1',
-                'password' => '0123456789',
-                'usage_flg' => '1',
-                'sold_flg' => '1',
-                'date_range' => '14',                                
-                'created_by' => '1',
+        //     [   
+        //         'job_password_id' => '1',             
+        //         'product_type' => '1',
+        //         'password' => '0123456789',
+        //         'usage_flg' => '1',
+        //         'sale_flg' => '1',
+        //         'date_range' => '14',                                
+        //         'created_by' => '1',
                 
-            ],
-        ]);   
+        //     ],
+        // ]);   
 
      
         // 当日の日付を取得

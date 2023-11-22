@@ -5,7 +5,7 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendErrorMail;
-
+use Carbon\Carbon;
 use App\Models\staff_m_model;
 
 use Illuminate\Http\Request;
@@ -317,6 +317,36 @@ class common
        
         return $plain_text;
     }
+
+
+    //日付のみ、または日時の取得
+    public static function get_date($process_branch)
+    {           
+                
+        $return_value = "";
+     
+        // 現在の日時を取得
+        $now = Carbon::now();
+
+        
+        if($process_branch == 1){
+            //日付のみ
+            // MySQLのdate形式に変換
+            $date = $now->toDateString();
+            $return_value = $date;
+        }else{
+            //日時
+            // MySQLのdatetime形式に変換
+            $datetime = $now->toDateTimeString();
+            $return_value = $datetime;
+
+        }
+     
+
+
+        return $return_value;
+
+    }   
 
 
     // 給与マスタ作成時のデータ生成

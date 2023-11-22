@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
 use App\Original\common;
 use App\Original\create_list;
 
@@ -26,6 +26,9 @@ class job_password_t_controller extends Controller
     function index(Request $request)
     {
 
+            
+
+
         //Session確認処理        
         if(!common::headquarters_session_confirmation()){
             //Session確認で戻り値が(true)時は管理のTop画面に遷移
@@ -36,8 +39,10 @@ class job_password_t_controller extends Controller
         $search_element_array = [
             'search_product_type' => $request->search_product_type
             ,'search_usage_flg' => $request->search_usage_flg
-            ,'search_sold_flg' => $request->sold_flg
+            ,'search_sale_flg' => $request->sale_flg
             ,'search_date_range' => $request->search_date_range
+            ,'search_sale_date' => $request->search_sale_date
+            ,'search_seller' => $request->search_seller
         ];
 
           
@@ -59,31 +64,26 @@ class job_password_t_controller extends Controller
             'job_password_t.password as password',
 
             'job_password_t.usage_flg as usage_flg',
-            'job_password_t.sold_flg as sold_flg',
-            DB::raw("
-                CASE
-                    WHEN job_password_t.usage_flg = '1' 
-                        THEN '使用済み'
-                    ELSE '未使用'
-                END as usage_status,
-
-                CASE
-                    WHEN job_password_t.sold_flg = '1' 
-                        THEN '販売済'
-                    ELSE '販売前'
-                END as sold_status
-            "),
-
+            'job_password_t.sale_flg as sale_flg',
+           
             
             'job_password_t.date_range as date_range',
             'job_password_t.created_at as created_at',
 
             'job_password_t.created_by as created_by',
+            'created_by_info.staff_last_name as created_staff_last_name',
+            'created_by_info.staff_first_name as created_staff_first_name',
+            'created_by_info.staff_last_name_yomi as created_staff_last_name_yomi',
+            'created_by_info.staff_first_name_yomi as created_staff_first_name_yomi',
 
-            DB::raw("
-                 CONCAT(staff_m.staff_last_name, '　', staff_m.staff_first_name) AS created_by_name
-                ,CONCAT(staff_m.staff_last_name_yomi, '　', staff_m.staff_first_name_yomi) AS created_by_name_yom
-            "),
+            'job_password_t.sale_datetime as sale_datetime',
+            'job_password_t.seller as seller',
+            'seller_by_info.staff_last_name as seller_staff_last_name',
+            'seller_by_info.staff_first_name as seller_staff_first_name',
+            'seller_by_info.staff_last_name_yomi as seller_staff_last_name_yomi',
+            'seller_by_info.staff_first_name_yomi as seller_staff_first_name_yomi',
+
+         
          
         )        
         ->leftJoin('job_password_connection_t', function ($join) {
@@ -96,8 +96,11 @@ class job_password_t_controller extends Controller
             $join->on('job_information_t.employer_id', '=', 'job_password_connection_t.employer_id')
             ->on('job_information_t.job_id', '=', 'job_password_connection_t.job_id');
         })
-        ->leftJoin('staff_m', function ($join) {
-            $join->on('staff_m.staff_id', '=', 'job_password_t.created_by');
+        ->leftJoin('staff_m as created_by_info', function ($join) {
+            $join->on('created_by_info.staff_id', '=', 'job_password_t.created_by');
+        })
+        ->leftJoin('staff_m as seller_by_info', function ($join) {
+            $join->on('seller_by_info.staff_id', '=', 'job_password_t.seller');
         })
         ->orderBy('job_password_t.job_password_id', 'asc');    
 
@@ -133,15 +136,16 @@ class job_password_t_controller extends Controller
         $date_range = 14;
         
         
-        $created_by = session()->get('staff_id');
+        $operator = session()->get('staff_id');
 
-        if(is_null($created_by)){
+        if(is_null($operator)){
 
             $result_array = array(
                 "Result" => "non_session",
                 "Message" => $process_title."でエラーが発生しました。",
             );            
 
+            session()->flash('staff_loginerror', '再度ログインお願い致します。');
             return response()->json(['result_array' => $result_array]);
         }
         
@@ -156,7 +160,7 @@ class job_password_t_controller extends Controller
                         'password' => $password,                 
                         'product_type' => $product_type,
                         'date_range' => $date_range,
-                        'created_by' => $created_by,
+                        'created_by' => $operator,
                     ]
                 );
 
@@ -211,6 +215,97 @@ class job_password_t_controller extends Controller
        
         return $create_password;
     }
+
+
+    //  求人公開用パスワード販売時更新処理
+    function sale_flg_change(Request $request)
+    {
+
+        $process_title = "求人公開用パスワード販売時更新処理";
+
+        $job_password_id = intval($request->password_sale_change_job_password_id);
+        $password_sale_flg = intval($request->password_sale_flg);
+        
+        $operator = session()->get('staff_id');
+
+        
+        // MySQLのdatetime形式に変換
+        $sale_datetime = common::get_date(2);
+        
+
+        if(is_null($operator)){
+
+            $result_array = array(
+                "Result" => "non_session",
+                "Message" => $process_title."でエラーが発生しました。",
+            );            
+
+            session()->flash('staff_loginerror', '再度ログインお願い致します。');
+            return response()->json(['result_array' => $result_array]);            
+        }
+        
+        try {
+
+            if($password_sale_flg == 0){
+
+                job_password_t_model::
+                where('job_password_id', $job_password_id)                
+                ->update(
+                    [
+                        'sale_flg' => 1,
+                        'seller' => $operator,
+                        'sale_datetime' => $sale_datetime,
+                        'updated_by' => $operator,            
+                    ]
+                );         
+
+            }else{
+
+                job_password_t_model::
+                where('job_password_id', $job_password_id)                
+                ->update(
+                    [
+                        'sale_flg' => 0,
+                        'seller' => null,
+                        'sale_datetime' => null,
+                        'updated_by' => $operator,            
+                    ]
+                );         
+
+
+            }
+            
+           
+            
+    
+        } catch (Exception $e) {
+
+                        
+            $error_message = $e->getMessage();
+            Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
+
+            
+            $result_array = array(
+                "Result" => "error",
+                "Message" => $process_title."でエラーが発生しました。",
+            );
+            
+
+            return response()->json(['result_array' => $result_array]);
+                                
+        }
+
+        $result_array = array(
+            "Result" => "success",
+            "Message" => '',
+        );
+
+        session()->flash('success', '販売フラグを更新しました。');
+        session()->flash('message-type', 'success');
+        return response()->json(['result_array' => $result_array]);
+    }
+
+
    
    
 }
