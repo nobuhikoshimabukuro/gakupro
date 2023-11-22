@@ -272,7 +272,7 @@ $(function(){
             } else {
 
                 //{{-- その他のエラー --}}
-                errorsHtml += '<li class="text-start">登録処理エラー</li>';
+                errorsHtml += '<li class="text-start">更新処理エラー</li>';
 
             }
 

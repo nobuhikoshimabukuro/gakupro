@@ -409,10 +409,12 @@ class DatabaseSeeder extends Seeder
         $today = Carbon::now();
 
         $today_f = $today;
-        $futureDate = $today;
+        $add_Date1 = $today;
+        $add_Date2 = $today;;
         // 14日後の日付を計算
         $today_f = $today_f->format('Y-m-d');        
-        $futureDate = $futureDate->addDays(14)->format('Y-m-d');   
+        $add_Date1 = $add_Date1->addDays(14)->format('Y-m-d');   
+        $add_Date2 = $add_Date2->addDays(28)->format('Y-m-d');
 
         DB::table('job_password_connection_t')->insert([
             
@@ -433,10 +435,33 @@ class DatabaseSeeder extends Seeder
                 'job_password_id' => '1',
                 'branch_number' => '2',
                 'publish_start_date' => $today_f,
-                'publish_end_date' => $futureDate,
+                'publish_end_date' => $add_Date1,
                 'created_by' => '1',
                 
             ],
+
+            [   
+                'employer_id' => '1',             
+                'job_id' => '1',
+                'job_password_id' => '2',
+                'branch_number' => '3',
+                'publish_start_date' => $add_Date1,
+                'publish_end_date' => $add_Date2,
+                'created_by' => '1',
+                
+            ],
+
+            [   
+                'employer_id' => '1',             
+                'job_id' => '2',
+                'job_password_id' => '3',
+                'branch_number' => '1',
+                'publish_start_date' => $today_f,
+                'publish_end_date' => $add_Date1,
+                'created_by' => '1',
+                
+            ],
+
 
         ]);   
 

@@ -122,7 +122,8 @@
     input[type="file"] {
   opacity: 0;
   visibility: hidden;
-  position: absolute;
+  width: 0;
+  /* position: absolute; */
 }
 
 </style>
@@ -166,7 +167,7 @@
                                 @if($asset_path != "")
 
 
-                                    <div id="drop-zone{{$job_image_index}}" class="job-image-inner-area">
+                                    <div id="" class="job-image-inner-area">
 
                                         <input type="hidden" id='job_image_change_flg{{$job_image_index}}' name="job_image_change_flg{{$job_image_index}}" value="0">
 
@@ -180,10 +181,10 @@
                                         
                                         
                                         <div id="" class="w-100 m-0 p-0">
-                                            <label class="">
-                                                <input type="file" id='job_image_input{{$job_image_index}}' name="job_image_input{{$job_image_index}}" accept=".png , .PNG , .jpg , .JPG , .jpeg , .JPEG">
-                                                <div class="btn btn-success">画像選択</div>                                                
-                                            </label>
+
+                                            <input type="file" id='job_image_input{{$job_image_index}}'name="job_image_input{{$job_image_index}}" accept=".png , .PNG , .jpg , .JPG , .jpeg , .JPEG">
+                                            <button type="button" id='' class="btn btn-success job-image-input-button" data-target="{{$job_image_index}}">画像選択</button>
+                                         
 
                                             <button type="button" class="reset-button btn btn-secondary" data-target="{{$job_image_index}}">リセット <i class="fas fa-minus-square"></i></button>
                                         </div>
@@ -195,12 +196,12 @@
                                 @else
 
 
-                                    <div id="drop-zone{{$job_image_index}}" class="job-image-inner-area">
+                                    <div id="" class="job-image-inner-area">
 
                                         <input type="hidden" id='job_image_change_flg{{$job_image_index}}' name="job_image_change_flg{{$job_image_index}}" value="0">
 
                                         <div id="" class="w-100 m-0 p-0">
-                                            画像{{$job_image_index}}
+                                            <h3>画像{{$job_image_index}}</h3>
                                         </div>
 
                                         <div id="job-image-area{{$job_image_index}}" class="job-image-area"> 
@@ -209,15 +210,16 @@
                                         
                                         
                                         <div id="" class="w-100 m-0 p-0">
-                                            <label class="">
-                                                <input type="file" id='job_image_input{{$job_image_index}}' name="job_image_input{{$job_image_index}}" accept=".png , .PNG , .jpg , .JPG , .jpeg , .JPEG">
-                                                <div class="btn btn-success">画像選択</div>                                                
-                                            </label>
+                                            <input type="file" id='job_image_input{{$job_image_index}}' name="job_image_input{{$job_image_index}}" accept=".png , .PNG , .jpg , .JPG , .jpeg , .JPEG">
+                                            <button type="button" id='' class="btn btn-success job-image-input-button" data-target="{{$job_image_index}}">画像選択</button>
+                                         
 
                                             <button type="button" class="reset-button btn btn-secondary" data-target="{{$job_image_index}}">リセット <i class="fas fa-minus-square"></i></button>
                                         </div>
                                     
                                     </div>
+
+
                                 @endif                               
                             @endforeach                                         
 
@@ -683,6 +685,14 @@ $(function(){
     });
 
 
+    // 画像選択ボタンがクリックされたら
+    $('.job-image-input-button').click(function () {
+
+        var target_id = "#job_image_input" + $(this).data("target");
+        $(target_id).trigger("click");
+        
+
+    });
 
 
 
@@ -717,15 +727,7 @@ $(function(){
             data: formData,
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
             
-        })
-
-
-        // $.ajax({
-        //     url: f.prop('action'), // 送信先
-        //     type: f.prop('method'),
-        //     dataType: 'json',
-        //     data: f.serialize(),
-        // })
+        })     
             // 送信成功
             .done(function (data, textStatus, jqXHR) {
 

@@ -135,14 +135,18 @@
         width:66%;        
     }
 
-    .o-w-49{
-        width:49%;
+    .o-w-48{
+        width:48%;
     }
 
-    .o-w-32{
-        width:66%;        
+    .o-w-31{
+        width:31%;        
     }
 
+    .job-image-outer-area{
+        justify-content: center; /*左右中央揃え*/
+    }
+    
 }
 
 /* スマホ用 */
@@ -224,12 +228,12 @@
 
 
                             $add_class = "";
-                            if($job_image_count >= 1){
+                            if($job_image_count == 1){
                                 $add_class = "o-w-66";
                             }elseif($job_image_count == 2){
-                                $add_class = "o-w-49";
+                                $add_class = "o-w-48";
                             }elseif($job_image_count == 3){
-                                $add_class = "o-w-32";
+                                $add_class = "o-w-31";
                             }
                         @endphp
 
@@ -324,7 +328,7 @@
                                     $employment_status_name = $employment_status_data["employment_status_name"];                           
                                 @endphp
 
-                                <div class="col-3">
+                                <div class="col-6 col-md-3">
                                     {{$employment_status_name}}
                                 </div>
                                 
@@ -355,7 +359,7 @@
                                 $job_subcategory_name = $job_category_data["job_subcategory_name"];
                             @endphp
 
-                            <div class="col-3">
+                            <div class="col-6 col-md-3">
                                 {{$job_subcategory_name}}
                             </div>
                             
@@ -383,7 +387,7 @@
                                 $job_supplement_subcategory_name = $job_supplement_category_data["job_supplement_subcategory_name"];
                             @endphp
 
-                            <div class="col-3">
+                            <div class="col-6 col-md-3">
                                 {{$job_supplement_subcategory_name}}
                             </div>
                             
