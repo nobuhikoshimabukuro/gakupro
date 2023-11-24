@@ -159,6 +159,94 @@ class job_related
 
     }
 
+    //求人検索履歴
+    public static function get_job_search_history_ranking(Request $request)
+    {           
+
+        // 現在の日時を取得
+        $now = Carbon::now();
+  
+        
+        // 三日前の日付
+        $three_days_Ago = $now;
+        $three_days_Ago = $three_days_Ago->subDays(3);
+        
+        // 一週間前の日付
+        $one_week_ago = $now;
+        $one_week_ago = $one_week_ago->subWeek();
+        
+        // 一か月前の日付
+        $one_month_ago = $now;
+        $one_month_ago = $one_month_ago->subMonth();
+
+
+        $today = $now->toDateString();
+        $three_days_Ago = $three_days_Ago->toDateString();
+        $one_week_ago = $one_week_ago->toDateString();
+        $one_month_ago = $one_month_ago->toDateString();
+
+        $three_days_result = job_search_history_t_model::select(
+                
+            'job_search_history_t.job_supplement_subcategory_cd as job_supplement_subcategory_cd',
+            'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',
+            'job_search_history_t.search_date as search_date',
+          
+        )
+        ->leftJoin('job_supplement_subcategory_m', function ($join) {
+            $join->on('job_supplement_subcategory_m.job_supplement_subcategory_cd', '=', 'job_supplement_subcategory_m.job_supplement_subcategory_cd');
+        })        
+        ->where('job_search_history_t.search_date', '<=', $today)
+        ->where('job_search_history_t.search_date', '>=', $three_days_Ago)        
+        ->groupBy('job_search_history_t.job_supplement_subcategory_cd')
+        ->groupBy('job_supplement_subcategory_m.job_supplement_subcategory_name')
+        ->get();
+
+
+        $one_week_result = job_search_history_t_model::select(
+                
+            'job_search_history_t.job_supplement_subcategory_cd as job_supplement_subcategory_cd',
+            'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',
+            'job_search_history_t.search_date as search_date',
+          
+        )
+        ->leftJoin('job_supplement_subcategory_m', function ($join) {
+            $join->on('job_supplement_subcategory_m.job_supplement_subcategory_cd', '=', 'job_supplement_subcategory_m.job_supplement_subcategory_cd');
+        })        
+        ->where('job_search_history_t.search_date', '<=', $today)
+        ->where('job_search_history_t.search_date', '>=', $one_week_ago)        
+        ->groupBy('job_search_history_t.job_supplement_subcategory_cd')
+        ->groupBy('job_supplement_subcategory_m.job_supplement_subcategory_name')
+        ->get();
+
+        $one_month_result = job_search_history_t_model::select(
+                
+            'job_search_history_t.job_supplement_subcategory_cd as job_supplement_subcategory_cd',
+            'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',
+            'job_search_history_t.search_date as search_date',
+          
+        )
+        ->leftJoin('job_supplement_subcategory_m', function ($join) {
+            $join->on('job_supplement_subcategory_m.job_supplement_subcategory_cd', '=', 'job_supplement_subcategory_m.job_supplement_subcategory_cd');
+        })        
+        ->where('job_search_history_t.search_date', '<=', $today)
+        ->where('job_search_history_t.search_date', '>=', $one_month_ago) 
+        ->groupBy('job_search_history_t.job_supplement_subcategory_cd')
+        ->groupBy('job_supplement_subcategory_m.job_supplement_subcategory_name')       
+        ->get();
+
+
+        
+
+        $job_search_history_ranking = [
+            "three_days_result" => $three_days_result 
+            ,"one_week_result" => $one_week_result 
+            , "one_month_result" => $one_month_result
+        ];
+        
+
+        return $job_search_history_ranking;
+
+    }
     
 }
 
