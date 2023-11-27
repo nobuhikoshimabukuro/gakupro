@@ -14,45 +14,42 @@ return new class extends Migration
      */
     public function up()
     {
-        if (Schema::hasTable('job_password_t')) {
+        if (Schema::hasTable('job_password_item_m')) {
             // テーブルが存在していればリターン
             return;
         }
 
-        Schema::create('job_password_t', function (Blueprint $table) {
+        Schema::create('job_password_item_m', function (Blueprint $table) {
 
             $table
-                ->increments('job_password_id')
-                ->comment('連番'); 
+                ->increments('job_password_item_id')
+                ->comment('求人パスワード商品ID:連番');
 
             $table
-                ->integer('job_password_item_id')
-                ->default(0)
-                ->comment('パスワード商品の種類'); 
-
-            $table                
-                ->string('password', 1000)
-                ->comment('求人公開用パスワード');
-    
-            $table
-                ->integer('usage_flg')
-                ->default(0)
-                ->comment('パスワード利用有無:0 = 未使用、1 = 使用済み');
+                ->string('job_password_item_name', 100)
+                ->comment('求人パスワード商品名');
 
             $table
-                ->integer('sale_flg')
-                ->default(0)
-                ->comment('販売フラグ:0 = 販売前、1 = 販売済');
+                ->integer('price')                
+                ->comment('求人パスワード料金');
 
             $table
-                ->integer('seller')
+                ->integer('Added_date')                
+                ->comment('求人公開の追加日');
+
+            $table
+                ->date('sales_start_date')                
+                ->comment('求人パスワード商品販売開始日');
+
+            $table
+                ->date('sales_end_date')                
+                ->comment('求人パスワード商品販売終了日');
+
+            $table
+                ->text('remarks')
                 ->nullable()
-                ->comment('販売者:スタッフID');
-
-            $table
-                ->dateTime('sale_datetime')
-                ->nullable()
-                ->comment('販売日時');
+                ->comment('備考');
+            
 
             $table
                 ->dateTime('created_at')
@@ -86,7 +83,7 @@ return new class extends Migration
         });
 
         // ALTER 文を実行しテーブルにコメントを設定
-        DB::statement("ALTER TABLE job_password_t COMMENT '求人パスワード管理テーブル'");
+        DB::statement("ALTER TABLE job_password_item_m COMMENT '求人パスワード商品マスタ'");
     }
 
     /**
@@ -96,6 +93,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('job_password_t');
+        Schema::dropIfExists('job_password_item_m');
     }
 };

@@ -159,7 +159,7 @@ class job_related
 
     }
 
-    //求人検索履歴
+    //求人検索履歴ランキング
     public static function get_job_search_history_ranking(Request $request)
     {           
 

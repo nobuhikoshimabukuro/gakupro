@@ -93,7 +93,7 @@
                 </td>
 
                 <td>
-                    {{$item->product_type}}
+                    {{$item->job_password_item_id}}
                 </td>
 
                 <td>
@@ -211,7 +211,7 @@
                             <div class="form-group row">                                
                                 
                                 <label for="search_job_password_name" class="col-12 col-form-label original-label">プロジェクト名（あいまい）</label>
-                                <input type="text" id="search_job_password_name" name="search_job_password_name" value="{{$search_element_array['search_product_type']}}" class="form-control">
+                                <input type="text" id="search_job_password_name" name="search_job_password_name" value="{{$search_element_array['search_job_password_item_id']}}" class="form-control">
                                                         
                             </div>     
                             

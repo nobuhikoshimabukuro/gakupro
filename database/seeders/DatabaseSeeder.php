@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
                 'maincategory_cd' => 1,
                 'maincategory_name' => '性別',
                 'display_order' => 1,
-                'created_by' => '1',                
+                'created_by' => '1',   
             ],
 
             [
@@ -233,7 +233,7 @@ class DatabaseSeeder extends Seeder
                 'remarks' => '代表',
                 'created_by' => '1',
                 
-            ],          
+            ], 
 
             [
                 'staff_id' => 3,
@@ -249,7 +249,7 @@ class DatabaseSeeder extends Seeder
                 'remarks' => '2023年12月入社',
                 'created_by' => '1',
                 
-            ],          
+            ], 
 
         ]);     
 
@@ -285,7 +285,7 @@ class DatabaseSeeder extends Seeder
         DB::table('employer_m')->insert([
             
             [   
-                'employer_id' => '1',             
+                'employer_id' => '1',
                 'employer_division' => '3',
                 'employer_name' => '遊遊craft',
                 'employer_name_kana' => 'ユウユウクラフト',
@@ -334,32 +334,32 @@ class DatabaseSeeder extends Seeder
                 ',
                 'created_by' => '1',
                 
-            ],          
+            ], 
 
         ]);    
 
         DB::table('employer_password_t')->insert([
             
             [   
-                'employer_id' => '1',             
+                'employer_id' => '1',
                 'login_id' => '1',
                 'password' => common::encryption("1"),
                 'created_by' => '1',
                 
-            ],          
+            ], 
 
         ]);   
 
         DB::table('job_information_t')->insert([
             
             [   
-                'id' => '1',             
+                'id' => '1',
                 'employer_id' => '1',
                 'job_id' => '1',
                 'title' => '事務スタッフ',
                 'sub_title' => '【急募】事務スタッフ！ 高時給1,100円！',
                 'work_location_prefectural_cd' => '47',
-                'work_location_municipality_cd' => '47329',                
+                'work_location_municipality_cd' => '47329',   
                 'working_time' => '17：00～23：00',
                 'salary' => '時給1000円',
                 'holiday' => '週休2日、相談してください。',
@@ -389,20 +389,81 @@ class DatabaseSeeder extends Seeder
         ]); 
 
         
-
-        // DB::table('job_password_t')->insert([
+        DB::table('job_password_item_m')->insert([
             
-        //     [   
-        //         'job_password_id' => '1',             
-        //         'product_type' => '1',
-        //         'password' => '0123456789',
-        //         'usage_flg' => '1',
-        //         'sale_flg' => '1',
-        //         'date_range' => '14',                                
-        //         'created_by' => '1',
+            [   
+                'job_password_item_id' => '1',
+                'job_password_item_name' => 'サイト開設スペシャル365日間プラン',
+                'price' => 0,       
+                'Added_date' => '365',
+                'sales_start_date' => '2022-01-01',
+                'sales_end_date' => '2999-12-31',                
+                'remarks' => '求人サイト開設時に求人数を増やすためのプラン',
+                'created_by' => '1',   
+            ],
+
+            [   
+                'job_password_item_id' => '2',
+                'job_password_item_name' => '求人新規登録時3日間プラン',
+                'price' => 0,
+                'Added_date' => '3',
+                'sales_start_date' => '2022-01-01',
+                'sales_end_date' => '2999-12-31',       
+                'remarks' => '求人新規登録日の翌日から3日間求人公開を行える',
+                'created_by' => '1',   
+            ],
+
+            [   
+                'job_password_item_id' => '3',
+                'job_password_item_name' => '求人公開7日間追加プラン',       
+                'price' => 1980,
+                'Added_date' => '7',
+                'sales_start_date' => '2022-01-01',
+                'sales_end_date' => '2999-12-31',       
+                'remarks' => '求人公開パスワードを購入して頂き、認証後で公開日の範囲を7日間加算できるプラン',
+                'created_by' => '1',
                 
-        //     ],
-        // ]);   
+            ],
+
+            [   
+                'job_password_item_id' => '4',
+                'job_password_item_name' => '求人公開14日間追加プラン',
+                'price' => 2980,
+                'Added_date' => '14',
+                'sales_start_date' => '2022-01-01',
+                'sales_end_date' => '2999-12-31',       
+                'remarks' => '求人公開パスワードを購入して頂き、認証後で公開日の範囲を14日間加算できるプラン',
+                'created_by' => '1',
+                
+            ],
+
+            [   
+                'job_password_item_id' => '5',
+                'job_password_item_name' => '求人公開28日間追加プラン',
+                'price' => 4980,
+                'Added_date' => '28',
+                'sales_start_date' => '2022-01-01',
+                'sales_end_date' => '2999-12-31',       
+                'remarks' => '求人公開パスワードを購入して頂き、認証後で公開日の範囲を28日間加算できるプラン',
+                'created_by' => '1',
+                
+            ],
+
+
+        ]);   
+
+        DB::table('job_password_t')->insert([
+            
+            [   
+                'job_password_id' => '1',
+                'job_password_item_id' => '1',
+                'password' => '0123456789',
+                'usage_flg' => '1',
+                'sale_flg' => '1',         
+                'created_by' => '1',
+                
+            ],
+        ]);   
 
      
         // 当日の日付を取得
@@ -419,9 +480,9 @@ class DatabaseSeeder extends Seeder
         DB::table('job_password_connection_t')->insert([
             
             [   
-                'employer_id' => '1',             
+                'employer_id' => '1',
                 'job_id' => '1',
-                'job_password_id' => '0',
+                'job_password_id' => '1',
                 'branch_number' => '1',
                 'publish_start_date' => '2023-11-01',
                 'publish_end_date' => '2023-11-04',
@@ -430,9 +491,9 @@ class DatabaseSeeder extends Seeder
             ],
 
             [   
-                'employer_id' => '1',             
+                'employer_id' => '1',
                 'job_id' => '1',
-                'job_password_id' => '1',
+                'job_password_id' => '2',
                 'branch_number' => '2',
                 'publish_start_date' => $today_f,
                 'publish_end_date' => $add_Date1,
@@ -440,27 +501,7 @@ class DatabaseSeeder extends Seeder
                 
             ],
 
-            [   
-                'employer_id' => '1',             
-                'job_id' => '1',
-                'job_password_id' => '2',
-                'branch_number' => '3',
-                'publish_start_date' => $add_Date1,
-                'publish_end_date' => $add_Date2,
-                'created_by' => '1',
-                
-            ],
-
-            [   
-                'employer_id' => '1',             
-                'job_id' => '2',
-                'job_password_id' => '3',
-                'branch_number' => '1',
-                'publish_start_date' => $today_f,
-                'publish_end_date' => $add_Date1,
-                'created_by' => '1',
-                
-            ],
+           
 
 
         ]);   
@@ -474,56 +515,56 @@ class DatabaseSeeder extends Seeder
                 'employment_status_id' => $index = $index + 1,
                 'employment_status_name' => '正社員',
                 'display_order' => $index,
-                'created_by' => '1',                
+                'created_by' => '1',   
             ],
 
             [                
                 'employment_status_id' => $index = $index + 1,
                 'employment_status_name' => '契約社員',
                 'display_order' => $index,
-                'created_by' => '1',                
+                'created_by' => '1',   
             ],
 
             [                
                 'employment_status_id' => $index = $index + 1,
                 'employment_status_name' => 'アルバイト',
                 'display_order' => $index,
-                'created_by' => '1',                
+                'created_by' => '1',   
             ],
 
             [                
                 'employment_status_id' => $index = $index + 1,
                 'employment_status_name' => 'パート',
                 'display_order' => $index,
-                'created_by' => '1',                
+                'created_by' => '1',   
             ],
 
             [                
                 'employment_status_id' => $index = $index + 1,
                 'employment_status_name' => '派遣社員',
                 'display_order' => $index,
-                'created_by' => '1',                
+                'created_by' => '1',   
             ],
 
             [                
                 'employment_status_id' => $index = $index + 1,
                 'employment_status_name' => '紹介予定派遣',
                 'display_order' => $index,
-                'created_by' => '1',                
+                'created_by' => '1',   
             ],
 
             [                
                 'employment_status_id' => $index = $index + 1,
                 'employment_status_name' => '嘱託社員',
                 'display_order' => $index,
-                'created_by' => '1',                
+                'created_by' => '1',   
             ],
 
             [                
                 'employment_status_id' => $index = $index + 1,
                 'employment_status_name' => '業務委託',
                 'display_order' => $index,
-                'created_by' => '1',                
+                'created_by' => '1',   
             ],
 
                      
@@ -556,7 +597,7 @@ class DatabaseSeeder extends Seeder
                 'display_order' => $index,
                 'created_by' => '1',
                 
-            ],             
+            ],
 
             [                
                 'salary_maincategory_cd' => $index = $index + 1,
@@ -564,7 +605,7 @@ class DatabaseSeeder extends Seeder
                 'display_order' => $index,
                 'created_by' => '1',
                 
-            ],             
+            ],
 
         ]);
 
@@ -615,7 +656,7 @@ class DatabaseSeeder extends Seeder
                 'display_order' => $index,
                 'created_by' => '1',
                 
-            ],             
+            ],
 
         ]);
 
@@ -760,7 +801,7 @@ class DatabaseSeeder extends Seeder
                 'display_order' => $index,
                 'created_by' => '1',
                 
-            ],          
+            ], 
 
         ]);
 
@@ -1402,14 +1443,14 @@ class DatabaseSeeder extends Seeder
             [                
                 'school_cd' => '1',
                 'school_division' => '3',
-                'school_name' => 'インターナショナルデザインアカデミー',               
+                'school_name' => 'インターナショナルデザインアカデミー',  
                 'post_code' => '901-2131',
                 'address1' => '沖縄県浦添市牧港1-60-14',
                 'address2' => '',
                 'tel' => '',
                 'fax' => '',
                 'hp_url' => 'https://www.ida.ac.jp/',
-                'mailaddress' => '',               
+                'mailaddress' => '',  
                 'remarks' => '',
                 'created_by' => '1',
                 
@@ -1418,14 +1459,14 @@ class DatabaseSeeder extends Seeder
             [                
                 'school_cd' => '2',
                 'school_division' => '3',
-                'school_name' => '沖縄写真デザイン工芸学校',               
+                'school_name' => '沖縄写真デザイン工芸学校',  
                 'post_code' => '900-0014',
                 'address1' => '沖縄県那覇市松尾2-1-13',
                 'address2' => '',
                 'tel' => '',
                 'fax' => '',
                 'hp_url' => 'https://www.ryubi-opd.com/',
-                'mailaddress' => '',               
+                'mailaddress' => '',  
                 'remarks' => '',
                 'created_by' => '1',
                 
@@ -1434,14 +1475,14 @@ class DatabaseSeeder extends Seeder
             [                
                 'school_cd' => '3',
                 'school_division' => '3',
-                'school_name' => '沖縄ブライダルモード学園',               
+                'school_name' => '沖縄ブライダルモード学園',  
                 'post_code' => '904-0102',
                 'address1' => '沖縄県中頭郡北谷町伊平2丁目4番5',
                 'address2' => '',
                 'tel' => '',
                 'fax' => '',
                 'hp_url' => 'https://www.bmg.ac.jp/',
-                'mailaddress' => '',               
+                'mailaddress' => '',  
                 'remarks' => '',
                 'created_by' => '1',
                 
@@ -1450,14 +1491,14 @@ class DatabaseSeeder extends Seeder
             [                
                 'school_cd' => '4',
                 'school_division' => '3',
-                'school_name' => '沖縄ラフ＆ピース専門学校',               
+                'school_name' => '沖縄ラフ＆ピース専門学校',  
                 'post_code' => '900-0014',
                 'address1' => '沖縄県那覇市松尾2-1-29',
                 'address2' => '',
                 'tel' => '',
                 'fax' => '',
                 'hp_url' => 'https://laughandpeace.ac.jp/',
-                'mailaddress' => '',               
+                'mailaddress' => '',  
                 'remarks' => '',
                 'created_by' => '1',
                 
@@ -1469,8 +1510,8 @@ class DatabaseSeeder extends Seeder
             [                
                 'school_cd' => '1',
                 'majorsubject_cd' => '1',
-                'majorsubject_name' => '総合デザイン科→デジタルデザイン分野（２年次から）',               
-                'studyperiod' => '36',              
+                'majorsubject_name' => '総合デザイン科→デジタルデザイン分野（２年次から）',  
+                'studyperiod' => '36', 
                 'remarks' => '１年次はグラフィック、デザイン、マンガ、ファッションの基礎。２年次から自分の適性にあった専門分野を選択。',
                 'created_by' => '1',
                 
@@ -1479,8 +1520,8 @@ class DatabaseSeeder extends Seeder
             [                
                 'school_cd' => '1',
                 'majorsubject_cd' => '2',
-                'majorsubject_name' => 'デザイン専攻科→デジタルデザイン分野',               
-                'studyperiod' => '24',              
+                'majorsubject_name' => 'デザイン専攻科→デジタルデザイン分野',  
+                'studyperiod' => '24', 
                 'remarks' => '入学から専門分野の学習が始まる。',
                 'created_by' => '1',
                 
@@ -1489,8 +1530,8 @@ class DatabaseSeeder extends Seeder
             [                
                 'school_cd' => '1',
                 'majorsubject_cd' => '3',
-                'majorsubject_name' => 'デザインマスターズ科',               
-                'studyperiod' => '12',              
+                'majorsubject_name' => 'デザインマスターズ科',  
+                'studyperiod' => '12', 
                 'remarks' => '全てのデザイン科目を学習するため、カメラに興味あって学習している生徒がいる可能性あり。',
                 'created_by' => '1',
                 
@@ -1499,8 +1540,8 @@ class DatabaseSeeder extends Seeder
             [                
                 'school_cd' => '2',
                 'majorsubject_cd' => '1',
-                'majorsubject_name' => '写真デザイン科（2年）',               
-                'studyperiod' => '24',              
+                'majorsubject_name' => '写真デザイン科（2年）',  
+                'studyperiod' => '24', 
                 'remarks' => '昼間部（通学制）と「通信部」の2コースがある。HPを見た感じ写真に特化しているのがわかる。',
                 'created_by' => '1',
                 
@@ -1509,8 +1550,8 @@ class DatabaseSeeder extends Seeder
             [                
                 'school_cd' => '2',
                 'majorsubject_cd' => '2',
-                'majorsubject_name' => '写真デザイン科（半年）',               
-                'studyperiod' => '6',              
+                'majorsubject_name' => '写真デザイン科（半年）',  
+                'studyperiod' => '6', 
                 'remarks' => '昼間部（通学制）と「通信部」の2コースがある。HPを見た感じ写真に特化しているのがわかる。',
                 'created_by' => '1',
                 
@@ -1519,8 +1560,8 @@ class DatabaseSeeder extends Seeder
             [                
                 'school_cd' => '3',
                 'majorsubject_cd' => '1',
-                'majorsubject_name' => 'ブライダルリゾート科→フォトグラファー',               
-                'studyperiod' => '24',              
+                'majorsubject_name' => 'ブライダルリゾート科→フォトグラファー',  
+                'studyperiod' => '24', 
                 'remarks' => 'カメラの専門コースではなく、授業の一環でカメラの基礎を学習すると思われる。目指す職業でフォトグラファーがあるので、カメラマンを目指して入学する生徒もいる可能性あり。',
                 'created_by' => '1',
                 
@@ -1529,8 +1570,8 @@ class DatabaseSeeder extends Seeder
             [                
                 'school_cd' => '4',
                 'majorsubject_cd' => '1',
-                'majorsubject_name' => '映像コース',               
-                'studyperiod' => '36',              
+                'majorsubject_name' => '映像コース',  
+                'studyperiod' => '36', 
                 'remarks' => '中学卒業後に進学できる学校。カメラも扱うと思うが、主に映像だと思われる。',
                 'created_by' => '1',
                 
@@ -1749,18 +1790,18 @@ class DatabaseSeeder extends Seeder
         DB::table('project_m')->insert([
             
             [   
-                'project_id' => '1',             
+                'project_id' => '1',
                 'project_name' => 'PhotoProject',
                 'remarks' => 'フォトプロジェクト',
                 'created_by' => '1',
-            ],          
+            ], 
 
             [                  
-                'project_id' => '2',             
+                'project_id' => '2',
                 'project_name' => 'RecruitProject',
                 'remarks' => 'リクルートプロジェクト',
                 'created_by' => '1',
-            ],          
+            ], 
 
 
         ]);   

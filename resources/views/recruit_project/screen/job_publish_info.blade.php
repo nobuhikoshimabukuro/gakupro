@@ -142,9 +142,7 @@
                         <td>                    
                             {{$item->publish_start_date}}～{{$item->publish_end_date}}
                         </td>
-
-                        <td>                    
-                            {{$item->date_range}}
+                        <td>                            
                         </td>
                     </tr>
 

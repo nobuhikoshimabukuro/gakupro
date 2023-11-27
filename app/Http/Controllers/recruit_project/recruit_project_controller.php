@@ -742,8 +742,7 @@ class recruit_project_controller extends Controller
                 'job_password_connection_t.branch_number as branch_number',
                 'job_password_connection_t.publish_start_date as publish_start_date',
                 'job_password_connection_t.publish_end_date as publish_end_date',            
-                'job_password_t.product_type as product_type',
-                'job_password_t.date_range as date_range',
+                'job_password_t.job_password_item_id as job_password_item_id',                
             )
             ->leftJoin('job_password_t', function ($join) {
                 $join->on('job_password_t.job_password_id', '=', 'job_password_connection_t.job_password_id');
@@ -766,8 +765,7 @@ class recruit_project_controller extends Controller
                 'job_password_connection_t.branch_number as branch_number',
                 'job_password_connection_t.publish_start_date as publish_start_date',
                 'job_password_connection_t.publish_end_date as publish_end_date',            
-                'job_password_t.product_type as product_type',
-                'job_password_t.date_range as date_range',
+                'job_password_t.job_password_item_id as job_password_item_id',                
             )
             ->leftJoin('job_password_t', function ($join) {
                 $join->on('job_password_t.job_password_id', '=', 'job_password_connection_t.job_password_id');
@@ -1006,8 +1004,7 @@ class recruit_project_controller extends Controller
             'job_password_connection_t.branch_number as branch_number',
             'job_password_connection_t.publish_start_date as publish_start_date',
             'job_password_connection_t.publish_end_date as publish_end_date',            
-            'job_password_t.product_type as product_type',
-            'job_password_t.date_range as date_range',
+            'job_password_t.job_password_item_id as job_password_item_id',            
         )
         ->leftJoin('job_password_t', function ($join) {
             $join->on('job_password_t.job_password_id', '=', 'job_password_connection_t.job_password_id');

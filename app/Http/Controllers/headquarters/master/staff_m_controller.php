@@ -95,7 +95,7 @@ class staff_m_controller extends Controller
         } 
 
 
-        $staff_list = $staff_list->paginate(env('Paginate_Count'));
+        $staff_list = $staff_list->paginate(env('paginate_count'));
      
         foreach($staff_list as $info){
 

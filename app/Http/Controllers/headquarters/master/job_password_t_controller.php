@@ -37,10 +37,9 @@ class job_password_t_controller extends Controller
 
         //検索項目格納用配列
         $search_element_array = [
-            'search_product_type' => $request->search_product_type
+            'search_job_password_item_id' => $request->search_job_password_item_id
             ,'search_usage_flg' => $request->search_usage_flg
-            ,'search_sale_flg' => $request->sale_flg
-            ,'search_date_range' => $request->search_date_range
+            ,'search_sale_flg' => $request->sale_flg            
             ,'search_sale_date' => $request->search_sale_date
             ,'search_seller' => $request->search_seller
         ];
@@ -60,14 +59,14 @@ class job_password_t_controller extends Controller
             'job_password_connection_t.publish_start_date as publish_start_date',
             'job_password_connection_t.publish_end_date as publish_end_date',
 
-            'job_password_t.product_type as product_type',
+            'job_password_t.job_password_item_id as job_password_item_id',
             'job_password_t.password as password',
 
             'job_password_t.usage_flg as usage_flg',
             'job_password_t.sale_flg as sale_flg',
            
             
-            'job_password_t.date_range as date_range',
+            
             'job_password_t.created_at as created_at',
 
             'job_password_t.created_by as created_by',
@@ -107,19 +106,17 @@ class job_password_t_controller extends Controller
         
             
 
-        if(!is_null($search_element_array['search_product_type'])){            
-            $job_password_t_list = $job_password_t_list->where('job_password_t.product_type', '=', $search_element_array['search_product_type']);
+        if(!is_null($search_element_array['search_job_password_item_id'])){            
+            $job_password_t_list = $job_password_t_list->where('job_password_t.job_password_item_id', '=', $search_element_array['search_job_password_item_id']);
         }
 
         if(!is_null($search_element_array['search_usage_flg'])){            
             $job_password_t_list = $job_password_t_list->where('job_password_t.usage_flg', '=', $search_element_array['search_usage_flg']);
         }
 
-        if(!is_null($search_element_array['search_date_range'])){            
-            $job_password_t_list = $job_password_t_list->where('job_password_t.date_range', '=', $search_element_array['search_date_range']);
-        }
+       
 
-        $job_password_t_list = $job_password_t_list->paginate(env('Paginate_Count'));
+        $job_password_t_list = $job_password_t_list->paginate(env('paginate_count'));
 
         return view('headquarters/screen/master/job_password/index', compact('search_element_array','job_password_t_list'));
     }
@@ -132,8 +129,8 @@ class job_password_t_controller extends Controller
         $process_title = "求人公開用パスワード作成処理";
 
         $create_password_count = intval($request->create_password_count);
-        $product_type = 1;
-        $date_range = 14;
+        $job_password_item_id = 1;
+        
         
         
         $operator = session()->get('staff_id');
@@ -158,8 +155,7 @@ class job_password_t_controller extends Controller
                 job_password_t_model::create(
                     [   
                         'password' => $password,                 
-                        'product_type' => $product_type,
-                        'date_range' => $date_range,
+                        'job_password_item_id' => $job_password_item_id,                        
                         'created_by' => $operator,
                     ]
                 );

@@ -25,13 +25,12 @@ class job_password_t_model extends Model
     ];
 
     protected $fillable = [ 
-        'product_type'
-        ,'password'                   
+        'job_password_item_id'
+        ,'password'   
         ,'usage_flg'
         ,'sale_flg'
         ,'seller'
-        ,'sale_datetime'        
-        ,'date_range'
+        ,'sale_datetime'
         ,'created_by'
         ,'updated_by'
         ,'deleted_by'

@@ -20,6 +20,7 @@ use App\Http\Controllers\headquarters\master\address_m_controller;
 use App\Http\Controllers\headquarters\master\job_category_m_controller;
 use App\Http\Controllers\headquarters\master\job_supplement_m_controller;
 use App\Http\Controllers\headquarters\master\job_password_t_controller;
+use App\Http\Controllers\headquarters\master\job_password_item_m_controller;
 use App\Http\Controllers\headquarters\master\salary_category_m_controller;
 use App\Http\Controllers\headquarters\master\employment_status_m_controller;
 
@@ -118,6 +119,10 @@ Route::get('headquarters/master/job_password/', [job_password_t_controller::clas
 Route::post('headquarters/master/job_password/save', [job_password_t_controller::class, 'save'])->name('master.job_password.save');
 Route::post('headquarters/master/job_password/sale_flg_change', [job_password_t_controller::class, 'sale_flg_change'])->name('master.job_password.sale_flg_change');
 
+//求人パスワード商品マスタ
+Route::get('headquarters/master/job_password_item/', [job_password_item_m_controller::class, 'index'])->name('master.job_password_item');
+Route::post('headquarters/master/job_password_item/save', [job_password_item_m_controller::class, 'save'])->name('master.job_password_item.save');
+Route::post('headquarters/master/job_password_item/delete_or_restore', [job_password_item_m_controller::class, 'delete_or_restore'])->name('master.job_password_item.delete_or_restore');
 
 //プロジェクトマスタ
 Route::get('headquarters/master/project/', [project_m_controller::class, 'index'])->name('master.project');

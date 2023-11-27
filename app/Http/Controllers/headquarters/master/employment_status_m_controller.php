@@ -34,7 +34,7 @@ class employment_status_m_controller extends Controller
             $employment_status_m_list = $employment_status_m_list->where('employment_status_m.employment_status_name', 'like', '%' . $search_element_array['search_employment_status_name'] . '%');
         }
 
-        $employment_status_m_list = $employment_status_m_list->paginate(env('Paginate_Count'));
+        $employment_status_m_list = $employment_status_m_list->paginate(env('paginate_count'));
 
         return view('headquarters/screen/master/employment_status/index', compact('search_element_array','employment_status_m_list'));
     }
