@@ -128,14 +128,14 @@
 </style>
 
 
-
+<div class="loader-area">
+    <div class="loader">
+    </div>
+</div>
 
 
 <body>
-    <div class="loader-area">
-        <div class="loader">
-        </div>
-    </div>
+
 
     {{-- PC --}}
     <div class="d-none d-md-block w-100">
