@@ -72,8 +72,67 @@
     opacity: 0.6;
 }
 
+
+
+.loader-area{
+	position: fixed;
+	background: rgba(0, 0, 0, 0.1);
+	width: 100%;
+	height: 100%;
+	top: 0; 
+	left: 0;
+	z-index: 1000;
+}
+
+
+.loader {
+    position: fixed;    
+    top: 48%;
+    left: 48%;
+    z-index: 10000;
+}
+
+/* 参考URL */
+/* https://css-loaders.com/colorful/ */
+
+.loader {
+  width: 40px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  margin-top: -30px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  transform-origin: 50% 116.5%;
+  animation: l17 2s infinite linear; 
+}
+.loader:before {
+  content:"";
+  min-width: 233%;
+  height: 233%;
+  background: 
+    radial-gradient(farthest-side,#00DA3C 90%,#0000) top,
+    radial-gradient(farthest-side,#00CBE7 90%,#0000) left,
+    radial-gradient(farthest-side,#FD8603 90%,#0000) bottom,
+    radial-gradient(farthest-side,#F4F328 90%,#0000) right;
+  background-size: 43% 43%;
+  background-repeat: no-repeat;
+  animation: inherit;
+  animation-direction: reverse;
+}
+@keyframes l17 {
+  100% {transform: rotate(360deg)}
+}
+
+
 </style>
 
+
+
+<div class="loader-area">
+    <div class="loader">
+    </div>
+</div>
 
 <body>
 
@@ -245,18 +304,22 @@
 <!--▽▽jQuery▽▽-->
 <script>
 
+    $(window).on('load', function (){
+        
+        $('.loader-area').addClass('d-none');
+    });
 
     $('#hamburger').on('click', function(){
-      $('.icon').toggleClass('close');
-      $('.sm').slideToggle();
+        $('.icon').toggleClass('close');
+        $('.sm').slideToggle();
     });
-  
+
     $(window).on('scroll', function() {//スクロールしたとき、
-      if ($(this).scrollTop() > 100) { //スクロール量が500px以上なら、
-          $('.pagetop').addClass('active');    //activeクラスを付与し、
-      } else {                         //500px未満なら、
-          $('.pagetop').removeClass('active'); //activeクラスを外します。
-      }
+        if ($(this).scrollTop() > 100) { //スクロール量が500px以上なら、
+            $('.pagetop').addClass('active');    //activeクラスを付与し、
+        } else {                         //500px未満なら、
+            $('.pagetop').removeClass('active'); //activeクラスを外します。
+        }
     });
   
   </script>
