@@ -81,7 +81,7 @@
 	height: 100%;
 	top: 0; 
 	left: 0;
-	z-index: 1000;
+	z-index: 100000;
 }
 
 
@@ -89,7 +89,7 @@
     position: fixed;    
     top: 48%;
     left: 48%;
-    z-index: 10000;
+    z-index: 100001;
 }
 
 /* 参考URL */
@@ -129,13 +129,13 @@
 
 
 
-<div class="loader-area">
-    <div class="loader">
-    </div>
-</div>
+
 
 <body>
-
+    <div class="loader-area">
+        <div class="loader">
+        </div>
+    </div>
 
     {{-- PC --}}
     <div class="d-none d-md-block w-100">
@@ -304,8 +304,7 @@
 <!--▽▽jQuery▽▽-->
 <script>
 
-    $(window).on('load', function (){
-        
+    $(window).on('load', function (){        
         $('.loader-area').addClass('d-none');
     });
 
@@ -322,8 +321,8 @@
         }
     });
   
-  </script>
-  <!--△△jQuery△△-->
+</script>
+<!--△△jQuery△△-->
 
 @yield('pagejs')
 
