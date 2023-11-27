@@ -3,17 +3,20 @@
 namespace App\Original;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Original\common;
 
 use App\Models\maincategory_m_model;
 use App\Models\subcategory_m_model;
+use App\Models\staff_m_model;
 use App\Models\address_m_model;
 use App\Models\job_maincategory_m_model;
 use App\Models\salary_maincategory_m_model;
 use App\Models\salary_subcategory_m_model;
 use App\Models\job_supplement_maincategory_m_model;
 use App\Models\job_supplement_subcategory_m_model;
+use App\Models\job_password_item_m_model;
 
 class create_list
 {      
@@ -138,6 +141,60 @@ class create_list
         return $salary_maincategory_list;        
     }
 
+
+    //スタッフコンボボックス
+    public static function staff_list()
+    {   
+
+        $staff_list = staff_m_model::select(
+            'staff_id as staff_id',
+            'staff_last_name as staff_last_name',
+            'staff_first_name as staff_first_name',
+            'staff_last_name_yomi as staff_last_name_yomi',
+            'staff_first_name_yomi as staff_first_name_yomi',
+            DB::raw('CONCAT(staff_last_name, " ", staff_first_name) as staff_full_name'),
+            DB::raw('CONCAT(staff_last_name_yomi, " ", staff_first_name_yomi) as staff_full_name_yomi'),
+            
+        )
+        ->orderBy('staff_id', 'asc')
+        ->get();
+
+        return $staff_list;        
+    }
+
+    //求人公開パスワード商品一覧
+    public static function job_password_item_list()
+    {   
+
+        $today = common::get_date(1);
+
+        $job_password_item_list = job_password_item_m_model::select(
+            'job_password_item_id as job_password_item_id',
+            'job_password_item_name as job_password_item_name',
+            'sales_start_date as sales_start_date',
+            'sales_end_date as sales_end_date',
+        )
+        ->orderBy('job_password_item_id', 'asc')
+        ->get();
+
+        foreach ($job_password_item_list as $job_password_item_info){
+
+            $sales_start_date = $job_password_item_info->sales_start_date;
+            $sales_end_date = $job_password_item_info->sales_end_date;
+
+            $sale_flg = 0;
+
+            //販売期間内かチェック
+            if($today >= $sales_start_date && $today <= $sales_end_date){
+                $sale_flg = 1;
+            }
+
+            $job_password_item_info->sale_flg = $sale_flg;
+          
+        }
+
+        return $job_password_item_list;        
+    }
 
     //職種大分類コンボボックス
     public static function job_maincategory_list()

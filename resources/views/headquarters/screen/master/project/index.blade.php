@@ -15,7 +15,7 @@
 
     @include('headquarters.common.alert')
 
-    <div class="row">        
+    <div class="row m-0 p-0">
 
         <div class="col-6 text-start">
             <h4 class="master-title">

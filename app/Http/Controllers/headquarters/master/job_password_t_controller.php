@@ -42,6 +42,8 @@ class job_password_t_controller extends Controller
             ,'search_sale_flg' => $request->sale_flg            
             ,'search_sale_date' => $request->search_sale_date
             ,'search_seller' => $request->search_seller
+            ,'search_created_at' => $request->search_created_at
+            ,'search_created_by' => $request->search_created_by
         ];
 
           
@@ -60,12 +62,14 @@ class job_password_t_controller extends Controller
             'job_password_connection_t.publish_end_date as publish_end_date',
 
             'job_password_t.job_password_item_id as job_password_item_id',
+            
+            'job_password_item_m.job_password_item_name as job_password_item_name',
+            'job_password_item_m.added_date as added_date',
+
             'job_password_t.password as password',
 
             'job_password_t.usage_flg as usage_flg',
-            'job_password_t.sale_flg as sale_flg',
-           
-            
+            'job_password_t.sale_flg as sale_flg',            
             
             'job_password_t.created_at as created_at',
 
@@ -88,13 +92,16 @@ class job_password_t_controller extends Controller
         ->leftJoin('job_password_connection_t', function ($join) {
             $join->on('job_password_connection_t.job_password_id', '=', 'job_password_t.job_password_id');
         })
+        ->leftJoin('job_password_item_m', function ($join) {
+            $join->on('job_password_item_m.job_password_item_id', '=', 'job_password_t.job_password_item_id');
+        })
         ->leftJoin('employer_m', function ($join) {
             $join->on('employer_m.employer_id', '=', 'job_password_connection_t.employer_id');
         })
         ->leftJoin('job_information_t', function ($join) {
             $join->on('job_information_t.employer_id', '=', 'job_password_connection_t.employer_id')
             ->on('job_information_t.job_id', '=', 'job_password_connection_t.job_id');
-        })
+        })   
         ->leftJoin('staff_m as created_by_info', function ($join) {
             $join->on('created_by_info.staff_id', '=', 'job_password_t.created_by');
         })
@@ -107,7 +114,15 @@ class job_password_t_controller extends Controller
             
 
         if(!is_null($search_element_array['search_job_password_item_id'])){            
-            $job_password_t_list = $job_password_t_list->where('job_password_t.job_password_item_id', '=', $search_element_array['search_job_password_item_id']);
+            $job_password_t_list = $job_password_t_list->where('job_password_item_m.job_password_item_id', '=', $search_element_array['search_job_password_item_id']);
+        }
+
+        if(!is_null($search_element_array['search_seller'])){            
+            $job_password_t_list = $job_password_t_list->where('job_password_t.seller', '=', $search_element_array['search_seller']);
+        }
+
+        if(!is_null($search_element_array['search_created_by'])){            
+            $job_password_t_list = $job_password_t_list->where('job_password_t.created_by', '=', $search_element_array['search_created_by']);
         }
 
         if(!is_null($search_element_array['search_usage_flg'])){            
@@ -115,10 +130,19 @@ class job_password_t_controller extends Controller
         }
 
        
-
         $job_password_t_list = $job_password_t_list->paginate(env('paginate_count'));
 
-        return view('headquarters/screen/master/job_password/index', compact('search_element_array','job_password_t_list'));
+        $staff_list = create_list::staff_list();
+        $job_password_item_list = create_list::job_password_item_list();
+
+        return view('headquarters/screen/master/job_password/index', 
+            compact(
+                'search_element_array'
+                ,'job_password_t_list'
+                ,'staff_list'
+                ,'job_password_item_list'
+                )
+            );
     }
 
 
@@ -129,7 +153,7 @@ class job_password_t_controller extends Controller
         $process_title = "求人公開用パスワード作成処理";
 
         $create_password_count = intval($request->create_password_count);
-        $job_password_item_id = 1;
+        $job_password_item_id = intval($request->job_password_item_id);
         
         
         

@@ -21,7 +21,8 @@ class job_password_item_m_controller extends Controller
     {
         //検索項目格納用配列
         $search_element_array = [
-            'search_job_password_item_name' => $request->search_job_password_item_name                              
+            'search_job_password_item_name' => $request->search_job_password_item_name
+            ,'search_job_password_item_name' => $request->search_job_password_item_name
         ];
 
         $job_password_item_m_list = job_password_item_m_model::withTrashed()->orderBy('job_password_item_id', 'asc');
@@ -43,8 +44,12 @@ class job_password_item_m_controller extends Controller
 
         $process_title = "求人パスワード商品マスタ登録処理";
         $job_password_item_id = intval($request->job_password_item_id);
-        $job_password_item_name = $request->job_password_item_name;        
-        $Added_date = intval($request->Added_date);        
+        $job_password_item_name = $request->job_password_item_name;
+        $price = intval($request->price);
+        $added_date = intval($request->added_date);
+        $sales_start_date = $request->sales_start_date;
+        $sales_end_date = $request->sales_end_date;
+
         $remarks = $request->remarks;
 
         $operator = 9999;
@@ -57,11 +62,14 @@ class job_password_item_m_controller extends Controller
                 job_password_item_m_model::create(
                     [
                         'job_password_item_name' => $job_password_item_name,
-                        'Added_date' => $Added_date,
+                        'price' => $price,
+                        'added_date' => $added_date,
+                        'sales_start_date' => $sales_start_date,
+                        'sales_end_date' => $sales_end_date,                        
                         'remarks' => $remarks,
                         'created_by' => $operator,
                     ]
-                );            
+                );    
 
             }else{
 
@@ -71,7 +79,10 @@ class job_password_item_m_controller extends Controller
                 ->update(
                     [
                         'job_password_item_name' => $job_password_item_name,
-                        'Added_date' => $Added_date,
+                        'price' => $price,
+                        'added_date' => $added_date,
+                        'sales_start_date' => $sales_start_date,
+                        'sales_end_date' => $sales_end_date,                        
                         'remarks' => $remarks,
                         'updated_by' => $operator,
                     ]
@@ -129,7 +140,7 @@ class job_password_item_m_controller extends Controller
                 where('job_password_item_id', $job_password_item_id)                
                 ->delete();
 
-                session()->flash('success', '[求人パスワード商品名 = ' . $job_password_item_name .']データを利用不可状態にしました');                
+                session()->flash('success', '[求人パスワード商品名 = ' . $job_password_item_name .']データを利用不可状態にしました');        
             }else{    
 
                 //論理削除解除
@@ -138,7 +149,7 @@ class job_password_item_m_controller extends Controller
                 ->withTrashed()                
                 ->restore();
 
-                session()->flash('success', '[求人パスワード商品名 = ' . $job_password_item_name . ']データを利用可能状態にしました');                                
+                session()->flash('success', '[求人パスワード商品名 = ' . $job_password_item_name . ']データを利用可能状態にしました');                        
             }
 
         } catch (Exception $e) {

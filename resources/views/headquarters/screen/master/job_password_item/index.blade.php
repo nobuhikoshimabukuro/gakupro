@@ -15,7 +15,7 @@
 
     @include('headquarters.common.alert')
 
-    <div class="row">        
+    <div class="row m-0 p-0">
 
         <div class="col-6 text-start">
             <h4 class="master-title">
@@ -28,9 +28,6 @@
             <button type="button" class='btn btn-link'>
                 <a href="{{ route('master.index') }}">マスタ一覧へ</a>
             </button>
-
-
-
             
         </div>
 
@@ -63,9 +60,11 @@
         <table id='' class='data-info-table'>
             
             <tr>
-                <th>求人パスワード商品ID</th>
-                <th>求人パスワード商品名</th>
+                <th>商品ID</th>
+                <th>商品名</th>
+                <th>料金</th>
                 <th>求人公開加算日</th>
+                <th>販売期間</th>
                 <th>件数【<span id='data-total-count'>{{count($job_password_item_m_list)}}</span>件】</th>
             </tr>
 
@@ -73,8 +72,10 @@
 
             <tr>
                 <td>{{$item->job_password_item_id}}</td>
-                <td>{{$item->job_password_item_name}}</td>
-                <td>{{$item->Added_date}}</td>
+                <td class="text-start">{{$item->job_password_item_name}}</td>
+                <td class="text-end">{{number_format($item->price)}}円</td>
+                <td class="text-center">{{$item->added_date}}</td>
+                <td>{{$item->sales_start_date}}～{{$item->sales_end_date}}</td>
                
                 
                 
@@ -83,14 +84,18 @@
                     <button class='modal-button' data-bs-toggle='modal' data-bs-target='#save-modal'
                         data-jobpassworditemid='{{$item->job_password_item_id}}'
                         data-jobpassworditemname='{{$item->job_password_item_name}}'
-                        data-Addeddate='{{$item->Added_date}}'                        
+                        data-price='{{$item->price}}'
+                        data-addeddate='{{$item->added_date}}'
+                        data-salesstartdate='{{$item->sales_start_date}}'
+                        data-salesenddate='{{$item->sales_end_date}}'
+                        data-remarks='{{$item->remarks}}'
                         data-processflg='1'> 
                         <i class='far fa-edit'></i>
                     </button>
 
                     <button class='modal-button' data-bs-toggle='modal' data-bs-target='#delete-modal'
-                        data-job_password_itemid='{{$item->job_password_item_id}}'
-                        data-job_password_itemname='{{$item->job_password_item_name}}'
+                        data-jobpassworditemid='{{$item->job_password_item_id}}'
+                        data-jobpassworditemname='{{$item->job_password_item_name}}'
                         data-deleteflg=@if($item->deleted_at) 1 @else 0 @endif>
                                     
                         @if($item->deleted_at)
@@ -173,11 +178,24 @@
                             <input type="hidden" name="job_password_item_id" id="job_password_item_id">
                             
                             <div class="form-group row">
-                                <label for="job_password_item_name" class="col-md-6 col-form-label original-label">求人パスワード商品名</label>
+
+                                <label for="job_password_item_name" class="col-md-6 col-form-label original-label">商品名</label>
                                 <input type="text" name="job_password_item_name" id="job_password_item_name" value="" class="form-control col-md-3">
 
-                                <label for="Added_date" class="col-md-6 col-form-label original-label">求人公開加算日</label>
-                                <input type="text" name="Added_date" id="Added_date" value="" class="form-control col-md-3">
+                                <label for="price" class="col-md-6 col-form-label original-label">料金（円）</label>
+                                <input type="text" name="price" id="price" value="" class="form-control col-md-3">
+
+                                <label for="added_date" class="col-md-6 col-form-label original-label">求人公開加算日</label>
+                                <input type="text" name="added_date" id="added_date" value="" class="form-control col-md-3">
+
+                                <label for="sales_start_date" class="col-md-6 col-form-label original-label">販売開始日</label>
+                                <input type="date" name="sales_start_date" id="sales_start_date" value="" class="form-control col-md-3">
+
+                                <label for="sales_end_date" class="col-md-6 col-form-label original-label">販売終了日</label>
+                                <input type="date" name="sales_end_date" id="sales_end_date" value="" class="form-control col-md-3">
+
+                                <label for="remarks" class="col-md-6 col-form-label original-label">備考</label>
+                                <textarea id="remarks" class="form-control col-md-3" rows="4" cols="40"></textarea>                                
 
                             </div>                     
                      
@@ -302,11 +320,14 @@ $(function(){
 
         var job_password_item_id = evCon.data('jobpassworditemid');
         var job_password_item_name = evCon.data('jobpassworditemname');
-        var Added_date = evCon.data('Addeddate');
-        //登録処理か更新処理か判断
-        var processflg = evCon.data('processflg');
+        var price = evCon.data('price');
+        var added_date = evCon.data('addeddate');
+        var sales_start_date = evCon.data('salesstartdate');
+        var sales_end_date = evCon.data('salesenddate');
+        var remarks = evCon.data('remarks');
 
-        
+        //登録処理か更新処理か判断
+        var processflg = evCon.data('processflg');        
         var title ="";        
 
         $(button_id).removeClass('insert-button');
@@ -315,17 +336,22 @@ $(function(){
         if(processflg == '0'){
             title = "新規登録処理";
             $(button_id).addClass('insert-button');            
-            $('#job_password_item_id').val(0);
+            job_password_item_id = 0;
             
         }else{
             title = '更新処理（求人パスワード商品ID：' + job_password_item_id+'）';
-            $(button_id).addClass('update-button');            
-            $('#job_password_item_id').val(job_password_item_id);            
+            $(button_id).addClass('update-button');                                   
         }
 
         $('#save-modal-title').html(title);        
+
         $('#job_password_item_name').val(job_password_item_name);
-        $('#Added_date').val(Added_date);
+        $('#job_password_item_name').val(job_password_item_name);
+        $('#price').val(price);
+        $('#added_date').val(added_date);
+        $('#sales_start_date').val(sales_start_date);
+        $('#sales_end_date').val(sales_end_date);
+        $('#remarks').val(remarks);        
         
     });
 

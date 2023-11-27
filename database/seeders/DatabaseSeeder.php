@@ -395,7 +395,7 @@ class DatabaseSeeder extends Seeder
                 'job_password_item_id' => '1',
                 'job_password_item_name' => 'サイト開設スペシャル365日間プラン',
                 'price' => 0,       
-                'Added_date' => '365',
+                'added_date' => '365',
                 'sales_start_date' => '2022-01-01',
                 'sales_end_date' => '2999-12-31',                
                 'remarks' => '求人サイト開設時に求人数を増やすためのプラン',
@@ -406,7 +406,7 @@ class DatabaseSeeder extends Seeder
                 'job_password_item_id' => '2',
                 'job_password_item_name' => '求人新規登録時3日間プラン',
                 'price' => 0,
-                'Added_date' => '3',
+                'added_date' => '3',
                 'sales_start_date' => '2022-01-01',
                 'sales_end_date' => '2999-12-31',       
                 'remarks' => '求人新規登録日の翌日から3日間求人公開を行える',
@@ -417,7 +417,7 @@ class DatabaseSeeder extends Seeder
                 'job_password_item_id' => '3',
                 'job_password_item_name' => '求人公開7日間追加プラン',       
                 'price' => 1980,
-                'Added_date' => '7',
+                'added_date' => '7',
                 'sales_start_date' => '2022-01-01',
                 'sales_end_date' => '2999-12-31',       
                 'remarks' => '求人公開パスワードを購入して頂き、認証後で公開日の範囲を7日間加算できるプラン',
@@ -429,7 +429,7 @@ class DatabaseSeeder extends Seeder
                 'job_password_item_id' => '4',
                 'job_password_item_name' => '求人公開14日間追加プラン',
                 'price' => 2980,
-                'Added_date' => '14',
+                'added_date' => '14',
                 'sales_start_date' => '2022-01-01',
                 'sales_end_date' => '2999-12-31',       
                 'remarks' => '求人公開パスワードを購入して頂き、認証後で公開日の範囲を14日間加算できるプラン',
@@ -441,7 +441,7 @@ class DatabaseSeeder extends Seeder
                 'job_password_item_id' => '5',
                 'job_password_item_name' => '求人公開28日間追加プラン',
                 'price' => 4980,
-                'Added_date' => '28',
+                'added_date' => '28',
                 'sales_start_date' => '2022-01-01',
                 'sales_end_date' => '2999-12-31',       
                 'remarks' => '求人公開パスワードを購入して頂き、認証後で公開日の範囲を28日間加算できるプラン',
@@ -460,6 +460,8 @@ class DatabaseSeeder extends Seeder
                 'password' => '0123456789',
                 'usage_flg' => '1',
                 'sale_flg' => '1',         
+                'seller' => '1',
+                'sale_datetime' => '2023-10-31',
                 'created_by' => '1',
                 
             ],
@@ -485,23 +487,12 @@ class DatabaseSeeder extends Seeder
                 'job_password_id' => '1',
                 'branch_number' => '1',
                 'publish_start_date' => '2023-11-01',
-                'publish_end_date' => '2023-11-04',
+                'publish_end_date' => '2024-11-01',
                 'created_by' => '1',
                 
             ],
 
-            [   
-                'employer_id' => '1',
-                'job_id' => '1',
-                'job_password_id' => '2',
-                'branch_number' => '2',
-                'publish_start_date' => $today_f,
-                'publish_end_date' => $add_Date1,
-                'created_by' => '1',
-                
-            ],
-
-           
+                    
 
 
         ]);   

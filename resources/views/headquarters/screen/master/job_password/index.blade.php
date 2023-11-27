@@ -1,7 +1,7 @@
 @extends('headquarters.common.layouts_afterlogin')
 
 @section('pagehead')
-@section('title', '求人公開用パスワード')  
+@section('title', '求人公開用パスワード管理')  
 @endsection
 @section('content')
 
@@ -21,11 +21,11 @@
 
     @include('headquarters.common.alert')
 
-    <div class="row">        
+    <div class="row m-0 p-0">
 
         <div class="col-6 text-start">
             <h4 class="master-title">
-                求人公開用パスワード
+                求人公開用パスワード管理
             </h4>
         </div>    
 
@@ -67,7 +67,7 @@
             <tr>
                 <th>ID</th>
                 
-                <th>種類</th>
+                <th>商品名</th>
                 
                 <th>パスワード</th>
 
@@ -75,7 +75,7 @@
                     使用/販売状況                    
                 </th>
                 
-                <th>表示日数</th>
+                <th>表示加算日数</th>
                 <th>
                     作成情報                    
                 </th>
@@ -93,7 +93,7 @@
                 </td>
 
                 <td>
-                    {{$item->job_password_item_id}}
+                    {{$item->job_password_item_id}}:{{$item->job_password_item_name}}
                 </td>
 
                 <td>
@@ -119,17 +119,11 @@
                         </button>
                     @endif
                     
-                        
-                    
-                                                           
-                    
 
                 </td>
 
-                
-
                 <td>
-                    {{$item->date_range}}
+                    {{$item->added_date}}
                 </td>
 
                 <td class="text-start">
@@ -210,8 +204,53 @@
             
                             <div class="form-group row">                                
                                 
-                                <label for="search_job_password_name" class="col-12 col-form-label original-label">プロジェクト名（あいまい）</label>
-                                <input type="text" id="search_job_password_name" name="search_job_password_name" value="{{$search_element_array['search_job_password_item_id']}}" class="form-control">
+                                <label for="search_job_password_item_id" class="col-12 col-form-label original-label">商品</label>
+                                <select id='search_job_password_item_id' name='search_job_password_item_id' class='form-control input-sm'>
+									<option value=''>
+										@foreach($job_password_item_list as $job_password_item_info)
+										<option value="{{$job_password_item_info->job_password_item_id}}"
+                                        @if($search_element_array['search_job_password_item_id'] == $job_password_item_info->job_password_item_id)  
+                                        selected
+                                        @endif  
+                                        >
+                                            {{$job_password_item_info->job_password_item_name}}
+                                        </option>
+										@endforeach
+                                </select>
+
+                                
+
+
+
+                              
+                                
+                                <label for="search_created_by" class="col-12 col-form-label original-label">作成者</label>
+                                <select id='search_created_by' name='search_created_by' class='form-control input-sm'>
+									<option value=''>
+										@foreach($staff_list as $created_by)
+										<option value="{{$created_by->staff_id}}"
+                                        @if($search_element_array['search_created_by'] == $created_by->staff_id)  
+                                        selected
+                                        @endif  
+                                        >
+                                            {{$created_by->staff_full_name}}
+                                        </option>
+										@endforeach
+                                </select>
+
+                                <label for="search_seller" class="col-12 col-form-label original-label">販売者</label>
+                                <select id='search_seller' name='search_seller' class='form-control input-sm'>
+									<option value=''>
+										@foreach($staff_list as $seller)
+										<option value="{{$seller->staff_id}}"
+                                        @if($search_element_array['search_seller'] == $seller->staff_id)  
+                                        selected
+                                        @endif  
+                                        >
+                                            {{$seller->staff_full_name}}
+                                        </option>
+										@endforeach
+                                </select>
                                                         
                             </div>     
                             
@@ -255,8 +294,22 @@
                         <div class="modal-body">  
                             
                             <div class="form-group row">
+
                                 <label for="create_password_count" class="col-md-6 col-form-label original-label">作成数</label>
                                 <input type="text" name="create_password_count" id="create_password_count" value="" class="form-control col-md-3">                               
+
+
+                                <label for="job_password_item_id" class="col-12 col-form-label original-label">商品</label>
+                                <select id='job_password_item_id' name='job_password_item_id' class='form-control input-sm'>
+									
+										@foreach($job_password_item_list as $job_password_item_info)                                            
+                                            <option value="{{$job_password_item_info->job_password_item_id}}"
+                                                @if($job_password_item_info->sale_flg == 0) disabled @endif
+                                                >
+                                                {{$job_password_item_info->job_password_item_name}}
+                                            </option>
+										@endforeach
+                                </select>
 
                             </div>                     
                      
@@ -298,6 +351,7 @@
                         @csrf
                         {{-- <div class="modal-body">                              
                            
+                            
                         </div> --}}
 
                         <input type="hidden" name="password_sale_change_job_password_id" id="password_sale_change_job_password_id">

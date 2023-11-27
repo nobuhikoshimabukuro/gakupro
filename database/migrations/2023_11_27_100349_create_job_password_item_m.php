@@ -34,7 +34,7 @@ return new class extends Migration
                 ->comment('求人パスワード料金');
 
             $table
-                ->integer('Added_date')                
+                ->integer('added_date')                
                 ->comment('求人公開の追加日');
 
             $table

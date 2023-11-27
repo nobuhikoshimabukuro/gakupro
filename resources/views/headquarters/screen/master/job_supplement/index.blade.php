@@ -219,9 +219,9 @@
                                 <label for="search_job_supplement_maincategory_name" class="col-12 col-form-label original-label">求人補足大分類名</label>
                                 <select id='search_job_supplement_maincategory_cd' name='search_job_supplement_maincategory_cd' class='form-control input-sm'>
 									<option value=''>
-										@foreach($job_supplement_maincategory_list as $item)
-										<option value="{{$item->job_supplement_maincategory_cd}}"
-                                        @if($search_element_array['search_job_supplement_maincategory_cd'] == $item->job_supplement_maincategory_cd)  
+										@foreach($staff_list as $staff_info)
+										<option value="{{$staff_info->staff_id}}"
+                                        @if($search_element_array['search_staff_id'] == $item->staff_id)  
                                         selected
                                         @endif  
                                         >
