@@ -8,7 +8,7 @@
 <style>
 
     body{
-        z-index: 1;
+        /* z-index: 1; */
     }
 
 /* 検索ボード */
