@@ -126,8 +126,8 @@
 
         border: 2px solid #000000;
         display: flex;
-        justify-content: center; /*左右中央揃え*/
-        align-items: center;     /*上下中央揃え*/
+        justify-content: center;
+        align-items: center;
     }
 
     .job-maincategory-hidden-area{
