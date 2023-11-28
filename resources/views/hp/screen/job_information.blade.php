@@ -19,11 +19,8 @@
         top:0;
         right: -120%;
         width:50%;        
-        height: 100%;
-        /* セーフエリアに対応 */
-        /* height: calc(100% - 5px);  */
-        background:#eee9e9;
-        /*動き*/
+        height: 100%;        
+        background:#eee9e9;        
         transition: all 0.6s;    
     }
        
@@ -38,8 +35,7 @@
     }   
 
     .search-alert-area{
-        position: absolute;
-        /* top: 50%; */
+        position: absolute;        
         top: calc(50% - 20px);;
         right: -120%;
         height: 40px;
@@ -49,8 +45,8 @@
         font-weight: bold;
         color: white;
         display: flex;
-        justify-content: center; /*左右中央揃え*/
-        align-items: center;     /*上下中央揃え*/
+        justify-content: center;
+        align-items: center;    
         opacity: 0.8;
         z-index: 102;
         transition: all 0.6s;
@@ -323,41 +319,11 @@
 
 
 
-.loader {
-    position: absolute;
-    top: 50%;
-    left: 50%; 
-}
-
-.loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-  width: fit-content;
-  font-weight: bold;
-  font-family: monospace;
-  font-size: 30px;
-  background:linear-gradient(90deg,#000 50%,#0000 0) right/200% 100%;
-  animation: l21 2s infinite linear;
-}
-.loader::before {
-  content :"Loading...";
-  color: #0000;
-  padding: 0 5px;
-  background: inherit;
-  background-image: linear-gradient(90deg,#fff 50%,#000 0);
-  -webkit-background-clip:text;
-          background-clip:text;
-}
-
-@keyframes l21{
-  100%{background-position: left}
-}
-
 </style>
 
 
 <div class="loader"></div> 
+
 
 <div class="search-board">
 
@@ -632,27 +598,6 @@
                                     }
 
                                 @endphp
-
-
-                                {{-- <div id="employment-status-area{{$employment_status_id}}" 
-                                    class="col-6 col-lg-4 col-xl-3 mt-2 employment-status-area">
-                                    <label id="employment-status-label{{$employment_status_id}}" 
-                                        for="employment-status-checkbox{{$employment_status_id}}" 
-                                        class="employment-status-label {{$add_class}} item-center"
-                                    >{{$employment_status_name}}
-                                    </label>
-
-                                    <input type="checkbox" 
-                                    id="employment-status-checkbox{{$employment_status_id}}"
-                                    name="employment-status-checkbox{{$employment_status_id}}"
-                                    value="{{$employment_status_id}}"                        
-                                    data-target="{{$employment_status_id}}"
-                                    class="employment-status-checkbox d-none"                                    
-                                    {{$check_status}}
-                                    >
-                                </div> --}}
-
-
 
 
                                 <div id="employment-status-area{{$employment_status_id}}" 
@@ -947,7 +892,7 @@ $(function(){
         search_board_tab_change(1);
         var search_salary_subcategory_cd = "{{ $search_element_array['search_salary_subcategory_cd'] }}";
         search_salary_sabcategory(search_salary_subcategory_cd);
-        // $('#confirm-close').trigger("click");
+        
     });
     
 

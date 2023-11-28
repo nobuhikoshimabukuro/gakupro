@@ -1,41 +1,45 @@
+function end_loader() {
 
-// ドロップダウンメニューを閉じない
-$(document).on('click', '.dropdown-menu', function(e) {
-  if ($(this).hasClass('keep-open-on-click')) { e.stopPropagation(); }
-});
+    var elements = document.querySelectorAll('.loader-area');
+
+    // 取得した要素を削除
+    elements.forEach(function(element) {
+      element.remove();
+    });
 
 
-function phpProcessingStart() {         
+    var elements = document.querySelectorAll('.loader');
 
-  //マウスを待機中
-  document.body.style.cursor = 'wait';  
-  //発火元（主にボタン）を操作不可にする
-  $(this).prop("disabled", true);
-}
-
-function phpProcessingEnd() {
-
-  //マウスを待機中から解除
-  document.body.style.cursor = 'auto';
-
-  //発火元（主にボタン）を操作可能にする
-  $(this).prop("disabled", false);
+    // 取得した要素を削除
+    elements.forEach(function(element) {
+      element.remove();
+    });
 
 }
 
 
-function LoaderEnd() {
-  $(".inoperable").removeClass('inoperable');
-  $("#loading_area").remove(); 
+function start_processing() {
+
+  
+
 }
 
-function UploaderStart() {
-  $("#main").addClass('inoperable');
-  $("#uploading_area").removeClass('d-none');  
-}
 
-function UploaderEnd() {
-  $("#uploading_area").addClass('d-none');  
-  $("#main").removeClass('inoperable');  
-}
+function end_processing() {
 
+  var elements = document.querySelectorAll('.loader-area');
+
+  // 取得した要素を削除
+  elements.forEach(function(element) {
+    element.remove();
+  });
+
+
+  var elements = document.querySelectorAll('.loader');
+
+  // 取得した要素を削除
+  elements.forEach(function(element) {
+    element.remove();
+  });
+
+}

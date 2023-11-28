@@ -27,102 +27,6 @@
 <style>
 
 
-    .pagetop {
-        display: none;/* 非表示 */
-        height: 50px;
-        width: 50px;
-        position: fixed;
-        right: 1vh;
-        bottom: 1vh;
-        background-color:rgb(89,240, 250) ;
-        opacity: 0.6;
-        /* border: solid 1px #000;
-        border-radius: 50%; */
-        /* display: flex; */
-        justify-content: center;
-        align-items: center;
-        z-index: 2;
-    }
-    
-    
-    /* activeクラスが付与されたとき */
-    .pagetop.active {
-        display: flex;
-    }
-    
-    
-    .pagetop__arrow {
-        height: 10px;
-        width: 10px;
-        border-top: 3px solid #f5f7f9;
-        border-right: 3px solid#f5f7f9;
-        transform: translateY(20%) rotate(-45deg);
-    }
-
-    
-.warning-statement{ 
-    color: red;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index:10000;
-    font-size: 3em;
-    font-weight: bold;
-    pointer-events:none;    
-    opacity: 0.6;
-}
-
-
-
-.loader-area{
-	position: fixed;
-	background: rgba(0, 0, 0, 0.1);
-	width: 100%;
-	height: 100%;
-	top: 0; 
-	left: 0;
-	z-index: 100000;
-}
-
-
-.loader {
-    position: fixed;    
-    top: 48%;
-    left: 48%;
-    z-index: 100001;
-}
-
-/* 参考URL */
-/* https://css-loaders.com/colorful/ */
-
-.loader {
-  width: 40px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  margin-top: -30px;
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  transform-origin: 50% 116.5%;
-  animation: l17 2s infinite linear; 
-}
-.loader:before {
-  content:"";
-  min-width: 233%;
-  height: 233%;
-  background: 
-    radial-gradient(farthest-side,#00DA3C 90%,#0000) top,
-    radial-gradient(farthest-side,#00CBE7 90%,#0000) left,
-    radial-gradient(farthest-side,#FD8603 90%,#0000) bottom,
-    radial-gradient(farthest-side,#F4F328 90%,#0000) right;
-  background-size: 43% 43%;
-  background-repeat: no-repeat;
-  animation: inherit;
-  animation-direction: reverse;
-}
-@keyframes l17 {
-  100% {transform: rotate(360deg)}
-}
 
 
 </style>
@@ -304,8 +208,8 @@
 <!--▽▽jQuery▽▽-->
 <script>
 
-    $(window).on('load', function (){        
-        $('.loader-area').addClass('d-none');
+    $(window).on('load', function (){       
+        end_loader();
     });
 
     $('#hamburger').on('click', function(){
