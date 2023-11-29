@@ -21,6 +21,12 @@
     <title>@yield('title')</title>
 </head>
 
+
+<div class="loader-area">
+    <div class="loader">
+    </div>
+</div>
+
 <body>
 
     <nav id="header" class="navbar navbar-expand-md shadow-sm small">
@@ -103,6 +109,30 @@
 <script src="{{ asset('js/headquarters/common.js'). $system_version }}"></script>
 
 
+
+<!--▽▽jQuery▽▽-->
+<script>
+
+    $(window).on('load', function (){       
+            end_loader();
+        });
+    
+        $('#hamburger').on('click', function(){
+            $('.icon').toggleClass('close');
+            $('.sm').slideToggle();
+        });
+    
+        $(window).on('scroll', function() {//スクロールしたとき、
+            if ($(this).scrollTop() > 100) { //スクロール量が500px以上なら、
+                $('.pagetop').addClass('active');    //activeクラスを付与し、
+            } else {                         //500px未満なら、
+                $('.pagetop').removeClass('active'); //activeクラスを外します。
+            }
+        });
+      
+    </script>
+    <!--△△jQuery△△-->
+    
 @yield('pagejs')
 
 </body>

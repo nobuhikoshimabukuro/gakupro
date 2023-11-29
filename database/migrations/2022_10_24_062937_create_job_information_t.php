@@ -109,10 +109,6 @@ return new class extends Migration
                 ->text('application_requirements')
                 ->nullable()
                 ->comment('応募資格');
-                           
-
-        
-            
 
             $table
                 ->text('scout_statement')
@@ -123,6 +119,12 @@ return new class extends Migration
                 ->text('remarks')
                 ->nullable()
                 ->comment('備考');
+
+
+            $table
+                ->string('free_word', 1000)
+                ->nullable()
+                ->comment('求人検索用のフリーワード');
 
             $table
                 ->integer('created_by')

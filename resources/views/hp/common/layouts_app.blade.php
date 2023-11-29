@@ -208,7 +208,7 @@
 <!--▽▽jQuery▽▽-->
 <script>
 
-    $(window).on('load', function (){       
+$(window).on('load', function (){       
         end_loader();
     });
 
