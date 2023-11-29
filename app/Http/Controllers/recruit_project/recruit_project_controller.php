@@ -1399,7 +1399,7 @@ class recruit_project_controller extends Controller
                 
                 $result_array = array(
                     "Result" => "error",
-                    "Message" => $process_title."でエラーが発生しました。",
+                    "message" => $process_title."でエラーが発生しました。",
                 );           
 
                 return response()->json(['result_array' => $result_array]);
@@ -1411,7 +1411,7 @@ class recruit_project_controller extends Controller
             //全ての処理終了
             $result_array = array(
                 "Result" => "success",
-                "Message" => '',
+                "message" => '',
             );
     
     
@@ -1435,7 +1435,7 @@ class recruit_project_controller extends Controller
             
             $result_array = array(
                 "Result" => "error",
-                "Message" => $process_title."でエラーが発生しました。",
+                "message" => $process_title."でエラーが発生しました。",
             );           
 
             return response()->json(['result_array' => $result_array]);

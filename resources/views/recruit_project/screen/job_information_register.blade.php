@@ -473,6 +473,47 @@
         </div>
 
     </form>
+
+
+
+
+
+
+
+
+
+
+    {{-- エラーモーダル --}}
+    <div class="modal fade" id="error-modal" tabindex="-2" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="error-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="error-modal-label">エラー</h5>
+                    <button type="button" data-bs-dismiss="modal" class="close">
+                        <span aria-hidden="true">&times;</span>                    
+                    </button>               
+                </div>        
+            
+                <div class="modal-body">  
+                    <div class="error-message-area">
+                    </div>                  
+                </div>                
+
+                <div class="modal-footer">                            
+                    <button type="button" id="" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>                    
+                </div>         
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
 </div>
 @endsection
 
@@ -714,6 +755,9 @@ $(function(){
         let f = $('#save-form');
 
         var formData = new FormData($('#save-form').get(0));
+
+        start_processing("#main");
+
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
 
@@ -730,6 +774,8 @@ $(function(){
         })     
             // 送信成功
             .done(function (data, textStatus, jqXHR) {
+
+                end_processing();
 
                 //{{-- ボタン有効 --}}
                 $('#save-button').prop("disabled", false);
@@ -749,21 +795,16 @@ $(function(){
 
                 }else{
 
-                    var ErrorMessage = result_array["Message"];
+                    var message = result_array["message"];
 
                     //{{-- アラートメッセージ表示 --}}
-                    var errorsHtml = '';
-                    errorsHtml = '<div class="alert alert-danger text-start">';
-                    errorsHtml += '<li class="text-start">' + ErrorMessage + '</li>';
-                    errorsHtml += '</div>';
-
-                        //{{-- アラート --}}
-                    $('.ajax-msg').html(errorsHtml);
-                    //{{-- 画面上部へ --}}
-
-                    $("html,body").animate({
-                        scrollTop: 0
-                    }, "300");
+                    var errorsHtml = '<div class="alert alert-danger text-start">';
+                        errorsHtml += '<li  class="text-start">' + message + '</li>';
+                        errorsHtml += '</div>';
+                        
+                    // // エラーモーダルを表示。
+                    $('#error-modal').modal('show');
+                    $('.error-message-area').html(errorsHtml);                  
 
                 }
 
@@ -773,13 +814,14 @@ $(function(){
             // 送信失敗
             .fail(function (data, textStatus, errorThrown) {
 
+                end_processing();
                 //{{-- ボタン有効 --}}
                 $('#save-button').prop("disabled", false);
                 //{{-- マウスカーソルを通常に --}}
                 document.body.style.cursor = 'auto';
 
                 //{{-- アラートメッセージ表示 --}}
-                let errorsHtml = '<div class="alert alert-danger text-start">';
+                var errorsHtml = '<div class="alert alert-danger text-start">';
 
                 if (data.status == '422') {
                     //{{-- vlidationエラー --}}
@@ -807,12 +849,10 @@ $(function(){
 
                 errorsHtml += '</div>';
 
-                //{{-- アラート --}}
-                $('.ajax-msg').html(errorsHtml);
-                //{{-- 画面上部へ --}}
-                $("html,body").animate({
-                    scrollTop: 0
-                }, "300");
+        
+                // エラーモーダルを表示。
+                $('#error-modal').modal('show');
+                $('.error-message-area').html(errorsHtml);
 
 
             });

@@ -980,6 +980,8 @@ $(function(){
             return false;
         }
 
+        start_processing('.search-board');
+
         //マウスカーソルを砂時計に
         document.body.style.cursor = 'wait';
 
@@ -992,6 +994,7 @@ $(function(){
         })
         .done(function (data, textStatus, jqXHR) {
 
+            end_processing();
             
             //マウスカーソルを通常に
             document.body.style.cursor = 'auto';
@@ -1011,6 +1014,7 @@ $(function(){
         })
         .fail(function (data, textStatus, errorThrown) {
            
+            end_processing();
             //マウスカーソルを通常に
             document.body.style.cursor = 'auto';
 

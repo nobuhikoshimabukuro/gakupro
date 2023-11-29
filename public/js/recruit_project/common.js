@@ -1,36 +1,51 @@
+function end_loader() {
+
+  var elements = document.querySelectorAll('.loader-area');
+
+  // 取得した要素を削除
+  elements.forEach(function(element) {
+    element.remove();
+  });
 
 
-function phpProcessingStart() {         
+  var elements = document.querySelectorAll('.loader');
 
-  //マウスを待機中
-  document.body.style.cursor = 'wait';  
-  //発火元（主にボタン）を操作不可にする
-  $(this).prop("disabled", true);
+  // 取得した要素を削除
+  elements.forEach(function(element) {
+    element.remove();
+  });
 }
 
-function phpProcessingEnd() {
+// 引数は操作制御したいセレクタ
+function start_processing(target){
 
-  //マウスを待機中から解除
-  document.body.style.cursor = 'auto';
+  // 処理中のローディングcss
+  let Html = '<div class="processing-area">';
+  Html += '<div class="processing"></div>';
+  Html += '</div>';
 
-  //発火元（主にボタン）を操作可能にする
-  $(this).prop("disabled", false);
+  // 対象要素に作成したhtmlを追加
+  $(Html).appendTo(target);
+
 
 }
 
+function end_processing(){   
 
-function LoaderEnd() {
-  $(".inoperable").removeClass('inoperable');
-  $("#loading_area").remove(); 
+
+  var elements = document.querySelectorAll('.processing-area');
+
+  // 取得した要素を削除
+  elements.forEach(function(element) {
+    element.remove();
+  });
+
+
+  var elements = document.querySelectorAll('.processing');
+
+  // 取得した要素を削除
+  elements.forEach(function(element) {
+    element.remove();
+  });
+
 }
-
-function UploaderStart() {
-  $("#main").addClass('inoperable');
-  $("#uploading_area").removeClass('d-none');  
-}
-
-function UploaderEnd() {
-  $("#uploading_area").addClass('d-none');  
-  $("#main").removeClass('inoperable');  
-}
-
