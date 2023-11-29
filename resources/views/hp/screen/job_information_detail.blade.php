@@ -217,7 +217,7 @@
                     </h3>
                 </div>
 
-                <div class="col-12 mt-1 m-0 p-0 job-image-all-area">
+                <div class="col-12 mt-1 m-0 p-2 job-image-all-area">
 
                     <div id="" class="job-image-outer-area">
 
