@@ -94,9 +94,9 @@
                           @foreach ($job_password_connection_t as $job_password_connection_index =>  $job_password_connection_info)
 
                             @if($job_password_connection_info->today_publish_flg == 1)
-                              <span class="flash-area"><span class="item-flash">★</span></span>{{$job_password_connection_info->publish_start_date}}～{{$job_password_connection_info->publish_end_date}}
+                              <div class="flash-area"><span class="item-flash">★</span></div>{{$job_password_connection_info->publish_start_date}}～{{$job_password_connection_info->publish_end_date}}
                             @else
-                              <span class="flash-area"></span>{{$job_password_connection_info->publish_start_date}}～{{$job_password_connection_info->publish_end_date}}
+                              <div class="flash-area"></div>{{$job_password_connection_info->publish_start_date}}～{{$job_password_connection_info->publish_end_date}}
                             @endif
                             
                             @if(count($job_password_connection_t) != $job_password_connection_index + 1)
