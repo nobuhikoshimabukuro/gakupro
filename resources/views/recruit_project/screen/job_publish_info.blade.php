@@ -89,18 +89,9 @@
 
         @include('recruit_project.common.alert')
 
-        <div class="row">        
+         
 
-            <div class="col-12 text-start">
-                <label>パスワード</label>
-                <input type="text" name="password" id="password" class="">
-                <button id="job-password-check-button" type="button" class='job-password-check-button btn btn-success'>パスワード確認</button>
-            </div>
-
-
-        </div>    
-
-        <div class="row">        
+        <div class="row m-0 mt-2 p-0">        
 
             <div class="col-6 text-start">
                 <h4 class="master-title">
@@ -111,15 +102,11 @@
 
             <div class="col-6 text-end">
                 
+                <button class='btn btn-success' data-bs-toggle='modal' data-bs-target='#password-modal'>掲載期間を伸ばす</button>
+                
             </div>
 
         </div>    
-
-
-        <div class="row">
-
-
-        </div>
 
 
 
@@ -155,6 +142,44 @@
 
     </div>
 
+
+
+
+
+
+    {{-- パスワード入力モーダル --}}
+    <div class="modal fade" id="password-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="password-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+
+                  <div class="modal-header">
+                    <h5 class="modal-title" id=""><span id="password-modal-title"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+               
+                <div class="modal-body">
+                    
+                    <div class="col-12 text-start">
+                        <label>パスワード</label>
+                        <input type="text" name="password" id="password" class="">
+                        <button id="job-password-check-button" type="button" class='job-password-check-button btn btn-success'>パスワード確認</button>
+                    </div>
+
+                    <div class="col-12 text-start">
+                        <div class="password-result-area">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">               
+                    <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     
 </div>
 @endsection
@@ -167,29 +192,7 @@ $(function(){
 
   
 
-    //登録、更新用モーダル表示時
-    $('#save-modal').on('show.bs.modal', function(e) {
 
-        //{{-- メッセージクリア --}}
-        $('.ajax-msg').html('');
-        $('.invalid-feedback').html('');
-        $('.is-invalid').removeClass('is-invalid');
-
-
-        
-        
-    });
-
-
-    // 「クリア」ボタンがクリックされたら
-    $('.clear-button').click(function () {
-
-        var FormData = $("#search-form").serializeArray();        
-
-        $.each(FormData, function(i, element) {		
-            $("[name='"+ element.name +"']").val("");          
-        });
-    });
 
 
     // 「パスワード確認」ボタンがクリックされたら
@@ -239,18 +242,28 @@ $(function(){
 
                     if(result_type == 0){
 
-                        alert(Message);
+                    
 
                     }else if(result_type == 1){
 
-                        alert(Message);
+                    
 
                     }else if(result_type == 2){
 
-                        alert(Message);
+                    // alert(Message);
 
                     }
 
+
+                    
+                    //{{-- アラートメッセージ表示 --}}
+                    var errorsHtml = '';
+                    errorsHtml = '<div class="alert alert-danger text-start">';
+                    errorsHtml += '<li class="text-start">' + Message + '</li>';
+                    errorsHtml += '</div>';
+
+                        //{{-- アラート --}}
+                    $('.password-result-area').html(errorsHtml);
 
                 }else{
 
@@ -263,11 +276,8 @@ $(function(){
                     errorsHtml += '</div>';
 
                         //{{-- アラート --}}
-                    $('.ajax-msg').html(errorsHtml);
-                    //{{-- 画面上部へ --}}
-                    $("html,body").animate({
-                        scrollTop: 0
-                    }, "300");
+                    $('.password-result-area').html(errorsHtml);
+                   
                  
 
                 }
