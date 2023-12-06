@@ -806,11 +806,11 @@ class recruit_project_controller extends Controller
 
         if (!$this->LoginStatusCheck() || is_null($employer_id)) {
             //セッション切れ
-            session()->flash('employer_loginerror', '再度ログインお願い致します。');            
+            session()->flash('employer_loginerror', '再度ログインをお願い致します。');            
             return redirect()->route('recruit_project.login');
         }       
 
-        $job_info = [];
+        $job_info = null;
         $employment_status_connections = [];
         $job_category_connections = [];
         $job_supplement_category_connections = [];
@@ -1240,12 +1240,28 @@ class recruit_project_controller extends Controller
             $job_supplement_data = get_data::job_supplement_data();
 
             $a = $request->all();
-        
-            
+               
 
-            $employer_id = session()->get('employer_id');        
-
+            $employer_id = $request->employer_id;
             $job_id = $request->job_id;
+            // $publish_flg = $request->publish_flg;
+            $title = $request->title;
+            $sub_title = $request->sub_title;
+            $work_location_prefectural_cd = $request->work_location_prefectural_cd;
+            $work_location_municipality_cd = $request->work_location_municipality_cd;
+            $working_time = $request->working_time;
+            $salary = $request->salary;
+            $holiday = $request->holiday;
+            $manager_name = $request->manager_name;
+            $tel = $request->tel;
+            $fax = $request->fax;
+            $hp_url = $request->hp_url;
+            $job_image_folder_name = $request->job_image_folder_name;
+            $mailaddress = $request->mailaddress;
+            $application_requirements = $request->application_requirements;
+            $scout_statement = $request->scout_statement;
+            $remarks = $request->remarks;
+
 
             //新規登録時
             if($job_id == 0){       
@@ -1261,36 +1277,66 @@ class recruit_project_controller extends Controller
                     $job_id = $job_id_Check + 1;
                 }
 
-                $title = "TEST" . $job_id;
-                
+            }else{
+                $new_data_flg = false;
+            }
+
+
+            if($new_data_flg){
+
                 $job_image_folder_name = $this->create_job_image_folder_name(10);
 
                 job_information_t_model::insert(
                     [                            
                         "employer_id" => $employer_id
                         ,"job_id" => $job_id
+                        ,"publish_flg" => 1
                         ,"title" => $title
+                        ,"sub_title" => $sub_title
+                        ,"work_location_prefectural_cd" => $work_location_prefectural_cd
+                        ,"work_location_municipality_cd" => $work_location_municipality_cd
+                        ,"working_time" => $working_time
+                        ,"salary" => $salary
+                        ,"holiday" => $holiday
+                        ,"manager_name" => $manager_name
+                        ,"tel" => $tel
+                        ,"fax" => $fax
+                        ,"hp_url" => $hp_url
                         ,"job_image_folder_name" => $job_image_folder_name
+                        ,"mailaddress" => $mailaddress
+                        ,"application_requirements" => $application_requirements
+                        ,"scout_statement" => $scout_statement
+                        ,"remarks" => $remarks                        
                     ]
                 );
 
             }else{
-                $new_data_flg = false;
 
-                //更新処理
-                job_information_t_model::where('employer_id', $employer_id)
-                ->where('job_id', $job_id)
-                ->update(
+                 //更新処理
+                 job_information_t_model::where('employer_id', $employer_id)
+                 ->where('job_id', $job_id)
+                 ->update(
                     [
-                        
-                        "updated_by" => 9999
+                    
+                     "title" => $title
+                    ,"sub_title" => $sub_title
+                    ,"work_location_prefectural_cd" => $work_location_prefectural_cd
+                    ,"work_location_municipality_cd" => $work_location_municipality_cd
+                    ,"working_time" => $working_time
+                    ,"salary" => $salary
+                    ,"holiday" => $holiday
+                    ,"manager_name" => $manager_name
+                    ,"tel" => $tel
+                    ,"fax" => $fax
+                    ,"hp_url" => $hp_url                    
+                    ,"mailaddress" => $mailaddress
+                    ,"application_requirements" => $application_requirements
+                    ,"scout_statement" => $scout_statement
+                    ,"remarks" => $remarks                        
                     ]
-                );
-
+                 );
 
             }
-
-
             
 
             

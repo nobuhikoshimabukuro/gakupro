@@ -7,6 +7,260 @@
 
 <style>
 
+
+.label-area{
+    display: flex;    
+    align-items: center;
+}
+
+
+
+table {
+  border-collapse: collapse;
+}
+
+p {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;  
+}
+
+input[type="submit"],
+input[type="text"],
+input[type="tel"],
+textarea,
+button {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  outline: none;
+  border: none;
+  font-weight: 600;
+}
+
+
+
+select
+{
+  -moz-appearance: none;  
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  outline: none;
+  border: none;
+
+  background: #ebf4f8;  
+  display: inline;
+  font-size: 16px;
+  padding: 7px 2px;
+  transition: 0.8s;
+  margin: 0;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+
+input[type="text"]
+,input[type="tel"]
+,textarea
+{
+    background: #ebf4f8;  
+    display: inline;
+    font-size: 16px;
+    padding: 7px;
+    transition: 0.8s;
+    margin: 0;
+    border-radius: 6px;  
+    width: 100%;
+}
+
+/*未入力*/
+input[type="text"]:placeholder-shown
+,input[type="tel"]:placeholder-shown
+,textarea:placeholder-shown
+{
+    background: #243355;
+
+}
+
+input[type="text"]:focus
+,input[type="tel"]:focus
+,textarea:focus
+,select:focus
+{
+  /* background: #e9f5fb; */
+  background: #f7f7f6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+
+input::placeholder{
+  color: white;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+
+.form-table {
+    border: 1px solid #d7d7d7;
+    width: 100%;
+
+    border-collapse: separate;/*collapseから変更*/
+    border-spacing: 0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+
+.form-table th {
+    white-space: nowrap;
+    border-bottom: 1px solid #d7d7d7;
+    border-right: 1px solid #d7d7d7;
+    /* background: #ffecea;   */
+    background: linear-gradient(-225deg, #eaf3f1 0%, #ececd7 56%, #ebeedf 100%);
+    font-size: 20px;
+    position: relative;
+    text-align: left;
+    padding: 2px 0 2px 5px;
+
+    
+}
+
+
+.form-table td {        
+    position: relative;
+    white-space: nowrap;
+    text-align: left;
+    border-bottom: 1px solid #d7d7d7;
+    padding: 5px;
+}
+
+.form-table tbody tr:last-child th,
+.form-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+
+
+
+
+
+
+
+.required{
+    display:inline;
+    background-color: red;
+    color: wheat;
+    font-weight: 500;
+    text-align: center;
+    border-radius: 7px; /* ボックスの四つ角を丸くする */
+    padding: 0 3px 0 3px;
+    width: 40px;;
+    
+}
+
+.error-border{
+    border: solid red ;
+}
+
+.hyphen{
+    padding: 0;
+    font-size: 21px;
+    font-weight: 700;
+}
+.item-flash{
+	animation: flash 2s linear infinite;
+}
+
+@keyframes flash {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+/* PC用 */
+@media (min-width:769px) {  /*画面幅が769px以上の場合とする*/
+
+   
+
+    .form-table th {        
+        text-align: center;
+    }
+
+
+}
+
+
+
+/* スマホ用 */
+@media (max-width:768px) {  /*画面幅が768px以下の場合とする*/
+
+   
+
+    .form-table th,
+    .form-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .form-table th {
+        border-right: none;
+        text-align: left;
+    }
+
+  
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     body{
         z-index: 1;
         padding-bottom: 5vh;
@@ -145,6 +399,251 @@
             <div class="col-11 col-md-11 mt-3">
         
                 <div id="" class="row m-0 p-0">
+
+                    <div class="col-12 mt-1 m-0 p-0">
+
+                        <table class="form-table">
+
+                            <tbody>
+            
+                                <tr class="title-tr">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                        <label for="title">タイトル</label><span class="required">必須</span>
+                                    </th>
+                                    <td>
+            
+                                        <input type="text" id="title" name="title" placeholder="" 
+                                        @if(is_null($job_info))
+                                            value=""
+                                        @else
+                                            value="{{$job_info->title}}"
+                                        @endif
+                                        >            
+                                    </td>
+            
+            
+                                </tr>
+
+
+                                <tr class="sub_title-tr">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                        <label for="sub_title">サブタイトル</label><span class="required">必須</span>
+                                    </th>
+                                    <td>
+            
+                                        <input type="text" id="sub_title" name="sub_title" placeholder="" 
+                                        @if(is_null($job_info))
+                                            value=""
+                                        @else
+                                            value="{{$job_info->sub_title}}"
+                                        @endif
+                                        >            
+                                    </td>           
+            
+                                </tr>
+
+                                <tr class="work_location_prefectural_cd-tr">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                        <label for="work_location_prefectural_cd">勤務地</label>
+                                        <span class="required">必須</span>
+                                    </th>
+                                    <td>
+            
+                                        
+                                        @php
+                                            $work_location_prefectural_cd = "";
+
+                                            if(!is_null($job_info)){
+                                                $work_location_prefectural_cd = $job_info->work_location_prefectural_cd;
+                                            }
+                                        @endphp
+                             
+
+                                        <select id='work_location_prefectural_cd' name='work_location_prefectural_cd' class='input-sm'>
+                                            <option value=''>未選択</option>
+                                                @foreach($prefectural_list as $prefectural_info)
+                                                    <option value="{{$prefectural_info->prefectural_cd}}"                                                    
+                                                    @if($work_location_prefectural_cd == $prefectural_info->prefectural_cd)                                                        
+                                                        selected                                                                                                                
+                                                    @endif
+                                                    title= "{{$prefectural_info->prefectural_name_kana}}"
+                                                    >
+                                                    {{$prefectural_info->prefectural_name}}
+                                                    </option>
+                                                @endforeach
+                                        </select>                                                                                
+            
+                                    </td>           
+            
+                                </tr>
+
+
+                                <tr class="working_time-tr">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                        <label for="working_time">就労時間</label>
+                                        <span class="required">必須</span>
+                                    </th>
+                                    <td>
+            
+                                        <textarea id="working_time" name="working_time" placeholder=""                                         
+                                        >@if(!is_null($job_info)){{$job_info->working_time}}@endif</textarea>            
+                                    </td>           
+            
+                                </tr>
+            
+                                <tr class="salary-tr">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                        <label for="salary">給与</label>
+                                        <span class="required">必須</span>
+                                    </th>
+                                    <td>
+            
+                                        <textarea id="salary" name="salary" placeholder=""                                         
+                                        >@if(!is_null($job_info)){{$job_info->salary}}@endif</textarea>            
+                                    </td>           
+            
+                                </tr>
+
+                                <tr class="holiday-tr">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                        <label for="holiday">休日</label>
+                                        <span class="required">必須</span>
+                                    </th>
+                                    <td>
+            
+                                        <textarea id="holiday" name="holiday" placeholder=""                                         
+                                        >@if(!is_null($job_info)){{$job_info->holiday}}@endif</textarea>            
+                                    </td>           
+            
+                                </tr>
+
+                                <tr class="manager_name-tr">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                        <label for="manager_name">求人担当者名</label>
+                                    </th>
+                                    <td>
+            
+                                        <input type="text" id="manager_name" name="manager_name" placeholder="" 
+                                        @if(is_null($job_info))
+                                            value=""
+                                        @else
+                                            value="{{$job_info->manager_name}}"
+                                        @endif
+                                        >            
+                                    </td>           
+            
+                                </tr>
+
+                                <tr class="tel-tr">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                        <label for="tel">電話番号</label>
+                                    </th>
+                                    <td>
+            
+                                        <input type="tel" id="tel" name="tel" placeholder="" 
+                                        @if(is_null($job_info))
+                                            value=""
+                                        @else
+                                            value="{{$job_info->tel}}"
+                                        @endif
+                                        >            
+                                    </td>           
+            
+                                </tr>
+
+                                <tr class="fax-tr">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                        <label for="fax">FAX</label>
+                                    </th>
+                                    <td>
+            
+                                        <input type="tel" id="fax" name="fax" placeholder="" 
+                                        @if(is_null($job_info))
+                                            value=""
+                                        @else
+                                            value="{{$job_info->fax}}"
+                                        @endif
+                                        >            
+                                    </td>           
+            
+                                </tr>
+
+                                <tr class="hp_url-tr">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                        <label for="hp_url">hp_url</label>
+                                    </th>
+                                    <td>
+            
+                                        <input type="tel" id="hp_url" name="hp_url" placeholder="" 
+                                        @if(is_null($job_info))
+                                            value=""
+                                        @else
+                                            value="{{$job_info->hp_url}}"
+                                        @endif
+                                        >            
+                                    </td>           
+            
+                                </tr>
+
+                                <tr class="mailaddress-tr">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                        <label for="mailaddress">メールアドレス</label>
+                                    </th>
+                                    <td>
+            
+                                        <input type="tel" id="mailaddress" name="mailaddress" placeholder="" 
+                                        @if(is_null($job_info))
+                                            value=""
+                                        @else
+                                            value="{{$job_info->mailaddress}}"
+                                        @endif
+                                        >            
+                                    </td>           
+            
+                                </tr>
+
+
+                                <tr class="application_requirements-tr">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                        <label for="application_requirements">応募資格</label>                                        
+                                    </th>
+                                    <td>
+            
+                                        <textarea id="application_requirements" name="application_requirements" placeholder=""                                         
+                                        >@if(!is_null($job_info)){{$job_info->application_requirements}}@endif</textarea>            
+                                    </td>            
+                                </tr>
+
+                                <tr class="scout_statement-tr">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                        <label for="scout_statement">スカウト文</label>                                        
+                                    </th>
+                                    <td>
+            
+                                        <textarea id="scout_statement" name="scout_statement" placeholder=""                                         
+                                        >@if(!is_null($job_info)){{$job_info->scout_statement}}@endif</textarea>            
+                                    </td>            
+                                </tr>
+
+                                <tr class="remarks-tr">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                        <label for="remarks">備考</label>                                        
+                                    </th>
+                                    <td>
+            
+                                        <textarea id="remarks" name="remarks" placeholder=""                                         
+                                        >@if(!is_null($job_info)){{$job_info->remarks}}@endif</textarea>            
+                                    </td>            
+                                </tr>
+                            
+            
+                            </tbody>
+                            
+                        </table>
+                                              
+           
+                        
+                    </div>
 
                     <div class="col-12 mt-1 m-0 p-0">
 

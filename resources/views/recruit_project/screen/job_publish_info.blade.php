@@ -190,125 +190,121 @@
 
 $(function(){
 
-  
 
-
-
-
-    // 「パスワード確認」ボタンがクリックされたら
-    $('#job-password-check-button').click(function () {
-     
-        // ２重送信防止
-        // 保存tを押したらdisabled, 10秒後にenable
-        $('#job-password-check-button').prop("disabled", true);
-
-        setTimeout(function () {
-            $('#job-password-check-button').prop("disabled", false);
-        }, 3000);
-
-        //{{-- メッセージクリア --}}
-        $('.ajax-msg').html('');
-
-        var password = $('#password').val();
-                
-        //マウスカーソルを砂時計に
-        document.body.style.cursor = 'wait';
-
+// 「パスワード確認」ボタンがクリックされたら
+$('#job-password-check-button').click(function () {
  
-        $.ajax({	
-			url: "{{ route('recruit_project.job_password_check') }}", // 送信先
-			type: 'post',
-			dataType: 'json',
-			data: { 'password' : password },
-			headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}            
-        })
-            // 送信成功
-            .done(function (data, textStatus, jqXHR) {
+    // ２重送信防止
+    // 保存tを押したらdisabled, 10秒後にenable
+    $('#job-password-check-button').prop("disabled", true);
+
+    setTimeout(function () {
+        $('#job-password-check-button').prop("disabled", false);
+    }, 3000);
+
+    //{{-- メッセージクリア --}}
+    $('.ajax-msg').html('');
+
+    var password = $('#password').val();
+            
+    //マウスカーソルを砂時計に
+    document.body.style.cursor = 'wait';
+
+
+    $.ajax({	
+        url: "{{ route('recruit_project.job_password_check') }}", // 送信先
+        type: 'post',
+        dataType: 'json',
+        data: { 'password' : password },
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}            
+    })
+        // 送信成功
+        .done(function (data, textStatus, jqXHR) {
+            
+            //{{-- ボタン有効 --}}
+            $("#job-password-check-button").prop("disabled", false);
+            //{{-- マウスカーソルを通常に --}}                    
+            document.body.style.cursor = 'auto';
+
+            var result_array = data.result_array;
+
+            var Result = result_array["Result"];
+
+
+            if(Result=='success'){
+
+                var result_type = result_array["result_type"];
+                var Message = result_array["Message"];
+
+                if(result_type == 0){
+
                 
-                //{{-- ボタン有効 --}}
-                $("#job-password-check-button").prop("disabled", false);
-                //{{-- マウスカーソルを通常に --}}                    
-                document.body.style.cursor = 'auto';
 
-                var result_array = data.result_array;
+                }else if(result_type == 1){
 
-                var Result = result_array["Result"];
+                
 
+                }else if(result_type == 2){
 
-                if(Result=='success'){
-
-                    var result_type = result_array["result_type"];
-                    var Message = result_array["Message"];
-
-                    if(result_type == 0){
-
-                    
-
-                    }else if(result_type == 1){
-
-                    
-
-                    }else if(result_type == 2){
-
-                    // alert(Message);
-
-                    }
-
-
-                    
-                    //{{-- アラートメッセージ表示 --}}
-                    var errorsHtml = '';
-                    errorsHtml = '<div class="alert alert-danger text-start">';
-                    errorsHtml += '<li class="text-start">' + Message + '</li>';
-                    errorsHtml += '</div>';
-
-                        //{{-- アラート --}}
-                    $('.password-result-area').html(errorsHtml);
-
-                }else{
-
-                    var ErrorMessage = result_array["Message"];
-
-                    //{{-- アラートメッセージ表示 --}}
-                    var errorsHtml = '';
-                    errorsHtml = '<div class="alert alert-danger text-start">';
-                    errorsHtml += '<li class="text-start">パスワード確認処理エラー</li>';
-                    errorsHtml += '</div>';
-
-                        //{{-- アラート --}}
-                    $('.password-result-area').html(errorsHtml);
-                   
-                 
+                // alert(Message);
 
                 }
 
-            
-            })
 
-            // 送信失敗
-            .fail(function (data, textStatus, errorThrown) {
-
-                //{{-- マウスカーソルを通常に --}}                    
-                document.body.style.cursor = 'auto';
                 
                 //{{-- アラートメッセージ表示 --}}
-                let errorsHtml = '<div class="alert alert-danger text-start">';                
+                var errorsHtml = '';
+                errorsHtml = '<div class="alert alert-danger text-start">';
+                errorsHtml += '<li class="text-start">' + Message + '</li>';
+                errorsHtml += '</div>';
+
+                    //{{-- アラート --}}
+                $('.password-result-area').html(errorsHtml);
+
+            }else{
+
+                var ErrorMessage = result_array["Message"];
+
+                //{{-- アラートメッセージ表示 --}}
+                var errorsHtml = '';
+                errorsHtml = '<div class="alert alert-danger text-start">';
                 errorsHtml += '<li class="text-start">パスワード確認処理エラー</li>';
                 errorsHtml += '</div>';
-                
-                //{{-- アラート --}}
-                $('.ajax-msg').html(errorsHtml);
-                //{{-- 画面上部へ --}}
-                $("html,body").animate({
-                    scrollTop: 0
-                }, "300");
-                //{{-- ボタン有効 --}}
-                $('#job-password-check-button').prop("disabled", false);
-                
 
-            });
+                    //{{-- アラート --}}
+                $('.password-result-area').html(errorsHtml);
+               
+             
 
-    });
+            }
+
+        
+        })
+
+        // 送信失敗
+        .fail(function (data, textStatus, errorThrown) {
+
+            //{{-- マウスカーソルを通常に --}}                    
+            document.body.style.cursor = 'auto';
+            
+            //{{-- アラートメッセージ表示 --}}
+            let errorsHtml = '<div class="alert alert-danger text-start">';                
+            errorsHtml += '<li class="text-start">パスワード確認処理エラー</li>';
+            errorsHtml += '</div>';
+            
+            //{{-- アラート --}}
+            $('.ajax-msg').html(errorsHtml);
+            //{{-- 画面上部へ --}}
+            $("html,body").animate({
+                scrollTop: 0
+            }, "300");
+            //{{-- ボタン有効 --}}
+            $('#job-password-check-button').prop("disabled", false);
+            
+
+        });
+
+});
 
 });
 

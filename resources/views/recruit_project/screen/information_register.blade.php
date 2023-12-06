@@ -33,6 +33,7 @@
 @section('content')
 
 <style>
+    
 table {
   border-collapse: collapse;
 }
