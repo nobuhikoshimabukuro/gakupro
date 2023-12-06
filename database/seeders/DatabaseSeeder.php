@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Original\common;
 use Carbon\Carbon;
 
+// ・マイグレーション実行 既存Table削除し再作成後シードも実行
+// php artisan migrate:fresh --database=mysql --seed
 class DatabaseSeeder extends Seeder
 {
     /**
