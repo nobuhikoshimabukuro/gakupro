@@ -1340,10 +1340,40 @@ class recruit_project_controller extends Controller
             $error_message = $e->getMessage();
             Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
 
+            //出力ファイル名
+            $output_filename = "job_information_ng.pdf";
+
+
+            //pdfテンプレートの保存場所
+            $job_information_template_path = public_path("pdf/job_information_template_ng.pdf");  
+
+
+            // 縦A4サイズのPDF文書を準備
+            $pdf = new Fpdi('P', 'mm', 'A4');
+
+            // ヘッダーの出力なし（falseにしないと線が出る）
+            $pdf->setPrintHeader(false);
+            // フッターの出力なし（同じく）
+            $pdf->setPrintFooter(false);
+            //自動改ページ設定（自動改ページをさせない）
+            $pdf->SetAutoPageBreak(false);
+
+            //１ページ目テンプレートをセット
+            $pdf->setSourceFile($job_information_template_path);
+            $importPage = $pdf->importPage(1);
+
+            //テンプレートを頁に追加
+            $pdf->addPage();
+
+            //テンプレートをページに適用
+            $pdf->useTemplate($importPage, 0, 0);
+
+
         }
         
         //完成、ブラウザに表示        
         $pdf->output($output_filename, "I");
+        
     }
 
     
