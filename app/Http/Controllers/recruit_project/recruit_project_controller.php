@@ -1239,108 +1239,110 @@ class recruit_project_controller extends Controller
     function job_information_output_pdf(Request $request)
     {    
 
-        $employer_id = session()->get('pdf_employer_id');
-        $job_id = session()->get('pdf_job_id');
-        
-        
-        session()->remove('pdf_employer_id');
-        session()->remove('pdf_job_id');
+        $process_title = "求人情報PDF出力処理";
+
+        try {
+
+            $employer_id = session()->get('pdf_employer_id');
+            $job_id = session()->get('pdf_job_id');
+            
+            
+            session()->remove('pdf_employer_id');
+            session()->remove('pdf_job_id');
 
 
-        $job_information_t = job_information_t_model::where('employer_id', $employer_id)
-        ->where('job_id', $job_id)
-        ->first();
-
-
-
-        if(is_null($job_information_t)){
-
-            //pdfテンプレートの保存場所
-            $job_information_template_path = public_path("pdf/job_information_template_ng.pdf");        
-        
-        }else{
-
-            //pdfテンプレートの保存場所
-            $job_information_template_path = public_path("pdf/job_information_template.pdf");
-
-        }
-
-        
-
-        // 縦A4サイズのPDF文書を準備
-        $pdf = new Fpdi('P', 'mm', 'A4');
-
-        // ヘッダーの出力なし（falseにしないと線が出る）
-        $pdf->setPrintHeader(false);
-        // フッターの出力なし（同じく）
-        $pdf->setPrintFooter(false);
-        //自動改ページ設定（自動改ページをさせない）
-        $pdf->SetAutoPageBreak(false);
-
-        //１ページ目テンプレートをセット
-        $pdf->setSourceFile($job_information_template_path);
-        $importPage = $pdf->importPage(1);
-
-        //テンプレートを頁に追加
-        $pdf->addPage();
-
-        //テンプレートをページに適用
-        $pdf->useTemplate($importPage, 0, 0);
-
-
-        //↓ここから１ページ目テンプレートにコンテンツを描画
-        // フォント
-        $pdf->setFont('kozminproregular', '', 25); // ←FPDFの標準日本語フォントはこれだけしかない
-
-        if(is_null($job_information_t)){
-
-            //出力ファイル名
-            $output_filename = "job_information_ng.pdf";
+            $job_information_t = job_information_t_model::where('employer_id', $employer_id)
+            ->where('job_id', $job_id)
+            ->first();
 
 
 
-        }else{
+            if(is_null($job_information_t)){
 
+                //pdfテンプレートの保存場所
+                $job_information_template_path = public_path("pdf/job_information_template_ng.pdf");        
+            
+            }else{
 
-            //出力ファイル名
-            $output_filename = "job_information.pdf";
-
-            $id = $job_information_t->id;
-            $job_image_folder_name = $job_information_t->job_image_folder_name;
-
-            $image_directory_path = public_path("storage/recruit_project/job_image/id_" . $id . "/" . $job_image_folder_name . "/1/");
-
-            // ディレクトリ内のファイルを取得
-            $files = File::files($image_directory_path);
-
-            // ファイル名を取得（ここでは最初のファイルを取得しています）
-            if (!empty($files)) {
-
-                $firstFileName = basename($files[0]);           
-                // 完全なファイルパスを生成
-                $image_full_path = $image_directory_path . $firstFileName;
-                
-                // $imagePathを使ってPDFに画像を挿入する処理を行う
-                $pdf->Image($image_full_path, 10, 10, 70, 50); // (画像パス, X座標, Y座標, 幅, 高さ)
-
-            } else {        
-
-                
+                //pdfテンプレートの保存場所
+                $job_information_template_path = public_path("pdf/job_information_template.pdf");
 
             }
 
+            
+
+            // 縦A4サイズのPDF文書を準備
+            $pdf = new Fpdi('P', 'mm', 'A4');
+
+            // ヘッダーの出力なし（falseにしないと線が出る）
+            $pdf->setPrintHeader(false);
+            // フッターの出力なし（同じく）
+            $pdf->setPrintFooter(false);
+            //自動改ページ設定（自動改ページをさせない）
+            $pdf->SetAutoPageBreak(false);
+
+            //１ページ目テンプレートをセット
+            $pdf->setSourceFile($job_information_template_path);
+            $importPage = $pdf->importPage(1);
+
+            //テンプレートを頁に追加
+            $pdf->addPage();
+
+            //テンプレートをページに適用
+            $pdf->useTemplate($importPage, 0, 0);
+
+
+            //↓ここから１ページ目テンプレートにコンテンツを描画
+            // フォント
+            $pdf->setFont('kozminproregular', '', 25); // ←FPDFの標準日本語フォントはこれだけしかない
+
+            if(is_null($job_information_t)){
+
+                //出力ファイル名
+                $output_filename = "job_information_ng.pdf";
+
+
+
+            }else{
+
+
+                //出力ファイル名
+                $output_filename = "job_information.pdf";
+
+                $id = $job_information_t->id;
+                $job_image_folder_name = $job_information_t->job_image_folder_name;
+
+                $image_directory_path = public_path("storage/recruit_project/job_image/id_" . $id . "/" . $job_image_folder_name . "/1/");
+
+                // ディレクトリ内のファイルを取得
+                $files = File::files($image_directory_path);
+
+                // ファイル名を取得（ここでは最初のファイルを取得しています）
+                if (!empty($files)) {
+
+                    $firstFileName = basename($files[0]);           
+                    // 完全なファイルパスを生成
+                    $image_full_path = $image_directory_path . $firstFileName;
+                    
+                    // $imagePathを使ってPDFに画像を挿入する処理を行う
+                    $pdf->Image($image_full_path, 10, 10, 70, 50); // (画像パス, X座標, Y座標, 幅, 高さ)
+
+                } else {        
+                    
+
+                }
+            }
+            
+
+        } catch (Exception $e) {
+
+
+            $error_message = $e->getMessage();
+            Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
+
         }
         
-        
-
-        
-
-        
-
-        
-
-        //完成、ブラウザに表示
-        
+        //完成、ブラウザに表示        
         $pdf->output($output_filename, "I");
     }
 
