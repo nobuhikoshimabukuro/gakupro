@@ -1313,6 +1313,7 @@ class recruit_project_controller extends Controller
                 $job_image_folder_name = $job_information_t->job_image_folder_name;
 
                 $image_directory_path = public_path("storage/recruit_project/job_image/id_" . $id . "/" . $job_image_folder_name . "/1/");
+                
 
                 // ディレクトリ内のファイルを取得
                 $files = File::files($image_directory_path);
@@ -1373,7 +1374,7 @@ class recruit_project_controller extends Controller
         
         //完成、ブラウザに表示        
         $pdf->output($output_filename, "I");
-        
+
     }
 
     
