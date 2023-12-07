@@ -40,6 +40,11 @@ button {
 }
 
 
+textarea {
+    resize: none;
+}
+
+
 
 select
 {
@@ -382,23 +387,46 @@ input::placeholder{
 
 </style>
 
-<div id="main" class="mt-3 text-center container">
+
+<div id="main" class="mt-3 text-center container">    
     
+    <div id="" class="row item-center">
+
+        <div class="col-11 col-md-11 mt-3">
     
+            <div id="" class="row m-0 p-0">
+
+                <div class="col-12 text-end">
+                    @if($job_id <> 0)  
+                        <button type="button" id="output-pdf-button" class="btn btn-primary"
+                        data-employerid="{{$employer_id}}"
+                        data-jobid="{{$job_id}}"
+                        >PDF</button>   
+                    @endif                  
+
+                    <button type="button" id="save-button" class="btn btn-primary" >登録</button>  
+                    
+                </div>
+        
+            </div>
+
+        </div>
+
+    </div>
+
     
     <form id="save-form" method="post" action="{{ route('recruit_project.job_information_save') }}">
+
         @csrf       
 
-        <input type="hidden" name="employer_id" id="employer_id" value="{{$employer_id}}">
-        <input type="hidden" name="job_id" id="job_id" value="{{$job_id}}">
-
-        <div id="" class="row item-center">
-
-            <button type="button" id="save-button" class="btn btn-primary" >登録TEST</button>
+        <div id="" class="row item-center">          
 
             <div class="col-11 col-md-11 mt-3">
         
-                <div id="" class="row m-0 p-0">
+                <div id="" class="row m-0 p-0"> 
+            
+                    <input type="hidden" name="employer_id" id="employer_id" value="{{$employer_id}}">
+                    <input type="hidden" name="job_id" id="job_id" value="{{$job_id}}">
 
                     <div class="col-12 mt-1 m-0 p-0">
 
@@ -485,7 +513,7 @@ input::placeholder{
                                     </th>
                                     <td>
             
-                                        <textarea id="working_time" name="working_time" placeholder=""                                         
+                                        <textarea id="working_time" name="working_time" placeholder="" rows="5"
                                         >@if(!is_null($job_info)){{$job_info->working_time}}@endif</textarea>            
                                     </td>           
             
@@ -498,7 +526,7 @@ input::placeholder{
                                     </th>
                                     <td>
             
-                                        <textarea id="salary" name="salary" placeholder=""                                         
+                                        <textarea id="salary" name="salary" placeholder="" rows="5"
                                         >@if(!is_null($job_info)){{$job_info->salary}}@endif</textarea>            
                                     </td>           
             
@@ -511,7 +539,7 @@ input::placeholder{
                                     </th>
                                     <td>
             
-                                        <textarea id="holiday" name="holiday" placeholder=""                                         
+                                        <textarea id="holiday" name="holiday" placeholder="" rows="5"
                                         >@if(!is_null($job_info)){{$job_info->holiday}}@endif</textarea>            
                                     </td>           
             
@@ -609,7 +637,7 @@ input::placeholder{
                                     </th>
                                     <td>
             
-                                        <textarea id="application_requirements" name="application_requirements" placeholder=""                                         
+                                        <textarea id="application_requirements" name="application_requirements" placeholder="" rows="5"
                                         >@if(!is_null($job_info)){{$job_info->application_requirements}}@endif</textarea>            
                                     </td>            
                                 </tr>
@@ -620,18 +648,18 @@ input::placeholder{
                                     </th>
                                     <td>
             
-                                        <textarea id="scout_statement" name="scout_statement" placeholder=""                                         
+                                        <textarea id="scout_statement" name="scout_statement" placeholder="" rows="5"
                                         >@if(!is_null($job_info)){{$job_info->scout_statement}}@endif</textarea>            
                                     </td>            
                                 </tr>
 
                                 <tr class="remarks-tr">
                                     <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <label for="remarks">備考</label>                                        
+                                        <label for="remarks">求人備考</label>                                        
                                     </th>
                                     <td>
             
-                                        <textarea id="remarks" name="remarks" placeholder=""                                         
+                                        <textarea id="remarks" name="remarks" placeholder="" rows="5"
                                         >@if(!is_null($job_info)){{$job_info->remarks}}@endif</textarea>            
                                     </td>            
                                 </tr>
@@ -973,47 +1001,32 @@ input::placeholder{
 
     </form>
 
+</div>
 
 
+{{-- エラーモーダル --}}
+<div class="modal fade" id="error-modal" tabindex="-2" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="error-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="error-modal-label">エラー</h5>
+                <button type="button" data-bs-dismiss="modal" class="close">
+                    <span aria-hidden="true">&times;</span>                    
+                </button>               
+            </div>        
+        
+            <div class="modal-body">  
+                <div class="error-message-area">
+                </div>                  
+            </div>                
 
-
-
-
-
-
-
-    {{-- エラーモーダル --}}
-    <div class="modal fade" id="error-modal" tabindex="-2" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="error-modal-label" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="error-modal-label">エラー</h5>
-                    <button type="button" data-bs-dismiss="modal" class="close">
-                        <span aria-hidden="true">&times;</span>                    
-                    </button>               
-                </div>        
-            
-                <div class="modal-body">  
-                    <div class="error-message-area">
-                    </div>                  
-                </div>                
-
-                <div class="modal-footer">                            
-                    <button type="button" id="" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>                    
-                </div>         
-            </div>
+            <div class="modal-footer">                            
+                <button type="button" id="" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>                    
+            </div>         
         </div>
     </div>
-
-
-
-
-
-
-
-
-
 </div>
+
 @endsection
 
 @section('pagejs')
@@ -1234,8 +1247,44 @@ $(function(){
 
     });
 
+    // PDF出力ボタン
+    $('#output-pdf-button').click(function () {
+
+        var job_id = $(this).data("jobid");
+        var employer_id = $(this).data("employerid");
 
 
+        var url = "";
+        var url = "{{ route('recruit_project.job_information_output_pdf_session')}}"
+
+        $.ajax({
+           url: url, // 送信先
+           type: 'get',
+           dataType: 'json',
+           data: {employer_id : employer_id , job_id : job_id},
+           headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+
+       })
+       .done(function (data, textStatus, jqXHR) {
+        
+
+            var url = "{{ route('recruit_project.job_information_output_pdf') }}"
+
+            window.open(url, '_blank');
+
+       })
+           .fail(function (data, textStatus, errorThrown) {
+           
+              
+
+           });
+
+
+
+    });
+
+
+  
 
 
 

@@ -150,8 +150,6 @@ class job_related
                 if(!is_null($job_image_input)){
                     Storage::disk('recruit_project_public_path')->put($job_image_folder_path, $job_image_input);
                 }
-
-
             }
         }
 

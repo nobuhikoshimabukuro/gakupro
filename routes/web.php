@@ -262,6 +262,9 @@ Route::get('recruit_project/job_information_confirmation', [recruit_project_cont
 Route::get('recruit_project/job_information_register', [recruit_project_controller::class, 'job_information_register'])->name('recruit_project.job_information_register');
 
 Route::post('recruit_project/job_information_save', [recruit_project_controller::class, 'job_information_save'])->name('recruit_project.job_information_save');
+
+Route::get('recruit_project/job_information_output_pdf_session', [recruit_project_controller::class, 'job_information_output_pdf_session'])->name('recruit_project.job_information_output_pdf_session');
+Route::get('recruit_project/job_information_output_pdf', [recruit_project_controller::class, 'job_information_output_pdf'])->name('recruit_project.job_information_output_pdf');
 //リクルートプロジェクト  End
 
 
