@@ -1362,7 +1362,7 @@ class recruit_project_controller extends Controller
                     // $pdf->Image($image_full_path, 10, 10, 70, 50); 
 
                     list($image_width, $image_height) = getimagesize($image_full_path);
-                    $pdf->Image($image_full_path, 10, 10, 70 * $image_width / $image_height, 70);
+                    $pdf->Image($image_full_path, 300, 10, 70 * $image_width / $image_height, 70);
                 }
 
 
@@ -1372,7 +1372,7 @@ class recruit_project_controller extends Controller
                 // テキストの色を設定（RGB）
                 $pdf->SetTextColor(35,59,108);
                 // テキストを配置する座標を設定
-                $pdf->SetXY(50, 50);
+                $pdf->SetXY(100, 20);
                 // テキストを追加
                 $pdf->Cell(0, 10, $title, 0, 1, 'L');
               
