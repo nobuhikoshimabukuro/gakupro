@@ -369,9 +369,8 @@ class DatabaseSeeder extends Seeder
                 'tel' => '',
                 'fax' => '',
                 'hp_url' => '',
-                'job_image_folder_name' => 'aaa',
-                'mailaddress' => '',
-                
+                'job_image_folder_name' => 'qrstuvwEFH',
+                'mailaddress' => '',                
                 'scout_statement' => '20代～30代男女活躍中！
                 県内優良企業です！
                 

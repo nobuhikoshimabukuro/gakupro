@@ -1312,26 +1312,65 @@ class recruit_project_controller extends Controller
                 $id = $job_information_t->id;
                 $job_image_folder_name = $job_information_t->job_image_folder_name;
 
-                $image_directory_path = public_path("storage/recruit_project/job_image/id_" . $id . "/" . $job_image_folder_name . "/1/");
+                //画像セット処理
+                for ($i = 1; $i <= 3; $i++) {
                 
+                    $image_directory_path = public_path("storage/recruit_project/job_image/id_" . $id . "/" . $job_image_folder_name . "/" . $i . "/");
 
-                // ディレクトリ内のファイルを取得
-                $files = File::files($image_directory_path);
 
-                // ファイル名を取得（ここでは最初のファイルを取得しています）
-                if (!empty($files)) {
+                    if (File::isDirectory($image_directory_path)) {
 
-                    $firstFileName = basename($files[0]);           
-                    // 完全なファイルパスを生成
-                    $image_full_path = $image_directory_path . $firstFileName;
-                    
-                    // $imagePathを使ってPDFに画像を挿入する処理を行う
-                    $pdf->Image($image_full_path, 10, 10, 70, 50); // (画像パス, X座標, Y座標, 幅, 高さ)
+                        // ディレクトリ内のファイルを取得
+                        $files = File::files($image_directory_path);
+    
+                        // ファイル名を取得（ここでは最初のファイルを取得しています）
+                        if (!empty($files)) {
+    
+                            $firstFileName = basename($files[0]);           
+                            // 完全なファイルパスを生成
+                            $image_full_path = $image_directory_path . $firstFileName;
+                            
+                            // $imagePathを使ってPDFに画像を挿入する処理を行う
+                            $pdf->Image($image_full_path, 10, 10, 70, 50); // (画像パス, X座標, Y座標, 幅, 高さ)
 
-                } else {        
-                    
+                            break;
+                        }
+
+                    }
 
                 }
+
+                $employer_id = $job_information_t->employer_id;
+                $job_id = $job_information_t->job_id;
+                // $publish_flg = $job_information_t->publish_flg;
+                $title = $job_information_t->title;
+                $sub_title = $job_information_t->sub_title;
+                $work_location_prefectural_cd = $job_information_t->work_location_prefectural_cd;
+                $work_location_municipality_cd = $job_information_t->work_location_municipality_cd;
+                $working_time = $job_information_t->working_time;
+                $salary = $job_information_t->salary;
+                $holiday = $job_information_t->holiday;
+                $manager_name = $job_information_t->manager_name;
+                $tel = $job_information_t->tel;
+                $fax = $job_information_t->fax;
+                $hp_url = $job_information_t->hp_url;
+                $job_image_folder_name = $job_information_t->job_image_folder_name;
+                $mailaddress = $job_information_t->mailaddress;
+                $application_requirements = $job_information_t->application_requirements;
+                $scout_statement = $job_information_t->scout_statement;
+                $remarks = $job_information_t->remarks;
+
+
+                // RGB参考
+                // https://itsakura.com/html-color-codes
+
+                // テキストの色を設定（RGB）
+                $pdf->SetTextColor(35,59,108);
+                // テキストを配置する座標を設定
+                $pdf->SetXY(50, 50);
+                // テキストを追加
+                $pdf->Cell(0, 10, $title, 0, 1, 'L');
+              
             }
             
 
