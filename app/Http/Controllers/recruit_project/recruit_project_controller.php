@@ -1274,6 +1274,10 @@ class recruit_project_controller extends Controller
             // 縦A4サイズのPDF文書を準備
             $pdf = new Fpdi('P', 'mm', 'A4');
 
+            // A4の横幅と高さ
+            $a4_width = 210;
+            $a4_height = 297;
+
             // ヘッダーの出力なし（falseにしないと線が出る）
             $pdf->setPrintHeader(false);
             // フッターの出力なし（同じく）
@@ -1362,7 +1366,7 @@ class recruit_project_controller extends Controller
                     // $pdf->Image($image_full_path, 10, 10, 70, 50); 
 
                     list($image_width, $image_height) = getimagesize($image_full_path);
-                    $pdf->Image($image_full_path, 300, 10, 70 * $image_width / $image_height, 70);
+                    $pdf->Image($image_full_path, $a4_width - 100, 10, 70 * $image_width / $image_height, 70);
                 }
 
 
@@ -1372,7 +1376,7 @@ class recruit_project_controller extends Controller
                 // テキストの色を設定（RGB）
                 $pdf->SetTextColor(35,59,108);
                 // テキストを配置する座標を設定
-                $pdf->SetXY(100, 20);
+                $pdf->SetXY(10, 10);
                 // テキストを追加
                 $pdf->Cell(0, 10, $title, 0, 1, 'L');
               
