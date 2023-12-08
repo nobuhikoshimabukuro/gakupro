@@ -1058,20 +1058,20 @@ class recruit_project_controller extends Controller
             // キー配列の作成
             $messages = [
                 0 => "使用可能なパスワードです。",
-                1 => "パスワードが存在しません。再入力してください。",
+                1 => "パスワードを再入力してください。",
                 2 => "使用済みのパスワードです。"
             ];
 
             $password = $request->password;
             
 
-            $result_type = $this->job_password_available_check($password);
+            $get_info_array = $this->job_password_available_check($password);
+                        
+            $get_info_array["message"] = $messages[$get_info_array["result_type"]];
 
-            
             $result_array = array(
-                "Result" => "success",
-                "result_type" => $result_type,
-                "Message" => $messages[$result_type]
+                "result" => "success",
+                "get_info_array" => $get_info_array,                
             );       
 
 
@@ -1082,9 +1082,7 @@ class recruit_project_controller extends Controller
             Log::channel('error_log')->info($process_title . "::error_message【" . $error_message ."】");
             
             $result_array = array(
-                "Result" => "error",
-                "result_type" => "",
-                "Message" => ""
+                "result" => "error"                
             );                        
                                 
         }
@@ -1124,9 +1122,11 @@ class recruit_project_controller extends Controller
             ];
 
             $password = $request->password;
+            $publish_start_date = $request->publish_start_date;
+            $publish_end_date = $request->publish_end_date;
             
 
-            $result_type = $this->job_password_available_check($password);
+            $get_info_array = $this->job_password_available_check($password);
 
 
             DB::connection('mysql')->commit();
@@ -1158,12 +1158,19 @@ class recruit_project_controller extends Controller
 
     }
 
+
+
+    
+
     //求人パスワードチェック（共通処理）    
     function job_password_available_check($password)
     {    
 
         $result_type = 0;
+        $job_password_item_name = "";
+        $added_date = "";
 
+        //求人パスワードがマスタにあるかチェック
         $existence_password = job_password_t_model::
             where('password', '=', $password)                        
             ->where('sale_flg', '=', 1)
@@ -1172,38 +1179,38 @@ class recruit_project_controller extends Controller
             
         if($existence_password){
 
-            
-            $job_password_t = job_password_t_model::
-            where('password', '=', $password)                            
-            ->where('usage_flg', '=', 0)
-            ->where('sale_flg', '=', 1)                
-            ->first();
+            //販売フラグがあり、かつ利用無しのデータ
+
+            $job_password_t = job_password_t_model::select(           
+                
+                'job_password_t.job_password_item_id as job_password_item_id',
+                'job_password_item_m.job_password_item_name as job_password_item_name',
+                'job_password_item_m.added_date as added_date',
+            )
+            ->leftJoin('job_password_item_m', function ($join) {
+                $join->on('job_password_t.job_password_item_id', '=', 'job_password_item_m.job_password_item_id');
+            })
+            ->leftJoin('job_password_connection_t', function ($join) {
+                $join->on('job_password_t.job_password_id', '=', 'job_password_connection_t.job_password_id');
+            })        
+            ->where('password', '=', $password)
+            ->where('job_password_t.usage_flg', '=', 0)
+            ->where('job_password_t.sale_flg', '=', 1)
+            ->whereNull('job_password_connection_t.employer_id')
+            ->first();            
+
 
             if(is_null($job_password_t)){
 
-                //パスワードは存在するが、利用フラグがたっている、NG                         
+                //パスワードは存在するが、利用フラグがたっているか求人情報に利用されているため、NG                         
                 $result_type = 2;
 
                 
             }else{
 
-                $job_password_id = $job_password_t->job_password_id;
-
-                //求人データと求人パスワードの紐づけチェック
-                $job_password_connection_t = job_password_connection_t_model::
-                where('job_password_id', '=', $job_password_id)                                  
-                ->first();
-
-                if(is_null($job_password_connection_t)){
-                        
-                    $result_type = 0;
-
-                }else{
-
-                    $result_type = 2;
-
-                }
-
+                $job_password_item_name = $job_password_t->job_password_item_name;
+                $added_date = $job_password_t->added_date;                
+                $result_type = 0;
 
             }
 
@@ -1214,7 +1221,8 @@ class recruit_project_controller extends Controller
 
         }
 
-        return $result_type;
+        $return_array = ['result_type' => $result_type , 'job_password_item_name' => $job_password_item_name ,'added_date' => $added_date];
+        return $return_array;
 
     }
 
@@ -1362,11 +1370,10 @@ class recruit_project_controller extends Controller
                 
                 if($image_full_path != ""){
                     // $imagePathを使ってPDFに画像を挿入する処理を行う
-                    // (画像パス, X座標, Y座標, 幅, 高さ)
-                    // $pdf->Image($image_full_path, 10, 10, 70, 50); 
+                    // (画像パス, X座標, Y座標, 幅, 高さ)                   
+                    $pdf->Image($image_full_path, $a4_width - 80, 10, 70, 70); 
+                                        
 
-                    list($image_width, $image_height) = getimagesize($image_full_path);
-                    $pdf->Image($image_full_path, $a4_width - 100, 10, 70 * $image_width / $image_height, 70);
                 }
 
 

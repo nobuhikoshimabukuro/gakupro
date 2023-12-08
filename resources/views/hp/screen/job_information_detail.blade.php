@@ -290,7 +290,7 @@
                     </p>
 
                     @if($job_information->job_hp_url != "")
-                        {{$job_information->job_hp_url}}
+                        <a href="{{$job_information->job_hp_url}}" target="_blank">関連</a>                        
                     @endif
                 </div>
 
@@ -304,7 +304,7 @@
                     </p>
 
                     @if($job_information->employer_hp_url != "")
-                        {{$job_information->employer_hp_url}}
+                        <a href="{{$job_information->employer_hp_url}}" target="_blank">会社HP</a>                        
                     @endif
                 </div>
 

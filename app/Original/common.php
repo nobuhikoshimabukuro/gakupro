@@ -22,7 +22,7 @@ class common
         $Judge = false;
 
         // 指定キーがセッションに存在するかを調べる
-        if ((session()->exists('login_flg'))) {
+        if ((session()->exists('staff_id'))) {
 
             $login_flg = session()->get('login_flg');
 

@@ -203,12 +203,27 @@ class hp_controller extends Controller
 
         // 日付を取得
         $now = Carbon::now();         
-        $today = $now->format('Y-m-d');
+        $today = $now->format('Y/m/d');
 
         $new_line = "\n";
 
         $sql = "        
         WITH 
+
+        editing_job_password_connection_t AS ( 
+            SELECT
+                employer_id
+                , job_id
+                , branch_number
+                , job_password_id
+                , publish_start_date
+                , publish_end_date 
+            FROM
+                job_password_connection_t 
+            WHERE
+                '". $today ."' BETWEEN publish_start_date AND publish_end_date
+        ) 
+        ,
         editing_employment_status_connection_t AS ( 
             SELECT
                 employer_id
@@ -307,8 +322,12 @@ class hp_controller extends Controller
         FROM
             job_information_t 
 
+            INNER JOIN editing_job_password_connection_t 
+                ON editing_job_password_connection_t.employer_id = job_information_t.employer_id 
+                AND editing_job_password_connection_t.job_id = job_information_t.job_id
+
             LEFT JOIN employer_m 
-                ON employer_m.employer_id = employer_m.employer_id 
+                ON employer_m.employer_id = job_information_t.employer_id 
             
             LEFT JOIN editing_employment_status_connection_t 
                 ON editing_employment_status_connection_t.employer_id = job_information_t.employer_id 
