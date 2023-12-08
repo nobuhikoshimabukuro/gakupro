@@ -1035,6 +1035,77 @@ input::placeholder{
 
 $(function(){
 
+
+
+    
+//エンターキー無効関数　AddressSearchButton
+		noEnterKey();
+
+    //エンターキー無効関数
+    function noEnterKey() {
+        //エンターキーでTAB移動
+
+        // 20231031 N.Shimabukuro Start
+        // textareaは、TABではなく改行
+
+        // $('input, select, textarea').on('keydown', function(e) {
+    $('input, select,button').on('keydown', function(e) {
+
+            // 20231031 N.Shimabukuro End      
+        var code = e.which ? e.which : e.keyCode;
+            if (code == 13) {
+                //if (e.which == 18) {//altでテスト用
+                if (e.ctrlKey) {
+                $(this).closest('form').submit();
+                } else {
+                
+                // var fields = $(this).closest('form').find('input, select, textarea');
+                var fields = $(this).closest('.container').find('input, select, textarea ,button');
+                var total = fields.length;
+                var index = fields.index(this);
+                var index_next = index + (e.shiftKey ? (index > 0 ? -1 : 0) : (index < total ? +1 : total));
+
+                if (fields.eq(index_next).is(":disabled") === true) {
+                    if (e.shiftKey) {
+                    index_next -= 1;
+                    if (index_next < 1) index_next = 0;
+                    } else {
+                    index_next += 1;
+                    if (index_next > total) index_next = total;
+                    }
+                }
+                // フォーカス移動
+                fields.eq(index_next).focus();
+                return false;
+                }
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     //FormDataオブジェクトを作成
     var formData = new FormData();
     
