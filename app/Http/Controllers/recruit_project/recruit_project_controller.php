@@ -1362,7 +1362,7 @@ class recruit_project_controller extends Controller
                     // $pdf->Image($image_full_path, 10, 10, 70, 50); 
 
                     list($image_width, $image_height) = getimagesize($image_full_path);
-                    $pdf->Image($image_full_path, 10, 10, 70, 70 * $image_height / $image_width);
+                    $pdf->Image($image_full_path, 10, 10, 70 * $image_width / $image_height, 70);
                 }
 
 
