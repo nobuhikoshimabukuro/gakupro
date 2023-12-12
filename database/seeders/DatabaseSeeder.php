@@ -363,23 +363,28 @@ class DatabaseSeeder extends Seeder
                 'work_location_prefectural_cd' => '47',
                 'work_location_municipality_cd' => '47329',   
                 'working_time' => '17：00～23：00',
-                'salary' => '時給1000円',
-                'holiday' => '週休2日、相談してください。',
+
+                'salary' => '正社員：月給15万円～
+アルバイト：時給900円～',
+
+                'holiday' => '週休2日～
+相談可能',
+
                 'manager_name' => '島袋',
                 'tel' => '',
                 'fax' => '',
                 'hp_url' => '',
                 'job_image_folder_name' => 'qrstuvwEFH',
                 'mailaddress' => '',                
+
                 'scout_statement' => '20代～30代男女活躍中！
-                県内優良企業です！
-                
-                「人輝く 企業 未来」を次はあなたが創ります。
-                コム沖縄では人気のお仕事を幅広く取り扱っております！
-                各種社会保険・交通費支給・有給休暇有！の求人など！(条件による）
-                事務系、作業系、ドライバー、医療系、販売、etc･･･
-                あなたの「魅力」「ポテンシャル」「可能性」を引き出し、
-                ピッタリなお仕事をご紹介します！',
+県内優良企業です！
+「人輝く 企業 未来」を次はあなたが創ります。
+コム沖縄では人気のお仕事を幅広く取り扱っております！
+各種社会保険・交通費支給・有給休暇有！の求人など！(条件による）
+事務系、作業系、ドライバー、医療系、販売、etc･･･
+あなたの「魅力」「ポテンシャル」「可能性」を引き出し、
+ピッタリなお仕事をご紹介します！',
 
                 'remarks' => '調理技術向上を目指しながら働いてみませんか？',
                 'application_requirements' => '',
@@ -620,6 +625,27 @@ class DatabaseSeeder extends Seeder
 
         }
         
+        DB::table('employment_status_connection_t')->insert([
+            
+            [                
+                'employer_id' => 1,
+                'job_id' => 1,
+                'employment_status_id' => 1,
+                'salary_subcategory_cd' => 42,
+                'created_by' => '1',
+                
+            ],
+
+            [                
+                'employer_id' => 1,
+                'job_id' => 1,
+                'employment_status_id' => 3,
+                'salary_subcategory_cd' => 6,
+                'created_by' => '1',
+                
+            ],
+
+        ]);
 
         
         // 職種大分類マスタ

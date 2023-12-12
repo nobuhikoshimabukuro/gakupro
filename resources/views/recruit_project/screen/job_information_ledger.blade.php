@@ -72,6 +72,7 @@
     box-sizing: border-box;
     padding: 10mm;
     font-size: 15pt;
+    
 }
 
 
@@ -82,8 +83,14 @@
   align-items: center;     /*上下中央揃え*/
 }
 
+
+    .title{
+        font-size: 20pt;
+        font-weight: bold; 
+    }
+
     .job-image-inner-area{
-        position: relative;
+        
 
         width: 100mm;
         height: 70mm;
@@ -95,6 +102,18 @@
         object-fit: contain; 
     }
 
+    .job-info-table th{   
+        text-align-last: justify;
+        text-justify: inter-ideograph;
+        vertical-align: top; 
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    .job-info-table td{        
+        text-align: left;
+        padding-left: 1vw;
+    }
 
 </style>
 
@@ -133,19 +152,90 @@
 
     <div class="row">
 
-
-    </div>
-    @if($job_images_get_flg == 1)
-
-        <div class="job-image-inner-area item-center">
-            <img src="{{$asset_path}}" class="job-image" alt="{{$image_name}}">                                
+        <div class="col-12 m-0 p-0">
+            <div class="title">
+                {{$job_information_t->title}}
+            </div>
         </div>
 
+        <div class="col-6 m-0 p-0">
 
-    @else
+            @if($job_images_get_flg == 1)
+
+                {{-- <div class="job-image-inner-area item-center"> --}}
+                <div class="job-image-inner-area">
+                    <img src="{{$asset_path}}" class="job-image" alt="{{$image_name}}">                                
+                </div>
 
 
-    @endif
+            @else
+
+
+            @endif
+
+        </div>
+
+        <div class="col-6 m-0 p-0">
+          
+            <table class="job-info-table">
+                <tr>
+                    <th>
+                        勤務地
+                    </th>
+                    <td>
+                        {{$job_information_t->work_location_prefectural_name}}　{{$job_information_t->work_location_municipality_name}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        雇用形態
+                    </th>
+                    <td>
+                        @php
+                            $employment_status_all_info = $job_information_t->employment_status_all_info;
+                        @endphp
+
+                        @foreach($employment_status_all_info as $employment_status_info)
+                            {{$employment_status_info->employment_status_name}}
+                        @endforeach
+                        
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        就労時間
+                    </th>
+                    <td>
+                        {!! nl2br(e($job_information_t->working_time)) !!}                        
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        給与
+                    </th>
+                    <td>
+                        {!! nl2br(e($job_information_t->salary)) !!}                        
+                    </td>
+                </tr>
+
+                <tr>
+                    <th>
+                        休日
+                    </th>
+                    <td>
+                        {!! nl2br(e($job_information_t->holiday)) !!}                                                    
+                    </td>
+                </tr>
+
+            </table>  
+          
+        </div>
+
+    </div>
+   
     
 
   </section>

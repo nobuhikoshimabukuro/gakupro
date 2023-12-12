@@ -30,9 +30,13 @@ return new class extends Migration
                 ->comment('求人情報ID:会社IDと求人情報IDで複合キー');
 
             $table
-                ->integer('employment_status_id')
+                ->integer('employment_status_id')                
+                ->comment('雇用形態ID');
+
+            $table
+                ->integer('salary_subcategory_cd')
                 ->nullable()
-                ->comment('雇用形態ID');            
+                ->comment('給与中分類コード');
 
             $table
                 ->dateTime('created_at')

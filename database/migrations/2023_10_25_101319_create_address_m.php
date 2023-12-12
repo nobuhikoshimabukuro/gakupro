@@ -42,7 +42,7 @@ return new class extends Migration
             $table
                 ->string('municipality_name', 200)
                 ->nullable()
-                ->comment('市区町村名カナ');
+                ->comment('市区町村名');
 
             $table
                 ->string('municipality_name_kana', 200)

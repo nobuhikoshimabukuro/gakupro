@@ -286,7 +286,7 @@
                         {{$job_information->sub_title}}
                     </h4>
                     <p>
-                        {!! nl2br(e($job_information->scout_statement)) !!}                        
+                        {!! nl2br(e($job_information->scout_statement)) !!}
                     </p>
 
                     @if($job_information->job_hp_url != "")
