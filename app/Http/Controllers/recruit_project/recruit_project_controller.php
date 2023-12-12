@@ -1226,13 +1226,7 @@ class recruit_project_controller extends Controller
 
     }
 
-    function job_information_ledger_error(Request $request)
-    {    
-
-        return view('recruit_project/screen/job_information_ledger_error');      
-
-    }
-
+    
     function job_information_ledger(Request $request)
     {    
 
@@ -1252,9 +1246,6 @@ class recruit_project_controller extends Controller
         $job_id = $request->ledger_job_id;
         
         
-        session()->remove('pdf_employer_id');
-        session()->remove('pdf_job_id');
-
 
         $job_information_t = job_information_t_model::
         where('employer_id', $employer_id)
@@ -1263,7 +1254,8 @@ class recruit_project_controller extends Controller
 
         if(is_null($job_information_t)){
 
-            return redirect()->route('recruit_project.job_information_ledger_error');                    
+            session()->flash('job_information_ledger_error', 1);
+            return redirect()->route('recruit_project.job_information_confirmation');                    
         
         }else{           
 

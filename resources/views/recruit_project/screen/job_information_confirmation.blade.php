@@ -31,15 +31,24 @@
 	}
 }
 
+
 </style>
+
+
+@if(session('job_information_ledger_error') == 1)
+    <input type="hidden" id="job_information_ledger_error" value="1">
+@else
+    <input type="hidden" id="job_information_ledger_error" value="0">
+@endif
+
 
 <div id="main" class="mt-3 text-center container">
     
+
+
     @include('recruit_project.common.alert')
 
     <div id="" class="row m-0 p-0">
-     
-
       <div id="button-area" class="row mb-2 p-0">        
         <div class="col-12 m-0 p-0" align="right">              
           <button type="button" id="" class="btn btn-primary" onclick="location.href='{{ route('recruit_project.job_information_register') }}'">求人情報新規作成　<i class="fas fa-user-edit"></i></button>
@@ -167,10 +176,20 @@
 
 $(function(){
 
-  $(window).on('load', function() { 
 
-    
+  $(window).on('load', function (){       
+        
+      var error_flg = $("#job_information_ledger_error").val();
+      if(error_flg == 1){
+          // alert("求人表出力時にエラーが発生しました。");
+          $(".search-alert-area").addClass('search-alert-area-active');
+      }
 
+  });
+
+  //検索ボードアラートクリック時
+  $(document).on("click", ".search-alert-area", function (e) {
+        $(".search-alert-area").removeClass('search-alert-area-active');
   });
 
   // 「保存」ボタンがクリックされたら

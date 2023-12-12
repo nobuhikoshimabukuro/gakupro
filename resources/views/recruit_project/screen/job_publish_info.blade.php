@@ -191,6 +191,8 @@ input::placeholder{
 </style>
 
 
+
+
 <div id="main" class="mt-3 text-center container">
     
    <div class="row">
@@ -308,6 +310,9 @@ input::placeholder{
 <script type="text/javascript">
 
 $(function(){
+
+
+    
 
 
     $('#reset-button').click(function () {
