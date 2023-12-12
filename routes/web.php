@@ -265,7 +265,7 @@ Route::post('recruit_project/job_information_save', [recruit_project_controller:
 
 Route::get('recruit_project/job_information_ledger_session', [recruit_project_controller::class, 'job_information_ledger_session'])->name('recruit_project.job_information_ledger_session');
 Route::get('recruit_project/job_information_ledger_error', [recruit_project_controller::class, 'job_information_ledger_error'])->name('recruit_project.job_information_ledger_error');
-Route::get('recruit_project/job_information_ledger', [recruit_project_controller::class, 'job_information_ledger'])->name('recruit_project.job_information_ledger');
+Route::post('recruit_project/job_information_ledger', [recruit_project_controller::class, 'job_information_ledger'])->name('recruit_project.job_information_ledger');
 //リクルートプロジェクト  End
 
 

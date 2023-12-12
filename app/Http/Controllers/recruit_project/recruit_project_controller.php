@@ -1226,47 +1226,30 @@ class recruit_project_controller extends Controller
 
     }
 
-    
-    function job_information_ledger_session(Request $request)
-    {
-
-        $employer_id = $request->employer_id;
-        $job_id = $request->job_id;
-
-        session()->put('pdf_employer_id', $employer_id);
-        session()->put('pdf_job_id', $job_id);
-
-        $result_array = array(
-            "result" => "success",            
-        );           
-
-        return response()->json(['result_array' => $result_array]);
-
-    }
-
-    
     function job_information_ledger_error(Request $request)
     {    
 
         return view('recruit_project/screen/job_information_ledger_error');      
 
     }
+
     function job_information_ledger(Request $request)
     {    
 
         $process_title = "求人情報出力処理";
 
         
-        $employer_id = session()->get('pdf_employer_id');
+        $employer_id = session()->get('employer_id');
 
-        if (!$this->login_status_check() || is_null($employer_id)) {
+        if (!$this->login_status_check()) {
             //セッション切れ
             session()->flash('employer_login_error', '再度ログインお願い致します。');
             return redirect()->route('recruit_project.login');
         }       
 
         
-        $job_id = session()->get('pdf_job_id');
+        $employer_id = $request->ledger_employer_id;
+        $job_id = $request->ledger_job_id;
         
         
         session()->remove('pdf_employer_id');
@@ -1832,7 +1815,11 @@ class recruit_project_controller extends Controller
         $Judge = false;
 
         if (session()->exists('login_flg') && session()->exists('employer_id')) {
-            $Judge = true;            
+
+            if(!is_null(session()->get('employer_id'))){
+                $Judge = true;            
+            }
+            
         }
         
         return $Judge;

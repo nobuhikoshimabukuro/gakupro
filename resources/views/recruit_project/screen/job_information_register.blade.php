@@ -398,7 +398,7 @@ input::placeholder{
 
                 <div class="col-12 text-end">
                     @if($job_id <> 0)  
-                        <button type="button" id="output-pdf-button" class="btn btn-primary"
+                        <button type="button" id="ledger-button" class="btn btn-primary"
                         data-employerid="{{$employer_id}}"
                         data-jobid="{{$job_id}}"
                         >求人表</button>   
@@ -414,6 +414,11 @@ input::placeholder{
 
     </div>
 
+    <form id="ledger-form" method="post" class="d-none" action="{{ route('recruit_project.job_information_ledger') }}" target="_blank">
+        @csrf  
+        <input type="hidden" name="ledger_employer_id" id="ledger_employer_id" value="{{$employer_id}}">
+        <input type="hidden" name="ledger_job_id" id="ledger_job_id" value="{{$job_id}}">        
+    </form>
     
     <form id="save-form" method="post" action="{{ route('recruit_project.job_information_save') }}">
 
@@ -1318,42 +1323,53 @@ $(function(){
 
     });
 
-    // PDF出力ボタン
-    $('#output-pdf-button').click(function () {
+    // // 求人表出力ボタン
+    // $('#ledger-button').click(function () {
 
-        var job_id = $(this).data("jobid");
-        var employer_id = $(this).data("employerid");
+    //     var job_id = $(this).data("jobid");
+    //     var employer_id = $(this).data("employerid");
 
 
-        var url = "";
-        var url = "{{ route('recruit_project.job_information_ledger_session')}}"
+    //     var url = "";
+    //     var url = "{{ route('recruit_project.job_information_ledger_session')}}"
 
-        $.ajax({
-           url: url, // 送信先
-           type: 'get',
-           dataType: 'json',
-           data: {employer_id : employer_id , job_id : job_id},
-           headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+    //     $.ajax({
+    //        url: url, // 送信先
+    //        type: 'get',
+    //        dataType: 'json',
+    //        data: {employer_id : employer_id , job_id : job_id},
+    //        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 
-       })
-       .done(function (data, textStatus, jqXHR) {
+    //    })
+    //    .done(function (data, textStatus, jqXHR) {
         
 
-            var url = "{{ route('recruit_project.job_information_ledger') }}"
+    //         var url = "{{ route('recruit_project.job_information_ledger') }}"
 
-            window.open(url, '_blank');
+    //         window.open(url, '_blank');
 
-       })
-           .fail(function (data, textStatus, errorThrown) {
+    //    })
+    //        .fail(function (data, textStatus, errorThrown) {
            
               
 
-           });
+    //        });
 
 
+
+    // });
+
+
+    // 求人表出力ボタン
+    $('#ledger-button').click(function () {
+
+        $('#ledger-form').submit(); 
 
     });
 
+
+
+    
 
   
 
