@@ -401,7 +401,7 @@ input::placeholder{
                         <button type="button" id="output-pdf-button" class="btn btn-primary"
                         data-employerid="{{$employer_id}}"
                         data-jobid="{{$job_id}}"
-                        >PDF</button>   
+                        >求人表</button>   
                     @endif                  
 
                     <button type="button" id="save-button" class="btn btn-primary" >登録</button>  
@@ -1326,7 +1326,7 @@ $(function(){
 
 
         var url = "";
-        var url = "{{ route('recruit_project.job_information_output_pdf_session')}}"
+        var url = "{{ route('recruit_project.job_information_ledger_session')}}"
 
         $.ajax({
            url: url, // 送信先
@@ -1339,7 +1339,7 @@ $(function(){
        .done(function (data, textStatus, jqXHR) {
         
 
-            var url = "{{ route('recruit_project.job_information_output_pdf') }}"
+            var url = "{{ route('recruit_project.job_information_ledger') }}"
 
             window.open(url, '_blank');
 

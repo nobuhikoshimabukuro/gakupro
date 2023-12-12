@@ -273,9 +273,9 @@ class recruit_project_controller extends Controller
     //雇用者情報確認画面遷移
     function information_confirmation(Request $request)
     {       
-        if (!$this->LoginStatusCheck()) {
+        if (!$this->login_status_check()) {
             //セッション切れ
-            session()->flash('employer_loginerror', '再度ログインお願い致します。');            
+            session()->flash('employer_login_error', '再度ログインお願い致します。');            
             return redirect()->route('recruit_project.login');
         }
 
@@ -316,9 +316,9 @@ class recruit_project_controller extends Controller
 
         $employer_info = array();       
            
-        if (!$this->LoginStatusCheck()) {
+        if (!$this->login_status_check()) {
             //セッション切れ
-            session()->flash('employer_loginerror', '再度ログインお願い致します。');            
+            session()->flash('employer_login_error', '再度ログインお願い致します。');            
             return redirect()->route('recruit_project.login');
         }
 
@@ -601,7 +601,7 @@ class recruit_project_controller extends Controller
     function login(Request $request)
     {       
 
-        if ($this->LoginStatusCheck()) {
+        if ($this->login_status_check()) {
             return redirect()->route('recruit_project.top');
         }        
 
@@ -643,7 +643,7 @@ class recruit_project_controller extends Controller
                 common::headquarters_session_remove();
                 
                 // 認証失敗
-                session()->flash('employer_loginerror', '認証失敗');
+                session()->flash('employer_login_error', '認証失敗');
                 return back();
 
             }elseif($GetCount == 1){
@@ -675,7 +675,7 @@ class recruit_project_controller extends Controller
             Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
 
             // 認証失敗
-            session()->flash('employer_loginerror', '認証失敗');
+            session()->flash('employer_login_error', '認証失敗');
             return back();
             
         }
@@ -688,9 +688,9 @@ class recruit_project_controller extends Controller
         
         $employer_id = session()->get('employer_id');
 
-        if (!$this->LoginStatusCheck() || is_null($employer_id)) {
+        if (!$this->login_status_check() || is_null($employer_id)) {
             //セッション切れ
-            session()->flash('employer_loginerror', '再度ログインお願い致します。');            
+            session()->flash('employer_login_error', '再度ログインお願い致します。');            
             return redirect()->route('recruit_project.login');
         }       
 
@@ -710,9 +710,9 @@ class recruit_project_controller extends Controller
         
         $employer_id = session()->get('employer_id');
 
-        if (!$this->LoginStatusCheck() || is_null($employer_id)) {
+        if (!$this->login_status_check() || is_null($employer_id)) {
             //セッション切れ
-            session()->flash('employer_loginerror', '再度ログインお願い致します。');            
+            session()->flash('employer_login_error', '再度ログインお願い致します。');            
             return redirect()->route('recruit_project.login');
         }       
 
@@ -805,9 +805,9 @@ class recruit_project_controller extends Controller
 
         $employer_id = session()->get('employer_id');
 
-        if (!$this->LoginStatusCheck() || is_null($employer_id)) {
+        if (!$this->login_status_check() || is_null($employer_id)) {
             //セッション切れ
-            session()->flash('employer_loginerror', '再度ログインをお願い致します。');            
+            session()->flash('employer_login_error', '再度ログインをお願い致します。');            
             return redirect()->route('recruit_project.login');
         }       
 
@@ -928,7 +928,7 @@ class recruit_project_controller extends Controller
                 );            
 
                 //セッション切れ
-                session()->flash('employer_loginerror', '再度ログインお願い致します。');    
+                session()->flash('employer_login_error', '再度ログインお願い致します。');    
 
                 return response()->json(['result_array' => $result_array]);
             }           
@@ -990,9 +990,9 @@ class recruit_project_controller extends Controller
 
         $employer_id = session()->get('employer_id');
 
-        if (!$this->LoginStatusCheck() || is_null($employer_id)) {
+        if (!$this->login_status_check() || is_null($employer_id)) {
             //セッション切れ
-            session()->flash('employer_loginerror', '再度ログインお願い致します。');            
+            session()->flash('employer_login_error', '再度ログインお願い致します。');            
             return redirect()->route('recruit_project.login');
         }       
 
@@ -1227,7 +1227,7 @@ class recruit_project_controller extends Controller
     }
 
     
-    function job_information_output_pdf_session(Request $request)
+    function job_information_ledger_session(Request $request)
     {
 
         $employer_id = $request->employer_id;
@@ -1244,10 +1244,96 @@ class recruit_project_controller extends Controller
 
     }
 
-    function job_information_output_pdf(Request $request)
+    
+    function job_information_ledger_error(Request $request)
     {    
 
-        $process_title = "求人情報PDF出力処理";
+        return view('recruit_project/screen/job_information_ledger_error');      
+
+    }
+    function job_information_ledger(Request $request)
+    {    
+
+        $process_title = "求人情報出力処理";
+
+        
+        $employer_id = session()->get('pdf_employer_id');
+
+        if (!$this->login_status_check() || is_null($employer_id)) {
+            //セッション切れ
+            session()->flash('employer_login_error', '再度ログインお願い致します。');
+            return redirect()->route('recruit_project.login');
+        }       
+
+        
+        $job_id = session()->get('pdf_job_id');
+        
+        
+        session()->remove('pdf_employer_id');
+        session()->remove('pdf_job_id');
+
+
+        $job_information_t = job_information_t_model::
+        where('employer_id', $employer_id)
+        ->where('job_id', $job_id)
+        ->first();
+
+        if(is_null($job_information_t)){
+
+            return redirect()->route('recruit_project.job_information_ledger_error');                    
+        
+        }else{           
+
+            $job_images_path_array = job_related::get_job_images($employer_id,$job_id);
+
+            $job_image_path_array = $job_images_path_array["job_image_path_array"];
+
+            $job_information_t->job_images_get_flg = 0;
+            
+
+            foreach ($job_image_path_array as $index => $job_image_path_info){       
+
+                $folder_index = $job_image_path_info["folder_index"];
+                $asset_path = $job_image_path_info["asset_path"];
+                $image_name = $job_image_path_info["image_name"];
+                
+                if($asset_path != ""){
+
+                    $job_information_t->job_images_get_flg = 1;
+                    $job_information_t->job_image_path_info = $job_image_path_info;
+                    break;
+                }
+
+            }
+            
+
+            $job_images_get_flg = $job_information_t->job_images_get_flg;
+
+            return view('recruit_project/screen/job_information_ledger',
+            compact(
+                    'employer_id'                
+                    ,'job_id'
+                    ,'job_information_t'
+                    
+            ));      
+
+        }
+
+       
+            
+
+            
+    
+        
+        
+
+    }
+
+
+    function job_information_ledger_bk(Request $request)
+    {    
+
+        $process_title = "求人情報出力処理";
 
         try {
 
@@ -1259,7 +1345,8 @@ class recruit_project_controller extends Controller
             session()->remove('pdf_job_id');
 
 
-            $job_information_t = job_information_t_model::where('employer_id', $employer_id)
+            $job_information_t = job_information_t_model::
+            where('employer_id', $employer_id)
             ->where('job_id', $job_id)
             ->first();
 
@@ -1740,7 +1827,7 @@ class recruit_project_controller extends Controller
     
  
     //ログイン状況を確認  
-    function LoginStatusCheck() {
+    function login_status_check() {
 
         $Judge = false;
 

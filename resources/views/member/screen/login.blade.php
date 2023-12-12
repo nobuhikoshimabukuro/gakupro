@@ -44,13 +44,13 @@
             
             
                                 
-            @if(session('employer_loginerror'))
+            @if(session('employer_login_error'))
             
                 <div class="row ajax-msg"> 
                     <div class="col-4"></div>      
                     <div class="col-4">
                         <div class="alert alert-danger text-center">
-                            {{session('employer_loginerror')}}  
+                            {{session('employer_login_error')}}  
                         </div>
                     </div>      
                     <div class="col-4"></div>      
