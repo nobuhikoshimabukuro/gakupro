@@ -34,6 +34,11 @@ return new class extends Migration
                 ->comment('雇用形態ID');
 
             $table
+                ->integer('salary_maincategory_cd')
+                ->nullable()
+                ->comment('給与大分類コード');
+
+            $table
                 ->integer('salary_subcategory_cd')
                 ->nullable()
                 ->comment('給与中分類コード');

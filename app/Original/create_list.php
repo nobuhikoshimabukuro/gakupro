@@ -141,6 +141,20 @@ class create_list
         return $salary_maincategory_list;        
     }
 
+    //給与中分類コンボボックス
+    public static function salary_subcategory_list()
+    {       
+        $salary_subcategory_list = salary_subcategory_m_model::select(
+            'salary_subcategory_cd as salary_subcategory_cd',
+            'salary_maincategory_cd as salary_maincategory_cd',            
+            'salary as salary',
+        )
+        ->orderBy('display_order', 'asc')
+        ->get();
+
+        return $salary_subcategory_list;        
+    }
+
 
     //スタッフコンボボックス
     public static function staff_list()

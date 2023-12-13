@@ -286,8 +286,7 @@ input::placeholder{
 
     .job-supplement-area
     ,.job-category-area
-    ,.employment-status-area
-    {
+    ,.employment-status-area{
         height: 50px;
         padding: 3px;
     }
@@ -319,21 +318,6 @@ input::placeholder{
         }
     }
 
-    .salary_maincategory_cd-td{
-        text-align: left;
-    }
-
-    .salary_maincategory_cd{
-        min-width: 80px;
-    }
-
-    .salary_subcategory_cd-td{
-        text-align: left;
-    }
-
-    .salary_subcategory_cd{
-        min-width: 200px;
-    }
 
     .item-center{
         display: flex;
@@ -784,130 +768,41 @@ input::placeholder{
                                 雇用形態
                             </div>
 
-                            <table>
-
-                            
                             @foreach($employment_status_data as $employment_status_info)
-                            
+
                                 @php                            
                                     
                                     $employment_status_id = $employment_status_info->employment_status_id;
                                     $employment_status_name = $employment_status_info->employment_status_name;
 
-                                    $set_flg = 0;
-                                    $get_employment_status_id = 0;
-                                    $get_salary_maincategory_cd = 0;
-                                    $get_salary_subcategory_cd = 0;
                                     $add_class = "";
                                     $check_status = "";
-                                    foreach ($employment_status_connections as $index => $employment_status_connection_info){
-
-                                        $set_employment_status_id = $employment_status_connection_info["employment_status_id"];
-                                        $set_salary_maincategory_cd = $employment_status_connection_info["salary_maincategory_cd"];
-                                        $set_salary_subcategory_cd = $employment_status_connection_info["salary_subcategory_cd"];
-
-                                        if($employment_status_id == $set_employment_status_id ){
-                                            $add_class = "employment-status-select";                            
-                                            $check_status = "checked";
-                                            $set_flg = 1;
-                                            $get_employment_status_id = $set_employment_status_id;
-                                            $get_salary_maincategory_cd = $set_salary_maincategory_cd;
-                                            $get_salary_subcategory_cd = $set_salary_subcategory_cd;                                            
-
-                                            break;
-                                        }
-                                    }                                    
+                                    if(in_array($employment_status_id , $employment_status_connections)){
+                                        $add_class = "employment-status-select";                            
+                                        $check_status = "checked";
+                                    }
 
                                 @endphp
 
-                            <tr>
-                                <td class="" colspan="2">
-                                    <div id="employment-status-area{{$employment_status_id}}" 
-                                    class="col-12 employment-status-area">
+
+                                <div id="employment-status-area{{$employment_status_id}}" 
+                                    class="col-6 col-lg-4 col-xl-3 mt-2 employment-status-area">
                                     <label id="employment-status-label{{$employment_status_id}}" 
                                         for="employment-status-checkbox{{$employment_status_id}}" 
                                         class="employment-status-label {{$add_class}} item-center"
-                                    >
+                                    >{{$employment_status_name}}
+                                    </label>
+
                                     <input type="checkbox" 
                                     id="employment-status-checkbox{{$employment_status_id}}"
                                     name="employment-status-checkbox{{$employment_status_id}}"
                                     value="{{$employment_status_id}}"                        
                                     data-target="{{$employment_status_id}}"
-                                    class="employment-status-checkbox"                                    
+                                    class="employment-status-checkbox d-none"                                     
                                     {{$check_status}}
                                     >
-                                    {{$employment_status_name}}
-                                    </label>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr class="employment_status_id_{{$employment_status_id}}_salary_cd-tr 
-                                @if($set_flg==0) d-none @endif">
-
-                                <td class="salary_maincategory_cd-td">
-
-                                    <select id='employment_status_id_{{$employment_status_id}}_salary_maincategory_cd' 
-                                          name='employment_status_id_{{$employment_status_id}}_salary_maincategory_cd' 
-                                          class='salary_maincategory_cd input-sm'
-                                          data-employmentstatusid="{{$employment_status_id}}"
-                                    >
-                                        <option value=''>---</option>
-                                            @foreach ($salary_maincategory_list as $salary_maincategory_index => $salary_maincategory_info)
-                                                <option value="{{$salary_maincategory_info->salary_maincategory_cd}}"
-                                                @if($get_salary_maincategory_cd == $salary_maincategory_info->salary_maincategory_cd)
-                                                selected
-                                                @endif
-                                                >
-                                                {{$salary_maincategory_info->salary_maincategory_name}}
-                                                </option>
-                                            @endforeach
-                                    </select>
-
-                                </td>
-
-                                <td class="salary_subcategory_cd-td">
-
-                                   
-                                    @if($get_salary_maincategory_cd > 0)
-
-                                        <select id='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
-                                            name='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
-                                            class='salary_subcategory_cd input-sm'
-                                        >
-                                            <option value=''>---</option>
-                                            @foreach ($salary_subcategory_list as $salary_subcategory_index => $salary_subcategory_info)
-
-                                                @if($get_salary_maincategory_cd == $salary_subcategory_info->salary_maincategory_cd)
-                                                    <option value="{{$salary_subcategory_info->salary_subcategory_cd}}"
-                                                    @if($get_salary_subcategory_cd == $salary_subcategory_info->salary_subcategory_cd)
-                                                    selected
-                                                    @endif
-                                                    >
-                                                    {{$salary_subcategory_info->salary}}円以上
-                                                    </option>
-                                                @endif
-
-                                            @endforeach
-                                        </select>
-
-                                    @else
-                                        <select id='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
-                                            name='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
-                                            class='salary_subcategory_cd input-sm inoperable'
-                                        >
-                                            <option value=''>給与形態を選択してください。</option>
-                                        </select>
-                                    @endif
-                                    
-                                    
-
-                                </td>
-
-                            </tr>
+                                </div>
                             @endforeach
-
-                        </table>
 
                         </div>
 
@@ -1378,110 +1273,13 @@ $(function(){
 
         $("#employment-status-label" + employment_status_id).removeClass('employment-status-select');
 
-        
-        var target_area = ".employment_status_id_" + employment_status_id + "_salary_cd-tr";        
-        $(target_area).removeClass('d-none'); 
-
         if($("#employment-status-checkbox" + employment_status_id).prop('checked')){
 
             $("#employment-status-label" + employment_status_id).addClass('employment-status-select');
             
-                  
-        }else{
-            $(target_area).addClass('d-none'); 
         }        
 
     });
-
-
-    //給与プルダウン変更時
-    $(document).on("change", ".salary_maincategory_cd", function (e) {
-
-        var employment_status_id = $(this).data('employmentstatusid');
-        var salary_maincategory_cd = $(this).val();
-        search_salary_sabcategory(employment_status_id,salary_maincategory_cd);
-
-    });
-
-    //給与検索＆プルダウン作成    
-    function search_salary_sabcategory(employment_status_id , salary_maincategory_cd){
-
-        
-
-        var url = "{{ route('create_list.salary_sabcategory_list_ajax') }}";
-       
-
-        var target_area = "#employment_status_id_" + employment_status_id + "_salary_subcategory_cd";
-
-        $(target_area).removeClass('inoperable');        
-
-        //プルダウン内の設定初期化
-        $("select" + target_area + " option").remove();        
-
-        //マウスカーソルを砂時計に
-        document.body.style.cursor = 'wait';
-
-        $.ajax({
-            url: url, // 送信先
-            type: 'get',
-            dataType: 'json',
-            data: {salary_maincategory_cd : salary_maincategory_cd},
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-        })
-        .done(function (data, textStatus, jqXHR) {
-
-            // テーブルに通信できた場合
-            var salary_sabcategory_list = data.salary_sabcategory_list;            
-
-            //テーブルに通信時、データを検索できたか判定
-            if (salary_sabcategory_list.length > 0) {                
-
-                
-                $.each(salary_sabcategory_list, function(index, salary_sabcategory_info) {
-
-                    var salary_maincategory_cd = salary_sabcategory_info["salary_maincategory_cd"];
-                    var salary_subcategory_cd = salary_sabcategory_info["salary_subcategory_cd"];                    
-                    var salary = salary_sabcategory_info["salary"];
-                    var salary_display = salary_sabcategory_info["salary_display"];
-            
-                    // 新しいoption要素を作成
-                    var option = $("<option>").val(salary_subcategory_cd).text(salary_display);
-
-                    // 特定の条件でselected属性を追加
-                    // if (salary_subcategory_cd == get_search_salary_subcategory_cd) {
-                    //     option.attr("selected", "selected");
-                    // }
-
-                    // option要素をselect要素に追加
-                    $(target_area).append(option);
-
-                })
-
-                
-                
-
-            }else{               
-
-                $(target_area).append($("<option>").val("").text("給与形態を選択してください。"));
-
-                $(target_area).addClass('inoperable');
-
-            }
-
-            //マウスカーソルを通常に
-            document.body.style.cursor = 'auto';
-
-        })
-        .fail(function (data, textStatus, errorThrown) {
-                
-            //マウスカーソルを通常に
-            document.body.style.cursor = 'auto';
-            $(target_area).append($("<option>").val("").text("給与形態を選択してください。"));
-            $(target_area).addClass('inoperable');
-        });
-
-    }
-
 
     //職種中分類選択値変更時
     $(document).on("change", ".job-category-checkbox", function (e) {

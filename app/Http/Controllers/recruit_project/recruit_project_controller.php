@@ -850,8 +850,18 @@ class recruit_project_controller extends Controller
         ->where('job_id', '=', $job_id)
         ->get();
 
-        foreach ($employment_status_connection_t as $index => $employment_status_connection){            
-            $employment_status_connections[] = $employment_status_connection->employment_status_id;
+        foreach ($employment_status_connection_t as $index => $employment_status_connection){
+
+            $simple_array = [];
+            $employment_status_id = $employment_status_connection->employment_status_id;
+            $salary_maincategory_cd = $employment_status_connection->salary_maincategory_cd;
+            $salary_subcategory_cd = $employment_status_connection->salary_subcategory_cd;
+
+            $simple_array = ["employment_status_id" => $employment_status_id 
+            , "salary_maincategory_cd" => $salary_maincategory_cd 
+            , "salary_subcategory_cd" => $salary_subcategory_cd ];
+            $employment_status_connections[] = $simple_array;
+
         }
 
 
@@ -876,8 +886,13 @@ class recruit_project_controller extends Controller
 
         //都道府県ブルダウン作成用
         $prefectural_list = create_list::prefectural_list();
-        //給与プルダウン作成用
+        
+        //給与大分類プルダウン作成用
         $salary_maincategory_list = create_list::salary_maincategory_list();
+
+        //給与中分類プルダウン作成用
+        $salary_subcategory_list = create_list::salary_subcategory_list();
+
         //雇用形態データ取得
         $employment_status_data = get_data::employment_status_data();
         //職種データ取得
@@ -896,6 +911,7 @@ class recruit_project_controller extends Controller
                 
                 ,'prefectural_list'
                 ,'salary_maincategory_list'
+                ,'salary_subcategory_list'
 
                 ,'employment_status_data'
                 ,'employment_status_connections'
@@ -1725,19 +1741,25 @@ class recruit_project_controller extends Controller
 
                 $employment_status_id = $employment_status_info->employment_status_id;
 
-                $target_name = "employment-status-checkbox" . $employment_status_id;
+                $target_name_employment_status = "employment-status-checkbox" . $employment_status_id;
 
-                $data = $request->$target_name;
+                $employment_status = $request->$target_name_employment_status;
 
-                if(!is_null($data)){
+                if(!is_null($employment_status)){                    
 
+                    $target_name_salary_maincategory_cd = "employment_status_id_" . $employment_status_id . "_salary_maincategory_cd";
+                    $salary_maincategory_cd = $request->$target_name_salary_maincategory_cd;
+
+                    $target_name_salary_subcategory_cd = "employment_status_id_" . $employment_status_id . "_salary_subcategory_cd";
+                    $salary_subcategory_cd = $request->$target_name_salary_subcategory_cd;
 
                     employment_status_connection_t_model::insert(
                         [                            
                             "employer_id" => $employer_id
                             ,"job_id" => $job_id
                             ,"employment_status_id" => intval($employment_status_id)
-                            ,"salary_subcategory_cd" => 0
+                            ,"salary_maincategory_cd" => $salary_maincategory_cd
+                            ,"salary_subcategory_cd" => $salary_subcategory_cd
                         ]
                     );
 

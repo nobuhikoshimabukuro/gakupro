@@ -631,6 +631,7 @@ class DatabaseSeeder extends Seeder
                 'employer_id' => 1,
                 'job_id' => 1,
                 'employment_status_id' => 1,
+                'salary_maincategory_cd' => 3,
                 'salary_subcategory_cd' => 42,
                 'created_by' => '1',
                 
@@ -640,6 +641,7 @@ class DatabaseSeeder extends Seeder
                 'employer_id' => 1,
                 'job_id' => 1,
                 'employment_status_id' => 3,
+                'salary_maincategory_cd' => 1,
                 'salary_subcategory_cd' => 6,
                 'created_by' => '1',
                 
