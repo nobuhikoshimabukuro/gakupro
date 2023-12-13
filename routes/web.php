@@ -256,7 +256,10 @@ Route::get('recruit_project/information_after_registration', [recruit_project_co
 Route::post('recruit_project/job_information_publish_flg_change', [recruit_project_controller::class, 'job_information_publish_flg_change'])->name('recruit_project.job_information_publish_flg_change');
 
 Route::get('recruit_project/job_publish_info', [recruit_project_controller::class, 'job_publish_info'])->name('recruit_project.job_publish_info');
-Route::post('recruit_project/job_password_check', [recruit_project_controller::class, 'job_password_check'])->name('recruit_project.job_password_check');
+Route::get('recruit_project/job_password_check', [recruit_project_controller::class, 'job_password_check'])->name('recruit_project.job_password_check');
+Route::get('recruit_project/job_password_date_setting', [recruit_project_controller::class, 'job_password_date_setting'])->name('recruit_project.job_password_date_setting');
+Route::post('recruit_project/job_publish_confirmation_process', [recruit_project_controller::class, 'job_publish_confirmation_process'])->name('recruit_project.job_publish_confirmation_process');
+
 
 Route::get('recruit_project/job_information_confirmation', [recruit_project_controller::class, 'job_information_confirmation'])->name('recruit_project.job_information_confirmation');
 Route::get('recruit_project/job_information_register', [recruit_project_controller::class, 'job_information_register'])->name('recruit_project.job_information_register');

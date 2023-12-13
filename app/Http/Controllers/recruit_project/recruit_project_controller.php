@@ -1078,10 +1078,8 @@ class recruit_project_controller extends Controller
                 2 => "使用済みのパスワードです。"
             ];
 
-            $password = $request->password;
             
-
-            $get_info_array = $this->job_password_available_check($password);
+            $get_info_array = $this->job_password_available_check($request,1);
                         
             $get_info_array["message"] = $messages[$get_info_array["result_type"]];
 
@@ -1107,49 +1105,113 @@ class recruit_project_controller extends Controller
 
     }
 
-    //求人パスワード承認処理
-    function job_password_authentication(Request $request)
-    {       
 
-        $process_title = "求人パスワード承認処理";
-
+     //求人パスワード日付設定処理
+     function job_password_date_setting(Request $request)
+     {       
+ 
+         $process_title = "求人パスワード日付設定処理";
+ 
         try {
-
-            $employer_id = session()->get('employer_id');
-
-            if(is_null($employer_id)){
-
-                $result_array = array(
-                    "Result" => "non_session",
-                    "Message" => $process_title."でエラーが発生しました。",
-                );            
-    
-                return response()->json(['result_array' => $result_array]);
-            }
-            
-            DB::connection('mysql')->beginTransaction();
-
-
+ 
             // キー配列の作成
             $messages = [
                 0 => "使用可能なパスワードです。",
-                1 => "パスワードが存在しません。再入力してください。",
+                1 => "パスワードを再入力してください。",
                 2 => "使用済みのパスワードです。"
             ];
 
-            $password = $request->password;
-            $publish_start_date = $request->publish_start_date;
-            $publish_end_date = $request->publish_end_date;
+
+            $get_info_array = $this->job_password_available_check($request,2);
+                        
+            $get_info_array["message"] = $messages[$get_info_array["result_type"]];
+
+            $result_array = array(
+                "result" => "success",
+                "get_info_array" => $get_info_array,                
+            );       
+ 
+ 
+         } catch (Exception $e) {
+ 
+             
+             $error_message = $e->getMessage();
+             Log::channel('error_log')->info($process_title . "::error_message【" . $error_message ."】");
+             
+             $result_array = array(
+                 "result" => "error"                
+             );                        
+                                 
+         }
+ 
+         return response()->json(['result_array' => $result_array]);
+ 
+     }
+
+    
+
+    //求人掲載期間確定処理
+    function job_publish_confirmation_process(Request $request)
+    {       
+
+        $process_title = "求人掲載期間確定処理";
+
+        
+
+        $employer_id = session()->get('employer_id');
+
+        if(is_null($employer_id)){
+
+            $result_array = array(
+                "result" => "non_session",
+                "message" => $process_title."でエラーが発生しました。",
+            );            
+
+            return response()->json(['result_array' => $result_array]);
+        }
+        
+        
+
+        
+        
+
+        $get_info_array = $this->job_password_available_check($request,2);
+
+        if($get_info_array["result_type"] != 0){
+
+            $result_array = array(
+                "result" => "error",
+                "message" => $process_title."でエラーが発生しました。",
+            );            
+
+            return response()->json(['result_array' => $result_array]);
+
+
+        }
+
+
             
 
-            $get_info_array = $this->job_password_available_check($password);
+        try {
+
+            $employer_id = $request->employer_id;
+            $job_id = $request->job_id;
+            $job_password_id = $get_info_array["job_password_id"];
+            $publish_start_date = $request->publish_start_date;
+            
+
+
+
+            DB::connection('mysql')->beginTransaction();
+
+
 
 
             DB::connection('mysql')->commit();
 
             $result_array = array(
-                "Result" => "success",
-                "Message" => ""
+                "result" => "success",
+                "message" => ""
             );       
 
 
@@ -1179,8 +1241,10 @@ class recruit_project_controller extends Controller
     
 
     //求人パスワードチェック（共通処理）    
-    function job_password_available_check($password)
+    function job_password_available_check($request , $process_branch)
     {    
+
+        $password = $request->password;
 
         $result_type = 0;
         $job_password_item_name = "";
@@ -1224,6 +1288,7 @@ class recruit_project_controller extends Controller
                 
             }else{
 
+                $job_password_item_id = $job_password_t->job_password_item_id;
                 $job_password_item_name = $job_password_t->job_password_item_name;
                 $added_date = $job_password_t->added_date;                
                 $result_type = 0;
@@ -1237,8 +1302,40 @@ class recruit_project_controller extends Controller
 
         }
 
-        $return_array = ['result_type' => $result_type , 'job_password_item_name' => $job_password_item_name ,'added_date' => $added_date];
+        if($process_branch == 1 || $result_type != 0){
+
+            $return_array = ['result_type' => $result_type 
+            , 'job_password_item_id' => $job_password_item_id 
+            , 'job_password_item_name' => $job_password_item_name 
+            ,'added_date' => $added_date];
+            return $return_array;
+
+        }
+        
+
+        
+
+        $publish_start_date = $request->publish_start_date;        
+
+        // 初期の日付を設定
+        $setting_publish_start_date = Carbon::create($publish_start_date);
+        $publish_end_date = $setting_publish_start_date->addDays($added_date);
+
+        
+        $publish_start_date = Carbon::create($publish_start_date);
+        $publish_start_date = $publish_start_date->format('Y/m/d');
+        $publish_end_date = $publish_end_date->format('Y/m/d');
+
+        $return_array = ['result_type' => $result_type 
+            , 'job_password_item_id' => $job_password_item_id 
+            , 'job_password_item_name' => $job_password_item_name 
+            , 'added_date' => $added_date
+            , 'publish_start_date' => $publish_start_date
+            , 'publish_end_date' => $publish_end_date
+        ];
+
         return $return_array;
+
 
     }
 

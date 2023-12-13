@@ -220,44 +220,18 @@ input::placeholder{
                     <tr class="">
 
                         <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                            <label for="title">パスワード</label>
+                            <label for="send_password">パスワード</label>
                         </th>
                         <td>
 
-                            <input type="text" name="password" id="password" class="" placeholder="" maxlength="10">  
+                            <input type="text" name="send_password" id="send_password" class="" placeholder="" maxlength="10">  
                             <button id="job-password-check-button" type="button" class='job-password-check-button btn btn-success'>パスワード確認</button>
                             <button id="reset-button" type="button" class='reset-button btn btn-secondary'>リセット</button>
                         </td>
 
                     </tr>
 
-                    <tr class="job-password-error-tr d-none">
-
-                        <td colspan="2"> 
-                            
-                            <div class="job-password-error-area">                                
-                            </div>                           
-
-                        </td>
-
-                    </tr>
-
-                    <tr class="job-password-item-tr d-none">
-                        <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                            <label>商品名</label>
-                        </th>
-                        <td class="job-password-item-td">                            
-                        </td>
-                    </tr>
-
-                    <tr class="job-password-publish-date-tr d-none">
-                        <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                            <label>掲載開始日</label>
-                        </th>
-                        <td>
-                            <input type="date" name="publish_start_date" id="publish_start_date" class="">
-                        </td>
-                    </tr>                  
+                                  
 
                 </tbody>
 
@@ -298,11 +272,106 @@ input::placeholder{
         
 
     </div>
-
-
-
     
 </div>
+
+
+
+{{-- モーダル --}}
+<div class="modal fade" id="job-password-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="job-password-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="job-password-modal-label">操作確認</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            
+                <div class="modal-body">  
+                       
+                    <table class="form-table">
+
+                        <tbody>                    
+        
+                            <tr class="job-password-error-tr d-none">
+        
+                                <td colspan="2"> 
+                                    
+                                    <div class="job-password-error-area">                                
+                                    </div>                           
+        
+                                </td>
+        
+                            </tr>
+        
+                            <tr class="job-password-item-tr d-none">
+                                <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                    <label>商品名</label>
+                                </th>
+                                <td class="job-password-item-td">                            
+                                </td>
+                            </tr>
+        
+                            <tr class="job-password-publish-date-tr d-none">
+                                <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                    <label>掲載開始日</label>
+                                </th>
+                                <td>
+                                    <input type="date" name="publish_start_date" id="publish_start_date" class="">
+                                    <button id="date-setting-button" type="button" class='date-setting-button btn btn-success'>確認</button>                                    
+                                    <input type="hidden" name="password" id="password" value="">
+                                </td>
+                            </tr>        
+                            
+                            <tr class="job-password-publish-setting-date-tr">
+                                <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                    <label>掲載期間</label>
+                                </th>
+                                <td>
+                                    
+                                    
+                                    
+
+                               
+                                    
+                                </td>
+
+                                <form id="save-form" method="post" action="{{ route('recruit_project.job_publish_confirmation_process') }}" class="d-none">
+                                    <input type="text" name="employer_id" id="employer_id" class="{{$employer_id}}">
+                                    <input type="text" name="job_id" id="job_id" class="{{$job_id}}">
+                                    <input type="text" name="determined_password" id="determined_password" class="">
+                                    <input type="date" name="determined_publish_start_date" id="determined_publish_start_date" class="">
+                                </form>
+                            </tr>        
+        
+                        </tbody>
+        
+                    </table>
+
+
+
+                </div>
+                
+
+                <div class="modal-footer">                                                                                      
+                    <div class="col-6 m-0 p-0 text-start">
+                        <button id="job-publish-confirmation-process-button" type="button" 
+                        class='btn btn-success d-none'>掲載期間設定</button>
+                    </div>
+
+                    <div class="col-6 m-0 p-0 text-end">
+                        <button type="button" id="" class="btn btn-secondary modal-close-button" data-bs-dismiss="modal"></button>      
+                    </div>                            
+                </div>    
+            
+
+        </div>
+    </div>
+</div>
+
+
+
 @endsection
 
 @section('pagejs')
@@ -325,8 +394,8 @@ $(function(){
         $(".job-password-item-tr").addClass('d-none');
         $(".job-password-publish-date-tr").addClass('d-none');
 
-        $("#password").val('');
-        $("#password").focus();
+        $("#send_password").val('');
+        $("#send_password").focus();
      
     });
 
@@ -344,11 +413,9 @@ $(function(){
         //{{-- メッセージクリア --}}
         $('.ajax-msg').html('');
 
-        var password = $('#password').val();
+        var password = $('#send_password').val();
                 
-        //マウスカーソルを砂時計に
-        document.body.style.cursor = 'wait';
-
+        
         $(".job-password-error-tr").removeClass('d-none');
         $(".job-password-item-tr").removeClass('d-none');
         $(".job-password-publish-date-tr").removeClass('d-none');
@@ -358,9 +425,15 @@ $(function(){
         $(".job-password-publish-date-tr").addClass('d-none');
 
 
+        $('.job-password-publish-setting-date-tr td').html("");        
+        $('#password').val("");
+
+        
+        start_processing("#main");
+
         $.ajax({	
             url: "{{ route('recruit_project.job_password_check') }}", // 送信先
-            type: 'post',
+            type: 'get',
             dataType: 'json',
             data: { 'password' : password },
             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}            
@@ -368,10 +441,10 @@ $(function(){
             // 送信成功
             .done(function (data, textStatus, jqXHR) {
                 
+                
                 //{{-- ボタン有効 --}}
                 $("#job-password-check-button").prop("disabled", false);
-                //{{-- マウスカーソルを通常に --}}                    
-                document.body.style.cursor = 'auto';
+                end_processing();
 
                 var result_array = data.result_array;
 
@@ -389,12 +462,15 @@ $(function(){
 
                         var job_password_item_name = get_info_array["job_password_item_name"];
                         var added_date = get_info_array["added_date"];
-                    
+                                            
+                        $('#password').val(password);
+
                         $(".job-password-item-tr").removeClass('d-none');
                         $(".job-password-publish-date-tr").removeClass('d-none');
 
                         $('.job-password-item-td').html(job_password_item_name);
                         
+                          
 
                     }else if(result_type >= 1){
                         //{{-- アラート --}}
@@ -415,20 +491,220 @@ $(function(){
                 
                 }
 
+
+                $("#job-publish-confirmation-process-button").removeClass('d-none');
+                $("#job-publish-confirmation-process-button").addClass('d-none');
+                // モーダルを表示。
+                $('#job-password-modal').modal('show');
             
             })
 
             // 送信失敗
             .fail(function (data, textStatus, errorThrown) {
                 
+                //{{-- ボタン有効 --}}
+                $("#job-password-check-button").prop("disabled", false);
+                end_processing();
+
                 //{{-- アラート --}}
                 $(".job-password-error-tr").removeClass('d-none');
                 $('.job-password-error-area').html("パスワード確認処理エラー");
-                
+                // // モーダルを表示。
+                $('#job-password-modal').modal('show');
 
             });
 
     });
+
+
+
+    //求人公開開始日時変更時
+    $(document).on("click", "#date-setting-button", function (e) {
+
+        var publish_start_date = $('#publish_start_date').val();
+        var password = $('#password').val();
+        
+        $("#job-publish-confirmation-process-button").removeClass('d-none');
+        $("#job-publish-confirmation-process-button").addClass('d-none');
+
+        $(".job-password-error-tr").removeClass('d-none');
+        $(".job-password-error-tr").addClass('d-none');
+
+
+
+        start_processing("#job-password-modal");
+
+        $.ajax({	
+            url: "{{ route('recruit_project.job_password_date_setting') }}", // 送信先
+            type: 'get',
+            dataType: 'json',
+            data: { 'password' : password , 'publish_start_date':publish_start_date },
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}            
+        })
+            // 送信成功
+            .done(function (data, textStatus, jqXHR) {
+                
+                
+                
+                end_processing();
+
+                var result_array = data.result_array;
+
+                var result = result_array["result"];
+
+                var message = result_array["message"];
+
+                if(result == 'success'){
+
+
+                    var get_info_array = result_array["get_info_array"];
+
+                    var result_type = get_info_array["result_type"];                                        
+
+                    if(result_type == 0){
+
+                        var publish_start_date = get_info_array["publish_start_date"];
+                        var publish_end_date = get_info_array["publish_end_date"];
+                        var added_date = get_info_array["added_date"];
+                        
+                        var display_message = publish_start_date + "～" + publish_end_date;
+                        $(".job-password-publish-setting-date-tr").removeClass('d-none');
+                        $('.job-password-publish-setting-date-tr td').html(display_message);
+                    
+                        $("#job-publish-confirmation-process-button").removeClass('d-none');
+
+                    }else if(result_type >= 1){
+                        //{{-- アラート --}}
+                        $(".job-password-error-tr").removeClass('d-none');
+                        $('.job-password-error-area').html(message);
+
+                    }
+                    
+                
+
+                }else{       
+
+                    //{{-- アラート --}}
+                    $(".job-password-error-tr").removeClass('d-none');
+                    $('.job-password-error-area').html(message);
+                
+                }
+
+
+                
+            
+            })
+
+            // 送信失敗
+            .fail(function (data, textStatus, errorThrown) {
+                
+               
+                end_processing();
+
+                //{{-- アラート --}}
+                $(".job-password-error-tr").removeClass('d-none');
+                $('.job-password-error-area').html("パスワード確認処理エラー");
+
+               
+                
+
+            });
+
+
+        
+        
+
+    });
+
+
+
+    //求人公開開始日時変更時
+    $(document).on("click", "#date-setting-button", function (e) {
+
+        var publish_start_date = $('#publish_start_date').val();
+        var password = $('#password').val();
+
+
+        $(".job-password-error-tr").removeClass('d-none');
+        $(".job-password-error-tr").addClass('d-none');
+
+
+
+        start_processing("#job-password-modal");
+
+        let f = $('#save-form');
+
+
+       
+        $.ajax({
+            url: f.prop('action'), // 送信先
+            type: f.prop('method'),
+            dataType: 'json',
+            data: f.serialize(),
+        })
+            // 送信成功
+            .done(function (data, textStatus, jqXHR) {
+                
+                
+                
+                end_processing();
+
+                var result_array = data.result_array;
+
+                var result = result_array["result"];
+
+                
+
+                if(result == 'success'){
+
+
+                    location.reload();
+                
+
+                }else{       
+
+                    var message = result_array["message"];
+
+                    //{{-- アラート --}}
+                    $(".job-password-error-tr").removeClass('d-none');
+                    $('.job-password-error-area').html(message);
+                
+                }
+
+
+                
+            
+            })
+
+            // 送信失敗
+            .fail(function (data, textStatus, errorThrown) {
+                
+            
+                end_processing();
+
+                //{{-- アラート --}}
+                $(".job-password-error-tr").removeClass('d-none');
+                $('.job-password-error-area').html("パスワード確認処理エラー");
+
+            
+                
+
+            });
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+
+
 
 });
 

@@ -320,19 +320,21 @@ input::placeholder{
     }
 
     .salary_maincategory_cd-td{
+        min-width: 70px;
         text-align: left;
     }
 
     .salary_maincategory_cd{
-        min-width: 80px;
+        min-width: 100%;
     }
 
     .salary_subcategory_cd-td{
+        min-width: 200px;
         text-align: left;
     }
 
     .salary_subcategory_cd{
-        min-width: 200px;
+        min-width: 100%;
     }
 
     .item-center{
@@ -820,7 +822,7 @@ input::placeholder{
 
                                 @endphp
 
-                            <tr>
+                            <tr class="">
                                 <td class="" colspan="2">
                                     <div id="employment-status-area{{$employment_status_id}}" 
                                     class="col-12 employment-status-area">
@@ -845,7 +847,7 @@ input::placeholder{
                             <tr class="employment_status_id_{{$employment_status_id}}_salary_cd-tr 
                                 @if($set_flg==0) d-none @endif">
 
-                                <td class="salary_maincategory_cd-td">
+                                <td class="salary_maincategory_cd-td p-1">
 
                                     <select id='employment_status_id_{{$employment_status_id}}_salary_maincategory_cd' 
                                           name='employment_status_id_{{$employment_status_id}}_salary_maincategory_cd' 
