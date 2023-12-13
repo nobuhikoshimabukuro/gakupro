@@ -1118,7 +1118,8 @@ class recruit_project_controller extends Controller
             $messages = [
                 0 => "使用可能なパスワードです。",
                 1 => "パスワードを再入力してください。",
-                2 => "使用済みのパスワードです。"
+                2 => "使用済みのパスワードです。",
+                3 => "掲載期間が重複します。"
             ];
 
 
@@ -1175,7 +1176,7 @@ class recruit_project_controller extends Controller
         
         
 
-        $get_info_array = $this->job_password_available_check($request,2);
+        $get_info_array = $this->job_password_available_check($request,3);
 
         if($get_info_array["result_type"] != 0){
 
@@ -1189,22 +1190,51 @@ class recruit_project_controller extends Controller
 
         }
 
-
-            
-
-        try {
-
             $employer_id = $request->employer_id;
             $job_id = $request->job_id;
             $job_password_id = $get_info_array["job_password_id"];
-            $publish_start_date = $request->publish_start_date;
+            $publish_start_date = $get_info_array["publish_start_date"];
+            $publish_end_date = $get_info_array["publish_end_date"];
             
+        try {
 
-
-
+   
+            
             DB::connection('mysql')->beginTransaction();
 
+            $max_branch_number = job_password_connection_t_model::
+            where('employer_id', '=', $employer_id)          
+            ->where('job_id', '=', $job_id)                      
+            ->max('branch_number');
 
+            if(is_null($max_branch_number)){
+                $max_branch_number = 1;
+            }else{
+                $max_branch_number = $max_branch_number + 1;
+            }
+
+
+         
+
+            job_password_connection_t_model::insert(
+                [                            
+                    "employer_id" => $employer_id
+                    ,"job_id" => $job_id
+                    ,"branch_number" => $max_branch_number
+                    ,"job_password_id" => $job_password_id
+                    ,"publish_start_date" => $publish_start_date
+                    ,"publish_end_date" => $publish_end_date                                        
+                ]
+            );
+
+
+            //更新処理
+            job_password_t_model::where('job_password_id', $job_password_id)            
+            ->update(
+                [
+                    "usage_flg" => 1                  
+                ]
+            );
 
 
             DB::connection('mysql')->commit();
@@ -1223,15 +1253,16 @@ class recruit_project_controller extends Controller
             Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
             
             $result_array = array(
-                "Result" => "error",
-                "Message" => $process_title."でエラーが発生しました。",
+                "result" => "error",
+                "message" => $process_title."でエラーが発生しました。",
             );           
 
-            return response()->json(['result_array' => $result_array]);
+            
                                 
         }
 
 
+        return response()->json(['result_array' => $result_array]);
 
 
     }
@@ -1244,11 +1275,18 @@ class recruit_project_controller extends Controller
     function job_password_available_check($request , $process_branch)
     {    
 
-        $password = $request->password;
+        $password = $request->password;        
 
         $result_type = 0;
+        $job_password_id = "";
+        $branch_number = "";
+        $job_password_item_id = "";
         $job_password_item_name = "";
         $added_date = "";
+        $added_date = "";
+        $publish_end_date = "";
+
+       
 
         //求人パスワードがマスタにあるかチェック
         $existence_password = job_password_t_model::
@@ -1263,6 +1301,7 @@ class recruit_project_controller extends Controller
 
             $job_password_t = job_password_t_model::select(           
                 
+                'job_password_t.job_password_id as job_password_id',
                 'job_password_t.job_password_item_id as job_password_item_id',
                 'job_password_item_m.job_password_item_name as job_password_item_name',
                 'job_password_item_m.added_date as added_date',
@@ -1288,6 +1327,7 @@ class recruit_project_controller extends Controller
                 
             }else{
 
+                $job_password_id = $job_password_t->job_password_id;
                 $job_password_item_id = $job_password_t->job_password_item_id;
                 $job_password_item_name = $job_password_t->job_password_item_name;
                 $added_date = $job_password_t->added_date;                
@@ -1304,18 +1344,21 @@ class recruit_project_controller extends Controller
 
         if($process_branch == 1 || $result_type != 0){
 
-            $return_array = ['result_type' => $result_type 
-            , 'job_password_item_id' => $job_password_item_id 
-            , 'job_password_item_name' => $job_password_item_name 
-            ,'added_date' => $added_date];
+            $return_array = [
+                'result_type' => $result_type 
+                , 'job_password_id' => $job_password_id 
+                , 'job_password_item_id' => $job_password_item_id 
+                , 'job_password_item_name' => $job_password_item_name 
+                ,'added_date' => $added_date
+            ];
             return $return_array;
 
         }
-        
 
+        $employer_id = $request->employer_id;
+        $job_id = $request->job_id;
+        $publish_start_date = $request->publish_start_date;   
         
-
-        $publish_start_date = $request->publish_start_date;        
 
         // 初期の日付を設定
         $setting_publish_start_date = Carbon::create($publish_start_date);
@@ -1326,7 +1369,30 @@ class recruit_project_controller extends Controller
         $publish_start_date = $publish_start_date->format('Y/m/d');
         $publish_end_date = $publish_end_date->format('Y/m/d');
 
-        $return_array = ['result_type' => $result_type 
+
+        //求人パスワードがマスタにあるかチェック
+        $job_password_connection_t = job_password_connection_t_model::
+            where('employer_id', '=', $employer_id)
+            ->where('job_id', '=', $job_id)              
+            ->where(function ($query) use ($publish_start_date, $publish_end_date) {
+                $query->whereBetween('publish_start_date', [$publish_start_date, $publish_end_date])
+                    ->orWhereBetween('publish_end_date', [$publish_start_date, $publish_end_date]);
+            })
+            ->first()
+            ;    
+
+            
+
+        if(!is_null($job_password_connection_t)){
+
+            $branch_number = $job_password_connection_t->branch_number;
+            $result_type = 3;
+        }
+
+        $return_array = [
+            'result_type' => $result_type 
+            , 'job_password_id' => $job_password_id 
+            , 'branch_number' => $branch_number 
             , 'job_password_item_id' => $job_password_item_id 
             , 'job_password_item_name' => $job_password_item_name 
             , 'added_date' => $added_date
@@ -1799,29 +1865,29 @@ class recruit_project_controller extends Controller
 
             }else{
 
-                 //更新処理
-                 job_information_t_model::where('employer_id', $employer_id)
-                 ->where('job_id', $job_id)
-                 ->update(
+                //更新処理
+                job_information_t_model::where('employer_id', $employer_id)
+                ->where('job_id', $job_id)
+                ->update(
                     [
                     
-                     "title" => $title
-                    ,"sub_title" => $sub_title
-                    ,"work_location_prefectural_cd" => $work_location_prefectural_cd
-                    ,"work_location_municipality_cd" => $work_location_municipality_cd
-                    ,"working_time" => $working_time
-                    ,"salary" => $salary
-                    ,"holiday" => $holiday
-                    ,"manager_name" => $manager_name
-                    ,"tel" => $tel
-                    ,"fax" => $fax
-                    ,"hp_url" => $hp_url                    
-                    ,"mailaddress" => $mailaddress
-                    ,"application_requirements" => $application_requirements
-                    ,"scout_statement" => $scout_statement
-                    ,"remarks" => $remarks                        
+                        "title" => $title
+                        ,"sub_title" => $sub_title
+                        ,"work_location_prefectural_cd" => $work_location_prefectural_cd
+                        ,"work_location_municipality_cd" => $work_location_municipality_cd
+                        ,"working_time" => $working_time
+                        ,"salary" => $salary
+                        ,"holiday" => $holiday
+                        ,"manager_name" => $manager_name
+                        ,"tel" => $tel
+                        ,"fax" => $fax
+                        ,"hp_url" => $hp_url                    
+                        ,"mailaddress" => $mailaddress
+                        ,"application_requirements" => $application_requirements
+                        ,"scout_statement" => $scout_statement
+                        ,"remarks" => $remarks                        
                     ]
-                 );
+                );
 
             }
             

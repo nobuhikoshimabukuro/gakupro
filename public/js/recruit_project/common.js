@@ -49,3 +49,20 @@ function end_processing(){
   });
 
 }
+
+// 引数は操作制御したいセレクタ
+function alert_display(target , message){
+
+
+
+  // 処理中のローディングcss
+  let Html = '<div class="alert-area">';
+  Html += message;
+  Html += '</div>';
+
+  // 対象要素に作成したhtmlを追加
+  $(Html).appendTo(target);
+
+  $('.alert-area').fadeIn()
+
+}
