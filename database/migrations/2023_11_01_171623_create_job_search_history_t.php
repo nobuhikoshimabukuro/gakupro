@@ -23,7 +23,7 @@ return new class extends Migration
 
             $table
                 ->increments('id')
-                ->comment('求人補足大分類コード:連番');
+                ->comment('連番');
 
             $table
                 ->integer('job_supplement_subcategory_cd')                
