@@ -415,12 +415,27 @@ $(function(){
 
         $("#send_password").val('');
         $("#send_password").focus();
+
+        alert_reset();
      
     });
 
     // 「パスワード確認」ボタンがクリックされたら
     $('#job-password-check-button').click(function () {
     
+ 
+        //{{-- メッセージクリア --}}        
+        alert_reset();
+
+        var password = $('#send_password').val();
+                
+        if(password == ""){
+
+            alert_display("#main" , "パスワードを入力してください。");
+            $('#send_password').focus();
+            return false;
+        }
+
         // ２重送信防止
         // 保存tを押したらdisabled, 10秒後にenable
         $('#job-password-check-button').prop("disabled", true);
@@ -429,16 +444,6 @@ $(function(){
             $('#job-password-check-button').prop("disabled", false);
         }, 3000);
 
-        //{{-- メッセージクリア --}}
-        $('.ajax-msg').html('');
-
-        var password = $('#send_password').val();
-                
-        if(password == ""){
-
-            alert_display("#main" , "aaaaaaa");
-            return false;
-        }
         
         $(".job-password-error-tr").removeClass('d-none');
         $(".job-password-item-tr").removeClass('d-none');

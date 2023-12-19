@@ -103,7 +103,7 @@
             <a href="">
                 <div class="bg-dark rounded-lg text-light p-2 ">                    
                     <i class="fas fa-user-secret fa-3x mb-1"></i>
-                    <h6>雇用者マスタ</h6>
+                    <h6>雇用者マスタ(未実装)</h6>
                 </div>
             </a>
         </div>

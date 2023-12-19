@@ -21,7 +21,7 @@
 
     @include('headquarters.common.alert')
 
-    <div class="row m-0 p-0">
+    <div class="row m-0 mb-1 p-0">
 
         <div class="col-6 text-start">
             <h4 class="master-title">
@@ -75,7 +75,7 @@
                     使用/販売状況                    
                 </th>
                 
-                <th>表示加算日数</th>
+                <th>加算日数</th>
                 <th>
                     作成情報                    
                 </th>
@@ -291,15 +291,20 @@
                     
                     <form id="save-form" method="post" action="{{ route('master.job_password.save') }}">                    
                         @csrf
+                        
                         <div class="modal-body">  
                             
                             <div class="form-group row">
 
                                 <label for="create_password_count" class="col-md-6 col-form-label original-label">作成数</label>
-                                <input type="text" name="create_password_count" id="create_password_count" value="" class="form-control col-md-3">                               
+                                <select id='create_password_count' name='create_password_count' class='form-control input-sm'>									                                                                           
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="20">20</option>
+                                    <option value="30">30</option>                                    
+                                </select>
 
-
-                                <label for="job_password_item_id" class="col-12 col-form-label original-label">商品</label>
+                                <label for="job_password_item_id" class="col-md-6 col-form-label original-label">商品</label>
                                 <select id='job_password_item_id' name='job_password_item_id' class='form-control input-sm'>
 									
 										@foreach($job_password_item_list as $job_password_item_info)                                            
@@ -337,7 +342,7 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
 
-                    <div class="modal-header">
+                    <div class="modal-header border-0">
                         <h5 class="modal-title" id="password-sale-change-modal-label"><span id="password-sale-change-modal-title"></span></h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
@@ -359,7 +364,7 @@
 
 
 
-                        <div class="modal-footer">                            
+                        <div class="modal-footer border-0">                            
                             <div class="col-6 m-0 p-0 text-start">
                                 <button type="button" id='password-sale-change-button' class="btn password-sale-change-button">
                                     <span id="password-sale-change-button-title"></span>

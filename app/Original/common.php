@@ -6,7 +6,10 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendErrorMail;
 use Carbon\Carbon;
+use League\Csv\Reader;
+use Illuminate\Support\Facades\DB;
 use App\Models\staff_m_model;
+use App\Models\address_m_model;
 
 use Illuminate\Http\Request;
 
@@ -473,6 +476,57 @@ class common
         return $salary_data;
     }
     
+
+    public static function create_address_m()
+    {
+
+       
+
+        try {
+
+             
+            $csv_full_path = Public_path('address/fixed_address.csv');
+            // CSVファイルを読み込み
+            $csv = Reader::createFromPath($csv_full_path, 'r');
+
+            DB::connection('mysql')->beginTransaction();
+
+            //Table初期化
+            address_m_model::truncate();
+
+            foreach ($csv as $row) {
+
+                $municipality_cd = $row[0];
+                $municipality_name = $row[1];
+                $municipality_name_kana = $row[2];
+                $prefectural_cd = $row[3];
+                $prefectural_name = $row[4];
+                $prefectural_name_kana = $row[5];
+                
+                address_m_model::insert(
+                    [
+                        'prefectural_cd' => $prefectural_cd,                        
+                        'prefectural_name' => $prefectural_name,     
+                        'prefectural_name_kana' => $prefectural_name_kana,
+                        'municipality_cd' => $municipality_cd,
+                        'municipality_name' => $municipality_name,
+                        'municipality_name_kana' => $municipality_name_kana,
+                        
+                    ]
+                );        
+
+            }
+
+            DB::connection('mysql')->commit();
+
+
+        } catch (Exception $e) {  
+
+            DB::connection('mysql')->rollBack();
+
+        }
+
+    }
 
 }
 

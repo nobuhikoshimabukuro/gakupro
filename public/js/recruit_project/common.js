@@ -66,3 +66,15 @@ function alert_display(target , message){
   $('.alert-area').fadeIn()
 
 }
+
+
+function alert_reset(){
+
+  var elements = document.querySelectorAll('.alert-area');
+
+  // 取得した要素を削除
+  elements.forEach(function(element) {
+    element.remove();
+  });
+
+}

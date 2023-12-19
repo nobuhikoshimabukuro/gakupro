@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Original\common;
 use Carbon\Carbon;
+use League\Csv\Reader;
 
 // ・マイグレーション実行 既存Table削除し再作成後シードも実行
 // php artisan migrate:fresh --database=mysql --seed
@@ -23,6 +24,8 @@ class DatabaseSeeder extends Seeder
 
         Storage::disk('recruit_project_public_path')->deleteDirectory("job_image");
        
+        common::create_address_m();
+
         DB::table('maincategory_m')->insert([
             
             [
@@ -458,32 +461,34 @@ class DatabaseSeeder extends Seeder
 
         ]);   
 
+        // 当日の日付を取得
+        $today = Carbon::now();
+
+        $today_f = $today;
+        $add_Date1 = $today;
+        $add_Date2 = $today;
+        // 14日後の日付を計算
+        $today_f = $today_f->format('Y-m-d');        
+        $add_Date1 = $add_Date1->addDays(7)->format('Y-m-d');   
+        $add_Date2 = $add_Date2->addDays(28)->format('Y-m-d');
+
         DB::table('job_password_t')->insert([
             
-            [   
+            [
                 'job_password_id' => '1',
-                'job_password_item_id' => '1',
+                'job_password_item_id' => '3',
                 'password' => '0123456789',
                 'usage_flg' => '1',
                 'sale_flg' => '1',         
                 'seller' => '1',
-                'sale_datetime' => '2023-10-31',
+                'sale_datetime' => $today_f,
                 'created_by' => '1',
                 
             ],
         ]);   
 
      
-        // 当日の日付を取得
-        $today = Carbon::now();
 
-        $today_f = $today;
-        $add_Date1 = $today;
-        $add_Date2 = $today;;
-        // 14日後の日付を計算
-        $today_f = $today_f->format('Y-m-d');        
-        $add_Date1 = $add_Date1->addDays(14)->format('Y-m-d');   
-        $add_Date2 = $add_Date2->addDays(28)->format('Y-m-d');
 
         DB::table('job_password_connection_t')->insert([
             
@@ -492,8 +497,8 @@ class DatabaseSeeder extends Seeder
                 'job_id' => '1',
                 'job_password_id' => '1',
                 'branch_number' => '1',
-                'publish_start_date' => '2023-11-01',
-                'publish_end_date' => '2024-11-01',
+                'publish_start_date' => $today_f,
+                'publish_end_date' => $add_Date1,
                 'created_by' => '1',
                 
             ],
