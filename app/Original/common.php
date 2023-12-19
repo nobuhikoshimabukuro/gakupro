@@ -522,6 +522,11 @@ class common
 
         } catch (Exception $e) {  
 
+            $error_title = '自動住所登録処理エラー';
+            $ErrorMessage = $e->getMessage();
+                    
+            $log_error_message = $error_title .'::' .$ErrorMessage;
+            Log::channel('error_log')->info($log_error_message);
             DB::connection('mysql')->rollBack();
 
         }
