@@ -1405,11 +1405,11 @@ class recruit_project_controller extends Controller
 
     }
 
-    
+    //求人情報表出力処理
     function job_information_ledger(Request $request)
     {    
 
-        $process_title = "求人情報出力処理";
+        $process_title = "求人情報表出力処理";
 
         
         $employer_id = session()->get('employer_id');
@@ -1582,11 +1582,11 @@ class recruit_project_controller extends Controller
 
     }
 
-
+    //求人情報表出力処理
     function job_information_ledger_bk(Request $request)
     {    
 
-        $process_title = "求人情報出力処理";
+        $process_title = "求人情報表出力処理";
 
         try {
 

@@ -10,7 +10,7 @@ use App\Models\subcategory_m_model;
 use App\Models\school_m_model;
 use App\Models\majorsubject_m_model;
 
-
+use Carbon\Carbon;
 use App\Http\Requests\member_m_request;
 
 use Exception;
@@ -158,7 +158,53 @@ class job_related
     }
 
     //求人検索履歴ランキング
-    public static function get_job_search_history_ranking(Request $request)
+    public static function get_job_search_history_ranking()
+    {           
+ 
+        $return_array = [];        
+
+        $now = Carbon::now();
+
+        $start_date = $now;
+        $start_date = $start_date->format("Y-m-d");
+
+        $info_array[]= ["3", "3日間"];
+        $info_array[]= ["7", "1週間"];
+        $info_array[]= ["30", "1ヵ月"];
+
+        foreach($info_array as $index => $info){
+
+            $now = Carbon::now();            
+            
+            $end_date = $now->subDays($info[0])->format("Y-m-d");
+
+            $job_search_history_t = job_search_history_t_model::select(
+            
+                'job_search_history_t.job_supplement_subcategory_cd as job_supplement_subcategory_cd',
+                'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',
+                DB::raw('COUNT(*) as count')
+                
+            )
+            ->leftJoin('job_supplement_subcategory_m', function ($join) {
+                $join->on('job_search_history_t.job_supplement_subcategory_cd', '=', 'job_supplement_subcategory_m.job_supplement_subcategory_cd');
+            })
+            ->whereBetween('job_search_history_t.search_date', [$start_date, $end_date])       
+            ->groupBy('job_search_history_t.job_supplement_subcategory_cd', 'job_supplement_subcategory_m.job_supplement_subcategory_name')            
+            ->orderByDesc('count')
+            ->limit(3)
+            ->get();            
+
+            if(!is_null($job_search_history_t)){
+                $return_array[]= ["job_search_history_t" => $job_search_history_t , "title" => $info[1]];
+            }
+        }
+
+        return $return_array;
+ 
+    }
+
+    //求人検索履歴ランキング
+    public static function get_job_search_history_ranking_______(Request $request)
     {           
 
         // 現在の日時を取得

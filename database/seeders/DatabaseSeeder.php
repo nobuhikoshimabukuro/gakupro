@@ -368,7 +368,7 @@ class DatabaseSeeder extends Seeder
                 'working_time' => '17：00～23：00',
 
                 'salary' => '正社員：月給15万円～
-アルバイト：時給900円～',
+アルバイト：時給1000円～',
 
                 'holiday' => '週休2日～
 相談可能',

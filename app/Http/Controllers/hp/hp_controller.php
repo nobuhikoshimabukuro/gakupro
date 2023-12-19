@@ -31,6 +31,9 @@ use App\Models\job_supplement_connection_t_model;
 use App\Models\job_search_history_t_model;
 use App\Models\employment_status_m_model;
 
+use App\Models\salary_subcategory_m_model;
+
+
 use App\Models\employment_status_connection_t_model;
 use App\Models\job_category_connection_t_model;
 
@@ -42,6 +45,8 @@ class hp_controller extends Controller
 
     function index(Request $request)
     {    
+
+        // $a = job_related::get_job_search_history_ranking();
         return view('hp/screen/index');
     }
 
@@ -62,7 +67,9 @@ class hp_controller extends Controller
         if(session()->has('all_job_search_value_array')) {
 
             $all_job_search_value_array = session()->get('all_job_search_value_array');
-            // session()->remove('all_job_search_value_array');
+            
+            session()->remove('all_job_search_value_array');
+
             $job_information = $this->search_job_information($all_job_search_value_array);
 
             $prefectural_cd_search_value_array = $all_job_search_value_array["prefectural_cd_search_value_array"];
@@ -319,12 +326,23 @@ class hp_controller extends Controller
             , editing_employment_status_connection_t.employment_status_ids            
             , editing_job_category_connection_t.job_subcategory_cds
             , editing_job_supplement_connection_t.job_supplement_subcategory_cds
+            , editing_job_password_connection_t.job_password_id
+            , job_password_t.job_password_item_id             
+            , job_password_item_m.job_password_item_name
+            , editing_job_password_connection_t.publish_start_date
+            , editing_job_password_connection_t.publish_end_date
         FROM
             job_information_t 
 
             INNER JOIN editing_job_password_connection_t 
                 ON editing_job_password_connection_t.employer_id = job_information_t.employer_id 
                 AND editing_job_password_connection_t.job_id = job_information_t.job_id
+                                    
+            LEFT JOIN job_password_t 
+                ON editing_job_password_connection_t.job_password_id = job_password_t.job_password_id
+
+            LEFT JOIN job_password_item_m 
+                ON job_password_t.job_password_item_id = job_password_item_m.job_password_item_id
 
             LEFT JOIN employer_m 
                 ON employer_m.employer_id = job_information_t.employer_id 
@@ -347,28 +365,75 @@ class hp_controller extends Controller
             LEFT JOIN address_m as address_m2 
                 ON address_m2.prefectural_cd = job_information_t.work_location_prefectural_cd 
                 AND address_m2.municipality_cd = job_information_t.work_location_municipality_cd 
+        
+        ";
 
+        //給与を取得        
+        if($salary_maincategory_cd_search_value_array["existence_data"] == 1) {
+            
+            $salary_maincategory_cd = $salary_maincategory_cd_search_value_array["salary_maincategory_cd"];
+
+            $sql .= $new_line  . "
+            INNER JOIN employment_status_connection_t 
+                ON employment_status_connection_t.employer_id = job_information_t.employer_id 
+                AND employment_status_connection_t.job_id = job_information_t.job_id            
+                AND employment_status_connection_t.salary_maincategory_cd = '" . $salary_maincategory_cd . "'
+            ";
+
+            if($salary_subcategory_cd_search_value_array["existence_data"] == 1) {  
+                          
+                $salary_subcategory_cd = $salary_subcategory_cd_search_value_array["salary_subcategory_cd"];
+
+                // $salary = $salary_subcategory_cd_search_value_array["salary"];
+
+                
+                $salary_subcategory_m = salary_subcategory_m_model::where('salary_subcategory_cd', '=', $salary_subcategory_cd)
+                ->first();
+
+                if(!is_null($salary_subcategory_m)){
+
+                    $salary = $salary_subcategory_m->salary;
+
+                    $sql .= $new_line  . "
+                    INNER JOIN salary_subcategory_m 
+                        ON employment_status_connection_t.salary_maincategory_cd = salary_subcategory_m.salary_maincategory_cd 
+                        AND employment_status_connection_t.salary_subcategory_cd = salary_subcategory_m.salary_subcategory_cd
+                        AND salary_subcategory_m.salary >= " . $salary;
+
+                }
+                
+
+            }
+
+        }
+
+        
+
+        $sql .= $new_line  . "
         WHERE
-            job_information_t.publish_flg = '1'    
+            job_information_t.publish_flg = '1'
         ";
 
         //都道府県CDを取得
         if($prefectural_cd_search_value_array["existence_data"] == 1) {
+
             $prefectural_cd = $prefectural_cd_search_value_array["prefectural_cd"];
             $sql .= $new_line  . 'AND';            
             $sql .= $new_line  . "job_information_t.work_location_prefectural_cd = '" . $prefectural_cd . "'";
-        }
 
-        //市区町村CDを取得
-        if($municipality_cd_search_value_array["existence_data"] == 1) {
-            $municipality_cd_array = $municipality_cd_search_value_array["value_array"];
+            //市区町村CDを取得
+            if($municipality_cd_search_value_array["existence_data"] == 1) {
+                $municipality_cd_array = $municipality_cd_search_value_array["value_array"];
+                
+                $municipality_cd_list = implode(',', $municipality_cd_array);
             
-            $municipality_cd_list = implode(',', $municipality_cd_array);
-        
-            $sql .= $new_line  . "AND";       
-            $sql .= $new_line  . "job_information_t.work_location_municipality_cd IN (" . $municipality_cd_list . ")";        
+                $sql .= $new_line  . "AND";       
+                $sql .= $new_line  . "job_information_t.work_location_municipality_cd IN (" . $municipality_cd_list . ")";        
 
+            }
         }
+
+        
 
         //雇用形態
         if($employment_status_search_value_array["existence_data"] == 1) {
@@ -392,16 +457,7 @@ class hp_controller extends Controller
             }
         }
 
-        //給与を取得        
-        if($salary_maincategory_cd_search_value_array["existence_data"] == 1) {
-            
-            $salary_maincategory_cd = $salary_maincategory_cd_search_value_array["salary_maincategory_cd"];                     
-
-        }
-
-        if($salary_subcategory_cd_search_value_array["existence_data"] == 1) {            
-            $salary_subcategory_cd = $salary_subcategory_cd_search_value_array["salary_subcategory_cd"];
-        }
+     
 
         //職種
         if($job_category_search_value_array["existence_data"] == 1) {

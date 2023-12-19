@@ -1328,7 +1328,7 @@ $(function(){
                     var salary_display = salary_sabcategory_info["salary_display"];
             
                      // 新しいoption要素を作成
-                    var option = $("<option>").val(salary_subcategory_cd).text(salary_display);
+                    var option = $("<option>").val(salary_subcategory_cd).text(salary_display).data("salary", salary);
 
                     // 特定の条件でselected属性を追加
                     if (salary_subcategory_cd == get_search_salary_subcategory_cd) {
@@ -1493,16 +1493,19 @@ $(function(){
 
         var existence_data = 0;
 
+        var salary = 0;
         var salary_subcategory_cd = $("#search_salary_subcategory_cd").val();
 
         var salary_subcategory_cd_search_value_array = [];
 
         if(salary_subcategory_cd != ""){
             existence_data = 1;        
+            var salary = $("#search_salary_subcategory_cd option:selected").data("salary");            
         }
 
         salary_subcategory_cd_search_value_array = {existence_data:existence_data
                                     , salary_subcategory_cd:salary_subcategory_cd                                         
+                                    , salary:salary 
                                     };
                                     
         return salary_subcategory_cd_search_value_array;
