@@ -225,9 +225,7 @@ input::placeholder{
 }
 
 
-.salary_subcategory_cd{
-    min-width: 200px;
-}
+
 
 
 
@@ -288,18 +286,15 @@ input::placeholder{
 
     .job-supplement-area
     ,.job-category-area
-    
+    ,.employment-status-area
     {
         height: 50px;
         padding: 3px;
     }
 
-    
-
-
     .job-supplement-label
     ,.job-category-label
-    {
+    ,.employment-status-label{
         height: 100%;
         width: 100%; 
         color: rgb(53, 7, 7);       
@@ -310,7 +305,7 @@ input::placeholder{
 
     .job-supplement-select
     ,.job-category-select
-    {
+    ,.employment-status-select{
         background-color: rgb(49, 49, 105);
         color: white;
         border: solid 1px rgb(208, 208, 241);
@@ -324,27 +319,23 @@ input::placeholder{
         }
     }
 
-
-    .employment-status-area{
-        height: 50px;
-        padding: 2px;
-        width: 160px;
+    .salary_maincategory_cd-td{
+        min-width: 70px;
+        text-align: left;
     }
 
-    .employment-status-label{
-        height: 100%;
-        /* width: 100%;  */
-        color:rgb(58, 58, 71);
-        background-color: white;   
-        font-weight: 500;
-        border: 1px solid;
-        border-radius: 3px;             
+    .salary_maincategory_cd{
+        min-width: 100%;
     }
 
-  
+    .salary_subcategory_cd-td{
+        min-width: 200px;
+        text-align: left;
+    }
 
-
-
+    .salary_subcategory_cd{
+        min-width: 100%;
+    }
 
     .item-center{
         display: flex;
@@ -411,18 +402,6 @@ input::placeholder{
   width: 0;
   /* position: absolute; */
 }
-
-
-.check-mark {
-    position: absolute;
-    content: '';
-    width: 20px;
-    height: 8px;
-    border-left: 3px solid #dc3545;
-    border-bottom: 3px solid #dc3545;
-    transform: rotate(-45deg);
-}
-
 
 </style>
 
@@ -498,7 +477,7 @@ input::placeholder{
 
 
                                 <tr class="sub_title-tr">
-                                    <th class="">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
                                         <label for="sub_title">サブタイトル</label><span class="required">必須</span>
                                     </th>
                                     <td>
@@ -515,7 +494,7 @@ input::placeholder{
                                 </tr>
 
                                 <tr class="work_location_prefectural_cd-tr">
-                                    <th class="">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
                                         <label for="work_location_prefectural_cd">勤務地</label>
                                         <span class="required">必須</span>
                                     </th>
@@ -551,7 +530,7 @@ input::placeholder{
 
 
                                 <tr class="working_time-tr">
-                                    <th class="">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
                                         <label for="working_time">就労時間</label>
                                         <span class="required">必須</span>
                                     </th>
@@ -563,147 +542,9 @@ input::placeholder{
             
                                 </tr>
             
-
                                 <tr class="salary-tr">
-
-                                    <th class="">
-                                        <label for="salary">雇用形態</label>
-                                        <span class="required">必須</span>
-                                    </th>
-
-                                    <td >
-            
-                                        <div id="" class="row m-0 p-0">
-                                                          
-                                            
-                                                
-                                                @foreach($employment_status_data as $employment_status_info)
-                                                
-                                                    @php                            
-                                                        
-                                                        $employment_status_id = $employment_status_info->employment_status_id;
-                                                        $employment_status_name = $employment_status_info->employment_status_name;
-                    
-                                                        $set_flg = 0;
-                                                        $get_employment_status_id = 0;
-                                                        $get_salary_maincategory_cd = 0;
-                                                        $get_salary_subcategory_cd = 0;
-                                                        $add_class = "";
-                                                        
-                                                        foreach ($employment_status_connections as $index => $employment_status_connection_info){
-                    
-                                                            $set_employment_status_id = $employment_status_connection_info["employment_status_id"];
-                                                            $set_salary_maincategory_cd = $employment_status_connection_info["salary_maincategory_cd"];
-                                                            $set_salary_subcategory_cd = $employment_status_connection_info["salary_subcategory_cd"];
-                    
-                                                            if($employment_status_id == $set_employment_status_id ){
-                                                                $add_class = "employment-status-select";
-                                                                $set_flg = 1;
-                                                                $get_employment_status_id = $set_employment_status_id;
-                                                                $get_salary_maincategory_cd = $set_salary_maincategory_cd;
-                                                                $get_salary_subcategory_cd = $set_salary_subcategory_cd;                                            
-                    
-                                                                break;
-                                                            }
-                                                        }                                    
-                    
-                                                    @endphp
-                    
-                                                        <div class=" m-0 p-0 d-flex">
-                                                
-
-                                                        <div id="employment-status-area{{$employment_status_id}}" 
-                                                        class="employment-status-area">
-                                                            <label id="employment-status-label{{$employment_status_id}}" 
-                                                                for="employment-status-checkbox{{$employment_status_id}}" 
-                                                                class="employment-status-label {{$add_class}} item-center"
-                                                            >{{$employment_status_name}}
-
-                                                            @if($set_flg == 1)
-                                                                <div class="check-mark"></div>
-                                                            @endif  
-                                                            
-                                                                <input type="checkbox" 
-                                                                id="employment-status-checkbox{{$employment_status_id}}"
-                                                                name="employment-status-checkbox{{$employment_status_id}}"
-                                                                value="{{$employment_status_id}}"                        
-                                                                data-target="{{$employment_status_id}}"
-                                                                class="employment-status-checkbox d-none"                                    
-                                                                @if($set_flg == 1) checked @endif    
-                                                                >
-                                                                
-                                                            </label>
-
-
-                                                            
-                                                        </div>
-
-                                               
-
-                                                        <select id='employment_status_id_{{$employment_status_id}}_salary_maincategory_cd' 
-                                                            name='employment_status_id_{{$employment_status_id}}_salary_maincategory_cd' 
-                                                            class='salary_maincategory_cd'
-                                                            data-employmentstatusid="{{$employment_status_id}}"
-                                                        >
-                                                            <option value=''>---</option>
-                                                                @foreach ($salary_maincategory_list as $salary_maincategory_index => $salary_maincategory_info)
-                                                                    <option value="{{$salary_maincategory_info->salary_maincategory_cd}}"
-                                                                    @if($get_salary_maincategory_cd == $salary_maincategory_info->salary_maincategory_cd)
-                                                                    selected
-                                                                    @endif
-                                                                    >
-                                                                    {{$salary_maincategory_info->salary_maincategory_name}}
-                                                                    </option>
-                                                                @endforeach
-                                                        </select>
-
-                                                  
-                                                        @if($get_salary_maincategory_cd > 0)
-                    
-                                                            <select id='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
-                                                                name='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
-                                                                class='salary_subcategory_cd'
-                                                            >
-                                                                <option value=''>---</option>
-                                                                @foreach ($salary_subcategory_list as $salary_subcategory_index => $salary_subcategory_info)
-                    
-                                                                    @if($get_salary_maincategory_cd == $salary_subcategory_info->salary_maincategory_cd)
-                                                                        <option value="{{$salary_subcategory_info->salary_subcategory_cd}}"
-                                                                        @if($get_salary_subcategory_cd == $salary_subcategory_info->salary_subcategory_cd)
-                                                                        selected
-                                                                        @endif
-                                                                        >
-                                                                        {{$salary_subcategory_info->salary}}円以上
-                                                                        </option>
-                                                                    @endif
-                    
-                                                                @endforeach
-                                                            </select>
-                    
-                                                        @else
-                                                            <select id='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
-                                                                name='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
-                                                                class='salary_subcategory_cd input-sm inoperable'
-                                                            >
-                                                                <option value=''></option>
-                                                            </select>
-                                                        @endif
-
-                                                    </div>         
-                                            
-                                                
-                                                @endforeach
-                
-                                            
-                                              
-                                        </div>           
-                                    </td>           
-            
-                                </tr>
-
-                                <tr class="salary-tr">
-                                    <th class="">
-                                        <label for="salary">雇用形態/給与</label>
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                        <label for="salary">給与</label>
                                         <span class="required">必須</span>
                                     </th>
                                     <td>
@@ -715,7 +556,7 @@ input::placeholder{
                                 </tr>
 
                                 <tr class="holiday-tr">
-                                    <th class="">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
                                         <label for="holiday">休日</label>
                                         <span class="required">必須</span>
                                     </th>
@@ -728,7 +569,7 @@ input::placeholder{
                                 </tr>
 
                                 <tr class="manager_name-tr">
-                                    <th class="">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
                                         <label for="manager_name">求人担当者名</label>
                                     </th>
                                     <td>
@@ -745,7 +586,7 @@ input::placeholder{
                                 </tr>
 
                                 <tr class="tel-tr">
-                                    <th class="">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
                                         <label for="tel">電話番号</label>
                                     </th>
                                     <td>
@@ -762,7 +603,7 @@ input::placeholder{
                                 </tr>
 
                                 <tr class="fax-tr">
-                                    <th class="">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
                                         <label for="fax">FAX</label>
                                     </th>
                                     <td>
@@ -779,7 +620,7 @@ input::placeholder{
                                 </tr>
 
                                 <tr class="hp_url-tr">
-                                    <th class="">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
                                         <label for="hp_url">hp_url</label>
                                     </th>
                                     <td>
@@ -796,7 +637,7 @@ input::placeholder{
                                 </tr>
 
                                 <tr class="mailaddress-tr">
-                                    <th class="">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
                                         <label for="mailaddress">メールアドレス</label>
                                     </th>
                                     <td>
@@ -814,7 +655,7 @@ input::placeholder{
 
 
                                 <tr class="application_requirements-tr">
-                                    <th class="">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
                                         <label for="application_requirements">応募資格</label>                                        
                                     </th>
                                     <td>
@@ -825,7 +666,7 @@ input::placeholder{
                                 </tr>
 
                                 <tr class="scout_statement-tr">
-                                    <th class="">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
                                         <label for="scout_statement">スカウト文</label>                                        
                                     </th>
                                     <td>
@@ -836,7 +677,7 @@ input::placeholder{
                                 </tr>
 
                                 <tr class="remarks-tr">
-                                    <th class="">
+                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
                                         <label for="remarks">求人備考</label>                                        
                                     </th>
                                     <td>
@@ -936,7 +777,145 @@ input::placeholder{
 
                     </div>
 
-               
+                    <div class="col-12 col-md-6 mt-3">
+
+                        <div id="" class="row m-0 p-0">
+                            
+
+                            <div class="col-12 employment-status-title-area mt-2">
+                                雇用形態
+                            </div>
+
+                            <table>
+
+                            
+                            @foreach($employment_status_data as $employment_status_info)
+                            
+                                @php                            
+                                    
+                                    $employment_status_id = $employment_status_info->employment_status_id;
+                                    $employment_status_name = $employment_status_info->employment_status_name;
+
+                                    $set_flg = 0;
+                                    $get_employment_status_id = 0;
+                                    $get_salary_maincategory_cd = 0;
+                                    $get_salary_subcategory_cd = 0;
+                                    $add_class = "";
+                                    $check_status = "";
+                                    foreach ($employment_status_connections as $index => $employment_status_connection_info){
+
+                                        $set_employment_status_id = $employment_status_connection_info["employment_status_id"];
+                                        $set_salary_maincategory_cd = $employment_status_connection_info["salary_maincategory_cd"];
+                                        $set_salary_subcategory_cd = $employment_status_connection_info["salary_subcategory_cd"];
+
+                                        if($employment_status_id == $set_employment_status_id ){
+                                            $add_class = "employment-status-select";                            
+                                            $check_status = "checked";
+                                            $set_flg = 1;
+                                            $get_employment_status_id = $set_employment_status_id;
+                                            $get_salary_maincategory_cd = $set_salary_maincategory_cd;
+                                            $get_salary_subcategory_cd = $set_salary_subcategory_cd;                                            
+
+                                            break;
+                                        }
+                                    }                                    
+
+                                @endphp
+
+                            <tr class="">
+                                <td class="" colspan="2">
+                                    <div id="employment-status-area{{$employment_status_id}}" 
+                                    class="col-12 employment-status-area">
+                                    <label id="employment-status-label{{$employment_status_id}}" 
+                                        for="employment-status-checkbox{{$employment_status_id}}" 
+                                        class="employment-status-label {{$add_class}} item-center"
+                                    >
+                                    <input type="checkbox" 
+                                    id="employment-status-checkbox{{$employment_status_id}}"
+                                    name="employment-status-checkbox{{$employment_status_id}}"
+                                    value="{{$employment_status_id}}"                        
+                                    data-target="{{$employment_status_id}}"
+                                    class="employment-status-checkbox"                                    
+                                    {{$check_status}}
+                                    >
+                                    {{$employment_status_name}}
+                                    </label>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr class="employment_status_id_{{$employment_status_id}}_salary_cd-tr 
+                                @if($set_flg==0) d-none @endif">
+
+                                <td class="salary_maincategory_cd-td p-1">
+
+                                    <select id='employment_status_id_{{$employment_status_id}}_salary_maincategory_cd' 
+                                          name='employment_status_id_{{$employment_status_id}}_salary_maincategory_cd' 
+                                          class='salary_maincategory_cd input-sm'
+                                          data-employmentstatusid="{{$employment_status_id}}"
+                                    >
+                                        <option value=''>---</option>
+                                            @foreach ($salary_maincategory_list as $salary_maincategory_index => $salary_maincategory_info)
+                                                <option value="{{$salary_maincategory_info->salary_maincategory_cd}}"
+                                                @if($get_salary_maincategory_cd == $salary_maincategory_info->salary_maincategory_cd)
+                                                selected
+                                                @endif
+                                                >
+                                                {{$salary_maincategory_info->salary_maincategory_name}}
+                                                </option>
+                                            @endforeach
+                                    </select>
+
+                                </td>
+
+                                <td class="salary_subcategory_cd-td">
+
+                                   
+                                    @if($get_salary_maincategory_cd > 0)
+
+                                        <select id='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
+                                            name='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
+                                            class='salary_subcategory_cd input-sm'
+                                        >
+                                            <option value=''>---</option>
+                                            @foreach ($salary_subcategory_list as $salary_subcategory_index => $salary_subcategory_info)
+
+                                                @if($get_salary_maincategory_cd == $salary_subcategory_info->salary_maincategory_cd)
+                                                    <option value="{{$salary_subcategory_info->salary_subcategory_cd}}"
+                                                    @if($get_salary_subcategory_cd == $salary_subcategory_info->salary_subcategory_cd)
+                                                    selected
+                                                    @endif
+                                                    >
+                                                    {{$salary_subcategory_info->salary}}円以上
+                                                    </option>
+                                                @endif
+
+                                            @endforeach
+                                        </select>
+
+                                    @else
+                                        <select id='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
+                                            name='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
+                                            class='salary_subcategory_cd input-sm inoperable'
+                                        >
+                                            <option value=''>給与形態を選択してください。</option>
+                                        </select>
+                                    @endif
+                                    
+                                    
+
+                                </td>
+
+                            </tr>
+                            @endforeach
+
+                        </table>
+
+                        </div>
+
+                    </div> 
+
+
 
 
                     <div class="col-12 col-md-6 mt-3">
@@ -1328,18 +1307,19 @@ $(function(){
 
         var employment_status_id = $(this).data('target');
 
-        var target = "#employment-status-label" + employment_status_id;
+        $("#employment-status-label" + employment_status_id).removeClass('employment-status-select');
+
+        
+        var target_area = ".employment_status_id_" + employment_status_id + "_salary_cd-tr";        
+        $(target_area).removeClass('d-none'); 
 
         if($("#employment-status-checkbox" + employment_status_id).prop('checked')){
 
+            $("#employment-status-label" + employment_status_id).addClass('employment-status-select');
             
-            var add_html = '<div class="check-mark"></div>';
-           
-            $(add_html).appendTo(target);            
                   
         }else{
-            $(target).find('.check-mark').remove();
-            
+            $(target_area).addClass('d-none'); 
         }        
 
     });

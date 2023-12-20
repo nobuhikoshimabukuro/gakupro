@@ -886,6 +886,15 @@ class recruit_project_controller extends Controller
 
         //都道府県ブルダウン作成用
         $prefectural_list = create_list::prefectural_list();
+
+        //市町村ブルダウン作成用
+        $municipality_list = [];
+        if(!is_null($job_info)){
+
+            $prefectural_cd = $job_info->work_location_prefectural_cd;
+            $municipality_list = create_list::municipality_list($prefectural_cd);
+
+        }
         
         //給与大分類プルダウン作成用
         $salary_maincategory_list = create_list::salary_maincategory_list();

@@ -111,6 +111,26 @@ class create_list
         return $prefectural_list;
     }
 
+    //市町村コンボボックス
+    public static function municipality_list($prefectural_cd)
+    {      
+      
+        $municipality_list = address_m_model::select(
+            'prefectural_cd as prefectural_cd',
+            'prefectural_name as prefectural_name',
+            'prefectural_name_kana as prefectural_name_kana',
+
+            'municipality_cd as municipality_cd',
+            'municipality_name as municipality_name',
+            'municipality_name_kana as municipality_name_kana',
+        )
+        ->where('prefectural_cd', '=', $prefectural_cd)
+        ->orderBy('municipality_cd', 'asc')       
+        ->get();
+
+        return $municipality_list;
+    }
+
     //求人補足大分類コンボボックス
     public static function job_supplement_maincategory_list()
     {   
