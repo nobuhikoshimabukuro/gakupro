@@ -8,10 +8,11 @@
 <style>
 
 
-.label-area{
-    display: flex;    
-    align-items: center;
+body{
+    z-index: 1;
+    padding-bottom: 5vh;
 }
+
 
 
 
@@ -39,12 +40,9 @@ button {
   font-weight: 600;
 }
 
-
 textarea {
     resize: none;
 }
-
-
 
 select
 {
@@ -145,15 +143,9 @@ input::placeholder{
     border-bottom: none;
 }
 
-
-
-
-
-
-
-
-
+/* 項目 */
 .required{
+    
     display:inline;
     background-color: red;
     color: wheat;
@@ -163,6 +155,10 @@ input::placeholder{
     padding: 0 3px 0 3px;
     width: 40px;;
     
+}
+
+.required::before {
+  content: '必須';  
 }
 
 .error-border{
@@ -226,7 +222,7 @@ input::placeholder{
 
 
 .salary_subcategory_cd{
-    min-width: 200px;
+    width: 160px;
 }
 
 
@@ -268,14 +264,10 @@ input::placeholder{
 
 
 
-    body{
-        z-index: 1;
-        padding-bottom: 5vh;
-    }
 
     .job-supplement-maincategory-area
     ,.job-maincategory-title-area
-    ,.employment-status-title-area{
+    {
         height: 50px;
         background-color: rgb(245, 179, 81);
         color:rgb(239, 239, 247);
@@ -287,8 +279,7 @@ input::placeholder{
     }
 
     .job-supplement-area
-    ,.job-category-area
-    
+    ,.job-category-area    
     {
         height: 50px;
         padding: 3px;
@@ -326,22 +317,52 @@ input::placeholder{
 
 
     .employment-status-area{
-        height: 50px;
-        padding: 2px;
-        width: 160px;
+        height: 45px;
+        padding: 3px;
+        width: 110px;
     }
 
     .employment-status-label{
         height: 100%;
-        /* width: 100%;  */
-        color:rgb(58, 58, 71);
-        background-color: white;   
-        font-weight: 500;
-        border: 1px solid;
-        border-radius: 3px;             
+        width: 100%; 
+        color:black;
+        background-color: rgb(238, 234, 234);   
+        font-weight: 500;        
+        border-radius: 3px;
     }
 
+    .employment-status-select
+    {
+        background-color:white;
+        color:black;
+        border: solid 1px rgb(226, 125, 125);
+        font-weight: bold;
+        
+    }
   
+
+
+    .check-mark {
+        position: absolute;
+        content: '';
+        width: 20px;
+        height: 8px;
+        border-left: 3px solid red;
+        border-bottom: 3px solid red;
+        transform: rotate(-45deg);
+
+        animation: fadeIn 0.7s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+    }
+
+    @keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+ 
 
 
 
@@ -356,13 +377,13 @@ input::placeholder{
 .job-image-outer-area{
     width: 100%;
     overflow-x: auto;
-    background-color: rgb(180, 179, 176);
+    
     display: flex;    
     
 }
 
 .job-image-inner-area{
-    border: solid red 1px;
+    background-color: rgb(180, 179, 176);
     padding: 3px;
 }
 
@@ -413,17 +434,10 @@ input::placeholder{
 }
 
 
-.check-mark {
-    position: absolute;
-    content: '';
-    width: 20px;
-    height: 8px;
-    border-left: 3px solid #dc3545;
-    border-bottom: 3px solid #dc3545;
-    transform: rotate(-45deg);
+.fixed-salary-area{
+    widows: 100%;
+    min-height:30px; 
 }
-
-
 </style>
 
 
@@ -433,6 +447,8 @@ input::placeholder{
 
         <div class="col-11 col-md-11 mt-3">
     
+            @include('recruit_project.common.alert')
+
             <div id="" class="row m-0 p-0">
 
                 <div class="col-12 text-end">
@@ -480,7 +496,7 @@ input::placeholder{
             
                                 <tr class="title-tr">
                                     <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <label for="title">タイトル</label><span class="required">必須</span>
+                                        <label for="title">タイトル</label><span class="required"></span>
                                     </th>
                                     <td>
             
@@ -499,7 +515,7 @@ input::placeholder{
 
                                 <tr class="sub_title-tr">
                                     <th class="">
-                                        <label for="sub_title">サブタイトル</label><span class="required">必須</span>
+                                        <label for="sub_title">サブタイトル</label><span class="required"></span>
                                     </th>
                                     <td>
             
@@ -517,7 +533,7 @@ input::placeholder{
                                 <tr class="work_location_prefectural_cd-tr">
                                     <th class="">
                                         <label for="work_location_prefectural_cd">勤務地</label>
-                                        <span class="required">必須</span>
+                                        <span class="required"></span>
                                     </th>
                                     <td>
             
@@ -553,7 +569,7 @@ input::placeholder{
                                 <tr class="working_time-tr">
                                     <th class="">
                                         <label for="working_time">就労時間</label>
-                                        <span class="required">必須</span>
+                                        <span class="required"></span>
                                     </th>
                                     <td>
             
@@ -567,8 +583,8 @@ input::placeholder{
                                 <tr class="salary-tr">
 
                                     <th class="">
-                                        <label for="salary">雇用形態</label>
-                                        <span class="required">必須</span>
+                                        <label for="salary">雇用形態/給与</label>
+                                        <span class="required"></span>
                                     </th>
 
                                     <td >
@@ -609,7 +625,7 @@ input::placeholder{
                     
                                                     @endphp
                     
-                                                        <div class=" m-0 p-0 d-flex">
+                                                        <div class="col-12 col-lg-6 m-0 p-0 d-flex">
                                                 
 
                                                         <div id="employment-status-area{{$employment_status_id}}" 
@@ -642,7 +658,7 @@ input::placeholder{
 
                                                         <select id='employment_status_id_{{$employment_status_id}}_salary_maincategory_cd' 
                                                             name='employment_status_id_{{$employment_status_id}}_salary_maincategory_cd' 
-                                                            class='salary_maincategory_cd'
+                                                            class='salary_maincategory_cd   @if($set_flg == 0) inoperable @endif'
                                                             data-employmentstatusid="{{$employment_status_id}}"
                                                         >
                                                             <option value=''>---</option>
@@ -651,6 +667,7 @@ input::placeholder{
                                                                     @if($get_salary_maincategory_cd == $salary_maincategory_info->salary_maincategory_cd)
                                                                     selected
                                                                     @endif
+                                                                    data-salarymaincategoryname="{{$salary_maincategory_info->salary_maincategory_name}}"
                                                                     >
                                                                     {{$salary_maincategory_info->salary_maincategory_name}}
                                                                     </option>
@@ -671,9 +688,10 @@ input::placeholder{
                                                                         <option value="{{$salary_subcategory_info->salary_subcategory_cd}}"
                                                                         @if($get_salary_subcategory_cd == $salary_subcategory_info->salary_subcategory_cd)
                                                                         selected
-                                                                        @endif
+                                                                        @endif                
+                                                                        data-salary="{{number_format($salary_subcategory_info->salary)}}"                                                        
                                                                         >
-                                                                        {{$salary_subcategory_info->salary}}円以上
+                                                                        {{number_format($salary_subcategory_info->salary)}}円以上
                                                                         </option>
                                                                     @endif
                     
@@ -704,12 +722,27 @@ input::placeholder{
                                 <tr class="salary-tr">
                                     <th class="">
                                         <label for="salary">雇用形態/給与</label>
-                                        <span class="required">必須</span>
+                                        <span class="required"></span>
                                     </th>
                                     <td>
-            
-                                        <textarea id="salary" name="salary" placeholder="" rows="5"
-                                        >@if(!is_null($job_info)){{$job_info->salary}}@endif</textarea>            
+                                        <div class="row m-0 p-0">
+
+                                            <div class="col-12 col-lg-4 fixed-salary-area">
+                                                <div class="d-flex">
+                                                    {{-- <h4 class="m-0 p-1" style=" writing-mode: vertical-rl;">固定文</h4> --}}
+                                                    <div id="fixed_salary" name="fixed_salary"></div>
+                                                </div>
+                                            </div>
+                
+                                            <div class="col-12 col-lg-8 variable-salary-area">
+                                                <textarea id="salary" name="salary" placeholder="" rows="5"
+                                                >@if(!is_null($job_info)){{$job_info->salary}}@endif</textarea>
+                                            </div>
+
+                                        </div>
+                         
+
+                                        
                                     </td>           
             
                                 </tr>
@@ -717,10 +750,10 @@ input::placeholder{
                                 <tr class="holiday-tr">
                                     <th class="">
                                         <label for="holiday">休日</label>
-                                        <span class="required">必須</span>
+                                        <span class="required"></span>
                                     </th>
                                     <td>
-            
+                                   
                                         <textarea id="holiday" name="holiday" placeholder="" rows="5"
                                         >@if(!is_null($job_info)){{$job_info->holiday}}@endif</textarea>            
                                     </td>           
@@ -1328,22 +1361,71 @@ $(function(){
 
         var employment_status_id = $(this).data('target');
 
-        var target = "#employment-status-label" + employment_status_id;
+        var target_label = "#employment-status-label" + employment_status_id;
+
+        var target_salary_maincategory_cd = "#employment_status_id_" + employment_status_id + "_salary_maincategory_cd";
+        var target_salary_subategory_cd = "#employment_status_id_" + employment_status_id + "_salary_subcategory_cd";
+
+        $(target_label).removeClass('employment-status-select');
+        $(target_label).find('.check-mark').remove();
+
+        $(target_salary_maincategory_cd).removeClass('inoperable');
+        $(target_salary_subategory_cd).removeClass('inoperable');
 
         if($("#employment-status-checkbox" + employment_status_id).prop('checked')){
 
             
-            var add_html = '<div class="check-mark"></div>';
-           
-            $(add_html).appendTo(target);            
+            var add_html = '<div class="check-mark"></div>';           
+            $(add_html).appendTo(target_label);
+            $(target_label).addClass('employment-status-select');
                   
-        }else{
-            $(target).find('.check-mark').remove();
             
+        }else{
+            
+            $(target_salary_maincategory_cd).addClass('inoperable');
+            $(target_salary_subategory_cd).addClass('inoperable');
         }        
 
+        test();
     });
 
+    function test(){
+
+
+        var add_hrml = "";
+
+        // classが"employment-status-checkbox"である全ての要素を取得
+        $(".employment-status-checkbox").each(function() {
+
+            if ($(this).prop("checked")) {
+                // チェックされている場合、data-target属性の値を取得してコンソールに表示
+                var employment_status_id = $(this).data("target");
+            
+                var salary_maincategory_cd_id = "#employment_status_id_" + employment_status_id + "_salary_maincategory_cd";
+                var salary_subcategory_cd_id = "#employment_status_id_" + employment_status_id + "_salary_subcategory_cd";
+
+                var salary_maincategory_cd = $(salary_maincategory_cd_id).val();
+                var salary_subcategory_cd = $(salary_subcategory_cd_id).val();
+
+                if(salary_maincategory_cd > 0 && salary_subcategory_cd > 0)
+                {
+                    var salary_maincategory_name = $(salary_maincategory_cd_id).data("salarymaincategoryname");
+                    var salary = $(salary_subcategory_cd_id).data("salary");
+                    
+                    var text = salary_maincategory_name + "::" + salary + "円～" 
+
+                    if(add_hrml != ""){
+                        add_hrml += "\n";
+                    }
+
+                    add_hrml += text;
+                }                
+            }
+        });
+
+        $("#fixed_salary").html(add_hrml);        
+
+    }   
 
     //給与プルダウン変更時
     $(document).on("change", ".salary_maincategory_cd", function (e) {
@@ -1538,8 +1620,8 @@ $(function(){
                 if(Result=='success'){
 
                     
-                    window.location.href = "{{ route('recruit_project.job_information_confirmation') }}";
-                    // location.reload();
+                    // window.location.href = "{{ route('recruit_project.job_information_confirmation') }}";
+                    location.reload();
 
                 }else{
 

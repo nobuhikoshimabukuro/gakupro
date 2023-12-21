@@ -909,6 +909,8 @@ class recruit_project_controller extends Controller
         //求人補足データ取得
         $job_supplement_data = get_data::job_supplement_data();
 
+        $job_search_history_ranking = job_related::get_job_search_history_ranking();
+
         return view('recruit_project/screen/job_information_register',
          compact(
                  'employer_id'
