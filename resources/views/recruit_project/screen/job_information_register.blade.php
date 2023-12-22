@@ -1419,7 +1419,7 @@ $(function(){
                     var salary_maincategory_name = $(salary_maincategory_cd_id).data("salarymaincategoryname");
                     var salary = $(salary_subcategory_cd_id).data("salary");
                     
-                    var text = salary_maincategory_name + "::" + salary + "円～" 
+                    var text = salary_maincategory_name + "::" + salary + "円～"; 
 
                     if(add_text != ""){
                         add_text += "\n";
