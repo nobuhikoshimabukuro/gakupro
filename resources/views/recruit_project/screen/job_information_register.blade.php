@@ -701,7 +701,7 @@ input::placeholder{
                                                         @else
                                                             <select id='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
                                                                 name='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
-                                                                class='salary_subcategory_cd input-sm inoperable'
+                                                                class='salary_subcategory_cd input-sm inoperable'                                                                
                                                             >
                                                                 <option value=''></option>
                                                             </select>
@@ -714,12 +714,17 @@ input::placeholder{
                 
                                             
                                               
-                                        </div>           
+                                        </div>  
+                                        
+                                        <h4 class="m-0 p-1" style="">表示文</h4>
+                                        <textarea id="salary" name="salary" placeholder="" rows="5"
+                                        >@if(!is_null($job_info)){{$job_info->salary}}@endif</textarea>
+
                                     </td>           
             
                                 </tr>
 
-                                <tr class="salary-tr">
+                                {{-- <tr class="salary-tr">
                                     <th class="">
                                         <label for="salary">雇用形態/給与</label>
                                         <span class="required"></span>
@@ -729,7 +734,7 @@ input::placeholder{
 
                                             <div class="col-12 col-lg-4 fixed-salary-area">
                                                 <div class="d-flex">
-                                                    {{-- <h4 class="m-0 p-1" style=" writing-mode: vertical-rl;">固定文</h4> --}}
+                                                    <h4 class="m-0 p-1" style=" writing-mode: vertical-rl;">固定文</h4>
                                                     <div id="fixed_salary" name="fixed_salary"></div>
                                                 </div>
                                             </div>
@@ -745,7 +750,7 @@ input::placeholder{
                                         
                                     </td>           
             
-                                </tr>
+                                </tr> --}}
 
                                 <tr class="holiday-tr">
                                     <th class="">
@@ -1391,13 +1396,15 @@ $(function(){
 
     function test(){
 
+        var salary_text = $("#salary").val();
 
-        var add_hrml = "";
+        var add_text = "";
 
         // classが"employment-status-checkbox"である全ての要素を取得
         $(".employment-status-checkbox").each(function() {
 
             if ($(this).prop("checked")) {
+
                 // チェックされている場合、data-target属性の値を取得してコンソールに表示
                 var employment_status_id = $(this).data("target");
             
@@ -1414,16 +1421,28 @@ $(function(){
                     
                     var text = salary_maincategory_name + "::" + salary + "円～" 
 
-                    if(add_hrml != ""){
-                        add_hrml += "\n";
+                    if(add_text != ""){
+                        add_text += "\n";
                     }
 
-                    add_hrml += text;
+                    add_text += text;
                 }                
             }
         });
 
-        $("#fixed_salary").html(add_hrml);        
+
+        var create_text = "";
+        if(salary_text == ""){
+
+            create_text = add_text;
+
+        }else{
+
+            create_text = add_text  + "\n" + salary_text;
+
+        }
+
+        $("#salary").val(create_text);        
 
     }   
 
@@ -1439,11 +1458,8 @@ $(function(){
     //給与検索＆プルダウン作成    
     function search_salary_sabcategory(employment_status_id , salary_maincategory_cd){
 
-        
-
         var url = "{{ route('create_list.salary_sabcategory_list_ajax') }}";
        
-
         var target_area = "#employment_status_id_" + employment_status_id + "_salary_subcategory_cd";
 
         $(target_area).removeClass('inoperable');        
@@ -1478,7 +1494,7 @@ $(function(){
                     var salary_display = salary_sabcategory_info["salary_display"];
             
                     // 新しいoption要素を作成
-                    var option = $("<option>").val(salary_subcategory_cd).text(salary_display);
+                    var option = $("<option>").val(salary_subcategory_cd).text(salary_display).data("salary", salary_display);
 
                     // 特定の条件でselected属性を追加
                     // if (salary_subcategory_cd == get_search_salary_subcategory_cd) {
