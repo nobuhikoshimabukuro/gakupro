@@ -1138,7 +1138,7 @@ $(function(){
                     var municipality_name_kana = municipality_info["municipality_name_kana"];
 
             
-                    add_html += '<div id="" class="col-4 mt-2 p-0">';
+                    add_html += '<div id="" class="col-6 col-lg-4 mt-2 p-0">';
                     add_html += '<label for="municipality_cd_'+  municipality_cd + '" class="d-block">';
                     add_html += '<input type="checkbox" id="municipality_cd_'+  municipality_cd + '" ';
                     add_html += 'class="municipality_cd"';                
