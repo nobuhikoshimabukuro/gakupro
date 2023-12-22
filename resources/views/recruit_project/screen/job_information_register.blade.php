@@ -221,9 +221,7 @@ input::placeholder{
 }
 
 
-.salary_subcategory_cd{
-    width: 160px;
-}
+
 
 
 
@@ -438,6 +436,25 @@ input::placeholder{
     widows: 100%;
     min-height:30px; 
 }
+
+.salary_maincategory_cd
+{
+    padding: 0;
+    margin: 2px; 
+}
+
+.salary_subcategory_cd
+{
+    padding: 0;
+    margin: 2px; 
+    min-width: 150px;
+}
+
+.work_location_municipality_cd{
+    padding-right: 0;
+    padding-left: 0;
+    min-width: 150px;
+}
 </style>
 
 
@@ -540,14 +557,16 @@ input::placeholder{
                                         
                                         @php
                                             $work_location_prefectural_cd = "";
+                                            $work_location_municipality_cd = "";
 
                                             if(!is_null($job_info)){
                                                 $work_location_prefectural_cd = $job_info->work_location_prefectural_cd;
+                                                $work_location_municipality_cd = $job_info->work_location_municipality_cd;
                                             }
                                         @endphp
                              
 
-                                        <select id='work_location_prefectural_cd' name='work_location_prefectural_cd' class='input-sm'>
+                                        <select id='work_location_prefectural_cd' name='work_location_prefectural_cd' class='work_location_prefectural_cd input-sm'>
                                             <option value=''>未選択</option>
                                                 @foreach($prefectural_list as $prefectural_info)
                                                     <option value="{{$prefectural_info->prefectural_cd}}"                                                    
@@ -559,25 +578,46 @@ input::placeholder{
                                                     {{$prefectural_info->prefectural_name}}
                                                     </option>
                                                 @endforeach
-                                        </select>                                                                                
+                                        </select>            
+                                        
+                                        
+                                        
             
+
+                                        
+                                        
+
+                                            @if($work_location_prefectural_cd != "")
+                                                <select id='work_location_municipality_cd' name='work_location_municipality_cd' class=' work_location_municipality_cd input-sm'>     
+                                                    @foreach($municipality_list as $municipality_info)
+                                                        <option value="{{$municipality_info->municipality_cd}}"                                                    
+                                                        @if($work_location_municipality_cd == $prefectural_info->municipality_cd)                                                        
+                                                            selected                                                                                                                
+                                                        @endif
+                                                        title= "{{$municipality_info->municipality_name}}"
+                                                        >
+                                                        {{$municipality_info->municipality_name}}
+                                                        </option>
+                                                    @endforeach                       
+
+                                            @else
+                                                <select id='work_location_municipality_cd' name='work_location_municipality_cd' class='work_location_municipality_cd input-sm inoperable'>     
+                                                    <option value="">
+                                                        都道府県未選択
+                                                    </option>
+                                            @endif  
+                                            
+
+                                        </select>
+                                            
+                                        
+
                                     </td>           
             
                                 </tr>
 
 
-                                <tr class="working_time-tr">
-                                    <th class="">
-                                        <label for="working_time">就労時間</label>
-                                        <span class="required"></span>
-                                    </th>
-                                    <td>
-            
-                                        <textarea id="working_time" name="working_time" placeholder="" rows="5"
-                                        >@if(!is_null($job_info)){{$job_info->working_time}}@endif</textarea>            
-                                    </td>           
-            
-                                </tr>
+                                
             
 
                                 <tr class="salary-tr">
@@ -644,6 +684,7 @@ input::placeholder{
                                                                 name="employment-status-checkbox{{$employment_status_id}}"
                                                                 value="{{$employment_status_id}}"                        
                                                                 data-target="{{$employment_status_id}}"
+                                                                data-employmentstatusname="{{$employment_status_name}}"
                                                                 class="employment-status-checkbox d-none"                                    
                                                                 @if($set_flg == 1) checked @endif    
                                                                 >
@@ -715,42 +756,40 @@ input::placeholder{
                                             
                                               
                                         </div>  
-                                        
-                                        <h4 class="m-0 p-1" style="">表示文</h4>
-                                        <textarea id="salary" name="salary" placeholder="" rows="5"
-                                        >@if(!is_null($job_info)){{$job_info->salary}}@endif</textarea>
 
-                                    </td>           
-            
-                                </tr>
-
-                                {{-- <tr class="salary-tr">
-                                    <th class="">
-                                        <label for="salary">雇用形態/給与</label>
-                                        <span class="required"></span>
-                                    </th>
-                                    <td>
                                         <div class="row m-0 p-0">
 
-                                            <div class="col-12 col-lg-4 fixed-salary-area">
-                                                <div class="d-flex">
-                                                    <h4 class="m-0 p-1" style=" writing-mode: vertical-rl;">固定文</h4>
-                                                    <div id="fixed_salary" name="fixed_salary"></div>
-                                                </div>
+                                            <div class="col-12 col-lg-4 m-0 p-0">
+                                                <h4 class="m-0 p-1" style="">固定文</h4>
+                                                <div id="fixed_salary" name="fixed_salary"
+                                                ></div>
                                             </div>
-                
-                                            <div class="col-12 col-lg-8 variable-salary-area">
+
+                                            <div class="col-12 col-lg-8 m-0 p-0">
+                                                <h4 class="m-0 p-1" style="">表示文</h4>
                                                 <textarea id="salary" name="salary" placeholder="" rows="5"
                                                 >@if(!is_null($job_info)){{$job_info->salary}}@endif</textarea>
                                             </div>
 
                                         </div>
-                         
 
-                                        
                                     </td>           
             
-                                </tr> --}}
+                                </tr>
+
+                                <tr class="working_time-tr">
+
+                                    <th class="">
+                                        <label for="working_time">就労時間</label>
+                                        <span class="required"></span>
+                                    </th>
+
+                                    <td>            
+                                        <textarea id="working_time" name="working_time" placeholder="" rows="5"
+                                        >@if(!is_null($job_info)){{$job_info->working_time}}@endif</textarea>            
+                                    </td>           
+            
+                                </tr>
 
                                 <tr class="holiday-tr">
                                     <th class="">
@@ -1204,7 +1243,108 @@ input::placeholder{
 
 <script type="text/javascript">
 
+
+
 $(function(){
+
+
+    $(document).ready(function() {
+        set_fixed_salary();    
+    });
+
+
+
+    //都道府県プルダウン変更時
+    $(document).on("change", "#work_location_prefectural_cd", function (e) {
+
+        search_prefectural();
+
+    });
+
+  
+
+    //都道府県毎、市区町村検索処理
+    function search_prefectural(process_branch = 0){
+
+        var prefectural_cd = $("#work_location_prefectural_cd").val();        
+
+        var municipality_name = "";        
+        var url = "{{ route('create_list.municipality_list_ajax') }}";
+
+
+        
+        var target_area = "#work_location_municipality_cd";
+
+        $(target_area).removeClass('inoperable'); 
+
+        //プルダウン内の設定初期化
+        $("select" + target_area + " option").remove();        
+
+        //マウスカーソルを砂時計に
+        document.body.style.cursor = 'wait';
+
+        $.ajax({
+            url: url, // 送信先
+            type: 'get',
+            dataType: 'json',
+            data: {prefectural_cd : prefectural_cd , municipality_name : municipality_name},
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+        })
+        .done(function (data, textStatus, jqXHR) {
+            // テーブルに通信できた場合
+            var municipality_list = data.municipality_list;            
+
+            //テーブルに通信時、データを検索できたか判定
+            if (municipality_list.length > 0) {                
+
+                var add_html = '';
+
+                $.each(municipality_list, function(index, municipality_info) {
+
+
+                    var municipality_cd = municipality_info["municipality_cd"];
+                    var municipality_name = municipality_info["municipality_name"];
+                    var municipality_name_kana = municipality_info["municipality_name_kana"];
+
+            
+                   // 新しいoption要素を作成
+                   var option = $("<option>").val(municipality_cd).text(municipality_name);
+
+                    // option要素をselect要素に追加
+                    $(target_area).append(option); 
+
+                })
+
+                
+
+
+            }else{
+
+                // 新しいoption要素を作成
+                var option = $("<option>").val("").text("都道府県未選択");
+
+                // option要素をselect要素に追加
+                $(target_area).append(option); 
+                $(target_area).addClass('inoperable'); 
+
+
+            }
+
+            //マウスカーソルを通常に
+            document.body.style.cursor = 'auto';
+
+        })
+        .fail(function (data, textStatus, errorThrown) {
+
+
+
+            //マウスカーソルを通常に
+            document.body.style.cursor = 'auto';
+
+        });
+
+    }
+
 
     //FormDataオブジェクトを作成
     var formData = new FormData();
@@ -1391,12 +1531,12 @@ $(function(){
             $(target_salary_subategory_cd).addClass('inoperable');
         }        
 
-        test();
+        set_fixed_salary();
     });
 
-    function test(){
+    function set_fixed_salary(){
 
-        var salary_text = $("#salary").val();
+        
 
         var add_text = "";
 
@@ -1407,6 +1547,8 @@ $(function(){
 
                 // チェックされている場合、data-target属性の値を取得してコンソールに表示
                 var employment_status_id = $(this).data("target");
+
+                var employment_status_name = $(this).data("employmentstatusname");                
             
                 var salary_maincategory_cd_id = "#employment_status_id_" + employment_status_id + "_salary_maincategory_cd";
                 var salary_subcategory_cd_id = "#employment_status_id_" + employment_status_id + "_salary_subcategory_cd";
@@ -1416,13 +1558,18 @@ $(function(){
 
                 if(salary_maincategory_cd > 0 && salary_subcategory_cd > 0)
                 {
-                    var salary_maincategory_name = $(salary_maincategory_cd_id).data("salarymaincategoryname");
-                    var salary = $(salary_subcategory_cd_id).data("salary");
                     
-                    var text = salary_maincategory_name + "::" + salary + "円～"; 
+                    var selectedOption = $(salary_maincategory_cd_id + " option:selected");
+                    var salary_maincategory_name = selectedOption.data("salarymaincategoryname");
+
+
+                    var selectedOption = $(salary_subcategory_cd_id + " option:selected");
+                    var salary = selectedOption.data("salary");
+                    
+                    var text = employment_status_name + "：" +salary_maincategory_name + salary + "円～"; 
 
                     if(add_text != ""){
-                        add_text += "\n";
+                        add_text += "<br>";
                     }
 
                     add_text += text;
@@ -1431,18 +1578,8 @@ $(function(){
         });
 
 
-        var create_text = "";
-        if(salary_text == ""){
-
-            create_text = add_text;
-
-        }else{
-
-            create_text = add_text  + "\n" + salary_text;
-
-        }
-
-        $("#salary").val(create_text);        
+      
+        $("#fixed_salary").html(add_text);        
 
     }   
 
@@ -1452,6 +1589,8 @@ $(function(){
         var employment_status_id = $(this).data('employmentstatusid');
         var salary_maincategory_cd = $(this).val();
         search_salary_sabcategory(employment_status_id,salary_maincategory_cd);
+
+        set_fixed_salary();
 
     });
 
@@ -1494,7 +1633,7 @@ $(function(){
                     var salary_display = salary_sabcategory_info["salary_display"];
             
                     // 新しいoption要素を作成
-                    var option = $("<option>").val(salary_subcategory_cd).text(salary_display).data("salary", salary_display);
+                    var option = $("<option>").val(salary_subcategory_cd).text(salary_display).data("salary", salary);
 
                     // 特定の条件でselected属性を追加
                     // if (salary_subcategory_cd == get_search_salary_subcategory_cd) {
@@ -1530,6 +1669,13 @@ $(function(){
         });
 
     }
+
+    //給与プルダウン変更時
+    $(document).on("change", ".salary_subcategory_cd", function (e) {
+
+        set_fixed_salary();
+
+    });
 
 
     //職種中分類選択値変更時

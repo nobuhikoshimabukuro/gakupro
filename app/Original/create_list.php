@@ -369,7 +369,7 @@ class create_list
                 $salary_sabcategory_list[] = array(
                     'salary_subcategory_cd' => $info->salary_subcategory_cd,
                     'salary_maincategory_cd' => $info->salary_maincategory_cd,
-                    'salary' => $info->salary,            
+                    'salary' => number_format($info->salary) ,            
                     'salary_display' => number_format($info->salary) . "円以上",
                 );
             }

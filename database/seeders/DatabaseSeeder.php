@@ -367,8 +367,7 @@ class DatabaseSeeder extends Seeder
                 'work_location_municipality_cd' => '47329',   
                 'working_time' => '17：00～23：00',
 
-                'salary' => '正社員：月給15万円～
-アルバイト：時給1000円～',
+                'salary' => '昇給制度あり',
 
                 'holiday' => '週休2日～
 相談可能',

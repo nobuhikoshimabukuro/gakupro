@@ -921,6 +921,7 @@ class recruit_project_controller extends Controller
                 ,'job_images_path_array'
                 
                 ,'prefectural_list'
+                ,'municipality_list'                
                 ,'salary_maincategory_list'
                 ,'salary_subcategory_list'
 
