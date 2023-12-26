@@ -196,7 +196,9 @@ class hp_controller extends Controller
             ->orderBy('employment_status_m.display_order')
             ->get();
 
+
             $create_salary = "";
+            $employment_status_names = "";
 
 
             foreach ($salary_detail as $salary_detail_index => $detail){
@@ -207,19 +209,21 @@ class hp_controller extends Controller
 
                 if($salary_detail_index != 0){
                     $create_salary .= "\n";
+                    $employment_status_names .= "\n";
                 }
 
                 $create_salary .= $employment_status_name . "　" . $salary_maincategory_name . "::" . $salary;
-
-                
+                $employment_status_names .= $employment_status_name;                
             }
 
             if($create_salary == ""){
                 $info->salary = $salary_info;
             }else{
-                $info->salary = $create_salary . "\n" . $salary_info;
+                $info->salary = $create_salary . "\n" . $salary_info;                
             }
             
+
+            $info->employment_status_names = $employment_status_names;
 
 
         }

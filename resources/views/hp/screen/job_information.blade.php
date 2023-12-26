@@ -803,7 +803,7 @@
                                         雇用形態
                                     </th>
                                     <td>
-                                        
+                                        {!! nl2br(e($info->employment_status_names)) !!}
                                     </td>
                                 </tr>
 
@@ -812,7 +812,7 @@
                                         就労時間
                                     </th>
                                     <td>
-                                        {{$info->working_time}}
+                                        {!! nl2br(e($info->working_time)) !!}
                                     </td>
                                 </tr>
 
@@ -830,7 +830,7 @@
                                         休日
                                     </th>
                                     <td>
-                                        {{$info->holiday}}
+                                        {!! nl2br(e($info->holiday)) !!}                                        
                                     </td>
                                 </tr>
 
