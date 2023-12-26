@@ -203,94 +203,64 @@ class job_related
  
     }
 
-    //求人検索履歴ランキング
-    public static function get_job_search_history_ranking_______(Request $request)
-    {           
-
-        // 現在の日時を取得
-        $now = Carbon::now();
-  
-        
-        // 三日前の日付
-        $three_days_Ago = $now;
-        $three_days_Ago = $three_days_Ago->subDays(3);
-        
-        // 一週間前の日付
-        $one_week_ago = $now;
-        $one_week_ago = $one_week_ago->subWeek();
-        
-        // 一か月前の日付
-        $one_month_ago = $now;
-        $one_month_ago = $one_month_ago->subMonth();
+       
 
 
-        $today = $now->toDateString();
-        $three_days_Ago = $three_days_Ago->toDateString();
-        $one_week_ago = $one_week_ago->toDateString();
-        $one_month_ago = $one_month_ago->toDateString();
+    public static function get_employment_status_info($employer_id , $job_id)
+    {   
 
-        $three_days_result = job_search_history_t_model::select(
-                
-            'job_search_history_t.job_supplement_subcategory_cd as job_supplement_subcategory_cd',
-            'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',
-            'job_search_history_t.search_date as search_date',
-          
+        $job_information = job_information_t_model::
+            where('employer_id', '=', $employer_id)
+            ->where('job_id', '=', $job_id)
+            ->first();
+
+
+        $salary_detail = employment_status_connection_t_model::select(
+            'employment_status_connection_t.employer_id as employer_id',
+            'employment_status_connection_t.job_id as job_id',
+            'employment_status_connection_t.employment_status_id as employment_status_id',
+            'employment_status_m.employment_status_name as employment_status_name',
+            'employment_status_connection_t.salary_maincategory_cd as salary_maincategory_cd',
+            'salary_maincategory_m.salary_maincategory_name as salary_maincategory_name',
+            'employment_status_connection_t.salary_subcategory_cd as salary_subcategory_cd',
+            'salary_subcategory_m.salary as salary',
+            
         )
-        ->leftJoin('job_supplement_subcategory_m', function ($join) {
-            $join->on('job_supplement_subcategory_m.job_supplement_subcategory_cd', '=', 'job_supplement_subcategory_m.job_supplement_subcategory_cd');
-        })        
-        ->where('job_search_history_t.search_date', '<=', $today)
-        ->where('job_search_history_t.search_date', '>=', $three_days_Ago)        
-        ->groupBy('job_search_history_t.job_supplement_subcategory_cd')
-        ->groupBy('job_supplement_subcategory_m.job_supplement_subcategory_name')
+        ->leftJoin('employment_status_m', 'employment_status_connection_t.employment_status_id', '=', 'employment_status_m.employment_status_id')
+        ->leftJoin('salary_maincategory_m', 'employment_status_connection_t.salary_maincategory_cd', '=', 'salary_maincategory_m.salary_maincategory_cd')
+        ->leftJoin('salary_subcategory_m', 'employment_status_connection_t.salary_subcategory_cd', '=', 'salary_subcategory_m.salary_subcategory_cd')            
+        ->where('employment_status_connection_t.employer_id', '=', $employer_id)
+        ->where('employment_status_connection_t.job_id', '=', $job_id)
+        ->orderBy('employment_status_m.display_order')
         ->get();
 
+        $salary_info = $job_information->salary;
 
-        $one_week_result = job_search_history_t_model::select(
-                
-            'job_search_history_t.job_supplement_subcategory_cd as job_supplement_subcategory_cd',
-            'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',
-            'job_search_history_t.search_date as search_date',
-          
-        )
-        ->leftJoin('job_supplement_subcategory_m', function ($join) {
-            $join->on('job_supplement_subcategory_m.job_supplement_subcategory_cd', '=', 'job_supplement_subcategory_m.job_supplement_subcategory_cd');
-        })        
-        ->where('job_search_history_t.search_date', '<=', $today)
-        ->where('job_search_history_t.search_date', '>=', $one_week_ago)        
-        ->groupBy('job_search_history_t.job_supplement_subcategory_cd')
-        ->groupBy('job_supplement_subcategory_m.job_supplement_subcategory_name')
-        ->get();
+        $create_salary = "";
+        $employment_status_names = "";
 
-        $one_month_result = job_search_history_t_model::select(
-                
-            'job_search_history_t.job_supplement_subcategory_cd as job_supplement_subcategory_cd',
-            'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',
-            'job_search_history_t.search_date as search_date',
-          
-        )
-        ->leftJoin('job_supplement_subcategory_m', function ($join) {
-            $join->on('job_supplement_subcategory_m.job_supplement_subcategory_cd', '=', 'job_supplement_subcategory_m.job_supplement_subcategory_cd');
-        })        
-        ->where('job_search_history_t.search_date', '<=', $today)
-        ->where('job_search_history_t.search_date', '>=', $one_month_ago) 
-        ->groupBy('job_search_history_t.job_supplement_subcategory_cd')
-        ->groupBy('job_supplement_subcategory_m.job_supplement_subcategory_name')       
-        ->get();
+        foreach ($salary_detail as $salary_detail_index => $detail){
+
+            $employment_status_name = $detail->employment_status_name;
+            $salary_maincategory_name = $detail->salary_maincategory_name;
+            $salary = $detail->salary;
+
+            if($salary_detail_index != 0){
+                $create_salary .= "\n";
+                $employment_status_names .= "\n";
+            }
+
+            $create_salary .= $employment_status_name . "　" . $salary_maincategory_name . "::" . $salary;
+            $employment_status_names .= $employment_status_name;                
+        }
+
+        if($create_salary != ""){            
+            $salary_info = $create_salary . "\n" . $salary_info;                
+        }
 
 
-        
-
-        $job_search_history_ranking = [
-            "three_days_result" => $three_days_result 
-            ,"one_week_result" => $one_week_result 
-            , "one_month_result" => $one_month_result
-        ];
-        
-
-        return $job_search_history_ranking;
+        return ["salary_info" => $salary_info , "employment_status_names" => $employment_status_names];
 
     }
-    
 }
 

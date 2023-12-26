@@ -603,21 +603,6 @@ class hp_controller extends Controller
 
         $id = $request->job_number;
 
-        $job_information = $this->set_job_information_detail($id);
-
-        if(is_null($job_information)){
-
-            return redirect(route('hp.job_information'));
-        }        
-
-        return view('hp/screen/job_information_detail', compact('job_information'));
-
-    }
-
-    function set_job_information_detail($id)
-    {
-
-        
         $job_information = job_information_t_model::select(
             'job_information_t.id as id',
             'job_information_t.employer_id as employer_id',
@@ -658,20 +643,42 @@ class hp_controller extends Controller
                 ->on('job_information_t.work_location_municipality_cd', '=', 'municipality_address_m.municipality_cd');
         })
         ->where('id', '=', $id)
-        ->where('job_information_t.publish_flg', '=', '1')
+        ->where('job_information_t.publish_flg', '=', '1')        
         ->first();
 
         if(is_null($job_information)){
-            return null;
-        }
-        
+
+            return redirect(route('hp.job_information'));
+
+        }else{            
+
+            $employer_id = $job_information->employer_id;
+            $job_id = $job_information->job_id;
+            
+            $set_job_information_detail = $this->set_job_information_detail($job_information);
+
+            $job_information->asset_path_array = $set_job_information_detail["asset_path_array"];
+            $job_information->employment_status_datas = $set_job_information_detail["employment_status_datas"];
+            $job_information->job_category_datas = $set_job_information_detail["job_category_datas"];
+            $job_information->job_supplement_category_datas = $set_job_information_detail["job_supplement_category_datas"];
+
+            $job_information->job_images_info_array = $set_job_information_detail["job_images_info_array"];
+            // $job_information->job_images_info_array = job_related::get_job_images($employer_id,$job_id);
+        }        
+
+        return view('hp/screen/job_information_detail', compact('job_information'));
+
+    }
+
+    function set_job_information_detail($job_information)
+    {
 
         $employer_id = $job_information->employer_id;
         $job_id = $job_information->job_id;        
 
-        
+        $return_array = [];
 
-        
+        $asset_path_array = [];
         $employment_status_datas = [];
         $job_category_datas = [];
         $job_supplement_category_datas = [];
@@ -727,7 +734,6 @@ class hp_controller extends Controller
             ];
         }
 
-        
 
         $set_job_supplement_category = job_supplement_connection_t_model::select(
             'job_supplement_connection_t.employer_id as employer_id',
@@ -765,20 +771,73 @@ class hp_controller extends Controller
         $job_images_info_array = job_related::get_job_images($employer_id,$job_id);
 
 
-        $employment_status_info = job_related::get_employment_status_info($employer_id,$job_id);
+
+
+
+
+
+        $salary_info = $job_information->salary;
+
+        $salary_detail = employment_status_connection_t_model::select(
+            'employment_status_connection_t.employer_id as employer_id',
+            'employment_status_connection_t.job_id as job_id',
+            'employment_status_connection_t.employment_status_id as employment_status_id',
+            'employment_status_m.employment_status_name as employment_status_name',
+            'employment_status_connection_t.salary_maincategory_cd as salary_maincategory_cd',
+            'salary_maincategory_m.salary_maincategory_name as salary_maincategory_name',
+            'employment_status_connection_t.salary_subcategory_cd as salary_subcategory_cd',
+            'salary_subcategory_m.salary as salary',
+            
+        )
+        ->leftJoin('employment_status_m', 'employment_status_connection_t.employment_status_id', '=', 'employment_status_m.employment_status_id')
+        ->leftJoin('salary_maincategory_m', 'employment_status_connection_t.salary_maincategory_cd', '=', 'salary_maincategory_m.salary_maincategory_cd')
+        ->leftJoin('salary_subcategory_m', 'employment_status_connection_t.salary_subcategory_cd', '=', 'salary_subcategory_m.salary_subcategory_cd')            
+        ->where('employment_status_connection_t.employer_id', '=', $employer_id)
+        ->where('employment_status_connection_t.job_id', '=', $job_id)
+        ->orderBy('employment_status_m.display_order')
+        ->get();
+
+
+        $create_salary = "";
+        $employment_status_names = "";
+
+
+        foreach ($salary_detail as $salary_detail_index => $detail){
+
+            $employment_status_name = $detail->employment_status_name;
+            $salary_maincategory_name = $detail->salary_maincategory_name;
+            $salary = $detail->salary;
+
+            if($salary_detail_index != 0){
+                $create_salary .= "\n";
+                $employment_status_names .= "\n";
+            }
+
+            $create_salary .= $employment_status_name . "　" . $salary_maincategory_name . "::" . $salary;
+            $employment_status_names .= $employment_status_name;                
+        }
+
+        if($create_salary == ""){
+            $job_information->salary = $salary_info;
+        }else{
+            $job_information->salary = $create_salary . "\n" . $salary_info;                
+        }
+        
+
+        $job_information->employment_status_names = $employment_status_names;
+
 
         
-        
+        $return_array = [
+            "asset_path_array" => $asset_path_array
+            ,"employment_status_datas" => $employment_status_datas
+            ,"job_category_datas" => $job_category_datas
+            ,"job_supplement_category_datas" => $job_supplement_category_datas
+            ,"job_images_info_array" => $job_images_info_array
+        ];
 
-        $job_information->employment_status_datas = $employment_status_datas;
-        $job_information->job_category_datas = $job_category_datas;
-        $job_information->job_supplement_category_datas = $job_supplement_category_datas;
-        $job_information->job_images_info_array = $job_images_info_array;
-        $job_information->salary_info = $employment_status_info["salary_info"];
-        $job_information->employment_status_names = $employment_status_info["employment_status_names"];
-        
+        return $return_array;
 
-        return $job_information;
     }
 
     function message_to_students(Request $request)
