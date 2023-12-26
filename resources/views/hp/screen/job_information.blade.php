@@ -801,9 +801,11 @@
                                 <tr>
                                     <th>
                                         雇用形態
+                                        <br>
+                                        給与
                                     </th>
                                     <td>
-                                        {!! nl2br(e($info->employment_status_names)) !!}
+                                        {!! nl2br(e($info->salary)) !!}
                                     </td>
                                 </tr>
 
@@ -814,16 +816,7 @@
                                     <td>
                                         {!! nl2br(e($info->working_time)) !!}
                                     </td>
-                                </tr>
-
-                                <tr>
-                                    <th>
-                                        給与
-                                    </th>
-                                    <td>
-                                        {!! nl2br(e($info->salary)) !!}
-                                    </td>
-                                </tr>
+                                </tr>                               
 
                                 <tr>
                                     <th>
