@@ -661,6 +661,7 @@ class hp_controller extends Controller
         ->where('job_information_t.publish_flg', '=', '1')
         ->first();
 
+        //異常
         if(is_null($job_information)){
             return null;
         }
