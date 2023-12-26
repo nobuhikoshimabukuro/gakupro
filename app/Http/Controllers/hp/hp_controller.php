@@ -163,12 +163,7 @@ class hp_controller extends Controller
         
         $sql = $this->set_job_search_sql($all_job_search_value_array);
 
-
-
         $job_information = DB::connection('mysql')->select($sql);
-
-
-        
 
         foreach ($job_information as $index => $info){
         
@@ -179,6 +174,54 @@ class hp_controller extends Controller
 
             $info->job_images_path_array =  $job_images_path_array;
             
+
+            $salary_info = $info->salary;          
+
+            $salary_detail = employment_status_connection_t_model::select(
+                'employment_status_connection_t.employer_id as employer_id',
+                'employment_status_connection_t.job_id as job_id',
+                'employment_status_connection_t.employment_status_id as employment_status_id',
+                'employment_status_m.employment_status_name as employment_status_name',
+                'employment_status_connection_t.salary_maincategory_cd as salary_maincategory_cd',
+                'salary_maincategory_m.salary_maincategory_name as salary_maincategory_name',
+                'employment_status_connection_t.salary_subcategory_cd as salary_subcategory_cd',
+                'salary_subcategory_m.salary as salary',
+                
+            )
+            ->leftJoin('employment_status_m', 'employment_status_connection_t.employment_status_id', '=', 'employment_status_m.employment_status_id')
+            ->leftJoin('salary_maincategory_m', 'employment_status_connection_t.salary_maincategory_cd', '=', 'salary_maincategory_m.salary_maincategory_cd')
+            ->leftJoin('salary_subcategory_m', 'employment_status_connection_t.salary_subcategory_cd', '=', 'salary_subcategory_m.salary_subcategory_cd')            
+            ->where('employment_status_connection_t.employer_id', '=', $employer_id)
+            ->where('employment_status_connection_t.job_id', '=', $job_id)
+            ->orderBy('employment_status_m.display_order')
+            ->get();
+
+            $create_salary = "";
+
+
+            foreach ($salary_detail as $salary_detail_index => $detail){
+
+                $employment_status_name = $detail->employment_status_name;
+                $salary_maincategory_name = $detail->salary_maincategory_name;
+                $salary = $detail->salary;
+
+                if($salary_detail_index != 0){
+                    $create_salary .= "\n";
+                }
+
+                $create_salary .= $employment_status_name . "　" . $salary_maincategory_name . "::" . $salary;
+
+                
+            }
+
+            if($create_salary == ""){
+                $info->salary = $salary_info;
+            }else{
+                $info->salary = $create_salary . "\n" . $salary_info;
+            }
+            
+
+
         }
 
 

@@ -821,7 +821,7 @@
                                         給与
                                     </th>
                                     <td>
-                                        {{$info->salary}}
+                                        {!! nl2br(e($info->salary)) !!}
                                     </td>
                                 </tr>
 

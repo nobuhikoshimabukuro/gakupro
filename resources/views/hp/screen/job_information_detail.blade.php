@@ -300,7 +300,7 @@
                         私たちについて
                     </h4>
                     <p>
-                        {!! nl2br(e($job_information->employer_description)) !!}                        
+                        {!! nl2br(e($job_information->employer_description)) !!}
                     </p>
 
                     @if($job_information->employer_hp_url != "")
