@@ -47,6 +47,7 @@ use App\Models\job_search_history_t_model;
 
 class job_related
 {      
+    //求人写真情報取得
     public static function get_job_images($employer_id,$job_id)
     {      
         $job_images_path_array = [];
@@ -111,6 +112,8 @@ class job_related
         return $job_images_path_array;
     }
 
+
+    //求人写真アップロード
     public static function update_job_images(Request $request , $employer_id , $job_id)
     {           
         $result = true;
@@ -203,11 +206,98 @@ class job_related
  
     }
 
+    //求人補足情報取得処理
+    public static function get_job_supplement_category_datas($employer_id , $job_id)
+    {   
+
+        $job_supplement_category_datas = [];
        
+        
+        $set_job_supplement_category = job_supplement_connection_t_model::select(
+            'job_supplement_connection_t.employer_id as employer_id',
+            'job_supplement_connection_t.job_id as job_id',    
+            'job_supplement_connection_t.job_supplement_subcategory_cd as job_supplement_subcategory_cd',
+            'job_supplement_subcategory_m.job_supplement_subcategory_name as job_supplement_subcategory_name',
+            'job_supplement_subcategory_m.job_supplement_maincategory_cd as job_supplement_maincategory_cd',
+            'job_supplement_maincategory_m.job_supplement_maincategory_name as job_supplement_maincategory_name',
+        )
+        ->leftJoin('job_supplement_subcategory_m', 'job_supplement_connection_t.job_supplement_subcategory_cd', '=', 'job_supplement_subcategory_m.job_supplement_subcategory_cd')
+        ->leftJoin('job_supplement_maincategory_m', 'job_supplement_subcategory_m.job_supplement_maincategory_cd', '=', 'job_supplement_maincategory_m.job_supplement_maincategory_cd')            
+        ->whereNull('job_supplement_maincategory_m.deleted_at')
+        ->whereNull('job_supplement_subcategory_m.deleted_at')
+        ->where('job_supplement_connection_t.employer_id', '=', $employer_id)
+        ->where('job_supplement_connection_t.job_id', '=', $job_id)   
+        ->orderBy('job_supplement_maincategory_m.display_order')
+        ->orderBy('job_supplement_subcategory_m.display_order')         
+        ->get();
+    
+        foreach ($set_job_supplement_category as $index => $set_job_category_info){            
+            $job_supplement_maincategory_cd = $set_job_category_info->job_supplement_maincategory_cd;
+            $job_supplement_maincategory_name = $set_job_category_info->job_supplement_maincategory_name;
+            $job_supplement_subcategory_cd = $set_job_category_info->job_supplement_subcategory_cd;
+            $job_supplement_subcategory_name = $set_job_category_info->job_supplement_subcategory_name;
+            
+            $job_supplement_category_datas[] = [
+                'job_supplement_maincategory_cd'=> $job_supplement_maincategory_cd 
+                ,'job_supplement_maincategory_name'=> $job_supplement_maincategory_name
+                ,'job_supplement_subcategory_cd'=> $job_supplement_subcategory_cd
+                ,'job_supplement_subcategory_name'=> $job_supplement_subcategory_name
+            ];
+        }
+
+        return $job_supplement_category_datas;
+    }
+
+    
+    //職種情報取得処理
+    public static function get_job_category_datas($employer_id , $job_id)
+    {   
+
+        $job_category_datas = [];
 
 
+        
+        $set_job_category = job_category_connection_t_model::select(
+            'job_category_connection_t.employer_id as employer_id',
+            'job_category_connection_t.job_id as job_id',    
+            'job_maincategory_m.job_maincategory_cd as job_maincategory_cd',
+            'job_maincategory_m.job_maincategory_name as job_maincategory_name',
+            'job_category_connection_t.job_subcategory_cd as job_subcategory_cd',
+            'job_subcategory_m.job_subcategory_name as job_subcategory_name',
+        )
+        ->leftJoin('job_subcategory_m', 'job_category_connection_t.job_subcategory_cd', '=', 'job_subcategory_m.job_subcategory_cd')
+        ->leftJoin('job_maincategory_m', 'job_subcategory_m.job_maincategory_cd', '=', 'job_maincategory_m.job_maincategory_cd')            
+        ->whereNull('job_maincategory_m.deleted_at')
+        ->whereNull('job_subcategory_m.deleted_at')
+        ->where('job_category_connection_t.employer_id', '=', $employer_id)
+        ->where('job_category_connection_t.job_id', '=', $job_id)   
+        ->orderBy('job_maincategory_m.display_order')
+        ->orderBy('job_subcategory_m.display_order')         
+        ->get();
+    
+        foreach ($set_job_category as $index => $set_job_category_info){            
+            $job_maincategory_cd = $set_job_category_info->job_maincategory_cd;
+            $job_maincategory_name = $set_job_category_info->job_maincategory_name;
+            $job_subcategory_cd = $set_job_category_info->job_subcategory_cd;
+            $job_subcategory_name = $set_job_category_info->job_subcategory_name;
+            
+            $job_category_datas[] = [
+                'job_maincategory_cd'=> $job_maincategory_cd 
+                , 'job_maincategory_name'=> $job_maincategory_name
+                , 'job_subcategory_cd'=> $job_subcategory_cd
+                , 'job_subcategory_name'=> $job_subcategory_name
+            ];
+        }
+
+        return $job_category_datas;
+    }
+
+    //雇用形態情報取得処理
     public static function get_employment_status_info($employer_id , $job_id)
     {   
+
+
+        $employment_status_datas = [];
 
         $job_information = job_information_t_model::
             where('employer_id', '=', $employer_id)
@@ -251,15 +341,24 @@ class job_related
             }
 
             $create_salary .= $employment_status_name . "　" . $salary_maincategory_name . "::" . $salary;
-            $employment_status_names .= $employment_status_name;                
+            $employment_status_names .= $employment_status_name;    
+            
+            
+            $employment_status_id = $detail->employment_status_id;
+            $employment_status_name = $detail->employment_status_name;
+            $employment_status_datas[] = ['employment_status_id'=> $employment_status_id , 'employment_status_name'=> $employment_status_name];
+
         }
+
+
+        
 
         if($create_salary != ""){            
             $salary_info = $create_salary . "\n" . $salary_info;                
         }
 
 
-        return ["salary_info" => $salary_info , "employment_status_names" => $employment_status_names];
+        return ["salary_info" => $salary_info , "employment_status_datas" => $employment_status_datas];
 
     }
 }
