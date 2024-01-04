@@ -168,62 +168,11 @@ class hp_controller extends Controller
         foreach ($job_information as $index => $info){
         
             $employer_id = $info->employer_id;
-            $job_id = $info->job_id;
+            $job_id = $info->job_id;                    
 
-            $job_images_path_array = job_related::get_job_images($employer_id,$job_id);            
-
-            $info->job_images_path_array =  $job_images_path_array;
+            $info->job_images_path_array =  job_related::get_job_images($employer_id,$job_id);
             
-
-            $salary_info = $info->salary;          
-
-            $salary_detail = employment_status_connection_t_model::select(
-                'employment_status_connection_t.employer_id as employer_id',
-                'employment_status_connection_t.job_id as job_id',
-                'employment_status_connection_t.employment_status_id as employment_status_id',
-                'employment_status_m.employment_status_name as employment_status_name',
-                'employment_status_connection_t.salary_maincategory_cd as salary_maincategory_cd',
-                'salary_maincategory_m.salary_maincategory_name as salary_maincategory_name',
-                'employment_status_connection_t.salary_subcategory_cd as salary_subcategory_cd',
-                'salary_subcategory_m.salary as salary',
-                
-            )
-            ->leftJoin('employment_status_m', 'employment_status_connection_t.employment_status_id', '=', 'employment_status_m.employment_status_id')
-            ->leftJoin('salary_maincategory_m', 'employment_status_connection_t.salary_maincategory_cd', '=', 'salary_maincategory_m.salary_maincategory_cd')
-            ->leftJoin('salary_subcategory_m', 'employment_status_connection_t.salary_subcategory_cd', '=', 'salary_subcategory_m.salary_subcategory_cd')            
-            ->where('employment_status_connection_t.employer_id', '=', $employer_id)
-            ->where('employment_status_connection_t.job_id', '=', $job_id)
-            ->orderBy('employment_status_m.display_order')
-            ->get();
-
-
-            $create_salary = "";
-            $employment_status_names = "";
-
-
-            foreach ($salary_detail as $salary_detail_index => $detail){
-
-                $employment_status_name = $detail->employment_status_name;
-                $salary_maincategory_name = $detail->salary_maincategory_name;
-                $salary = $detail->salary;
-
-                if($salary_detail_index != 0){
-                    $create_salary .= "\n";
-                    $employment_status_names .= "\n";
-                }
-
-                $create_salary .= $employment_status_name . "　" . $salary_maincategory_name . "::" . $salary;
-                $employment_status_names .= $employment_status_name;                
-            }
-
-            if($create_salary == ""){
-                $info->salary = $salary_info;
-            }else{
-                $info->salary = $create_salary . "\n" . $salary_info;                
-            }
-            
-
-            $info->employment_status_names = $employment_status_names;
+            $info->salary = job_related::get_salary_info($info);      
 
 
         }
@@ -266,16 +215,26 @@ class hp_controller extends Controller
 
         editing_job_password_connection_t AS ( 
             SELECT
-                employer_id
-                , job_id
-                , branch_number
-                , job_password_id
-                , publish_start_date
-                , publish_end_date 
+                job_password_connection_t.job_password_id
+                , job_password_connection_t.employer_id
+                , job_password_connection_t.job_id
+                , job_password_t.job_password_item_id
+                , job_password_item_m.job_password_item_name                
+                , job_password_connection_t.branch_number                
+                , job_password_connection_t.publish_start_date
+                , job_password_connection_t.publish_end_date 
             FROM
                 job_password_connection_t 
+            LEFT JOIN job_password_t 
+                ON job_password_connection_t.job_password_id = job_password_t.job_password_id
+            LEFT JOIN job_password_item_m 
+                ON job_password_t.job_password_item_id = job_password_item_m.job_password_item_id
             WHERE
-                '". $today ."' BETWEEN publish_start_date AND publish_end_date
+                '". $today ."' BETWEEN job_password_connection_t.publish_start_date AND job_password_connection_t.publish_end_date
+            AND
+                job_password_t.usage_flg = 1
+            AND
+                job_password_t.sale_flg = 1
         ) 
         ,
         editing_employment_status_connection_t AS ( 
@@ -374,8 +333,8 @@ class hp_controller extends Controller
             , editing_job_category_connection_t.job_subcategory_cds
             , editing_job_supplement_connection_t.job_supplement_subcategory_cds
             , editing_job_password_connection_t.job_password_id
-            , job_password_t.job_password_item_id             
-            , job_password_item_m.job_password_item_name
+            , editing_job_password_connection_t.job_password_item_id             
+            , editing_job_password_connection_t.job_password_item_name
             , editing_job_password_connection_t.publish_start_date
             , editing_job_password_connection_t.publish_end_date
         FROM
@@ -384,13 +343,7 @@ class hp_controller extends Controller
             INNER JOIN editing_job_password_connection_t 
                 ON editing_job_password_connection_t.employer_id = job_information_t.employer_id 
                 AND editing_job_password_connection_t.job_id = job_information_t.job_id
-                                    
-            LEFT JOIN job_password_t 
-                ON editing_job_password_connection_t.job_password_id = job_password_t.job_password_id
-
-            LEFT JOIN job_password_item_m 
-                ON job_password_t.job_password_item_id = job_password_item_m.job_password_item_id
-
+        
             LEFT JOIN employer_m 
                 ON employer_m.employer_id = job_information_t.employer_id 
             

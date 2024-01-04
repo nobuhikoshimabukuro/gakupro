@@ -160,6 +160,63 @@ class job_related
 
     }
 
+
+     //求人情報別給与情報
+     public static function get_salary_info($info)
+     {      
+         
+        $employer_id = $info->employer_id;
+        $job_id = $info->job_id;
+        $salary_info = $info->salary;          
+
+        $salary_detail = employment_status_connection_t_model::select(
+            'employment_status_connection_t.employer_id as employer_id',
+            'employment_status_connection_t.job_id as job_id',
+            'employment_status_connection_t.employment_status_id as employment_status_id',
+            'employment_status_m.employment_status_name as employment_status_name',
+            'employment_status_connection_t.salary_maincategory_cd as salary_maincategory_cd',
+            'salary_maincategory_m.salary_maincategory_name as salary_maincategory_name',
+            'employment_status_connection_t.salary_subcategory_cd as salary_subcategory_cd',
+            'salary_subcategory_m.salary as salary',
+            
+        )
+        ->leftJoin('employment_status_m', 'employment_status_connection_t.employment_status_id', '=', 'employment_status_m.employment_status_id')
+        ->leftJoin('salary_maincategory_m', 'employment_status_connection_t.salary_maincategory_cd', '=', 'salary_maincategory_m.salary_maincategory_cd')
+        ->leftJoin('salary_subcategory_m', 'employment_status_connection_t.salary_subcategory_cd', '=', 'salary_subcategory_m.salary_subcategory_cd')            
+        ->where('employment_status_connection_t.employer_id', '=', $employer_id)
+        ->where('employment_status_connection_t.job_id', '=', $job_id)
+        ->orderBy('employment_status_m.display_order')
+        ->get();
+
+
+        $create_salary = "";
+        
+        foreach ($salary_detail as $salary_detail_index => $detail){
+
+            $employment_status_name = $detail->employment_status_name;
+            $salary_maincategory_name = $detail->salary_maincategory_name;
+            $salary = $detail->salary;
+
+            if($salary_detail_index != 0){
+                $create_salary .= "\n";                
+            }
+
+            $create_salary .= $employment_status_name . "　" . $salary_maincategory_name . "::" . $salary;
+                        
+        }
+
+        $return_salary_info = "";
+
+        if($create_salary == ""){
+            $return_salary_info = $salary_info;
+        }else{
+            $return_salary_info = $create_salary . "\n" . $salary_info;                
+        }
+
+             
+         return $return_salary_info;
+     }
+
     //求人検索履歴ランキング
     public static function get_job_search_history_ranking()
     {           
