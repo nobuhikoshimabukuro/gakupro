@@ -201,7 +201,7 @@ class job_related
                 $create_salary .= "\n";                
             }
 
-            $create_salary .= $employment_status_name . "　" . $salary_maincategory_name . "::" . $salary;
+            $create_salary .= "【" . $employment_status_name . "】" . $salary_maincategory_name . ":" . number_format($salary) . "円以上";
                         
         }
 
