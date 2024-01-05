@@ -365,7 +365,7 @@ class DatabaseSeeder extends Seeder
             [   
                 'id' => $i,
                 'employer_id' => '1',
-                'job_id' => '1',
+                'job_id' => $i,
                 'title' => '事務スタッフ',
                 'sub_title' => '【急募】事務スタッフ！ 高時給1,100円！',
                 'work_location_prefectural_cd' => '47',
