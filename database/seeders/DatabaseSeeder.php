@@ -355,10 +355,15 @@ class DatabaseSeeder extends Seeder
 
         ]);   
 
+        for ($i = 1; $i < 20; $i++) {
+
+
+        
+
         DB::table('job_information_t')->insert([
             
             [   
-                'id' => '1',
+                'id' => $i,
                 'employer_id' => '1',
                 'job_id' => '1',
                 'title' => '事務スタッフ',
@@ -395,6 +400,8 @@ class DatabaseSeeder extends Seeder
             ], 
 
         ]); 
+
+}
 
         
         DB::table('job_password_item_m')->insert([
