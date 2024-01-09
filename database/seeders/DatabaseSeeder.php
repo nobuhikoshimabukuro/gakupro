@@ -355,7 +355,7 @@ class DatabaseSeeder extends Seeder
 
         ]);   
 
-        for ($i = 1; $i < 20; $i++) {
+for ($i = 1; $i < 20; $i++) {
 
 
         
@@ -366,7 +366,7 @@ class DatabaseSeeder extends Seeder
                 'id' => $i,
                 'employer_id' => '1',
                 'job_id' => $i,
-                'title' => '事務スタッフ',
+                'title' => '事務スタッフ'. $i,
                 'sub_title' => '【急募】事務スタッフ！ 高時給1,100円！',
                 'work_location_prefectural_cd' => '47',
                 'work_location_municipality_cd' => '47329',   
@@ -400,6 +400,54 @@ class DatabaseSeeder extends Seeder
             ], 
 
         ]); 
+
+        // 当日の日付を取得
+        $today = Carbon::now();
+
+        $today_f = $today;
+        $add_Date1 = $today;
+        $add_Date2 = $today;
+        // 14日後の日付を計算
+        $today_f = $today_f->format('Y-m-d');        
+        $add_Date1 = $add_Date1->addDays(7)->format('Y-m-d');   
+        $add_Date2 = $add_Date2->addDays(28)->format('Y-m-d');
+
+        DB::table('job_password_t')->insert([
+            
+            [
+                'job_password_id' => $i,
+                'job_password_item_id' => '3',
+                'password' => '0123456789',
+                'usage_flg' => '1',
+                'sale_flg' => '1',         
+                'seller' => '1',
+                'sale_datetime' => $today_f,
+                'created_by' => '1',
+                
+            ],
+        ]);   
+
+     
+
+
+        DB::table('job_password_connection_t')->insert([
+            
+            [   
+                'employer_id' => '1',
+                'job_id' => $i,
+                'job_password_id' => $i,
+                'branch_number' => '1',
+                'publish_start_date' => $today_f,
+                'publish_end_date' => $add_Date1,
+                'created_by' => '1',
+                
+            ],
+
+                    
+
+
+        ]);   
+
 
 }
 
@@ -467,52 +515,7 @@ class DatabaseSeeder extends Seeder
 
         ]);   
 
-        // 当日の日付を取得
-        $today = Carbon::now();
-
-        $today_f = $today;
-        $add_Date1 = $today;
-        $add_Date2 = $today;
-        // 14日後の日付を計算
-        $today_f = $today_f->format('Y-m-d');        
-        $add_Date1 = $add_Date1->addDays(7)->format('Y-m-d');   
-        $add_Date2 = $add_Date2->addDays(28)->format('Y-m-d');
-
-        DB::table('job_password_t')->insert([
-            
-            [
-                'job_password_id' => '1',
-                'job_password_item_id' => '3',
-                'password' => '0123456789',
-                'usage_flg' => '1',
-                'sale_flg' => '1',         
-                'seller' => '1',
-                'sale_datetime' => $today_f,
-                'created_by' => '1',
-                
-            ],
-        ]);   
-
-     
-
-
-        DB::table('job_password_connection_t')->insert([
-            
-            [   
-                'employer_id' => '1',
-                'job_id' => '1',
-                'job_password_id' => '1',
-                'branch_number' => '1',
-                'publish_start_date' => $today_f,
-                'publish_end_date' => $add_Date1,
-                'created_by' => '1',
-                
-            ],
-
-                    
-
-
-        ]);   
+        
 
 
         // 雇用形態マスタ

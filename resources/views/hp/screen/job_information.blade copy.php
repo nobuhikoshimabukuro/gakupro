@@ -317,9 +317,7 @@
 	pointer-events: auto;
 }
 
-.pagination{        
-    margin: 0;
-}
+
 
 </style>
 
@@ -734,32 +732,22 @@
 </div>
 
 
+<div id="main" class="mt-3 text-center container">
 
-<div id="main" class="mt-3 text-center container">    
-
-    <div id="" class="row">
-    
-        <div id="" class="col-10 mt-2 p-0">
-            {{-- ページャー --}}                
-            @if(count($job_information) > 0)                                
-                <div class="pagination-area">
-                    {{ $job_information->appends(request()->query())->links() }}
-                </div>
-            @endif
-        </div>
-
-        <div id="" class="col-2 mt-2 p-0 text-end">
-
-            <button type="button" class="btn btn-success search-board-open-button">
-                条件検索
-            </button>    
-        </div>
-
+    <div class="m-0 text-start scroll-wrap-x">
+        {{-- ページャー --}}                
+        @if(count($job_information) > 0)                                
+          <div class="m-0">{{ $job_information->appends(request()->query())->links() }}</div>
+        @endif
     </div>
-
+    
     <div id="" class="row item-center">
 
-    
+        <div class="col-11 col-md-9 mt-3 text-end">
+            <button type="button" class="btn btn-success search-board-open-button">
+                求人条件検索
+            </button>    
+        </div>
         @if(count($job_information) > 0)
 
             @foreach ($job_information as $index => $info)            

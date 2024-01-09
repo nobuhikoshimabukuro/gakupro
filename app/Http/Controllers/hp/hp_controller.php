@@ -68,9 +68,9 @@ class hp_controller extends Controller
 
             $all_job_search_value_array = session()->get('all_job_search_value_array');
             
-            session()->remove('all_job_search_value_array');
+            // session()->remove('all_job_search_value_array');
 
-            $job_information = $this->search_job_information($all_job_search_value_array);
+            $job_information = $this->search_job_information($request , $all_job_search_value_array);
 
             $prefectural_cd_search_value_array = $all_job_search_value_array["prefectural_cd_search_value_array"];
             $municipality_cd_search_value_array = $all_job_search_value_array["municipality_cd_search_value_array"];
@@ -158,7 +158,42 @@ class hp_controller extends Controller
     }
 
     //求人情報検索処理
-    function search_job_information($all_job_search_value_array)
+    function search_job_information(Request $request , $all_job_search_value_array)
+    {
+        
+        // ページネーションのために必要なパラメーターを取得
+        $page = request('page', 1);
+        $perPage = 5; // 1ページあたりの件数
+
+        // SQL文を作成
+        $sql = $this->set_job_search_sql($all_job_search_value_array);
+
+        // ページネーションを適用したクエリを実行
+        // クエリビルダを使用してデータ取得
+        $job_information = DB::table(DB::raw("($sql) as subquery"))
+        ->paginate($perPage, ['*'], 'page', $page);
+
+            
+
+        foreach ($job_information as $index => $info){
+        
+            $employer_id = $info->employer_id;
+            $job_id = $info->job_id;                    
+
+            $info->job_images_path_array =  job_related::get_job_images($employer_id,$job_id);
+            
+            $info->salary = job_related::get_salary_info($info);      
+
+
+        }
+
+
+        return $job_information;
+
+    }
+
+    //求人情報検索処理
+    function search_job_information___(Request $request , $all_job_search_value_array)
     {
         
         $sql = $this->set_job_search_sql($all_job_search_value_array);
