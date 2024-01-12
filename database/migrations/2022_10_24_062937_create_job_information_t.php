@@ -68,12 +68,12 @@ return new class extends Migration
             $table                
                 ->text('salary')
                 ->nullable()
-                ->comment('給与');
+                ->comment('給与情報:[employment_status_connection_t]にて雇用形態別給与設定可能');
 
             $table                
                 ->text('holiday')
                 ->nullable()
-                ->comment('休日');
+                ->comment('休日情報');
 
             $table
                 ->string('manager_name', 200)
