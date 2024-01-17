@@ -10,7 +10,7 @@
     
 
     p{
-        padding: 1px;
+        padding: 3px;
         color: rgb(9, 3, 36);        
         line-height: 1.75;
         font-family: "MS Pゴシック" ;
@@ -322,24 +322,6 @@
 
 
                 <div class="col-12 text-start">
-
-                    <h4 class="heading-name">
-                        私たちについて
-                    </h4>
-                    <p>
-                        {!! nl2br(e($employer_description)) !!}
-                        <br>
-                        @if($employer_hp_url != "")
-                            <a href="{{$employer_hp_url}}" target="_blank">会社HP</a>                        
-                        @endif
-
-                    </p>
-
-          
-
-                </div>
-
-                <div class="col-12 text-start">
                     <h4 class="heading-name">
                         仕事内容
                     </h4>
@@ -380,33 +362,27 @@
                         {!! nl2br(e($application_process)) !!}
                         
                         @if($tel != "")
-                            TEL：{{$tel}}
                             <br>
+                            TEL：{{$tel}}                            
                         @endif
 
                         @if($fax != "")
-                            FAX：{{$fax}}
                             <br>
+                            FAX：{{$fax}}                            
                         @endif
 
                         @if($mailaddress != "")
-                            MAIL：{{$mailaddress}}
                             <br>
+                            MAIL：{{$mailaddress}}                            
                         @endif
 
                         @if($job_hp_url != "")                            
+                            <br>
                             <a href="{{$job_hp_url}}" target="_blank">求人詳細ページ</a>                    
                         @endif
                     </p>                
                 </div>
 
-
-                
-                
-                    
-                    
-
-                
 
                 @if(count($job_category_datas) > 0)
 
@@ -465,11 +441,25 @@
                 @endif
 
 
+                <div class="col-12 text-start">
+
+                    <h4 class="heading-name">
+                        私たちについて
+                    </h4>
+                    <p>
+                        {!! nl2br(e($employer_description)) !!}
+                        <br>
+                        @if($employer_hp_url != "")
+                            <a href="{{$employer_hp_url}}" target="_blank">会社HP</a>                        
+                        @endif
+
+                    </p>
+
+                </div>
 
             </div>
           
-        </div>
-  
+        </div>  
 
     </div>
     
