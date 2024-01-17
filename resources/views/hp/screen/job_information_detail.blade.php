@@ -297,18 +297,15 @@
                                     </div>
                                 @endif        
 
-                            @endforeach      
+                            @endforeach
 
-
-                        @endif
-                                                           
+                        @endif                                                           
 
                     </div>
                     
                 </div>
 
-
-
+                {{-- スカウト文 --}}
                 <div class="col-12 mt-1 text-start">
                     
                     <h4 class="sub_title">
@@ -320,6 +317,33 @@
                     
                 </div>
 
+                @if(count($job_category_datas) > 0)
+
+                    <div class="col-12 text-start">
+                        <h4 class="heading-name">
+                            職種
+                        </h4>
+                        <div class="row m-0 p-0 test">
+
+                            @foreach ($job_category_datas as $job_category_index => $job_category_data)
+
+                                @php
+                                    $job_maincategory_cd = $job_category_data["job_maincategory_cd"];
+                                    $job_maincategory_name = $job_category_data["job_maincategory_name"];
+                                    $job_subcategory_cd = $job_category_data["job_subcategory_cd"];
+                                    $job_subcategory_name = $job_category_data["job_subcategory_name"];
+                                @endphp
+
+                                <div class="col-6 col-md-3">
+                                    {{$job_subcategory_name}}
+                                </div>
+                                
+                            @endforeach
+
+                        </div>
+                    </div>
+
+                @endif
 
                 <div class="col-12 text-start">
                     <h4 class="heading-name">
@@ -384,33 +408,7 @@
                 </div>
 
 
-                @if(count($job_category_datas) > 0)
-
-                    <div class="col-12 text-start">
-                        <h4 class="heading-name">
-                            職種
-                        </h4>
-                        <div class="row m-0 p-0 test">
-
-                            @foreach ($job_category_datas as $job_category_index => $job_category_data)
-
-                                @php
-                                    $job_maincategory_cd = $job_category_data["job_maincategory_cd"];
-                                    $job_maincategory_name = $job_category_data["job_maincategory_name"];
-                                    $job_subcategory_cd = $job_category_data["job_subcategory_cd"];
-                                    $job_subcategory_name = $job_category_data["job_subcategory_name"];
-                                @endphp
-
-                                <div class="col-6 col-md-3">
-                                    {{$job_subcategory_name}}
-                                </div>
-                                
-                            @endforeach
-
-                        </div>
-                    </div>
-
-                @endif
+               
 
                 @if(count($job_supplement_category_datas) > 0)
                     <div class="col-12 text-start">
