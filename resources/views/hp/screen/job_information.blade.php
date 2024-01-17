@@ -730,7 +730,7 @@
                 </div>
 
                 <div class="col-4">            
-                    <button type="button" class="w-100 btn btn-success job-search-button">検索（<span id="job_count">{{count($job_information)}}</span>）</button>
+                    <button type="button" class="w-100 btn btn-success job-search-button">検索（<span id="job_count"></span>）</button>
                 </div>
             </div>
 
@@ -743,9 +743,9 @@
 
 <div id="main" class="mt-3 text-center container">    
 
-    <div id="" class="row">
+    <div id="" class="row mt-1 mb-1">
     
-        <div id="" class="col-9 mt-2">
+        <div id="" class="col-7 mt-1 mb-1">
             {{-- ページャー --}}                
             @if(count($job_information) > 0)                                
                 <div class="pagination-area">
@@ -754,7 +754,7 @@
             @endif
         </div>
 
-        <div id="" class="col-3 mt-2 text-end">
+        <div id="" class="col-5 mt-1 mb-1 text-end">
 
             <button type="button" class="btn btn-success search-board-open-button">
                 条件検索
@@ -764,7 +764,7 @@
 
     </div>
 
-    <div id="" class="row item-center">
+    <div id="" class="row item-center mt-1 mb-1">
 
     
         @if(count($job_information) > 0)
@@ -911,6 +911,7 @@ $(function(){
         search_board_tab_change(1);
         var search_salary_subcategory_cd = "{{ $search_element_array['search_salary_subcategory_cd'] }}";
         search_salary_sabcategory(search_salary_subcategory_cd);
+        get_job_count();
         
     });
     
