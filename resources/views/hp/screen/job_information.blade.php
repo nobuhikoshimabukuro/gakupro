@@ -107,7 +107,7 @@
     }
 
     #search_salary_maincategory_cd{
-        min-width: 700px;
+        min-width: 70px;
     }
 
     .job-supplement-maincategory-area{
@@ -742,7 +742,7 @@
 
     <div id="" class="row">
     
-        <div id="" class="col-10 mt-2 p-0">
+        <div id="" class="col-9 mt-2 p-0">
             {{-- ページャー --}}                
             @if(count($job_information) > 0)                                
                 <div class="pagination-area">
@@ -751,11 +751,12 @@
             @endif
         </div>
 
-        <div id="" class="col-2 mt-2 p-0 text-end">
+        <div id="" class="col-3 mt-2 p-0 text-end">
 
             <button type="button" class="btn btn-success search-board-open-button">
                 条件検索
             </button>    
+
         </div>
 
     </div>
