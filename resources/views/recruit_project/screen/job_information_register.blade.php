@@ -268,20 +268,6 @@ input::placeholder{
 
 
 
-
-    .job-supplement-maincategory-area
-    ,.job-maincategory-title-area
-    {
-        height: 50px;
-        background-color: rgb(245, 179, 81);
-        color:rgb(239, 239, 247);
-        font-size: 19px;
-        font-weight: bold;
-        display: flex;
-        justify-content: center; /*左右中央揃え*/
-        align-items: center;     /*上下中央揃え*/
-    }
-
     .job-supplement-area
     ,.job-category-area    
     {
@@ -359,17 +345,14 @@ input::placeholder{
     }
 
     @keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
+        0% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 1;
+        }
+    }
  
-
-
-
 
     .item-center{
         display: flex;
@@ -1471,45 +1454,6 @@ $(function(){
     })
 
 
-    //職種大分類エリアクリック時
-    $(document).on("click", ".job-maincategory-title-area", function (e) {        
-
-        var close_judge = true;
-
-        var target = $(this).data('target');
-
-        var target_id = "#job-maincategory-hidden-area" + target;
-            
-        var job_category_checkboxs = document.querySelectorAll('.job-category-checkbox');
-
-        if(job_category_checkboxs.length > 0){
-                
-            // チェックされている要素のvalueを取得
-            job_category_checkboxs.forEach(function(job_category_checkbox) {
-
-                var job_maincategory_cd = $(job_category_checkbox).data('jobmaincategorycd');
-                
-                if(target == job_maincategory_cd){
-                    
-                    if (job_category_checkbox.checked) {                    
-                        close_judge = false;
-                    }
-                }
-            });
-        }
-
-
-        if($(target_id).hasClass('d-none')) {
-            $(target_id).removeClass('d-none');            
-        }else{
-
-            if(close_judge){
-                $(target_id).addClass('d-none');
-            }
-            
-        }
-
-    });
 
     //雇用形態選択値変更時
     $(document).on("change", ".employment-status-checkbox", function (e) {
