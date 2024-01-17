@@ -311,8 +311,6 @@ class job_related
     {   
 
         $job_category_datas = [];
-
-
         
         $set_job_category = job_category_connection_t_model::select(
             'job_category_connection_t.employer_id as employer_id',
@@ -348,75 +346,6 @@ class job_related
 
         return $job_category_datas;
     }
-
-    //雇用形態情報取得処理
-    public static function get_employment_status_info($employer_id , $job_id)
-    {   
-
-
-        $employment_status_datas = [];
-
-        $job_information = job_information_t_model::
-            where('employer_id', '=', $employer_id)
-            ->where('job_id', '=', $job_id)
-            ->first();
-
-
-        $salary_detail = employment_status_connection_t_model::select(
-            'employment_status_connection_t.employer_id as employer_id',
-            'employment_status_connection_t.job_id as job_id',
-            'employment_status_connection_t.employment_status_id as employment_status_id',
-            'employment_status_m.employment_status_name as employment_status_name',
-            'employment_status_connection_t.salary_maincategory_cd as salary_maincategory_cd',
-            'salary_maincategory_m.salary_maincategory_name as salary_maincategory_name',
-            'employment_status_connection_t.salary_subcategory_cd as salary_subcategory_cd',
-            'salary_subcategory_m.salary as salary',
-            
-        )
-        ->leftJoin('employment_status_m', 'employment_status_connection_t.employment_status_id', '=', 'employment_status_m.employment_status_id')
-        ->leftJoin('salary_maincategory_m', 'employment_status_connection_t.salary_maincategory_cd', '=', 'salary_maincategory_m.salary_maincategory_cd')
-        ->leftJoin('salary_subcategory_m', 'employment_status_connection_t.salary_subcategory_cd', '=', 'salary_subcategory_m.salary_subcategory_cd')            
-        ->where('employment_status_connection_t.employer_id', '=', $employer_id)
-        ->where('employment_status_connection_t.job_id', '=', $job_id)
-        ->orderBy('employment_status_m.display_order')
-        ->get();
-
-        $salary_info = $job_information->salary;
-
-        $create_salary = "";
-        $employment_status_names = "";
-
-        foreach ($salary_detail as $salary_detail_index => $detail){
-
-            $employment_status_name = $detail->employment_status_name;
-            $salary_maincategory_name = $detail->salary_maincategory_name;
-            $salary = $detail->salary;
-
-            if($salary_detail_index != 0){
-                $create_salary .= "\n";
-                $employment_status_names .= "\n";
-            }
-
-            $create_salary .= $employment_status_name . "　" . $salary_maincategory_name . "::" . $salary;
-            $employment_status_names .= $employment_status_name;    
-            
-            
-            $employment_status_id = $detail->employment_status_id;
-            $employment_status_name = $detail->employment_status_name;
-            $employment_status_datas[] = ['employment_status_id'=> $employment_status_id , 'employment_status_name'=> $employment_status_name];
-
-        }
-
-
-        
-
-        if($create_salary != ""){            
-            $salary_info = $create_salary . "\n" . $salary_info;                
-        }
-
-
-        return ["salary_info" => $salary_info , "employment_status_datas" => $employment_status_datas];
-
-    }
+    
 }
 

@@ -653,17 +653,15 @@ class hp_controller extends Controller
         $employer_id = $job_information->employer_id;
         $job_id = $job_information->job_id;        
 
-        // $employment_status_info = job_related::get_employment_status_info($employer_id,$job_id);
-        
         $job_information->job_category_datas = job_related::get_job_category_datas($employer_id,$job_id);
         $job_information->job_supplement_category_datas = job_related::get_job_supplement_category_datas($employer_id,$job_id);
         $job_information->job_images_info_array = job_related::get_job_images($employer_id,$job_id);
-        // $job_information->salary_info = $employment_status_info["salary_info"];
-        // $job_information->employment_status_datas = $employment_status_info["employment_status_datas"];
         
         $job_information->salary = job_related::get_salary_info($job_information);
         
         return $job_information;
+
+
     }
 
     function message_to_students(Request $request)
