@@ -205,13 +205,14 @@
     $salary = $job_information->salary;
     $holiday = $job_information->holiday;
     $tel = $job_information->tel;
-    $fax = $job_information->fax;
-    $job_hp_url = $job_information->job_hp_url;
+    $fax = $job_information->fax;    
     $mailaddress = $job_information->mailaddress;
+    $job_hp_url = $job_information->job_hp_url;
     $application_requirements = $job_information->application_requirements;
     $publish_start_date = $job_information->publish_start_date;
     $publish_end_date = $job_information->publish_end_date;
-    
+    $Job_duties = $job_information->Job_duties;
+    $application_process = $job_information->application_process;    
     $scout_statement = $job_information->scout_statement;
     $job_remarks = $job_information->job_remarks;
     
@@ -237,10 +238,10 @@
 
                 <div class="col-12 text-start">
                     <h3 class="m-0 p-0 title">
-                        {{$job_information->title}}
+                        {{$title}}
                     </h3>
                     <h4 class="m-0 p-0">
-                        {{$job_information->employer_name}}
+                        {{$employer_name}}
                     </h4>
                 </div>
 
@@ -309,30 +310,33 @@
 
 
                 <div class="col-12 mt-1 text-start">
+                    
                     <h4 class="sub_title">
-                        {{$job_information->sub_title}}
+                        {{$sub_title}}
                     </h4>
                     <p>
-                        {!! nl2br(e($job_information->scout_statement)) !!}
+                        {!! nl2br(e($scout_statement)) !!}
                     </p>
-
-                    @if($job_information->job_hp_url != "")
-                        <a href="{{$job_information->job_hp_url}}" target="_blank">関連</a>                        
-                    @endif
+                    
                 </div>
 
 
                 <div class="col-12 text-start">
+
                     <h4 class="heading-name">
                         私たちについて
                     </h4>
                     <p>
-                        {!! nl2br(e($job_information->employer_description)) !!}
+                        {!! nl2br(e($employer_description)) !!}
+                        <br>
+                        @if($employer_hp_url != "")
+                            <a href="{{$employer_hp_url}}" target="_blank">会社HP</a>                        
+                        @endif
+
                     </p>
 
-                    @if($job_information->employer_hp_url != "")
-                        <a href="{{$job_information->employer_hp_url}}" target="_blank">会社HP</a>                        
-                    @endif
+          
+
                 </div>
 
                 <div class="col-12 text-start">
@@ -340,7 +344,7 @@
                         仕事内容
                     </h4>
                     <p>
-                        {!! nl2br(e($job_information->Job_duties)) !!}
+                        {!! nl2br(e($Job_duties)) !!}
                     </p>                
                 </div>
 
@@ -349,7 +353,7 @@
                         応募資格
                     </h4>
                     <p>
-                        {!! nl2br(e($job_information->application_requirements)) !!}                        
+                        {!! nl2br(e($application_requirements)) !!}
                     </p>                
                 </div>
 
@@ -358,7 +362,26 @@
                         応募方法
                     </h4>
                     <p>
-                        応募方法
+                        {!! nl2br(e($application_process)) !!}
+                        
+                        @if($tel != "")
+                            TEL：{{$tel}}
+                            <br>
+                        @endif
+
+                        @if($fax != "")
+                            FAX：{{$fax}}
+                            <br>
+                        @endif
+
+                        @if($mailaddress != "")
+                            MAIL：{{$mailaddress}}
+                            <br>
+                        @endif
+
+                        @if($job_hp_url != "")                            
+                            <a href="{{$job_hp_url}}" target="_blank">求人詳細ページ</a>                    
+                        @endif
                     </p>                
                 </div>
 
@@ -406,20 +429,20 @@
                         </h4>
                         <div class="row m-0 p-0 test">
 
-                        @foreach ($job_category_datas as $job_category_index => $job_category_data)
+                            @foreach ($job_category_datas as $job_category_index => $job_category_data)
 
-                            @php
-                                $job_maincategory_cd = $job_category_data["job_maincategory_cd"];
-                                $job_maincategory_name = $job_category_data["job_maincategory_name"];
-                                $job_subcategory_cd = $job_category_data["job_subcategory_cd"];
-                                $job_subcategory_name = $job_category_data["job_subcategory_name"];
-                            @endphp
+                                @php
+                                    $job_maincategory_cd = $job_category_data["job_maincategory_cd"];
+                                    $job_maincategory_name = $job_category_data["job_maincategory_name"];
+                                    $job_subcategory_cd = $job_category_data["job_subcategory_cd"];
+                                    $job_subcategory_name = $job_category_data["job_subcategory_name"];
+                                @endphp
 
-                            <div class="col-6 col-md-3">
-                                {{$job_subcategory_name}}
-                            </div>
-                            
-                        @endforeach
+                                <div class="col-6 col-md-3">
+                                    {{$job_subcategory_name}}
+                                </div>
+                                
+                            @endforeach
 
                         </div>
                     </div>
@@ -434,22 +457,23 @@
 
                         <div class="row m-0 p-0">
 
-                        @foreach ($job_supplement_category_datas as $job_supplement_category_index => $job_supplement_category_data)
+                            @foreach ($job_supplement_category_datas as $job_supplement_category_index => $job_supplement_category_data)
 
-                            @php
-                                $job_supplement_maincategory_cd  = $job_supplement_category_data["job_supplement_maincategory_cd"];
-                                $job_supplement_maincategory_name = $job_supplement_category_data["job_supplement_maincategory_name"];
-                                $job_supplement_subcategory_cd = $job_supplement_category_data["job_supplement_subcategory_cd"];
-                                $job_supplement_subcategory_name = $job_supplement_category_data["job_supplement_subcategory_name"];
-                            @endphp
+                                @php
+                                    $job_supplement_maincategory_cd  = $job_supplement_category_data["job_supplement_maincategory_cd"];
+                                    $job_supplement_maincategory_name = $job_supplement_category_data["job_supplement_maincategory_name"];
+                                    $job_supplement_subcategory_cd = $job_supplement_category_data["job_supplement_subcategory_cd"];
+                                    $job_supplement_subcategory_name = $job_supplement_category_data["job_supplement_subcategory_name"];
+                                @endphp
 
-                            <div class="col-6 col-md-3">
-                                {{$job_supplement_subcategory_name}}
-                            </div>
-                            
-                        @endforeach
+                                <div class="col-6 col-md-3">
+                                    {{$job_supplement_subcategory_name}}
+                                </div>
+                                
+                            @endforeach
 
                         </div>
+
                     </div>
                 @endif
 

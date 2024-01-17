@@ -1498,9 +1498,6 @@ class recruit_project_controller extends Controller
         ->where('employer_m.employer_id', '=', $employer_id)
         ->first();
 
-
-
-
         if(is_null($job_information_t)){
 
             //求人情報取得エラー、求人一覧画面にリダイレクト
@@ -1569,10 +1566,7 @@ class recruit_project_controller extends Controller
                     break;
                 }
 
-            }
-            
-
-            $job_images_get_flg = $job_information_t->job_images_get_flg;
+            }            
 
             return view('recruit_project/screen/job_information_ledger',
             compact(
@@ -1583,13 +1577,6 @@ class recruit_project_controller extends Controller
             ));      
 
         }
-
-       
-            
-
-            
-    
-        
         
 
     }

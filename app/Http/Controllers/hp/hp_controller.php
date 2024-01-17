@@ -648,8 +648,9 @@ class hp_controller extends Controller
             'job_information_t.hp_url as job_hp_url',
             'job_information_t.mailaddress as mailaddress',
             'job_information_t.job_image_folder_name as job_image_folder_name',
-            'job_information_t.Job_duties as Job_duties',
+            'job_information_t.Job_duties as Job_duties',            
             'job_information_t.application_requirements as application_requirements',
+            'job_information_t.application_process as application_process',
             'job_information_t.scout_statement as scout_statement',
             'job_information_t.remarks as job_remarks',
             

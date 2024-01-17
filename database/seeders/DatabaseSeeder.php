@@ -393,12 +393,12 @@ for ($i = 1; $i < 20; $i++) {
 
                 'application_requirements' => '求人' . $i . "の応募資格",
                 'application_process' => '求人' . $i . "の応募方法",                
-                'tel' => '',
-                'fax' => '',
-                'hp_url' => '',                
-                'mailaddress' => '',
+                'tel' => '098-999-1111',
+                'fax' => '098-111-2222',
+                'hp_url' => 'https://www.google.co.jp/',                
+                'mailaddress' => 'shimabukuronobuhiko@gmail.com',
 
-                'remarks' => '調理技術向上を目指しながら働いてみませんか？',
+                'remarks' => '備考',
                 
                 'created_by' => '1',
                 

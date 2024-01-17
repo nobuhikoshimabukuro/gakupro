@@ -187,13 +187,10 @@ $(function(){
 
   });
 
-  //検索ボードアラートクリック時
-  $(document).on("click", ".search-alert-area", function (e) {
-        $(".search-alert-area").removeClass('search-alert-area-active');
-  });
-
+  
   // 「保存」ボタンがクリックされたら
-  $('.publish-flg-change-button').click(function () {
+  $(document).on("click", ".publish-flg-change-button", function (e) {
+  
     
     var job_id = $(this).data("jobid");
     var publish_flg = $(this).data("publishflg");
@@ -234,10 +231,10 @@ $(function(){
             var Result = result_array["Result"];
 
             
-              //{{-- ボタン有効 --}}
-              $('.publish-flg-change-button').prop("disabled", false);
-              //{{-- マウスカーソルを通常に --}}                    
-              document.body.style.cursor = 'auto';
+            //{{-- ボタン有効 --}}
+            $('.publish-flg-change-button').prop("disabled", false);
+            //{{-- マウスカーソルを通常に --}}                    
+            document.body.style.cursor = 'auto';
 
             if(Result =='success'){
 
@@ -279,35 +276,7 @@ $(function(){
             //{{-- マウスカーソルを通常に --}}                    
             document.body.style.cursor = 'auto';
 
-            //{{-- アラートメッセージ表示 --}}
-            let errorsHtml = '<div class="alert alert-danger text-start">';
-
-            if (data.status == '422') {
-                //{{-- vlidationエラー --}}
-                $.each(data.responseJSON.errors, function (key, value) {
-                    //{{-- responsからerrorsを取得しメッセージと赤枠を設定 --}}
-                    errorsHtml += '<li  class="text-start">' + value[0] + '</li>';
-                
-                    $("[name='" + key + "']").addClass('is-invalid');
-                    
-                    $("[name='" + key + "']").next('.invalid-feedback').text(value);
-                });
-
-            } else {
-
-                //{{-- その他のエラー --}}
-                errorsHtml += '<li class="text-start">更新処理エラー</li>';
-
-            }
-
-            errorsHtml += '</div>';
             
-            //{{-- アラート --}}
-            $('.ajax-msg').html(errorsHtml);
-            //{{-- 画面上部へ --}}
-            $("html,body").animate({
-                scrollTop: 0
-            }, "300");
            
 
 
