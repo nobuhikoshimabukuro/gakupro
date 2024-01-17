@@ -308,7 +308,10 @@
     }
 }
 
-
+.pagination-area{
+    width: 100%;
+    overflow: auto;
+}
 
 
 .inoperable {
@@ -742,7 +745,7 @@
 
     <div id="" class="row">
     
-        <div id="" class="col-9 mt-2 p-0">
+        <div id="" class="col-9 mt-2">
             {{-- ページャー --}}                
             @if(count($job_information) > 0)                                
                 <div class="pagination-area">
@@ -751,7 +754,7 @@
             @endif
         </div>
 
-        <div id="" class="col-3 mt-2 p-0 text-end">
+        <div id="" class="col-3 mt-2 text-end">
 
             <button type="button" class="btn btn-success search-board-open-button">
                 条件検索
@@ -768,7 +771,7 @@
 
             @foreach ($job_information as $index => $info)            
 
-                <div class="job-board col-11 col-md-9">
+                <div class="job-board col-11 col-md-9 mt-1 mb-1">
 
                     <div id="" class="row m-0 p-0 job-board-inner-area">
                         
