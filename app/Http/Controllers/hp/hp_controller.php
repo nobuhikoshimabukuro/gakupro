@@ -582,6 +582,23 @@ class hp_controller extends Controller
 
     }
 
+    //件数絞込処理
+    function get_job_count(Request $request)
+    {
+        //全ての検索条件を取得
+        $all_job_search_value_array = $request->all_job_search_value_array;
+
+        $sql = $this->set_job_search_sql($all_job_search_value_array);
+
+        $job_information = DB::connection('mysql')->select($sql);
+
+        $job_count = count($job_information);
+
+        return response()->json(['job_count' => $job_count]);
+
+    }
+
+
     function job_information_detail(Request $request)
     {
 

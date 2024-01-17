@@ -106,6 +106,9 @@
         padding: 0 0 15px 15px;
     }
 
+    #search_salary_maincategory_cd{
+        min-width: 700px;
+    }
 
     .job-supplement-maincategory-area{
         height: 50px;
@@ -751,7 +754,7 @@
         <div id="" class="col-2 mt-2 p-0 text-end">
 
             <button type="button" class="btn btn-success search-board-open-button">
-                条件検索
+                条件検索<span id="job_count">{{count($job_information)}}</span>
             </button>    
         </div>
 
@@ -927,8 +930,8 @@ $(function(){
     function search_board_tab_change(target){
 
         $(".after-button").removeClass('after-button');
-        $("#search-board-tab-button" + target).addClass('after-button');
 
+        $("#search-board-tab-button" + target).addClass('after-button');
 
         $(".search-board-contents").removeClass('d-none');
 
@@ -946,14 +949,13 @@ $(function(){
     //検索ボタン
     $(document).on("click", ".search-button", function (e) {
 
-
         // ２重送信防止
         // 登録を押したらdisabled, 3秒後にenable
         $(".search-button").prop("disabled", true);
 
         setTimeout(function () {
             $('.search-button').prop("disabled", false);
-        }, 2000);
+        }, 3000);
 
         var url = "{{ route('hp.job_information_set_search_value') }}";
 
@@ -1064,7 +1066,14 @@ $(function(){
     //給与クリア処理
     function clear_salary_category(){
 
-     
+        $("#search_salary_maincategory_cd").val("");
+
+        var target_area = "#search_salary_subcategory_cd";
+
+        //プルダウン内の設定初期化
+        $("select" + target_area + " option").remove(); 
+        $(target_area).append($("<option>").val("").text("給与形態を選択してください。"));
+        $(target_area).addClass('inoperable');     
 
     }
 
@@ -1107,6 +1116,7 @@ $(function(){
     $(document).on("change", "#search_prefectural_cd", function (e) {
 
         search_prefectural();
+        get_job_count();
 
     });
 
@@ -1267,6 +1277,8 @@ $(function(){
             
         }
 
+        get_job_count();
+
     });
 
 
@@ -1286,6 +1298,8 @@ $(function(){
             
         }        
 
+        get_job_count();
+
     });
 
 // {{-- 職種タブ関連End --}}
@@ -1296,6 +1310,7 @@ $(function(){
     $(document).on("change", "#search_salary_maincategory_cd", function (e) {
 
         search_salary_sabcategory();
+        get_job_count();
 
     });
 
@@ -1330,7 +1345,6 @@ $(function(){
 
             //テーブルに通信時、データを検索できたか判定
             if (salary_sabcategory_list.length > 0) {                
-
                 
                 $.each(salary_sabcategory_list, function(index, salary_sabcategory_info) {
 
@@ -1339,7 +1353,7 @@ $(function(){
                     var salary = salary_sabcategory_info["salary"];
                     var salary_display = salary_sabcategory_info["salary_display"];
             
-                     // 新しいoption要素を作成
+                    // 新しいoption要素を作成
                     var option = $("<option>").val(salary_subcategory_cd).text(salary_display).data("salary", salary);
 
                     // 特定の条件でselected属性を追加
@@ -1350,16 +1364,13 @@ $(function(){
                     // option要素をselect要素に追加
                     $(target_area).append(option);
 
-                })
-
-                
-                
+                })                
 
             }else{               
 
                 $(target_area).append($("<option>").val("").text("給与形態を選択してください。"));
 
-                    $(target_area).addClass('inoperable');
+                $(target_area).addClass('inoperable');
 
             }
 
@@ -1390,6 +1401,8 @@ $(function(){
             
         }        
 
+        get_job_count();
+
     });
 
 
@@ -1412,9 +1425,71 @@ $(function(){
             
         }        
 
+        get_job_count();
+
     });
 
 // {{-- 求人補足タブ関連End --}}
+
+
+
+    //検索条件絞り込み後件数取得処理
+    function get_job_count(){
+
+        var job_count = 0;
+        var url = "{{ route('hp.get_job_count') }}";
+
+        var prefectural_cd_search_value_array = set_prefectural_cd_search_value();        
+        var municipality_cd_search_value_array = set_municipality_cd_array_search_value();
+        var salary_maincategory_cd_search_value_array = set_salary_maincategory_cd_search_value();
+        var salary_subcategory_cd_search_value_array = set_salary_subcategory_cd_search_value();
+        var employment_status_search_value_array = set_employment_status_search_value();
+        var job_category_search_value_array = set_job_category_search_value();
+        var job_supplement_search_value_array = set_job_supplement_search_value();
+
+        var all_job_search_value_array = {
+            prefectural_cd_search_value_array:prefectural_cd_search_value_array
+            , municipality_cd_search_value_array:municipality_cd_search_value_array
+            , employment_status_search_value_array:employment_status_search_value_array
+            , salary_maincategory_cd_search_value_array:salary_maincategory_cd_search_value_array
+            , salary_subcategory_cd_search_value_array:salary_subcategory_cd_search_value_array            
+            , job_category_search_value_array:job_category_search_value_array
+            , job_supplement_search_value_array:job_supplement_search_value_array
+        };
+
+        var judge = false;
+
+        Object.values(all_job_search_value_array).forEach(function(array) {
+            if (array["existence_data"] == 1) {
+                judge = true;
+            }
+        });
+
+        if(!judge){            
+            return false;
+        }
+
+
+        $.ajax({
+                url: url, // 送信先
+                type: 'get',
+                dataType: 'json',
+                data: {all_job_search_value_array : all_job_search_value_array},
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+            })
+                .done(function (data, textStatus, jqXHR) {
+
+                    job_count = data.job_count;
+                    $("#job_count").text(job_count);
+
+                })
+                    .fail(function (data, textStatus, errorThrown) {
+
+                    $("#job_count").text(job_count);
+
+                    });           
+
+    }
     
     
 
@@ -1585,15 +1660,18 @@ $(function(){
         return job_category_search_value_array;
 
     }
+ 
 
 
-    //求人補足検索値セット処理
+    // {{-- 検索前の各値セット処理End --}}
+
+
     function set_job_supplement_search_value(){
 
         var existence_data = 0;
         var job_supplement_search_value_array = [];       
         var value_array = [];
-        
+
         var job_supplement_checkboxs = document.querySelectorAll('.job-supplement-checkbox');
 
         if(job_supplement_checkboxs.length > 0){
@@ -1620,21 +1698,8 @@ $(function(){
 
     }
 
+
    
-
-
-// {{-- 検索前の各値セット処理End --}}
-
-
-    
-   
-
-
-    
-
-    
-
-
 
     //求人明細ボードクリック処理
     $('.job-detail').click(function () {
@@ -1646,6 +1711,8 @@ $(function(){
     });
 
     
+
+
 
 
 

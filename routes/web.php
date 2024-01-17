@@ -43,6 +43,8 @@ Route::get('job_information_set_search_value', [hp_controller::class, 'job_infor
 Route::get('message_to_employers', [hp_controller::class, 'message_to_employers'])->name('hp.message_to_employers');
 Route::get('message_to_students', [hp_controller::class, 'message_to_students'])->name('hp.message_to_students');
 
+Route::get('get_job_count', [hp_controller::class, 'get_job_count'])->name('hp.get_job_count');
+
 Route::post('pseudo_job_information', [hp_controller::class, 'pseudo_job_information'])->name('hp.pseudo_job_information');
 
 
