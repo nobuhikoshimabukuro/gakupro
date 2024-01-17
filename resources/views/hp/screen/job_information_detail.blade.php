@@ -8,6 +8,15 @@
 
 <style>
     
+
+    p{
+        padding: 1px;
+        color: rgb(9, 3, 36);        
+        line-height: 1.75;
+        font-family: "MS Pゴシック" ;
+
+    }
+
     .item-center{
         display: flex;
         justify-content: center; /*左右中央揃え*/
@@ -158,6 +167,21 @@
 }
 
 
+
+.title{
+
+
+}
+
+.sub_title{    
+    color: rgb(218, 218, 221);
+  background: #0673bb;
+  line-height: 1.4;
+  padding: 0.25em 0.5em;  
+  border-radius: 5px 5px 5px 5px;
+}
+
+
 </style>
 
 
@@ -212,9 +236,12 @@
             <div id="" class="row">
 
                 <div class="col-12 text-start">
-                    <h3>
+                    <h3 class="m-0 p-0 title">
                         {{$job_information->title}}
                     </h3>
+                    <h4 class="m-0 p-0">
+                        {{$job_information->employer_name}}
+                    </h4>
                 </div>
 
                 <div class="col-12 mt-1 m-0 p-2 job-image-all-area">
@@ -282,7 +309,7 @@
 
 
                 <div class="col-12 mt-1 text-start">
-                    <h4>
+                    <h4 class="sub_title">
                         {{$job_information->sub_title}}
                     </h4>
                     <p>
@@ -308,6 +335,35 @@
                     @endif
                 </div>
 
+                <div class="col-12 text-start">
+                    <h4 class="heading-name">
+                        仕事内容
+                    </h4>
+                    <p>
+                        {!! nl2br(e($job_information->Job_duties)) !!}
+                    </p>                
+                </div>
+
+                <div class="col-12 text-start">
+                    <h4 class="heading-name">
+                        応募資格
+                    </h4>
+                    <p>
+                        {!! nl2br(e($job_information->application_requirements)) !!}                        
+                    </p>                
+                </div>
+
+                <div class="col-12 text-start">
+                    <h4 class="heading-name">
+                        応募方法
+                    </h4>
+                    <p>
+                        応募方法
+                    </p>                
+                </div>
+
+
+                
                 @if(count($employment_status_datas) > 0)
                     
                     <div class="col-12 text-start">

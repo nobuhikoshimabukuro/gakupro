@@ -8,10 +8,11 @@
 <style>
 
 
-.label-area{
-    display: flex;    
-    align-items: center;
+body{
+    z-index: 1;
+    padding-bottom: 5vh;
 }
+
 
 
 
@@ -39,12 +40,9 @@ button {
   font-weight: 600;
 }
 
-
 textarea {
     resize: none;
 }
-
-
 
 select
 {
@@ -84,7 +82,7 @@ input[type="text"]:placeholder-shown
 ,input[type="tel"]:placeholder-shown
 ,textarea:placeholder-shown
 {
-    background: #243355;
+    background:  rgb(238, 234, 234);
 
 }
 
@@ -145,15 +143,9 @@ input::placeholder{
     border-bottom: none;
 }
 
-
-
-
-
-
-
-
-
+/* 項目 */
 .required{
+    
     display:inline;
     background-color: red;
     color: wheat;
@@ -163,6 +155,10 @@ input::placeholder{
     padding: 0 3px 0 3px;
     width: 40px;;
     
+}
+
+.required::before {
+  content: '必須';  
 }
 
 .error-border{
@@ -237,6 +233,15 @@ input::placeholder{
 
 
 
+#application_process-table{
+    width: 100%;
+    /* border: solid 1px; */
+}
+
+#application_process-table th{
+    text-align: left;
+    background: none;
+}
 
 
 
@@ -263,17 +268,10 @@ input::placeholder{
 
 
 
-
-
-
-    body{
-        z-index: 1;
-        padding-bottom: 5vh;
-    }
 
     .job-supplement-maincategory-area
     ,.job-maincategory-title-area
-    ,.employment-status-title-area{
+    {
         height: 50px;
         background-color: rgb(245, 179, 81);
         color:rgb(239, 239, 247);
@@ -285,16 +283,18 @@ input::placeholder{
     }
 
     .job-supplement-area
-    ,.job-category-area
-    ,.employment-status-area
+    ,.job-category-area    
     {
         height: 50px;
         padding: 3px;
     }
 
+    
+
+
     .job-supplement-label
     ,.job-category-label
-    ,.employment-status-label{
+    {
         height: 100%;
         width: 100%; 
         color: rgb(53, 7, 7);       
@@ -305,7 +305,7 @@ input::placeholder{
 
     .job-supplement-select
     ,.job-category-select
-    ,.employment-status-select{
+    {
         background-color: rgb(49, 49, 105);
         color: white;
         border: solid 1px rgb(208, 208, 241);
@@ -319,23 +319,57 @@ input::placeholder{
         }
     }
 
-    .salary_maincategory_cd-td{
-        min-width: 70px;
-        text-align: left;
+
+    .employment-status-area{
+        height: 45px;
+        padding: 3px;
+        width: 110px;
     }
 
-    .salary_maincategory_cd{
-        min-width: 100%;
+    .employment-status-label{
+        height: 100%;
+        width: 100%; 
+        color:black;
+        background-color: rgb(238, 234, 234);   
+        font-weight: 500;        
+        border-radius: 3px;
     }
 
-    .salary_subcategory_cd-td{
-        min-width: 200px;
-        text-align: left;
+    .employment-status-select
+    {
+        background-color:white;
+        color:black;
+        border: solid 1px rgb(226, 125, 125);
+        font-weight: bold;
+        
+    }
+  
+
+
+    .check-mark {
+        position: absolute;
+        content: '';
+        width: 20px;
+        height: 8px;
+        border-left: 3px solid red;
+        border-bottom: 3px solid red;
+        transform: rotate(-45deg);
+
+        animation: fadeIn 0.7s cubic-bezier(0.33, 1, 0.68, 1) forwards;
     }
 
-    .salary_subcategory_cd{
-        min-width: 100%;
-    }
+    @keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+ 
+
+
+
 
     .item-center{
         display: flex;
@@ -347,13 +381,13 @@ input::placeholder{
 .job-image-outer-area{
     width: 100%;
     overflow-x: auto;
-    background-color: rgb(180, 179, 176);
+    
     display: flex;    
     
 }
 
 .job-image-inner-area{
-    border: solid red 1px;
+    background-color:  rgb(238, 234, 234);
     padding: 3px;
 }
 
@@ -403,6 +437,30 @@ input::placeholder{
   /* position: absolute; */
 }
 
+
+.fixed-salary-area{
+    widows: 100%;
+    min-height:30px; 
+}
+
+.salary_maincategory_cd
+{
+    padding: 0;
+    margin: 2px; 
+}
+
+.salary_subcategory_cd
+{
+    padding: 0;
+    margin: 2px; 
+    min-width: 150px;
+}
+
+.work_location_municipality_cd{
+    padding-right: 0;
+    padding-left: 0;
+    min-width: 150px;
+}
 </style>
 
 
@@ -412,6 +470,8 @@ input::placeholder{
 
         <div class="col-11 col-md-11 mt-3">
     
+            @include('recruit_project.common.alert')
+
             <div id="" class="row m-0 p-0">
 
                 <div class="col-12 text-end">
@@ -459,7 +519,7 @@ input::placeholder{
             
                                 <tr class="title-tr">
                                     <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <label for="title">タイトル</label><span class="required">必須</span>
+                                        <label for="title">タイトル</label><span class="required"></span>
                                     </th>
                                     <td>
             
@@ -477,8 +537,8 @@ input::placeholder{
 
 
                                 <tr class="sub_title-tr">
-                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <label for="sub_title">サブタイトル</label><span class="required">必須</span>
+                                    <th class="">
+                                        <label for="sub_title">サブタイトル</label><span class="required"></span>
                                     </th>
                                     <td>
             
@@ -494,23 +554,25 @@ input::placeholder{
                                 </tr>
 
                                 <tr class="work_location_prefectural_cd-tr">
-                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                    <th class="">
                                         <label for="work_location_prefectural_cd">勤務地</label>
-                                        <span class="required">必須</span>
+                                        <span class="required"></span>
                                     </th>
                                     <td>
             
                                         
                                         @php
                                             $work_location_prefectural_cd = "";
+                                            $work_location_municipality_cd = "";
 
                                             if(!is_null($job_info)){
                                                 $work_location_prefectural_cd = $job_info->work_location_prefectural_cd;
+                                                $work_location_municipality_cd = $job_info->work_location_municipality_cd;
                                             }
                                         @endphp
                              
 
-                                        <select id='work_location_prefectural_cd' name='work_location_prefectural_cd' class='input-sm'>
+                                        <select id='work_location_prefectural_cd' name='work_location_prefectural_cd' class='work_location_prefectural_cd input-sm'>
                                             <option value=''>未選択</option>
                                                 @foreach($prefectural_list as $prefectural_info)
                                                     <option value="{{$prefectural_info->prefectural_cd}}"                                                    
@@ -522,151 +584,245 @@ input::placeholder{
                                                     {{$prefectural_info->prefectural_name}}
                                                     </option>
                                                 @endforeach
-                                        </select>                                                                                
+                                        </select>            
+                                        
+                                        
+                                        
             
+
+                                        
+                                        
+
+                                            @if($work_location_prefectural_cd != "")
+                                                <select id='work_location_municipality_cd' name='work_location_municipality_cd' class=' work_location_municipality_cd input-sm'>     
+                                                    @foreach($municipality_list as $municipality_info)
+                                                        <option value="{{$municipality_info->municipality_cd}}"                                                    
+                                                        @if($work_location_municipality_cd == $prefectural_info->municipality_cd)                                                        
+                                                            selected                                                                                                                
+                                                        @endif
+                                                        title= "{{$municipality_info->municipality_name}}"
+                                                        >
+                                                        {{$municipality_info->municipality_name}}
+                                                        </option>
+                                                    @endforeach                       
+
+                                            @else
+                                                <select id='work_location_municipality_cd' name='work_location_municipality_cd' class='work_location_municipality_cd input-sm inoperable'>     
+                                                    <option value="">
+                                                        都道府県未選択
+                                                    </option>
+                                            @endif  
+                                            
+
+                                        </select>
+                                            
+                                        
+
                                     </td>           
             
                                 </tr>
 
 
-                                <tr class="working_time-tr">
-                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <label for="working_time">就労時間</label>
-                                        <span class="required">必須</span>
-                                    </th>
-                                    <td>
+                                
             
+
+                                <tr class="salary-tr">
+
+                                    <th class="">
+                                        <label for="salary">雇用形態/給与</label>
+                                        <span class="required"></span>
+                                    </th>
+
+                                    <td >
+            
+                                        <div id="" class="row m-0 p-0">
+                                                          
+                                            
+                                                
+                                                @foreach($employment_status_data as $employment_status_info)
+                                                
+                                                    @php                            
+                                                        
+                                                        $employment_status_id = $employment_status_info->employment_status_id;
+                                                        $employment_status_name = $employment_status_info->employment_status_name;
+                    
+                                                        $set_flg = 0;
+                                                        $get_employment_status_id = 0;
+                                                        $get_salary_maincategory_cd = 0;
+                                                        $get_salary_subcategory_cd = 0;
+                                                        $add_class = "";
+                                                        
+                                                        foreach ($employment_status_connections as $index => $employment_status_connection_info){
+                    
+                                                            $set_employment_status_id = $employment_status_connection_info["employment_status_id"];
+                                                            $set_salary_maincategory_cd = $employment_status_connection_info["salary_maincategory_cd"];
+                                                            $set_salary_subcategory_cd = $employment_status_connection_info["salary_subcategory_cd"];
+                    
+                                                            if($employment_status_id == $set_employment_status_id ){
+                                                                $add_class = "employment-status-select";
+                                                                $set_flg = 1;
+                                                                $get_employment_status_id = $set_employment_status_id;
+                                                                $get_salary_maincategory_cd = $set_salary_maincategory_cd;
+                                                                $get_salary_subcategory_cd = $set_salary_subcategory_cd;                                            
+                    
+                                                                break;
+                                                            }
+                                                        }                                    
+                    
+                                                    @endphp
+                    
+                                                        <div class="col-12 col-lg-6 m-0 p-0 d-flex">
+                                                
+
+                                                        <div id="employment-status-area{{$employment_status_id}}" 
+                                                        class="employment-status-area">
+                                                            <label id="employment-status-label{{$employment_status_id}}" 
+                                                                for="employment-status-checkbox{{$employment_status_id}}" 
+                                                                class="employment-status-label {{$add_class}} item-center"
+                                                            >{{$employment_status_name}}
+
+                                                            @if($set_flg == 1)
+                                                                <div class="check-mark"></div>
+                                                            @endif  
+                                                            
+                                                                <input type="checkbox" 
+                                                                id="employment-status-checkbox{{$employment_status_id}}"
+                                                                name="employment-status-checkbox{{$employment_status_id}}"
+                                                                value="{{$employment_status_id}}"                        
+                                                                data-target="{{$employment_status_id}}"
+                                                                data-employmentstatusname="{{$employment_status_name}}"
+                                                                class="employment-status-checkbox d-none"                                    
+                                                                @if($set_flg == 1) checked @endif    
+                                                                >
+                                                                
+                                                            </label>
+
+
+                                                            
+                                                        </div>
+
+                                               
+
+                                                        <select id='employment_status_id_{{$employment_status_id}}_salary_maincategory_cd' 
+                                                            name='employment_status_id_{{$employment_status_id}}_salary_maincategory_cd' 
+                                                            class='salary_maincategory_cd   @if($set_flg == 0) inoperable @endif'
+                                                            data-employmentstatusid="{{$employment_status_id}}"
+                                                        >
+                                                            <option value=''>---</option>
+                                                                @foreach ($salary_maincategory_list as $salary_maincategory_index => $salary_maincategory_info)
+                                                                    <option value="{{$salary_maincategory_info->salary_maincategory_cd}}"
+                                                                    @if($get_salary_maincategory_cd == $salary_maincategory_info->salary_maincategory_cd)
+                                                                    selected
+                                                                    @endif
+                                                                    data-salarymaincategoryname="{{$salary_maincategory_info->salary_maincategory_name}}"
+                                                                    >
+                                                                    {{$salary_maincategory_info->salary_maincategory_name}}
+                                                                    </option>
+                                                                @endforeach
+                                                        </select>
+
+                                                  
+                                                        @if($get_salary_maincategory_cd > 0)
+                    
+                                                            <select id='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
+                                                                name='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
+                                                                class='salary_subcategory_cd'
+                                                            >
+                                                                <option value=''>---</option>
+                                                                @foreach ($salary_subcategory_list as $salary_subcategory_index => $salary_subcategory_info)
+                    
+                                                                    @if($get_salary_maincategory_cd == $salary_subcategory_info->salary_maincategory_cd)
+                                                                        <option value="{{$salary_subcategory_info->salary_subcategory_cd}}"
+                                                                        @if($get_salary_subcategory_cd == $salary_subcategory_info->salary_subcategory_cd)
+                                                                        selected
+                                                                        @endif                
+                                                                        data-salary="{{number_format($salary_subcategory_info->salary)}}"                                                        
+                                                                        >
+                                                                        {{number_format($salary_subcategory_info->salary)}}円以上
+                                                                        </option>
+                                                                    @endif
+                    
+                                                                @endforeach
+                                                            </select>
+                    
+                                                        @else
+                                                            <select id='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
+                                                                name='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
+                                                                class='salary_subcategory_cd input-sm inoperable'                                                                
+                                                            >
+                                                                <option value=''></option>
+                                                            </select>
+                                                        @endif
+
+                                                    </div>         
+                                            
+                                                
+                                                @endforeach
+                
+                                            
+                                              
+                                        </div>  
+
+                                        <div class="row m-0 p-0">
+
+                                            <div class="col-12 col-lg-5 m-0 p-0">
+                                                <h4 class="m-0 p-1" style="">表示</h4>
+                                                <div id="fixed_salary" name="fixed_salary"
+                                                ></div>
+                                            </div>
+
+                                            <div class="col-12 col-lg-7 m-0 p-0">
+                                                <h4 class="m-0 p-1" style="">補足文</h4>
+                                                <textarea id="salary" name="salary" placeholder="" rows="5"
+                                                >@if(!is_null($job_info)){{$job_info->salary}}@endif</textarea>
+                                            </div>
+
+                                        </div>
+
+                                    </td>           
+            
+                                </tr>
+
+                                <tr class="working_time-tr">
+
+                                    <th class="">
+                                        <label for="working_time">就労時間</label>
+                                        <span class="required"></span>
+                                    </th>
+
+                                    <td>            
                                         <textarea id="working_time" name="working_time" placeholder="" rows="5"
                                         >@if(!is_null($job_info)){{$job_info->working_time}}@endif</textarea>            
                                     </td>           
             
                                 </tr>
-            
-                                <tr class="salary-tr">
-                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <label for="salary">給与</label>
-                                        <span class="required">必須</span>
-                                    </th>
-                                    <td>
-            
-                                        <textarea id="salary" name="salary" placeholder="" rows="5"
-                                        >@if(!is_null($job_info)){{$job_info->salary}}@endif</textarea>            
-                                    </td>           
-            
-                                </tr>
 
                                 <tr class="holiday-tr">
-                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                    <th class="">
                                         <label for="holiday">休日</label>
-                                        <span class="required">必須</span>
+                                        <span class="required"></span>
                                     </th>
                                     <td>
-            
+                                   
                                         <textarea id="holiday" name="holiday" placeholder="" rows="5"
                                         >@if(!is_null($job_info)){{$job_info->holiday}}@endif</textarea>            
                                     </td>           
             
                                 </tr>
 
-                                <tr class="manager_name-tr">
-                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <label for="manager_name">求人担当者名</label>
+                                <tr class="Job_duties-tr">
+                                    <th class="">
+                                        <label for="Job_duties">仕事内容</label>                                        
                                     </th>
                                     <td>
             
-                                        <input type="text" id="manager_name" name="manager_name" placeholder="" 
-                                        @if(is_null($job_info))
-                                            value=""
-                                        @else
-                                            value="{{$job_info->manager_name}}"
-                                        @endif
-                                        >            
-                                    </td>           
-            
-                                </tr>
-
-                                <tr class="tel-tr">
-                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <label for="tel">電話番号</label>
-                                    </th>
-                                    <td>
-            
-                                        <input type="tel" id="tel" name="tel" placeholder="" 
-                                        @if(is_null($job_info))
-                                            value=""
-                                        @else
-                                            value="{{$job_info->tel}}"
-                                        @endif
-                                        >            
-                                    </td>           
-            
-                                </tr>
-
-                                <tr class="fax-tr">
-                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <label for="fax">FAX</label>
-                                    </th>
-                                    <td>
-            
-                                        <input type="tel" id="fax" name="fax" placeholder="" 
-                                        @if(is_null($job_info))
-                                            value=""
-                                        @else
-                                            value="{{$job_info->fax}}"
-                                        @endif
-                                        >            
-                                    </td>           
-            
-                                </tr>
-
-                                <tr class="hp_url-tr">
-                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <label for="hp_url">hp_url</label>
-                                    </th>
-                                    <td>
-            
-                                        <input type="tel" id="hp_url" name="hp_url" placeholder="" 
-                                        @if(is_null($job_info))
-                                            value=""
-                                        @else
-                                            value="{{$job_info->hp_url}}"
-                                        @endif
-                                        >            
-                                    </td>           
-            
-                                </tr>
-
-                                <tr class="mailaddress-tr">
-                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <label for="mailaddress">メールアドレス</label>
-                                    </th>
-                                    <td>
-            
-                                        <input type="tel" id="mailaddress" name="mailaddress" placeholder="" 
-                                        @if(is_null($job_info))
-                                            value=""
-                                        @else
-                                            value="{{$job_info->mailaddress}}"
-                                        @endif
-                                        >            
-                                    </td>           
-            
-                                </tr>
-
-
-                                <tr class="application_requirements-tr">
-                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
-                                        <label for="application_requirements">応募資格</label>                                        
-                                    </th>
-                                    <td>
-            
-                                        <textarea id="application_requirements" name="application_requirements" placeholder="" rows="5"
-                                        >@if(!is_null($job_info)){{$job_info->application_requirements}}@endif</textarea>            
+                                        <textarea id="Job_duties" name="Job_duties" placeholder="" rows="5"
+                                        >@if(!is_null($job_info)){{$job_info->Job_duties}}@endif</textarea>            
                                     </td>            
                                 </tr>
-
+                                
                                 <tr class="scout_statement-tr">
-                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                    <th class="">
                                         <label for="scout_statement">スカウト文</label>                                        
                                     </th>
                                     <td>
@@ -676,8 +832,135 @@ input::placeholder{
                                     </td>            
                                 </tr>
 
+                                <tr class="application_requirements-tr">
+                                    <th class="">
+                                        <label for="application_requirements">応募資格</label>                                        
+                                    </th>
+                                    <td>
+            
+                                        <textarea id="application_requirements" name="application_requirements" placeholder="" rows="5"
+                                        >@if(!is_null($job_info)){{$job_info->application_requirements}}@endif</textarea>            
+                                    </td>            
+                                </tr>
+
+                                <tr class="application_process-tr">
+                                    <th class="">
+                                        <label for="application_process">応募方法</label>                                        
+                                    </th>
+                                    <td>
+            
+                                        <div class="row m-0 p-0">
+
+                                            <div class="col-12 col-lg-5 m-0 p-0">
+
+                                                <h4 class="m-0 p-1" style="">表示</h4>
+                                                <div id="fixed_application_process" name="fixed_application_process"
+                                                ></div>
+                                            </div>
+
+                                            <div class="col-12 col-lg-7 m-0 p-0">
+                                                <div class="row m-0 p-0">
+
+                                                    <div class="col-12 m-0 p-0">
+
+                                                        <h4 class="m-0 p-1" style="">補足文</h4>
+                                                        <textarea id="application_process" name="application_process" placeholder="" rows="4"
+                                                        >@if(!is_null($job_info)){{$job_info->application_process}}@endif</textarea>
+
+                                                    </div>
+
+                                                    <div class="col-12 m-0 p-0">
+
+                                                        <table id="application_process-table">
+                                                            <tr>
+                                                                <th>
+                                                                    <label for="tel">応募用TEL</label>
+                                                                </th>
+                                                            </tr>
+        
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="tel" id="tel" name="tel" placeholder="" 
+                                                                    @if(is_null($job_info))
+                                                                        value=""
+                                                                    @else
+                                                                        value="{{$job_info->tel}}"
+                                                                    @endif
+                                                                    >        
+                                                                </td>
+                                                            </tr>
+        
+                                                            <tr>
+                                                                <th>
+                                                                    <label for="fax">応募用FAX</label>
+                                                                </th>
+                                                            </tr>
+        
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="tel" id="fax" name="fax" placeholder="" 
+                                                                    @if(is_null($job_info))
+                                                                        value=""
+                                                                    @else
+                                                                        value="{{$job_info->fax}}"
+                                                                    @endif
+                                                                    >        
+                                                                </td>
+                                                            </tr>
+        
+                                                            <tr>
+                                                                <th>
+                                                                    <label for="tel">応募用Mail</label>
+                                                                </th>
+                                                            </tr>
+        
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="text" id="mailaddress" name="mailaddress" placeholder="" 
+                                                                    @if(is_null($job_info))
+                                                                        value=""
+                                                                    @else
+                                                                        value="{{$job_info->mailaddress}}"
+                                                                    @endif
+                                                                    >              
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <th>
+                                                                    <label for="tel">応募用URL</label>
+                                                                </th>
+                                                            </tr>
+        
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="text" id="hp_url" name="hp_url" placeholder="" 
+                                                                    @if(is_null($job_info))
+                                                                        value=""
+                                                                    @else
+                                                                        value="{{$job_info->hp_url}}"
+                                                                    @endif
+                                                                    >              
+                                                                </td>
+                                                            </tr>
+        
+                                                        </table>
+
+                                                    </div>
+
+                                                </div>
+                                                
+                                            </div>
+
+                                        </div>
+                                                  
+                                    </td>            
+                                </tr>
+
+                                
+
                                 <tr class="remarks-tr">
-                                    <th class="col-xl-3 col-lg-4 col-md-4 col-sm-4">
+                                    <th class="">
                                         <label for="remarks">求人備考</label>                                        
                                     </th>
                                     <td>
@@ -685,7 +968,7 @@ input::placeholder{
                                         <textarea id="remarks" name="remarks" placeholder="" rows="5"
                                         >@if(!is_null($job_info)){{$job_info->remarks}}@endif</textarea>            
                                     </td>            
-                                </tr>
+                                </tr>                              
                             
             
                             </tbody>
@@ -777,150 +1060,16 @@ input::placeholder{
 
                     </div>
 
-                    <div class="col-12 col-md-6 mt-3">
+               
+
+                    {{-- 業種エリア --}}
+                    <div class="col-12 mt-3">
 
                         <div id="" class="row m-0 p-0">
-                            
+                            <h3>
+                                業種設定
+                            </h3>
 
-                            <div class="col-12 employment-status-title-area mt-2">
-                                雇用形態
-                            </div>
-
-                            <table>
-
-                            
-                            @foreach($employment_status_data as $employment_status_info)
-                            
-                                @php                            
-                                    
-                                    $employment_status_id = $employment_status_info->employment_status_id;
-                                    $employment_status_name = $employment_status_info->employment_status_name;
-
-                                    $set_flg = 0;
-                                    $get_employment_status_id = 0;
-                                    $get_salary_maincategory_cd = 0;
-                                    $get_salary_subcategory_cd = 0;
-                                    $add_class = "";
-                                    $check_status = "";
-                                    foreach ($employment_status_connections as $index => $employment_status_connection_info){
-
-                                        $set_employment_status_id = $employment_status_connection_info["employment_status_id"];
-                                        $set_salary_maincategory_cd = $employment_status_connection_info["salary_maincategory_cd"];
-                                        $set_salary_subcategory_cd = $employment_status_connection_info["salary_subcategory_cd"];
-
-                                        if($employment_status_id == $set_employment_status_id ){
-                                            $add_class = "employment-status-select";                            
-                                            $check_status = "checked";
-                                            $set_flg = 1;
-                                            $get_employment_status_id = $set_employment_status_id;
-                                            $get_salary_maincategory_cd = $set_salary_maincategory_cd;
-                                            $get_salary_subcategory_cd = $set_salary_subcategory_cd;                                            
-
-                                            break;
-                                        }
-                                    }                                    
-
-                                @endphp
-
-                            <tr class="">
-                                <td class="" colspan="2">
-                                    <div id="employment-status-area{{$employment_status_id}}" 
-                                    class="col-12 employment-status-area">
-                                    <label id="employment-status-label{{$employment_status_id}}" 
-                                        for="employment-status-checkbox{{$employment_status_id}}" 
-                                        class="employment-status-label {{$add_class}} item-center"
-                                    >
-                                    <input type="checkbox" 
-                                    id="employment-status-checkbox{{$employment_status_id}}"
-                                    name="employment-status-checkbox{{$employment_status_id}}"
-                                    value="{{$employment_status_id}}"                        
-                                    data-target="{{$employment_status_id}}"
-                                    class="employment-status-checkbox"                                    
-                                    {{$check_status}}
-                                    >
-                                    {{$employment_status_name}}
-                                    </label>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <tr class="employment_status_id_{{$employment_status_id}}_salary_cd-tr 
-                                @if($set_flg==0) d-none @endif">
-
-                                <td class="salary_maincategory_cd-td p-1">
-
-                                    <select id='employment_status_id_{{$employment_status_id}}_salary_maincategory_cd' 
-                                          name='employment_status_id_{{$employment_status_id}}_salary_maincategory_cd' 
-                                          class='salary_maincategory_cd input-sm'
-                                          data-employmentstatusid="{{$employment_status_id}}"
-                                    >
-                                        <option value=''>---</option>
-                                            @foreach ($salary_maincategory_list as $salary_maincategory_index => $salary_maincategory_info)
-                                                <option value="{{$salary_maincategory_info->salary_maincategory_cd}}"
-                                                @if($get_salary_maincategory_cd == $salary_maincategory_info->salary_maincategory_cd)
-                                                selected
-                                                @endif
-                                                >
-                                                {{$salary_maincategory_info->salary_maincategory_name}}
-                                                </option>
-                                            @endforeach
-                                    </select>
-
-                                </td>
-
-                                <td class="salary_subcategory_cd-td">
-
-                                   
-                                    @if($get_salary_maincategory_cd > 0)
-
-                                        <select id='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
-                                            name='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
-                                            class='salary_subcategory_cd input-sm'
-                                        >
-                                            <option value=''>---</option>
-                                            @foreach ($salary_subcategory_list as $salary_subcategory_index => $salary_subcategory_info)
-
-                                                @if($get_salary_maincategory_cd == $salary_subcategory_info->salary_maincategory_cd)
-                                                    <option value="{{$salary_subcategory_info->salary_subcategory_cd}}"
-                                                    @if($get_salary_subcategory_cd == $salary_subcategory_info->salary_subcategory_cd)
-                                                    selected
-                                                    @endif
-                                                    >
-                                                    {{$salary_subcategory_info->salary}}円以上
-                                                    </option>
-                                                @endif
-
-                                            @endforeach
-                                        </select>
-
-                                    @else
-                                        <select id='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
-                                            name='employment_status_id_{{$employment_status_id}}_salary_subcategory_cd' 
-                                            class='salary_subcategory_cd input-sm inoperable'
-                                        >
-                                            <option value=''>給与形態を選択してください。</option>
-                                        </select>
-                                    @endif
-                                    
-                                    
-
-                                </td>
-
-                            </tr>
-                            @endforeach
-
-                        </table>
-
-                        </div>
-
-                    </div> 
-
-
-
-
-                    <div class="col-12 col-md-6 mt-3">
-
-                        <div id="" class="row m-0 p-0">
 
                             @php
                                 $job_maincategory_cd_array = [];
@@ -972,22 +1121,16 @@ input::placeholder{
 
 
                                 @if(in_array($job_category_index, $start_index_array))
-
-                                    @php
-                                        $d_none_class = "d-none";
-                                        if(in_array($job_maincategory_cd, $job_maincategory_cd_array)){
-                                            $d_none_class = "";
-                                        }
-                                    @endphp
+                             
                                                                     
                                     <div 
-                                    class="col-12 job-maincategory-title-area mt-2"
-                                    data-target="{{$job_maincategory_cd}}"
-                                    >{{$job_maincategory_name}}
+                                        class="col-12 job-maincategory-title-area mt-2"
+                                        data-target="{{$job_maincategory_cd}}"
+                                        >{{$job_maincategory_name}}
                                     </div>
 
                                     <div id="job-maincategory-hidden-area{{$job_maincategory_cd}}" 
-                                    class="row job-maincategory-hidden-area mt-1 {{$d_none_class}}"
+                                    class="row job-maincategory-hidden-area mt-1"
                                     data-target="{{$job_maincategory_cd}}">                                   
 
                                 @endif
@@ -1025,8 +1168,12 @@ input::placeholder{
                     
                     
 
+                    {{-- 求人補足エリア --}}
+                    <div class="col-12 mt-3">
 
-                    <div class="col-12 col-md-6 mt-3">
+                        <h3>
+                            求人補足
+                        </h3>
 
                         <div id="" class="row m-0 p-0">
 
@@ -1145,7 +1292,109 @@ input::placeholder{
 
 <script type="text/javascript">
 
+
+
 $(function(){
+
+
+    $(document).ready(function() {
+        set_fixed_salary();
+        set_fixed_application_process();
+    });
+
+
+
+    //都道府県プルダウン変更時
+    $(document).on("change", "#work_location_prefectural_cd", function (e) {
+
+        search_prefectural();
+
+    });
+
+  
+
+    //都道府県毎、市区町村検索処理
+    function search_prefectural(process_branch = 0){
+
+        var prefectural_cd = $("#work_location_prefectural_cd").val();        
+
+        var municipality_name = "";        
+        var url = "{{ route('create_list.municipality_list_ajax') }}";
+
+
+        
+        var target_area = "#work_location_municipality_cd";
+
+        $(target_area).removeClass('inoperable'); 
+
+        //プルダウン内の設定初期化
+        $("select" + target_area + " option").remove();        
+
+        //マウスカーソルを砂時計に
+        document.body.style.cursor = 'wait';
+
+        $.ajax({
+            url: url, // 送信先
+            type: 'get',
+            dataType: 'json',
+            data: {prefectural_cd : prefectural_cd , municipality_name : municipality_name},
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+        })
+        .done(function (data, textStatus, jqXHR) {
+            // テーブルに通信できた場合
+            var municipality_list = data.municipality_list;            
+
+            //テーブルに通信時、データを検索できたか判定
+            if (municipality_list.length > 0) {                
+
+                var add_html = '';
+
+                $.each(municipality_list, function(index, municipality_info) {
+
+
+                    var municipality_cd = municipality_info["municipality_cd"];
+                    var municipality_name = municipality_info["municipality_name"];
+                    var municipality_name_kana = municipality_info["municipality_name_kana"];
+
+            
+                   // 新しいoption要素を作成
+                   var option = $("<option>").val(municipality_cd).text(municipality_name);
+
+                    // option要素をselect要素に追加
+                    $(target_area).append(option); 
+
+                })
+
+                
+
+
+            }else{
+
+                // 新しいoption要素を作成
+                var option = $("<option>").val("").text("都道府県未選択");
+
+                // option要素をselect要素に追加
+                $(target_area).append(option); 
+                $(target_area).addClass('inoperable'); 
+
+
+            }
+
+            //マウスカーソルを通常に
+            document.body.style.cursor = 'auto';
+
+        })
+        .fail(function (data, textStatus, errorThrown) {
+
+
+
+            //マウスカーソルを通常に
+            document.body.style.cursor = 'auto';
+
+        });
+
+    }
+
 
     //FormDataオブジェクトを作成
     var formData = new FormData();
@@ -1307,23 +1556,35 @@ $(function(){
 
         var employment_status_id = $(this).data('target');
 
-        $("#employment-status-label" + employment_status_id).removeClass('employment-status-select');
+        var target_label = "#employment-status-label" + employment_status_id;
 
-        
-        var target_area = ".employment_status_id_" + employment_status_id + "_salary_cd-tr";        
-        $(target_area).removeClass('d-none'); 
+        var target_salary_maincategory_cd = "#employment_status_id_" + employment_status_id + "_salary_maincategory_cd";
+        var target_salary_subategory_cd = "#employment_status_id_" + employment_status_id + "_salary_subcategory_cd";
+
+        $(target_label).removeClass('employment-status-select');
+        $(target_label).find('.check-mark').remove();
+
+        $(target_salary_maincategory_cd).removeClass('inoperable');
+        $(target_salary_subategory_cd).removeClass('inoperable');
 
         if($("#employment-status-checkbox" + employment_status_id).prop('checked')){
 
-            $("#employment-status-label" + employment_status_id).addClass('employment-status-select');
             
+            var add_html = '<div class="check-mark"></div>';           
+            $(add_html).appendTo(target_label);
+            $(target_label).addClass('employment-status-select');
                   
+            
         }else{
-            $(target_area).addClass('d-none'); 
+            
+            $(target_salary_maincategory_cd).addClass('inoperable');
+            $(target_salary_subategory_cd).addClass('inoperable');
         }        
 
+        set_fixed_salary();
     });
 
+    
 
     //給与プルダウン変更時
     $(document).on("change", ".salary_maincategory_cd", function (e) {
@@ -1332,16 +1593,15 @@ $(function(){
         var salary_maincategory_cd = $(this).val();
         search_salary_sabcategory(employment_status_id,salary_maincategory_cd);
 
+        set_fixed_salary();
+
     });
 
     //給与検索＆プルダウン作成    
     function search_salary_sabcategory(employment_status_id , salary_maincategory_cd){
 
-        
-
         var url = "{{ route('create_list.salary_sabcategory_list_ajax') }}";
        
-
         var target_area = "#employment_status_id_" + employment_status_id + "_salary_subcategory_cd";
 
         $(target_area).removeClass('inoperable');        
@@ -1376,7 +1636,7 @@ $(function(){
                     var salary_display = salary_sabcategory_info["salary_display"];
             
                     // 新しいoption要素を作成
-                    var option = $("<option>").val(salary_subcategory_cd).text(salary_display);
+                    var option = $("<option>").val(salary_subcategory_cd).text(salary_display).data("salary", salary);
 
                     // 特定の条件でselected属性を追加
                     // if (salary_subcategory_cd == get_search_salary_subcategory_cd) {
@@ -1413,6 +1673,128 @@ $(function(){
 
     }
 
+    //給与プルダウン変更時
+    $(document).on("change", ".salary_subcategory_cd", function (e) {
+
+        set_fixed_salary();
+
+    });
+
+    //給与補足分変更時
+    $(document).on("blur", "#salary", function (e) {
+
+        set_fixed_salary();
+
+    });
+
+    function set_fixed_salary(){
+
+        var display_text = "";
+
+        var add_text = "";
+        var salary = $("#salary").val();
+
+        // classが"employment-status-checkbox"である全ての要素を取得
+        $(".employment-status-checkbox").each(function() {
+
+            if ($(this).prop("checked")) {
+
+                // チェックされている場合、data-target属性の値を取得してコンソールに表示
+                var employment_status_id = $(this).data("target");
+
+                var employment_status_name = $(this).data("employmentstatusname");                
+            
+                var salary_maincategory_cd_id = "#employment_status_id_" + employment_status_id + "_salary_maincategory_cd";
+                var salary_subcategory_cd_id = "#employment_status_id_" + employment_status_id + "_salary_subcategory_cd";
+
+                var salary_maincategory_cd = $(salary_maincategory_cd_id).val();
+                var salary_subcategory_cd = $(salary_subcategory_cd_id).val();
+
+                if(salary_maincategory_cd > 0 && salary_subcategory_cd > 0)
+                {
+                    
+                    var selectedOption = $(salary_maincategory_cd_id + " option:selected");
+                    var salary_maincategory_name = selectedOption.data("salarymaincategoryname");
+
+
+                    var selectedOption = $(salary_subcategory_cd_id + " option:selected");
+                    var salary = selectedOption.data("salary");
+                    
+                    var text = employment_status_name + "：" +salary_maincategory_name + salary + "円～"; 
+
+                    if(add_text != ""){
+                        add_text += "<br>";
+                    }
+
+                    add_text += text;
+                }                
+            }
+        });
+
+        display_text = add_text + "<br>" + salary.replace(/\n/g, "<br>");
+
+        $("#fixed_salary").html(display_text);        
+
+    }   
+
+
+    //応募方法関連値変更時
+    $(document).on("blur", "#application_process,#tel,#fax,#mailaddress,#hp_url", function (e) {
+
+        set_fixed_application_process();
+
+    });
+
+    function set_fixed_application_process(){
+
+        var display_text = "";
+
+        var add_text = "";
+        var application_process = $("#application_process").val();
+
+        var tel = $("#tel").val();
+        var fax = $("#fax").val();
+        var mailaddress = $("#mailaddress").val();
+        var hp_url = $("#hp_url").val();
+
+        if(tel != ""){
+            if(add_text != ""){
+                add_text += "<br>";
+            }
+            add_text += "TEL：" + tel;
+        }
+
+        if(fax != ""){
+            if(add_text != ""){
+                add_text += "<br>";
+            }
+            add_text += "FAX：" + fax;
+        }
+
+        if(mailaddress != ""){
+            if(add_text != ""){
+                add_text += "<br>";
+            }
+            add_text += "MAIL：" + mailaddress;
+        }
+
+        if(hp_url != ""){
+            if(add_text != ""){
+                add_text += "<br>";
+            }
+            add_text += "URL：" + hp_url;
+        }
+
+        if(application_process == ""){
+            display_text = add_text;
+        }else{
+            display_text = application_process.replace(/\n/g, "<br>") + "<br>" + add_text;
+        }
+        
+
+        $("#fixed_application_process").html(display_text);        
+
+    }   
 
     //職種中分類選択値変更時
     $(document).on("change", ".job-category-checkbox", function (e) {
@@ -1518,8 +1900,8 @@ $(function(){
                 if(Result=='success'){
 
                     
-                    window.location.href = "{{ route('recruit_project.job_information_confirmation') }}";
-                    // location.reload();
+                    // window.location.href = "{{ route('recruit_project.job_information_confirmation') }}";
+                    location.reload();
 
                 }else{
 

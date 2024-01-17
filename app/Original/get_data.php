@@ -83,6 +83,33 @@ class get_data
         ->orderBy('job_subcategory_m.display_order')
         ->get();
 
+        $check_job_maincategory_cd = "";
+        foreach($job_category_data as $index => $info){
+
+            $start_flg = 0;
+            $end_flg = 0;
+
+            $job_maincategory_cd = $info->job_maincategory_cd;            
+
+            if($check_job_maincategory_cd != $job_maincategory_cd){
+                $start_flg = 1;
+                $check_job_maincategory_cd = $job_maincategory_cd;
+            }
+
+            if(count($job_category_data) == ($index + 1)){
+                $end_flg = 1;
+            }else{
+                if($job_maincategory_cd != $job_category_data[($index + 1)]->job_maincategory_cd){
+                    $end_flg = 1;
+                }
+            }            
+
+            $info->start_flg = $start_flg;
+            $info->end_flg = $end_flg;
+
+        }
+
+
         return $job_category_data;
     }
 
@@ -103,6 +130,33 @@ class get_data
         ->orderBy('job_supplement_maincategory_m.display_order')
         ->orderBy('job_supplement_subcategory_m.display_order')
         ->get();
+
+
+        $check_job_supplement_maincategory_cd = "";
+        foreach($job_supplement_data as $index => $info){
+
+            $start_flg = 0;
+            $end_flg = 0;
+
+            $job_supplement_maincategory_cd = $info->job_supplement_maincategory_cd;            
+
+            if($check_job_supplement_maincategory_cd != $job_supplement_maincategory_cd){
+                $start_flg = 1;
+                $check_job_supplement_maincategory_cd = $job_supplement_maincategory_cd;
+            }
+
+            if(count($job_supplement_data) == ($index + 1)){
+                $end_flg = 1;
+            }else{
+                if($job_supplement_maincategory_cd != $job_supplement_data[($index + 1)]->job_supplement_maincategory_cd){
+                    $end_flg = 1;
+                }
+            }            
+
+            $info->start_flg = $start_flg;
+            $info->end_flg = $end_flg;
+
+        }
 
         return $job_supplement_data;
     }

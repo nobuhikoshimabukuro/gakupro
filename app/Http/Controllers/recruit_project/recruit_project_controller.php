@@ -1464,12 +1464,12 @@ class recruit_project_controller extends Controller
 
             'job_information_t.working_time as working_time',
             'job_information_t.salary as salary',
-            'job_information_t.holiday as holiday',
-            'job_information_t.manager_name as manager_name',
+            'job_information_t.holiday as holiday',            
             'job_information_t.tel as tel',
             'job_information_t.fax as fax',
             'job_information_t.mailaddress as mailaddress',
             'job_information_t.application_requirements as application_requirements',
+            'job_information_t.Job_duties as Job_duties',
             'job_information_t.scout_statement as scout_statement',
             'job_information_t.remarks as remarks',
                     
@@ -1683,8 +1683,7 @@ class recruit_project_controller extends Controller
                 $work_location_municipality_cd = $job_information_t->work_location_municipality_cd;
                 $working_time = $job_information_t->working_time;
                 $salary = $job_information_t->salary;
-                $holiday = $job_information_t->holiday;
-                $manager_name = $job_information_t->manager_name;
+                $holiday = $job_information_t->holiday;                
                 $tel = $job_information_t->tel;
                 $fax = $job_information_t->fax;
                 $hp_url = $job_information_t->hp_url;
@@ -1816,14 +1815,14 @@ class recruit_project_controller extends Controller
             $work_location_municipality_cd = $request->work_location_municipality_cd;
             $working_time = $request->working_time;
             $salary = $request->salary;
-            $holiday = $request->holiday;
-            $manager_name = $request->manager_name;
+            $holiday = $request->holiday;            
             $tel = $request->tel;
             $fax = $request->fax;
             $hp_url = $request->hp_url;
             $job_image_folder_name = $request->job_image_folder_name;
             $mailaddress = $request->mailaddress;
             $application_requirements = $request->application_requirements;
+            $Job_duties = $request->Job_duties;
             $scout_statement = $request->scout_statement;
             $remarks = $request->remarks;
 
@@ -1862,13 +1861,13 @@ class recruit_project_controller extends Controller
                         ,"work_location_municipality_cd" => $work_location_municipality_cd
                         ,"working_time" => $working_time
                         ,"salary" => $salary
-                        ,"holiday" => $holiday
-                        ,"manager_name" => $manager_name
+                        ,"holiday" => $holiday                        
                         ,"tel" => $tel
                         ,"fax" => $fax
                         ,"hp_url" => $hp_url
                         ,"job_image_folder_name" => $job_image_folder_name
                         ,"mailaddress" => $mailaddress
+                        ,"Job_duties" => $Job_duties
                         ,"application_requirements" => $application_requirements
                         ,"scout_statement" => $scout_statement
                         ,"remarks" => $remarks                        
@@ -1889,12 +1888,12 @@ class recruit_project_controller extends Controller
                         ,"work_location_municipality_cd" => $work_location_municipality_cd
                         ,"working_time" => $working_time
                         ,"salary" => $salary
-                        ,"holiday" => $holiday
-                        ,"manager_name" => $manager_name
+                        ,"holiday" => $holiday                        
                         ,"tel" => $tel
                         ,"fax" => $fax
                         ,"hp_url" => $hp_url                    
                         ,"mailaddress" => $mailaddress
+                        ,"Job_duties" => $Job_duties
                         ,"application_requirements" => $application_requirements
                         ,"scout_statement" => $scout_statement
                         ,"remarks" => $remarks                        

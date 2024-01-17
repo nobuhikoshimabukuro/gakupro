@@ -75,20 +75,7 @@ return new class extends Migration
                 ->nullable()
                 ->comment('休日情報');
 
-            $table
-                ->string('manager_name', 200)
-                ->nullable()
-                ->comment('求人担当者名');
-
-            $table
-                ->string('tel', 20)
-                ->nullable()
-                ->comment('求人連絡TEL');
-
-            $table
-                ->string('fax', 20)
-                ->nullable()
-                ->comment('求人連絡FAX');
+            
 
             $table
                 ->string('hp_url', 200)
@@ -100,15 +87,37 @@ return new class extends Migration
                 ->nullable()
                 ->comment('求人掲載用画像格納フォルダ名');
 
+            
+                
             $table
-                ->string('mailaddress', 200)
+                ->text('Job_duties')
                 ->nullable()
-                ->comment('メールアドレス');           
+                ->comment('仕事内容');
 
             $table
                 ->text('application_requirements')
                 ->nullable()
                 ->comment('応募資格');
+
+            $table
+                ->text('application_process')
+                ->nullable()
+                ->comment('応募方法');
+
+            $table
+                ->string('mailaddress', 200)
+                ->nullable()
+                ->comment('応募用メールアドレス');        
+
+            $table
+                ->string('tel', 20)
+                ->nullable()
+                ->comment('応募用TEL');
+
+            $table
+                ->string('fax', 20)
+                ->nullable()
+                ->comment('応募用FAX');
 
             $table
                 ->text('scout_statement')

@@ -82,7 +82,7 @@ input[type="text"]:placeholder-shown
 ,input[type="tel"]:placeholder-shown
 ,textarea:placeholder-shown
 {
-    background: #243355;
+    background:  rgb(238, 234, 234);
 
 }
 
@@ -233,9 +233,15 @@ input::placeholder{
 
 
 
+#application_process-table{
+    width: 100%;
+    /* border: solid 1px; */
+}
 
-
-
+#application_process-table th{
+    text-align: left;
+    background: none;
+}
 
 
 
@@ -381,7 +387,7 @@ input::placeholder{
 }
 
 .job-image-inner-area{
-    background-color: rgb(180, 179, 176);
+    background-color:  rgb(238, 234, 234);
     padding: 3px;
 }
 
@@ -759,14 +765,14 @@ input::placeholder{
 
                                         <div class="row m-0 p-0">
 
-                                            <div class="col-12 col-lg-4 m-0 p-0">
-                                                <h4 class="m-0 p-1" style="">固定文</h4>
+                                            <div class="col-12 col-lg-5 m-0 p-0">
+                                                <h4 class="m-0 p-1" style="">表示</h4>
                                                 <div id="fixed_salary" name="fixed_salary"
                                                 ></div>
                                             </div>
 
-                                            <div class="col-12 col-lg-8 m-0 p-0">
-                                                <h4 class="m-0 p-1" style="">表示文</h4>
+                                            <div class="col-12 col-lg-7 m-0 p-0">
+                                                <h4 class="m-0 p-1" style="">補足文</h4>
                                                 <textarea id="salary" name="salary" placeholder="" rows="5"
                                                 >@if(!is_null($job_info)){{$job_info->salary}}@endif</textarea>
                                             </div>
@@ -804,91 +810,27 @@ input::placeholder{
             
                                 </tr>
 
-                                <tr class="manager_name-tr">
+                                <tr class="Job_duties-tr">
                                     <th class="">
-                                        <label for="manager_name">求人担当者名</label>
+                                        <label for="Job_duties">仕事内容</label>                                        
                                     </th>
                                     <td>
             
-                                        <input type="text" id="manager_name" name="manager_name" placeholder="" 
-                                        @if(is_null($job_info))
-                                            value=""
-                                        @else
-                                            value="{{$job_info->manager_name}}"
-                                        @endif
-                                        >            
-                                    </td>           
-            
+                                        <textarea id="Job_duties" name="Job_duties" placeholder="" rows="5"
+                                        >@if(!is_null($job_info)){{$job_info->Job_duties}}@endif</textarea>            
+                                    </td>            
                                 </tr>
-
-                                <tr class="tel-tr">
+                                
+                                <tr class="scout_statement-tr">
                                     <th class="">
-                                        <label for="tel">電話番号</label>
+                                        <label for="scout_statement">スカウト文</label>                                        
                                     </th>
                                     <td>
             
-                                        <input type="tel" id="tel" name="tel" placeholder="" 
-                                        @if(is_null($job_info))
-                                            value=""
-                                        @else
-                                            value="{{$job_info->tel}}"
-                                        @endif
-                                        >            
-                                    </td>           
-            
+                                        <textarea id="scout_statement" name="scout_statement" placeholder="" rows="5"
+                                        >@if(!is_null($job_info)){{$job_info->scout_statement}}@endif</textarea>            
+                                    </td>            
                                 </tr>
-
-                                <tr class="fax-tr">
-                                    <th class="">
-                                        <label for="fax">FAX</label>
-                                    </th>
-                                    <td>
-            
-                                        <input type="tel" id="fax" name="fax" placeholder="" 
-                                        @if(is_null($job_info))
-                                            value=""
-                                        @else
-                                            value="{{$job_info->fax}}"
-                                        @endif
-                                        >            
-                                    </td>           
-            
-                                </tr>
-
-                                <tr class="hp_url-tr">
-                                    <th class="">
-                                        <label for="hp_url">hp_url</label>
-                                    </th>
-                                    <td>
-            
-                                        <input type="tel" id="hp_url" name="hp_url" placeholder="" 
-                                        @if(is_null($job_info))
-                                            value=""
-                                        @else
-                                            value="{{$job_info->hp_url}}"
-                                        @endif
-                                        >            
-                                    </td>           
-            
-                                </tr>
-
-                                <tr class="mailaddress-tr">
-                                    <th class="">
-                                        <label for="mailaddress">メールアドレス</label>
-                                    </th>
-                                    <td>
-            
-                                        <input type="tel" id="mailaddress" name="mailaddress" placeholder="" 
-                                        @if(is_null($job_info))
-                                            value=""
-                                        @else
-                                            value="{{$job_info->mailaddress}}"
-                                        @endif
-                                        >            
-                                    </td>           
-            
-                                </tr>
-
 
                                 <tr class="application_requirements-tr">
                                     <th class="">
@@ -901,16 +843,121 @@ input::placeholder{
                                     </td>            
                                 </tr>
 
-                                <tr class="scout_statement-tr">
+                                <tr class="application_process-tr">
                                     <th class="">
-                                        <label for="scout_statement">スカウト文</label>                                        
+                                        <label for="application_process">応募方法</label>                                        
                                     </th>
                                     <td>
             
-                                        <textarea id="scout_statement" name="scout_statement" placeholder="" rows="5"
-                                        >@if(!is_null($job_info)){{$job_info->scout_statement}}@endif</textarea>            
+                                        <div class="row m-0 p-0">
+
+                                            <div class="col-12 col-lg-5 m-0 p-0">
+
+                                                <h4 class="m-0 p-1" style="">表示</h4>
+                                                <div id="fixed_application_process" name="fixed_application_process"
+                                                ></div>
+                                            </div>
+
+                                            <div class="col-12 col-lg-7 m-0 p-0">
+                                                <div class="row m-0 p-0">
+
+                                                    <div class="col-12 m-0 p-0">
+
+                                                        <h4 class="m-0 p-1" style="">補足文</h4>
+                                                        <textarea id="application_process" name="application_process" placeholder="" rows="4"
+                                                        >@if(!is_null($job_info)){{$job_info->application_process}}@endif</textarea>
+
+                                                    </div>
+
+                                                    <div class="col-12 m-0 p-0">
+
+                                                        <table id="application_process-table">
+                                                            <tr>
+                                                                <th>
+                                                                    <label for="tel">応募用TEL</label>
+                                                                </th>
+                                                            </tr>
+        
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="tel" id="tel" name="tel" placeholder="" 
+                                                                    @if(is_null($job_info))
+                                                                        value=""
+                                                                    @else
+                                                                        value="{{$job_info->tel}}"
+                                                                    @endif
+                                                                    >        
+                                                                </td>
+                                                            </tr>
+        
+                                                            <tr>
+                                                                <th>
+                                                                    <label for="fax">応募用FAX</label>
+                                                                </th>
+                                                            </tr>
+        
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="tel" id="fax" name="fax" placeholder="" 
+                                                                    @if(is_null($job_info))
+                                                                        value=""
+                                                                    @else
+                                                                        value="{{$job_info->fax}}"
+                                                                    @endif
+                                                                    >        
+                                                                </td>
+                                                            </tr>
+        
+                                                            <tr>
+                                                                <th>
+                                                                    <label for="tel">応募用Mail</label>
+                                                                </th>
+                                                            </tr>
+        
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="text" id="mailaddress" name="mailaddress" placeholder="" 
+                                                                    @if(is_null($job_info))
+                                                                        value=""
+                                                                    @else
+                                                                        value="{{$job_info->mailaddress}}"
+                                                                    @endif
+                                                                    >              
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <th>
+                                                                    <label for="tel">応募用URL</label>
+                                                                </th>
+                                                            </tr>
+        
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="text" id="hp_url" name="hp_url" placeholder="" 
+                                                                    @if(is_null($job_info))
+                                                                        value=""
+                                                                    @else
+                                                                        value="{{$job_info->hp_url}}"
+                                                                    @endif
+                                                                    >              
+                                                                </td>
+                                                            </tr>
+        
+                                                        </table>
+
+                                                    </div>
+
+                                                </div>
+                                                
+                                            </div>
+
+                                        </div>
+                                                  
                                     </td>            
                                 </tr>
+
+                                
 
                                 <tr class="remarks-tr">
                                     <th class="">
@@ -921,7 +968,7 @@ input::placeholder{
                                         <textarea id="remarks" name="remarks" placeholder="" rows="5"
                                         >@if(!is_null($job_info)){{$job_info->remarks}}@endif</textarea>            
                                     </td>            
-                                </tr>
+                                </tr>                              
                             
             
                             </tbody>
@@ -1012,135 +1059,99 @@ input::placeholder{
                         </div>
 
                     </div>
-
                
 
+                    {{-- 業種設定エリア --}}
+                    <div class="col-12 mt-3">
 
-                    <div class="col-12 col-md-6 mt-3">
+                        <h3>
+                            業種設定
+                        </h3>
 
                         <div id="" class="row m-0 p-0">
 
-                            @php
-                                $job_maincategory_cd_array = [];
-                                $start_index_array = [];
-                                $end_index_array = [];
-                                $check_job_maincategory_name = "";                                
+                            @foreach($job_category_data as $job_category_index => $job_category_info)                     
 
-                                foreach($job_category_data as $job_category_index => $job_category_info){
-
-                                    $job_maincategory_cd = $job_category_info->job_maincategory_cd;
-                                    $job_maincategory_name = $job_category_info->job_maincategory_name;
-                                    $job_subcategory_cd = $job_category_info->job_subcategory_cd;
-
-                                    if(in_array($job_subcategory_cd , $job_category_connections)){
-                                        $job_maincategory_cd_array[] = $job_maincategory_cd;
-                                    }
-
-
-                                    if($check_job_maincategory_name != $job_maincategory_name){
-                                        $start_index_array[] = $job_category_index;
-                                        $end_index_array[] = $job_category_index - 1;
-
-                                        $check_job_maincategory_name = $job_maincategory_name;
-                                    }   
-
-                                }
-
-                                $end_index_array[] = count($job_category_data) - 1;
-
-                            @endphp
-
-                            @foreach($job_category_data as $job_category_index => $job_category_info)
-                            
-                                @php
+                                @php                                    
+                                    
                                     $job_maincategory_cd = $job_category_info->job_maincategory_cd;
                                     $job_maincategory_name = $job_category_info->job_maincategory_name;
                                     $job_subcategory_cd = $job_category_info->job_subcategory_cd;
                                     $job_subcategory_name = $job_category_info->job_subcategory_name;
 
+                                    $start_flg = $job_category_info->start_flg;
+                                    $end_flg = $job_category_info->end_flg;
                                     
                                     $add_class = "";
                                     $check_status = "";
                                     if(in_array($job_subcategory_cd , $job_category_connections)){
                                         $add_class = "job-category-select";                            
                                         $check_status = "checked";
-                                    }
+                                    }                            
 
                                 @endphp
 
+                                @if($start_flg == 1)                                
+                                    
+                                    <div class="col-12 col-lg-6  mt-2">
+                                        {{$job_maincategory_name}}
+                                        <div class="row m-0 p-0">
+                                @endif
 
-                                @if(in_array($job_category_index, $start_index_array))
+                                    <div id="job-subcategory-area{{$job_subcategory_cd}}" 
+                                    class="col-6 col-lg-4 col-xl-3 mt-2 job-category-area">
+                                        <label id="job-category-label{{$job_subcategory_cd}}" 
+                                            for="job-category-checkbox{{$job_subcategory_cd}}" 
+                                            class="job-category-label item-center {{$add_class}}"                                        
+                                        >{{$job_subcategory_name}}
+                                        </label>
 
-                                    @php
-                                        $d_none_class = "d-none";
-                                        if(in_array($job_maincategory_cd, $job_maincategory_cd_array)){
-                                            $d_none_class = "";
-                                        }
-                                    @endphp
-                                                                    
-                                    <div 
-                                    class="col-12 job-maincategory-title-area mt-2"
-                                    data-target="{{$job_maincategory_cd}}"
-                                    >{{$job_maincategory_name}}
+                                        <input type="checkbox" 
+                                        id="job-category-checkbox{{$job_subcategory_cd}}"
+                                        name="job-category-checkbox{{$job_subcategory_cd}}"
+                                        value="{{$job_subcategory_cd}}"                        
+                                        data-jobmaincategorycd="{{$job_maincategory_cd}}"
+                                        data-target="{{$job_subcategory_cd}}"
+                                        class="job-category-checkbox d-none"   
+                                        {{$check_status}}                              
+                                        >
                                     </div>
 
-                                    <div id="job-maincategory-hidden-area{{$job_maincategory_cd}}" 
-                                    class="row job-maincategory-hidden-area mt-1 {{$d_none_class}}"
-                                    data-target="{{$job_maincategory_cd}}">                                   
+                                  
+                                @if($end_flg == 1) 
+                                        </div>
+                                    </div>
 
                                 @endif
 
-                                <div id="job-subcategory-area{{$job_subcategory_cd}}" 
-                                class="col-6 col-lg-4 col-xl-3 mt-2 job-category-area">
-                                    <label id="job-category-label{{$job_subcategory_cd}}" 
-                                        for="job-category-checkbox{{$job_subcategory_cd}}" 
-                                        class="job-category-label item-center {{$add_class}}"                                        
-                                    >{{$job_subcategory_name}}
-                                    </label>
-
-                                    <input type="checkbox" 
-                                    id="job-category-checkbox{{$job_subcategory_cd}}"
-                                    name="job-category-checkbox{{$job_subcategory_cd}}"
-                                    value="{{$job_subcategory_cd}}"                        
-                                    data-jobmaincategorycd="{{$job_maincategory_cd}}"
-                                    data-target="{{$job_subcategory_cd}}"
-                                    class="job-category-checkbox d-none"   
-                                    {{$check_status}}                              
-                                    >
-                                </div>
-
-
-                                @if(in_array($job_category_index, $end_index_array))                                    
-                                    </div>                                                                        
-                                @endif
-
-                            @endforeach
+                            @endforeach                    
                 
+                        </div> 
+
+                    </div> 
+
+
                     
-                
-                        </div>   
-                    </div>   
-                    
-                    
+                    {{-- 求人補足エリア --}}
+                    <div class="col-12 mt-3">
 
+                        <h3>
+                            求人補足
+                        </h3>
 
-                    <div class="col-12 col-md-6 mt-3">
+                        <div id="" class="row m-0 p-0">                     
 
-                        <div id="" class="row m-0 p-0">
-
-                        @php
-                                $check_job_supplement_maincategory_name = "";
-                            @endphp
-
-                            @foreach($job_supplement_data as $job_supplement_info)
+                            @foreach($job_supplement_data as $index => $job_supplement_info)                            
 
                                 @php                            
                                     
                                     $job_supplement_maincategory_cd = $job_supplement_info->job_supplement_maincategory_cd;
                                     $job_supplement_maincategory_name = $job_supplement_info->job_supplement_maincategory_name;
-
                                     $job_supplement_subcategory_cd = $job_supplement_info->job_supplement_subcategory_cd;
                                     $job_supplement_subcategory_name = $job_supplement_info->job_supplement_subcategory_name;
+
+                                    $start_flg = $job_supplement_info->start_flg;
+                                    $end_flg = $job_supplement_info->end_flg;
 
                                     $add_class = "";
                                     $check_status = "";
@@ -1151,45 +1162,43 @@ input::placeholder{
 
                                 @endphp
 
-                                @if($check_job_supplement_maincategory_name != $job_supplement_maincategory_name)
-                                {{-- 求人検索補足大分類変換時 --}}
-                                    <div class="col-12 job-supplement-maincategory-area mt-2">
-                                        {{$job_supplement_maincategory_name}}
-                                    </div>                            
+                                @if($start_flg == 1)                                
                                     
-                                    @php
-                                        $check_job_supplement_maincategory_name = $job_supplement_maincategory_name;
-                                    @endphp
+                                    <div class="col-12 col-lg-6  mt-2">
+                                        {{$job_supplement_maincategory_name}}
+                                        <div class="row m-0 p-0">
+                                @endif
+
+                                    <div id="job-supplement-area{{$job_supplement_subcategory_cd}}" 
+                                        class="col-6 col-lg-4 col-xl-4 mt-2 job-supplement-area">
+                                        <label id="job-supplement-label{{$job_supplement_subcategory_cd}}" 
+                                            for="job-supplement-checkbox{{$job_supplement_subcategory_cd}}" 
+                                            class="job-supplement-label {{$add_class}} item-center"
+                                        >{{$job_supplement_subcategory_name}}
+                                        </label>
+
+                                        <input type="checkbox" 
+                                        id="job-supplement-checkbox{{$job_supplement_subcategory_cd}}"
+                                        name="job-supplement-checkbox{{$job_supplement_subcategory_cd}}"
+                                        value="{{$job_supplement_subcategory_cd}}"                        
+                                        data-target="{{$job_supplement_subcategory_cd}}"
+                                        class="job-supplement-checkbox d-none"                                     
+                                        {{$check_status}}
+                                        >
+                                    </div>
+
+                                  
+                                @if($end_flg == 1) 
+                                        </div>
+                                    </div>
 
                                 @endif
 
-                                <div id="job-supplement-area{{$job_supplement_subcategory_cd}}" 
-                                    class="col-6 col-lg-4 col-xl-3 mt-2 job-supplement-area">
-                                    <label id="job-supplement-label{{$job_supplement_subcategory_cd}}" 
-                                        for="job-supplement-checkbox{{$job_supplement_subcategory_cd}}" 
-                                        class="job-supplement-label {{$add_class}} item-center"
-                                    >{{$job_supplement_subcategory_name}}
-                                    </label>
-
-                                    <input type="checkbox" 
-                                    id="job-supplement-checkbox{{$job_supplement_subcategory_cd}}"
-                                    name="job-supplement-checkbox{{$job_supplement_subcategory_cd}}"
-                                    value="{{$job_supplement_subcategory_cd}}"                        
-                                    data-target="{{$job_supplement_subcategory_cd}}"
-                                    class="job-supplement-checkbox d-none"                                     
-                                    {{$check_status}}
-                                    >
-                                </div>
-
-                            @endforeach
-                
-                    
+                            @endforeach                    
                 
                         </div> 
+
                     </div> 
-
-
-
 
 
 
@@ -1249,7 +1258,8 @@ $(function(){
 
 
     $(document).ready(function() {
-        set_fixed_salary();    
+        set_fixed_salary();
+        set_fixed_application_process();
     });
 
 
@@ -1534,54 +1544,7 @@ $(function(){
         set_fixed_salary();
     });
 
-    function set_fixed_salary(){
-
-        
-
-        var add_text = "";
-
-        // classが"employment-status-checkbox"である全ての要素を取得
-        $(".employment-status-checkbox").each(function() {
-
-            if ($(this).prop("checked")) {
-
-                // チェックされている場合、data-target属性の値を取得してコンソールに表示
-                var employment_status_id = $(this).data("target");
-
-                var employment_status_name = $(this).data("employmentstatusname");                
-            
-                var salary_maincategory_cd_id = "#employment_status_id_" + employment_status_id + "_salary_maincategory_cd";
-                var salary_subcategory_cd_id = "#employment_status_id_" + employment_status_id + "_salary_subcategory_cd";
-
-                var salary_maincategory_cd = $(salary_maincategory_cd_id).val();
-                var salary_subcategory_cd = $(salary_subcategory_cd_id).val();
-
-                if(salary_maincategory_cd > 0 && salary_subcategory_cd > 0)
-                {
-                    
-                    var selectedOption = $(salary_maincategory_cd_id + " option:selected");
-                    var salary_maincategory_name = selectedOption.data("salarymaincategoryname");
-
-
-                    var selectedOption = $(salary_subcategory_cd_id + " option:selected");
-                    var salary = selectedOption.data("salary");
-                    
-                    var text = employment_status_name + "：" +salary_maincategory_name + salary + "円～"; 
-
-                    if(add_text != ""){
-                        add_text += "<br>";
-                    }
-
-                    add_text += text;
-                }                
-            }
-        });
-
-
-      
-        $("#fixed_salary").html(add_text);        
-
-    }   
+    
 
     //給与プルダウン変更時
     $(document).on("change", ".salary_maincategory_cd", function (e) {
@@ -1677,6 +1640,121 @@ $(function(){
 
     });
 
+    //給与補足分変更時
+    $(document).on("blur", "#salary", function (e) {
+
+        set_fixed_salary();
+
+    });
+
+    function set_fixed_salary(){
+
+        var display_text = "";
+
+        var add_text = "";
+        var salary = $("#salary").val();
+
+        // classが"employment-status-checkbox"である全ての要素を取得
+        $(".employment-status-checkbox").each(function() {
+
+            if ($(this).prop("checked")) {
+
+                // チェックされている場合、data-target属性の値を取得してコンソールに表示
+                var employment_status_id = $(this).data("target");
+
+                var employment_status_name = $(this).data("employmentstatusname");                
+            
+                var salary_maincategory_cd_id = "#employment_status_id_" + employment_status_id + "_salary_maincategory_cd";
+                var salary_subcategory_cd_id = "#employment_status_id_" + employment_status_id + "_salary_subcategory_cd";
+
+                var salary_maincategory_cd = $(salary_maincategory_cd_id).val();
+                var salary_subcategory_cd = $(salary_subcategory_cd_id).val();
+
+                if(salary_maincategory_cd > 0 && salary_subcategory_cd > 0)
+                {
+                    
+                    var selectedOption = $(salary_maincategory_cd_id + " option:selected");
+                    var salary_maincategory_name = selectedOption.data("salarymaincategoryname");
+
+
+                    var selectedOption = $(salary_subcategory_cd_id + " option:selected");
+                    var salary = selectedOption.data("salary");
+                    
+                    var text = employment_status_name + "：" +salary_maincategory_name + salary + "円～"; 
+
+                    if(add_text != ""){
+                        add_text += "<br>";
+                    }
+
+                    add_text += text;
+                }                
+            }
+        });
+
+        display_text = add_text + "<br>" + salary.replace(/\n/g, "<br>");
+
+        $("#fixed_salary").html(display_text);        
+
+    }   
+
+
+    //応募方法関連値変更時
+    $(document).on("blur", "#application_process,#tel,#fax,#mailaddress,#hp_url", function (e) {
+
+        set_fixed_application_process();
+
+    });
+
+    function set_fixed_application_process(){
+
+        var display_text = "";
+
+        var add_text = "";
+        var application_process = $("#application_process").val();
+
+        var tel = $("#tel").val();
+        var fax = $("#fax").val();
+        var mailaddress = $("#mailaddress").val();
+        var hp_url = $("#hp_url").val();
+
+        if(tel != ""){
+            if(add_text != ""){
+                add_text += "<br>";
+            }
+            add_text += "TEL：" + tel;
+        }
+
+        if(fax != ""){
+            if(add_text != ""){
+                add_text += "<br>";
+            }
+            add_text += "FAX：" + fax;
+        }
+
+        if(mailaddress != ""){
+            if(add_text != ""){
+                add_text += "<br>";
+            }
+            add_text += "MAIL：" + mailaddress;
+        }
+
+        if(hp_url != ""){
+            if(add_text != ""){
+                add_text += "<br>";
+            }
+            add_text += "URL：" + hp_url;
+        }
+
+        if(application_process == ""){
+            display_text = add_text;
+        }else{
+            display_text = application_process.replace(/\n/g, "<br>") + "<br>" + add_text;
+        }
+        
+
+        $("#fixed_application_process").html(display_text);        
+
+    }   
 
     //職種中分類選択値変更時
     $(document).on("change", ".job-category-checkbox", function (e) {

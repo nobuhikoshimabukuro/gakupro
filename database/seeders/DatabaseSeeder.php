@@ -377,12 +377,10 @@ for ($i = 1; $i < 20; $i++) {
                 'holiday' => '週休2日～
 相談可能',
 
-                'manager_name' => '島袋',
-                'tel' => '',
-                'fax' => '',
-                'hp_url' => '',
-                'job_image_folder_name' => 'qrstuvwEFH',
-                'mailaddress' => '',                
+           
+                'job_image_folder_name' => 'qrstuvwEFH' . $i,
+                
+                'Job_duties' => '求人' . $i . "の仕事内容",
 
                 'scout_statement' => '20代～30代男女活躍中！
 県内優良企業です！
@@ -393,8 +391,15 @@ for ($i = 1; $i < 20; $i++) {
 あなたの「魅力」「ポテンシャル」「可能性」を引き出し、
 ピッタリなお仕事をご紹介します！',
 
+                'application_requirements' => '求人' . $i . "の応募資格",
+                'application_process' => '求人' . $i . "の応募方法",                
+                'tel' => '',
+                'fax' => '',
+                'hp_url' => '',                
+                'mailaddress' => '',
+
                 'remarks' => '調理技術向上を目指しながら働いてみませんか？',
-                'application_requirements' => '',
+                
                 'created_by' => '1',
                 
             ], 
