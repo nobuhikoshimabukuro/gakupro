@@ -727,7 +727,7 @@
                 </div>
 
                 <div class="col-4">            
-                    <button type="button" class="w-100 btn btn-success search-button"><span id="job_count">{{count($job_information)}}</span></button>
+                    <button type="button" class="w-100 btn btn-success job-search-button">検索（<span id="job_count">{{count($job_information)}}</span>）</button>
                 </div>
             </div>
 
@@ -947,14 +947,14 @@ $(function(){
     });
 
     //検索ボタン
-    $(document).on("click", ".search-button", function (e) {
+    $(document).on("click", ".job-search-button", function (e) {
 
         // ２重送信防止
         // 登録を押したらdisabled, 3秒後にenable
-        $(".search-button").prop("disabled", true);
+        $(".job-search-button").prop("disabled", true);
 
         setTimeout(function () {
-            $('.search-button').prop("disabled", false);
+            $('.job-search-button').prop("disabled", false);
         }, 3000);
 
         var url = "{{ route('hp.job_information_set_search_value') }}";
@@ -1054,6 +1054,8 @@ $(function(){
        
         search_board_tab_change(1);
         $(".search-alert-area").removeClass('search-alert-area-active');
+
+        get_job_count();
 
     });
 
@@ -1200,6 +1202,13 @@ $(function(){
         });
 
     }
+
+    //市町村選択時
+    $(document).on("change", ".municipality_cd", function (e) {          
+
+        get_job_count();
+
+    });
 
     //画面読み込み時に市区町村チェックボックス、チェック付与処理
     function set_municipality_cd(){
@@ -1465,7 +1474,8 @@ $(function(){
             }
         });
 
-        if(!judge){            
+        if(!judge){          
+            $("#job_count").text(job_count);  
             return false;
         }
 
