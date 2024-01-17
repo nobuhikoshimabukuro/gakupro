@@ -163,7 +163,7 @@ class hp_controller extends Controller
         
         // ページネーションのために必要なパラメーターを取得
         $page = request('page', 1);
-        $perPage = 5; // 1ページあたりの件数
+        $perPage = 1; // 1ページあたりの件数
 
         // SQL文を作成
         $sql = $this->set_job_search_sql($all_job_search_value_array);
