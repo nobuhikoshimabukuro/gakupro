@@ -175,10 +175,10 @@
 
 .sub_title{    
     color: rgb(218, 218, 221);
-  background: #0673bb;
-  line-height: 1.4;
-  padding: 0.25em 0.5em;  
-  border-radius: 5px 5px 5px 5px;
+    background: #0673bb;
+    line-height: 1.4;
+    padding: 0.25em 0.5em;  
+    border-radius: 5px 5px 5px 5px;
 }
 
 
@@ -349,6 +349,21 @@
                 </div>
 
                 <div class="col-12 text-start">
+
+                    <div class="check">
+                        
+                    </div>
+                    <h4 class="heading-name-check">
+                        雇用形態/給与
+                    </h4>
+
+                    <p>
+                        {!! nl2br(e($salary)) !!}
+                    </p>   
+
+                </div>
+
+                <div class="col-12 text-start">
                     <h4 class="heading-name">
                         応募資格
                     </h4>
@@ -387,39 +402,11 @@
 
 
                 
-                @if(count($employment_status_datas) > 0)
+                
                     
-                    <div class="col-12 text-start">
+                    
 
-                        <div class="check">
-                            
-                        </div>
-                        <h4 class="heading-name-check">
-                            雇用形態
-                        </h4>
-
-                        <div class="row m-0 p-0">
-
-                            @foreach ($employment_status_datas as $employment_status_index => $employment_status_data)
-                            
-                                @php
-                                    $employment_status_id = $employment_status_data["employment_status_id"];
-                                    $employment_status_name = $employment_status_data["employment_status_name"];                           
-                                @endphp
-
-                                <div class="col-6 col-md-3">
-                                    {{$employment_status_name}}
-                                </div>
-                                
-                                
-                            @endforeach
-
-                        
-                        </div>
-
-                    </div>
-
-                @endif
+                
 
                 @if(count($job_category_datas) > 0)
 

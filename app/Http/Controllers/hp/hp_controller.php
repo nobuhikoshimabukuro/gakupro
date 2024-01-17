@@ -192,30 +192,7 @@ class hp_controller extends Controller
 
     }
 
-    //求人情報検索処理
-    function search_job_information___(Request $request , $all_job_search_value_array)
-    {
-        
-        $sql = $this->set_job_search_sql($all_job_search_value_array);
-
-        $job_information = DB::connection('mysql')->select($sql);
-
-        foreach ($job_information as $index => $info){
-        
-            $employer_id = $info->employer_id;
-            $job_id = $info->job_id;                    
-
-            $info->job_images_path_array =  job_related::get_job_images($employer_id,$job_id);
-            
-            $info->salary = job_related::get_salary_info($info);      
-
-
-        }
-
-
-        return $job_information;
-
-    }
+    
 
     //求人検索SQL文設定処理
     function set_job_search_sql($all_job_search_value_array){
@@ -676,15 +653,16 @@ class hp_controller extends Controller
         $employer_id = $job_information->employer_id;
         $job_id = $job_information->job_id;        
 
-        $employment_status_info = job_related::get_employment_status_info($employer_id,$job_id);
+        // $employment_status_info = job_related::get_employment_status_info($employer_id,$job_id);
         
         $job_information->job_category_datas = job_related::get_job_category_datas($employer_id,$job_id);
         $job_information->job_supplement_category_datas = job_related::get_job_supplement_category_datas($employer_id,$job_id);
         $job_information->job_images_info_array = job_related::get_job_images($employer_id,$job_id);
-        $job_information->salary_info = $employment_status_info["salary_info"];
-        $job_information->employment_status_datas = $employment_status_info["employment_status_datas"];
+        // $job_information->salary_info = $employment_status_info["salary_info"];
+        // $job_information->employment_status_datas = $employment_status_info["employment_status_datas"];
         
-
+        $job_information->salary = job_related::get_salary_info($job_information);
+        
         return $job_information;
     }
 

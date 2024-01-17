@@ -522,7 +522,7 @@
                                     data-jobmaincategorycd="{{$job_maincategory_cd}}"
                                     data-target="{{$job_subcategory_cd}}"
                                     class="job-category-checkbox d-none"   
-                                    {{$check_status}}                              
+                                    {{$check_status}}      
                                     >
                                 </div>
 
@@ -800,8 +800,8 @@
                                     $asset_path = $job_image_path_info["asset_path"];
                                     $image_name = $job_image_path_info["image_name"]; 
                                     break;
-                                }                                
-                            }                            
+                                }        
+                            }    
                         @endphp
                         <div id="" class="col-12 col-md-5 m-0 p-0 job-image-outer-area item-center">   
 
@@ -849,7 +849,7 @@
                                         休日
                                     </th>
                                     <td>
-                                        {!! nl2br(e($info->holiday)) !!}                                        
+                                        {!! nl2br(e($info->holiday)) !!}
                                     </td>
                                 </tr>
 
