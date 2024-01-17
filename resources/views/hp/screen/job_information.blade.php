@@ -727,7 +727,7 @@
                 </div>
 
                 <div class="col-4">            
-                    <button type="button" class="w-100 btn btn-success search-button"></button>
+                    <button type="button" class="w-100 btn btn-success search-button"><span id="job_count">{{count($job_information)}}</span></button>
                 </div>
             </div>
 
@@ -754,7 +754,7 @@
         <div id="" class="col-2 mt-2 p-0 text-end">
 
             <button type="button" class="btn btn-success search-board-open-button">
-                条件検索<span id="job_count">{{count($job_information)}}</span>
+                条件検索
             </button>    
         </div>
 
