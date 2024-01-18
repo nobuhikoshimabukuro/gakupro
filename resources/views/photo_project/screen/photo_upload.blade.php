@@ -55,8 +55,6 @@ body{
 
 </style>
 
-@include('photo_project.common.processing_display')
-
 <div id='main' class="mt-3 text-center container inoperable">     
     {{-- <div id='main' class="mt-3 text-center container"> --}}
         
