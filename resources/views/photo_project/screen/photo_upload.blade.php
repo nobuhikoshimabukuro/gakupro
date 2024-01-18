@@ -164,9 +164,6 @@ body{
 
 <script type="text/javascript">
 
-    window.addEventListener('load', function(){
-        LoaderEnd();
-    });
 
 $(function(){
 

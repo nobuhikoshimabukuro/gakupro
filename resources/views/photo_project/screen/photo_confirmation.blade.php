@@ -140,7 +140,7 @@ table {
 
 
 
-<div id="main" class="inoperable">
+<div id="main" class="">
     
     <div id="main_photo_area">
 
@@ -403,8 +403,6 @@ $(function(){
 
     $(document).ready(function(){
         PhotoSwitching();
-        LoaderEnd();
-
         languageChange();
         terminalSelect();
         ExplanationChange();
@@ -413,7 +411,7 @@ $(function(){
     // 画面幅が変更されたときに実行させたい処理内容
     $(window).resize(function(){ 
 
-        LoaderEnd();
+        
         PhotoSwitching();        
       
     });

@@ -148,11 +148,7 @@ table td{
 
 $(function(){
 
-    $(window).on('load', function() { 
-
-        LoaderEnd();
-
-    });
+  
 
 });
 
