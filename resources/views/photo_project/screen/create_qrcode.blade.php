@@ -60,7 +60,7 @@
     }
 </style>
 
-<div id='main' class="mt-3 text-center container inoperable">
+<div id='main' class="mt-3 text-center container">
 
     
     <div class="row m-0 p-0">
