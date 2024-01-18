@@ -332,10 +332,6 @@ $(function(){
     $('.upload_button').on("click", function () {
 
        
-        phpProcessingStart();
-
-        UploaderStart();
-
         let f = $('#upload_form');
 
         var formData = new FormData($('#upload_form').get(0));
@@ -371,9 +367,9 @@ $(function(){
 
                 }else{
 
-                    phpProcessingEnd();
+                    
 
-                    UploaderEnd();
+                    
 
                     massage = "アップロード処理でエラーが発生しました。";
                     var errorsHtml = '<div class="alert alert-danger text-start">';
@@ -390,9 +386,9 @@ $(function(){
             })
                 .fail(function (data, textStatus, errorThrown) {
 
-                    phpProcessingEnd();
+                    
 
-                    UploaderEnd();
+                    
 
                     massage = "アップロード処理でエラーが発生しました。";
                     var errorsHtml = '<div class="alert alert-danger text-start">';

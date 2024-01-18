@@ -220,7 +220,6 @@ $(function(){
             // 送信失敗
             .fail(function (data, textStatus, errorThrown) {
                 
-                phpProcessingEnd();
                 
                 
                 display_html = '<div class="alert alert-danger text-start">';

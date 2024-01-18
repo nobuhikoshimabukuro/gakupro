@@ -162,7 +162,7 @@ $(function(){
 
         let f = $('#send_mail_form');
 
-        phpProcessingStart();
+        
 
         $.ajax({
             url: f.prop('action'), // 送信先
@@ -180,7 +180,7 @@ $(function(){
 
                 var Result = result_array["Result"];
 
-                phpProcessingEnd();
+                
 
                 if(Result=='success'){
                     
@@ -221,7 +221,7 @@ $(function(){
             // 送信失敗
             .fail(function (data, textStatus, errorThrown) {
                 
-                phpProcessingEnd();
+                
                 
                 
                 display_html = '<div class="alert alert-danger text-start">';

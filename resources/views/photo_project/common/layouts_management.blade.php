@@ -50,6 +50,20 @@
 <script src="{{ asset('js/photo_project/common.js'). $system_version }}"></script>
 
 
+
+<!--▽▽jQuery▽▽-->
+<script>
+
+    $(window).on('load', function (){       
+            end_loader();
+        });
+    
+
+      
+    </script>
+    <!--△△jQuery△△-->
+
+
 @yield('pagejs')
 {{-- @include('common.footer') --}}
 </body>

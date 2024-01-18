@@ -331,9 +331,6 @@
 
 <script type="text/javascript">
 
-    window.addEventListener('load', function(){
-        LoaderEnd();
-    });
 
 $(function(){
 
@@ -555,7 +552,7 @@ $(function(){
 			return false;
 		}
 
-        phpProcessingStart();
+        
 
 
         $.each(TargetList, function (key, Info) {
@@ -571,7 +568,7 @@ $(function(){
             document.body.removeChild(a);
         });       
 
-        phpProcessingEnd();
+        
 
     });
 
@@ -624,7 +621,7 @@ $(function(){
         }
 
             
-        phpProcessingStart();
+        
 
         $.ajax({
             url: Url, // 送信先
@@ -637,7 +634,7 @@ $(function(){
             // 送信成功
             .done(function (data, textStatus, jqXHR) {
                 
-                phpProcessingEnd();
+                
 
                 var result_array = data.result_array;
 
@@ -678,7 +675,7 @@ $(function(){
                 // 送信失敗
                 .fail(function (data, textStatus, errorThrown) {
                     
-                    phpProcessingEnd();
+                    
 
                     var errorsHtml = '<div class="alert alert-danger text-start">';
                     var massage1 = "Qrコード一括ダウンロード処理でエラーが発生しました。";
@@ -738,7 +735,7 @@ $(function(){
 
 
 
-        phpProcessingStart();
+        
 
 
    
@@ -799,7 +796,7 @@ $(function(){
 
                 }
 
-                phpProcessingEnd();
+                
                 
 
             })
@@ -817,7 +814,7 @@ $(function(){
                     //{{-- アラート --}}    
                     $('.ajax-msg2').html(errorsHtml);
 
-                    phpProcessingEnd();
+                    
                    
 
                 });
@@ -855,7 +852,7 @@ $(function(){
 
         var Url = "{{ route('photo_project.with_password_flg_change') }}";
 
-        phpProcessingStart();
+        
 
         $.ajax({
             url: Url, // 送信先
@@ -898,13 +895,12 @@ $(function(){
                 }
 
                 
-                phpProcessingEnd();
 
             })
                 // 送信失敗
                 .fail(function (data, textStatus, errorThrown) {
 
-                    phpProcessingEnd();
+                    
 
                     var errorsHtml = '<div class="alert alert-danger text-start">';
                     var massage1 = "パスワード必要フラグの変更時にエラーが発生しました。";
