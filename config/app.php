@@ -165,6 +165,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         LaravelQRCode\Providers\QRCodeServiceProvider::class,
+        // Intervention\Image\ImageServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
 
@@ -198,6 +199,7 @@ return [
         
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'QRCode' => LaravelQRCode\Facades\QRCode::class,
+        // 'Image' => Intervention\Image\Facades\Image::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Agent' => Jenssegers\Agent\Facades\Agent::class,
         ],

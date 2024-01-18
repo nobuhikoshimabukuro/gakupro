@@ -4,6 +4,8 @@ namespace App\Original;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Intervention\Image\Facades\Image;
+
 use App\Models\member_m_model;
 use App\Models\member_password_t_model;
 use App\Models\subcategory_m_model;
@@ -151,7 +153,14 @@ class job_related
                 
 
                 if(!is_null($job_image_input)){
-                    Storage::disk('recruit_project_public_path')->put($job_image_folder_path, $job_image_input);
+
+                    // 拡張子取得
+                    $extension = $job_image_input->getClientOriginalExtension();
+
+                    // 画像のリサイズ
+                    $resizedImage = Image::make($job_image_input)->resize(300, 200)->encode($extension);
+
+                    Storage::disk('recruit_project_public_path')->put($job_image_folder_path, $resizedImage);
                 }
             }
         }

@@ -634,6 +634,7 @@ input::placeholder{
                                                         $get_salary_maincategory_cd = 0;
                                                         $get_salary_subcategory_cd = 0;
                                                         $add_class = "";
+                                                        $check_status = "";
                                                         
                                                         foreach ($employment_status_connections as $index => $employment_status_connection_info){
                     
@@ -642,11 +643,14 @@ input::placeholder{
                                                             $set_salary_subcategory_cd = $employment_status_connection_info["salary_subcategory_cd"];
                     
                                                             if($employment_status_id == $set_employment_status_id ){
-                                                                $add_class = "employment-status-select";
+                                                                
                                                                 $set_flg = 1;
                                                                 $get_employment_status_id = $set_employment_status_id;
                                                                 $get_salary_maincategory_cd = $set_salary_maincategory_cd;
                                                                 $get_salary_subcategory_cd = $set_salary_subcategory_cd;                                            
+
+                                                                $add_class = "employment-status-select";
+                                                                $check_status = "checked";
                     
                                                                 break;
                                                             }
@@ -675,7 +679,7 @@ input::placeholder{
                                                                 data-target="{{$employment_status_id}}"
                                                                 data-employmentstatusname="{{$employment_status_name}}"
                                                                 class="employment-status-checkbox d-none"                                    
-                                                                @if($set_flg == 1) checked @endif    
+                                                                {{$check_status}}
                                                                 >
                                                                 
                                                             </label>
@@ -748,18 +752,20 @@ input::placeholder{
 
                                         <div class="row m-0 p-0">
 
-                                            <div class="col-12 col-lg-5 m-0 p-0">
-                                                <h4 class="m-0 p-1" style="">表示</h4>
-                                                <div id="fixed_salary" name="fixed_salary"
-                                                ></div>
-                                            </div>
-
                                             <div class="col-12 col-lg-7 m-0 p-0">
                                                 <h4 class="m-0 p-1" style="">補足文</h4>
                                                 <textarea id="salary" name="salary" placeholder="" rows="5"
                                                 >@if(!is_null($job_info)){{$job_info->salary}}@endif</textarea>
                                             </div>
 
+
+                                            <div class="col-12 col-lg-5 m-0 p-0">
+                                                <h4 class="m-0 p-1" style="">表示文</h4>
+                                                <div id="fixed_salary" name="fixed_salary"
+                                                ></div>
+                                            </div>
+
+                                          
                                         </div>
 
                                     </td>           
@@ -834,12 +840,7 @@ input::placeholder{
             
                                         <div class="row m-0 p-0">
 
-                                            <div class="col-12 col-lg-5 m-0 p-0">
-
-                                                <h4 class="m-0 p-1" style="">表示</h4>
-                                                <div id="fixed_application_process" name="fixed_application_process"
-                                                ></div>
-                                            </div>
+                                       
 
                                             <div class="col-12 col-lg-7 m-0 p-0">
                                                 <div class="row m-0 p-0">
@@ -935,6 +936,13 @@ input::placeholder{
                                                 
                                             </div>
 
+                                            <div class="col-12 col-lg-5 m-0 p-0">
+
+                                                <h4 class="m-0 p-1" style="">表示文</h4>
+                                                <div id="fixed_application_process" name="fixed_application_process"
+                                                ></div>
+                                            </div>
+
                                         </div>
                                                   
                                     </td>            
@@ -946,8 +954,7 @@ input::placeholder{
                                     <th class="">
                                         <label for="remarks">求人備考</label>                                        
                                     </th>
-                                    <td>
-            
+                                    <td>            
                                         <textarea id="remarks" name="remarks" placeholder="" rows="5"
                                         >@if(!is_null($job_info)){{$job_info->remarks}}@endif</textarea>            
                                     </td>            
@@ -1035,9 +1042,9 @@ input::placeholder{
                                     
                                     </div>
 
+                                @endif
 
-                                @endif                               
-                            @endforeach                                         
+                            @endforeach
 
                         </div>
 
@@ -1182,16 +1189,6 @@ input::placeholder{
                         </div> 
 
                     </div> 
-
-
-
-
-
-
-
-
-
-                
 
             
                 </div>              

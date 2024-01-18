@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\File;
 
 use App\Original\common;
 
-use Intervention\Image\Facades\Image;
+
 use Illuminate\Support\Facades\DB;
 use STS\ZipStream\ZipStreamFacade AS Zip;
 use setasign\Fpdi\Tcpdf\Fpdi;
@@ -97,9 +97,9 @@ class photo_project_controller extends Controller
     function create_qrcode_execution(Request $request)
     {       
 
-        DB::connection('mysql')->beginTransaction();
-
         try{
+
+            DB::connection('mysql')->beginTransaction();
                 
             $date = str_replace('-', '', $request->date);
             $count = $request->count;
@@ -238,38 +238,6 @@ class photo_project_controller extends Controller
                 Storage::put($PublicPath_QrCode . $Qr_ImageName , $Create_Qr_Image);
 
             //Qrコード作成から保存  End
-
-
-                // //Qrチケット作成から保存  Start
-
-                //     //QrTicket保存場所
-                //     $StoragePath_QrTicket = $Saved_Path_Info["StoragePath_QrTicket"];              
-                    
-                //     //QrTicket_Templateを取得            
-                //     $Create_QrTicket = Image::make($Saved_Path_Info["StoragePath_QrTicket_Template"]);
-
-                //     //Qrコードの画像を取得            
-                //     $QrImage = Image::make($Saved_Path_Info["StoragePath_QrCode"] . $Qr_ImageName);
-
-                //     $Position = 'center';
-                //     $Position_X = 0;
-                //     $Position_Y = -40;
-
-                //     $Create_QrTicket->insert($QrImage , $Position , $Position_X , $Position_Y); 
-                                    
-                //     //表示するパスワードは平文
-                //     $word = 'Pass:' . $password;
-                //     $Create_QrTicket->text($word, 10, 10, function($font){
-                //         $font->size(40);
-                //         $font->color('#f00');
-                //         // $font->align('center');
-                //         // $font->valign('top');
-                //         // $font->angle(45);
-                //     });
-                
-                //     $Create_QrTicket->save($StoragePath_QrTicket . $Qr_TicketName);
-
-                // //Qrチケット作成から保存  End
 
             }
 

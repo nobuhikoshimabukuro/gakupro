@@ -933,6 +933,8 @@ class recruit_project_controller extends Controller
 
                 ,'job_supplement_data'
                 ,'job_supplement_category_connections'
+
+                ,'job_search_history_ranking'
             ));        
     }
 
@@ -1294,8 +1296,7 @@ class recruit_project_controller extends Controller
         $branch_number = "";
         $job_password_item_id = "";
         $job_password_item_name = "";
-        $added_date = "";
-        $added_date = "";
+        $added_date = "";        
         $publish_end_date = "";
 
        
