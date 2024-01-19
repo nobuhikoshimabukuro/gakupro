@@ -164,10 +164,14 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
-        LaravelQRCode\Providers\QRCodeServiceProvider::class,
-        // Intervention\Image\ImageServiceProvider::class,
-        Intervention\Image\ImageServiceProvider::class,
+        LaravelQRCode\Providers\QRCodeServiceProvider::class,        
         Jenssegers\Agent\AgentServiceProvider::class,
+        Illuminate\View\ViewServiceProvider::class,
+
+        
+        Intervention\Image\ImageServiceProvider::class,
+
+
 
         /*
          * Package Service Providers...
@@ -198,15 +202,13 @@ return [
     'aliases' => [
         
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
-        'QRCode' => LaravelQRCode\Facades\QRCode::class,
-        // 'Image' => Intervention\Image\Facades\Image::class,
+        'QRCode' => LaravelQRCode\Facades\QRCode::class,                
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,     
+        
         'Image' => Intervention\Image\Facades\Image::class,
-        'Agent' => Jenssegers\Agent\Facades\Agent::class,
         ],
 
-    // 'aliases' => Facade::defaultAliases()->merge([
-    //     // ...
-    // ])->toArray(),
+ 
 
     
 

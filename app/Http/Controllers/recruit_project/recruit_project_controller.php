@@ -28,7 +28,6 @@ use App\Original\get_data;
 use App\Original\job_related;
 
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\employer_m_request;
 

@@ -4,7 +4,9 @@ namespace App\Original;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+
 use Intervention\Image\Facades\Image;
+
 
 use App\Models\member_m_model;
 use App\Models\member_password_t_model;
@@ -118,52 +120,79 @@ class job_related
     //求人写真アップロード
     public static function update_job_images(Request $request , $employer_id , $job_id)
     {           
-        $result = true;
 
-        //この処理が実行されつタイミングではデータが絶対あるべき
-        $job_information_t = job_information_t_model::
-            where('employer_id', '=', $employer_id)
-            ->where('job_id', '=', $job_id)
-            ->first();
+        try {
 
-        if(is_null($job_information_t)){
-            //異常
-            return false;
+            $process_title = "[求人写真アップロード処理]";
+            $result = true;
 
-        }else{
-            $id = $job_information_t->id;
-            $job_image_folder_name = $job_information_t->job_image_folder_name;
-        }
+            //この処理が実行されつタイミングではデータが絶対あるべき
+            $job_information_t = job_information_t_model::
+                where('employer_id', '=', $employer_id)
+                ->where('job_id', '=', $job_id)
+                ->first();
+
+            if(is_null($job_information_t)){
+                //異常
+                return false;
+
+            }else{
+                $id = $job_information_t->id;
+                $job_image_folder_name = $job_information_t->job_image_folder_name;
+            }
 
 
-        for ($i = 1; $i <= 3; $i++) {
+            for ($i = 1; $i <= 3; $i++) {
 
-            $target_image_input_name = "job_image_input" . $i;
-            $job_image_input = $request->file($target_image_input_name);
+                $target_image_input_name = "job_image_input" . $i;
+                $job_image_input = $request->file($target_image_input_name);
 
-            $target_image_change_flg_name = "job_image_change_flg" . $i;
-            $job_image_change_flg = $request->$target_image_change_flg_name;
+                $target_image_change_flg_name = "job_image_change_flg" . $i;
+                $job_image_change_flg = $request->$target_image_change_flg_name;
 
-            if($job_image_change_flg == 1){
+                if($job_image_change_flg == 1){
 
-                $job_image_folder_path = "job_image/id_" . $id . "/" . $job_image_folder_name . "/" . $i;                
+                    $job_image_folder_path = "job_image/id_" . $id . "/" . $job_image_folder_name . "/" . $i;                
 
-                Storage::disk('recruit_project_public_path')->deleteDirectory($job_image_folder_path);                
-                Storage::disk('recruit_project_public_path')->makeDirectory($job_image_folder_path);
-                
+                    Storage::disk('recruit_project_public_path')->deleteDirectory($job_image_folder_path);                
+                    Storage::disk('recruit_project_public_path')->makeDirectory($job_image_folder_path);
+                    
 
-                if(!is_null($job_image_input)){
+                    if(!is_null($job_image_input)){
 
-                    // 拡張子取得
-                    $extension = $job_image_input->getClientOriginalExtension();
+                        $extension = $job_image_input->getClientOriginalExtension();
+                        $file_name = $job_image_input->getClientOriginalName();
+                        $file_size = $job_image_input->getSize();
 
-                    // 画像のリサイズ
-                    $resizedImage = Image::make($job_image_input)->resize(300, 200)->encode($extension);
+                        // ファイルをリネームして保存
+                        // Storage::disk('recruit_project_public_path')->putFileAs($job_image_folder_path, $job_image_input, $file_name);
+                        
+                        // 画像のリサイズ
+                        $resize_img = Image::make($job_image_input);
+                        
+                        // 画像の回転を考慮して調整
+                        $resize_img->orientate();
 
-                    Storage::disk('recruit_project_public_path')->put($job_image_folder_path, $resizedImage);
+                        $resize_img->resize(null, 400, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+
+                        // リサイズされた画像をエンコードして保存（新しいファイル名を指定）
+                        Storage::disk('recruit_project_public_path')->put($job_image_folder_path . '/resized_' . $file_name, $resize_img->encode());
+
+                    }
                 }
             }
+
+        } catch (Exception $e) {
+
+            $error_message = $e->getMessage();
+            Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
+            
+            $result = false;
+                                
         }
+
 
         return $result;
 
