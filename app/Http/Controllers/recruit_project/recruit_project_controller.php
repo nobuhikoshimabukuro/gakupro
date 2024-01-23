@@ -14,7 +14,8 @@ use App\Http\Controllers\Controller;
 use Exception;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
-
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMailAddressConfirmation;
 
@@ -1437,65 +1438,9 @@ class recruit_project_controller extends Controller
         $job_id = $request->ledger_job_id;
         
         
-        $job_information_t = job_information_t_model::select(
-
-            'job_information_t.id as id',
-            
-            'job_information_t.employer_id as employer_id',
-            'employer_m.employer_name as employer_name',            
-
-            'job_information_t.job_id as job_id',
-            'job_information_t.publish_flg as publish_flg',
-            'job_information_t.title as title',
-            'job_information_t.sub_title as sub_title',
-
-            'job_information_t.work_location_prefectural_cd as work_location_prefectural_cd',
-            DB::raw('CASE WHEN address_m2.prefectural_cd IS NOT NULL 
-                        THEN address_m2.prefectural_name 
-                    ELSE address_m1.prefectural_name 
-                    END as work_location_prefectural_name'),            
-
-            'job_information_t.work_location_municipality_cd as work_location_municipality_cd',
-            DB::raw('CASE WHEN address_m2.municipality_cd IS NOT NULL 
-                        THEN address_m2.municipality_name 
-                    ELSE address_m1.municipality_name 
-                    END as work_location_municipality_name'),
-
-
-            'job_information_t.working_time as working_time',
-            'job_information_t.salary as salary',
-            'job_information_t.holiday as holiday',            
-            'job_information_t.tel as tel',
-            'job_information_t.fax as fax',
-            'job_information_t.mailaddress as mailaddress',
-            'job_information_t.application_requirements as application_requirements',
-            'job_information_t.Job_duties as Job_duties',
-            'job_information_t.scout_statement as scout_statement',
-            'job_information_t.remarks as remarks',
-                    
-
-        )      
-        ->leftJoin('employer_m', function ($join) {
-            $join->on('job_information_t.employer_id', '=', 'employer_m.employer_id')            
-            ;
-        })  
-        ->leftJoin('address_m as address_m1', function ($join) {
-            $join->on('job_information_t.work_location_prefectural_cd', '=', 'address_m1.prefectural_cd')            
-            ;
-        })
-
-        ->leftJoin('address_m as address_m2', function ($join) {
-            $join->on('job_information_t.work_location_prefectural_cd', '=', 'address_m2.prefectural_cd')          
-            ->on('job_information_t.work_location_municipality_cd', '=', 'address_m2.municipality_cd')
-            ;
-        })
-
-        ->leftJoin('employment_status_connection_t', function ($join) {
-            $join->on('job_information_t.employer_id', '=', 'employment_status_connection_t.employer_id')
-            ->on('job_information_t.job_id', '=', 'employment_status_connection_t.job_id')
-            ;
-        })        
-        ->where('employer_m.employer_id', '=', $employer_id)
+        $job_information_t = job_information_t_model::
+        where('employer_id', '=', $employer_id)
+        ->where('job_id', '=', $job_id)
         ->first();
 
         if(is_null($job_information_t)){
@@ -1508,77 +1453,166 @@ class recruit_project_controller extends Controller
         }else{           
 
 
-            $employer_id = $job_information_t->employer_id;
-            $job_id = $job_information_t->job_id;
+            $job_information = $this->set_job_information_detail($job_information_t->id);
+
+            $job_images_info_array = $job_information->job_images_info_array; 
 
 
-            $employment_status_all_info = employment_status_connection_t_model::select(
+            $job_images_info_array = $job_information->job_images_info_array; 
 
-                'employment_status_connection_t.employer_id as employer_id',
-                'employment_status_connection_t.job_id as job_id',
-
-                'employment_status_connection_t.employment_status_id as employment_status_id',
-                'employment_status_m.employment_status_name as employment_status_name',
-                'employment_status_m.display_order as display_order',
-
-                'employment_status_connection_t.salary_subcategory_cd as salary_subcategory_cd',
-                'salary_subcategory_m.salary_maincategory_cd as salary_maincategory_cd',
-                'salary_maincategory_m.salary_maincategory_name as salary_maincategory_name',                        
-    
-            )
-            ->leftJoin('employment_status_m', function ($join) {
-                $join->on('employment_status_connection_t.employment_status_id', '=', 'employment_status_m.employment_status_id')            
-                ;
-            })  
-            ->leftJoin('salary_subcategory_m', function ($join) {
-                $join->on('employment_status_connection_t.salary_subcategory_cd', '=', 'salary_subcategory_m.salary_subcategory_cd')            
-                ;
-            })
-            ->leftJoin('salary_maincategory_m', function ($join) {
-                $join->on('salary_subcategory_m.salary_maincategory_cd', '=', 'salary_maincategory_m.salary_maincategory_cd')            
-                ;
-            })            
-            ->where('employment_status_connection_t.employer_id', '=', $employer_id)
-            ->where('employment_status_connection_t.job_id', '=', $job_id)
-            ->orderBy('employment_status_m.display_order', 'asc')
-            ->get();
-
-            $job_information_t->employment_status_all_info = $employment_status_all_info;
-
-            //求人画像パス取得
-            $job_images_path_array = job_related::get_job_images($employer_id,$job_id);
-
-            $job_image_path_array = $job_images_path_array["job_image_path_array"];
-
-            $job_information_t->job_images_get_flg = 0;
             
+            $job_image_path_array = $job_images_info_array["job_image_path_array"];
 
-            foreach ($job_image_path_array as $index => $job_image_path_info){       
+            $asset_path = $job_images_info_array["no_image_asset_path"];
+            $storage_path = "";
+            $image_name = "no_image";
+            
+            foreach ($job_image_path_array as $job_image_path_index => $job_image_info){
 
-                $folder_index = $job_image_path_info["folder_index"];
-                $asset_path = $job_image_path_info["asset_path"];
-                $image_name = $job_image_path_info["image_name"];
                 
-                if($asset_path != ""){
-
-                    $job_information_t->job_images_get_flg = 1;
-                    $job_information_t->job_image_path_info = $job_image_path_info;
+                if($job_image_info["asset_path"] != ""){
+                    $asset_path = $job_image_info["asset_path"];
+                    $storage_path = $job_image_info["storage_path"];
+                    $image_name = $job_image_info["image_name"];
                     break;
                 }
+            }    
 
-            }            
+            $job_information->asset_path = $asset_path;
+            $job_information->image_name = $image_name;
+
+            if($storage_path != ""){
+
+                // 画像をIntervention Imageで読み込む
+                $img = Image::make($storage_path);
+                // 画像の回転を考慮して調整
+                $img->orientate();
+
+                // 画像の幅と高さを取得
+                $width = $img->width();
+                $height = $img->height();
+
+                if ($width > $height) {
+                    //横長
+                    $a = 1;
+                } elseif ($width < $height) {
+                    //縦長
+                    $a = 2;
+                } else {
+                    $a = 3;
+                }
+            }
+
+            if($job_information->employer_hp_url != ""){
+
+                $employer_qr_image = QrCode::size(80)
+                ->margin(2)
+                ->color(77,21,21, 100)
+                ->backgroundColor(152,251,152, 75)                
+                ->format('png')
+                ->generate($job_information->employer_hp_url);
+
+                $job_information->employer_qr_image = $employer_qr_image;
+
+            }else{
+                $job_information->employer_qr_image = "";
+            }
+
+            if($job_information->job_hp_url != ""){
+
+                $job_qr_image = QrCode::size(80)
+                ->margin(2)
+                ->color(77,21,21, 100)
+                ->backgroundColor(152,251,152, 75)                
+                ->format('png')
+                ->generate($job_information->job_hp_url);
+
+                $job_information->job_qr_image = $job_qr_image;
+            }else{
+                $job_information->job_qr_image = "";
+            }
+          
+            
+
+         
+
 
             return view('recruit_project/screen/job_information_ledger',
             compact(
                     'employer_id'                
                     ,'job_id'
-                    ,'job_information_t'
-                    
+                    ,'job_information'                    
             ));      
 
         }
         
 
+    }
+  
+
+    function set_job_information_detail($id)
+    {
+
+        
+        $job_information = job_information_t_model::select(
+            'job_information_t.id as id',
+            'job_information_t.employer_id as employer_id',
+            'job_information_t.job_id as job_id',
+            'employer_m.employer_name as employer_name',
+            'employer_m.hp_url as employer_hp_url',
+            'employer_m.employer_description as employer_description',
+            'employer_m.remarks as employer_remarks',
+            'job_information_t.job_id as job_id',
+            'job_information_t.title as title',
+            'job_information_t.sub_title as sub_title',
+            DB::raw("
+                CASE
+                    WHEN municipality_address_m.prefectural_name IS NOT NULL THEN CONCAT(municipality_address_m.prefectural_name, '　', municipality_address_m.municipality_name)
+                    ELSE prefectural_address_m.prefectural_name
+                END as work_location
+            "),            
+            'job_information_t.working_time as working_time',
+            'job_information_t.salary as salary',
+            'job_information_t.holiday as holiday',            
+            'job_information_t.tel as tel',
+            'job_information_t.fax as fax',
+            'job_information_t.hp_url as job_hp_url',
+            'job_information_t.mailaddress as mailaddress',
+            'job_information_t.job_image_folder_name as job_image_folder_name',
+            'job_information_t.Job_duties as Job_duties',            
+            'job_information_t.application_requirements as application_requirements',
+            'job_information_t.application_process as application_process',
+            'job_information_t.scout_statement as scout_statement',
+            'job_information_t.remarks as job_remarks',
+            
+        )
+        ->leftJoin('employer_m', 'job_information_t.employer_id', '=', 'employer_m.employer_id')
+        ->leftJoin(DB::raw('(SELECT prefectural_cd , prefectural_name FROM address_m GROUP BY prefectural_cd ,prefectural_name) as prefectural_address_m'), function ($join) {
+            $join->on('job_information_t.work_location_prefectural_cd', '=', 'prefectural_address_m.prefectural_cd');
+        });
+        $job_information = $job_information->leftJoin('address_m as municipality_address_m', function ($join) {
+            $join->on('job_information_t.work_location_prefectural_cd', '=', 'municipality_address_m.prefectural_cd')
+                ->on('job_information_t.work_location_municipality_cd', '=', 'municipality_address_m.municipality_cd');
+        })
+        ->where('id', '=', $id)        
+        ->first();
+
+        //異常
+        if(is_null($job_information)){
+            return null;
+        }
+        
+
+        $employer_id = $job_information->employer_id;
+        $job_id = $job_information->job_id;        
+
+        $job_information->job_category_datas = job_related::get_job_category_datas($employer_id,$job_id);
+        $job_information->job_supplement_category_datas = job_related::get_job_supplement_category_datas($employer_id,$job_id);
+        $job_information->job_images_info_array = job_related::get_job_images($employer_id,$job_id);
+        
+        $job_information->salary = job_related::get_salary_info($job_information);
+        
+        return $job_information;
     }
 
     //求人情報表出力処理

@@ -168,19 +168,45 @@
 
 
 
-.title{
-
+.title span{
+    
 
 }
 
 .sub_title{    
-    color: rgb(218, 218, 221);
+    color:white;
     background: #0673bb;
     line-height: 1.4;
     padding: 0.25em 0.5em;  
     border-radius: 5px 5px 5px 5px;
 }
 
+
+.job_supplement_subcategory{
+    font-weight: bold;
+    text-align: center;
+    color:white;
+    /* background: #0673bb; */
+/* 
+    background: #6affda;
+background: -moz-linear-gradient(left, #6affda 0%, #6950ff 100%);
+background: -webkit-linear-gradient(left, #6affda 0%,#6950ff 100%);
+background: linear-gradient(to right, #6affda 0%,#6950ff 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6affda', endColorstr='#6950ff',GradientType=1 ); */
+
+
+background: #42C75E;
+background: -moz-linear-gradient(left, #42C75E 0%, #7EBCED 100%);
+background: -webkit-linear-gradient(left, #42C75E 0%,#7EBCED 100%);
+background: linear-gradient(to right, #42C75E 0%,#7EBCED 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#42C75E', endColorstr='#7EBCED',GradientType=1 );
+
+
+    line-height: 1.4;    
+    padding: 2px;  
+    border-radius: 4px;
+
+}
 
 </style>
 
@@ -223,7 +249,7 @@
     $job_category_datas = $job_information->job_category_datas;
     $job_supplement_category_datas = $job_information->job_supplement_category_datas;
 
-    $job_images_info_array = $job_information->job_images_info_array;   
+    $job_images_info_array = $job_information->job_images_info_array;
 @endphp
     
 
@@ -238,7 +264,7 @@
 
                 <div class="col-12 text-start">
                     <h3 class="m-0 p-0 title">
-                        {{$title}}
+                        <span>{{$title}}</span>
                     </h3>
                     <h4 class="m-0 p-0">
                         {{$employer_name}}
@@ -427,8 +453,10 @@
                                     $job_supplement_subcategory_name = $job_supplement_category_data["job_supplement_subcategory_name"];
                                 @endphp
 
-                                <div class="col-6 col-md-3">
-                                    {{$job_supplement_subcategory_name}}
+                                <div class="col-6 col-lg-4 col-xl-3 mb-2">
+                                    <div class="job_supplement_subcategory">
+                                        {{$job_supplement_subcategory_name}}
+                                    </div>
                                 </div>
                                 
                             @endforeach
@@ -448,7 +476,10 @@
                         {!! nl2br(e($employer_description)) !!}
                         <br>
                         @if($employer_hp_url != "")
-                            <a href="{{$employer_hp_url}}" target="_blank">会社HP</a>                        
+                            <div>雇用者サイト</div>
+                            <div>
+                                <a href="{{$employer_hp_url}}" target="_blank">{{$employer_hp_url}}</a>                        
+                            </div>
                         @endif
 
                     </p>

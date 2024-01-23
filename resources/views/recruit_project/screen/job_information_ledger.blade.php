@@ -56,6 +56,7 @@
 .sheet-area{
   display: flex;
   justify-content: center;
+  
 }
 
 .sheet {
@@ -72,6 +73,8 @@
     box-sizing: border-box;
     padding: 10mm;
     font-size: 15pt;
+
+    position: relative;
     
 }
 
@@ -115,6 +118,14 @@
         padding-left: 1vw;
     }
 
+    .footer{
+         /* ここにフッターのスタイリングを追加 */
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 10px;
+    }
+
 </style>
 
 
@@ -128,24 +139,6 @@
 </div>
 
 
-@php
-                            
-
-
-                            
-    $job_images_get_flg = $job_information_t->job_images_get_flg;
-
-    if($job_images_get_flg == 1){
-
-        $job_image_path_info = $job_information_t->job_image_path_info;
-
-        $asset_path = $job_image_path_info["asset_path"];
-        $image_name = $job_image_path_info["image_name"]; 
-
-    }
-
-@endphp
-
 <div class="sheet-area">
   
   <section class="sheet">
@@ -154,24 +147,19 @@
 
         <div class="col-12 m-0 p-0">
             <div class="title">
-                {{$job_information_t->title}}
+                {{$job_information->title}}
             </div>
         </div>
 
+
         <div class="col-6 m-0 p-0">
 
-            @if($job_images_get_flg == 1)
 
-                {{-- <div class="job-image-inner-area item-center"> --}}
-                <div class="job-image-inner-area">
-                    <img src="{{$asset_path}}" class="job-image" alt="{{$image_name}}">                                
-                </div>
+                
+            <div class="job-image-inner-area">
+                <img src="{{$job_information->asset_path}}" class="job-image" alt="{{$job_information->image_name}}">                                
+            </div>
 
-
-            @else
-
-
-            @endif
 
         </div>
 
@@ -183,22 +171,18 @@
                         勤務地
                     </th>
                     <td>
-                        {{$job_information_t->work_location_prefectural_name}}　{{$job_information_t->work_location_municipality_name}}
+                        {{$job_information->work_location}}　{{$job_information->work_location_municipality_name}}
                     </td>
                 </tr>
 
                 <tr>
                     <th>
                         雇用形態
+                        <br>
+                        給与
                     </th>
                     <td>
-                        @php
-                            $employment_status_all_info = $job_information_t->employment_status_all_info;
-                        @endphp
-
-                        @foreach($employment_status_all_info as $employment_status_info)
-                            {{$employment_status_info->employment_status_name}}
-                        @endforeach
+                        {!! nl2br(e($job_information->salary)) !!}
                         
                     </td>
                 </tr>
@@ -208,25 +192,17 @@
                         就労時間
                     </th>
                     <td>
-                        {!! nl2br(e($job_information_t->working_time)) !!}                        
+                        {!! nl2br(e($job_information->working_time)) !!}                        
                     </td>
                 </tr>
 
-                <tr>
-                    <th>
-                        給与
-                    </th>
-                    <td>
-                        {!! nl2br(e($job_information_t->salary)) !!}                        
-                    </td>
-                </tr>
-
+               
                 <tr>
                     <th>
                         休日
                     </th>
                     <td>
-                        {!! nl2br(e($job_information_t->holiday)) !!}                                                    
+                        {!! nl2br(e($job_information->holiday)) !!}                                                    
                     </td>
                 </tr>
 
@@ -236,6 +212,27 @@
 
     </div>
    
+
+    <div class="footer">
+        <div class="row">
+
+            <div class="col-6">
+                @if($job_information->employer_qr_image != "")
+                    <img src="data:image/png;base64,{{ base64_encode($job_information->employer_qr_image) }}" alt="QR Code">
+                @endif
+            </div>
+            
+
+            <div class="col-6">
+                @if($job_information->job_qr_image != "")
+                    <img src="data:image/png;base64,{{ base64_encode($job_information->job_qr_image) }}" alt="QR Code">
+                @endif
+            </div>
+        </div>
+        
+
+    </div>
+    
     
 
   </section>

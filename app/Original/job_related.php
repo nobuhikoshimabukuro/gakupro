@@ -84,9 +84,11 @@ class job_related
             for ($i = 1; $i <= 3; $i++) {
                         
                 $asset_path = "";
+                $storage_path = "";
                 $image_name = "";
                 $check_job_image_folder_path = "public/recruit_project/job_image/id_" . $id . "/" . $job_image_folder_name . "/" . $i;
 
+                
                 if (Storage::exists($check_job_image_folder_path)){
 
                     //フォルダの確認が出来たら、フォルダ内のファイル名を全て取得            
@@ -99,10 +101,16 @@ class job_related
                         $image_info = pathinfo($file);
                         $image_name = $image_info['basename']; // ファイル名のみ取得
                         $asset_path = asset("storage/recruit_project/job_image/id_" . $id . "/". $job_image_folder_name . "/" . $i . "/" . $image_name);                   
+                        $storage_path = storage_path("app/public/recruit_project/job_image/id_" . $id . "/" . $job_image_folder_name . "/" . $i . "/" . $image_name);
                     }                      
                 }
 
-                $job_image_info = ["folder_index" => $i , "asset_path" => $asset_path , "image_name" => $image_name];
+                $job_image_info = [
+                    "folder_index" => $i 
+                    , "asset_path" => $asset_path 
+                    , "storage_path" => $storage_path 
+                    , "image_name" => $image_name
+                ];
                 $job_image_path_array[] = $job_image_info;            
             }
         }

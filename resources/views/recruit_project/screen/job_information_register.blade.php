@@ -262,7 +262,10 @@ input::placeholder{
 
 
 
-
+.job_maincategory_name{
+    
+       
+}
 
 
 
@@ -444,6 +447,26 @@ input::placeholder{
     padding-left: 0;
     min-width: 150px;
 }
+
+#fixed_salary
+,#fixed_application_process{
+    padding: 3px;    
+}
+
+.job_categor-area{
+    font-weight: bold;
+    text-align: center;
+
+
+
+    line-height: 1.4;    
+    padding: 2px;  
+    border-radius: 4px;
+    border: solid 1px;    
+}
+
+
+
 </style>
 
 
@@ -780,7 +803,7 @@ input::placeholder{
                                     </th>
 
                                     <td>            
-                                        <textarea id="working_time" name="working_time" placeholder="" rows="5"
+                                        <textarea id="working_time" name="working_time" placeholder="" rows="4"
                                         >@if(!is_null($job_info)){{$job_info->working_time}}@endif</textarea>            
                                     </td>           
             
@@ -793,7 +816,7 @@ input::placeholder{
                                     </th>
                                     <td>
                                    
-                                        <textarea id="holiday" name="holiday" placeholder="" rows="5"
+                                        <textarea id="holiday" name="holiday" placeholder="" rows="4"
                                         >@if(!is_null($job_info)){{$job_info->holiday}}@endif</textarea>            
                                     </td>           
             
@@ -805,7 +828,7 @@ input::placeholder{
                                     </th>
                                     <td>
             
-                                        <textarea id="Job_duties" name="Job_duties" placeholder="" rows="5"
+                                        <textarea id="Job_duties" name="Job_duties" placeholder="" rows="4"
                                         >@if(!is_null($job_info)){{$job_info->Job_duties}}@endif</textarea>            
                                     </td>            
                                 </tr>
@@ -816,7 +839,7 @@ input::placeholder{
                                     </th>
                                     <td>
             
-                                        <textarea id="scout_statement" name="scout_statement" placeholder="" rows="5"
+                                        <textarea id="scout_statement" name="scout_statement" placeholder="" rows="7"
                                         >@if(!is_null($job_info)){{$job_info->scout_statement}}@endif</textarea>            
                                     </td>            
                                 </tr>
@@ -827,7 +850,7 @@ input::placeholder{
                                     </th>
                                     <td>
             
-                                        <textarea id="application_requirements" name="application_requirements" placeholder="" rows="5"
+                                        <textarea id="application_requirements" name="application_requirements" placeholder="" rows="4"
                                         >@if(!is_null($job_info)){{$job_info->application_requirements}}@endif</textarea>            
                                     </td>            
                                 </tr>
@@ -952,10 +975,12 @@ input::placeholder{
 
                                 <tr class="remarks-tr">
                                     <th class="">
-                                        <label for="remarks">求人備考</label>                                        
+                                        <label for="remarks">求人備考</label>
+                                        <br>
+                                        <label>※求人ページには表示されません。</label>
                                     </th>
-                                    <td>            
-                                        <textarea id="remarks" name="remarks" placeholder="" rows="5"
+                                    <td>                                        
+                                        <textarea id="remarks" name="remarks" placeholder="" rows="4"
                                         >@if(!is_null($job_info)){{$job_info->remarks}}@endif</textarea>            
                                     </td>            
                                 </tr>                              
@@ -1054,11 +1079,12 @@ input::placeholder{
                     {{-- 業種設定エリア --}}
                     <div class="col-12 mt-3">
 
-                        <h3>
+                     
+                        <h3 class="">
                             業種設定
                         </h3>
 
-                        <div id="" class="row m-0 p-0">
+                        <div id="" class="row m-0 p-0 job_categor-area">
 
                             @foreach($job_category_data as $job_category_index => $job_category_info)                     
 
@@ -1083,13 +1109,13 @@ input::placeholder{
 
                                 @if($start_flg == 1)                                
                                     
-                                    <div class="col-12 col-lg-6  mt-2">
+                                    <div class="col-12 col-lg-6 mt-2 job_maincategory_name">
                                         {{$job_maincategory_name}}
                                         <div class="row m-0 p-0">
                                 @endif
 
                                     <div id="job-subcategory-area{{$job_subcategory_cd}}" 
-                                    class="col-6 col-lg-4 col-xl-3 mt-2 job-category-area">
+                                    class="col-6 col-lg-4 col-xl-4 mt-2 job-category-area">
                                         <label id="job-category-label{{$job_subcategory_cd}}" 
                                             for="job-category-checkbox{{$job_subcategory_cd}}" 
                                             class="job-category-label item-center {{$add_class}}"                                        
@@ -1125,7 +1151,7 @@ input::placeholder{
                     {{-- 求人補足エリア --}}
                     <div class="col-12 mt-3">
 
-                        <h3>
+                        <h3 class="m-1 p-0">
                             求人補足
                         </h3>
 
