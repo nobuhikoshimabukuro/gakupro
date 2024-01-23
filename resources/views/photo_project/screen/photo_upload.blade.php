@@ -55,7 +55,7 @@ body{
 
 </style>
 
-<div id='main' class="mt-3 text-center container inoperable">     
+<div id='main' class="mt-3 text-center container">     
     {{-- <div id='main' class="mt-3 text-center container"> --}}
         
         <div id='' class="row">

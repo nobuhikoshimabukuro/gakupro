@@ -53,10 +53,9 @@ class hp_controller extends Controller
     }
 
     //画像リサイズ処理
+    
     function image_resize_process(Request $request)
     {   
-
-
         try{
 
             $public_path = "public/iamge_risize";
@@ -75,7 +74,7 @@ class hp_controller extends Controller
                 // フォルダ名を取得
                 $folderName = basename($folder);
 
-                if(intval($folderName) > intval($five_minutes_ago)){
+                if(intval($five_minutes_ago) > intval($folderName)){
                     // フォルダを削除
                     Storage::deleteDirectory($public_path . '/' . $folderName);
                 }
@@ -106,9 +105,9 @@ class hp_controller extends Controller
                 }
             }
         
-            $base_path = $public_path . "/" . $now_ymdHis . "/" . $random_folder_name;
-
-            Storage::makeDirectory($base_path);
+            Storage::disk('iamge_risize_save_path')->makeDirectory($now_ymdHis . "/" . $random_folder_name);
+            $base_path = $public_path . "/" . $now_ymdHis . "/" . $random_folder_name;           
+            
             
             //画面で選択したアップロードファイル
             $Upload_Files = $request->file('file');
@@ -140,8 +139,7 @@ class hp_controller extends Controller
 
                 $after_resizing_folder_name = $base_path . "/after_resizing";
 
-                // リサイズされた画像をエンコードして保存（新しいファイル名を指定）
-                // Storage::disk('iamge_risize_save_path')->put($after_resizing_folder_name . '/' . $file_name, $resize_img->encode());
+                // リサイズされた画像をエンコードして保存（新しいファイル名を指定）                
                 Storage::put($after_resizing_folder_name . '/' . $file_name, $resize_img->encode());
             
             }            
