@@ -10,6 +10,9 @@
 namespace App\Http\Controllers\hp;
 use App\Http\Controllers\Controller;
 
+use Intervention\Image\Facades\Image;
+use STS\ZipStream\ZipStreamFacade AS Zip;
+
 use Exception;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -42,6 +45,147 @@ use App\Models\job_category_connection_t_model;
 
 class hp_controller extends Controller
 {
+
+    //画像リサイズ画面遷移
+    function image_resize(Request $request)
+    {   
+        return view('hp/screen/image_resize');
+    }
+
+    //画像リサイズ処理
+    function image_resize_process(Request $request)
+    {   
+
+
+        try{
+
+            $public_path = "public/iamge_risize";
+
+            $now = Carbon::now();         
+            $now_ymdHis = $now->format('YmdHis');
+
+            // ファイルを保存するフォルダのパスを生成
+            
+
+            // 5分より前のフォルダを削除
+            $five_minutes_ago  = $now->subMinutes(5)->format('YmdHis');
+            $folders_to_delete = Storage::directories($public_path);
+            foreach ($folders_to_delete as $folder) {
+              
+                // フォルダ名を取得
+                $folderName = basename($folder);
+
+                if(intval($folderName) > intval($five_minutes_ago)){
+                    // フォルダを削除
+                    Storage::deleteDirectory($public_path . '/' . $folderName);
+                }
+            }
+
+            //同じ時間のフォルダがある場合は、被らないようにする
+            $now_ymdHis_folders = Storage::directories($public_path . "/" .$now_ymdHis);            
+
+            while(true){         
+                
+                $judge = true;
+                $length = 10; // 生成する文字列の長さ
+
+                $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                
+                $random_folder_name = substr(str_shuffle($characters), 0, $length);
+
+                foreach ($now_ymdHis_folders as $folder_name) {
+                
+                    if($folder_name == $random_folder_name){
+                        $judge = false;
+                    }
+                }      
+
+                if($judge){
+                    //繰返しの強制終了
+                    break;
+                }
+            }
+        
+            $base_path = $public_path . "/" . $now_ymdHis . "/" . $random_folder_name;
+
+            Storage::makeDirectory($base_path);
+            
+            //画面で選択したアップロードファイル
+            $Upload_Files = $request->file('file');
+
+
+            foreach($Upload_Files as $Count => $file){                
+                            
+                
+                $extension = $file->getClientOriginalExtension();
+                $file_name = $file->getClientOriginalName();
+                $file_size = $file->getSize();
+
+                
+                // 画像リサイズ用
+                $resize_img = Image::make($file);
+
+                // 画像の回転を考慮して調整
+                $resize_img->orientate();
+
+                // 画像リサイズ前に保存
+                $before_resizing_folder_name = $base_path . "/before_resizing";                                
+                Storage::put($before_resizing_folder_name . '/' . $file_name, $resize_img->encode());
+                
+            
+                // リサイズ実行
+                $resize_img->resize(null, 400, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
+
+                $after_resizing_folder_name = $base_path . "/after_resizing";
+
+                // リサイズされた画像をエンコードして保存（新しいファイル名を指定）
+                // Storage::disk('iamge_risize_save_path')->put($after_resizing_folder_name . '/' . $file_name, $resize_img->encode());
+                Storage::put($after_resizing_folder_name . '/' . $file_name, $resize_img->encode());
+            
+            }            
+
+            $after_resizing_images = [];
+            $after_resizing_folder_path = Storage::path($after_resizing_folder_name);
+            $images_name = Storage::files($after_resizing_folder_name);
+
+            foreach($images_name as $index => $name){
+
+                $name = basename($name);
+                $after_resizing_images []= $after_resizing_folder_path . "/" . $name;
+
+            }            
+            
+            $zip_save_path = 'storage/iamge_risize/' . $now_ymdHis . "/" . $random_folder_name . "/zip";
+            $zip_name = 'resizing_images.zip';                      
+
+            Zip::create($zip_name, $after_resizing_images)->saveTo($zip_save_path );
+
+            $zip_download_path = asset($zip_save_path . "/" .  $zip_name);    
+
+            $result_array = array(
+                "Result" => "success",
+                "zip_download_path" => $zip_download_path,
+                "zip_name" => $zip_name
+           );
+
+        } catch (Exception $e) {
+
+            $ErrorMessage = $e->getMessage();
+            $result_array = array(
+                "Result" => "error",
+                "Message" => '',
+           );
+
+        }   
+
+ 
+
+       return response()->json(['result_array' => $result_array]);
+        
+        
+    }
 
     function index(Request $request)
     {    

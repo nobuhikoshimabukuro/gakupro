@@ -119,6 +119,22 @@ return [
             ]
         ],
 
+         // 追加
+        'iamge_risize_save_path' => [
+            'driver' => 'local',
+            'root' => public_path('storage/iamge_risize'),
+            'visibility' => 'public',
+
+            'permissions' => [
+                'dir' => [
+                'public'  => 0775,
+                ],
+                'file' => [
+                'public' => 0664,
+                ],
+            ]
+        ],
+
 
 
         // 追加

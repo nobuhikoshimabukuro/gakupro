@@ -87,11 +87,11 @@
                             </a>
                         </li>
     
-                        {{-- <li>
-                            <a class="" href="{{ route('hp.message_to_students') }}">
-                                学生の皆様へ
+                        <li>
+                            <a class="" href="{{ route('hp.image_resize') }}">
+                                画像リサイズ
                             </a>
-                        </li> --}}
+                        </li>
     
                           
 
@@ -154,11 +154,11 @@
                         </a>
                     </li>
 
-                    {{-- <li>
-                        <a class="" href="{{ route('hp.message_to_students') }}">
-                            学生の皆様へ
+                    <li>
+                        <a class="" href="{{ route('hp.image_resize') }}">
+                            画像リサイズ
                         </a>
-                    </li> --}}
+                    </li>
                  
 
 
