@@ -1,4 +1,5 @@
-@extends('hp.common.layouts_app')
+@extends('hp.common.layouts_app_test')
+
 
 @section('pagehead')
 @section('title', '画像リサイズ')  
@@ -45,10 +46,8 @@ body{
 
             <div class="ajax-msg"></div>
 
-            <form action="{{ route('hp.image_resize_process') }}" id='upload_form'method="post" enctype="multipart/form-data">
+            <form action="{{ route('hp.image_resize_process') }}" id='upload_form' method="post" enctype="multipart/form-data" >
                 @csrf
-
-              
 
                 <div class="row">   
                 
@@ -59,10 +58,10 @@ body{
                         <div id="drop_zone">               
                             <p>ファイルをドラッグ＆ドロップもしくはファイル選択してください。</p>
                             <p>※複数アップロードする場合は一度に選択してください。</p> 
-                            <input type="file" id='file_input'name="file[]" lang="ja" accept="" multiple>
+                            <input type="file" id='file_input'name="file[]" lang="ja" accept=".jpg, .jpeg, .png, .gif" multiple>
                         </div>
 
-                        <div class="upload-button-area">
+                        <div class="upload-button-area d-none">
                             <div align="left">                        
                                 <button type="button" class="reset-button btn btn-secondary">リセット <i class="fas fa-minus-square"></i></button>
                                 <button type="button" class="upload-button btn btn-secondary">アップロード <i class="fas fa-cloud-upload-alt"></i></button>

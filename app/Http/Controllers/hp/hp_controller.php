@@ -133,7 +133,7 @@ class hp_controller extends Controller
                 
             
                 // リサイズ実行
-                $resize_img->resize(null, 400, function ($constraint) {
+                $resize_img->resize(null, 500, function ($constraint) {
                     $constraint->aspectRatio();
                 });
 
