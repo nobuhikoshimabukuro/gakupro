@@ -451,6 +451,8 @@ input::placeholder{
 #fixed_salary
 ,#fixed_application_process{
     padding: 3px;    
+    overflow: auto; 
+    white-space: nowrap; 
 }
 
 .job_categor-area{
@@ -962,8 +964,11 @@ input::placeholder{
                                             <div class="col-12 col-lg-5 m-0 p-0">
 
                                                 <h4 class="m-0 p-1" style="">表示文</h4>
+                                                
                                                 <div id="fixed_application_process" name="fixed_application_process"
                                                 ></div>
+
+                                      
                                             </div>
 
                                         </div>
