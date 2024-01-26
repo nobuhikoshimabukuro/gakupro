@@ -450,9 +450,9 @@ input::placeholder{
 
 #fixed_salary
 ,#fixed_application_process{
-    padding: 3px;    
-    overflow: auto; 
-    white-space: nowrap; 
+    overflow: hidden; /* スクロールバーを無効にする */    
+    padding: 3px;        
+    background-color: rgb(252, 244, 244);
 }
 
 .job_categor-area{
@@ -777,17 +777,17 @@ input::placeholder{
 
                                         <div class="row m-0 p-0">
 
-                                            <div class="col-12 col-lg-7 m-0 p-0">
+                                            <div class="col-12 col-lg-7 col-xl-6 m-0 p-0">
                                                 <h4 class="m-0 p-1" style="">補足文</h4>
                                                 <textarea id="salary" name="salary" placeholder="" rows="5"
                                                 >@if(!is_null($job_info)){{$job_info->salary}}@endif</textarea>
                                             </div>
 
 
-                                            <div class="col-12 col-lg-5 m-0 p-0">
-                                                <h4 class="m-0 p-1" style="">表示文</h4>
-                                                <div id="fixed_salary" name="fixed_salary"
-                                                ></div>
+                                            <div class="col-12 col-lg-5 col-xl-6 m-0 p-0">
+                                                <h4 class="m-0 p-1" style="">表示文</h4>                                                
+                                                <textarea id="fixed_salary" name="fixed_salary" disabled>
+                                                </textarea>
                                             </div>
 
                                           
@@ -867,7 +867,7 @@ input::placeholder{
 
                                        
 
-                                            <div class="col-12 col-lg-7 m-0 p-0">
+                                            <div class="col-12 col-lg-6 m-0 p-0">
                                                 <div class="row m-0 p-0">
 
                                                     <div class="col-12 m-0 p-0">
@@ -878,95 +878,103 @@ input::placeholder{
 
                                                     </div>
 
-                                                    <div class="col-12 m-0 p-0">
-
-                                                        <table id="application_process-table">
-                                                            <tr>
-                                                                <th>
-                                                                    <label for="tel">応募用TEL</label>
-                                                                </th>
-                                                            </tr>
-        
-                                                            <tr>
-                                                                <td>
-                                                                    <input type="tel" id="tel" name="tel" placeholder="" 
-                                                                    @if(is_null($job_info))
-                                                                        value=""
-                                                                    @else
-                                                                        value="{{$job_info->tel}}"
-                                                                    @endif
-                                                                    >        
-                                                                </td>
-                                                            </tr>
-        
-                                                            <tr>
-                                                                <th>
-                                                                    <label for="fax">応募用FAX</label>
-                                                                </th>
-                                                            </tr>
-        
-                                                            <tr>
-                                                                <td>
-                                                                    <input type="tel" id="fax" name="fax" placeholder="" 
-                                                                    @if(is_null($job_info))
-                                                                        value=""
-                                                                    @else
-                                                                        value="{{$job_info->fax}}"
-                                                                    @endif
-                                                                    >        
-                                                                </td>
-                                                            </tr>
-        
-                                                            <tr>
-                                                                <th>
-                                                                    <label for="tel">応募用Mail</label>
-                                                                </th>
-                                                            </tr>
-        
-                                                            <tr>
-                                                                <td>
-                                                                    <input type="text" id="mailaddress" name="mailaddress" placeholder="" 
-                                                                    @if(is_null($job_info))
-                                                                        value=""
-                                                                    @else
-                                                                        value="{{$job_info->mailaddress}}"
-                                                                    @endif
-                                                                    >              
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <th>
-                                                                    <label for="tel">応募用URL</label>
-                                                                </th>
-                                                            </tr>
-        
-                                                            <tr>
-                                                                <td>
-                                                                    <input type="text" id="hp_url" name="hp_url" placeholder="" 
-                                                                    @if(is_null($job_info))
-                                                                        value=""
-                                                                    @else
-                                                                        value="{{$job_info->hp_url}}"
-                                                                    @endif
-                                                                    >              
-                                                                </td>
-                                                            </tr>
-        
-                                                        </table>
-
-                                                    </div>
+                                                    
 
                                                 </div>
                                                 
                                             </div>
 
-                                            <div class="col-12 col-lg-5 m-0 p-0">
+                                            <div class="col-12 col-lg-6 m-0 p-0">
+
+                                                <div class="col-12 m-0 p-0">
+
+                                                    <table id="application_process-table">
+                                                        <tr>
+                                                            <th>
+                                                                <label for="tel">応募用TEL</label>
+                                                            </th>
+                                                        </tr>
+    
+                                                        <tr>
+                                                            <td>
+                                                                <input type="tel" id="tel" name="tel" placeholder="" 
+                                                                @if(is_null($job_info))
+                                                                    value=""
+                                                                @else
+                                                                    value="{{$job_info->tel}}"
+                                                                @endif
+                                                                >        
+                                                            </td>
+                                                        </tr>
+    
+                                                        <tr>
+                                                            <th>
+                                                                <label for="fax">応募用FAX</label>
+                                                            </th>
+                                                        </tr>
+    
+                                                        <tr>
+                                                            <td>
+                                                                <input type="tel" id="fax" name="fax" placeholder="" 
+                                                                @if(is_null($job_info))
+                                                                    value=""
+                                                                @else
+                                                                    value="{{$job_info->fax}}"
+                                                                @endif
+                                                                >        
+                                                            </td>
+                                                        </tr>
+    
+                                                        <tr>
+                                                            <th>
+                                                                <label for="tel">応募用Mail</label>
+                                                            </th>
+                                                        </tr>
+    
+                                                        <tr>
+                                                            <td>
+                                                                <input type="text" id="mailaddress" name="mailaddress" placeholder="" 
+                                                                @if(is_null($job_info))
+                                                                    value=""
+                                                                @else
+                                                                    value="{{$job_info->mailaddress}}"
+                                                                @endif
+                                                                >              
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th>
+                                                                <label for="tel">応募用URL</label>
+                                                            </th>
+                                                        </tr>
+    
+                                                        <tr>
+                                                            <td>
+                                                                <input type="text" id="hp_url" name="hp_url" placeholder="" 
+                                                                @if(is_null($job_info))
+                                                                    value=""
+                                                                @else
+                                                                    value="{{$job_info->hp_url}}"
+                                                                @endif
+                                                                >              
+                                                            </td>
+                                                        </tr>
+    
+                                                    </table>
+
+                                                </div>
+
+                                      
+                                            </div>
+
+                                            <div class="col-12 m-0 p-0">
 
                                                 <h4 class="m-0 p-1" style="">表示文</h4>
-                                                
-                                                <div id="fixed_application_process" name="fixed_application_process"
-                                                ></div>
+                                                                                               
+
+                                                <textarea id="fixed_application_process" name="fixed_application_process" disabled>
+                                                </textarea>
 
                                       
                                             </div>
@@ -1625,6 +1633,7 @@ $(function(){
 
         var add_text = "";
         var salary = $("#salary").val();
+        var newline = "\n";
 
         // classが"employment-status-checkbox"である全ての要素を取得
         $(".employment-status-checkbox").each(function() {
@@ -1655,7 +1664,7 @@ $(function(){
                     var text = employment_status_name + "：" +salary_maincategory_name + salary + "円～"; 
 
                     if(add_text != ""){
-                        add_text += "<br>";
+                        add_text += newline;
                     }
 
                     add_text += text;
@@ -1663,9 +1672,17 @@ $(function(){
             }
         });
 
-        display_text = add_text + "<br>" + salary.replace(/\n/g, "<br>");
+        display_text = add_text + newline + salary;
 
-        $("#fixed_salary").html(display_text);        
+           
+        // 高さを可変にする
+        $("#fixed_salary").html(display_text);
+        
+        // 高さを自動で調整する
+        var newHeight = $("#fixed_salary").prop("scrollHeight");
+        $("#fixed_salary").css("height", newHeight + "px");
+
+        
 
     }   
 
@@ -1684,6 +1701,8 @@ $(function(){
         var add_text = "";
         var application_process = $("#application_process").val();
 
+        var newline = "\n";
+        
         var tel = $("#tel").val();
         var fax = $("#fax").val();
         var mailaddress = $("#mailaddress").val();
@@ -1691,28 +1710,28 @@ $(function(){
 
         if(tel != ""){
             if(add_text != ""){
-                add_text += "<br>";
+                add_text += newline;
             }
             add_text += "TEL：" + tel;
         }
 
         if(fax != ""){
             if(add_text != ""){
-                add_text += "<br>";
+                add_text += newline;
             }
             add_text += "FAX：" + fax;
         }
 
         if(mailaddress != ""){
             if(add_text != ""){
-                add_text += "<br>";
+                add_text += newline;
             }
             add_text += "MAIL：" + mailaddress;
         }
 
         if(hp_url != ""){
             if(add_text != ""){
-                add_text += "<br>";
+                add_text += newline;
             }
             add_text += "URL：" + hp_url;
         }
@@ -1720,11 +1739,20 @@ $(function(){
         if(application_process == ""){
             display_text = add_text;
         }else{
-            display_text = application_process.replace(/\n/g, "<br>") + "<br>" + add_text;
+            display_text = application_process + newline + add_text;
         }
         
 
-        $("#fixed_application_process").html(display_text);        
+        // 高さを可変にする
+        $("#fixed_application_process").html(display_text);
+        
+        // 高さを自動で調整する
+        var newHeight = $("#fixed_application_process").prop("scrollHeight");
+        $("#fixed_application_process").css("height", newHeight + "px");
+
+        
+
+            
 
     }   
 
