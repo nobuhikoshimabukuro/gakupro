@@ -241,7 +241,7 @@
 
                       <td>
                         <button type="button" id="" class="btn btn-primary btn-sm" onclick="location.href='{{ route('recruit_project.job_publish_info',['job_id' => $job_id]) }}'">
-                          掲載期間確認　<i class="far fa-calendar-alt"></i>
+                          公開期間設定　<i class="far fa-calendar-alt"></i>
                         </button>
                       </td>
                       

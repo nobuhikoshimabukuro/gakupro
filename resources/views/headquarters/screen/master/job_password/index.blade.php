@@ -419,7 +419,7 @@
                             </tr>
                             
                             <tr>
-                                <th class="text-start">掲載期間</th>                                
+                                <th class="text-start">公開期間</th>                                
                             </tr>
 
                             <tr>                                

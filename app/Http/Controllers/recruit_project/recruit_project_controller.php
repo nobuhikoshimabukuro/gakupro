@@ -736,7 +736,7 @@ class recruit_project_controller extends Controller
             $job_id = $job_information_info->job_id;
 
 
-            //操作日に掲載可能求人か調べる
+            //操作日に公開可能求人か調べる
             $publish_data = job_password_connection_t_model::select(
                 
                 'job_password_connection_t.job_password_id as job_password_id',
@@ -1014,7 +1014,7 @@ class recruit_project_controller extends Controller
     }
 
 
-    //求人掲載期間情報画面遷移
+    //求人公開期間情報画面遷移
     function job_publish_info(Request $request)
     {       
 
@@ -1029,27 +1029,35 @@ class recruit_project_controller extends Controller
         
         $job_id = $request->job_id;
 
-        $job_password_connection_t = job_password_connection_t_model::select(
-            
-            'job_password_connection_t.job_password_id as job_password_id',
-            'job_password_connection_t.branch_number as branch_number',
-            'job_password_connection_t.publish_start_date as publish_start_date',
-            'job_password_connection_t.publish_end_date as publish_end_date',            
-            'job_password_t.job_password_item_id as job_password_item_id',            
-        )
-        ->leftJoin('job_password_t', function ($join) {
-            $join->on('job_password_t.job_password_id', '=', 'job_password_connection_t.job_password_id');
-        })        
-        ->where('job_password_connection_t.employer_id', '=', $employer_id)
-        ->where('job_password_connection_t.job_id', '=', $job_id)
-        ->first();
 
-
+        // $job_password_connection_t = job_password_connection_t_model::
+        // where('employer_id', '=', $employer_id)          
+        // ->where('job_id', '=', $job_id)          
+        // ->get();
 
         $job_password_connection_t = job_password_connection_t_model::
         where('employer_id', '=', $employer_id)          
-        ->where('job_id', '=', $job_id)          
+        ->where('job_id', '=', $job_id)
         ->get();
+
+
+        $get_publish_end_date = job_password_connection_t_model::
+        where('employer_id', '=', $employer_id)          
+        ->where('job_id', '=', $job_id)
+        ->orderBy('publish_end_date', 'desc')
+        ->first();
+
+        if(is_null($get_publish_end_date)){
+            $now = Carbon::now();
+
+            $set_publish_end_date = $now->format('Y-m-d');
+
+        }else{
+            $set_publish_end_date = Carbon::create($get_publish_end_date->publish_end_date);
+            $set_publish_end_date = $set_publish_end_date->addDays(1)->format('Y-m-d');            
+        }
+
+        
 
         $employer_info = employer_m_model::
         where('employer_id', '=', $employer_id)          
@@ -1074,6 +1082,7 @@ class recruit_project_controller extends Controller
                 ,'job_id'
                 ,'job_info'
                 ,'job_password_connection_t'
+                ,'set_publish_end_date'
         ));        
     }
 
@@ -1133,7 +1142,7 @@ class recruit_project_controller extends Controller
                 0 => "使用可能なパスワードです。",
                 1 => "パスワードを再入力してください。",
                 2 => "使用済みのパスワードです。",
-                3 => "掲載期間が重複します。"
+                3 => "公開期間が重複します。"
             ];
 
 
@@ -1165,11 +1174,11 @@ class recruit_project_controller extends Controller
 
     
 
-    //求人掲載期間確定処理
+    //求人公開期間確定処理
     function job_publish_confirmation_process(Request $request)
     {       
 
-        $process_title = "求人掲載期間確定処理";
+        $process_title = "求人公開期間確定処理";
 
         
 

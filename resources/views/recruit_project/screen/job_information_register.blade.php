@@ -539,9 +539,7 @@ input::placeholder{
                                             value="{{$job_info->title}}"
                                         @endif
                                         >            
-                                    </td>
-            
-            
+                                    </td>            
                                 </tr>
 
 

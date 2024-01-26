@@ -36,7 +36,7 @@ return new class extends Migration
             $table
                 ->integer('publish_flg')
                 ->default(1)
-                ->comment('掲載フラグ:0 = 掲載しない、1 = 掲載する');
+                ->comment('公開フラグ:0 = 公開しない、1 = 公開する');
 
             $table
                 ->string('title', 200)    
@@ -85,7 +85,7 @@ return new class extends Migration
             $table
                 ->string('job_image_folder_name', 200)
                 ->nullable()
-                ->comment('求人掲載用画像格納フォルダ名');
+                ->comment('求人公開用画像格納フォルダ名');
 
             
                 
