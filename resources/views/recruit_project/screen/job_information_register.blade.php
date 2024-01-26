@@ -241,6 +241,7 @@ input::placeholder{
 #application_process-table th{
     text-align: left;
     background: none;
+    border-right: none;
 }
 
 
@@ -592,37 +593,33 @@ input::placeholder{
                                                     {{$prefectural_info->prefectural_name}}
                                                     </option>
                                                 @endforeach
-                                        </select>            
-                                        
-                                        
-                                        
-            
+                                        </select>        
 
-                                        
-                                        
 
-                                            @if($work_location_prefectural_cd != "")
-                                                <select id='work_location_municipality_cd' name='work_location_municipality_cd' class=' work_location_municipality_cd input-sm'>     
-                                                    @foreach($municipality_list as $municipality_info)
-                                                        <option value="{{$municipality_info->municipality_cd}}"                                                    
-                                                        @if($work_location_municipality_cd == $prefectural_info->municipality_cd)                                                        
-                                                            selected                                                                                                                
-                                                        @endif
-                                                        title= "{{$municipality_info->municipality_name}}"
-                                                        >
-                                                        {{$municipality_info->municipality_name}}
-                                                        </option>
-                                                    @endforeach                       
-
-                                            @else
-                                                <select id='work_location_municipality_cd' name='work_location_municipality_cd' class='work_location_municipality_cd input-sm inoperable'>     
-                                                    <option value="">
-                                                        都道府県未選択
+                                        @if($work_location_prefectural_cd != "")
+                                            <select id='work_location_municipality_cd' name='work_location_municipality_cd' class=' work_location_municipality_cd input-sm'>     
+                                                @foreach($municipality_list as $municipality_info)
+                                                    <option value="{{$municipality_info->municipality_cd}}"                                                    
+                                                    @if($work_location_municipality_cd == $prefectural_info->municipality_cd)                                                        
+                                                        selected                                                                                                                
+                                                    @endif
+                                                    title= "{{$municipality_info->municipality_name}}"
+                                                    >
+                                                    {{$municipality_info->municipality_name}}
                                                     </option>
-                                            @endif  
+                                                @endforeach                       
+
+                                            </select>
+                                        @else
+                                            <select id='work_location_municipality_cd' name='work_location_municipality_cd' class='work_location_municipality_cd input-sm inoperable'>     
+                                                <option value="">
+                                                    都道府県未選択
+                                                </option>
+                                            </select>
+                                        @endif  
                                             
 
-                                        </select>
+                                            
                                             
                                         
 

@@ -98,19 +98,19 @@
 /* on時  start */
 
   /* === チェックボックスのラベル（ONのとき） ================ */
-  .on-class label {
+  .switch_area input[type="checkbox"]:checked +label {
     border-color   : #0d6efd;             /* 選択タブの枠線     */
   }
 
   /* === 表示する文字（ONのとき） ============================ */
-  .on-class label span:after{
+  .switch_area  input[type="checkbox"]:checked + label span:after{
     content        : "公開中";                /* 表示する文字       */
     padding        : 0 20px 0 0px;          /* 表示する位置       */
     color          : #0d6efd;             /* 文字色             */
   }
 
   /* === 丸部分のSTYLE（ONのとき） =========================== */
-  .on-class .switch_image {
+  .switch_area input[type="checkbox"]:checked ~ .switch_image {
     transform      : translateX(45px);    /* 丸も右へ移動       */
     background     : #0d6efd;             /* カーソルタブの背景 */    
   }
@@ -213,17 +213,16 @@
 
                         @if($publish_data_flg == 1) 
 
-                          <div id="switch{{$job_id}}" 
-                          @if($publish_flg == 1) 
-                            class="switch_area on-class" 
-                          @else
-                            class="switch_area" 
-                          @endif                                                      
-                          data-jobid="{{$job_id}}" 
-                          data-publishflg="{{$publish_flg}}"
-                          
-                          >                            
-                            <label><span></span></label>
+                          <div class="switch_area"                          
+                          >
+                            <input type="checkbox" 
+                              id="switch{{$job_information_index}}" 
+                              class="switch_checkbox"                              
+                              data-jobid="{{$job_id}}" 
+                              data-publishflg="{{$publish_flg}}"
+                              @if($publish_flg == 1) checked  @endif                              
+                            >
+                            <label for="switch{{$job_information_index}}"><span></span></label>
                             <div class="switch_image"></div>
                           </div>
 
@@ -283,88 +282,40 @@ $(function(){
 
   });
 
-  $(document).on("click", ".switch_area", function (e) {
+  $(document).on("change", ".switch_checkbox", function (e) {
     
+
     var job_id = $(this).data("jobid");
     var publish_flg = $(this).data("publishflg");
     
-    var message = "";    
+    var message = "";
 
-    if (publish_flg == 0) {
-      message = "求人情報を公開しますか？";     
+    var checked = $(this).is(":checked");
+
+    if (!checked) {
+      message = "求人情報を公開しますか";     
     } else {
-      message = "求人情報を非公開にしますか？";
+      message = "求人情報を非公開にしますか";         
     }
 
-    if(!confirm(message)){     
-      return false;
+    if(confirm(message)){
+     
+      if(job_information_publish_flg_change(job_id , publish_flg)){
+                
+        $(this).prop("checked", checked);        
+
+      }else{
+
+        $(this).prop("checked", !checked);
+
+      }
+
+    }else{
+
+      $(this).prop("checked", !checked);
+
+      
     }
-
-    start_processing("#main");
-
-    $.ajax({
-            url: "{{ route('recruit_project.job_information_publish_flg_change') }}",
-            type: 'post',
-            dataType: 'json',
-            data: {job_id : job_id , publish_flg : publish_flg},
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
-        })
-    // 送信成功
-    .done(function (data, textStatus, jqXHR) {
-        
-        var result_array = data.result_array;
-
-        var Result = result_array["Result"];
-        
-                     
-        end_processing();
-
-        if(Result =='success'){
-
-          $("#switch" + job_id).removeClass("on-class");
-          
-          if (publish_flg == 0) {
-            $("#switch" + job_id).addClass("on-class");
-            $("#switch" + job_id).data("publishflg", 1);
-          } else{
-            $("#switch" + job_id).data("publishflg", 0);
-          }
-
-        }else if(Result =='non_session'){
-
-          // 店舗ログイン画面へ
-          window.location.href = "{{ route('recruit_project.login') }}";
-
-        }else{          
-           
-
-        }
-
-    
-    })
-
-    // 送信失敗
-    .fail(function (data, textStatus, errorThrown) {
-        
-      end_processing();
-         
-
-
-    });
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    
 
   });
 
@@ -373,7 +324,55 @@ $(function(){
    
    
     
-   
+    //マウスカーソルを砂時計に
+    document.body.style.cursor = 'wait';
+
+    $.ajax({
+            url: "{{ route('recruit_project.job_information_publish_flg_change') }}",
+            type: 'post',
+            dataType: 'json',
+            data: {job_id : job_id , publish_flg : publish_flg},
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
+        })
+        // 送信成功
+        .done(function (data, textStatus, jqXHR) {
+            
+            var result_array = data.result_array;
+
+            var Result = result_array["Result"];
+
+            
+            //{{-- ボタン有効 --}}
+            $('.publish-flg-change-button').prop("disabled", false);
+            //{{-- マウスカーソルを通常に --}}                    
+            document.body.style.cursor = 'auto';
+
+            if(Result =='success'){
+
+                return false;
+
+            }else if(Result =='non_session'){
+
+              // 店舗ログイン画面へ
+              window.location.href = "{{ route('recruit_project.login') }}";
+
+            }else{
+
+              return false;
+               
+
+            }
+
+        
+        })
+
+        // 送信失敗
+        .fail(function (data, textStatus, errorThrown) {
+            
+          return false;          
+
+
+        });
 
 
   }
