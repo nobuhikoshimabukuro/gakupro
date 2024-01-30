@@ -26,10 +26,11 @@ table {
 
    
 
-    .form-table th {        
-        text-align: center;
+    .form-table th 
+    ,.form-table td
+    {        
+        text-align: left;
     }
-
 
 }
 
@@ -44,11 +45,11 @@ table {
     .form-table td {
         display: block;
         width: 100%;
+        text-align: left;
     }
 
     .form-table th {
-        border-right: none;
-        text-align: left;
+        border-right: none;        
     }
 
   
@@ -157,16 +158,18 @@ table {
     
    <div class="row">
 
-        @include('recruit_project.common.alert')
-
-         
+        @include('recruit_project.common.alert')         
 
         <div class="row m-0 mt-2 p-0">
 
-            <div class="col-12 text-start">
+            <div class="col-7 text-start">
                 <h4 class="master-title">
                     求人公開履歴
                 </h4>
+            </div>    
+
+            <div class="col-5 text-end">
+                <button id="reset-button" type="button" class='reset-button btn btn-secondary m-1'>リセット</button>
             </div>    
 
         </div>    
@@ -174,59 +177,86 @@ table {
 
         <div class="col-12">
 
-            <table class="form-table">
+            <table class="form-table w-100">
 
                 <tr class="">
 
-                    <th class="col-12 col-lg-2">
+                    <th class="col-12 col-md-2 col-xl-2">
                         <label for="send_password">パスワード</label>
                     </th>
 
-                    <td class="col-12 col-lg-4">
+                    <th class="col-12 col-md-4 col-xl-4">
+                        
+                        <div class="row m-0 p-0 password-set-area align-items-center">
 
-                        <div class="d-flex">                             
-                            <input type="text" name="send_password" id="send_password" class="" placeholder="" maxlength="10">  
-                            <button id="job-password-check-button" type="button" 
-                                class='job-password-check-button btn btn-success m-1'>パスワード確認</button>
-                            <button id="reset-button" type="button" class='reset-button btn btn-secondary m-1'>リセット</button>
-                        </div>
+                            <div class="col-6 m-0 p-0 text-start">
+                                <input type="text" name="send_password" id="send_password" class="form-control" placeholder="" maxlength="10">
+                            </div>    
+                
+                            <div class="col-6 m-0 p-0 text-end">
+                                <button id="job-password-check-button" type="button" 
+                                class='job-password-check-button btn btn-success m-1'>パスワード確認</button>  
+                            </div>    
+                
+                        </div>    
+
+                        
                     </td>     
                     
-                    
-                    
-                    <th class="col-12 col-lg-2">
+                    <th class="col-12 col-md-2 col-xl-2">
                         <label>商品名</label>
                     </th>
 
-                    <td class="col-12 col-lg-4">
-                        <div class="job-password-item-name">                            
-                        </div>
-                    </td>        
+                    <th class="col-12 col-md-4 col-xl-4">
+                        <input type="text" name="" id="job-password-item-name" class="form-control" readonly>
+                    </td>   
+                    
+                    
 
                 </tr>
 
                 <tr class="">
 
-                    <th class="col-12 col-lg-2">
+                    <th class="">
                         <label for="publish_start_date">公開開始日</label>
                     </th>
 
-                    <td class="col-12 col-lg-4">
-                        <div class="d-flex">
-                            <input type="date" name="publish_start_date" id="publish_start_date" class="" value="{{$set_publish_end_date}}">
-                            <button id="date-setting-button" type="button" 
+                    <td class="date-set-area text-start">
+
+                        <div class="row m-0 p-0 align-items-center">
+
+                            <div class="col-6 m-0 p-0 text-start">
+                                <input type="date" name="publish_start_date" id="publish_start_date" class="form-control" value="{{$set_publish_end_date}}">
+                            </div>    
+                
+                            <div class="col-6 m-0 p-0 text-end">                        
+                                <button id="date-setting-button" type="button" 
                                 class='date-setting-button btn btn-success m-1'>確認</button>
-                        </div>
-                    </td>        
+                            </div>    
+                
+                        </div>    
+                        
+                    </td>                       
                     
-                    <th class="col-12 col-lg-2">
+                    <th class="">
                         <label>公開期間</label>
                     </th>
 
-                    <td class="col-12 col-lg-4">
-                        <div class="publishing_period"> 
-                        </div>
+                    <td class="date-set-process-area">
+
+                        <div class="row m-0 p-0 align-items-center">
+
+                            <div class="col-6 m-0 p-0 text-start publishing_period">
+                                
+                            </div>    
+                
+                            <div class="col-6 m-0 p-0 text-end">                        
+                                <button id="job-publish-confirmation-process-button" type="button" 
+                                    class='btn btn-success m-1'>設定</button>  
+                            </div>                
+                        </div>    
                     </td>
+               
 
                 </tr>
 
@@ -280,8 +310,44 @@ table {
 
 $(function(){
 
-
     
+
+    $(document).ready(function() {
+        set_inoperable(0);
+    }); 
+
+
+    function set_inoperable(process_branch){
+
+        var class_name = "inoperable";
+
+        $("." + class_name).removeClass(class_name);
+
+        switch(process_branch) {
+
+            case 0:
+
+                $(".date-set-area").addClass(class_name);
+                $(".date-set-process-area").addClass(class_name);    
+                break;
+
+            case 1:
+
+                $(".password-set-area").addClass(class_name);
+                $(".date-set-process-area").addClass(class_name);
+    
+                break;
+
+            case 2:
+
+                $(".password-set-area").addClass(class_name);
+                $(".date-set-area").addClass(class_name);    
+                break;
+            default:
+  
+        }
+
+    }
 
 
     $('#reset-button').click(function () {
@@ -289,13 +355,20 @@ $(function(){
         $("#send_password").val('');
         $("#send_password").focus();
 
+        
+        $('#job-password-item-name').val("");
+        $('.publishing_period').html("");
+
         alert_reset();
+        set_inoperable(0);
      
     });
 
     // 「パスワード確認」ボタンがクリックされたら
     $('#job-password-check-button').click(function () {
-         var password = $('#send_password').val();
+
+        alert_reset();
+        var password = $('#send_password').val();
                 
         if(password == ""){
 
@@ -312,8 +385,6 @@ $(function(){
             $('#job-password-check-button').prop("disabled", false);
         }, 3000);
 
-           
-        $('#password').val("");
 
         
         start_processing("#main");
@@ -350,11 +421,14 @@ $(function(){
                         var job_password_item_name = get_info_array["job_password_item_name"];
                         var added_date = get_info_array["added_date"];
                                             
-                        $('#password').val(password);                    
+                                     
 
-                        $('.job-password-item-name').html(job_password_item_name);
+                        $('#job-password-item-name').val(job_password_item_name);
+                        set_inoperable(1);                        
 
-                    }else if(result_type >= 1){                        
+                    }else if(result_type >= 1){     
+                        
+                        alert_display("#main" , message);
 
                     }
 
@@ -382,13 +456,15 @@ $(function(){
     //求人公開開始日時変更時
     $(document).on("click", "#date-setting-button", function (e) {
 
+        alert_reset();
         var employer_id = $('#employer_id').val();
         var job_id = $('#job_id').val();   
         var publish_start_date = $('#publish_start_date').val();
-        var password = $('#password').val();
+        var password = $('#send_password').val();
 
         if(publish_start_date == ""){
-
+            alert_display("#main" , "公開開始日を設定してください。");
+            $('#publish_start_date').focus();            
             return false;
         }
         
@@ -430,7 +506,7 @@ $(function(){
                         
                         display_message = publish_start_date + "～" + publish_end_date;                        
                                     
-                        
+                        set_inoperable(2);                        
 
                     }else if(result_type == 1 || result_type == 2){
                         
@@ -475,10 +551,10 @@ $(function(){
     //求人公開開始日時確定処理時
     $(document).on("click", "#job-publish-confirmation-process-button", function (e) {
 
-        
+        alert_reset();        
         var employer_id = $('#employer_id').val();
         var job_id = $('#job_id').val();        
-        var password = $('#password').val();
+        var password = $('#send_password').val();
         var publish_start_date = $('#publish_start_date').val();
 
 
