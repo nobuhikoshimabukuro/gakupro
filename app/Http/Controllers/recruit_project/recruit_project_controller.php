@@ -1512,12 +1512,14 @@ class recruit_project_controller extends Controller
                 }
             }
 
+            //color参考
+            //https://color.adobe.com/ja/create/color-wheel/
             if($job_information->employer_hp_url != ""){
 
                 $employer_qr_image = QrCode::size(80)
                 ->margin(2)
-                ->color(77,21,21, 100)
-                ->backgroundColor(152,251,152, 75)                
+                ->color(168,11,104,66) 
+                ->backgroundColor(255,255,255,0)
                 ->format('png')
                 ->generate($job_information->employer_hp_url);
 
@@ -1531,8 +1533,8 @@ class recruit_project_controller extends Controller
 
                 $job_qr_image = QrCode::size(80)
                 ->margin(2)
-                ->color(77,21,21, 100)
-                ->backgroundColor(152,251,152, 75)                
+                ->color(0,0,255,100) 
+                ->backgroundColor(255,255,255,0)            
                 ->format('png')
                 ->generate($job_information->job_hp_url);
 
@@ -1541,6 +1543,26 @@ class recruit_project_controller extends Controller
                 $job_information->job_qr_image = "";
             }
           
+            if(1 == 1){
+
+                $url = route('hp.job_information_detail') . "?job_number=" . $job_information_t->id;
+
+                $job_info_qr_image = QrCode::size(80)
+                ->margin(2)
+                ->color(0,255,255,100) 
+                ->backgroundColor(255,255,255,0)          
+                ->format('png')
+                ->generate($url);
+
+                $job_information->job_info_qr_image = $job_info_qr_image;
+
+            }else{
+
+                $job_information->job_info_qr_image = "";
+
+            }
+
+            
             
 
          

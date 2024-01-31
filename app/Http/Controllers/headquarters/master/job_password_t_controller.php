@@ -38,8 +38,8 @@ class job_password_t_controller extends Controller
         //検索項目格納用配列
         $search_element_array = [
             'search_job_password_item_id' => $request->search_job_password_item_id
-            ,'search_usage_flg' => $request->search_usage_flg
-            ,'search_sale_flg' => $request->sale_flg            
+            ,'search_usage_flg' => $request->search_usage_flg === null ?  "" : $request->search_usage_flg
+            ,'search_sale_flg' => $request->search_sale_flg === null ?  "" : $request->search_sale_flg            
             ,'search_sale_date' => $request->search_sale_date
             ,'search_seller' => $request->search_seller
             ,'search_created_at' => $request->search_created_at
@@ -125,10 +125,13 @@ class job_password_t_controller extends Controller
             $job_password_t_list = $job_password_t_list->where('job_password_t.created_by', '=', $search_element_array['search_created_by']);
         }
 
-        if(!is_null($search_element_array['search_usage_flg'])){            
+        if(!is_null($search_element_array['search_usage_flg']) && $search_element_array['search_usage_flg'] != ""){            
             $job_password_t_list = $job_password_t_list->where('job_password_t.usage_flg', '=', $search_element_array['search_usage_flg']);
         }
 
+        if(!is_null($search_element_array['search_sale_flg']) && $search_element_array['search_sale_flg'] != ""){                    
+            $job_password_t_list = $job_password_t_list->where('job_password_t.sale_flg', '=', $search_element_array['search_sale_flg']);
+        }
        
         $job_password_t_list = $job_password_t_list->paginate(env('paginate_count'));
 
@@ -243,8 +246,8 @@ class job_password_t_controller extends Controller
 
         $process_title = "求人公開用パスワード販売時更新処理";
 
-        $job_password_id = intval($request->password_sale_change_job_password_id);
-        $password_sale_flg = intval($request->password_sale_flg);
+        $job_password_id = intval($request->job_password_id);
+        $sale_flg = intval($request->sale_flg);
         
         $operator = session()->get('staff_id');
 
@@ -266,7 +269,7 @@ class job_password_t_controller extends Controller
         
         try {
 
-            if($password_sale_flg == 0){
+            if($sale_flg == 0){
 
                 job_password_t_model::
                 where('job_password_id', $job_password_id)                
@@ -290,13 +293,8 @@ class job_password_t_controller extends Controller
                         'sale_datetime' => null,
                         'updated_by' => $operator,            
                     ]
-                );         
-
-
+                );
             }
-            
-           
-            
     
         } catch (Exception $e) {
 
@@ -319,9 +317,7 @@ class job_password_t_controller extends Controller
             "Result" => "success",
             "Message" => '',
         );
-
-        session()->flash('success', '販売フラグを更新しました。');
-        session()->flash('message-type', 'success');
+        
         return response()->json(['result_array' => $result_array]);
     }
 

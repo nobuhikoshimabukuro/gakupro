@@ -860,7 +860,7 @@
                         <div id="" class="col-6 m-0 p-0 mt-3">
 
                             <button id="" class="w-75 m-0 p-0 job-detail btn btn-outline-success" data-jobnumber="{{$info->id}}">
-                                求人明細を見る
+                                求人情報を見る
                             </button>
 
                         </div>

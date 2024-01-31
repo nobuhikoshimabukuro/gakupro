@@ -211,22 +211,51 @@
         </div>
 
     </div>
+
+    <div class="row">
+
+        <div class="col-12 m-0 p-0">
+
+            {!! nl2br(e($job_information->scout_statement)) !!}   
+           
+
+
+
+        </div>        
+
+    </div>
+
    
 
     <div class="footer">
         <div class="row">
 
-            <div class="col-6">
+            <div class="col-4">
+                
                 @if($job_information->employer_qr_image != "")
                     <img src="data:image/png;base64,{{ base64_encode($job_information->employer_qr_image) }}" alt="QR Code">
                 @endif
+                <br>
+                雇用者情報
             </div>
             
 
-            <div class="col-6">
+            <div class="col-4">
+                
                 @if($job_information->job_qr_image != "")
                     <img src="data:image/png;base64,{{ base64_encode($job_information->job_qr_image) }}" alt="QR Code">
                 @endif
+                <br>
+                雇用者発行求人情報
+            </div>
+
+            <div class="col-4">
+                
+                @if($job_information->job_info_qr_image != "")
+                    <img src="data:image/png;base64,{{ base64_encode($job_information->job_info_qr_image) }}" alt="QR Code">
+                @endif
+                <br>
+                求人情報
             </div>
         </div>
         
