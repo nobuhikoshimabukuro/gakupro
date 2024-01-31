@@ -49,7 +49,7 @@
                 <form action="{{ route('recruit_project.mailaddress_temporary_registration_process') }}" id='send_mail_form' method="post" enctype="multipart/form-data">
                     @csrf
 
-                    <table style="min-width: 100%">
+                    <table class="w-100">
 
                         <tr>
                             <th class="text-start">
@@ -152,6 +152,9 @@
                         <tr>
                             <td class="text-end">                                
                                 <button type="button" id='approve_button' class="btn btn-secondary mt-1">ログイン</button>
+
+                                <button type="button" class="btn btn-success" onclick="location.href='{{ route('recruit_project.login') }}'">ログイン画面へ</button>                                
+                                
                             </td>
                         </tr>                 
 

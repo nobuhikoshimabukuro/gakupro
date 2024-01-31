@@ -606,7 +606,7 @@ class recruit_project_controller extends Controller
         }        
 
         return view('recruit_project/screen/login');
-    }    
+    } 
 
     //ログアウト処理
     function logout(Request $request)

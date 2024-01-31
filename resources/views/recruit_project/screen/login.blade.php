@@ -6,68 +6,115 @@
 @section('content')
 
 <style>
-   
+   * {
+box-sizing: border-box;
+}
+
+*:focus {
+  outline: none;
+}
+body {
+    font-family: Arial;
+    background-color: #3498DB;
+}
+.login {
+margin: 20px auto;
+
+}
+.login-screen {
+background-color: #FFF;
+padding: 20px;
+border-radius: 5px
+}
+
+.app-title {
+text-align: center;
+color: #777;
+}
+
+.login-form {
+text-align: center;
+}
+.control-group {
+margin-bottom: 10px;
+}
+
+input {
+    text-align: left;
+    background-color: #ECF0F1;
+    border: 2px solid transparent;
+    border-radius: 3px;
+    font-size: 16px;
+    font-weight: 200;
+    padding: 5px;
+    transition: border .5s;
+    width: 100%;
+}
+
+input:focus {
+border: 2px solid #3498DB;
+box-shadow: none;
+}
 
 
+.login-link {
+  font-size: 12px;
+  color: #444;
+  display: block;
+  margin-top: 12px;
+}
 </style>
-<div id="main" class="mt-3 text-center container">
-    
-    
-    <form action="{{ route('recruit_project.login_password_check') }}" id='approve_form' method="post" enctype="multipart/form-data">
-        @csrf
-        <div class="row">                    
 
-            <div class="row">                    
-                <div class="col-4 text-end">
-                    <label for="" class="col-form-label original-label">ログインID</label>
-                </div>
-                <div class="col-4">                    
-                    <input type="text" name="login_id" id="login_id" value="" class="form-control text-end">
-                </div>
 
-                <div class="col-4 text-start">                    
-                </div>      
-            </div>       
 
-            <div class="row">                    
-                <div class="col-4 text-end">
-                    <label for="" class="col-form-label original-label">パスワード</label>
-                </div>
-                <div class="col-4">                    
-                    <input type="password" name="password" id="password" value="" class="form-control text-end">
-                </div>
+    <div class="row m-0 p-0 justify-content-center">
 
-                <div class="col-4 text-start">
-                    <button type="button" id='approve_button' class="btn btn-secondary">GO</button>
-                </div>      
-            </div>   
-            
-            
-                                
-            @if(session('employer_login_error'))
-            
-                <div class="row ajax-msg"> 
-                    <div class="col-4"></div>      
-                    <div class="col-4">
-                        <div class="alert alert-danger text-center">
-                            {{session('employer_login_error')}}  
+        <div class="col-12 col-md-8 col-lg-7 col-xl-5">
+
+            <form action="{{ route('recruit_project.login_password_check') }}" id='approve_form' method="post" enctype="multipart/form-data"
+            autocomplete="off"
+            >
+                @csrf
+                <div class="login">
+
+                    <div class="login-screen">
+
+                        <div class="app-title">
+                            <h1>Login</h1>
                         </div>
-                    </div>      
-                    <div class="col-4"></div>      
-                </div>   
-            @endif
-            
+                    
+                        <div class="login-form">
+                            <div class="control-group">                
+                            <input type="text" class="login-field" name="login_id" value="" placeholder="mail address" id="login_id" >
+                            <label class="login-field-icon fui-user" for="login_id"></label>
+                            </div>
+                    
+                            <div class="control-group">
+                            <input type="password" class="login-field" name="password" placeholder="password" id="password">
+                            <label class="login-field-icon fui-lock" for="password"></label>
+                            </div>
+                    
+                            
+                        </div>
 
-        </div>      
+                        <div class="row m-0 p-0">
+                            <button type="button" id='approve_button' class="btn btn-primary">login</button>                
+                        </div>
 
-        {{-- @php phpinfo() @endphp --}}
-        
-        
+                        <div class="row m-0 p-0">
+                            <a class="login-link" href="#">Lost your password?</a>
+                        </div>
+
+                        
+                            
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
 
 
-    </form>
-    
-</div>
 @endsection
 
 @section('pagejs')
@@ -75,7 +122,6 @@
 <script type="text/javascript">
 
 $(function(){
-
 
     
     $(document).ready(function () {        

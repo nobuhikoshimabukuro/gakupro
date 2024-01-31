@@ -428,7 +428,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#42C75E', end
 
                         @if($job_hp_url != "")                            
                             <br>
-                            <a href="{{$job_hp_url}}" target="_blank">求人詳細ページ</a>                    
+                            <a href="{{$job_hp_url}}" target="_blank">求人詳細ページ</a>
                         @endif
                     </p>                
                 </div>
@@ -476,10 +476,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#42C75E', end
                         {!! nl2br(e($employer_description)) !!}
                         <br>
                         @if($employer_hp_url != "")
-                            <div>雇用者サイト</div>
-                            <div>
-                                <a href="{{$employer_hp_url}}" target="_blank">{{$employer_hp_url}}</a>                        
-                            </div>
+                            <a href="{{$job_hp_url}}" target="_blank">雇用者HP</a>                            
                         @endif
 
                     </p>
