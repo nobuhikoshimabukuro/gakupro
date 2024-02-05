@@ -48,10 +48,11 @@ class hp_controller extends Controller
 
     function pdftest(Request $request)
     {   
-        $filePath = storage_path('app/public/pdf/test.pdf');
+        // $filePath = storage_path('app/public/pdf/test.pdf');
+        $filePath = Public_path('pdf/test.pdf');;
 
         if (file_exists($filePath)) {
-            
+
             $headers = [
                 'Content-Type' => 'application/pdf',
             ];
