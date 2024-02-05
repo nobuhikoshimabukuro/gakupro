@@ -189,7 +189,7 @@ $(function(){
     $(document).on("click", "#pdftest_button", function (e) {
         
         var job_number = 1;
-        var url = '{{ route('hp.job_information_detail') }}' + "?job_number=" + job_number;
+        var url = '{{ route('hp.pdftest') }}' + "?job_number=" + job_number;
         window.open(url, '_blank');
     });
 
