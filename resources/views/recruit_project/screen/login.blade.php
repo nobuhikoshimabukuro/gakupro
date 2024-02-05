@@ -97,15 +97,17 @@ box-shadow: none;
                             
                         </div>
 
-                        <div class="row m-0 p-0">
-                            <button type="button" id='approve_button' class="btn btn-primary">login</button>                
+                        <div class="col-12 m-0 p-0 text-end">
+                            <button type="button" id='approve_button' class="btn btn-primary" style="width: auto;">login</button>                
                         </div>
 
-                        <div class="row m-0 p-0">
+                        <div class="col-12 m-0 p-0 text-center">
                             <a class="login-link" href="#">Lost your password?</a>
                         </div>
 
-                        
+                        <div class="col-12 m-0 p-0">
+                            エラーメッセージ
+                        </div>
                             
                     </div>
                 </div>
@@ -135,7 +137,7 @@ $(function(){
             // 判定
             if( document.getElementById("approve_button") == document.activeElement ){
                 
-                LoginProcess();
+                login_process();
             
             }else if( document.getElementById("login_id") == document.activeElement ){
 
@@ -154,11 +156,11 @@ $(function(){
     });    
     
     $('#approve_button').click(function () {        
-        LoginProcess();
+        login_process();
     });
 
 
-    function LoginProcess(){
+    function login_process(){
 
        //{{-- メッセージクリア --}}
        $('.ajax-msg').html('');

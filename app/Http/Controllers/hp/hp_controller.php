@@ -46,6 +46,24 @@ use App\Models\job_category_connection_t_model;
 class hp_controller extends Controller
 {
 
+    function pdftest(Request $request)
+    {   
+        $filePath = storage_path('app/public/pdf/test.pdf');
+
+        if (file_exists($filePath)) {
+            
+            $headers = [
+                'Content-Type' => 'application/pdf',
+            ];
+
+            return response()->file($filePath, $headers);
+        } else {
+            // ファイルが存在しない場合の処理
+            return response()->view('errors.404', [], 404);
+        }
+    }
+
+
     //画像リサイズ画面遷移
     function image_resize(Request $request)
     {   

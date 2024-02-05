@@ -47,6 +47,8 @@ Route::get('get_job_count', [hp_controller::class, 'get_job_count'])->name('hp.g
 
 Route::post('pseudo_job_information', [hp_controller::class, 'pseudo_job_information'])->name('hp.pseudo_job_information');
 
+//pdfテスト
+Route::get('pdftest', [hp_controller::class, 'pdftest'])->name('hp.pdftest');
 
 //画像リサイズ画面
 Route::get('image_resize', [hp_controller::class, 'image_resize'])->name('hp.image_resize');

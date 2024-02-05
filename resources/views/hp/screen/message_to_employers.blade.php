@@ -155,6 +155,8 @@
 
                                 <button type="button" class="btn btn-success" onclick="location.href='{{ route('recruit_project.login') }}'">ログイン画面へ</button>                                
                                 
+
+                                <button type="button" id='pdftest_button' class="btn btn-secondary mt-1">pdfテスト</button>
                             </td>
                         </tr>                 
 
@@ -183,6 +185,14 @@
 <script type="text/javascript">
 
 $(function(){
+
+    $(document).on("click", "#pdftest_button", function (e) {
+        
+        var job_number = 1;
+        var url = '{{ route('hp.job_information_detail') }}' + "?job_number=" + job_number;
+        window.open(url, '_blank');
+    });
+
 
 
     $("#send_mail_form").keypress(function(e) {
