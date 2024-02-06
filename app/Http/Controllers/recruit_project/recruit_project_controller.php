@@ -1436,42 +1436,19 @@ class recruit_project_controller extends Controller
 
         try {
 
-
-            //完成、ブラウザに表示        
-            // $filePath = storage_path('app/public/pdf/test.pdf');
-            $filePath = Public_path('pdf/test.pdf');
-
-     
-
-            $employer_id = session()->get('pdf_employer_id');
-            $job_id = session()->get('pdf_job_id');
+            $ledger_id = $request->ledger_id;
             
+
+            $job_information = $this->set_job_information_detail($ledger_id);
+  
             
-            session()->remove('pdf_employer_id');
-            session()->remove('pdf_job_id');
-
-
-
-
-            $employer_id = 1;
-            $job_id = 1;
-
-
-            $job_information_t = job_information_t_model::
-            where('employer_id', $employer_id)
-            ->where('job_id', $job_id)
-            ->first();
-
-
-
-            if(is_null($job_information_t)){
+            if(is_null($job_information)){
                 
                 //求人情報取得エラー、求人一覧画面にリダイレクト            
                 session()->flash('job_information_ledger_error', 1);
                 return redirect()->route('recruit_project.job_information_confirmation');
 
             }
-
 
             //pdfテンプレートの保存場所
             $job_information_template_path = public_path("pdf/job_information_template.pdf");
@@ -1503,32 +1480,17 @@ class recruit_project_controller extends Controller
 
 
             //↓ここから１ページ目テンプレートにコンテンツを描画
-            // フォント
-            $pdf->setFont('kozminproregular', '', 25); // ←FPDFの標準日本語フォントはこれだけしかない
+            //FPDFの標準日本語フォントはこれだけしかない
+            $pdf->setFont('kozminproregular', '', 25);
 
             //出力ファイル名
             $output_filename = "job_information.pdf";
 
-            $id = $job_information_t->id;
-            $employer_id = $job_information_t->employer_id;
-            $job_id = $job_information_t->job_id;
-            $publish_flg = $job_information_t->publish_flg;
-            $title = $job_information_t->title;
-            $sub_title = $job_information_t->sub_title;
-            $work_location_prefectural_cd = $job_information_t->work_location_prefectural_cd;
-            $work_location_municipality_cd = $job_information_t->work_location_municipality_cd;
-            $working_time = $job_information_t->working_time;
-            $salary = $job_information_t->salary;
-            $holiday = $job_information_t->holiday;                
-            $tel = $job_information_t->tel;
-            $fax = $job_information_t->fax;
-            $hp_url = $job_information_t->hp_url;
-            $job_image_folder_name = $job_information_t->job_image_folder_name;
-            $mailaddress = $job_information_t->mailaddress;
-            $application_requirements = $job_information_t->application_requirements;
-            $scout_statement = $job_information_t->scout_statement;
-            $remarks = $job_information_t->remarks;
-
+            $id = $job_information->id;
+            $employer_id = $job_information->employer_id;
+            $job_id = $job_information->job_id;            
+            $job_image_folder_name = $job_information->job_image_folder_name;
+            
             
             //画像パス設定処理                
             $image_full_path = "";
@@ -1554,41 +1516,143 @@ class recruit_project_controller extends Controller
                 }
             }
 
+           
+            $now = Carbon::now();         
+            $now_ymd = $now->format('Ymd');
+            $now_ymdHis = $now->format('YmdHis');
+            $folder_name = $employer_id . $job_id . $now_ymdHis;
+
+            $folder_path = "job_pdf/" .  $now_ymd . "/" . $folder_name;     
+
+            //qr,pdfを保存するフォルダを作成
+            Storage::disk('recruit_project_storage_path')->makeDirectory($folder_path);
+
             
             if($image_full_path != ""){
                 // $imagePathを使ってPDFに画像を挿入する処理を行う
                 // (画像パス, X座標, Y座標, 幅, 高さ)                   
-                $pdf->Image($image_full_path, $a4_width - 80, 10, 70, 70); 
-                                    
-
+                $pdf->Image($image_full_path, $a4_width - 80, 10, 70, 70);
             }
-
 
             // RGB参考
             // https://itsakura.com/html-color-codes
-
             // テキストの色を設定（RGB）
             $pdf->SetTextColor(35,59,108);
             // テキストを配置する座標を設定
             $pdf->SetXY(10, 10);
             // テキストを追加
-            $pdf->Cell(0, 10, $title, 0, 1, 'L');
+            $pdf->Cell(0, 10, $job_information->title, 0, 1, 'L');
               
 
 
+
+
+
+            $pdf->setFont('kozminproregular', '', 20);
+            $qr_y = 260;
+            $qr_x = 10;
+            $qr_x_diff = 70;
+            if(!(is_null($job_information->employer_hp_url) || $job_information->employer_hp_url == "")){
+
+                $qr_image = QrCode::size(100)
+                ->margin(2)
+                ->color(168,11,104,66) 
+                ->backgroundColor(255,255,255,0)
+                ->format('png')
+                ->generate($job_information->employer_hp_url);
+    
+                $qr_full_path = $folder_path ."/qr_employer_hp_url.png";
+                Storage::put("public/recruit_project/" . $qr_full_path , $qr_image);
+                $qr_image_path = public_path("storage/recruit_project/" . $qr_full_path);
+                
+                // $imagePathを使ってPDFに画像を挿入する処理を行う
+                // (画像パス, X座標, Y座標, 幅, 高さ)                   
+                $pdf->Image($qr_image_path, $qr_x + ($qr_x_diff * 0) , $qr_y, 30, 30);
+
+                $text = "雇用者HP";
+                // テキストを配置する座標を設定
+                $pdf->SetXY($qr_x + ($qr_x_diff * 0) , $qr_y - 10);
+                // テキストを追加
+                $pdf->Cell(0, 10, $text, 0, 1, 'L');
+
+            }
+
+
+            if(!(is_null($job_information->job_hp_url) || $job_information->job_hp_url == "")){
+
+                $qr_image = QrCode::size(100)
+                ->margin(2)
+                ->color(168,11,104,66) 
+                ->backgroundColor(255,255,255,0)
+                ->format('png')
+                ->generate($job_information->job_hp_url);
+    
+                $qr_full_path = $folder_path ."/qr_job_hp_url.png";
+                Storage::put("public/recruit_project/" . $qr_full_path , $qr_image);
+                $qr_image_path = public_path("storage/recruit_project/" . $qr_full_path);
+                
+                // $imagePathを使ってPDFに画像を挿入する処理を行う
+                // (画像パス, X座標, Y座標, 幅, 高さ)                                   
+                $pdf->Image($qr_image_path, $qr_x + ($qr_x_diff * 1) , $qr_y, 30, 30);
+
+                $text = "求人情報HP";
+                // テキストを配置する座標を設定
+                $pdf->SetXY($qr_x + ($qr_x_diff * 1) , $qr_y - 10);
+                // テキストを追加
+                $pdf->Cell(0, 10, $text, 0, 1, 'L');
+            }
+
+      
+            if(1 ==1 ){
+
+                $url = route('hp.job_information_detail') . "?job_number=" . $job_information->id;
+                $qr_image = QrCode::size(100)
+                ->margin(2)
+                ->color(168,11,104,66) 
+                ->backgroundColor(255,255,255,0)
+                ->format('png')
+                ->generate($url);
+
+                $qr_full_path = $folder_path ."/qr_job_info_url.png";
+                Storage::put("public/recruit_project/" . $qr_full_path , $qr_image);
+                $qr_image_path = public_path("storage/recruit_project/" . $qr_full_path);
+                
+                // $imagePathを使ってPDFに画像を挿入する処理を行う
+                // (画像パス, X座標, Y座標, 幅, 高さ)                   
+                $pdf->Image($qr_image_path, $qr_x + ($qr_x_diff * 2) , $qr_y, 30, 30);
+
+                $text = "学プロ求人";
+                // テキストを配置する座標を設定
+                $pdf->SetXY($qr_x + ($qr_x_diff * 2) , $qr_y - 10);
+                // テキストを追加
+                $pdf->Cell(0, 10, $text, 0, 1, 'L');
+
+            }
             
-            $now = Carbon::now();         
-            $now_ymd = $now->format('Ymd');
-            $now_ymdHis = $now->format('YmdHis');
-            $folder_name = $employer_id . $job_id . $now_ymdHis;            
-            $folder_path = "job_pdf/" .  $now_ymd . "/" . $folder_name;            
 
 
-            Storage::disk('recruit_project_storage_path')->makeDirectory($folder_path);
+            
 
-            // ファイルに保存
+            // PDFファイルに保存
             $outputFilePath = storage_path('app/public/recruit_project/' . $folder_path . '/generated.pdf');
             $pdf->Output($outputFilePath, 'F');
+
+
+
+            //昨日以前のフォルダを削除
+            $public_path = 'public/recruit_project/job_pdf';
+            $folders_to_delete = Storage::directories($public_path);
+            foreach ($folders_to_delete as $folder) {
+              
+                // フォルダ名を取得
+                $folderName = basename($folder);
+
+                if(intval($now_ymd) > intval($folderName)){
+                    // フォルダを削除
+                    Storage::deleteDirectory($public_path . '/' . $folderName);
+                }
+            }
+       
             
 
         } catch (Exception $e) {
@@ -1596,6 +1660,7 @@ class recruit_project_controller extends Controller
             $error_message = $e->getMessage();
             Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
         }
+
         
         //完成、ブラウザに表示                
         $filePath = Public_path('/storage/recruit_project/' . $folder_path . '/generated.pdf');
@@ -1621,7 +1686,7 @@ class recruit_project_controller extends Controller
 
 
     //求人情報表出力処理
-    function job_information_ledger_bkk(Request $request)
+    function job_information_ledger___(Request $request)
     {    
 
         $process_title = "求人情報表出力処理";

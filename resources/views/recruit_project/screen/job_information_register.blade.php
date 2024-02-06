@@ -488,8 +488,7 @@ input::placeholder{
                         <button type="button" id="ledger-button" class="btn btn-primary">求人表</button>
                         <form id="ledger-form" method="post" class="d-none" action="{{ route('recruit_project.job_information_ledger') }}" target="_blank">
                             @csrf  
-                            <input type="hidden" name="ledger_employer_id" id="ledger_employer_id" value="{{$employer_id}}">
-                            <input type="hidden" name="ledger_job_id" id="ledger_job_id" value="{{$job_id}}">
+                            <input type="hidden" name="ledger_id" id="ledger_id" value="{{$job_info->id}}">                            
                         </form>
 
 
