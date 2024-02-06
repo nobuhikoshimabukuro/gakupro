@@ -1427,8 +1427,201 @@ class recruit_project_controller extends Controller
 
     }
 
+
     //求人情報表出力処理
     function job_information_ledger(Request $request)
+    {    
+
+        $process_title = "求人情報表出力処理";
+
+        try {
+
+
+            //完成、ブラウザに表示        
+            // $filePath = storage_path('app/public/pdf/test.pdf');
+            $filePath = Public_path('pdf/test.pdf');
+
+     
+
+            $employer_id = session()->get('pdf_employer_id');
+            $job_id = session()->get('pdf_job_id');
+            
+            
+            session()->remove('pdf_employer_id');
+            session()->remove('pdf_job_id');
+
+
+
+
+            $employer_id = 1;
+            $job_id = 1;
+
+
+            $job_information_t = job_information_t_model::
+            where('employer_id', $employer_id)
+            ->where('job_id', $job_id)
+            ->first();
+
+
+
+            if(is_null($job_information_t)){
+                
+                //求人情報取得エラー、求人一覧画面にリダイレクト            
+                session()->flash('job_information_ledger_error', 1);
+                return redirect()->route('recruit_project.job_information_confirmation');
+
+            }
+
+
+            //pdfテンプレートの保存場所
+            $job_information_template_path = public_path("pdf/job_information_template.pdf");
+            
+
+            // 縦A4サイズのPDF文書を準備
+            $pdf = new Fpdi('P', 'mm', 'A4');
+
+            // A4の横幅と高さ
+            $a4_width = 210;
+            $a4_height = 297;
+
+            // ヘッダーの出力なし（falseにしないと線が出る）
+            $pdf->setPrintHeader(false);
+            // フッターの出力なし（同じく）
+            $pdf->setPrintFooter(false);
+            //自動改ページ設定（自動改ページをさせない）
+            $pdf->SetAutoPageBreak(false);
+
+            //１ページ目テンプレートをセット
+            $pdf->setSourceFile($job_information_template_path);
+            $importPage = $pdf->importPage(1);
+
+            //テンプレートを頁に追加
+            $pdf->addPage();
+
+            //テンプレートをページに適用
+            $pdf->useTemplate($importPage, 0, 0);
+
+
+            //↓ここから１ページ目テンプレートにコンテンツを描画
+            // フォント
+            $pdf->setFont('kozminproregular', '', 25); // ←FPDFの標準日本語フォントはこれだけしかない
+
+            //出力ファイル名
+            $output_filename = "job_information.pdf";
+
+            $id = $job_information_t->id;
+            $employer_id = $job_information_t->employer_id;
+            $job_id = $job_information_t->job_id;
+            $publish_flg = $job_information_t->publish_flg;
+            $title = $job_information_t->title;
+            $sub_title = $job_information_t->sub_title;
+            $work_location_prefectural_cd = $job_information_t->work_location_prefectural_cd;
+            $work_location_municipality_cd = $job_information_t->work_location_municipality_cd;
+            $working_time = $job_information_t->working_time;
+            $salary = $job_information_t->salary;
+            $holiday = $job_information_t->holiday;                
+            $tel = $job_information_t->tel;
+            $fax = $job_information_t->fax;
+            $hp_url = $job_information_t->hp_url;
+            $job_image_folder_name = $job_information_t->job_image_folder_name;
+            $mailaddress = $job_information_t->mailaddress;
+            $application_requirements = $job_information_t->application_requirements;
+            $scout_statement = $job_information_t->scout_statement;
+            $remarks = $job_information_t->remarks;
+
+            
+            //画像パス設定処理                
+            $image_full_path = "";
+            for ($i = 1; $i <= 3; $i++) {
+            
+                $image_directory_path = public_path("storage/recruit_project/job_image/id_" . $id . "/" . $job_image_folder_name . "/" . $i . "/");
+
+                //フォルダがあるかチェック
+                if (File::isDirectory($image_directory_path)) {
+
+                    // ディレクトリ内のファイルを取得
+                    $files = File::files($image_directory_path);    
+                    
+                    if (!empty($files)) {
+
+                        // ファイル名を取得（ここでは最初のファイルを取得しています）
+                        $firstFileName = basename($files[0]);
+                        // 完全なファイルパスを生成
+                        $image_full_path = $image_directory_path . $firstFileName;
+                        break;
+
+                    }
+                }
+            }
+
+            
+            if($image_full_path != ""){
+                // $imagePathを使ってPDFに画像を挿入する処理を行う
+                // (画像パス, X座標, Y座標, 幅, 高さ)                   
+                $pdf->Image($image_full_path, $a4_width - 80, 10, 70, 70); 
+                                    
+
+            }
+
+
+            // RGB参考
+            // https://itsakura.com/html-color-codes
+
+            // テキストの色を設定（RGB）
+            $pdf->SetTextColor(35,59,108);
+            // テキストを配置する座標を設定
+            $pdf->SetXY(10, 10);
+            // テキストを追加
+            $pdf->Cell(0, 10, $title, 0, 1, 'L');
+              
+
+
+            
+            $now = Carbon::now();         
+            $now_ymd = $now->format('Ymd');
+            $now_ymdHis = $now->format('YmdHis');
+            $folder_name = $employer_id . $job_id . $now_ymdHis;            
+            $folder_path = "job_pdf/" .  $now_ymd . "/" . $folder_name;            
+
+
+            Storage::disk('recruit_project_storage_path')->makeDirectory($folder_path);
+
+            // ファイルに保存
+            $outputFilePath = storage_path('app/public/recruit_project/' . $folder_path . '/generated.pdf');
+            $pdf->Output($outputFilePath, 'F');
+            
+
+        } catch (Exception $e) {
+
+            $error_message = $e->getMessage();
+            Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
+        }
+        
+        //完成、ブラウザに表示                
+        $filePath = Public_path('/storage/recruit_project/' . $folder_path . '/generated.pdf');
+
+        if (file_exists($filePath)) {
+ 
+             $headers = [
+                 'Content-Type' => 'application/pdf',
+             ];
+ 
+             return response()->file($filePath, $headers);
+
+        } else {
+             // ファイルが存在しない場合の処理
+             //求人情報取得エラー、求人一覧画面にリダイレクト            
+             session()->flash('job_information_ledger_error', 1);
+             return redirect()->route('recruit_project.job_information_confirmation');
+        }
+
+        
+
+    }
+
+
+    //求人情報表出力処理
+    function job_information_ledger_bkk(Request $request)
     {    
 
         $process_title = "求人情報表出力処理";
@@ -1457,7 +1650,7 @@ class recruit_project_controller extends Controller
             //求人情報取得エラー、求人一覧画面にリダイレクト
             
             session()->flash('job_information_ledger_error', 1);
-            return redirect()->route('recruit_project.job_information_confirmation');                    
+            return redirect()->route('recruit_project.job_information_confirmation');
         
         }else{           
 
@@ -1646,194 +1839,7 @@ class recruit_project_controller extends Controller
         return $job_information;
     }
 
-    //求人情報表出力処理
-    function job_information_ledger_bk(Request $request)
-    {    
-
-        $process_title = "求人情報表出力処理";
-
-        try {
-
-            $employer_id = session()->get('pdf_employer_id');
-            $job_id = session()->get('pdf_job_id');
-            
-            
-            session()->remove('pdf_employer_id');
-            session()->remove('pdf_job_id');
-
-
-            $job_information_t = job_information_t_model::
-            where('employer_id', $employer_id)
-            ->where('job_id', $job_id)
-            ->first();
-
-
-
-            if(is_null($job_information_t)){
-
-                //pdfテンプレートの保存場所
-                $job_information_template_path = public_path("pdf/job_information_template_ng.pdf");        
-            
-            }else{
-
-                //pdfテンプレートの保存場所
-                $job_information_template_path = public_path("pdf/job_information_template.pdf");
-
-            }
-
-            
-
-            // 縦A4サイズのPDF文書を準備
-            $pdf = new Fpdi('P', 'mm', 'A4');
-
-            // A4の横幅と高さ
-            $a4_width = 210;
-            $a4_height = 297;
-
-            // ヘッダーの出力なし（falseにしないと線が出る）
-            $pdf->setPrintHeader(false);
-            // フッターの出力なし（同じく）
-            $pdf->setPrintFooter(false);
-            //自動改ページ設定（自動改ページをさせない）
-            $pdf->SetAutoPageBreak(false);
-
-            //１ページ目テンプレートをセット
-            $pdf->setSourceFile($job_information_template_path);
-            $importPage = $pdf->importPage(1);
-
-            //テンプレートを頁に追加
-            $pdf->addPage();
-
-            //テンプレートをページに適用
-            $pdf->useTemplate($importPage, 0, 0);
-
-
-            //↓ここから１ページ目テンプレートにコンテンツを描画
-            // フォント
-            $pdf->setFont('kozminproregular', '', 25); // ←FPDFの標準日本語フォントはこれだけしかない
-
-            if(is_null($job_information_t)){
-
-                //出力ファイル名
-                $output_filename = "job_information_ng.pdf";
-
-
-
-            }else{
-
-
-                //出力ファイル名
-                $output_filename = "job_information.pdf";
-
-                $id = $job_information_t->id;
-                $employer_id = $job_information_t->employer_id;
-                $job_id = $job_information_t->job_id;
-                $publish_flg = $job_information_t->publish_flg;
-                $title = $job_information_t->title;
-                $sub_title = $job_information_t->sub_title;
-                $work_location_prefectural_cd = $job_information_t->work_location_prefectural_cd;
-                $work_location_municipality_cd = $job_information_t->work_location_municipality_cd;
-                $working_time = $job_information_t->working_time;
-                $salary = $job_information_t->salary;
-                $holiday = $job_information_t->holiday;                
-                $tel = $job_information_t->tel;
-                $fax = $job_information_t->fax;
-                $hp_url = $job_information_t->hp_url;
-                $job_image_folder_name = $job_information_t->job_image_folder_name;
-                $mailaddress = $job_information_t->mailaddress;
-                $application_requirements = $job_information_t->application_requirements;
-                $scout_statement = $job_information_t->scout_statement;
-                $remarks = $job_information_t->remarks;
-
-                
-                //画像パス設定処理                
-                $image_full_path = "";
-                for ($i = 1; $i <= 3; $i++) {
-                
-                    $image_directory_path = public_path("storage/recruit_project/job_image/id_" . $id . "/" . $job_image_folder_name . "/" . $i . "/");
-
-                    //フォルダがあるかチェック
-                    if (File::isDirectory($image_directory_path)) {
-
-                        // ディレクトリ内のファイルを取得
-                        $files = File::files($image_directory_path);    
-                        
-                        if (!empty($files)) {
     
-                            // ファイル名を取得（ここでは最初のファイルを取得しています）
-                            $firstFileName = basename($files[0]);
-                            // 完全なファイルパスを生成
-                            $image_full_path = $image_directory_path . $firstFileName;
-                            break;
-
-                        }
-                    }
-                }
-
-                
-                if($image_full_path != ""){
-                    // $imagePathを使ってPDFに画像を挿入する処理を行う
-                    // (画像パス, X座標, Y座標, 幅, 高さ)                   
-                    $pdf->Image($image_full_path, $a4_width - 80, 10, 70, 70); 
-                                        
-
-                }
-
-
-                // RGB参考
-                // https://itsakura.com/html-color-codes
-
-                // テキストの色を設定（RGB）
-                $pdf->SetTextColor(35,59,108);
-                // テキストを配置する座標を設定
-                $pdf->SetXY(10, 10);
-                // テキストを追加
-                $pdf->Cell(0, 10, $title, 0, 1, 'L');
-              
-            }
-            
-
-        } catch (Exception $e) {
-
-
-            $error_message = $e->getMessage();
-            Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
-
-            //出力ファイル名
-            $output_filename = "job_information_ng.pdf";
-
-
-            //pdfテンプレートの保存場所
-            $job_information_template_path = public_path("pdf/job_information_template_ng.pdf");  
-
-
-            // 縦A4サイズのPDF文書を準備
-            $pdf = new Fpdi('P', 'mm', 'A4');
-
-            // ヘッダーの出力なし（falseにしないと線が出る）
-            $pdf->setPrintHeader(false);
-            // フッターの出力なし（同じく）
-            $pdf->setPrintFooter(false);
-            //自動改ページ設定（自動改ページをさせない）
-            $pdf->SetAutoPageBreak(false);
-
-            //１ページ目テンプレートをセット
-            $pdf->setSourceFile($job_information_template_path);
-            $importPage = $pdf->importPage(1);
-
-            //テンプレートを頁に追加
-            $pdf->addPage();
-
-            //テンプレートをページに適用
-            $pdf->useTemplate($importPage, 0, 0);
-
-
-        }
-        
-        //完成、ブラウザに表示        
-        $pdf->output($output_filename, "I");
-
-    }
 
     
 
