@@ -1531,24 +1531,76 @@ class recruit_project_controller extends Controller
             if($image_full_path != ""){
                 // $imagePathを使ってPDFに画像を挿入する処理を行う
                 // (画像パス, X座標, Y座標, 幅, 高さ)                   
-                $pdf->Image($image_full_path, $a4_width - 80, 10, 70, 70);
+
+                $width = 100;
+                $height = $width / 1.61803398875;
+
+                $pdf->Image($image_full_path, $a4_width - 110, 20, $width, $height);
             }
 
             // RGB参考
             // https://itsakura.com/html-color-codes
             // テキストの色を設定（RGB）
+            // 背景色を白に指定
+            $pdf->SetFillColor(255, 255, 255);
             $pdf->SetTextColor(35,59,108);
+
+            //タイトル
             // テキストを配置する座標を設定
-            $pdf->SetXY(10, 10);
+            $pdf->SetXY(10, 3);
             // テキストを追加
+            // $pdf->Cell(0, 10, $job_information->title, 0, 1, 'L' ,true);
             $pdf->Cell(0, 10, $job_information->title, 0, 1, 'L');
+
+
+            $pdf->setFont('kozminproregular', '', 15);
+
+            $text = "";
+            if(!(is_null($job_information->work_location) || $job_information->work_location == "")){
+
+                $text .= "\n" . "【勤務地】";
+                $text .= "\n" . $job_information->work_location;
+            }
+            
+            if(!(is_null($job_information->salary) || $job_information->salary == "")){
+
+                $text .= "\n" . "【雇用形態/給与】";
+                $text .= "\n" . $job_information->salary;
+            }
+
+            if(!(is_null($job_information->working_time) || $job_information->working_time == "")){
+
+                $text .= "\n" . "【就労時間】";
+                $text .= "\n" . $job_information->working_time;
+            }
+
+            if(!(is_null($job_information->holiday) || $job_information->holiday == "")){
+
+                $text .= "\n" . "【休日】";
+                $text .= "\n" . $job_information->holiday;
+            }
+            
+            
+            if(!(is_null($job_information->scout_statement) || $job_information->scout_statement == "")){
+
+                $text .= "\n";
+                $text .= "\n" . $job_information->scout_statement;
+            }
+
+                      
+            $text = str_replace("\r\n", "\n", $text);
+            $text = str_replace("\n", "\n　", $text);
+            $text = str_replace("\n　【", "\n【", $text);
+
+            // テキストを追加
+            $pdf->MultiCell(0, 15, $text, 0, 'L',true);
               
 
 
 
 
 
-            $pdf->setFont('kozminproregular', '', 20);
+            
             $qr_y = 260;
             $qr_x = 10;
             $qr_x_diff = 70;
