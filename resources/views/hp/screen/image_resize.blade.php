@@ -90,6 +90,50 @@ body{
         
     </div>
 
+
+
+    <div class="row video_forpc">
+        <div class="col-12 col-md-6 col-lg-4">
+    <div style="max-width: 500px; margin: 0 auto;">
+      <div align="center" class="youtube_wrap">          
+        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/BzkU254aUd8?si=eS_JQGsBnwXjhsm6" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div>
+      <p class="mb-0 video_title">ストデリ概要編（2:52）</p>
+      <span style="font-size:small;">専門店に預け、取りに行っていた常識から、宅配便を使って専門店を便利に活用する時代へ。</span>
+    </div>
+  </div>
+        <div class="col-12 col-md-6 col-lg-4">
+    <div style="max-width: 500px; margin: 0 auto;">
+      <div align="center" class="youtube_wrap">          
+        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/DSOAkawl38A?si=7bdRA2Nw2ACdXg6k" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div>
+      <p class="mb-0 video_title">ストデリ登録編（3:43）</p>
+      <span style="font-size:small;">LINEアプリ会員登録や電子マネー登録の方法を紹介しています。</span>
+    </div>
+  </div>
+        <div class="col-12 col-md-6 col-lg-4">
+    <div style="max-width: 500px; margin: 0 auto;">
+      <div align="center" class="youtube_wrap">          
+        <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/3QQEJlcD-9g?si=nH8V1W6jlfQJlDRY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div>
+      <p class="mb-0 video_title">ストデリ利用編（6:17）</p>
+      <span style="font-size:small;">アプリを使ってガットやテンションの選択方法、梱包の手軽さを説明しています。</span>
+    </div>
+  </div>
+      </div>
+
+    
+
+
+
+
+
     @php
         phpinfo();
     @endphp
