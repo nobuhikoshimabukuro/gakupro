@@ -146,6 +146,22 @@ body{
 
 
       <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
+      <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
+      <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
+      <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
+      <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
+      <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
+      <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
+      <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
+      <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
+      <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
+      <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
+      <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
+      <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
+      <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
+      <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
+      <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
+      <div style="margin: auto; width:initial;"><a href='https://checkout.rakuten.co.jp/' target='_blank'><img alt='楽天ペイ' src='https://checkout.rakuten.co.jp/rpay/logo/w_wb_10091.jpg' border='0'/></a></div>
 
 
 
