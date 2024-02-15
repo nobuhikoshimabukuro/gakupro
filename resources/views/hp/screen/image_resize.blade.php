@@ -90,6 +90,10 @@ body{
         
     </div>
 
+    @php
+        phpinfo();
+    @endphp
+
 @endsection
 
 @section('pagejs')
