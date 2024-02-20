@@ -256,6 +256,14 @@ input::placeholder{
 
 
 
+.employment-status-label{
+        height: 100%;
+        width: 100%; 
+        color:black;
+        background-color: rgb(238, 234, 234);   
+        font-weight: 500;        
+        border-radius: 3px;
+    }
 
 
 
@@ -273,7 +281,7 @@ input::placeholder{
 
 
     .job-supplement-area
-    ,.job-category-area    
+    ,.job-category-area        
     {
         height: 50px;
         padding: 3px;
@@ -281,42 +289,18 @@ input::placeholder{
 
     
 
-
-    .job-supplement-label
-    ,.job-category-label
-    {
-        height: 100%;
-        width: 100%; 
-        color: rgb(53, 7, 7);       
-        border-radius: 3px;     
-        background-color: rgb(208, 208, 241);
-        
-    }
-
-    .job-supplement-select
-    ,.job-category-select
-    {
-        background-color: rgb(49, 49, 105);
-        color: white;
-        border: solid 1px rgb(208, 208, 241);
-        font-weight: bold;
-        animation: arrowrotate .1s;
-    }
-
-    @keyframes arrowrotate {
-        100% {
-            transform: rotate(6deg);
-        }
-    }
-
-
     .employment-status-area{
         height: 45px;
         padding: 3px;
         width: 110px;
     }
 
-    .employment-status-label{
+ 
+
+    .job-category-label
+    ,.job-supplement-label
+    ,.employment-status-label
+    {
         height: 100%;
         width: 100%; 
         color:black;
@@ -324,6 +308,48 @@ input::placeholder{
         font-weight: 500;        
         border-radius: 3px;
     }
+
+    .job-supplement-select    
+    {
+        background-color:white;
+        color:black;
+        border: solid 1px green;
+        font-weight: bold;
+        
+    }
+  
+    .job-supplement-check-mark {
+        position: absolute;
+        content: '';
+        width: 20px;
+        height: 8px;
+        border-left: 3px solid green;
+        border-bottom: 3px solid green;
+        transform: rotate(-45deg);
+        animation: fadeIn 0.7s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+    }
+
+
+    .job-category-select    
+    {
+        background-color:white;
+        color:black;
+        border: solid 1px blue;
+        font-weight: bold;
+        
+    }
+  
+    .job-category-check-mark {
+        position: absolute;
+        content: '';
+        width: 20px;
+        height: 8px;
+        border-left: 3px solid blue;
+        border-bottom: 3px solid blue;
+        transform: rotate(-45deg);
+        animation: fadeIn 0.7s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+    }
+
 
     .employment-status-select
     {
@@ -333,10 +359,9 @@ input::placeholder{
         font-weight: bold;
         
     }
-  
 
 
-    .check-mark {
+    .employment-status-check-mark {
         position: absolute;
         content: '';
         width: 20px;
@@ -344,7 +369,6 @@ input::placeholder{
         border-left: 3px solid red;
         border-bottom: 3px solid red;
         transform: rotate(-45deg);
-
         animation: fadeIn 0.7s cubic-bezier(0.33, 1, 0.68, 1) forwards;
     }
 
@@ -688,7 +712,7 @@ input::placeholder{
                                                             >{{$employment_status_name}}
 
                                                             @if($set_flg == 1)
-                                                                <div class="check-mark"></div>
+                                                                <div class="employment-status-check-mark"></div>
                                                             @endif  
                                                             
                                                                 <input type="checkbox" 
@@ -1123,12 +1147,18 @@ input::placeholder{
 
                                     <div id="job-subcategory-area{{$job_subcategory_cd}}" 
                                     class="col-6 col-lg-4 col-xl-4 mt-2 job-category-area">
+
+                                    
                                         <label id="job-category-label{{$job_subcategory_cd}}" 
                                             for="job-category-checkbox{{$job_subcategory_cd}}" 
                                             class="job-category-label item-center {{$add_class}}"                                        
                                         >{{$job_subcategory_name}}
-                                        </label>
 
+                                        @if($add_class != "")
+                                            <div class="job-category-check-mark"></div>
+                                        @endif
+
+                                        </label>                                    
                                         <input type="checkbox" 
                                         id="job-category-checkbox{{$job_subcategory_cd}}"
                                         name="job-category-checkbox{{$job_subcategory_cd}}"
@@ -1198,6 +1228,10 @@ input::placeholder{
                                             for="job-supplement-checkbox{{$job_supplement_subcategory_cd}}" 
                                             class="job-supplement-label {{$add_class}} item-center"
                                         >{{$job_supplement_subcategory_name}}
+
+                                        @if($add_class != "")
+                                            <div class="job-supplement-check-mark"></div>
+                                        @endif
                                         </label>
 
                                         <input type="checkbox" 
@@ -1496,7 +1530,7 @@ $(function(){
         var target_salary_subategory_cd = "#employment_status_id_" + employment_status_id + "_salary_subcategory_cd";
 
         $(target_label).removeClass('employment-status-select');
-        $(target_label).find('.check-mark').remove();
+        $(target_label).find('.employment-status-check-mark').remove();
 
         $(target_salary_maincategory_cd).removeClass('inoperable');
         $(target_salary_subategory_cd).removeClass('inoperable');
@@ -1504,7 +1538,7 @@ $(function(){
         if($("#employment-status-checkbox" + employment_status_id).prop('checked')){
 
             
-            var add_html = '<div class="check-mark"></div>';           
+            var add_html = '<div class="employment-status-check-mark"></div>';           
             $(add_html).appendTo(target_label);
             $(target_label).addClass('employment-status-select');
                   
@@ -1755,11 +1789,16 @@ $(function(){
 
         var job_subcategory_cd = $(this).data('target');
 
-        $("#job-category-label" + job_subcategory_cd).removeClass('job-category-select');
+        var target_label = "#job-category-label" + job_subcategory_cd;
+
+        $(target_label).removeClass('job-category-select');
+        $(target_label).find('.job-category-check-mark').remove();
 
         if($("#job-category-checkbox" + job_subcategory_cd).prop('checked')){
 
-            $("#job-category-label" + job_subcategory_cd).addClass('job-category-select');
+            var add_html = '<div class="job-category-check-mark"></div>';
+            $(add_html).appendTo(target_label);            
+            $(target_label).addClass('job-category-select');
             
         }        
 
@@ -1772,12 +1811,16 @@ $(function(){
 
         var job_supplement_subcategory_cd = $(this).data('target');
 
-        $("#job-supplement-label" + job_supplement_subcategory_cd).removeClass('job-supplement-select');
+        var target_label = "#job-supplement-label" + job_supplement_subcategory_cd;
+
+        $(target_label).removeClass('job-supplement-select');
+        $(target_label).find('.job-supplement-check-mark').remove();
 
         if($("#job-supplement-checkbox" + job_supplement_subcategory_cd).prop('checked')){
 
-            $("#job-supplement-label" + job_supplement_subcategory_cd).addClass('job-supplement-select');
-            
+            var add_html = '<div class="job-supplement-check-mark"></div>';
+            $(add_html).appendTo(target_label);
+            $(target_label).addClass('job-supplement-select');            
         }        
 
     });

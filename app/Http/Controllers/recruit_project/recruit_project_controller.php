@@ -1997,10 +1997,12 @@ class recruit_project_controller extends Controller
             $job_image_folder_name = $request->job_image_folder_name;
             $mailaddress = $request->mailaddress;
             $application_requirements = $request->application_requirements;
+            $application_process = $request->application_process;
             $Job_duties = $request->Job_duties;
             $scout_statement = $request->scout_statement;
             $remarks = $request->remarks;
 
+            
 
             //新規登録時
             if($job_id == 0){       
@@ -2044,6 +2046,7 @@ class recruit_project_controller extends Controller
                         ,"mailaddress" => $mailaddress
                         ,"Job_duties" => $Job_duties
                         ,"application_requirements" => $application_requirements
+                        ,"application_process" => $application_process
                         ,"scout_statement" => $scout_statement
                         ,"remarks" => $remarks                        
                     ]
@@ -2070,6 +2073,7 @@ class recruit_project_controller extends Controller
                         ,"mailaddress" => $mailaddress
                         ,"Job_duties" => $Job_duties
                         ,"application_requirements" => $application_requirements
+                        ,"application_process" => $application_process
                         ,"scout_statement" => $scout_statement
                         ,"remarks" => $remarks                        
                     ]
