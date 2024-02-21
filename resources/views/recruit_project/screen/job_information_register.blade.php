@@ -82,7 +82,7 @@ input[type="text"]:placeholder-shown
 ,input[type="tel"]:placeholder-shown
 ,textarea:placeholder-shown
 {
-    background:  rgb(238, 234, 234);
+    background:  rgb(248, 247, 247);
 
 }
 
@@ -795,14 +795,14 @@ input::placeholder{
 
                                         <div class="row m-0 p-0">
 
-                                            <div class="col-12 col-lg-7 col-xl-6 m-0 p-0">
+                                            <div class="col-12 col-lg-7 col-xl-6 m-0 p-1">
                                                 <h4 class="m-0 p-1" style="">補足文</h4>
                                                 <textarea id="salary" name="salary" placeholder="" rows="5"
                                                 >@if(!is_null($job_info)){{$job_info->salary}}@endif</textarea>
                                             </div>
 
 
-                                            <div class="col-12 col-lg-5 col-xl-6 m-0 p-0">
+                                            <div class="col-12 col-lg-5 col-xl-6 m-0 p-1">
                                                 <h4 class="m-0 p-1" style="">表示文</h4>                                                
                                                 <textarea id="fixed_salary" name="fixed_salary" disabled>
                                                 </textarea>
@@ -888,10 +888,10 @@ input::placeholder{
                                             <div class="col-12 col-lg-6 m-0 p-0">
                                                 <div class="row m-0 p-0">
 
-                                                    <div class="col-12 m-0 p-0">
+                                                    <div class="col-12 m-0 p-1">
 
                                                         <h4 class="m-0 p-1" style="">補足文</h4>
-                                                        <textarea id="application_process" name="application_process" placeholder="" rows="4"
+                                                        <textarea id="application_process" name="application_process" placeholder="" rows="4" class=""
                                                         >@if(!is_null($job_info)){{$job_info->application_process}}@endif</textarea>
 
                                                     </div>
@@ -1002,6 +1002,27 @@ input::placeholder{
                                     </td>            
                                 </tr>
 
+                                <tr class="free_word-tr">
+                                    <th class="">
+                                        <label>フリーワード</label>                                        
+                                    </th>
+                                    <td>
+                                        <div class="row m-0 p-0">
+
+                                            @for ($i = 0; $i <= 9; $i++)
+
+                                                @php
+                                                   $free_word = isset($free_word_array[$i]) ? $free_word_array[$i] : "";
+                                                @endphp
+
+                                                <div class="col-12 col-lg-6 col-xl-4 mb-1">                                                    
+                                                    <input type="text" id="free_word{{($i + 1)}}" name="free_words[]" placeholder="" value="{{$free_word}}" placeholder="">
+                                                </div>
+                                            @endfor
+
+                                        </div>
+                                    </td>
+                                </tr>                
                                 
 
                                 <tr class="remarks-tr">

@@ -20,7 +20,7 @@
         right: -120%;
         width:50%;        
         height: 100%;        
-        background:#eee9e9;        
+        background:#fdfdf2;        
         transition: all 0.6s;    
     }
        
@@ -31,7 +31,7 @@
         left: 0;
         width: 100%;        
         padding-bottom: 1vh 0 ;
-        background:#eee9e9;
+        background:#eeeee1;
     }   
 
     .search-alert-area{
@@ -69,10 +69,10 @@
     }
 
     .search-board-tab-button{
-        font-weight: 600;        
+        font-weight: 650;        
         width: 100%;
         color: rgb(54, 49, 49);
-        background-color: rgb(95, 226, 226);        
+        background-color: rgb(137, 241, 241);        
     }
 
     
@@ -89,7 +89,7 @@
     }   
     
     .after-button{
-        font-weight: 700;                
+        font-weight: 750;                
         color: white;
         background-color: rgb(2, 26, 26);
     }
@@ -371,7 +371,7 @@
                             
                             <th>
                                 <button id="search-board-tab-button4" class="btn search-board-tab-button" data-target="4">
-                                    その他の条件<i class="far fa-check-square"></i>
+                                    他の条件<i class="far fa-check-square"></i>
                                 </button>
                             </th>
 
@@ -395,8 +395,9 @@
 
                         <div class="w-100 item-center mt-3">
                             <div class="d-block ">
-                                <label for="search_prefectural_cd" class="">
-                                    都道府県を選択してください
+                                
+                                <label for="search_prefectural_cd" class="search_prefectural_cd-label">
+                                    都道府県
                                 </label>
 
                                 <select id='search_prefectural_cd' name='search_prefectural_cd' class='input-sm'>
@@ -549,39 +550,7 @@
 
                     <div class="col-11">
 
-                        <div class="w-100 item-center mt-3">
-
-                            <div class="search-salary-maincategory-area">
-                                
-                                <select id='search_salary_maincategory_cd' name='search_salary_maincategory_cd' class='input-sm'>
-                                    <option value=''>---</option>
-                                        @foreach ($salary_maincategory_list as $salary_maincategory_index => $salary_maincategory_info)
-                                            <option value="{{$salary_maincategory_info->salary_maincategory_cd}}"       
-                                            @if($search_element_array['search_salary_maincategory_cd'] == $salary_maincategory_info->salary_maincategory_cd)  
-                                            selected
-                                            @endif                                                                                      
-                                            >
-                                            {{$salary_maincategory_info->salary_maincategory_name}}
-                                            </option>
-                                        @endforeach
-                                </select>
-
-                               
-
-                            </div>
-
-                            <div class="search-salary-subcategory-area">
-
-                                <select id='search_salary_subcategory_cd' name='search_salary_subcategory_cd' class='input-sm'>
-                                    <option value=''>給与形態を選択してください。</option>
-                                </select>
-
-                            </div>
-
-                       
-                            
-
-                        </div>                
+                                  
                         
                         <div class="row m-0 p-0">
 
@@ -633,6 +602,40 @@
 
 
                         </div>
+
+                        <div class="w-100 item-center mt-3">
+
+                            <div class="search-salary-maincategory-area">
+                                
+                                <select id='search_salary_maincategory_cd' name='search_salary_maincategory_cd' class='input-sm'>
+                                    <option value=''>---</option>
+                                        @foreach ($salary_maincategory_list as $salary_maincategory_index => $salary_maincategory_info)
+                                            <option value="{{$salary_maincategory_info->salary_maincategory_cd}}"       
+                                            @if($search_element_array['search_salary_maincategory_cd'] == $salary_maincategory_info->salary_maincategory_cd)  
+                                            selected
+                                            @endif                                                                                      
+                                            >
+                                            {{$salary_maincategory_info->salary_maincategory_name}}
+                                            </option>
+                                        @endforeach
+                                </select>
+
+                               
+
+                            </div>
+
+                            <div class="search-salary-subcategory-area">
+
+                                <select id='search_salary_subcategory_cd' name='search_salary_subcategory_cd' class='input-sm'>
+                                    <option value=''>給与形態を選択してください。</option>
+                                </select>
+
+                            </div>
+
+                       
+                            
+
+                        </div>      
 
                     </div>
 

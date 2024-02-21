@@ -812,6 +812,7 @@ class recruit_project_controller extends Controller
         }       
 
         $job_info = null;
+        $free_word_array = [];
         $employment_status_connections = [];
         $job_category_connections = [];
         $job_supplement_category_connections = [];
@@ -840,8 +841,15 @@ class recruit_project_controller extends Controller
             ->where('job_id', '=', $job_id)            
             ->first();
 
+            $free_word = $job_info->free_word;
+
+            // 文字列を"[", "]"で区切って配列にする
+            $free_word_array = explode("][", substr($free_word, 1, -1));
          
         }
+
+        
+        
 
         $job_images_path_array = job_related::get_job_images($employer_id,$job_id);
 
@@ -917,6 +925,8 @@ class recruit_project_controller extends Controller
                 ,'employer_info'
                 ,'job_id'
                 ,'job_info'
+
+                ,'free_word_array'
 
                 ,'job_images_path_array'
                 
@@ -1924,6 +1934,7 @@ class recruit_project_controller extends Controller
             'job_information_t.application_requirements as application_requirements',
             'job_information_t.application_process as application_process',
             'job_information_t.scout_statement as scout_statement',
+            'job_information_t.free_word as free_word',
             'job_information_t.remarks as job_remarks',
             
         )
@@ -1943,6 +1954,8 @@ class recruit_project_controller extends Controller
             return null;
         }
         
+
+       
 
         $employer_id = $job_information->employer_id;
         $job_id = $job_information->job_id;        
@@ -2002,6 +2015,19 @@ class recruit_project_controller extends Controller
             $scout_statement = $request->scout_statement;
             $remarks = $request->remarks;
 
+
+            $free_words = $request->free_words;
+
+            $free_word = "";
+
+            foreach ($free_words as $word) {
+
+                if(!(is_null($word) || $word == "")){
+                    $free_word .= "[" . $word . "]";
+                }
+                
+            }
+
             
 
             //新規登録時
@@ -2048,6 +2074,7 @@ class recruit_project_controller extends Controller
                         ,"application_requirements" => $application_requirements
                         ,"application_process" => $application_process
                         ,"scout_statement" => $scout_statement
+                        ,"free_word" => $free_word     
                         ,"remarks" => $remarks                        
                     ]
                 );
@@ -2075,6 +2102,7 @@ class recruit_project_controller extends Controller
                         ,"application_requirements" => $application_requirements
                         ,"application_process" => $application_process
                         ,"scout_statement" => $scout_statement
+                        ,"free_word" => $free_word 
                         ,"remarks" => $remarks                        
                     ]
                 );

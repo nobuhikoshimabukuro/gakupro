@@ -434,7 +434,21 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#42C75E', end
                 </div>
 
 
-               
+                <div class="col-12 text-start">
+
+                    <h4 class="heading-name">
+                        私たちについて
+                    </h4>
+                    <p>
+                        {!! nl2br(e($employer_description)) !!}
+                        <br>
+                        @if($employer_hp_url != "")
+                            <a href="{{$job_hp_url}}" target="_blank">雇用者HP</a>                            
+                        @endif
+
+                    </p>
+
+                </div>
 
                 @if(count($job_supplement_category_datas) > 0)
                     <div class="col-12 text-start">
@@ -465,23 +479,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#42C75E', end
 
                     </div>
                 @endif
-
-
-                <div class="col-12 text-start">
-
-                    <h4 class="heading-name">
-                        私たちについて
-                    </h4>
-                    <p>
-                        {!! nl2br(e($employer_description)) !!}
-                        <br>
-                        @if($employer_hp_url != "")
-                            <a href="{{$job_hp_url}}" target="_blank">雇用者HP</a>                            
-                        @endif
-
-                    </p>
-
-                </div>
 
             </div>
           

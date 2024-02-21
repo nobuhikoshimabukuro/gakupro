@@ -131,7 +131,7 @@ return new class extends Migration
 
 
             $table
-                ->string('free_word', 1000)
+                ->text('free_word')
                 ->nullable()
                 ->comment('求人検索用のフリーワード');
 
