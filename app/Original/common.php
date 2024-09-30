@@ -16,8 +16,7 @@ use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
 
 class common
-{   
-    
+{       
     //管理側session確認処理
     public static function headquarters_session_confirmation()
     {

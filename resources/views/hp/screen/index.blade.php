@@ -19,11 +19,11 @@
 
 <div id="main" class="mt-3 text-center container">   
 
-    {{-- <div class="row">        
+    <div class="row">        
         <div class="col-12 text-center">
             <video id="movie" src="{{ asset('movie/hp/test.mp4')}}" controls></video>
         </div>        
-    </div>    --}}
+    </div>   
     
 </div>
 

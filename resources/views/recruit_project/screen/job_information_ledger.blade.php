@@ -81,9 +81,12 @@
 
 
 .item-center{
-  display: flex;
-  justify-content: center; /*左右中央揃え*/
-  align-items: center;     /*上下中央揃え*/
+    display: flex;
+
+    /*左右中央揃え*/
+    justify-content: center;
+    /*上下中央揃え*/
+    align-items: center;     
 }
 
 

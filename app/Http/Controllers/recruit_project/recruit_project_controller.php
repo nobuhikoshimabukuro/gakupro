@@ -1460,6 +1460,132 @@ class recruit_project_controller extends Controller
 
             }
 
+            
+
+            $id = $job_information->id;
+            $employer_id = $job_information->employer_id;
+            $job_id = $job_information->job_id;            
+            $job_image_folder_name = $job_information->job_image_folder_name;
+            
+            
+            //画像パス設定処理                
+            $image_full_path = asset('img/no_image/no_image.jpeg');            
+            $employer_hp_url_qr_code = "";
+            $job_hp_url_qr_code = "";
+            $job_information_detail_url_qr_code = "";
+
+            //求人画像取得処理
+            for ($i = 1; $i <= 3; $i++) {
+            
+                $image_directory_path = public_path("storage/recruit_project/job_image/id_" . $id . "/" . $job_image_folder_name . "/" . $i . "/");
+
+                //フォルダがあるかチェック
+                if (File::isDirectory($image_directory_path)) {
+
+                    // ディレクトリ内のファイルを取得
+                    $files = File::files($image_directory_path);    
+                    
+                    if (!empty($files)) {
+
+                        // ファイル名を取得（ここでは最初のファイルを取得しています）
+                        $firstFileName = basename($files[0]);
+                        // 完全なファイルパスを生成
+                        $image_full_path = $image_directory_path . $firstFileName;
+                        break;
+
+                    }
+                }
+            }
+      
+ 
+            //求人元URLが設定されていれば
+            if(!(is_null($job_information->employer_hp_url) || $job_information->employer_hp_url == "")){
+
+                $qr_code = QrCode::size(100)
+                ->margin(2)
+                ->color(168,11,104,66) 
+                ->backgroundColor(255,255,255,0)
+                ->format('png')
+                ->generate($job_information->employer_hp_url);   
+                
+                $qrCodeBase64 = base64_encode($qr_code);
+
+                $employer_hp_url_qr_code = $qrCodeBase64;
+            }
+
+
+            //求人元作成の求人情報URLが設定されていれば
+            if(!(is_null($job_information->job_hp_url) || $job_information->job_hp_url == "")){
+
+                $qr_code = QrCode::size(100)
+                ->margin(2)
+                ->color(168,11,104,66) 
+                ->backgroundColor(255,255,255,0)
+                ->format('png')
+                ->generate($job_information->job_hp_url);
+    
+                
+                $qrCodeBase64 = base64_encode($qr_code);
+
+                $job_hp_url_qr_code = $qrCodeBase64;                         
+            }
+
+
+            //当求人サイトのURL
+            $url = route('hp.job_information_detail') . "?job_number=" . $job_information->id;
+            $qr_code = QrCode::size(100)
+            ->margin(2)
+            ->color(168,11,104,66) 
+            ->backgroundColor(255,255,255,0)
+            ->format('png')
+            ->generate($url);
+            $qrCodeBase64 = base64_encode($qr_code);
+            $job_information_detail_url_qr_code = $qrCodeBase64;
+
+
+
+            $job_information->image_full_path = $image_full_path;
+            $job_information->employer_hp_url_qr_code = $employer_hp_url_qr_code;
+            $job_information->job_hp_url_qr_code = $job_hp_url_qr_code;
+            $job_information->job_information_detail_url_qr_code = $job_information_detail_url_qr_code;
+
+                 
+
+        } catch (Exception $e) {
+
+            $error_message = $e->getMessage();
+            Log::channel('error_log')->info($process_title . "error_message【" . $error_message ."】");
+        }
+
+       
+
+        return view('recruit_project/report/job_information_ledger', compact('job_information'));
+        
+
+    }
+
+    //求人情報表出力処理
+    function job_information_ledger_bk20240704(Request $request)
+    {    
+
+        $process_title = "求人情報表出力処理";
+
+        try {
+
+            $ledger_id = $request->ledger_id;
+            
+
+            $job_information = $this->set_job_information_detail($ledger_id);
+  
+            
+            if(is_null($job_information)){
+                
+                //求人情報取得エラー、求人一覧画面にリダイレクト            
+                session()->flash('job_information_ledger_error', 1);
+                return redirect()->route('recruit_project.job_information_confirmation');
+
+            }
+
             //pdfテンプレートの保存場所
             $job_information_template_path = public_path("pdf/job_information_template.pdf");
             
@@ -1747,158 +1873,7 @@ class recruit_project_controller extends Controller
     }
 
 
-    //求人情報表出力処理
-    function job_information_ledger___(Request $request)
-    {    
-
-        $process_title = "求人情報表出力処理";
-
-        
-        $employer_id = session()->get('employer_id');
-
-        if (!$this->login_status_check()) {
-            //セッション切れ
-            session()->flash('employer_login_error', '再度ログインお願い致します。');
-            return redirect()->route('recruit_project.login');
-        }       
-
-        
-        $employer_id = $request->ledger_employer_id;
-        $job_id = $request->ledger_job_id;
-        
-        
-        $job_information_t = job_information_t_model::
-        where('employer_id', '=', $employer_id)
-        ->where('job_id', '=', $job_id)
-        ->first();
-
-        if(is_null($job_information_t)){
-
-            //求人情報取得エラー、求人一覧画面にリダイレクト
-            
-            session()->flash('job_information_ledger_error', 1);
-            return redirect()->route('recruit_project.job_information_confirmation');
-        
-        }else{           
-
-
-            $job_information = $this->set_job_information_detail($job_information_t->id);
-
-            $job_images_info_array = $job_information->job_images_info_array; 
-
-
-            $job_images_info_array = $job_information->job_images_info_array; 
-
-            
-            $job_image_path_array = $job_images_info_array["job_image_path_array"];
-
-            $asset_path = $job_images_info_array["no_image_asset_path"];
-            $storage_path = "";
-            $image_name = "no_image";
-            
-            foreach ($job_image_path_array as $job_image_path_index => $job_image_info){
-
-                
-                if($job_image_info["asset_path"] != ""){
-                    $asset_path = $job_image_info["asset_path"];
-                    $storage_path = $job_image_info["storage_path"];
-                    $image_name = $job_image_info["image_name"];
-                    break;
-                }
-            }    
-
-            $job_information->asset_path = $asset_path;
-            $job_information->image_name = $image_name;
-
-            if($storage_path != ""){
-
-                // 画像をIntervention Imageで読み込む
-                $img = Image::make($storage_path);
-                // 画像の回転を考慮して調整
-                $img->orientate();
-
-                // 画像の幅と高さを取得
-                $width = $img->width();
-                $height = $img->height();
-
-                if ($width > $height) {
-                    //横長
-                    $a = 1;
-                } elseif ($width < $height) {
-                    //縦長
-                    $a = 2;
-                } else {
-                    $a = 3;
-                }
-            }
-
-            //color参考
-            //https://color.adobe.com/ja/create/color-wheel/
-            if($job_information->employer_hp_url != ""){
-
-                $employer_qr_image = QrCode::size(80)
-                ->margin(2)
-                ->color(168,11,104,66) 
-                ->backgroundColor(255,255,255,0)
-                ->format('png')
-                ->generate($job_information->employer_hp_url);
-
-                $job_information->employer_qr_image = $employer_qr_image;
-
-            }else{
-                $job_information->employer_qr_image = "";
-            }
-
-            if($job_information->job_hp_url != ""){
-
-                $job_qr_image = QrCode::size(80)
-                ->margin(2)
-                ->color(0,0,255,100) 
-                ->backgroundColor(255,255,255,0)            
-                ->format('png')
-                ->generate($job_information->job_hp_url);
-
-                $job_information->job_qr_image = $job_qr_image;
-            }else{
-                $job_information->job_qr_image = "";
-            }
-          
-            if(1 == 1){
-
-                $url = route('hp.job_information_detail') . "?job_number=" . $job_information_t->id;
-
-                $job_info_qr_image = QrCode::size(80)
-                ->margin(2)
-                ->color(0,255,255,100) 
-                ->backgroundColor(255,255,255,0)          
-                ->format('png')
-                ->generate($url);
-
-                $job_information->job_info_qr_image = $job_info_qr_image;
-
-            }else{
-
-                $job_information->job_info_qr_image = "";
-
-            }
-
-            
-            
-
-         
-
-
-            return view('recruit_project/screen/job_information_ledger',
-            compact(
-                    'employer_id'                
-                    ,'job_id'
-                    ,'job_information'                    
-            ));      
-
-        }
-        
-
-    }
+    
   
 
     function set_job_information_detail($id)
